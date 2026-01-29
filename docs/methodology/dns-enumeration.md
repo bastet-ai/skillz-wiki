@@ -14,17 +14,40 @@ DNS enumeration is a critical first step in reconnaissance that helps identify t
 
 ### Passive Subdomain Discovery
 
-**Certificate Transparency Logs**
+**Certificate Transparency Logs (CT)**
 ```bash
 # Using crt.sh
 curl -s "https://crt.sh/?q=%25.example.com&output=json" | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u
 
-# Using Subfinder
+# Using Subfinder (includes CT + many other sources)
 subfinder -d example.com -silent
 
 # Using Amass (passive mode)
 amass enum -passive -d example.com
 ```
+
+**TLS certificate issuance as a discovery signal**
+
+CT is not just “historical subdomains” — it’s also an *early-warning feed* for newly exposed services.
+
+- Monitor newly issued certs for your org’s domains.
+- Treat cert issuance for unusual hostnames (e.g., short-lived test/stage names) as a prompt to probe.
+- Correlate cert SANs ↔ resolved IPs ↔ HTTP service discovery.
+
+(Practical note: many orgs now issue certs automatically; seeing a cert may be your first signal that a host exists.)
+
+**Associated domain discovery (beyond your known inventory)**
+
+Organizations often have domains registered via subsidiaries, acquisitions, regional teams, or old projects.
+Ways to expand discovery:
+
+- CT SANs that include brand/affiliate domains you didn’t have in scope notes
+- WHOIS/registrar signals (where legal/authorized)
+- Shared TLS/hosting indicators (cautious — avoid over-attribution)
+
+Always validate association before acting.
+
+_Source inspiration: ProjectDiscovery notes on TLS-based and associated-domain discovery: <https://projectdiscovery.io/blog/surfacing-the-real-attack-surface-advances-in-asset-discovery>_
 
 **Search Engine Reconnaissance**
 ```bash

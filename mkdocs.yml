@@ -101,6 +101,7 @@ nav:
     - Large-Scale Reconnaissance: methodology/large-scale-reconnaissance.md
     - Reconnaissance: methodology/reconnaissance.md
     - DNS Enumeration: methodology/dns-enumeration.md
+    - CVE Reversing (Web Vulns): methodology/cve-reversing-web-vulnerabilities.md
     - Nmap Scanning: methodology/nmap-scanning.md
     - Vulnerability Assessment: methodology/vulnerability-assessment.md
     - OAuth Token Theft: methodology/oauth-token-theft.md
