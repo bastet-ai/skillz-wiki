@@ -133,6 +133,7 @@ nav:
     - AI Safe Harbor & Report Quality: best-practices/ai-safe-harbor-and-report-quality.md
     - Agent + CI Hardening: best-practices/agent-ci-hardening.md
     - Agentic Browsers: Isolation + Threat Model: best-practices/agentic-browser-threat-model.md
+    - Sigstore Crypto Agility: best-practices/sigstore-crypto-agility.md
     - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
     - Documentation: best-practices/documentation.md
     - Communication: best-practices/communication.md
