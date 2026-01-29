@@ -132,6 +132,8 @@ nav:
     - Verification Before Reporting: best-practices/verification-before-reporting.md
     - AI Safe Harbor & Report Quality: best-practices/ai-safe-harbor-and-report-quality.md
     - Agent + CI Hardening: best-practices/agent-ci-hardening.md
+    - Agentic Browsers: Isolation + Threat Model: best-practices/agentic-browser-threat-model.md
+    - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
     - Documentation: best-practices/documentation.md
     - Communication: best-practices/communication.md
     - Legal & Ethics: best-practices/legal-ethics.md
