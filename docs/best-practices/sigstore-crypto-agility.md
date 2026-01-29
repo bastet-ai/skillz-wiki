@@ -2,7 +2,7 @@
 
 Software signatures have an **expiration date**: artifacts may be deployed for decades, while today’s algorithms may be deprecated (policy, practical attacks, or post-quantum pressure).
 
-Sigstore historically favored safety by hard-coding a narrow set of algorithms. Recent work adds **controlled cryptographic agility** without repeating classic “agile crypto” vulnerabilities.
+Sigstore historically favored safety by hard-coding a narrow set of algorithms. Recent work adds **controlled cryptographic agility** without repeating classic “agile crypto” failures.
 
 ## What can go wrong (why “agility” is dangerous)
 
@@ -25,6 +25,15 @@ Example concept:
 
 This prevents dangerous combinations (e.g., strong key + weak hash) and reduces “footguns”.
 
+## Implementation takeaways (what actually changed)
+
+Key design choices that map directly to defensive guidance:
+
+- **Algorithm registry as a single source of truth** (central list of allowed algorithms/suites).
+- **Service-side restrictions**: deployments can explicitly restrict what client signing algorithms are accepted.
+- **Correct hash-by-key-type behavior** (avoid “everything hashes with SHA-256” mistakes when key types vary).
+- **Client support for selecting an approved suite** (without creating arbitrary combos).
+
 ## Operational guidance (high leverage)
 
 ### 1) Decide algorithm policy **out-of-band**
@@ -39,12 +48,17 @@ For private Sigstore deployments, restrict what clients may use:
 - Configure Rekor/Fulcio (or equivalent) to accept only an approved set of client signing algorithms.
 - Reject entries that don’t match policy (“algorithms are not allowed”).
 
+Practical examples to look for in your stack:
+
+- **Fulcio/Rekor allowlist flags** like `--client-signing-algorithms=...` (deployment-time restriction).
+- **Cosign** client selection like `--signing-algorithm=...` (client must pick from what the deployment allows).
+
 ### 3) Plan for re-signing and long-term verification
 
 - Record provenance + bundles/attestations so artifacts can be re-verified even as ecosystems change.
 - Maintain a migration plan to **re-sign** critical artifacts when algorithms are deprecated.
 
-### 4) Test your policy against downgrade attempts
+### 4) Test your policy against downgrade/confusion attempts
 
 Validation tests to run periodically:
 
