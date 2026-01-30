@@ -137,6 +137,8 @@ nav:
     - AI Safe Harbor & Report Quality: best-practices/ai-safe-harbor-and-report-quality.md
     - Agent + CI Hardening: best-practices/agent-ci-hardening.md
     - "Agent Tools: Command Injection (shell=True)": best-practices/agent-tool-command-injection.md
+    - "CWD auto-config poisoning (run-from-/tmp)": best-practices/cwd-auto-config-poisoning.md
+    - "Codegen: treat specs as untrusted": best-practices/codegen-untrusted-specs.md
     - "Agentic Browsers: Isolation + Threat Model": best-practices/agentic-browser-threat-model.md
     - Sigstore Crypto Agility: best-practices/sigstore-crypto-agility.md
     - GWP-ASan in Production: best-practices/gwp-asan-production.md
