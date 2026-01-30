@@ -138,6 +138,8 @@ nav:
     - Agent + CI Hardening: best-practices/agent-ci-hardening.md
     - Agentic Browsers: Isolation + Threat Model: best-practices/agentic-browser-threat-model.md
     - Sigstore Crypto Agility: best-practices/sigstore-crypto-agility.md
+    - Prototype Pollution (JS): best-practices/prototype-pollution.md
+    - Archive Extraction: Symlink + Path Traversal: best-practices/archive-extraction-symlink-traversal.md
     - Debug mode is not a feature: best-practices/debug-mode-is-not-a-feature.md
     - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
     - Documentation: best-practices/documentation.md
