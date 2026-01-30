@@ -136,11 +136,13 @@ nav:
     - Verification Before Reporting: best-practices/verification-before-reporting.md
     - AI Safe Harbor & Report Quality: best-practices/ai-safe-harbor-and-report-quality.md
     - Agent + CI Hardening: best-practices/agent-ci-hardening.md
-    - Agentic Browsers: Isolation + Threat Model: best-practices/agentic-browser-threat-model.md
+    - "Agentic Browsers: Isolation + Threat Model": best-practices/agentic-browser-threat-model.md
     - Sigstore Crypto Agility: best-practices/sigstore-crypto-agility.md
+    - GWP-ASan in Production: best-practices/gwp-asan-production.md
+    - Go Integer Overflow Fuzzing (go-panikint): best-practices/go-panikint-integer-overflow-fuzzing.md
     - Prototype Pollution (JS): best-practices/prototype-pollution.md
-    - Archive Extraction: Symlink + Path Traversal: best-practices/archive-extraction-symlink-traversal.md
-    - Debug mode is not a feature: best-practices/debug-mode-is-not-a-feature.md
+    - "Archive Extraction: Symlink + Path Traversal": best-practices/archive-extraction-symlink-traversal.md
+    - "Debug mode is not a feature": best-practices/debug-mode-is-not-a-feature.md
     - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
     - Documentation: best-practices/documentation.md
     - Communication: best-practices/communication.md
