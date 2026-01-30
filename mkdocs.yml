@@ -136,6 +136,7 @@ nav:
     - Verification Before Reporting: best-practices/verification-before-reporting.md
     - AI Safe Harbor & Report Quality: best-practices/ai-safe-harbor-and-report-quality.md
     - Agent + CI Hardening: best-practices/agent-ci-hardening.md
+    - "Agent Tools: Command Injection (shell=True)": best-practices/agent-tool-command-injection.md
     - "Agentic Browsers: Isolation + Threat Model": best-practices/agentic-browser-threat-model.md
     - Sigstore Crypto Agility: best-practices/sigstore-crypto-agility.md
     - GWP-ASan in Production: best-practices/gwp-asan-production.md
