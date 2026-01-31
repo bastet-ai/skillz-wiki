@@ -91,3 +91,4 @@ If you suspect prototype pollution in production:
 ## References
 
 - GitHub Advisory (example): `deephas` prototype pollution via `constructor.prototype` / `__proto__` (CVE-2026-25047)
+- GitHub Advisory (example): `makerjs.extendObject` unsafe property copying can enable prototype pollution-style attacks (CVE-2026-24888)

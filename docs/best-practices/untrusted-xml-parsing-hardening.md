@@ -67,6 +67,12 @@ XML parsers tend to be “deep dependency” components.
 - Patch fast on parser advisories.
 - Consider pinning versions and using Renovate/Dependabot with security PR auto-merge (with tests).
 
+### Example advisory
+
+- `fast-xml-parser` RangeError DoS when parsing out-of-range numeric entities (CVE-2026-25128 / GHSA-37qj-frw5-hhjh)
+  - **Fix:** upgrade to `fast-xml-parser` `v5.3.4` (or later)
+  - **Defense-in-depth:** even with patched versions, keep a `try/catch` boundary so malformed XML can’t crash the whole Node process.
+
 ## Quick checklist
 
 - [ ] DTD disabled (or strictly gated)
