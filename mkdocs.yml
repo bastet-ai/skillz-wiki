@@ -149,6 +149,7 @@ nav:
     - Go Integer Overflow Fuzzing (go-panikint): best-practices/go-panikint-integer-overflow-fuzzing.md
     - Prototype Pollution (JS): best-practices/prototype-pollution.md
     - "Archive Extraction: Symlink + Path Traversal": best-practices/archive-extraction-symlink-traversal.md
+    - "Templates/Scaffolding: Symlink Escapes": best-practices/untrusted-templates-symlink-escapes.md
     - "Debug mode is not a feature": best-practices/debug-mode-is-not-a-feature.md
     - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
     - SMTP header injection (CRLF): best-practices/smtp-header-injection.md
