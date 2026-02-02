@@ -100,6 +100,7 @@ nav:
     - 2026-01-31 — PsySH CWD auto-load → local priv-esc (CVE-2026-25129): alerts/2026-01-31-psysh-cve-2026-25129.md
     - 2026-01-31 — Orval codegen code injection (CVE-2026-25141): alerts/2026-01-31-orval-cve-2026-25141.md
     - 2026-02-02 — NPM `c11dff444` malware (GHSA-cpcr-74hm-pg3c): alerts/2026-02-02-npm-c11dff444-malware.md
+    - 2026-02-02 — Mailpit SMTP header injection (GHSA-54wq-72mp-cq7c): alerts/2026-02-02-mailpit-smtp-header-injection-ghsa-54wq-72mp-cq7c.md
   - Methodology:
     - Overview: methodology/overview.md
     - Client-Side Analysis: methodology/client-side-analysis.md
@@ -150,6 +151,7 @@ nav:
     - "Archive Extraction: Symlink + Path Traversal": best-practices/archive-extraction-symlink-traversal.md
     - "Debug mode is not a feature": best-practices/debug-mode-is-not-a-feature.md
     - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
+    - SMTP header injection (CRLF): best-practices/smtp-header-injection.md
     - Documentation: best-practices/documentation.md
     - Communication: best-practices/communication.md
     - Legal & Ethics: best-practices/legal-ethics.md
