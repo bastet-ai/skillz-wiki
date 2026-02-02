@@ -109,6 +109,8 @@ nav:
     - 2026-02-02 — fog-kubevirt MitM via disabled cert validation (GHSA-m3hq-3qj8-c5fm): alerts/2026-02-02-fog-kubevirt-mitm-disabled-cert-validation-ghsa-m3hq-3qj8-c5fm.md
     - 2026-02-02 — picklescan arbitrary file create (GHSA-m7j5-r2p5-c39r): alerts/2026-02-02-picklescan-arbitrary-file-create-ghsa-m7j5-r2p5-c39r.md
     - 2026-02-02 — cert-manager controller DoS via crafted DNS response (GHSA-gx3x-vq4p-mhhv): alerts/2026-02-02-cert-manager-controller-dns-cache-dos-ghsa-gx3x-vq4p-mhhv.md
+    - 2026-02-02 — Fastify Content-Type header tab can bypass body validation (GHSA-jx2c-rxcm-jvmq): alerts/2026-02-02-fastify-content-type-tab-bypass-ghsa-jx2c-rxcm-jvmq.md
+    - 2026-02-02 — Fastify DoS via unbounded memory allocation in sendWebStream (GHSA-mrq3-vjjr-p77c): alerts/2026-02-02-fastify-sendwebstream-unbounded-memory-dos-ghsa-mrq3-vjjr-p77c.md
     - 2026-02-02 — pip wheel extraction path traversal (GHSA-6vgw-5pg2-w6jp): alerts/2026-02-02-pip-wheel-path-traversal-ghsa-6vgw-5pg2-w6jp.md
     - 2026-02-02 — Hugging Face TGI unbounded image fetch → DoS (GHSA-j7x9-7j54-2v3h): alerts/2026-02-02-huggingface-tgi-unbounded-image-fetch-dos-ghsa-j7x9-7j54-2v3h.md
   - Methodology:
