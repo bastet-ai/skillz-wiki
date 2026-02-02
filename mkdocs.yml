@@ -105,6 +105,7 @@ nav:
     - 2026-02-02 — Signal K set-system-time command injection (GHSA-p8gp-2w28-mhwg): alerts/2026-02-02-signalk-set-system-time-command-injection-ghsa-p8gp-2w28-mhwg.md
     - 2026-02-02 — Khoj Notion OAuth callback IDOR (GHSA-6whj-7qmg-86qj): alerts/2026-02-02-khoj-notion-oauth-idor-ghsa-6whj-7qmg-86qj.md
     - 2026-02-02 — FacturaScripts reflected XSS via raw error rendering (GHSA-g6w2-q45f-xrp4): alerts/2026-02-02-facturascripts-reflected-xss-ghsa-g6w2-q45f-xrp4.md
+    - 2026-02-02 — OpenList insecure TLS defaults (GHSA-wf93-3ghh-h389): alerts/2026-02-02-openlist-insecure-tls-default-ghsa-wf93-3ghh-h389.md
   - Methodology:
     - Overview: methodology/overview.md
     - Client-Side Analysis: methodology/client-side-analysis.md
