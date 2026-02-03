@@ -54,6 +54,8 @@ This blocks most CTX_IN and REV_CTX_IN paths.
 - If **multiple origins** are present, block action-capable tools (or require approval).
 - If a **single origin** is present, restrict requests/actions to that origin.
 
+**Implementation detail that matters:** origin/host allowlists must use **real URL parsing** and correct **hostname boundary checks** (e.g., `host == example.com` or `host.endswith(".example.com")`) — not naive string prefix checks.
+
 This reduces CTX_OUT exfiltration risk.
 
 ### 3) Add a human-in-the-loop gate for risky actions
