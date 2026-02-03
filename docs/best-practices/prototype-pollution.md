@@ -52,11 +52,14 @@ Use a schema validator (e.g., Zod/Ajv/Joi) and require:
 
 ### 5) Treat library patches as insufficient unless tests prove it
 
-Some fixes can be bypassed by monkeypatching built-ins (e.g., `Object.prototype.hasOwnProperty`, `String.prototype.indexOf`) in hostile environments.
+Some fixes can be bypassed by **monkeypatching built-ins** (e.g., `Object.prototype.hasOwnProperty`, `String.prototype.indexOf`, `String.prototype.includes`) in hostile environments.
+
+This shows up in real-world prototype pollution advisories: a library may “block” keys by checking for forbidden substrings, but if an attacker can influence runtime (plugins, templating, multi-tenant JS execution, or any `eval`/`Function` sink), they may be able to override built-ins and bypass those checks.
 
 Defensive posture:
 
-- Don’t rely on a single check like `hasOwnProperty` for security
+- Don’t rely on a single check like `hasOwnProperty` or `str.includes('__proto__')` for security
+- Validate structure with schemas/allowlists (preferred) instead of substring blacklists
 - Add regression tests for `__proto__` and `constructor.prototype` payloads
 - Run SAST + unit tests that include pollution probes
 
