@@ -108,6 +108,7 @@ nav:
     - 2026-02-03 — GitLab CI Lint API SSRF (CVE-2021-39935): alerts/2026-02-03-gitlab-ci-lint-ssrf-cve-2021-39935.md
     - 2026-02-03 — FreePBX Endpoint Manager OS command injection (CVE-2025-64328): alerts/2026-02-03-freepbx-endpoint-manager-command-injection-cve-2025-64328.md
     - 2026-02-03 — FreePBX Remote Admin auth bypass (CVE-2019-19006): alerts/2026-02-03-freepbx-remote-admin-auth-bypass-cve-2019-19006.md
+    - 2026-02-03 — `url-parse` multiple URL parsing issues (multiple GHSAs): alerts/2026-02-03-url-parse-multiple-url-parsing-bugs-ghsa.md
     - 2026-02-02 — Mailpit SMTP header injection (GHSA-54wq-72mp-cq7c): alerts/2026-02-02-mailpit-smtp-header-injection-ghsa-54wq-72mp-cq7c.md
     - 2026-02-02 — vLLM RCE via video processing (GHSA-4r2x-xpjr-7cvv): alerts/2026-02-02-vllm-video-processing-rce-ghsa-4r2x-xpjr-7cvv.md
     - 2026-02-02 — Signal K set-system-time command injection (GHSA-p8gp-2w28-mhwg): alerts/2026-02-02-signalk-set-system-time-command-injection-ghsa-p8gp-2w28-mhwg.md
