@@ -101,6 +101,7 @@ nav:
     - 2026-01-31 — Orval codegen code injection (CVE-2026-25141): alerts/2026-01-31-orval-cve-2026-25141.md
     - 2026-02-02 — NPM `c11dff444` malware (GHSA-cpcr-74hm-pg3c): alerts/2026-02-02-npm-c11dff444-malware.md
     - 2026-02-03 — NPM malware wave continues: alerts/2026-02-03-npm-malware-wave-continued.md
+    - 2026-02-03 — Flowise ReadFileTool arbitrary file read (GHSA-j44m-5v8f-gc9c): alerts/2026-02-03-flowise-readfiletool-arbitrary-file-read-ghsa-j44m-5v8f-gc9c.md
     - 2026-02-02 — Mailpit SMTP header injection (GHSA-54wq-72mp-cq7c): alerts/2026-02-02-mailpit-smtp-header-injection-ghsa-54wq-72mp-cq7c.md
     - 2026-02-02 — vLLM RCE via video processing (GHSA-4r2x-xpjr-7cvv): alerts/2026-02-02-vllm-video-processing-rce-ghsa-4r2x-xpjr-7cvv.md
     - 2026-02-02 — Signal K set-system-time command injection (GHSA-p8gp-2w28-mhwg): alerts/2026-02-02-signalk-set-system-time-command-injection-ghsa-p8gp-2w28-mhwg.md
