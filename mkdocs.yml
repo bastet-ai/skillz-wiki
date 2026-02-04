@@ -102,6 +102,12 @@ nav:
     - 2026-02-02 — NPM `c11dff444` malware (GHSA-cpcr-74hm-pg3c): alerts/2026-02-02-npm-c11dff444-malware.md
     - 2026-02-03 — NPM malware wave continues: alerts/2026-02-03-npm-malware-wave-continued.md
     - 2026-02-04 — NPM malware wave continues: alerts/2026-02-04-npm-malware-wave-continues.md
+    - 2026-02-04 — n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8): alerts/2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md
+    - 2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw): alerts/2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md
+    - 2026-02-04 — n8n arbitrary file read (GHSA-gfvg-qv54-r4pc): alerts/2026-02-04-n8n-arbitrary-file-read-ghsa-gfvg-qv54-r4pc.md
+    - 2026-02-04 — n8n CSP sandbox bypass → stored XSS (GHSA-825q-w924-xhgx): alerts/2026-02-04-n8n-csp-sandbox-bypass-stored-xss-ghsa-825q-w924-xhgx.md
+    - 2026-02-04 — OpenClaw MEDIA: path extraction → arbitrary file read (GHSA-r8g4-86fx-92mq): alerts/2026-02-04-openclaw-media-path-extraction-lfi-ghsa-r8g4-86fx-92mq.md
+    - 2026-02-04 — FUXA unauth file upload (GHSA-7g56-fwxj-cm23): alerts/2026-02-04-fuxa-unauth-file-upload-ghsa-7g56-fwxj-cm23.md
     - 2026-02-03 — Claude Code trusted-domain validation bypass (CVE-2026-24052): alerts/2026-02-03-claude-code-domain-validation-bypass-cve-2026-24052.md
     - 2026-02-03 — `@isaacs/brace-expansion` unbounded expansion → DoS (GHSA-7h2j-956f-4vf2): alerts/2026-02-03-isaacs-brace-expansion-dos-ghsa-7h2j-956f-4vf2.md
     - 2026-02-03 — RustFS logs credentials in plaintext (GHSA-r54g-49rx-98cr): alerts/2026-02-03-rustfs-logs-credentials-ghsa-r54g-49rx-98cr.md
