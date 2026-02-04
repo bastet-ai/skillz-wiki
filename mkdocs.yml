@@ -154,6 +154,7 @@ nav:
     - APIs: checklists/apis.md
     - Mobile Apps: checklists/mobile-apps.md
     - Infrastructure: checklists/infrastructure.md
+    - Malicious Package Response: checklists/malicious-package-response.md
   - Payloads:
     - XSS: payloads/xss.md
     - SQL Injection: payloads/sql-injection.md

@@ -8,8 +8,14 @@ This is especially dangerous in agentic systems because the injection can be tri
 - issues/PRs the agent reads
 - documentation the agent summarizes
 
-## Example: CVE-2026-25130 (CAI framework)
+## Example: argument injection via `find`
+### CVE-2026-25130 (CAI framework)
 A reviewed GitHub Security Advisory describes an argument injection vulnerability in CAI’s `find_file()` tool (CVE-2026-25130): user-controlled `args` is interpolated into a `find` command, which is executed via a shell. Attackers can pass `-exec ...` to run arbitrary commands.
+
+### Claude Code: bypassing user approval prompts via `find`
+GitHub also published an advisory for **@anthropic-ai/claude-code** describing a command injection issue where untrusted input could bypass the confirmation prompt and trigger execution through the `find` command.
+
+Even if your system “asks the user first”, treat this as a reminder that **prompt gates are not a security boundary** unless the tool interface is strictly structured/validated and the executor is sandboxed.
 
 **Core anti-pattern:**
 - string interpolation into a shell command
@@ -57,4 +63,5 @@ Assume any content fetched from the web or repos can contain attacker instructio
 - [ ] Human approval boundary exists for risky actions
 
 ## References
-- GitHub Advisory: https://github.com/advisories/GHSA-jfpc-wj3m-qw2m
+- GitHub Advisory (CAI framework, `find` argument injection): https://github.com/advisories/GHSA-jfpc-wj3m-qw2m
+- GitHub Advisory (Claude Code, `find` command injection / approval bypass): https://github.com/advisories/GHSA-qgqw-h4xq-7w8w
