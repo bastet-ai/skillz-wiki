@@ -108,6 +108,9 @@ nav:
     - 2026-02-04 — n8n CSP sandbox bypass → stored XSS (GHSA-825q-w924-xhgx): alerts/2026-02-04-n8n-csp-sandbox-bypass-stored-xss-ghsa-825q-w924-xhgx.md
     - 2026-02-04 — OpenClaw MEDIA: path extraction → arbitrary file read (GHSA-r8g4-86fx-92mq): alerts/2026-02-04-openclaw-media-path-extraction-lfi-ghsa-r8g4-86fx-92mq.md
     - 2026-02-04 — OpenClaw unauth local RCE via WebSocket config.apply (GHSA-g55j-c2v4-pjcg): alerts/2026-02-04-openclaw-unauth-local-rce-websocket-config-apply-ghsa-g55j-c2v4-pjcg.md
+    - 2026-02-04 — Claude Code path restriction bypass via ZSH clobber (GHSA-q728-gf8j-w49r): alerts/2026-02-04-claude-code-path-restriction-bypass-zsh-clobber-ghsa-q728-gf8j-w49r.md
+    - 2026-02-04 — Alist insecure TLS default (GHSA-8jmm-3xwx-w974): alerts/2026-02-04-alist-insecure-tls-default-ghsa-8jmm-3xwx-w974.md
+    - 2026-02-04 — Alist path traversal in file ops (GHSA-x4q4-7phh-42j9): alerts/2026-02-04-alist-path-traversal-file-ops-ghsa-x4q4-7phh-42j9.md
     - 2026-02-04 — Fedify ActivityPub actor impersonation (GHSA-6jcc-xgcr-q3h4): alerts/2026-02-04-fedify-activitypub-actor-impersonation-ghsa-6jcc-xgcr-q3h4.md
     - 2026-02-04 — ingress-nginx annotation config injection (CVE-2026-1580): alerts/2026-02-04-ingress-nginx-annotation-config-injection-cve-2026-1580.md
     - 2026-02-04 — ingress-nginx validating admission controller DoS (CVE-2026-24514): alerts/2026-02-04-ingress-nginx-validating-admission-dos-cve-2026-24514.md
