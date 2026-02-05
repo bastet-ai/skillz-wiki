@@ -109,6 +109,10 @@ nav:
     - 2026-02-05 — webpack buildHttp `allowedUris` allowlist bypass via URL userinfo (`@`) → build-time SSRF (GHSA-8fgc-7cc6-rx7x): alerts/2026-02-05-webpack-buildhttp-alloweduris-userinfo-bypass-ghsa-8fgc-7cc6-rx7x.md
     - 2026-02-05 — NPM `optimizer-cpu` malware (GHSA-x66r-5jww-pf82): alerts/2026-02-05-npm-optimizer-cpu-malware-ghsa-x66r-5jww-pf82.md
     - 2026-02-05 — `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928): alerts/2026-02-05-godot-mcp-command-injection-ghsa-8jx2-rhfh-q928.md
+    - 2026-02-05 — NiceGUI upload filename traversal → arbitrary file write (GHSA-9ffm-fxg3-xrhh): alerts/2026-02-05-nicegui-path-traversal-arbitrary-file-write-ghsa-9ffm-fxg3-xrhh.md
+    - 2026-02-05 — Spree guest orders viewable by Order ID (IDOR) (GHSA-p6pv-q7rc-g4h9): alerts/2026-02-05-spree-guest-order-idor-pii-ghsa-p6pv-q7rc-g4h9.md
+    - 2026-02-05 — React Native CLI Metro command injection (KEV) (CVE-2025-11953): alerts/2026-02-05-react-native-cli-metro-command-injection-cve-2025-11953.md
+    - 2026-02-05 — SmarterMail missing auth (ConnectToHub) (KEV) (CVE-2026-24423): alerts/2026-02-05-smartermail-missing-auth-connecttohub-rce-cve-2026-24423.md
     - 2026-02-05 — FrankenPHP images: base-image security fixes may not propagate (GHSA-x9p2-77v6-6vhf): alerts/2026-02-05-frankenphp-base-image-staleness-ghsa-x9p2-77v6-6vhf.md
     - 2026-02-05 — FUXA unauth RCE via admin JWT minting (GHSA-vwcg-c828-9822): alerts/2026-02-05-fuxa-unauth-rce-admin-jwt-minting-ghsa-vwcg-c828-9822.md
     - 2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw): alerts/2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md
@@ -201,6 +205,7 @@ nav:
     - Go Integer Overflow Fuzzing (go-panikint): best-practices/go-panikint-integer-overflow-fuzzing.md
     - Prototype Pollution (JS): best-practices/prototype-pollution.md
     - "Archive Extraction: Symlink + Path Traversal": best-practices/archive-extraction-symlink-traversal.md
+    - "File uploads: don’t trust client filenames": best-practices/file-upload-filename-sanitization.md
     - "Templates/Scaffolding: Symlink Escapes": best-practices/untrusted-templates-symlink-escapes.md
     - "Template sandbox escapes (SSTI → RCE)": best-practices/template-sandbox-escapes.md
     - "SQL ORDER BY / identifier injection": best-practices/sql-order-by-injection.md
