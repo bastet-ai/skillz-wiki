@@ -118,7 +118,9 @@ nav:
     - 2026-02-04 — ingress-nginx validating admission controller DoS (CVE-2026-24514): alerts/2026-02-04-ingress-nginx-validating-admission-dos-cve-2026-24514.md
     - 2026-02-04 — survey-pdf via jsPDF path traversal/LFI (GHSA-h3q6-jfrg-3x6q): alerts/2026-02-04-survey-pdf-jsPDF-path-traversal-ghsa-h3q6-jfrg-3x6q.md
     - 2026-02-04 — FUXA unauth file upload (GHSA-7g56-fwxj-cm23): alerts/2026-02-04-fuxa-unauth-file-upload-ghsa-7g56-fwxj-cm23.md
+    - 2026-02-04 — FUXA unauth device tag write (GHSA-ggxw-g3cp-mgf8): alerts/2026-02-04-fuxa-unauth-device-tag-write-ghsa-ggxw-g3cp-mgf8.md
     - 2026-02-04 — FUXA multiple unauth issues (RCE + creds exposure) (multiple GHSAs): alerts/2026-02-04-fuxa-multiple-unauth-rce-credential-exposure-ghsa.md
+    - 2026-02-04 — NPM malware packages: tailwindcss-forms-starter/cat-retail-app/etc: alerts/2026-02-04-npm-malware-packages-tailwindcss-forms-starter-cat-retail-app.md
     - 2026-02-04 — `@modelcontextprotocol/sdk` cross-client data leak (GHSA-345p-7cg4-v4c7): alerts/2026-02-04-modelcontextprotocol-sdk-cross-client-data-leak-ghsa-345p-7cg4-v4c7.md
     - 2026-02-03 — Claude Code trusted-domain validation bypass (CVE-2026-24052): alerts/2026-02-03-claude-code-domain-validation-bypass-cve-2026-24052.md
     - 2026-02-03 — `@isaacs/brace-expansion` unbounded expansion → DoS (GHSA-7h2j-956f-4vf2): alerts/2026-02-03-isaacs-brace-expansion-dos-ghsa-7h2j-956f-4vf2.md
