@@ -102,6 +102,7 @@ nav:
     - 2026-02-02 — NPM `c11dff444` malware (GHSA-cpcr-74hm-pg3c): alerts/2026-02-02-npm-c11dff444-malware.md
     - 2026-02-03 — NPM malware wave continues: alerts/2026-02-03-npm-malware-wave-continued.md
     - 2026-02-04 — NPM malware wave continues: alerts/2026-02-04-npm-malware-wave-continues.md
+    - 2026-02-04 — NPM malware packages: react-* / web3-chain-sync: alerts/2026-02-04-npm-react-vite-sync-malware-wave.md
     - 2026-02-04 — n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8): alerts/2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md
     - 2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw): alerts/2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md
     - 2026-02-04 — n8n arbitrary file read (GHSA-gfvg-qv54-r4pc): alerts/2026-02-04-n8n-arbitrary-file-read-ghsa-gfvg-qv54-r4pc.md
