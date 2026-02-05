@@ -71,3 +71,6 @@ Treat it as a **host compromise** event until proven otherwise.
   - https://github.com/advisories/GHSA-h3g9-hf4q-p76h
 - GitHub Advisory example (malicious npm package; common guidance: treat host as compromised, rotate secrets):
   - https://github.com/advisories/GHSA-2f47-cw56-c2fv
+- Recent malware advisories (examples):
+  - https://github.com/advisories/GHSA-p6pv-q7rc-g4h9
+  - https://github.com/advisories/GHSA-3rcr-854m-q7w4
