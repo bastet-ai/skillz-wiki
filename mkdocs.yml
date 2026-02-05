@@ -110,6 +110,7 @@ nav:
     - 2026-02-05 — NPM `optimizer-cpu` malware (GHSA-x66r-5jww-pf82): alerts/2026-02-05-npm-optimizer-cpu-malware-ghsa-x66r-5jww-pf82.md
     - 2026-02-05 — `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928): alerts/2026-02-05-godot-mcp-command-injection-ghsa-8jx2-rhfh-q928.md
     - 2026-02-05 — NiceGUI upload filename traversal → arbitrary file write (GHSA-9ffm-fxg3-xrhh): alerts/2026-02-05-nicegui-path-traversal-arbitrary-file-write-ghsa-9ffm-fxg3-xrhh.md
+    - 2026-02-05 — Sliver website path traversal → arbitrary file read (auth) (GHSA-2286-hxv5-cmp2): alerts/2026-02-05-sliver-website-path-traversal-arbitrary-file-read-ghsa-2286-hxv5-cmp2.md
     - 2026-02-05 — Spree guest orders viewable by Order ID (IDOR) (GHSA-p6pv-q7rc-g4h9): alerts/2026-02-05-spree-guest-order-idor-pii-ghsa-p6pv-q7rc-g4h9.md
     - 2026-02-05 — React Native CLI Metro command injection (KEV) (CVE-2025-11953): alerts/2026-02-05-react-native-cli-metro-command-injection-cve-2025-11953.md
     - 2026-02-05 — SmarterMail missing auth (ConnectToHub) (KEV) (CVE-2026-24423): alerts/2026-02-05-smartermail-missing-auth-connecttohub-rce-cve-2026-24423.md
