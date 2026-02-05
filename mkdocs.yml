@@ -106,6 +106,7 @@ nav:
     - 2026-02-04 — NPM malware packages: dspmobile / tailwindcss-animation-modern: alerts/2026-02-04-npm-dspmobile-tailwindcss-animation-modern-malware.md
     - 2026-02-04 — n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8): alerts/2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md
     - 2026-02-05 — n8n HTTP Request allowed-domains bypass → credential exfil (GHSA-2xcx-75h9-vr9h): alerts/2026-02-05-n8n-http-request-allowed-domains-bypass-credential-exfil-ghsa-2xcx-75h9-vr9h.md
+    - 2026-02-05 — webpack buildHttp `allowedUris` allowlist bypass via URL userinfo (`@`) → build-time SSRF (GHSA-8fgc-7cc6-rx7x): alerts/2026-02-05-webpack-buildhttp-alloweduris-userinfo-bypass-ghsa-8fgc-7cc6-rx7x.md
     - 2026-02-05 — NPM `optimizer-cpu` malware (GHSA-x66r-5jww-pf82): alerts/2026-02-05-npm-optimizer-cpu-malware-ghsa-x66r-5jww-pf82.md
     - 2026-02-05 — `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928): alerts/2026-02-05-godot-mcp-command-injection-ghsa-8jx2-rhfh-q928.md
     - 2026-02-05 — FrankenPHP images: base-image security fixes may not propagate (GHSA-x9p2-77v6-6vhf): alerts/2026-02-05-frankenphp-base-image-staleness-ghsa-x9p2-77v6-6vhf.md
@@ -206,6 +207,7 @@ nav:
     - "Debug mode is not a feature": best-practices/debug-mode-is-not-a-feature.md
     - "Secure logging: don’t leak secrets": best-practices/secure-logging-secrets.md
     - "Auth before side effects": best-practices/auth-before-side-effects.md
+    - "URL allowlists: canonicalize, parse, and ban userinfo": best-practices/url-allowlists-canonicalization.md
     - "JWT token minting / refresh hardening": best-practices/jwt-token-minting-refresh-hardening.md
     - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
     - "Container base images: tag drift & stale security fixes": best-practices/container-base-image-refresh.md
