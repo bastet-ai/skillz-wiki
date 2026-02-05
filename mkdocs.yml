@@ -201,6 +201,7 @@ nav:
     - "Debug mode is not a feature": best-practices/debug-mode-is-not-a-feature.md
     - "Secure logging: don’t leak secrets": best-practices/secure-logging-secrets.md
     - "Auth before side effects": best-practices/auth-before-side-effects.md
+    - "JWT token minting / refresh hardening": best-practices/jwt-token-minting-refresh-hardening.md
     - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
     - SMTP header injection (CRLF): best-practices/smtp-header-injection.md
     - TLS certificate validation (don’t ship skipVerify): best-practices/tls-certificate-validation.md
