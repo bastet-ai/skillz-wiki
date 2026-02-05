@@ -106,6 +106,7 @@ nav:
     - 2026-02-04 — NPM malware packages: dspmobile / tailwindcss-animation-modern: alerts/2026-02-04-npm-dspmobile-tailwindcss-animation-modern-malware.md
     - 2026-02-04 — n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8): alerts/2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md
     - 2026-02-05 — n8n HTTP Request allowed-domains bypass → credential exfil (GHSA-2xcx-75h9-vr9h): alerts/2026-02-05-n8n-http-request-allowed-domains-bypass-credential-exfil-ghsa-2xcx-75h9-vr9h.md
+    - 2026-02-05 — FUXA unauth RCE via admin JWT minting (GHSA-vwcg-c828-9822): alerts/2026-02-05-fuxa-unauth-rce-admin-jwt-minting-ghsa-vwcg-c828-9822.md
     - 2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw): alerts/2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md
     - 2026-02-04 — n8n arbitrary file read (GHSA-gfvg-qv54-r4pc): alerts/2026-02-04-n8n-arbitrary-file-read-ghsa-gfvg-qv54-r4pc.md
     - 2026-02-04 — n8n CSP sandbox bypass → stored XSS (GHSA-825q-w924-xhgx): alerts/2026-02-04-n8n-csp-sandbox-bypass-stored-xss-ghsa-825q-w924-xhgx.md
