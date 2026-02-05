@@ -54,6 +54,20 @@ Treat it as a **host compromise** event until proven otherwise.
   - sandboxed builds with minimal egress
   - signing/attestation for internal artifacts
 
+### Extra guardrails for ecosystems with frequent malware/typosquats
+- **Treat “new dependency” as a privileged change**:
+  - require codeowner review for lockfile diffs
+  - require provenance (publisher, repo link, popularity signals)
+- **Constrain install-time code execution** (where feasible):
+  - run installs in a locked-down build container/VM with minimal secrets
+  - keep CI tokens short-lived; avoid long-lived registry tokens on dev laptops
+  - consider `npm ci --ignore-scripts` in *stages* where postinstall scripts are not required (be careful: some legitimate packages rely on scripts)
+- **Detect typosquats early**:
+  - alert on package names with suspicious patterns (e.g., `_updated`, `-update`, `-helper`, close spelling to popular packages)
+  - enable dependency/audit tooling that flags newly published packages
+
 ## References
-- GitHub Advisory example (malicious npm package; guidance: treat host as compromised, rotate secrets):
+- Malware advisory example (npm):
+  - https://github.com/advisories/GHSA-h3g9-hf4q-p76h
+- GitHub Advisory example (malicious npm package; common guidance: treat host as compromised, rotate secrets):
   - https://github.com/advisories/GHSA-2f47-cw56-c2fv

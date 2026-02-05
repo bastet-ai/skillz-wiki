@@ -64,6 +64,27 @@ PKCE must be:
 - Enforce exact-match redirect URIs.
 - Require PKCE, validate `state`, and pin issuer/audience.
 
+## Also watch for: cross-client data leakage in MCP server deployments
+
+Even with “correct” auth, MCP deployments can leak data **between clients** if the server/transport objects are shared incorrectly.
+
+### Misconfiguration pattern
+- A single shared `McpServer`/`Server` instance is reused across multiple concurrent client connections.
+- In stateless Streamable HTTP mode, this often looks like “create one server globally and call `handleRequest()` for every request”.
+
+### Why it’s dangerous
+- JSON-RPC message IDs can collide across clients.
+- Responses can be routed to the wrong client connection.
+- Result: Client A receives response data intended for Client B (cross-tenant data leak).
+
+### Recommendation
+- **Stateless mode:** create a **fresh server + transport per request**.
+- **Stateful mode:** create a **fresh server + transport per session**; do not share instances across sessions.
+- Upgrade the TypeScript SDK to a patched version that throws loudly on unsafe reuse.
+
+Reference:
+- https://github.com/advisories/GHSA-345p-7cg4-v4c7
+
 ## Source / inspiration
 
 - Inspired by research on OAuth misconfigurations in MCP-like systems (open DCR + weak redirect + missing PKCE → one-click ATO).
