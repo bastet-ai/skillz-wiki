@@ -108,6 +108,7 @@ nav:
     - 2026-02-05 — n8n HTTP Request allowed-domains bypass → credential exfil (GHSA-2xcx-75h9-vr9h): alerts/2026-02-05-n8n-http-request-allowed-domains-bypass-credential-exfil-ghsa-2xcx-75h9-vr9h.md
     - 2026-02-05 — NPM `optimizer-cpu` malware (GHSA-x66r-5jww-pf82): alerts/2026-02-05-npm-optimizer-cpu-malware-ghsa-x66r-5jww-pf82.md
     - 2026-02-05 — `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928): alerts/2026-02-05-godot-mcp-command-injection-ghsa-8jx2-rhfh-q928.md
+    - 2026-02-05 — FrankenPHP images: base-image security fixes may not propagate (GHSA-x9p2-77v6-6vhf): alerts/2026-02-05-frankenphp-base-image-staleness-ghsa-x9p2-77v6-6vhf.md
     - 2026-02-05 — FUXA unauth RCE via admin JWT minting (GHSA-vwcg-c828-9822): alerts/2026-02-05-fuxa-unauth-rce-admin-jwt-minting-ghsa-vwcg-c828-9822.md
     - 2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw): alerts/2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md
     - 2026-02-04 — n8n arbitrary file read (GHSA-gfvg-qv54-r4pc): alerts/2026-02-04-n8n-arbitrary-file-read-ghsa-gfvg-qv54-r4pc.md
@@ -207,6 +208,7 @@ nav:
     - "Auth before side effects": best-practices/auth-before-side-effects.md
     - "JWT token minting / refresh hardening": best-practices/jwt-token-minting-refresh-hardening.md
     - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
+    - "Container base images: tag drift & stale security fixes": best-practices/container-base-image-refresh.md
     - SMTP header injection (CRLF): best-practices/smtp-header-injection.md
     - TLS certificate validation (don’t ship skipVerify): best-practices/tls-certificate-validation.md
     - "Python pickle: never deserialize untrusted data": best-practices/python-pickle-untrusted-deserialization.md
