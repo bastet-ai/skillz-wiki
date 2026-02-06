@@ -107,6 +107,7 @@ nav:
     - 2026-02-04 — n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8): alerts/2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md
     - 2026-02-05 — n8n HTTP Request allowed-domains bypass → credential exfil (GHSA-2xcx-75h9-vr9h): alerts/2026-02-05-n8n-http-request-allowed-domains-bypass-credential-exfil-ghsa-2xcx-75h9-vr9h.md
     - 2026-02-05 — webpack buildHttp `allowedUris` allowlist bypass via URL userinfo (`@`) → build-time SSRF (GHSA-8fgc-7cc6-rx7x): alerts/2026-02-05-webpack-buildhttp-alloweduris-userinfo-bypass-ghsa-8fgc-7cc6-rx7x.md
+    - 2026-02-06 — NPM `syf-*` packages flagged as malware (multiple GHSAs): alerts/2026-02-06-npm-syf-packages-malware-ghsa-5mxw-3pj6-qg8r.md
     - 2026-02-05 — NPM `optimizer-cpu` malware (GHSA-x66r-5jww-pf82): alerts/2026-02-05-npm-optimizer-cpu-malware-ghsa-x66r-5jww-pf82.md
     - 2026-02-05 — `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928): alerts/2026-02-05-godot-mcp-command-injection-ghsa-8jx2-rhfh-q928.md
     - 2026-02-05 — NiceGUI upload filename traversal → arbitrary file write (GHSA-9ffm-fxg3-xrhh): alerts/2026-02-05-nicegui-path-traversal-arbitrary-file-write-ghsa-9ffm-fxg3-xrhh.md
