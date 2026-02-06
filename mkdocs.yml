@@ -114,6 +114,7 @@ nav:
     - 2026-02-05 — Spree guest orders viewable by Order ID (IDOR) (GHSA-p6pv-q7rc-g4h9): alerts/2026-02-05-spree-guest-order-idor-pii-ghsa-p6pv-q7rc-g4h9.md
     - 2026-02-05 — React Native CLI Metro command injection (KEV) (CVE-2025-11953): alerts/2026-02-05-react-native-cli-metro-command-injection-cve-2025-11953.md
     - 2026-02-05 — SmarterMail missing auth (ConnectToHub) (KEV) (CVE-2026-24423): alerts/2026-02-05-smartermail-missing-auth-connecttohub-rce-cve-2026-24423.md
+    - 2026-02-05 — Payload CMS Drizzle SQLi in JSON/RichText queries (GHSA-xx6w-jxg9-2wh8): alerts/2026-02-05-payloadcms-drizzle-sql-injection-ghsa-xx6w-jxg9-2wh8.md
     - 2026-02-05 — FrankenPHP images: base-image security fixes may not propagate (GHSA-x9p2-77v6-6vhf): alerts/2026-02-05-frankenphp-base-image-staleness-ghsa-x9p2-77v6-6vhf.md
     - 2026-02-05 — FUXA unauth RCE via admin JWT minting (GHSA-vwcg-c828-9822): alerts/2026-02-05-fuxa-unauth-rce-admin-jwt-minting-ghsa-vwcg-c828-9822.md
     - 2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw): alerts/2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md
