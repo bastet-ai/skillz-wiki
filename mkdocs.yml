@@ -189,6 +189,7 @@ nav:
     - Vulnerability Report: templates/vulnerability-report-template.md
   - Checklists:
     - Web Applications: checklists/web-applications.md
+    - Self-Hosted Git Forge Hardening: checklists/self-hosted-git-forge-hardening.md
     - AWS Cognito Identity Pools: checklists/aws-cognito-identity-pools.md
     - APIs: checklists/apis.md
     - Mobile Apps: checklists/mobile-apps.md
