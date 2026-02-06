@@ -111,6 +111,7 @@ nav:
     - 2026-02-06 — NPM `syf-*` packages flagged as malware (multiple GHSAs): alerts/2026-02-06-npm-syf-packages-malware-ghsa-5mxw-3pj6-qg8r.md
     - 2026-02-06 — NPM malware packages: `@rsgweb/*`, `@sporting-life/*`, `@meli-lint/*`, and others: alerts/2026-02-06-npm-malware-packages-rsgweb-sporting-life-meli-lint.md
     - 2026-02-06 — PHPUnit unsafe deserialization in PHPT coverage handling (GHSA-vvj3-c3rp-c85p): alerts/2026-02-06-phpunit-unsafe-deserialization-phpt-coverage-ghsa-vvj3-c3rp-c85p.md
+    - 2026-02-06 — FUXA unauthenticated RCE (multiple issues; fixed in 1.2.10): alerts/2026-02-06-fuxa-unauth-rce-triple-ghsa.md
     - 2026-02-06 — Rust `time` RFC 2822 parsing stack exhaustion DoS (GHSA-r6v5-fh4h-64xc): alerts/2026-02-06-rust-time-rfc2822-stack-exhaustion-dos-ghsa-r6v5-fh4h-64xc.md
     - 2026-02-05 — NPM `optimizer-cpu` malware (GHSA-x66r-5jww-pf82): alerts/2026-02-05-npm-optimizer-cpu-malware-ghsa-x66r-5jww-pf82.md
     - 2026-02-05 — `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928): alerts/2026-02-05-godot-mcp-command-injection-ghsa-8jx2-rhfh-q928.md
