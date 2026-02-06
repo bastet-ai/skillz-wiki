@@ -220,6 +220,7 @@ nav:
     - "SQL ORDER BY / identifier injection": best-practices/sql-order-by-injection.md
     - "Debug mode is not a feature": best-practices/debug-mode-is-not-a-feature.md
     - "Secure logging: don’t leak secrets": best-practices/secure-logging-secrets.md
+    - "Frontend-exposed API keys are not secrets": best-practices/frontend-exposed-api-keys.md
     - "Auth before side effects": best-practices/auth-before-side-effects.md
     - "URL allowlists: canonicalize, parse, and ban userinfo": best-practices/url-allowlists-canonicalization.md
     - "JWT token minting / refresh hardening": best-practices/jwt-token-minting-refresh-hardening.md
