@@ -114,6 +114,7 @@ nav:
     - 2026-02-06 — FUXA unauthenticated RCE (multiple issues; fixed in 1.2.10): alerts/2026-02-06-fuxa-unauth-rce-triple-ghsa.md
     - 2026-02-06 — Rust `time` RFC 2822 parsing stack exhaustion DoS (GHSA-r6v5-fh4h-64xc): alerts/2026-02-06-rust-time-rfc2822-stack-exhaustion-dos-ghsa-r6v5-fh4h-64xc.md
     - 2026-02-06 — Sliver DNS C2 OTP bypass → unauthenticated session flooding / DoS (GHSA-wxrw-gvg8-fqjp): alerts/2026-02-06-sliver-dns-c2-otp-bypass-session-flood-dos-ghsa-wxrw-gvg8-fqjp.md
+    - 2026-02-06 — `@enclave-vm/core` sandbox escape via Node.js `vm` (CVE-2026-25533): alerts/2026-02-06-enclave-vm-sandbox-escape-cve-2026-25533.md
     - 2026-02-05 — NPM `optimizer-cpu` malware (GHSA-x66r-5jww-pf82): alerts/2026-02-05-npm-optimizer-cpu-malware-ghsa-x66r-5jww-pf82.md
     - 2026-02-05 — `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928): alerts/2026-02-05-godot-mcp-command-injection-ghsa-8jx2-rhfh-q928.md
     - 2026-02-05 — NiceGUI upload filename traversal → arbitrary file write (GHSA-9ffm-fxg3-xrhh): alerts/2026-02-05-nicegui-path-traversal-arbitrary-file-write-ghsa-9ffm-fxg3-xrhh.md
