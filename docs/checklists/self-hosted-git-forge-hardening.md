@@ -105,3 +105,5 @@ These illustrate the recurring risk themes (path traversal/file write, config ta
   - https://github.com/advisories/GHSA-mrph-w4hh-gx3g
 - Gogs: 2FA bypass via recovery code scoping bug
   - https://github.com/advisories/GHSA-p6x6-9mx6-26wj
+- Gogs: authorization bypass allows read-only collaborators to delete repositories via API (fixed in v0.13.4)
+  - https://github.com/advisories/GHSA-rjv5-9px2-fqw6

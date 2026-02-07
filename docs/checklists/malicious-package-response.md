@@ -66,6 +66,17 @@ Treat it as a **host compromise** event until proven otherwise.
   - alert on package names with suspicious patterns (e.g., `_updated`, `-update`, `-helper`, close spelling to popular packages)
   - enable dependency/audit tooling that flags newly published packages
 
+### Rust / Cargo specific notes
+- Treat a crate being **yanked/removed** (or a GitHub advisory stating it was removed for malicious code) as a strong incident signal.
+- Pin builds with **`Cargo.lock` committed** and CI enforcing `cargo build --locked` / `cargo test --locked`.
+- Add continuous checks:
+  - `cargo audit` (known vulns)
+  - `cargo deny` (license/bans/sources; useful for blocking unexpected registries)
+- If you suspect malicious code:
+  - identify the exact crate version pulled (from `Cargo.lock`)
+  - invalidate caches/artifacts that may contain the compiled payload
+  - rotate secrets that were present during builds/tests
+
 ## References
 - Malware advisory example (npm):
   - https://github.com/advisories/GHSA-h3g9-hf4q-p76h
@@ -74,3 +85,4 @@ Treat it as a **host compromise** event until proven otherwise.
 - Recent malware advisories (examples):
   - https://github.com/advisories/GHSA-p6pv-q7rc-g4h9
   - https://github.com/advisories/GHSA-3rcr-854m-q7w4
+  - https://github.com/advisories/GHSA-x468-phr8-h3p3
