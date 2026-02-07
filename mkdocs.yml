@@ -96,6 +96,7 @@ nav:
   - Home: index.md
   - Alerts:
     - CISA KEV: alerts/cisa-kev.md
+    - 2026-02-07 — Mattermost Server: multiple security issues (GHSAs): alerts/2026-02-07-mattermost-multiple-security-issues-ghsa.md
     - 2026-02-07 — Antrea NetworkPolicy enforcement-order bug (GHSA-86x4-wp9f-wrr9): alerts/2026-02-07-antrea-networkpolicy-priority-overflow-ghsa-86x4-wp9f-wrr9.md
     - 2026-02-07 — Nebula fingerprint blocklist bypass (GHSA-69x3-g4r3-p962): alerts/2026-02-07-nebula-certificate-fingerprint-blocklist-bypass-ghsa-69x3-g4r3-p962.md
     - 2026-02-07 — Langroid TableChatAgent WAF bypass → RCE (GHSA-x34r-63hx-w57f): alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md
