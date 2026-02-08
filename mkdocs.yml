@@ -96,6 +96,7 @@ nav:
   - Home: index.md
   - Alerts:
     - CISA KEV: alerts/cisa-kev.md
+    - 2026-02-07 — Decidim private data export leak via UUID coercion (GHSA-3cx6-j9j4-54mp): alerts/2026-02-07-decidim-private-export-uuid-collision-data-leak-ghsa-3cx6-j9j4-54mp.md
     - 2026-02-07 — Mattermost Server: multiple security issues (GHSAs): alerts/2026-02-07-mattermost-multiple-security-issues-ghsa.md
     - 2026-02-07 — Antrea NetworkPolicy enforcement-order bug (GHSA-86x4-wp9f-wrr9): alerts/2026-02-07-antrea-networkpolicy-priority-overflow-ghsa-86x4-wp9f-wrr9.md
     - 2026-02-07 — Nebula fingerprint blocklist bypass (GHSA-69x3-g4r3-p962): alerts/2026-02-07-nebula-certificate-fingerprint-blocklist-bypass-ghsa-69x3-g4r3-p962.md
@@ -208,6 +209,7 @@ nav:
     - File Upload: payloads/file-upload.md
   - Best Practices:
     - Reporting: best-practices/reporting.md
+    - "Rails / Active Storage: UUID PKs & record_id type": best-practices/rails-activestorage-uuid-record-id.md
     - Verification Before Reporting: best-practices/verification-before-reporting.md
     - AI Safe Harbor & Report Quality: best-practices/ai-safe-harbor-and-report-quality.md
     - Agent + CI Hardening: best-practices/agent-ci-hardening.md
