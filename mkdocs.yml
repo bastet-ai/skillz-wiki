@@ -220,6 +220,7 @@ nav:
     - Sigstore Crypto Agility: best-practices/sigstore-crypto-agility.md
     - GWP-ASan in Production: best-practices/gwp-asan-production.md
     - Go Integer Overflow Fuzzing (go-panikint): best-practices/go-panikint-integer-overflow-fuzzing.md
+    - "Dimensional annotations (units of measure)": best-practices/dimensional-annotations-units-of-measure.md
     - Prototype Pollution (JS): best-practices/prototype-pollution.md
     - "Archive Extraction: Symlink + Path Traversal": best-practices/archive-extraction-symlink-traversal.md
     - "File uploads: don’t trust client filenames": best-practices/file-upload-filename-sanitization.md
