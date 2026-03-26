@@ -1,85 +1,29 @@
-# Methodology Overview
+# Playbook Overview
 
-This section outlines the systematic approach to security testing and bug bounty hunting used in the Bastet security framework.
+Skillz Wiki splits content into two layers:
 
-## 🎯 Core Principles
+- **Skills** teach one tool or capability in a way an agent can reuse directly.
+- **Playbooks** show how those skills fit into an assessment flow.
 
-Our methodology is built on four core principles:
+## Default flow
 
-1. **Systematic Approach**: Follow a structured process to ensure comprehensive coverage
-2. **Documentation**: Record all findings and methodologies for repeatability
-3. **Ethical Testing**: Always operate within legal and ethical boundaries
-4. **Continuous Learning**: Adapt and improve based on new discoveries
+1. **Reconnaissance**: build an evidence-backed asset map before touching deeper actions.
+2. **Vulnerability assessment**: turn exposed services and application paths into testable hypotheses.
+3. **Exploitation**: validate impact with the smallest safe proof possible.
+4. **Post-exploitation**: only when explicitly authorized, demonstrate blast radius and cleanup requirements.
+5. **Reporting**: preserve commands, artifacts, timestamps, and remediation-ready writeups.
 
-## 📊 Testing Phases
+## Operating rules
 
-### 1. Reconnaissance Phase
-- **Passive Information Gathering**: OSINT, public records, social media
-- **Active Reconnaissance**: Subdomain enumeration, port scanning, service detection
-- **Attack Surface Mapping**: Identify entry points and potential targets
+- Start with scope, rate limits, and handling constraints.
+- Prefer passive collection before active discovery.
+- Keep every notable command reproducible and attributable.
+- Separate confirmed behavior from inferred risk.
+- Stop escalating when the engagement or program rules stop.
 
-### 2. Vulnerability Assessment
-- **Automated Scanning**: Use tools to identify common vulnerabilities
-- **Manual Testing**: Deep-dive analysis of complex business logic
-- **Code Review**: Static and dynamic analysis when source code is available
+## Recommended pairings
 
-### 3. Exploitation
-- **Proof of Concept**: Develop working exploits for identified vulnerabilities
-- **Impact Assessment**: Determine the real-world impact of successful exploits
-- **Chain Building**: Combine multiple vulnerabilities for maximum impact
-
-### 4. Post-Exploitation
-- **Privilege Escalation**: Attempt to gain higher-level access
-- **Lateral Movement**: Explore additional systems and services
-- **Data Exfiltration**: Demonstrate the potential for data theft (ethically)
-
-## 🔄 Iterative Process
-
-Security testing is an iterative process. As new information is discovered, previous phases may need to be revisited:
-
-```mermaid
-graph LR
-    A[Recon] --> B[Assessment]
-    B --> C[Exploitation]
-    C --> D[Post-Exploitation]
-    D --> A
-    D --> E[Reporting]
-```
-
-## 📝 Documentation Standards
-
-Throughout all phases, maintain detailed documentation:
-
-- **Methodology Used**: Record the specific techniques and tools employed
-- **Findings**: Document all vulnerabilities, even those not exploitable
-- **Screenshots**: Capture evidence of successful exploitation
-- **Reproduction Steps**: Provide clear instructions for verifying findings
-
-## 🎭 Scope Management
-
-Always clearly define and respect the testing scope:
-
-- **In-Scope Assets**: Systems explicitly approved for testing
-- **Out-of-Scope Assets**: Systems that must not be tested
-- **Testing Methods**: Approved and prohibited testing techniques
-- **Timing Constraints**: When testing can and cannot be performed
-
-## 🛡️ Risk Assessment
-
-Evaluate risks throughout the testing process:
-
-- **Technical Risk**: Potential for system disruption or damage
-- **Legal Risk**: Compliance with terms of engagement
-- **Reputational Risk**: Impact on organization's reputation
-- **Data Risk**: Potential exposure of sensitive information
-
-## Next Steps
-
-- [Reconnaissance Methodology](reconnaissance.md)
-- [Vulnerability Assessment Guide](vulnerability-assessment.md)
-- [Exploitation Techniques](exploitation.md)
-- [Post-Exploitation Strategies](post-exploitation.md)
-
----
-
-*This methodology is continuously updated based on the latest security research and industry best practices.*
+- Use the [DNS Enumeration](../skills/dns-enumeration.md) skill to expand domain scope safely.
+- Use the [Nmap Scanning](../skills/nmap-scanning.md) skill to convert hosts into concrete services.
+- Use the [Web Application Checklist](../checklists/web-applications.md) once services become reachable application surfaces.
+- Use [Reporting Best Practices](../best-practices/reporting.md) as the final quality gate before publishing findings.

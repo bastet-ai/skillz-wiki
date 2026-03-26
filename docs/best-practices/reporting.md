@@ -1,19 +1,33 @@
-# Security Testing Reporting Best Practices
+# Reporting Best Practices
 
-*Guidelines for professional security assessment reporting.*
+Skillz Wiki reporting guidance is simple: make the finding easy to verify, easy to scope, and hard to misunderstand.
 
-## Overview
+## Minimum structure
 
-Professional reporting standards for security assessments and bug bounty findings.
+1. Title that names the issue and affected surface.
+2. Short summary of the broken boundary.
+3. Prerequisites and authentication state.
+4. Reproduction steps with exact requests or commands.
+5. Observed result and impact.
+6. Clear remediation direction.
 
-## Coming Soon
+## Evidence rules
 
-- Report Structure and Templates
-- Evidence Collection
-- Risk Assessment and Scoring
-- Executive Summary Writing
-- Technical Detail Documentation
+- Keep raw requests, responses, and timestamps.
+- Screenshot only when it adds context beyond the raw evidence.
+- Record the exact account role or privilege level used.
+- Distinguish observed behavior from inferred worst case.
 
----
+## Writing rules
 
-*Comprehensive reporting guide will be added in future updates.*
+- Prefer plain language over scanner terminology.
+- Do not inflate severity with hypothetical chain assumptions.
+- State the narrowest true claim first.
+- Make remediation actionable enough for an engineer to start fixing.
+
+## Before publishing
+
+- Re-run the proof once from clean state if possible.
+- Remove secrets, tokens, and unrelated sensitive data from artifacts.
+- Confirm the affected asset names are correct.
+- Check that rollback or cleanup steps are documented.

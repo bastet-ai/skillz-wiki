@@ -1,50 +1,24 @@
-site_name: Bastet Wisdom
-site_description: Bug bounty security testing best practices and methodology documentation
+site_name: Skillz Wiki
+site_description: Wiki and installable agent skills for computer security tools
 site_author: Bastet.ai Security Team
-site_url: https://wisdom.bastet.ai
+site_url: https://skillz.wiki/
 
-# Repository
-repo_name: bastet-ai/bastet-wisdom
-repo_url: https://github.com/bastet-ai/bastet-wisdom
+repo_name: bastet-ai/skillz-wiki
+repo_url: https://github.com/bastet-ai/skillz-wiki
 
-# Configuration
 theme:
   name: material
-  palette:
-    # Palette toggle for dark mode
-    - scheme: slate
-      primary: purple
-      accent: cyan
-      toggle:
-        icon: material/weather-night
-        name: Switch to light mode
-    # Palette toggle for light mode
-    - scheme: default
-      primary: purple
-      accent: cyan
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to dark mode
-  font:
-    text: Roboto
-    code: Roboto Mono
+  custom_dir: overrides
   features:
-    - navigation.tabs
     - navigation.sections
+    - navigation.expand
     - navigation.top
     - navigation.tracking
     - search.highlight
     - search.share
     - toc.integrate
     - content.code.copy
-    - content.code.annotate
-    - navigation.instant
-    - navigation.instant.prefetch
-  icon:
-    repo: fontawesome/brands/github
-    edit: material/pencil
 
-# Plugins
 plugins:
   - search:
       lang: en
@@ -55,7 +29,6 @@ plugins:
       minify_html: true
   - mermaid2
 
-# Extensions
 markdown_extensions:
   - admonition
   - pymdownx.details
@@ -91,169 +64,61 @@ markdown_extensions:
       permalink: true
   - tables
 
-# Navigation structure
 nav:
   - Home: index.md
   - Alerts:
-    - CISA KEV: alerts/cisa-kev.md
-    - 2026-02-07 — Decidim private data export leak via UUID coercion (GHSA-3cx6-j9j4-54mp): alerts/2026-02-07-decidim-private-export-uuid-collision-data-leak-ghsa-3cx6-j9j4-54mp.md
-    - 2026-02-07 — Mattermost Server: multiple security issues (GHSAs): alerts/2026-02-07-mattermost-multiple-security-issues-ghsa.md
-    - 2026-02-07 — Antrea NetworkPolicy enforcement-order bug (GHSA-86x4-wp9f-wrr9): alerts/2026-02-07-antrea-networkpolicy-priority-overflow-ghsa-86x4-wp9f-wrr9.md
-    - 2026-02-07 — Nebula fingerprint blocklist bypass (GHSA-69x3-g4r3-p962): alerts/2026-02-07-nebula-certificate-fingerprint-blocklist-bypass-ghsa-69x3-g4r3-p962.md
-    - 2026-02-07 — Langroid TableChatAgent WAF bypass → RCE (GHSA-x34r-63hx-w57f): alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md
-    - 2026-01-29 — Ivanti EPMM unauth RCE (CVE-2026-1281): alerts/2026-01-29-ivanti-epmm-cve-2026-1281.md
-    - 2026-01-31 — PsySH CWD auto-load → local priv-esc (CVE-2026-25129): alerts/2026-01-31-psysh-cve-2026-25129.md
-    - 2026-01-31 — Orval codegen code injection (CVE-2026-25141): alerts/2026-01-31-orval-cve-2026-25141.md
-    - 2026-02-02 — NPM `c11dff444` malware (GHSA-cpcr-74hm-pg3c): alerts/2026-02-02-npm-c11dff444-malware.md
-    - 2026-02-03 — NPM malware wave continues: alerts/2026-02-03-npm-malware-wave-continued.md
-    - 2026-02-04 — NPM malware wave continues: alerts/2026-02-04-npm-malware-wave-continues.md
-    - 2026-02-04 — NPM malware packages: react-* / web3-chain-sync: alerts/2026-02-04-npm-react-vite-sync-malware-wave.md
-    - 2026-02-04 — NPM malware packages: dspmobile / tailwindcss-animation-modern: alerts/2026-02-04-npm-dspmobile-tailwindcss-animation-modern-malware.md
-    - 2026-02-04 — n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8): alerts/2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md
-    - 2026-02-05 — n8n HTTP Request allowed-domains bypass → credential exfil (GHSA-2xcx-75h9-vr9h): alerts/2026-02-05-n8n-http-request-allowed-domains-bypass-credential-exfil-ghsa-2xcx-75h9-vr9h.md
-    - 2026-02-05 — webpack buildHttp `allowedUris` allowlist bypass via URL userinfo (`@`) → build-time SSRF (GHSA-8fgc-7cc6-rx7x): alerts/2026-02-05-webpack-buildhttp-alloweduris-userinfo-bypass-ghsa-8fgc-7cc6-rx7x.md
-    - 2026-02-05 — webpack buildHttp `allowedUris` bypass via HTTP redirects → build-time SSRF + cache persistence (GHSA-38r7-794h-5758): alerts/2026-02-05-webpack-buildhttp-alloweduris-redirect-bypass-ghsa-38r7-794h-5758.md
-    - 2026-02-06 — NPM `syf-*` packages flagged as malware (multiple GHSAs): alerts/2026-02-06-npm-syf-packages-malware-ghsa-5mxw-3pj6-qg8r.md
-    - 2026-02-06 — NPM malware packages: `@rsgweb/*`, `@sporting-life/*`, `@meli-lint/*`, and others: alerts/2026-02-06-npm-malware-packages-rsgweb-sporting-life-meli-lint.md
-    - 2026-02-06 — PHPUnit unsafe deserialization in PHPT coverage handling (GHSA-vvj3-c3rp-c85p): alerts/2026-02-06-phpunit-unsafe-deserialization-phpt-coverage-ghsa-vvj3-c3rp-c85p.md
-    - 2026-02-06 — FUXA unauthenticated RCE (multiple issues; fixed in 1.2.10): alerts/2026-02-06-fuxa-unauth-rce-triple-ghsa.md
-    - 2026-02-06 — Rust `time` RFC 2822 parsing stack exhaustion DoS (GHSA-r6v5-fh4h-64xc): alerts/2026-02-06-rust-time-rfc2822-stack-exhaustion-dos-ghsa-r6v5-fh4h-64xc.md
-    - 2026-02-06 — Sliver DNS C2 OTP bypass → unauthenticated session flooding / DoS (GHSA-wxrw-gvg8-fqjp): alerts/2026-02-06-sliver-dns-c2-otp-bypass-session-flood-dos-ghsa-wxrw-gvg8-fqjp.md
-    - 2026-02-06 — `@enclave-vm/core` sandbox escape via Node.js `vm` (CVE-2026-25533): alerts/2026-02-06-enclave-vm-sandbox-escape-cve-2026-25533.md
-    - 2026-02-05 — NPM `optimizer-cpu` malware (GHSA-x66r-5jww-pf82): alerts/2026-02-05-npm-optimizer-cpu-malware-ghsa-x66r-5jww-pf82.md
-    - 2026-02-05 — `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928): alerts/2026-02-05-godot-mcp-command-injection-ghsa-8jx2-rhfh-q928.md
-    - 2026-02-05 — NiceGUI upload filename traversal → arbitrary file write (GHSA-9ffm-fxg3-xrhh): alerts/2026-02-05-nicegui-path-traversal-arbitrary-file-write-ghsa-9ffm-fxg3-xrhh.md
-    - 2026-02-05 — Sliver website path traversal → arbitrary file read (auth) (GHSA-2286-hxv5-cmp2): alerts/2026-02-05-sliver-website-path-traversal-arbitrary-file-read-ghsa-2286-hxv5-cmp2.md
-    - 2026-02-05 — Spree guest orders viewable by Order ID (IDOR) (GHSA-p6pv-q7rc-g4h9): alerts/2026-02-05-spree-guest-order-idor-pii-ghsa-p6pv-q7rc-g4h9.md
-    - 2026-02-05 — React Native CLI Metro command injection (KEV) (CVE-2025-11953): alerts/2026-02-05-react-native-cli-metro-command-injection-cve-2025-11953.md
-    - 2026-02-05 — SmarterMail missing auth (ConnectToHub) (KEV) (CVE-2026-24423): alerts/2026-02-05-smartermail-missing-auth-connecttohub-rce-cve-2026-24423.md
-    - 2026-02-05 — Payload CMS Drizzle SQLi in JSON/RichText queries (GHSA-xx6w-jxg9-2wh8): alerts/2026-02-05-payloadcms-drizzle-sql-injection-ghsa-xx6w-jxg9-2wh8.md
-    - 2026-02-05 — FrankenPHP images: base-image security fixes may not propagate (GHSA-x9p2-77v6-6vhf): alerts/2026-02-05-frankenphp-base-image-staleness-ghsa-x9p2-77v6-6vhf.md
-    - 2026-02-05 — FUXA unauth RCE via admin JWT minting (GHSA-vwcg-c828-9822): alerts/2026-02-05-fuxa-unauth-rce-admin-jwt-minting-ghsa-vwcg-c828-9822.md
-    - 2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw): alerts/2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md
-    - 2026-02-04 — n8n arbitrary file read (GHSA-gfvg-qv54-r4pc): alerts/2026-02-04-n8n-arbitrary-file-read-ghsa-gfvg-qv54-r4pc.md
-    - 2026-02-04 — n8n CSP sandbox bypass → stored XSS (GHSA-825q-w924-xhgx): alerts/2026-02-04-n8n-csp-sandbox-bypass-stored-xss-ghsa-825q-w924-xhgx.md
-    - 2026-02-04 — OpenClaw MEDIA: path extraction → arbitrary file read (GHSA-r8g4-86fx-92mq): alerts/2026-02-04-openclaw-media-path-extraction-lfi-ghsa-r8g4-86fx-92mq.md
-    - 2026-02-04 — OpenClaw unauth local RCE via WebSocket config.apply (GHSA-g55j-c2v4-pjcg): alerts/2026-02-04-openclaw-unauth-local-rce-websocket-config-apply-ghsa-g55j-c2v4-pjcg.md
-    - 2026-02-04 — Claude Code path restriction bypass via ZSH clobber (GHSA-q728-gf8j-w49r): alerts/2026-02-04-claude-code-path-restriction-bypass-zsh-clobber-ghsa-q728-gf8j-w49r.md
-    - 2026-02-04 — Alist insecure TLS default (GHSA-8jmm-3xwx-w974): alerts/2026-02-04-alist-insecure-tls-default-ghsa-8jmm-3xwx-w974.md
-    - 2026-02-04 — Alist path traversal in file ops (GHSA-x4q4-7phh-42j9): alerts/2026-02-04-alist-path-traversal-file-ops-ghsa-x4q4-7phh-42j9.md
-    - 2026-02-04 — Fedify ActivityPub actor impersonation (GHSA-6jcc-xgcr-q3h4): alerts/2026-02-04-fedify-activitypub-actor-impersonation-ghsa-6jcc-xgcr-q3h4.md
-    - 2026-02-04 — ingress-nginx annotation config injection (CVE-2026-1580): alerts/2026-02-04-ingress-nginx-annotation-config-injection-cve-2026-1580.md
-    - 2026-02-04 — ingress-nginx validating admission controller DoS (CVE-2026-24514): alerts/2026-02-04-ingress-nginx-validating-admission-dos-cve-2026-24514.md
-    - 2026-02-04 — survey-pdf via jsPDF path traversal/LFI (GHSA-h3q6-jfrg-3x6q): alerts/2026-02-04-survey-pdf-jsPDF-path-traversal-ghsa-h3q6-jfrg-3x6q.md
-    - 2026-02-04 — FUXA unauth file upload (GHSA-7g56-fwxj-cm23): alerts/2026-02-04-fuxa-unauth-file-upload-ghsa-7g56-fwxj-cm23.md
-    - 2026-02-04 — FUXA unauth device tag write (GHSA-ggxw-g3cp-mgf8): alerts/2026-02-04-fuxa-unauth-device-tag-write-ghsa-ggxw-g3cp-mgf8.md
-    - 2026-02-04 — FUXA multiple unauth issues (RCE + creds exposure) (multiple GHSAs): alerts/2026-02-04-fuxa-multiple-unauth-rce-credential-exposure-ghsa.md
-    - 2026-02-04 — NPM malware packages: tailwindcss-forms-starter/cat-retail-app/etc: alerts/2026-02-04-npm-malware-packages-tailwindcss-forms-starter-cat-retail-app.md
-    - 2026-02-04 — NPM malware in internallib_v157 (GHSA-h23p-rf86-54wq): alerts/2026-02-04-npm-malware-in-internallib-v157-ghsa-h23p-rf86-54wq.md
-    - 2026-02-04 — `@modelcontextprotocol/sdk` cross-client data leak (GHSA-345p-7cg4-v4c7): alerts/2026-02-04-modelcontextprotocol-sdk-cross-client-data-leak-ghsa-345p-7cg4-v4c7.md
-    - 2026-02-03 — Claude Code trusted-domain validation bypass (CVE-2026-24052): alerts/2026-02-03-claude-code-domain-validation-bypass-cve-2026-24052.md
-    - 2026-02-03 — `@isaacs/brace-expansion` unbounded expansion → DoS (GHSA-7h2j-956f-4vf2): alerts/2026-02-03-isaacs-brace-expansion-dos-ghsa-7h2j-956f-4vf2.md
-    - 2026-02-03 — RustFS logs credentials in plaintext (GHSA-r54g-49rx-98cr): alerts/2026-02-03-rustfs-logs-credentials-ghsa-r54g-49rx-98cr.md
-    - 2026-02-03 — Flowise ReadFileTool arbitrary file read (GHSA-j44m-5v8f-gc9c): alerts/2026-02-03-flowise-readfiletool-arbitrary-file-read-ghsa-j44m-5v8f-gc9c.md
-    - 2026-02-03 — GitLab CI Lint API SSRF (CVE-2021-39935): alerts/2026-02-03-gitlab-ci-lint-ssrf-cve-2021-39935.md
-    - 2026-02-03 — FreePBX Endpoint Manager OS command injection (CVE-2025-64328): alerts/2026-02-03-freepbx-endpoint-manager-command-injection-cve-2025-64328.md
-    - 2026-02-03 — FreePBX Remote Admin auth bypass (CVE-2019-19006): alerts/2026-02-03-freepbx-remote-admin-auth-bypass-cve-2019-19006.md
-    - 2026-02-03 — `url-parse` multiple URL parsing issues (multiple GHSAs): alerts/2026-02-03-url-parse-multiple-url-parsing-bugs-ghsa.md
-    - 2026-02-03 — Chainguard melange/apko build-host compromise primitives: alerts/2026-02-03-chainguard-melange-apko-build-host-compromise.md
-    - 2026-02-02 — Mailpit SMTP header injection (GHSA-54wq-72mp-cq7c): alerts/2026-02-02-mailpit-smtp-header-injection-ghsa-54wq-72mp-cq7c.md
-    - 2026-02-02 — vLLM RCE via video processing (GHSA-4r2x-xpjr-7cvv): alerts/2026-02-02-vllm-video-processing-rce-ghsa-4r2x-xpjr-7cvv.md
-    - 2026-02-02 — Signal K set-system-time command injection (GHSA-p8gp-2w28-mhwg): alerts/2026-02-02-signalk-set-system-time-command-injection-ghsa-p8gp-2w28-mhwg.md
-    - 2026-02-02 — Khoj Notion OAuth callback IDOR (GHSA-6whj-7qmg-86qj): alerts/2026-02-02-khoj-notion-oauth-idor-ghsa-6whj-7qmg-86qj.md
-    - 2026-02-02 — FacturaScripts reflected XSS via raw error rendering (GHSA-g6w2-q45f-xrp4): alerts/2026-02-02-facturascripts-reflected-xss-ghsa-g6w2-q45f-xrp4.md
-    - 2026-02-02 — OpenList insecure TLS defaults (GHSA-wf93-3ghh-h389): alerts/2026-02-02-openlist-insecure-tls-default-ghsa-wf93-3ghh-h389.md
-    - 2026-02-02 — fog-kubevirt MitM via disabled cert validation (GHSA-m3hq-3qj8-c5fm): alerts/2026-02-02-fog-kubevirt-mitm-disabled-cert-validation-ghsa-m3hq-3qj8-c5fm.md
-    - 2026-02-02 — picklescan arbitrary file create (GHSA-m7j5-r2p5-c39r): alerts/2026-02-02-picklescan-arbitrary-file-create-ghsa-m7j5-r2p5-c39r.md
-    - 2026-02-02 — cert-manager controller DoS via crafted DNS response (GHSA-gx3x-vq4p-mhhv): alerts/2026-02-02-cert-manager-controller-dns-cache-dos-ghsa-gx3x-vq4p-mhhv.md
-    - 2026-02-02 — Fastify Content-Type header tab can bypass body validation (GHSA-jx2c-rxcm-jvmq): alerts/2026-02-02-fastify-content-type-tab-bypass-ghsa-jx2c-rxcm-jvmq.md
-    - 2026-02-02 — Fastify DoS via unbounded memory allocation in sendWebStream (GHSA-mrq3-vjjr-p77c): alerts/2026-02-02-fastify-sendwebstream-unbounded-memory-dos-ghsa-mrq3-vjjr-p77c.md
-    - 2026-02-02 — pip wheel extraction path traversal (GHSA-6vgw-5pg2-w6jp): alerts/2026-02-02-pip-wheel-path-traversal-ghsa-6vgw-5pg2-w6jp.md
-    - 2026-02-02 — Hugging Face TGI unbounded image fetch → DoS (GHSA-j7x9-7j54-2v3h): alerts/2026-02-02-huggingface-tgi-unbounded-image-fetch-dos-ghsa-j7x9-7j54-2v3h.md
-    - 2026-02-02 — Clawdbot multiple high-severity RCE paths (fixed in 2026.1.29): alerts/2026-02-02-clawdbot-multiple-high-severity-rce-ghsa.md
-  - Methodology:
-    - Overview: methodology/overview.md
-    - Client-Side Analysis: methodology/client-side-analysis.md
-    - CORS Vulnerability Analysis: methodology/cors-vulnerability-analysis.md
-    - Large-Scale Reconnaissance: methodology/large-scale-reconnaissance.md
-    - Reconnaissance: methodology/reconnaissance.md
-    - DNS Enumeration: methodology/dns-enumeration.md
-    - CVE Reversing (Web Vulns): methodology/cve-reversing-web-vulnerabilities.md
-    - Nmap Scanning: methodology/nmap-scanning.md
-    - Vulnerability Assessment: methodology/vulnerability-assessment.md
-    - OAuth Token Theft: methodology/oauth-token-theft.md
-    - OAuth Misconfigs (MCP/Agents): methodology/oauth-mcp-misconfig.md
-    - Exploitation: methodology/exploitation.md
-    - Post-Exploitation: methodology/post-exploitation.md
+      - Overview: alerts/index.md
+      - CISA KEV: alerts/cisa-kev.md
+      - Trivy Embedded Malicious Code: alerts/2026-03-26-trivy-embedded-malicious-code-cve-2026-33634.md
+      - Langflow Code Injection: alerts/2026-03-25-langflow-code-injection-cve-2026-33017.md
+      - Laravel Livewire Code Injection: alerts/2026-03-20-laravel-livewire-code-injection-cve-2025-54068.md
+      - Craft CMS Code Injection: alerts/2026-03-20-craftcms-code-injection-cve-2025-32432.md
+  - Skills:
+      - Overview: skills/index.md
+      - DNS Enumeration: skills/dns-enumeration.md
+      - Nmap Scanning: skills/nmap-scanning.md
+  - Playbooks:
+      - Overview: methodology/overview.md
+      - Client-Side Analysis: methodology/client-side-analysis.md
+      - CORS Vulnerability Analysis: methodology/cors-vulnerability-analysis.md
+      - Large-Scale Reconnaissance: methodology/large-scale-reconnaissance.md
+      - Reconnaissance: methodology/reconnaissance.md
+      - DNS Enumeration: methodology/dns-enumeration.md
+      - Nmap Scanning: methodology/nmap-scanning.md
+      - CVE Reversing: methodology/cve-reversing-web-vulnerabilities.md
+      - Vulnerability Assessment: methodology/vulnerability-assessment.md
+      - OAuth Token Theft: methodology/oauth-token-theft.md
+      - OAuth Misconfigs for MCP/Agents: methodology/oauth-mcp-misconfig.md
+      - Exploitation: methodology/exploitation.md
+      - Post-Exploitation: methodology/post-exploitation.md
   - Tools:
-    - Bastet Suite: tools/bastet-suite.md
-    - httpx: tools/httpx.md
-    - Web Application: tools/web-application.md
-    - Network: tools/network.md
-    - Mobile: tools/mobile.md
-    - Cloud: tools/cloud.md
-  - Templates:
-    - Vulnerability Report: templates/vulnerability-report-template.md
+      - Bastet Suite: tools/bastet-suite.md
+      - httpx: tools/httpx.md
   - Checklists:
-    - Web Applications: checklists/web-applications.md
-    - Self-Hosted Git Forge Hardening: checklists/self-hosted-git-forge-hardening.md
-    - AWS Cognito Identity Pools: checklists/aws-cognito-identity-pools.md
-    - APIs: checklists/apis.md
-    - Mobile Apps: checklists/mobile-apps.md
-    - Infrastructure: checklists/infrastructure.md
-    - Malicious Package Response: checklists/malicious-package-response.md
-  - Payloads:
-    - XSS: payloads/xss.md
-    - SQL Injection: payloads/sql-injection.md
-    - Command Injection: payloads/command-injection.md
-    - File Upload: payloads/file-upload.md
+      - Web Applications: checklists/web-applications.md
+      - Self-Hosted Git Forge Hardening: checklists/self-hosted-git-forge-hardening.md
+      - AWS Cognito Identity Pools: checklists/aws-cognito-identity-pools.md
+      - Malicious Package Response: checklists/malicious-package-response.md
   - Best Practices:
-    - Reporting: best-practices/reporting.md
-    - "Rails / Active Storage: UUID PKs & record_id type": best-practices/rails-activestorage-uuid-record-id.md
-    - Verification Before Reporting: best-practices/verification-before-reporting.md
-    - AI Safe Harbor & Report Quality: best-practices/ai-safe-harbor-and-report-quality.md
-    - Agent + CI Hardening: best-practices/agent-ci-hardening.md
-    - "Agent Tools: Command Injection (shell=True)": best-practices/agent-tool-command-injection.md
-    - "CWD auto-config poisoning (run-from-/tmp)": best-practices/cwd-auto-config-poisoning.md
-    - "Codegen: treat specs as untrusted": best-practices/codegen-untrusted-specs.md
-    - "Agentic Browsers: Isolation + Threat Model": best-practices/agentic-browser-threat-model.md
-    - Sigstore Crypto Agility: best-practices/sigstore-crypto-agility.md
-    - GWP-ASan in Production: best-practices/gwp-asan-production.md
-    - Go Integer Overflow Fuzzing (go-panikint): best-practices/go-panikint-integer-overflow-fuzzing.md
-    - "Dimensional annotations (units of measure)": best-practices/dimensional-annotations-units-of-measure.md
-    - Prototype Pollution (JS): best-practices/prototype-pollution.md
-    - "Archive Extraction: Symlink + Path Traversal": best-practices/archive-extraction-symlink-traversal.md
-    - "File uploads: don’t trust client filenames": best-practices/file-upload-filename-sanitization.md
-    - "Templates/Scaffolding: Symlink Escapes": best-practices/untrusted-templates-symlink-escapes.md
-    - "Template sandbox escapes (SSTI → RCE)": best-practices/template-sandbox-escapes.md
-    - "SQL ORDER BY / identifier injection": best-practices/sql-order-by-injection.md
-    - "Debug mode is not a feature": best-practices/debug-mode-is-not-a-feature.md
-    - "Secure logging: don’t leak secrets": best-practices/secure-logging-secrets.md
-    - "Frontend-exposed API keys are not secrets": best-practices/frontend-exposed-api-keys.md
-    - "Auth before side effects": best-practices/auth-before-side-effects.md
-    - "URL allowlists: canonicalize, parse, and ban userinfo": best-practices/url-allowlists-canonicalization.md
-    - "JWT token minting / refresh hardening": best-practices/jwt-token-minting-refresh-hardening.md
-    - Supply Chain Malware Triage: best-practices/supply-chain-malware-triage.md
-    - "Container base images: tag drift & stale security fixes": best-practices/container-base-image-refresh.md
-    - SMTP header injection (CRLF): best-practices/smtp-header-injection.md
-    - TLS certificate validation (don’t ship skipVerify): best-practices/tls-certificate-validation.md
-    - "Python pickle: never deserialize untrusted data": best-practices/python-pickle-untrusted-deserialization.md
-    - Documentation: best-practices/documentation.md
-    - Communication: best-practices/communication.md
-    - Legal & Ethics: best-practices/legal-ethics.md
+      - Reporting: best-practices/reporting.md
+      - Verification Before Reporting: best-practices/verification-before-reporting.md
+      - AI Safe Harbor and Report Quality: best-practices/ai-safe-harbor-and-report-quality.md
+      - Agent CI Hardening: best-practices/agent-ci-hardening.md
+      - Agent Tools Command Injection: best-practices/agent-tool-command-injection.md
+      - Agentic Browser Threat Model: best-practices/agentic-browser-threat-model.md
+      - Supply-Chain Malware Triage: best-practices/supply-chain-malware-triage.md
   - Process:
-    - HackerOne Data Collection: process/hackerone-data-collection.md
-    - Reconnaissance Tools Setup: process/reconnaissance-tools-setup.md
+      - HackerOne Data Collection: process/hackerone-data-collection.md
+      - Reconnaissance Tools Setup: process/reconnaissance-tools-setup.md
+  - Templates:
+      - Vulnerability Report: report-templates/vulnerability-report.md
+  - Notes:
+      - How to use this wiki: notes/how-to-use.md
+      - Source index: notes/source-index.md
+      - Editorial checklist: notes/editorial-checklist.md
+  - Blog:
+      - Overview: blog/index.md
+      - Launching Skillz Wiki: blog/2026-03-26-skillz-wiki-launch.md
 
-# Extra
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/bastet-ai
-    - icon: fontawesome/solid/globe
-      link: https://bastet.ai
-  version:
-    provider: mike
-
-# Copyright
-copyright: Copyright &copy; 2024 Bastet.ai - Security Research & Development
+extra_css:
+  - stylesheets/extra.css

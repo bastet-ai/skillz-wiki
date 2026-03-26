@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Skillz Wiki</title>
+    <link>https://skillz.wiki/</link>
+    <description>Wiki and installable agent skills for computer security tools.</description>
+    <item>
+      <title>Launching Skillz Wiki</title>
+      <link>https://skillz.wiki/blog/2026-03-26-skillz-wiki-launch/</link>
+      <description>New presentation, security-tool skills, and a Skillz-specific taxonomy.</description>
+      <pubDate>Thu, 26 Mar 2026 15:00:00 GMT</pubDate>
+      <guid>https://skillz.wiki/blog/2026-03-26-skillz-wiki-launch/</guid>
+    </item>
+  </channel>
+</rss>
