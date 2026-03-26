@@ -61,6 +61,9 @@ Pick the strongest enforcement your stack can support:
 - **Lints**: ban raw `int` for time, money, sizes in sensitive code.
 - **Property tests**: assertions like “this result should be within [min,max]” and “unit conversions are reversible”.
 - **Review checklist**: require unit tags for arithmetic-heavy code paths.
+- **Mechanical annotation passes**: if the codebase is large, use an automated pass to discover dimensions, annotate the code, then validate mismatches in a second pass.
+
+Trail of Bits’ 2026 plugin write-up is a useful example of this workflow: dimension discovery → annotation → propagation → validation. The key lesson is that the LLM should be used to classify and annotate, while the actual bug signal comes from deterministic mismatch checks.
 
 ### 5) Treat “dimension mismatches” as security smells
 If a reviewer can’t explain the units of a value in a privileged path (auth, billing, rate-limits, crypto, permissions), treat it like a potential vuln.
