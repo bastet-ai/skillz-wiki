@@ -1,17 +1,18 @@
-# Playbook Overview
+# Recon Workflow Overview
 
 Skillz Wiki splits content into two layers:
 
 - **Skills** teach one tool or capability in a way an agent can reuse directly.
-- **Playbooks** show how those skills fit into an assessment flow.
+- **Recon workflows** show how those skills fit into asset discovery and prioritization.
+- **Exploit paths** capture concrete attack chains that are worth replaying in authorized environments.
 
 ## Default flow
 
-1. **Reconnaissance**: build an evidence-backed asset map before touching deeper actions.
-2. **Vulnerability assessment**: turn exposed services and application paths into testable hypotheses.
-3. **Exploitation**: validate impact with the smallest safe proof possible.
-4. **Post-exploitation**: only when explicitly authorized, demonstrate blast radius and cleanup requirements.
-5. **Reporting**: preserve commands, artifacts, timestamps, and remediation-ready writeups.
+1. **Scope first**: confirm the program boundary, exclusions, and safe proof limits.
+2. **Asset expansion**: grow the host and service inventory through passive discovery and narrow active probing.
+3. **Surface shaping**: identify auth flows, admin panels, APIs, exposed client bundles, and likely trust boundaries.
+4. **Hypothesis selection**: turn the highest-value surfaces into a short list of concrete exploit paths.
+5. **Validation**: prove the path with minimal-impact, reproducible commands and preserve the output needed to replay it later.
 
 ## Operating rules
 
@@ -21,9 +22,9 @@ Skillz Wiki splits content into two layers:
 - Separate confirmed behavior from inferred risk.
 - Stop escalating when the engagement or program rules stop.
 
-## Recommended pairings
+## Recommended building blocks
 
 - Use the [DNS Enumeration](../skills/dns-enumeration.md) skill to expand domain scope safely.
+- Use the [HTTP Probing with httpx](../skills/httpx.md) skill to turn discovered hosts into a prioritized web surface.
 - Use the [Nmap Scanning](../skills/nmap-scanning.md) skill to convert hosts into concrete services.
-- Use the [Web Application Checklist](../checklists/web-applications.md) once services become reachable application surfaces.
-- Use [Reporting Best Practices](../best-practices/reporting.md) as the final quality gate before publishing findings.
+- Use [Client-Side Analysis](client-side-analysis.md) when web applications expose JavaScript-heavy entry points and third-party integrations.

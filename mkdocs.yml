@@ -1,5 +1,5 @@
 site_name: Skillz Wiki
-site_description: Wiki and installable agent skills for computer security tools
+site_description: Recon skills and replayable exploit-path notes for authorized pentesting and red-team work
 site_author: Bastet.ai Security Team
 site_url: https://skillz.wiki/
 
@@ -66,50 +66,21 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Alerts:
-      - Overview: alerts/index.md
-      - CISA KEV: alerts/cisa-kev.md
-      - Trivy Embedded Malicious Code: alerts/2026-03-26-trivy-embedded-malicious-code-cve-2026-33634.md
-      - Langflow Code Injection: alerts/2026-03-25-langflow-code-injection-cve-2026-33017.md
-      - Laravel Livewire Code Injection: alerts/2026-03-20-laravel-livewire-code-injection-cve-2025-54068.md
-      - Craft CMS Code Injection: alerts/2026-03-20-craftcms-code-injection-cve-2025-32432.md
   - Skills:
       - Overview: skills/index.md
+      - HTTP Probing with httpx: skills/httpx.md
       - DNS Enumeration: skills/dns-enumeration.md
       - Nmap Scanning: skills/nmap-scanning.md
-  - Playbooks:
+  - Recon:
       - Overview: methodology/overview.md
-      - Client-Side Analysis: methodology/client-side-analysis.md
-      - CORS Vulnerability Analysis: methodology/cors-vulnerability-analysis.md
-      - Large-Scale Reconnaissance: methodology/large-scale-reconnaissance.md
       - Reconnaissance: methodology/reconnaissance.md
-      - DNS Enumeration: methodology/dns-enumeration.md
-      - Nmap Scanning: methodology/nmap-scanning.md
-      - CVE Reversing: methodology/cve-reversing-web-vulnerabilities.md
-      - Vulnerability Assessment: methodology/vulnerability-assessment.md
+      - Large-Scale Reconnaissance: methodology/large-scale-reconnaissance.md
+      - Client-Side Analysis: methodology/client-side-analysis.md
+  - Exploit Paths:
+      - CORS Credential Abuse: methodology/cors-vulnerability-analysis.md
       - OAuth Token Theft: methodology/oauth-token-theft.md
-      - OAuth Misconfigs for MCP/Agents: methodology/oauth-mcp-misconfig.md
-      - Exploitation: methodology/exploitation.md
-      - Post-Exploitation: methodology/post-exploitation.md
-  - Tools:
-      - Bastet Suite: tools/bastet-suite.md
-      - httpx: tools/httpx.md
-  - Checklists:
-      - Web Applications: checklists/web-applications.md
-      - Self-Hosted Git Forge Hardening: checklists/self-hosted-git-forge-hardening.md
-      - AWS Cognito Identity Pools: checklists/aws-cognito-identity-pools.md
-      - Malicious Package Response: checklists/malicious-package-response.md
-  - Best Practices:
-      - Reporting: best-practices/reporting.md
-      - Verification Before Reporting: best-practices/verification-before-reporting.md
-      - AI Safe Harbor and Report Quality: best-practices/ai-safe-harbor-and-report-quality.md
-      - Agent CI Hardening: best-practices/agent-ci-hardening.md
-      - Agent Tools Command Injection: best-practices/agent-tool-command-injection.md
-      - Agentic Browser Threat Model: best-practices/agentic-browser-threat-model.md
-      - Supply-Chain Malware Triage: best-practices/supply-chain-malware-triage.md
-  - Process:
-      - HackerOne Data Collection: process/hackerone-data-collection.md
-      - Reconnaissance Tools Setup: process/reconnaissance-tools-setup.md
+      - OAuth Misconfigs for MCP / Agents: methodology/oauth-mcp-misconfig.md
+      - CVE Reversing: methodology/cve-reversing-web-vulnerabilities.md
   - Templates:
       - Vulnerability Report: report-templates/vulnerability-report.md
   - Notes:

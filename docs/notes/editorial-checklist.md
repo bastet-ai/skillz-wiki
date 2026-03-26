@@ -8,20 +8,20 @@ Use this before publishing a new skill or major update.
 - [ ] Links are clickable Markdown links
 - [ ] Commands are reproducible and minimally scoped
 - [ ] Page is in the right section
-- [ ] Safety and scope limits are stated
+- [ ] Safety, scope, and authorization limits are stated
 
-## Skill quality
+## Operator quality
 
-- [ ] Trigger conditions are clear
-- [ ] Required inputs and prerequisites are listed
-- [ ] Output handling is explained
-- [ ] Failure modes or sharp edges are called out
-- [ ] Claims match observed behavior
+- [ ] Tool trigger conditions or exploit preconditions are clear
+- [ ] Required inputs, prerequisites, and environment assumptions are listed
+- [ ] Output handling and evidence capture are explained
+- [ ] Replay steps are specific enough to run again later
+- [ ] Claims match observed behavior and label any inference
 
 ## Maintenance
 
-- [ ] `mkdocs.yml` nav is updated
+- [ ] `mkdocs.yml` nav is updated when the page is first-class content
 - [ ] `docs/index.md` recent entries are updated if the addition is notable
-- [ ] `docs/feed.xml` and blog index are updated for major launches
+- [ ] `docs/feed.xml` and blog index are updated for major launches or major repositioning posts
 - [ ] `docs/notes/source-index.md` is extended if a new tool family is added
-- [ ] `docs/alerts/index.md` is updated when the alert landing page should highlight new material
+- [ ] Alert or mitigation-heavy pages are not promoted in nav unless the user explicitly wants that framing

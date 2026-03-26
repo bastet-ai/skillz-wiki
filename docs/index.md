@@ -4,26 +4,26 @@ title: Skillz Wiki
 
 # Skillz Wiki
 
-Agent-ready security tool skills, workflow playbooks, and reference notes.
+Agent-ready offensive security skills, recon workflows, and replayable exploit-path notes.
 
 ## Recent entries
 
-- [Trivy Embedded Malicious Code](alerts/2026-03-26-trivy-embedded-malicious-code-cve-2026-33634.md)
+- [HTTP Probing with httpx](skills/httpx.md)
 - [DNS Enumeration](skills/dns-enumeration.md)
 - [Nmap Scanning](skills/nmap-scanning.md)
-- [Reporting Best Practices](best-practices/reporting.md)
+- [OAuth Token Theft](methodology/oauth-token-theft.md)
 - [Launching Skillz Wiki](blog/2026-03-26-skillz-wiki-launch.md)
 
 ## What lives here
 
-- **Alerts**: incident notes, advisories, and threat references that feed defensive and research work
 - **Skills**: installable, tool-specific guides that agents can execute step by step
-- **Playbooks**: cross-tool methodology for reconnaissance, validation, exploitation, and cleanup
-- **Checklists**: compact review lists to keep common testing paths honest
-- **Best Practices**: reporting and evidence rules that hold up under review
-- **Process**: recurring workflows for data collection, triage, and maintenance
+- **Recon**: workflows for turning scope into a prioritized asset map
+- **Exploit Paths**: concrete attack chains that are specific enough to replay during authorized testing
+- **Templates**: reusable report skeletons and delivery formats
 - **Notes**: editorial guidance, taxonomy, and source tracking
-- **Blog**: short updates when major skills or playbooks land
+- **Blog**: short updates when major skills or exploit paths land
+
+Older alert and mitigation-oriented reference pages may remain in the repo, but the primary site surface is intentionally centered on pentesting, red-team, and bug-bounty operator workflows.
 
 ## How the skills are written
 

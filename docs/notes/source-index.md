@@ -6,6 +6,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - Nmap reference: https://nmap.org/book/man.html
 - Nmap NSE reference: https://nmap.org/nsedoc/
+- ProjectDiscovery httpx: https://github.com/projectdiscovery/httpx
 
 ## DNS and subdomain enumeration
 

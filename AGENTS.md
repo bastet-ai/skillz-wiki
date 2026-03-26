@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This repo is a public wiki and installable skill library for security tooling. Prefer durable, agent-ready guidance over generic documentation or one-off notes.
+This repo is a public wiki and installable skill library for pentesting, red-team, and bug-hunting workflows. Prefer durable, agent-ready guidance for recon tooling and replayable exploit validation over generic documentation or one-off notes.
 
 ## Agent workflow
 
@@ -28,17 +28,23 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Prefer concise steps over long narrative paragraphs.
 - Include prerequisites, inputs, command patterns, output handling, and safety notes on skill pages.
 - Separate confirmed behavior from inference or speculation.
+- De-emphasize triage, mitigation, and defensive advisory framing unless the user explicitly asks for it.
+
+## Collaborator preferences
+
+- Keep the public site centered on pentesting, red-team, and bug-bounty operator workflows.
+- Prefer recon tools and concrete exploit chains over defensive-response or mitigation content.
+- Favor proven, replayable pathways with explicit prerequisites, commands, and validation boundaries.
 
 ## Content structure
 
-- **Alerts**: incident notes, advisories, and threat references
 - **Skills**: installable, tool-specific guides for agents
-- **Playbooks**: cross-tool workflows for assessment phases
-- **Checklists**: compact validation passes before handoff or publication
-- **Best Practices**: reporting and evidence quality standards
-- **Process**: recurring research and operational workflows
+- **Recon**: cross-tool workflows for discovery, prioritization, and target shaping
+- **Exploit Paths**: specific, replayable attack chains for authorized validation
+- **Templates**: reusable reporting skeletons and output formats
 - **Notes**: taxonomy, source tracking, and editorial guidance
 - **Blog**: launch posts and major updates
+- Legacy alert or defensive-reference pages may remain in the repo, but they are not the main navigation model.
 
 ## MkDocs / GitHub Pages lessons learned
 
@@ -47,6 +53,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Keep the landing page updated with a manual "Recent entries" section.
 - Maintain `docs/feed.xml` manually when major launch posts or release-style updates are added.
 - The chosen custom domain is `skillz.wiki`; keep `mkdocs.yml`, `docs/feed.xml`, and `docs/CNAME` aligned with it.
+- Archived reference pages that stay outside the main nav will show up as informational "not included in nav" lines during `mkdocs build --strict`; that is expected while the public taxonomy stays narrower than the repo contents.
 - As of March 26, 2026, GitHub warns that `actions/checkout@v4`, `actions/configure-pages@v4`, `actions/setup-python@v5`, and `actions/upload-artifact@v4` are still on Node.js 20; revisit the workflow before GitHub's Node 24 switchover dates become urgent.
 
 ## Verified commands
@@ -64,7 +71,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Prefer one focused skill page per tool over sprawling kitchen-sink references.
 - Maintain `docs/notes/editorial-checklist.md` as the publishing gate.
 - Maintain `docs/notes/source-index.md` as the canonical source seed list.
-- The current taxonomy is `Alerts`, `Skills`, `Playbooks`, `Checklists`, `Best Practices`, `Process`, `Notes`, and `Blog`.
+- The current public taxonomy is `Skills`, `Recon`, `Exploit Paths`, `Templates`, `Notes`, and `Blog`.
 
 ## Security / attribution
 
