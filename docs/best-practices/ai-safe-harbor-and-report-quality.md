@@ -38,6 +38,7 @@ If you can’t reproduce it twice, it’s probably not ready.
 - “Vuln-shaped” output without proof
 - Overstated impact
 - Unsafe testing that violates policy or harms users
+- Code-only review that misses runtime/business-logic behavior
 
 ## Defender guidance
 
@@ -45,6 +46,8 @@ If you can’t reproduce it twice, it’s probably not ready.
 - Rate limit + require evidence.
 - Use structured intake forms and require minimal PoC.
 - Reward quality, not volume.
+- Require a validation step that exercises the running system when the claim depends on runtime behavior.
+- Treat AI findings as hypotheses until they survive reproducible testing.
 
 ## Source / inspiration
 
