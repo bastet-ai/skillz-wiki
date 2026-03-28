@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Dimensional Analysis for Audit Workflows](blog/2026-03-28-dimensional-analysis-for-audit-workflows.md)
 - [HTTP Probing with httpx](skills/httpx.md)
 - [DNS Enumeration](skills/dns-enumeration.md)
 - [Nmap Scanning](skills/nmap-scanning.md)
