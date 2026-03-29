@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [jsrsasign cryptographic validation failure and zero-input DoS](2026-03-29-jsrsasign-cryptographic-validation-and-dos-ghsa-w8q8-93cx-6h7r-ghsa-8g7p-jf3g-gxcp.md)
 - [OpenClaw ACP approval prompt ANSI escape sequence injection](2026-03-29-openclaw-ansi-escape-sequence-injection-ghsa-4hmj-39m8-jwc7.md)
 - [OpenClaw Telegram DM-scoped callback authorization bypass](2026-03-29-openclaw-dm-callback-auth-bypass-ghsa-j4c9-w69r-cw33.md)
 - [OpenClaw Synology Chat webhook token brute-force exposure](2026-03-29-openclaw-webhook-secret-guessing-ghsa-mf5g-6r6f-ghhm.md)
