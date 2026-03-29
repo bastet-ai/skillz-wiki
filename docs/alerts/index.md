@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenClaw ACP approval prompt ANSI escape sequence injection](2026-03-29-openclaw-ansi-escape-sequence-injection-ghsa-4hmj-39m8-jwc7.md)
+- [OpenClaw Telegram DM-scoped callback authorization bypass](2026-03-29-openclaw-dm-callback-auth-bypass-ghsa-j4c9-w69r-cw33.md)
+- [OpenClaw Synology Chat webhook token brute-force exposure](2026-03-29-openclaw-webhook-secret-guessing-ghsa-mf5g-6r6f-ghhm.md)
 - [OpenClaw Telegram webhook missing guess rate limiting](2026-03-27-openclaw-telegram-webhook-guess-rate-limit-missing-ghsa-vcx4-4qxg-mfp4.md)
 - [OpenClaw BlueBubbles group reactions bypass `requireMention`](2026-03-27-openclaw-bluebubbles-group-reactions-bypass-requiremention-ghsa-mw7w-g3mg-xqm7.md)
 - [OpenClaw Matrix verification notices bypass DM policy](2026-03-27-openclaw-matrix-verification-notices-dm-policy-bypass-ghsa-9wqx-g2cw-vc7r.md)
