@@ -8,12 +8,12 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Webhook Secrets Need Brute-Force Resistance](best-practices/webhook-secrets-bruteforce-resistance.md)
+- [Channel Policy Enforcement Must Happen Before Enqueueing](best-practices/channel-policy-enforcement.md)
 - [Dimensional Analysis for Audit Workflows](blog/2026-03-28-dimensional-analysis-for-audit-workflows.md)
 - [HTTP Probing with httpx](skills/httpx.md)
 - [DNS Enumeration](skills/dns-enumeration.md)
 - [Nmap Scanning](skills/nmap-scanning.md)
-- [OAuth Token Theft](methodology/oauth-token-theft.md)
-- [Launching Skillz Wiki](blog/2026-03-26-skillz-wiki-launch.md)
 
 ## What lives here
 

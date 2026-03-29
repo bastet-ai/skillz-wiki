@@ -64,7 +64,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 ## Maintenance rules
 
 - When adding a new skill or notable playbook, update:
-  - `mkdocs.yml` nav
+  - `mkdocs.yml` nav when the page belongs in the primary surface
   - `docs/index.md` recent entries when the addition is notable
   - `docs/blog/index.md` and `docs/feed.xml` for major launches
 - Keep page paths stable once they are linked publicly.
@@ -72,6 +72,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Maintain `docs/notes/editorial-checklist.md` as the publishing gate.
 - Maintain `docs/notes/source-index.md` as the canonical source seed list.
 - The current public taxonomy is `Skills`, `Recon`, `Exploit Paths`, `Templates`, `Notes`, and `Blog`.
+- For hourly news-driven updates, prefer short durable best-practice pages over alerts when the lesson generalizes beyond one advisory.
 
 ## Security / attribution
 
