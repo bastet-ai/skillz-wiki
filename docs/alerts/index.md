@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Mattermost account takeover substring matching flaw and login rate-limit DoS](2026-03-31-mattermost-account-takeover-and-login-dos-ghsa-fg35-5rf6-qg3g-ghsa-247x-7qw8-fp98.md)
 - [Malware in plain-crypto-js and axios](2026-03-31-malware-in-plain-crypto-js-and-axios-ghsa-2x9r-6wxq-hrr7-ghsa-fw8c-xr5c-95f9.md)
 - [Citrix NetScaler out-of-bounds read vulnerability](2026-03-30-citrix-netscaler-out-of-bounds-read-cve-2026-3055.md)
 - [Fleet team maintainer can transfer hosts from any team via missing source team authorization](2026-03-30-fleet-team-maintainer-can-transfer-hosts-ghsa-m2h6-4xpq-qw3m.md)
