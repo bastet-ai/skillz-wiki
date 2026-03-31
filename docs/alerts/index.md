@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Malware in plain-crypto-js and axios](2026-03-31-malware-in-plain-crypto-js-and-axios-ghsa-2x9r-6wxq-hrr7-ghsa-fw8c-xr5c-95f9.md)
 - [Citrix NetScaler out-of-bounds read vulnerability](2026-03-30-citrix-netscaler-out-of-bounds-read-cve-2026-3055.md)
 - [Fleet team maintainer can transfer hosts from any team via missing source team authorization](2026-03-30-fleet-team-maintainer-can-transfer-hosts-ghsa-m2h6-4xpq-qw3m.md)
 - [Forge signature forgery in RSA-PKCS due to ASN.1 extra field](2026-03-29-forge-signature-forgery-rsa-pkcs-asn1-extra-field-ghsa-ppp5-5v6c-4jwp.md)
