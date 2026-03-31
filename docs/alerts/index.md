@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Citrix NetScaler out-of-bounds read vulnerability](2026-03-30-citrix-netscaler-out-of-bounds-read-cve-2026-3055.md)
 - [Fleet team maintainer can transfer hosts from any team via missing source team authorization](2026-03-30-fleet-team-maintainer-can-transfer-hosts-ghsa-m2h6-4xpq-qw3m.md)
 - [Forge signature forgery in RSA-PKCS due to ASN.1 extra field](2026-03-29-forge-signature-forgery-rsa-pkcs-asn1-extra-field-ghsa-ppp5-5v6c-4jwp.md)
 - [jsrsasign DSA validation failure and zero-input DoS](2026-03-29-jsrsasign-dsa-validation-and-zero-input-dos-ghsa-w8q8-93cx-6h7r-ghsa-8g7p-jf3g-gxcp.md)

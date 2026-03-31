@@ -9,6 +9,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 ## Recent entries
 
 - [OpenClaw advisory alert bundle](alerts/index.md)
+- [Citrix NetScaler out-of-bounds read vulnerability](alerts/2026-03-30-citrix-netscaler-out-of-bounds-read-cve-2026-3055.md)
 - [Webhook Secrets Need Brute-Force Resistance](best-practices/webhook-secrets-bruteforce-resistance.md)
 - [Channel Policy Enforcement Must Happen Before Enqueueing](best-practices/channel-policy-enforcement.md)
 - [Dimensional Analysis for Audit Workflows](blog/2026-03-28-dimensional-analysis-for-audit-workflows.md)
