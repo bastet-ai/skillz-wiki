@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Browser Engine Memory-Safety Bugs Are RCE Until Proven Otherwise](best-practices/browser-engine-memory-safety.md)
 - [Mutation testing beats coverage theater](best-practices/mutation-testing-for-the-agentic-era.md)
 - [AI-Native Knowledge Systems Need Rules, Sandboxes, and a Maturity Ladder](best-practices/ai-native-knowledge-systems.md)
 - [OpenClaw advisory alert bundle](alerts/index.md)
