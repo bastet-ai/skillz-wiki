@@ -10,6 +10,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 - [AI-Native Knowledge Systems Need Rules, Sandboxes, and a Maturity Ladder](best-practices/ai-native-knowledge-systems.md)
 - [OpenClaw advisory alert bundle](alerts/index.md)
+- [SiYuan reflected XSS via SVG namespace-prefix bypass](alerts/2026-03-31-siyuan-reflected-xss-svg-namespace-prefix-bypass-ghsa-73g7-86qr-jrg3.md)
+- [@tinacms/graphql FilesystemBridge path validation bypass via symlinks or junctions](alerts/2026-03-31-tinacms-graphql-filesystembridge-symlink-junction-bypass-ghsa-g9c2-gf25-3x67.md)
 - [Mattermost account takeover substring matching flaw and login rate-limit DoS](alerts/2026-03-31-mattermost-account-takeover-and-login-dos-ghsa-fg35-5rf6-qg3g-ghsa-247x-7qw8-fp98.md)
 - [Citrix NetScaler out-of-bounds read vulnerability](alerts/2026-03-30-citrix-netscaler-out-of-bounds-read-cve-2026-3055.md)
 - [Webhook Secrets Need Brute-Force Resistance](best-practices/webhook-secrets-bruteforce-resistance.md)
