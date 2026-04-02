@@ -16,6 +16,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [@tinacms/graphql FilesystemBridge path validation bypass via symlinks or junctions](alerts/2026-03-31-tinacms-graphql-filesystembridge-symlink-junction-bypass-ghsa-g9c2-gf25-3x67.md)
 - [Mattermost account takeover substring matching flaw and login rate-limit DoS](alerts/2026-03-31-mattermost-account-takeover-and-login-dos-ghsa-fg35-5rf6-qg3g-ghsa-247x-7qw8-fp98.md)
 - [Citrix NetScaler out-of-bounds read vulnerability](alerts/2026-03-30-citrix-netscaler-out-of-bounds-read-cve-2026-3055.md)
+- [TrueConf Client download of code without integrity check](alerts/2026-04-02-trueconf-client-code-download-without-integrity-check-cve-2026-3502.md)
 - [Webhook Secrets Need Brute-Force Resistance](best-practices/webhook-secrets-bruteforce-resistance.md)
 - [Channel Policy Enforcement Must Happen Before Enqueueing](best-practices/channel-policy-enforcement.md)
 - [Dimensional Analysis for Audit Workflows](blog/2026-03-28-dimensional-analysis-for-audit-workflows.md)

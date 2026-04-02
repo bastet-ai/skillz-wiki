@@ -26,4 +26,5 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 - [OpenClaw Feishu raw card send surface can mint legacy card callbacks that bypass DM pairing](2026-03-29-openclaw-feishu-raw-card-send-surface-can-mint-legacy-card-callbacks-that-bypass-dm-pairing-ghsa-77w2-crqv-cmv3.md)
 - [OpenClaw Feishu webhook reads and parses unauthenticated request bodies before signature validation](2026-03-29-openclaw-feishu-webhook-reads-and-parses-unauthenticated-request-bodies-before-signature-validation-ghsa-3h52-cx59-c456.md)
 - [OpenClaw SSRF via unguarded configured base URLs in multiple channel extensions](2026-03-29-openclaw-ssrf-via-unguarded-configured-base-urls-ghsa-rhfg-j8jq-7v2h.md)
+- [TrueConf Client download of code without integrity check](2026-04-02-trueconf-client-code-download-without-integrity-check-cve-2026-3502.md)
 - [CISA KEV](cisa-kev.md)
