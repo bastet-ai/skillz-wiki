@@ -1,6 +1,6 @@
 # Mutation Testing Beats Coverage Theater
 
-**Date**: 2026-04-01  
+**Date**: 2026-04-02  
 **Source**: Trail of Bits, *Mutation testing for the agentic era*  
 **Status**: Durable guidance
 
@@ -10,7 +10,7 @@
 
 Code coverage is not proof that security-relevant behavior is tested. It only tells you that code executed, not that the test suite actually verified the right properties.
 
-Mutation testing is the better signal: introduce small bugs on purpose and see whether tests fail. If the mutant survives, the test suite missed a meaningful check.
+Mutation testing is the stronger signal: introduce small bugs on purpose and see whether tests fail. If the mutant survives, the suite missed a meaningful check.
 
 ---
 
@@ -20,10 +20,10 @@ High coverage can hide real gaps:
 
 - access control paths may execute without asserting authorization outcomes
 - input validation code may run without checking the dangerous edge case
-- crypto or parsing logic may be exercised while the security invariant remains untested
-- bug-fix tests may pass while nearby logic is still brittle
+- parsing or normalization logic may be exercised while the security invariant remains untested
+- regression tests may pass while nearby logic remains brittle
 
-For security reviews, coverage can be a comfort metric. Mutation testing is closer to a trust metric.
+For security reviews, coverage is a comfort metric. Mutation testing is closer to a trust metric.
 
 ---
 
@@ -57,7 +57,7 @@ Trail of Bits’ update is also a reminder that agents can help here if the work
 - store results in a persistent format so campaigns can resume
 - review survivors as evidence of weak assertions, not just noisy test failures
 
-The agent’s job is not to “make coverage high.” It is to expose the places where the test suite lies.
+The agent’s job is not to make coverage high. It is to expose the places where the test suite lies.
 
 ---
 
