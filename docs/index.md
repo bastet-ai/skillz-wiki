@@ -10,6 +10,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 - [Browser Engine Memory-Safety Bugs Are RCE Until Proven Otherwise](best-practices/browser-engine-memory-safety.md)
 - [Mutation Testing Beats Coverage Theater](best-practices/mutation-testing-for-the-agentic-era.md)
+- [MBA Obfuscation Needs Mechanical Simplification](best-practices/mba-obfuscation-mechanical-simplification.md)
 - [AI-Native Knowledge Systems Need Rules, Sandboxes, and a Maturity Ladder](best-practices/ai-native-knowledge-systems.md)
 - [OpenClaw advisory alert bundle](alerts/index.md)
 - [SiYuan reflected XSS via SVG namespace-prefix bypass](alerts/2026-03-31-siyuan-reflected-xss-svg-namespace-prefix-bypass-ghsa-73g7-86qr-jrg3.md)
