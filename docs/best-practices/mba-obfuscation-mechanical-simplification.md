@@ -1,6 +1,6 @@
 # MBA Obfuscation Needs Mechanical Simplification
 
-Trail of Bits released **CoBRA**, a tool that simplifies mixed Boolean-arithmetic (MBA) expressions across linear, semilinear, polynomial, and mixed forms.
+Trail of Bits released **CoBRA**, a tool that simplifies mixed Boolean-arithmetic (MBA) expressions across linear, semilinear, polynomial, and mixed forms. It is designed for real-world obfuscation, not just classroom identities: it classifies the expression, applies multiple simplification passes, and verifies the result before returning it.
 
 ## Durable takeaway
 
@@ -12,8 +12,10 @@ When code mixes arithmetic with bitwise operators, do not trust a handwritten si
 - Always pin the **bit width** before simplifying or comparing MBA expressions.
 - Prefer a tool that can:
   - classify the expression family
-  - simplify using multiple techniques
+  - simplify using multiple techniques and passes
   - verify the result against random inputs or an SMT solver
+- If you're building a deobfuscation pipeline, keep the simplifier cost-aware: only replace the original expression when the simplified form is actually smaller or clearer.
+- For expressions spanning multiple basic blocks or mixed product/bitwise structure, extract and simplify the smallest provable subexpressions first instead of trying to “read through” the obfuscation by eye.
 - If a simplifier cannot prove equivalence, report the expression as **unsupported** rather than guessing.
 
 ## Why this matters
