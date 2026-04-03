@@ -1,35 +1,96 @@
 # MBA Obfuscation Needs Mechanical Simplification
 
-Trail of Bits released **CoBRA**, a tool that simplifies mixed Boolean-arithmetic (MBA) expressions across linear, semilinear, polynomial, and mixed forms. It is designed for real-world obfuscation, not just classroom identities: it classifies the expression, applies multiple simplification passes, and verifies the result before returning it.
+**Date**: 2026-04-03  
+**Source**: Trail of Bits, *Simplifying MBA obfuscation with CoBRA*  
+**Status**: Durable guidance
 
-## Durable takeaway
+---
 
-When code mixes arithmetic with bitwise operators, do not trust a handwritten simplification unless you can verify it under the correct bit width. Many identities only hold because of modular wraparound.
+## Core lesson
+
+Mixed Boolean-arithmetic (MBA) obfuscation is not something you should simplify by eye unless you have pinned the bit width and can verify equivalence. The safe pattern is to classify the expression, apply mechanical simplification, and verify the result before trusting it.
+
+Trail of Bits’ CoBRA write-up reinforces a useful workflow: simplify in stages, choose the right technique for the expression family, and refuse to return an unproven result as fact.
+
+---
+
+## Why this matters for security work
+
+MBA patterns show up in:
+
+- malware and packers
+- software protection / obfuscation layers
+- reverse-engineering pipelines
+- deobfuscation tooling
+
+A wrong simplification can:
+
+- hide the real control flow
+- produce false deobfuscation results
+- break detection rules built from the wrong algebra
+- miss the effect of modular wraparound at a fixed bit width
+
+---
 
 ## Practical guidance
 
-- Treat expressions like `x + y`, `x ^ y`, `x & y`, and `x | y` as part of the same reasoning space when they appear together.
-- Always pin the **bit width** before simplifying or comparing MBA expressions.
-- Prefer a tool that can:
-  - classify the expression family
-  - simplify using multiple techniques and passes
-  - verify the result against random inputs or an SMT solver
-- If you're building a deobfuscation pipeline, keep the simplifier cost-aware: only replace the original expression when the simplified form is actually smaller or clearer.
-- For expressions spanning multiple basic blocks or mixed product/bitwise structure, extract and simplify the smallest provable subexpressions first instead of trying to “read through” the obfuscation by eye.
-- If a simplifier cannot prove equivalence, report the expression as **unsupported** rather than guessing.
+### 1) Always pin the bit width
 
-## Why this matters
+Before simplifying or comparing expressions, record:
 
-MBA obfuscation shows up in malware, packers, software protection, and deobfuscation pipelines. The risk is not just “hard-to-read code” — a bad simplification can hide the real control flow or produce a false deobfuscation.
+- operand bit width
+- signedness / wrap model
+- whether the expression is modular arithmetic or plain math
+
+Do not assume an identity holds outside the intended width.
+
+### 2) Classify before simplifying
+
+Treat MBA expressions as belonging to families such as:
+
+- linear
+- semilinear
+- polynomial
+- mixed
+
+The simplifier should decide which path to use, not the human eyeballing the formula.
+
+### 3) Prefer verified simplification
+
+A good pipeline should:
+
+- simplify using multiple techniques
+- compare candidate results by cost / readability
+- verify with random testing or an SMT solver
+- return **unsupported** when equivalence cannot be proven
+
+### 4) Simplify the smallest provable pieces first
+
+For expressions that span multiple operations or basic blocks:
+
+- extract subexpressions
+- simplify inner pieces first
+- then collapse the larger identity
+
+That is safer than trying to read through the obfuscation as a single step.
+
+### 5) Use the result as an analysis input, not a conclusion
+
+Even after simplification, treat the output as a hypothesis until it is validated against the original program semantics.
+
+---
 
 ## Operational pattern
 
 1. Extract the exact expression or IR fragment.
-2. Record the relevant bit width and overflow model.
+2. Record the bit width and overflow model.
 3. Run a mechanical simplifier.
-4. Verify the output with a solver or exhaustive spot checks.
+4. Verify equivalence.
 5. Only then turn the result into a detection rule or analysis note.
 
-## Tooling note
+---
 
-CoBRA is a good example of the right shape for this problem: simplify first, verify second, and never return an unproven result as fact.
+## References
+
+- Trail of Bits: <https://blog.trailofbits.com/2026/04/03/simplifying-mba-obfuscation-with-cobra/>
+- CoBRA: <https://github.com/trailofbits/CoBRA>
