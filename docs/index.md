@@ -8,6 +8,12 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [n8n XML/RCE, credential replay, MCP, variables, and Hosted Chat batch](alerts/2026-04-29-n8n-rce-credential-and-chat-auth-batch-ghsa.md)
+- [Admidio SSO, authorization, path traversal, and XSS batch](alerts/2026-04-29-admidio-sso-and-authorization-batch-ghsa.md)
+- [OpenClaw webchat local-file read and wildcard command-owner issues](alerts/2026-04-29-openclaw-webchat-local-file-and-command-owner-ghsa.md)
+- [InstructLab trust_remote_code execution and logs_dir path traversal](alerts/2026-04-29-instructlab-trust-remote-code-and-path-traversal-ghsa.md)
+- [marked tokenizer infinite-recursion OOM denial of service](alerts/2026-04-29-marked-tokenizer-recursion-dos-ghsa-6v9c-7cg6-27q7.md)
+- [Apache Camel Infinispan ProtoStream deserialization RCE](alerts/2026-04-29-camel-infinispan-deserialization-rce-ghsa-xfxp-ppx7-cqrp.md)
 - [PhpSpreadsheet IOFactory SSRF/RCE and row-index DoS batch](alerts/2026-04-29-phpspreadsheet-iofactory-ssrf-rce-and-row-dos-ghsa.md)
 - [Hyperledger Fabric SDK Java deserialization RCE](alerts/2026-04-29-hyperledger-fabric-sdk-java-deserialization-rce-ghsa-prf8-cf2x-rhx7.md)
 - [Nginx-UI cluster proxy SSRF to internal services](alerts/2026-04-29-nginx-ui-cluster-proxy-ssrf-ghsa-wr32-99hh-6f35.md)
