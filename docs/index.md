@@ -8,6 +8,12 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [PhpSpreadsheet IOFactory SSRF/RCE and row-index DoS batch](alerts/2026-04-29-phpspreadsheet-iofactory-ssrf-rce-and-row-dos-ghsa.md)
+- [Hyperledger Fabric SDK Java deserialization RCE](alerts/2026-04-29-hyperledger-fabric-sdk-java-deserialization-rce-ghsa-prf8-cf2x-rhx7.md)
+- [Nginx-UI cluster proxy SSRF to internal services](alerts/2026-04-29-nginx-ui-cluster-proxy-ssrf-ghsa-wr32-99hh-6f35.md)
+- [Spring Security servlet-path, issuer, and X.509 validation batch](alerts/2026-04-29-spring-security-servlet-path-and-issuer-validation-batch-ghsa.md)
+- [n8n database node SQL injection and MCP OAuth redirect batch](alerts/2026-04-29-n8n-database-node-sqli-and-mcp-oauth-redirect-ghsa.md)
+- [OpenTelemetry OneCollector exporter unbounded response body](alerts/2026-04-29-opentelemetry-onecollector-unbounded-response-ghsa-55m9-299j-53c7.md)
 - [OpenTelemetry Azure resource detector unbounded metadata response](alerts/2026-04-29-opentelemetry-azure-metadata-unbounded-response-ghsa-vc24-j8c5-2vw4.md)
 - [beets web UI stored XSS via raw metadata template interpolation](alerts/2026-04-29-beets-web-ui-stored-xss-ghsa-3gxm-wfjx-m847.md)
 - [Agent Runtime Trust Boundaries Need Final Guards](best-practices/agent-runtime-trust-boundaries.md)
