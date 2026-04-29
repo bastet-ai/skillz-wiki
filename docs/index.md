@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Agentic DAST Benchmarks Need Isolation, Reset, and Real Validation](best-practices/agentic-dast-benchmark-hygiene.md)
 - [KEV: ConnectWise ScreenConnect path traversal (CVE-2024-1708)](alerts/2026-04-28-connectwise-screenconnect-path-traversal-cve-2024-1708.md)
 - [KEV: Microsoft Windows Shell spoofing / protection failure (CVE-2026-32202)](alerts/2026-04-28-microsoft-windows-shell-spoofing-cve-2026-32202.md)
 - [Code Graphs Beat Lists for Security Analysis](best-practices/code-graphs-for-security-analysis.md)
