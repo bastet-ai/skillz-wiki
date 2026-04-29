@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Agent Runtime Trust Boundaries Need Final Guards](best-practices/agent-runtime-trust-boundaries.md)
 - [Fuzzing Harnesses Must Initialize Runtime Coverage Before the Driver Starts](best-practices/fuzzing-harness-runtime-initialization.md)
 - [AI Security Testing Needs Evidence, Bounds, and Audit Trails](best-practices/ai-security-testing-trust-requirements.md)
 - [CoreDNS TSIG authentication bypass on gRPC, QUIC, DoH, and DoH3](alerts/2026-04-29-coredns-tsig-auth-bypass-ghsa-vp29-5652-4fw9.md)
