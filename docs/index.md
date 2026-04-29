@@ -8,6 +8,13 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [CKAN DataStore SQL search unauthenticated SQL injection and authorization bypass](alerts/2026-04-29-ckan-datastore-search-sql-injection-ghsa-h7j7-3rx6-xvcg.md)
+- [uutils coreutils safety, symlink, and data-integrity batch](alerts/2026-04-29-uutils-coreutils-safety-and-data-integrity-batch-ghsa.md)
+- [Claude SDK local filesystem memory permissions](alerts/2026-04-29-claude-sdk-local-memory-file-permissions-ghsa-p7fg-763f-g4gf.md)
+- [i18next-http-middleware language/namespace traversal and SSRF](alerts/2026-04-29-i18next-http-middleware-language-namespace-traversal-ssrf-ghsa-jfgf-83c5-2c4m.md)
+- [pygeoapi OGC subscriber SSRF and STAC path traversal](alerts/2026-04-29-pygeoapi-ssrf-and-stac-path-traversal-ghsa.md)
+- [netfoil seccomp and domain-filter bypass](alerts/2026-04-29-netfoil-seccomp-and-domain-filter-bypass-ghsa.md)
+- [OpenClaw 2026.4.8 trust-boundary advisory batch](alerts/2026-04-29-openclaw-2026-4-8-trust-boundary-advisory-batch-ghsa.md)
 - [n8n XML/RCE, credential replay, MCP, variables, and Hosted Chat batch](alerts/2026-04-29-n8n-rce-credential-and-chat-auth-batch-ghsa.md)
 - [Admidio SSO, authorization, path traversal, and XSS batch](alerts/2026-04-29-admidio-sso-and-authorization-batch-ghsa.md)
 - [OpenClaw webchat local-file read and wildcard command-owner issues](alerts/2026-04-29-openclaw-webchat-local-file-and-command-owner-ghsa.md)
