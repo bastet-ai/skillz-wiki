@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [KEV: ConnectWise ScreenConnect path traversal](2026-04-28-connectwise-screenconnect-path-traversal-cve-2024-1708.md)
+- [KEV: Microsoft Windows Shell spoofing / protection failure](2026-04-28-microsoft-windows-shell-spoofing-cve-2026-32202.md)
 - [KEV: Marimo remote code execution vulnerability](2026-04-28-marimo-pre-auth-rce-cve-2026-39987.md)
 - [SiYuan reflected XSS via SVG namespace-prefix bypass](2026-03-31-siyuan-reflected-xss-svg-namespace-prefix-bypass-ghsa-73g7-86qr-jrg3.md)
 - [@tinacms/graphql FilesystemBridge path validation bypass via symlinks or junctions](2026-03-31-tinacms-graphql-filesystembridge-symlink-junction-bypass-ghsa-g9c2-gf25-3x67.md)
