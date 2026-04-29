@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [KEV: Marimo remote code execution vulnerability](2026-04-28-marimo-pre-auth-rce-cve-2026-39987.md)
 - [SiYuan reflected XSS via SVG namespace-prefix bypass](2026-03-31-siyuan-reflected-xss-svg-namespace-prefix-bypass-ghsa-73g7-86qr-jrg3.md)
 - [@tinacms/graphql FilesystemBridge path validation bypass via symlinks or junctions](2026-03-31-tinacms-graphql-filesystembridge-symlink-junction-bypass-ghsa-g9c2-gf25-3x67.md)
 - [Mattermost account takeover substring matching flaw and login rate-limit DoS](2026-03-31-mattermost-account-takeover-and-login-dos-ghsa-fg35-5rf6-qg3g-ghsa-247x-7qw8-fp98.md)
@@ -26,5 +27,6 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 - [OpenClaw Feishu raw card send surface can mint legacy card callbacks that bypass DM pairing](2026-03-29-openclaw-feishu-raw-card-send-surface-can-mint-legacy-card-callbacks-that-bypass-dm-pairing-ghsa-77w2-crqv-cmv3.md)
 - [OpenClaw Feishu webhook reads and parses unauthenticated request bodies before signature validation](2026-03-29-openclaw-feishu-webhook-reads-and-parses-unauthenticated-request-bodies-before-signature-validation-ghsa-3h52-cx59-c456.md)
 - [OpenClaw SSRF via unguarded configured base URLs in multiple channel extensions](2026-03-29-openclaw-ssrf-via-unguarded-configured-base-urls-ghsa-rhfg-j8jq-7v2h.md)
+- [OpenClaw Synology Chat webhook pre-auth rate-limit bypass enables brute-force guessing of webhook token](2026-03-29-openclaw-synology-chat-webhook-preauth-rate-limit-bypass-ghsa-mf5g-6r6f-ghhm.md)
 - [TrueConf Client download of code without integrity check](2026-04-02-trueconf-client-code-download-without-integrity-check-cve-2026-3502.md)
 - [CISA KEV](cisa-kev.md)

@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Code Graphs Beat Lists for Security Analysis](best-practices/code-graphs-for-security-analysis.md)
+- [KEV: Marimo remote code execution vulnerability (CVE-2026-39987)](alerts/2026-04-28-marimo-pre-auth-rce-cve-2026-39987.md)
 - [Browser Engine Memory-Safety Bugs Are RCE Until Proven Otherwise](best-practices/browser-engine-memory-safety.md)
 - [Mutation Testing Beats Coverage Theater](best-practices/mutation-testing-for-the-agentic-era.md)
 - [MBA Obfuscation Needs Mechanical Simplification](best-practices/mba-obfuscation-mechanical-simplification.md)
