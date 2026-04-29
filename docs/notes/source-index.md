@@ -2,6 +2,10 @@
 
 Maintain this as the seed list of official or primary sources for the tool families documented here.
 
+## Application security research
+
+- Trail of Bits Blog: https://blog.trailofbits.com/
+
 ## Network and service discovery
 
 - Nmap reference: https://nmap.org/book/man.html
