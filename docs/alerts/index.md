@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [CoreDNS TSIG authentication bypass on gRPC, QUIC, DoH, and DoH3](2026-04-29-coredns-tsig-auth-bypass-ghsa-vp29-5652-4fw9.md)
+- [AgentScope SSRF in multimodal and URL-fetch helpers](2026-04-29-agentscope-ssrf-multimodal-fetch-ghsa.md)
+- [PhpSpreadsheet HTML writer XSS via custom number format](2026-04-29-phpspreadsheet-html-writer-xss-ghsa-hrmw-qprp-wgmc.md)
 - [KEV: ConnectWise ScreenConnect path traversal](2026-04-28-connectwise-screenconnect-path-traversal-cve-2024-1708.md)
 - [KEV: Microsoft Windows Shell spoofing / protection failure](2026-04-28-microsoft-windows-shell-spoofing-cve-2026-32202.md)
 - [KEV: Marimo remote code execution vulnerability](2026-04-28-marimo-pre-auth-rce-cve-2026-39987.md)
