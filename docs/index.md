@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [AI Security Testing Needs Evidence, Bounds, and Audit Trails](best-practices/ai-security-testing-trust-requirements.md)
 - [CoreDNS TSIG authentication bypass on gRPC, QUIC, DoH, and DoH3](alerts/2026-04-29-coredns-tsig-auth-bypass-ghsa-vp29-5652-4fw9.md)
 - [AgentScope SSRF in multimodal and URL-fetch helpers](alerts/2026-04-29-agentscope-ssrf-multimodal-fetch-ghsa.md)
 - [PhpSpreadsheet HTML writer XSS via custom number format](alerts/2026-04-29-phpspreadsheet-html-writer-xss-ghsa-hrmw-qprp-wgmc.md)
