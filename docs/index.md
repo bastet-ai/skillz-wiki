@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [OpenTelemetry Azure resource detector unbounded metadata response](alerts/2026-04-29-opentelemetry-azure-metadata-unbounded-response-ghsa-vc24-j8c5-2vw4.md)
+- [beets web UI stored XSS via raw metadata template interpolation](alerts/2026-04-29-beets-web-ui-stored-xss-ghsa-3gxm-wfjx-m847.md)
 - [Agent Runtime Trust Boundaries Need Final Guards](best-practices/agent-runtime-trust-boundaries.md)
 - [Fuzzing Harnesses Must Initialize Runtime Coverage Before the Driver Starts](best-practices/fuzzing-harness-runtime-initialization.md)
 - [AI Security Testing Needs Evidence, Bounds, and Audit Trails](best-practices/ai-security-testing-trust-requirements.md)

@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenTelemetry Azure resource detector unbounded metadata response](2026-04-29-opentelemetry-azure-metadata-unbounded-response-ghsa-vc24-j8c5-2vw4.md)
+- [beets web UI stored XSS via raw metadata template interpolation](2026-04-29-beets-web-ui-stored-xss-ghsa-3gxm-wfjx-m847.md)
 - [CoreDNS TSIG authentication bypass on gRPC, QUIC, DoH, and DoH3](2026-04-29-coredns-tsig-auth-bypass-ghsa-vp29-5652-4fw9.md)
 - [AgentScope SSRF in multimodal and URL-fetch helpers](2026-04-29-agentscope-ssrf-multimodal-fetch-ghsa.md)
 - [PhpSpreadsheet HTML writer XSS via custom number format](2026-04-29-phpspreadsheet-html-writer-xss-ghsa-hrmw-qprp-wgmc.md)
