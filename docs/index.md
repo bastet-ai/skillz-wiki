@@ -8,6 +8,11 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [i18next localization path, URL, and prototype-pollution batch](alerts/2026-04-30-i18next-localization-path-url-and-prototype-pollution-batch-ghsa.md)
+- [OmniFaces CDNResourceHandler wildcard mapping EL injection](alerts/2026-04-30-omnifaces-cdnresourcehandler-el-injection-ghsa-vp6r-9m58-5xv8.md)
+- [Pillow PSD loader out-of-bounds write](alerts/2026-04-30-pillow-psd-out-of-bounds-write-ghsa-cfh3-3jmp-rvhc.md)
+- [ApostropheCMS SEO fields stored XSS and API data exposure](alerts/2026-04-30-apostrophecms-seo-fields-stored-xss-ghsa-855c-r2vq-c292.md)
+- [Inspektor Gadget buildOptions command injection](alerts/2026-04-30-inspektor-gadget-buildoptions-command-injection-ghsa-79qw-g77v-2vfh.md)
 - [Clerk combined authorization predicate bypass](alerts/2026-04-30-clerk-combined-authorization-bypass-ghsa-w24r-5266-9c3c.md)
 - [OpenTelemetry OTLP disk retry temp-blob injection](alerts/2026-04-30-opentelemetry-otlp-disk-retry-temp-blob-injection-ghsa-4625-4j76-fww9.md)
 - [AgentScope remote code injection in coding helpers](alerts/2026-04-30-agentscope-remote-code-injection-ghsa-cr24-fv3h-8cjm.md)
