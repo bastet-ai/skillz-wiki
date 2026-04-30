@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Sentry SAML, Patreon auth, and locize message-origin identity boundary batch](alerts/2026-04-30-sentry-patreon-locize-identity-boundary-batch-ghsa.md)
+- [Kirby, Arcane, Flarum, and PrestaShop admin/data-boundary batch](alerts/2026-04-30-kirby-arcane-flarum-prestashop-admin-data-boundary-batch-ghsa.md)
+- [Contrast, pgx, copilot-api, and verl execution-boundary batch](alerts/2026-04-30-contrast-pgx-copilot-verl-execution-boundary-batch-ghsa.md)
 - [i18next localization path, URL, and prototype-pollution batch](alerts/2026-04-30-i18next-localization-path-url-and-prototype-pollution-batch-ghsa.md)
 - [OmniFaces CDNResourceHandler wildcard mapping EL injection](alerts/2026-04-30-omnifaces-cdnresourcehandler-el-injection-ghsa-vp6r-9m58-5xv8.md)
 - [Pillow PSD loader out-of-bounds write](alerts/2026-04-30-pillow-psd-out-of-bounds-write-ghsa-cfh3-3jmp-rvhc.md)
