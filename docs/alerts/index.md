@@ -10,6 +10,11 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Clerk combined authorization predicate bypass](2026-04-30-clerk-combined-authorization-bypass-ghsa-w24r-5266-9c3c.md)
+- [OpenTelemetry OTLP disk retry temp-blob injection](2026-04-30-opentelemetry-otlp-disk-retry-temp-blob-injection-ghsa-4625-4j76-fww9.md)
+- [AgentScope remote code injection in coding helpers](2026-04-30-agentscope-remote-code-injection-ghsa-cr24-fv3h-8cjm.md)
+- [CI4MS stored DOM XSS account-takeover batch](2026-04-30-ci4ms-stored-xss-account-takeover-batch-ghsa.md)
+- [ydb-go-sdk transaction commit consistency bug](2026-04-30-ydb-go-sdk-transaction-commit-consistency-ghsa-28xx-pppm-vqff.md)
 - [n8n-mcp IPv4-mapped IPv6 SSRF in SDK URL validation](2026-04-30-n8n-mcp-ipv4-mapped-ipv6-ssrf-ghsa-56c3-vfp2-5qqj.md)
 - [Hickory DNS recursor sibling-zone cache poisoning](2026-04-30-hickory-dns-recursor-cache-poisoning-ghsa-83hf-93m4-rgwq.md)
 - [Gotenberg SSRF and ExifTool argument-injection batch](2026-04-30-gotenberg-ssrf-and-exiftool-argument-injection-batch-ghsa.md)
