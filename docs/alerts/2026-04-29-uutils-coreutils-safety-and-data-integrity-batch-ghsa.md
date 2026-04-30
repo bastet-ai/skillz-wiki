@@ -10,21 +10,26 @@ The batch includes several classes that matter when Rust `coreutils` replaces GN
 - `tail --follow=name` continuing to follow a replaced symlink and disclosing sensitive target files (`GHSA-xf75-659h-cgg5`).
 - `chmod`, `chown`, and `chgrp` recursive operations reporting success based only on the last processed file (`GHSA-vp6q-mv9j-j428`, `GHSA-88ch-q68x-36v7`).
 - `dd`, `comm`, `sort`, `cut`, and `mktemp` divergences that can hide write failures, corrupt non-UTF-8 bytes, drain FIFOs, crash pipelines, or create temp files in the current directory (`GHSA-wh8p-h9hw-x2mc`, `GHSA-rx8h-33gr-vhj9`, `GHSA-hwhf-8p2f-45wr`, `GHSA-f2jv-wjjc-2c94`, `GHSA-hj9r-8pfm-rmjj`, `GHSA-2cxp-xq3c-mjxx`).
+- `mkdir -m` creating directories with default umask permissions before a later `chmod`, exposing a short private-directory TOCTOU window (`GHSA-vf87-345h-9qhx`, CVE-2026-35353).
+- `cp -p` preserving setuid/setgid mode bits even when ownership preservation fails, unlike GNU `cp` guardrails (`GHSA-x2wv-9p67-mh9w`, CVE-2026-35350).
+- Cross-filesystem `mv` fallback copy/delete behavior failing to preserve source ownership, breaking backup and migration assumptions (`GHSA-957r-r8gc-vv3h`, CVE-2026-35351).
 
-Affected package: Rust `coreutils` / uutils. Fixed versions vary; upgrade to the newest release and verify each utility used by privileged automation.
+Affected package: Rust `coreutils` / uutils. Fixed versions vary; upgrade to the newest release and verify each utility used by privileged automation. Some late-added `cp`/`mv` ownership issues were still listed without a fixed version when checked.
 
-References: <https://github.com/advisories/GHSA-v762-x3cf-5mfg>, <https://github.com/advisories/GHSA-w8m4-4v35-v6x3>, <https://github.com/advisories/GHSA-9gqx-53gp-c8g3>
+References: <https://github.com/advisories/GHSA-v762-x3cf-5mfg>, <https://github.com/advisories/GHSA-w8m4-4v35-v6x3>, <https://github.com/advisories/GHSA-9gqx-53gp-c8g3>, <https://github.com/advisories/GHSA-vf87-345h-9qhx>, <https://github.com/advisories/GHSA-x2wv-9p67-mh9w>, <https://github.com/advisories/GHSA-957r-r8gc-vv3h>
 
 ## Triage
 1. Identify hosts, containers, CI images, and embedded appliances using uutils coreutils instead of GNU coreutils.
-2. Prioritize privileged scripts that call `rm -R`, `chmod -R`, `chown -R`, `chgrp -R`, `mkfifo`, `tail --follow=name`, `dd`, `sort --files0-from`, `comm`, or `mktemp`.
-3. Check whether scripts rely on GNU-compatible raw-byte behavior, `--preserve-root`, or recursive command exit codes for safety decisions.
+2. Prioritize privileged scripts that call `rm -R`, `chmod -R`, `chown -R`, `chgrp -R`, `mkfifo`, `mkdir -m`, `cp -p`, cross-filesystem `mv`, `tail --follow=name`, `dd`, `sort --files0-from`, `comm`, or `mktemp`.
+3. Check whether scripts rely on GNU-compatible raw-byte behavior, `--preserve-root`, recursive command exit codes, temporary private directories, or ownership/setuid/setgid preservation for safety decisions.
 
 ## Mitigation
 - Upgrade uutils coreutils to versions that include the relevant fixes; prefer a current release rather than per-utility patch assumptions.
 - In privileged automation, resolve paths with device/inode checks before destructive recursive actions.
 - Do not run log-following commands as root in attacker-writable directories.
 - Treat recursive ownership/permission command success as untrusted until stderr and target state are verified.
+- Create sensitive directories with atomic/private defaults where possible, and validate final mode/owner before writing secrets.
+- After `cp -p` or cross-device `mv` in privileged automation, assert owner, group, and special mode bits match policy before executing or exposing the destination.
 
 ## Detection ideas
 - Hunt for privileged `tail --follow=name` against directories writable by service users.
@@ -32,4 +37,4 @@ References: <https://github.com/advisories/GHSA-v762-x3cf-5mfg>, <https://github
 - Look for temp files unexpectedly created in working directories when `TMPDIR` is empty.
 
 ## Durable lesson
-Compatibility utilities are security boundaries when scripts use them for guardrails. Replacement implementations need adversarial parity tests, especially for symlink races, raw bytes, special files, exit codes, and destructive-operation protections.
+Compatibility utilities are security boundaries when scripts use them for guardrails. Replacement implementations need adversarial parity tests, especially for symlink races, raw bytes, special files, exit codes, special mode bits, ownership preservation, temporary-directory privacy, and destructive-operation protections.
