@@ -13,6 +13,10 @@ This section captures **durable, actionable guidance** triggered by noteworthy a
 
 ## Recent additions worth prioritizing
 
+- **CVE-2026-41940 — WebPros cPanel & WHM / WP2 authentication bypass**
+  - Emergency-priority hosting control-panel exposure with reported exploitation.
+  - Patch branch-specific fixed builds immediately and restrict WHM/cPanel management ports while validating compromise indicators.
+
 - **CVE-2024-1708 — ConnectWise ScreenConnect path traversal**
   - High-priority remote-management exposure.
   - Triage every internet-facing ScreenConnect deployment and isolate anything you cannot patch immediately.
