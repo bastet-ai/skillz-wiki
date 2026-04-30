@@ -8,6 +8,12 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [n8n-mcp IPv4-mapped IPv6 SSRF in SDK URL validation](alerts/2026-04-30-n8n-mcp-ipv4-mapped-ipv6-ssrf-ghsa-56c3-vfp2-5qqj.md)
+- [Hickory DNS recursor sibling-zone cache poisoning](alerts/2026-04-30-hickory-dns-recursor-cache-poisoning-ghsa-83hf-93m4-rgwq.md)
+- [Gotenberg SSRF and ExifTool argument-injection batch](alerts/2026-04-30-gotenberg-ssrf-and-exiftool-argument-injection-batch-ghsa.md)
+- [Jupyter Notebook CommandLinker token-theft XSS](alerts/2026-04-30-jupyter-commandlinker-token-theft-xss-ghsa-rch3-82jr-f9w9.md)
+- [Weblate backup-import SSRF and API token lifetime issues](alerts/2026-04-30-weblate-backup-import-ssrf-and-token-lifetime-ghsa.md)
+- [Silverpeas AdvancedSearch reflected XSS](alerts/2026-04-30-silverpeas-advancedsearch-reflected-xss-ghsa-vmj7-7xmm-4349.md)
 - [KEV: cPanel & WHM / WP2 authentication bypass (CVE-2026-41940)](alerts/2026-04-30-cpanel-whm-wp2-authentication-bypass-cve-2026-41940.md)
 - [Angular SSR forwarded-prefix open redirect and cache poisoning](alerts/2026-04-30-angular-ssr-forwarded-prefix-open-redirect-ghsa-vfx2-hv2g-xj5f.md)
 - [CKAN DataStore SQL search unauthenticated SQL injection and authorization bypass](alerts/2026-04-29-ckan-datastore-search-sql-injection-ghsa-h7j7-3rx6-xvcg.md)

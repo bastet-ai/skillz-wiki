@@ -22,13 +22,18 @@ The batch includes several classes that matter when Rust `coreutils` replaces GN
   - `install` unlinks an existing destination and recreates it without `O_EXCL`, allowing symlink swaps to overwrite arbitrary files during privileged installs (`GHSA-v24v-f45g-w7jf`).
   - `mkfifo` creates a FIFO and then path-`chmod`s it, allowing a symlink swap to redirect the permission change to another file (`GHSA-9gh9-hwpr-rvqq`).
 
+- Additional 2026-04-30 cut/env/chroot and path-safety updates:
+  - `chroot --userspec` resolves users through NSS after entering attacker-writable `NEWROOT` but before dropping root, allowing malicious `libnss_*.so.2` code execution as root on glibc systems (`GHSA-mh5c-xrmh-m794`, CVE-2026-35368).
+  - `cut`, `env`, and Unicode-handling divergences can mis-parse fields, mishandle encoding, or apply short-circuit behavior that differs from GNU assumptions (`GHSA-m2pg-c7m6-77pj`, `GHSA-532v-xp3f-837c`, `GHSA-5pv5-xh52-hvrp`, `GHSA-fhr3-xh3q-69w6`, `GHSA-5v4g-vw9x-h534`, `GHSA-xh5h-p8c5-4w4x`, `GHSA-vx9m-xjwf-8cqm`).
+  - More `cp`/`mv`/`install`/path workflows were updated for TOCTOU, symlink/link following, path traversal, permission preservation, and misleading UI/exit-state problems (`GHSA-6g8r-74qp-6859`, `GHSA-4wrp-79m8-9m9p`, `GHSA-wq63-vh5h-pr5p`, `GHSA-53gr-wmf4-8hh3`, `GHSA-q94g-3gcf-66x7`, `GHSA-5hgf-628x-mcqf`, `GHSA-gpcg-h6x2-c26p`, `GHSA-7259-cwhx-3xx3`, `GHSA-66fx-fqv6-5wwx`, `GHSA-m976-87wm-48fm`, `GHSA-vchc-9ggh-3236`, `GHSA-q6m9-xj2w-xmrc`, `GHSA-79rc-qpw3-jv92`, `GHSA-ggc5-46rg-mr4v`).
+
 Affected package: Rust `coreutils` / uutils. Fixed versions vary; upgrade to the newest release and verify each utility used by privileged automation. Some late-added `cp`/`mv` ownership issues were still listed without a fixed version when checked.
 
 References: <https://github.com/advisories/GHSA-v762-x3cf-5mfg>, <https://github.com/advisories/GHSA-w8m4-4v35-v6x3>, <https://github.com/advisories/GHSA-9gqx-53gp-c8g3>, <https://github.com/advisories/GHSA-vf87-345h-9qhx>, <https://github.com/advisories/GHSA-x2wv-9p67-mh9w>, <https://github.com/advisories/GHSA-957r-r8gc-vv3h>, <https://github.com/advisories/GHSA-hpfw-mqm3-33jh>, <https://github.com/advisories/GHSA-67hp-f6hq-2h6g>, <https://github.com/advisories/GHSA-m26v-hjq3-x245>, <https://github.com/advisories/GHSA-2m8x-mvfx-gwgj>, <https://github.com/advisories/GHSA-x4mc-mqm7-gg39>, <https://github.com/advisories/GHSA-v24v-f45g-w7jf>, <https://github.com/advisories/GHSA-9gh9-hwpr-rvqq>
 
 ## Triage
 1. Identify hosts, containers, CI images, and embedded appliances using uutils coreutils instead of GNU coreutils.
-2. Prioritize privileged scripts that call `rm -R`, `chmod -R`, `chown -R`, `chgrp -R`, `mkfifo`, `mkdir -m`, `cp -p`, `cp -R`, `cp --no-dereference`, `install`, `install -D`, cross-filesystem `mv`, `tail --follow=name`, `dd`, `sort --files0-from`, `comm`, or `mktemp`.
+2. Prioritize privileged scripts that call `rm -R`, `chmod -R`, `chown -R`, `chgrp -R`, `mkfifo`, `mkdir -m`, `cp -p`, `cp -R`, `cp --no-dereference`, `install`, `install -D`, cross-filesystem `mv`, `chroot --userspec`, `cut`, `env`, `tail --follow=name`, `dd`, `sort --files0-from`, `comm`, or `mktemp`.
 3. Check whether scripts rely on GNU-compatible raw-byte behavior, `--preserve-root`, recursive command exit codes, temporary private directories, or ownership/setuid/setgid preservation for safety decisions.
 
 ## Mitigation
@@ -38,7 +43,7 @@ References: <https://github.com/advisories/GHSA-v762-x3cf-5mfg>, <https://github
 - Treat recursive ownership/permission command success as untrusted until stderr and target state are verified.
 - Create sensitive directories and destination files with atomic/private defaults where possible, and validate final mode/owner before writing secrets.
 - Avoid path-based privileged copy/install operations in attacker-writable directories; prefer directory-file-descriptor anchored operations, no-follow opens, exclusive creation, and temporary-file-then-atomic-rename patterns.
-- After `cp -p`, recursive `cp`, `install`, `mkfifo`, or cross-device `mv` in privileged automation, assert owner, group, special mode bits, device-node semantics, xattrs, and final path inode match policy before executing or exposing the destination.
+- After `cp -p`, recursive `cp`, `install`, `mkfifo`, `chroot --userspec`, `cut`/`env` parsing, or cross-device `mv` in privileged automation, assert owner, group, special mode bits, device-node semantics, xattrs, and final path inode match policy before executing or exposing the destination.
 
 ## Detection ideas
 - Hunt for privileged `tail --follow=name` against directories writable by service users.
@@ -47,4 +52,4 @@ References: <https://github.com/advisories/GHSA-v762-x3cf-5mfg>, <https://github
 - Monitor privileged `cp`, `install`, `mv`, and `mkfifo` use in writable parent directories, especially when followed by unexpected reads, chmods, xattr changes, or writes outside the intended tree.
 
 ## Durable lesson
-Compatibility utilities are security boundaries when scripts use them for guardrails. Replacement implementations need adversarial parity tests, especially for symlink races, path re-resolution, raw bytes, special files and device nodes, exit codes, special mode bits, ownership/xattr preservation, temporary-directory privacy, and destructive-operation protections.
+Compatibility utilities are security boundaries when scripts use them for guardrails. Replacement implementations need adversarial parity tests, especially for symlink races, path re-resolution, raw bytes, special files and device nodes, exit codes, special mode bits, ownership/xattr preservation, temporary-directory privacy, chroot/NSS privilege transitions, and destructive-operation protections.
