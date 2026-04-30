@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Angular SSR forwarded-prefix open redirect and cache poisoning](2026-04-30-angular-ssr-forwarded-prefix-open-redirect-ghsa-vfx2-hv2g-xj5f.md)
 - [CKAN DataStore SQL search unauthenticated SQL injection and authorization bypass](2026-04-29-ckan-datastore-search-sql-injection-ghsa-h7j7-3rx6-xvcg.md)
 - [uutils coreutils safety, symlink, and data-integrity batch](2026-04-29-uutils-coreutils-safety-and-data-integrity-batch-ghsa.md)
 - [Claude SDK local filesystem memory permissions](2026-04-29-claude-sdk-local-memory-file-permissions-ghsa-p7fg-763f-g4gf.md)
