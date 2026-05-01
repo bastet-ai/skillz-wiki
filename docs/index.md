@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [KEV: Linux kernel CopyFail AF_ALG local privilege escalation (CVE-2026-31431)](alerts/2026-05-01-linux-kernel-copyfail-algif-aead-cve-2026-31431.md)
+- [pyasn1 ASN.1 decoder resource-exhaustion DoS](best-practices/pyasn1-relative-oid-dos.md)
 - [Avo action-class access control bypass](alerts/2026-05-01-avo-action-class-access-control-bypass-ghsa-qc5p-3mg5-9fh8.md)
 - [Malware in intercom-client npm package](alerts/2026-04-30-intercom-client-npm-malware-ghsa-4594-wxqv-j3pm.md)
 - [Sentry SAML, Patreon auth, and locize message-origin identity boundary batch](alerts/2026-04-30-sentry-patreon-locize-identity-boundary-batch-ghsa.md)
