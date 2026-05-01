@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Avo action-class access control bypass](alerts/2026-05-01-avo-action-class-access-control-bypass-ghsa-qc5p-3mg5-9fh8.md)
 - [Malware in intercom-client npm package](alerts/2026-04-30-intercom-client-npm-malware-ghsa-4594-wxqv-j3pm.md)
 - [Sentry SAML, Patreon auth, and locize message-origin identity boundary batch](alerts/2026-04-30-sentry-patreon-locize-identity-boundary-batch-ghsa.md)
 - [Kirby, Arcane, Flarum, and PrestaShop admin/data-boundary batch](alerts/2026-04-30-kirby-arcane-flarum-prestashop-admin-data-boundary-batch-ghsa.md)

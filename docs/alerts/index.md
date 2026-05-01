@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Avo action-class access control bypass](2026-05-01-avo-action-class-access-control-bypass-ghsa-qc5p-3mg5-9fh8.md)
 - [Malware in intercom-client npm package](2026-04-30-intercom-client-npm-malware-ghsa-4594-wxqv-j3pm.md)
 - [Sentry SAML, Patreon auth, and locize message-origin identity boundary batch](2026-04-30-sentry-patreon-locize-identity-boundary-batch-ghsa.md)
 - [Kirby, Arcane, Flarum, and PrestaShop admin/data-boundary batch](2026-04-30-kirby-arcane-flarum-prestashop-admin-data-boundary-batch-ghsa.md)
