@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Config provenance and query-validation boundary batch](alerts/2026-05-04-config-provenance-and-query-validation-boundary-batch-ghsa.md)
 - [Runtime package and build execution-boundary batch](alerts/2026-05-04-runtime-package-and-build-execution-boundary-batch-ghsa.md)
 - [Network client, proxy, and auth-boundary batch](alerts/2026-05-04-network-client-proxy-and-auth-boundary-batch-ghsa.md)
 - [Admin, data, and filesystem-boundary batch](alerts/2026-05-04-admin-data-and-filesystem-boundary-batch-ghsa.md)
