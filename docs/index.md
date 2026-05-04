@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Quarkus, OpenMRS, and Incus path/import boundary batch](alerts/2026-05-04-quarkus-openmrs-incus-path-and-import-boundary-batch-ghsa.md)
 - [VM2, Incus, OpenClaw, and fleet telemetry boundary batch](alerts/2026-05-04-vm2-incus-openclaw-telemetry-boundary-batch-ghsa.md)
 - [Jetty URI parser differential parsing](alerts/2026-05-04-jetty-uri-parser-differential-parsing-ghsa-wjpw-4j6x-6rwh.md)
 - [npm malware wave in Web3, UI, and banking-scoped packages](alerts/2026-05-03-npm-malware-web3-ui-and-bank-package-wave-ghsa.md)
