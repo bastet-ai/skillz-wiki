@@ -10,6 +10,11 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Runtime package and build execution-boundary batch](2026-05-04-runtime-package-and-build-execution-boundary-batch-ghsa.md)
+- [Network client, proxy, and auth-boundary batch](2026-05-04-network-client-proxy-and-auth-boundary-batch-ghsa.md)
+- [Admin, data, and filesystem-boundary batch](2026-05-04-admin-data-and-filesystem-boundary-batch-ghsa.md)
+- [Malicious crates removed from crates.io](2026-05-04-malicious-crates-and-ecosystem-removal-ghsa.md)
+
 - [OpenClaw gateway, media, and filesystem boundary batch](2026-05-04-openclaw-gateway-media-filesystem-boundary-batch-ghsa.md)
 - [Template, SQL, and API boundary batch](2026-05-04-template-sql-and-api-boundary-batch-ghsa.md)
 - [Web app SSRF, auth, and state-boundary batch](2026-05-04-web-app-ssrf-auth-and-state-boundary-batch-ghsa.md)
