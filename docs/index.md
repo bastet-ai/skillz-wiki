@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Jetty URI parser differential parsing](alerts/2026-05-04-jetty-uri-parser-differential-parsing-ghsa-wjpw-4j6x-6rwh.md)
 - [npm malware wave in Web3, UI, and banking-scoped packages](alerts/2026-05-03-npm-malware-web3-ui-and-bank-package-wave-ghsa.md)
 - [KEV: Linux kernel CopyFail AF_ALG local privilege escalation (CVE-2026-31431)](alerts/2026-05-01-linux-kernel-copyfail-algif-aead-cve-2026-31431.md)
 - [pyasn1 ASN.1 decoder resource-exhaustion DoS](best-practices/pyasn1-relative-oid-dos.md)
