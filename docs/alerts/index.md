@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [npm malware wave in Web3, UI, and banking-scoped packages](2026-05-03-npm-malware-web3-ui-and-bank-package-wave-ghsa.md)
 - [KEV: Linux kernel CopyFail AF_ALG local privilege escalation](2026-05-01-linux-kernel-copyfail-algif-aead-cve-2026-31431.md)
 - [Avo action-class access control bypass](2026-05-01-avo-action-class-access-control-bypass-ghsa-qc5p-3mg5-9fh8.md)
 - [Malware in intercom-client npm package](2026-04-30-intercom-client-npm-malware-ghsa-4594-wxqv-j3pm.md)
