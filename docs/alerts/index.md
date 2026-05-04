@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenClaw gateway, media, and filesystem boundary batch](2026-05-04-openclaw-gateway-media-filesystem-boundary-batch-ghsa.md)
+- [Template, SQL, and API boundary batch](2026-05-04-template-sql-and-api-boundary-batch-ghsa.md)
+- [Web app SSRF, auth, and state-boundary batch](2026-05-04-web-app-ssrf-auth-and-state-boundary-batch-ghsa.md)
+- [Pillow, russh, and parser resource-boundary batch](2026-05-04-pillow-russh-parser-resource-boundary-batch-ghsa.md)
 - [Argo Workflows auth, resource, and secret-boundary batch](2026-05-04-argo-workflows-auth-resource-boundary-batch-ghsa.md)
 - [OpenC3, Dgraph, and Glances data-boundary batch](2026-05-04-openc3-dgraph-glances-data-boundary-batch-ghsa.md)
 - [Build, file, and runtime execution-boundary batch](2026-05-04-build-file-runtime-execution-boundary-batch-ghsa.md)
