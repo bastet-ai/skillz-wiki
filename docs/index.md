@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Argo Workflows auth, resource, and secret-boundary batch](alerts/2026-05-04-argo-workflows-auth-resource-boundary-batch-ghsa.md)
+- [OpenC3, Dgraph, and Glances data-boundary batch](alerts/2026-05-04-openc3-dgraph-glances-data-boundary-batch-ghsa.md)
+- [Build, file, and runtime execution-boundary batch](alerts/2026-05-04-build-file-runtime-execution-boundary-batch-ghsa.md)
+- [Kirby, OpenMRS, and Incus admin/import boundary batch](alerts/2026-05-04-kirby-openmrs-incus-admin-import-boundary-batch-ghsa.md)
 - [Quarkus, OpenMRS, and Incus path/import boundary batch](alerts/2026-05-04-quarkus-openmrs-incus-path-and-import-boundary-batch-ghsa.md)
 - [VM2, Incus, OpenClaw, and fleet telemetry boundary batch](alerts/2026-05-04-vm2-incus-openclaw-telemetry-boundary-batch-ghsa.md)
 - [Jetty URI parser differential parsing](alerts/2026-05-04-jetty-uri-parser-differential-parsing-ghsa-wjpw-4j6x-6rwh.md)

@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Argo Workflows auth, resource, and secret-boundary batch](2026-05-04-argo-workflows-auth-resource-boundary-batch-ghsa.md)
+- [OpenC3, Dgraph, and Glances data-boundary batch](2026-05-04-openc3-dgraph-glances-data-boundary-batch-ghsa.md)
+- [Build, file, and runtime execution-boundary batch](2026-05-04-build-file-runtime-execution-boundary-batch-ghsa.md)
+- [Kirby, OpenMRS, and Incus admin/import boundary batch](2026-05-04-kirby-openmrs-incus-admin-import-boundary-batch-ghsa.md)
 - [Quarkus, OpenMRS, and Incus path/import boundary batch](2026-05-04-quarkus-openmrs-incus-path-and-import-boundary-batch-ghsa.md)
 - [VM2, Incus, OpenClaw, and fleet telemetry boundary batch](2026-05-04-vm2-incus-openclaw-telemetry-boundary-batch-ghsa.md)
 - [Jetty URI parser differential parsing](2026-05-04-jetty-uri-parser-differential-parsing-ghsa-wjpw-4j6x-6rwh.md)
