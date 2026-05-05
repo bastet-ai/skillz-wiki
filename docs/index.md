@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [uuid caller-provided buffer boundary check](alerts/2026-05-05-uuid-buffer-boundary-ghsa-w5hq-g745-h8pq.md)
 - [OpenClaw operator, browser, and channel boundary batch](alerts/2026-05-05-openclaw-operator-and-channel-boundary-batch-ghsa.md)
 - [C/C++ review must model API footguns and type contracts](best-practices/c-cpp-review-gotchas.md)
 - [Axios prototype-pollution client-boundary batch](alerts/2026-05-05-axios-prototype-pollution-client-boundary-batch-ghsa.md)
