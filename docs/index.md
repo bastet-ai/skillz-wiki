@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Jupyter, VM2, and token-type boundary batch](alerts/2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md)
 - [MinIO, Ray, and Kirby execution/storage boundary batch](alerts/2026-05-05-minio-ray-kirby-execution-and-storage-boundary-batch-ghsa.md)
 - [pypdf parser resource-boundary batch](alerts/2026-05-05-pypdf-parser-resource-boundary-batch-ghsa.md)
 - [Rclone, Netmaker, and Camel control-plane boundary batch](alerts/2026-05-05-rclone-netmaker-camel-control-plane-boundary-batch-ghsa.md)
