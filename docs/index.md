@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [C/C++ review must model API footguns and type contracts](best-practices/c-cpp-review-gotchas.md)
 - [Axios prototype-pollution client-boundary batch](alerts/2026-05-05-axios-prototype-pollution-client-boundary-batch-ghsa.md)
 - [Apache, observability, and MCP boundary batch](alerts/2026-05-05-apache-observability-and-mcp-boundary-batch-ghsa.md)
 
