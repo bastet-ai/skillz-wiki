@@ -12,6 +12,11 @@
 - **Invisible JSON response tampering via `parseReviver`** — `axios >= 1.0.0, < 1.15.2` can inherit a polluted `parseReviver` and silently mutate parsed JSON. Fixed in 1.15.2. Reference: <https://github.com/advisories/GHSA-3w6x-2g7m-8v23>.
 - **Read-side HTTP-adapter credential injection and request hijacking** — `axios >= 1.0.0, < 1.15.2` had additional prototype-read gadgets in the HTTP adapter. Fixed in 1.15.2. Reference: <https://github.com/advisories/GHSA-q8qp-cvcw-x6jj>.
 - **Null-byte injection through reverse encoding in `AxiosURLSearchParams`** — `axios >= 1.0.0, < 1.15.1` and `<= 0.31.0` can encode values in ways that reintroduce null-byte semantics across downstream parsers. Fixed in 1.15.1 and 0.31.1. Reference: <https://github.com/advisories/GHSA-xhjh-pmcv-23jw>.
+- **Multipart body CRLF injection via `Blob.type`** — `axios >= 1.0.0, < 1.15.1` can interpolate unsanitized MIME types into multipart part headers, letting attacker-controlled file metadata inject additional form-data part headers in Node proxy/upload flows. Fixed in 1.15.1. Reference: <https://github.com/advisories/GHSA-445q-vr5w-6q77>.
+- **Additional `no_proxy` alias bypass** — `axios >= 1.0.0, < 1.15.1` and `<= 0.31.0` can route loopback aliases such as `127.0.0.1`, `[::1]`, or `localhost` through a configured proxy when only one equivalent is listed in `no_proxy`. Fixed in 1.15.1 and 0.31.1. Reference: <https://github.com/advisories/GHSA-m7pr-hjqh-92cm>.
+- **Unbounded `toFormData` recursion** — deeply nested attacker-controlled request data or params can exhaust the Node.js call stack in Axios form serialization. Affects `axios >= 1.0.0, < 1.15.1` and `<= 0.31.0`; fixed in 1.15.1 and 0.31.1. Reference: <https://github.com/advisories/GHSA-62hf-57xw-28j9>.
+- **Streamed upload `maxBodyLength` bypass** — Node HTTP-adapter streamed request bodies can bypass `maxBodyLength` when `maxRedirects: 0` selects the native transport path. Affects `axios >= 1.0.0, < 1.15.1` and `<= 0.31.0`; fixed in 1.15.1 and 0.31.1. Reference: <https://github.com/advisories/GHSA-5c9x-8gcm-mpgx>.
+- **Streamed response `maxContentLength` bypass** — `responseType: 'stream'` returns the stream before enforcing `maxContentLength`, so callers can consume unbounded responses despite configured limits. Affects `axios >= 1.0.0, < 1.15.1` and `<= 0.31.0`; fixed in 1.15.1 and 0.31.1. Reference: <https://github.com/advisories/GHSA-vf2m-468p-8v99>.
 
 ## Why this is durable
 
@@ -26,6 +31,8 @@ HTTP clients are especially sensitive because they sit between application autho
 3. Search dependency graphs for known prototype-pollution sources and treat those findings as potential Axios-gadget exposure, not as isolated low-severity bugs.
 4. Review browser Axios calls that rely on cookies, XSRF tokens, or same-origin defaults; verify cross-origin requests cannot inherit `withXSRFToken` or credential-like config.
 5. Review server-side Axios calls to internal services, metadata endpoints, admin APIs, and signed upstreams for proxy, header, and status-code trust assumptions.
+6. Treat Axios size limits as advisory until patched when using Node streams; enforce upload/download byte caps in the stream pipeline or at the reverse-proxy/service-mesh layer.
+7. For upload proxy services, reject CRLF and unexpected control characters in file MIME types before building multipart requests.
 
 ## Hunt ideas
 
@@ -33,6 +40,8 @@ HTTP clients are especially sensitive because they sit between application autho
 - In browser telemetry, look for cross-origin Axios requests that include XSRF headers or cookies where the call site did not explicitly opt in.
 - Add canary tests that pollute `Object.prototype` with representative keys (`getHeaders`, `withXSRFToken`, `validateStatus`, `parseReviver`, proxy fields) and assert client behavior is unchanged.
 - Trace code paths where response status controls authorization, payment, provisioning, or workflow transitions; make success criteria explicit instead of inheriting Axios defaults.
+- Find Axios calls using `responseType: 'stream'`, streamed request bodies, or `maxRedirects: 0`; test that configured body/response limits are enforced before data reaches downstream consumers.
+- Search upload proxy logs for multipart part headers containing unexpected line breaks, duplicate `Content-Disposition`, or attacker-supplied `Content-Type` metadata.
 
 ## Durable controls
 
@@ -41,6 +50,8 @@ HTTP clients are especially sensitive because they sit between application autho
 - Use explicit allowlists for outbound destinations, proxy use, and credential-bearing headers at the egress layer, not only in client-library config.
 - Normalize loopback, IPv4-mapped IPv6, integer/octal/hex IPv4, DNS rebinding, and private-range forms before proxy or SSRF policy decisions.
 - Treat response parsers and status mappers as security-sensitive code; make JSON revivers and acceptable status ranges local, typed, and non-inheritable.
+- Normalize all proxy-bypass policy through one resolver that compares canonical host identities and CIDR ranges, not raw strings from environment variables.
+- Put independent byte counters around streamed uploads and downloads; do not depend solely on HTTP-client convenience limits for resource boundaries.
 
 ## Operator lesson
 
