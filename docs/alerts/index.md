@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [CMS, import, and deserialization boundary batch](2026-05-05-cms-import-and-deserialization-boundary-batch-ghsa.md)
+- [Agent runtime and project-file boundary batch](2026-05-05-agent-runtime-and-project-file-boundary-batch-ghsa.md)
+- [Identity, admin, and session-boundary batch](2026-05-05-identity-admin-and-session-boundary-batch-ghsa.md)
+- [Network, parser, render, and resource-boundary batch](2026-05-05-network-parser-render-resource-boundary-batch-ghsa.md)
 - [Agent, Git, and file execution-boundary batch](2026-05-05-agent-git-and-file-execution-boundary-batch-ghsa.md)
 - [SSRF, redirect, and render-boundary batch](2026-05-05-ssrf-redirect-and-render-boundary-batch-ghsa.md)
 - [Storage, admin, session, and data-boundary batch](2026-05-05-storage-admin-session-and-data-boundary-batch-ghsa.md)
