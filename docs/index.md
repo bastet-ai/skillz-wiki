@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Grav and AVideo web-platform boundary batch](alerts/2026-05-05-grav-avideo-web-platform-boundary-batch-ghsa.md)
+- [Integration auth and deserialization boundary batch](alerts/2026-05-05-integration-auth-and-deserialization-boundary-batch-ghsa.md)
+- [CI, agent, stream, and file-boundary batch](alerts/2026-05-05-ci-agent-stream-and-file-boundary-batch-ghsa.md)
+- [Parser, render, and resource-budget boundary batch](alerts/2026-05-05-parser-render-and-resource-budget-boundary-batch-ghsa.md)
 - [CMS, import, and deserialization boundary batch](alerts/2026-05-05-cms-import-and-deserialization-boundary-batch-ghsa.md)
 - [Agent runtime and project-file boundary batch](alerts/2026-05-05-agent-runtime-and-project-file-boundary-batch-ghsa.md)
 - [Identity, admin, and session-boundary batch](alerts/2026-05-05-identity-admin-and-session-boundary-batch-ghsa.md)
