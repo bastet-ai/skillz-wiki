@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [AVideo platform trust-boundary batch](alerts/2026-05-05-avideo-platform-trust-boundary-batch-ghsa.md)
+- [Agent, file, SSRF, and render-boundary batch](alerts/2026-05-05-agent-file-ssrf-and-render-boundary-batch-ghsa.md)
+- [Proxy, metadata, and token-boundary batch](alerts/2026-05-05-proxy-metadata-and-token-boundary-batch-ghsa.md)
+- [OpenClaw config, env, and secret-boundary batch](alerts/2026-05-05-openclaw-config-env-and-secret-boundary-batch-ghsa.md)
 - [App endpoint auth and secret-boundary batch](alerts/2026-05-05-app-endpoint-auth-and-secret-boundary-batch-ghsa.md)
 - [Visibility, parser, and retention-boundary batch](alerts/2026-05-05-visibility-parser-and-retention-boundary-batch-ghsa.md)
 - [Render, route, and client-input boundary batch](alerts/2026-05-05-render-route-and-client-input-boundary-batch-ghsa.md)
