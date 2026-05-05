@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenClaw operator, browser, and channel boundary batch](2026-05-05-openclaw-operator-and-channel-boundary-batch-ghsa.md)
 - [Axios prototype-pollution client-boundary batch](2026-05-05-axios-prototype-pollution-client-boundary-batch-ghsa.md)
 - [Apache, observability, and MCP boundary batch](2026-05-05-apache-observability-and-mcp-boundary-batch-ghsa.md)
 
