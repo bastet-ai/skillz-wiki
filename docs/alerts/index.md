@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Agent, Git, and file execution-boundary batch](2026-05-05-agent-git-and-file-execution-boundary-batch-ghsa.md)
+- [SSRF, redirect, and render-boundary batch](2026-05-05-ssrf-redirect-and-render-boundary-batch-ghsa.md)
+- [Storage, admin, session, and data-boundary batch](2026-05-05-storage-admin-session-and-data-boundary-batch-ghsa.md)
+- [Observability, database, and resource-boundary batch](2026-05-05-observability-database-and-resource-boundary-batch-ghsa.md)
 - [AVideo platform trust-boundary batch](2026-05-05-avideo-platform-trust-boundary-batch-ghsa.md)
 - [Agent, file, SSRF, and render-boundary batch](2026-05-05-agent-file-ssrf-and-render-boundary-batch-ghsa.md)
 - [Proxy, metadata, and token-boundary batch](2026-05-05-proxy-metadata-and-token-boundary-batch-ghsa.md)
