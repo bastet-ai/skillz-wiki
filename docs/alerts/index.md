@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Axios prototype-pollution client-boundary batch](2026-05-05-axios-prototype-pollution-client-boundary-batch-ghsa.md)
+- [Apache, observability, and MCP boundary batch](2026-05-05-apache-observability-and-mcp-boundary-batch-ghsa.md)
+
 - [Config provenance and query-validation boundary batch](2026-05-04-config-provenance-and-query-validation-boundary-batch-ghsa.md)
 - [Runtime package and build execution-boundary batch](2026-05-04-runtime-package-and-build-execution-boundary-batch-ghsa.md)
 - [Network client, proxy, and auth-boundary batch](2026-05-04-network-client-proxy-and-auth-boundary-batch-ghsa.md)

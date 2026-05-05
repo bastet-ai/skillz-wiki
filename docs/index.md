@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Axios prototype-pollution client-boundary batch](alerts/2026-05-05-axios-prototype-pollution-client-boundary-batch-ghsa.md)
+- [Apache, observability, and MCP boundary batch](alerts/2026-05-05-apache-observability-and-mcp-boundary-batch-ghsa.md)
+
 - [Config provenance and query-validation boundary batch](alerts/2026-05-04-config-provenance-and-query-validation-boundary-batch-ghsa.md)
 - [Runtime package and build execution-boundary batch](alerts/2026-05-04-runtime-package-and-build-execution-boundary-batch-ghsa.md)
 - [Network client, proxy, and auth-boundary batch](alerts/2026-05-04-network-client-proxy-and-auth-boundary-batch-ghsa.md)
