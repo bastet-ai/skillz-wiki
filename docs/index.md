@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [App endpoint auth and secret-boundary batch](alerts/2026-05-05-app-endpoint-auth-and-secret-boundary-batch-ghsa.md)
+- [Visibility, parser, and retention-boundary batch](alerts/2026-05-05-visibility-parser-and-retention-boundary-batch-ghsa.md)
+- [Render, route, and client-input boundary batch](alerts/2026-05-05-render-route-and-client-input-boundary-batch-ghsa.md)
 - [Jupyter, VM2, and token-type boundary batch](alerts/2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md)
 - [MinIO, Ray, and Kirby execution/storage boundary batch](alerts/2026-05-05-minio-ray-kirby-execution-and-storage-boundary-batch-ghsa.md)
 - [pypdf parser resource-boundary batch](alerts/2026-05-05-pypdf-parser-resource-boundary-batch-ghsa.md)
