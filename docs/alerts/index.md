@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Rclone, Netmaker, and Camel control-plane boundary batch](2026-05-05-rclone-netmaker-camel-control-plane-boundary-batch-ghsa.md)
 - [uuid caller-provided buffer boundary check](2026-05-05-uuid-buffer-boundary-ghsa-w5hq-g745-h8pq.md)
 - [OpenClaw operator, browser, and channel boundary batch](2026-05-05-openclaw-operator-and-channel-boundary-batch-ghsa.md)
 - [Axios prototype-pollution client-boundary batch](2026-05-05-axios-prototype-pollution-client-boundary-batch-ghsa.md)
