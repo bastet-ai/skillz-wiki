@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Nginx-UI, DevSpace, Auth0.js, and Tauri origin/bootstrap boundary batch](alerts/2026-05-06-nginx-ui-devspace-auth-tauri-origin-and-bootstrap-boundary-batch-ghsa.md)
+- [Rucio metadata query SQL injection boundary batch](alerts/2026-05-06-rucio-metadata-query-sql-injection-boundary-batch-ghsa.md)
+- [Mistune Markdown parser resource-boundary batch](alerts/2026-05-06-mistune-markdown-parser-resource-boundary-batch-ghsa.md)
 - [Package-cache and cluster credential boundary batch](alerts/2026-05-06-package-cache-and-cluster-credential-boundary-batch-ghsa.md)
 - [OpenClaw runtime, channel, and supply-chain boundary batch](alerts/2026-05-05-openclaw-runtime-channel-and-supply-chain-boundary-batch-ghsa.md)
 - [elFinder ImageMagick CLI command injection](alerts/2026-05-05-elfinder-imagemagick-cli-command-injection-ghsa-8q4h-8crm-5cvc.md)
