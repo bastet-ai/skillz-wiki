@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Webhook, tenant, and token-boundary batch](2026-05-06-webhook-tenant-and-token-boundary-batch-ghsa.md)
+- [File upload, path, and config-execution boundary batch](2026-05-06-file-upload-path-and-config-execution-boundary-batch-ghsa.md)
+- [CI, plugin, render, and proxy-boundary batch](2026-05-06-ci-plugin-render-and-proxy-boundary-batch-ghsa.md)
+- [Parser, model-runtime, and crypto-boundary batch](2026-05-06-parser-model-runtime-and-crypto-boundary-batch-ghsa.md)
 - [Web app data, render, and method-boundary batch](2026-05-06-web-app-data-render-method-boundary-batch-ghsa.md)
 - [Agent, AI, Git, and local-command boundary batch](2026-05-06-agent-ai-git-local-command-boundary-batch-ghsa.md)
 - [Ingress, router, and control-plane auth boundary batch](2026-05-06-ingress-router-control-plane-auth-boundary-batch-ghsa.md)
