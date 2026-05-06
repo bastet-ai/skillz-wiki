@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenClaw runtime, channel, and supply-chain boundary batch](2026-05-05-openclaw-runtime-channel-and-supply-chain-boundary-batch-ghsa.md)
+- [elFinder ImageMagick CLI command injection](2026-05-05-elfinder-imagemagick-cli-command-injection-ghsa-8q4h-8crm-5cvc.md)
 - [Grav and AVideo web-platform boundary batch](2026-05-05-grav-avideo-web-platform-boundary-batch-ghsa.md)
 - [Integration auth and deserialization boundary batch](2026-05-05-integration-auth-and-deserialization-boundary-batch-ghsa.md)
 - [CI, agent, stream, and file-boundary batch](2026-05-05-ci-agent-stream-and-file-boundary-batch-ghsa.md)
