@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [SSRF address canonicalization boundary batch](alerts/2026-05-06-ssrf-address-canonicalization-boundary-batch-ghsa.md)
+- [Craft, PyLoad, and Wooey application authorization boundary batch](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md)
+- [i18n prototype and resource-boundary batch](alerts/2026-05-06-i18n-prototype-and-resource-boundary-batch-ghsa.md)
+- [Archive and file-extraction boundary batch](alerts/2026-05-06-archive-and-file-extraction-boundary-batch-ghsa.md)
 - [Nginx-UI, DevSpace, Auth0.js, and Tauri origin/bootstrap boundary batch](alerts/2026-05-06-nginx-ui-devspace-auth-tauri-origin-and-bootstrap-boundary-batch-ghsa.md)
 - [Rucio metadata query SQL injection boundary batch](alerts/2026-05-06-rucio-metadata-query-sql-injection-boundary-batch-ghsa.md)
 - [Mistune Markdown parser resource-boundary batch](alerts/2026-05-06-mistune-markdown-parser-resource-boundary-batch-ghsa.md)
