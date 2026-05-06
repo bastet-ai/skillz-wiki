@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Web app data, render, and method-boundary batch](alerts/2026-05-06-web-app-data-render-method-boundary-batch-ghsa.md)
+- [Agent, AI, Git, and local-command boundary batch](alerts/2026-05-06-agent-ai-git-local-command-boundary-batch-ghsa.md)
+- [Ingress, router, and control-plane auth boundary batch](alerts/2026-05-06-ingress-router-control-plane-auth-boundary-batch-ghsa.md)
+- [Parser, runtime, and resource-budget boundary batch](alerts/2026-05-06-parser-runtime-resource-budget-boundary-batch-ghsa.md)
 - [phpMyFAQ auth, SQLi, and render-boundary batch](alerts/2026-05-06-phpmyfaq-auth-sqli-render-boundary-batch-ghsa.md)
 - [File, project, and local-viewer boundary batch](alerts/2026-05-06-file-project-and-local-viewer-boundary-batch-ghsa.md)
 - [Render, identity, and URL-canonicalization boundary batch](alerts/2026-05-06-render-identity-and-url-canonicalization-boundary-batch-ghsa.md)
