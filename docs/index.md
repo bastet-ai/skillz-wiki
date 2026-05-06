@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Web app auth, render, and export-boundary batch](alerts/2026-05-06-web-app-auth-render-and-export-boundary-batch-ghsa.md)
+- [Spring AI and framework resource-boundary batch](alerts/2026-05-06-spring-ai-and-framework-resource-boundary-batch-ghsa.md)
+- [Agent, MCP, Git, and file-boundary batch](alerts/2026-05-06-agent-mcp-git-and-file-boundary-batch-ghsa.md)
+- [Execution, parser, and state-resource boundary batch](alerts/2026-05-06-execution-parser-and-state-resource-boundary-batch-ghsa.md)
 - [OpenClaw exec, filesystem, and browser boundary batch](alerts/2026-05-06-openclaw-exec-filesystem-browser-boundary-batch-ghsa.md)
 - [Spring Boot configuration and TLS boundary batch](alerts/2026-05-06-spring-boot-configuration-and-tls-boundary-batch-ghsa.md)
 - [App secret, auth, agent, and render-boundary batch](alerts/2026-05-06-app-secret-auth-agent-and-render-boundary-batch-ghsa.md)
