@@ -10,6 +10,11 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenClaw exec, filesystem, and browser boundary batch](2026-05-06-openclaw-exec-filesystem-browser-boundary-batch-ghsa.md)
+- [Spring Boot configuration and TLS boundary batch](2026-05-06-spring-boot-configuration-and-tls-boundary-batch-ghsa.md)
+- [App secret, auth, agent, and render-boundary batch](2026-05-06-app-secret-auth-agent-and-render-boundary-batch-ghsa.md)
+- [Parser, deserialization, and resource-boundary batch](2026-05-06-parser-deserialization-and-resource-boundary-batch-ghsa.md)
+- [KEV: PAN-OS User-ID Authentication Portal out-of-bounds write](2026-05-06-pan-os-user-id-authentication-portal-kev-cve-2026-0300.md)
 - [SSRF address canonicalization boundary batch](2026-05-06-ssrf-address-canonicalization-boundary-batch-ghsa.md)
 - [Craft, PyLoad, and Wooey application authorization boundary batch](2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md)
 - [i18n prototype and resource-boundary batch](2026-05-06-i18n-prototype-and-resource-boundary-batch-ghsa.md)

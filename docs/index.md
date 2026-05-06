@@ -8,6 +8,11 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [OpenClaw exec, filesystem, and browser boundary batch](alerts/2026-05-06-openclaw-exec-filesystem-browser-boundary-batch-ghsa.md)
+- [Spring Boot configuration and TLS boundary batch](alerts/2026-05-06-spring-boot-configuration-and-tls-boundary-batch-ghsa.md)
+- [App secret, auth, agent, and render-boundary batch](alerts/2026-05-06-app-secret-auth-agent-and-render-boundary-batch-ghsa.md)
+- [Parser, deserialization, and resource-boundary batch](alerts/2026-05-06-parser-deserialization-and-resource-boundary-batch-ghsa.md)
+- [KEV: PAN-OS User-ID Authentication Portal out-of-bounds write](alerts/2026-05-06-pan-os-user-id-authentication-portal-kev-cve-2026-0300.md)
 - [SSRF address canonicalization boundary batch](alerts/2026-05-06-ssrf-address-canonicalization-boundary-batch-ghsa.md)
 - [Craft, PyLoad, and Wooey application authorization boundary batch](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md)
 - [i18n prototype and resource-boundary batch](alerts/2026-05-06-i18n-prototype-and-resource-boundary-batch-ghsa.md)
