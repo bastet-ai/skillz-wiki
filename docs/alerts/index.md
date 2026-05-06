@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [phpMyFAQ auth, SQLi, and render-boundary batch](2026-05-06-phpmyfaq-auth-sqli-render-boundary-batch-ghsa.md)
+- [File, project, and local-viewer boundary batch](2026-05-06-file-project-and-local-viewer-boundary-batch-ghsa.md)
+- [Render, identity, and URL-canonicalization boundary batch](2026-05-06-render-identity-and-url-canonicalization-boundary-batch-ghsa.md)
+- [Resource, consensus, and trust-root boundary batch](2026-05-06-resource-consensus-and-trust-root-boundary-batch-ghsa.md)
 - [Web app auth, render, and export-boundary batch](2026-05-06-web-app-auth-render-and-export-boundary-batch-ghsa.md)
 - [Spring AI and framework resource-boundary batch](2026-05-06-spring-ai-and-framework-resource-boundary-batch-ghsa.md)
 - [Agent, MCP, Git, and file-boundary batch](2026-05-06-agent-mcp-git-and-file-boundary-batch-ghsa.md)
