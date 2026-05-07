@@ -8,6 +8,11 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Protocol, search, and runtime-boundary batch](alerts/2026-05-07-protocol-search-and-runtime-boundary-batch-ghsa.md)
+- [Identity, webhook, render, and origin-boundary batch](alerts/2026-05-07-identity-webhook-render-and-origin-boundary-batch-ghsa.md)
+- [Agent, Git, sandbox, and local-execution boundary batch](alerts/2026-05-07-agent-git-sandbox-and-local-execution-boundary-batch-ghsa.md)
+- [Directory identity and parser-resource boundary batch](alerts/2026-05-07-directory-identity-and-parser-resource-boundary-batch-ghsa.md)
+- [OpenClaw, ShellHub, and cloud tenant-boundary batch](alerts/2026-05-07-openclaw-shellhub-and-cloud-tenant-boundary-batch-ghsa.md)
 - [Webhook, tenant, and token-boundary batch](alerts/2026-05-06-webhook-tenant-and-token-boundary-batch-ghsa.md)
 - [File upload, path, and config-execution boundary batch](alerts/2026-05-06-file-upload-path-and-config-execution-boundary-batch-ghsa.md)
 - [CI, plugin, render, and proxy-boundary batch](alerts/2026-05-06-ci-plugin-render-and-proxy-boundary-batch-ghsa.md)
