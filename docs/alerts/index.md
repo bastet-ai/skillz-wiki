@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [SSRF, policy-reference, and URL boundary batch](2026-05-07-ssrf-policy-reference-and-url-boundary-batch-ghsa.md)
+- [Image, DNS, and policy resource-boundary batch](2026-05-07-image-dns-and-policy-resource-boundary-batch-ghsa.md)
+- [Tenant, session, cluster, and log boundary batch](2026-05-07-tenant-session-cluster-and-log-boundary-batch-ghsa.md)
+- [Deserialization, render, and model-trust boundary batch](2026-05-07-deserialization-render-and-model-trust-boundary-batch-ghsa.md)
 - [Gotenberg, Netty, and package-compromise boundary batch](2026-05-07-gotenberg-netty-and-package-compromise-boundary-batch-ghsa.md)
 - [Protocol, search, and runtime-boundary batch](2026-05-07-protocol-search-and-runtime-boundary-batch-ghsa.md)
 - [Identity, webhook, render, and origin-boundary batch](2026-05-07-identity-webhook-render-and-origin-boundary-batch-ghsa.md)

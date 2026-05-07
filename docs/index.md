@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [SSRF, policy-reference, and URL boundary batch](alerts/2026-05-07-ssrf-policy-reference-and-url-boundary-batch-ghsa.md)
+- [Image, DNS, and policy resource-boundary batch](alerts/2026-05-07-image-dns-and-policy-resource-boundary-batch-ghsa.md)
+- [Tenant, session, cluster, and log boundary batch](alerts/2026-05-07-tenant-session-cluster-and-log-boundary-batch-ghsa.md)
+- [Deserialization, render, and model-trust boundary batch](alerts/2026-05-07-deserialization-render-and-model-trust-boundary-batch-ghsa.md)
 - [Cluster control-plane secret and impersonation boundary batch](alerts/2026-05-07-cluster-control-plane-secret-and-impersonation-boundary-batch-ghsa.md)
 - [Free5GC and mobile-core state boundary batch](alerts/2026-05-07-free5gc-and-mobile-core-state-boundary-batch-ghsa.md)
 - [Session, redirect, and agent identity boundary batch](alerts/2026-05-07-session-redirect-and-agent-identity-boundary-batch-ghsa.md)
