@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [vm2 sandbox-escape boundary batch](alerts/2026-05-07-vm2-sandbox-escape-boundary-batch-ghsa.md)
+- [Bandit HTTP and WebSocket resource-boundary batch](alerts/2026-05-07-bandit-http-and-websocket-resource-boundary-batch-ghsa.md)
+- [FileBrowser, etcd, gittuf, and Tempo boundary batch](alerts/2026-05-07-filebrowser-etcd-gittuf-and-tempo-boundary-batch-ghsa.md)
 - [SSRF, policy-reference, and URL boundary batch](alerts/2026-05-07-ssrf-policy-reference-and-url-boundary-batch-ghsa.md)
 - [Image, DNS, and policy resource-boundary batch](alerts/2026-05-07-image-dns-and-policy-resource-boundary-batch-ghsa.md)
 - [Tenant, session, cluster, and log boundary batch](alerts/2026-05-07-tenant-session-cluster-and-log-boundary-batch-ghsa.md)

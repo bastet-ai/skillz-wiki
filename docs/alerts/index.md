@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [vm2 sandbox-escape boundary batch](2026-05-07-vm2-sandbox-escape-boundary-batch-ghsa.md)
+- [Bandit HTTP and WebSocket resource-boundary batch](2026-05-07-bandit-http-and-websocket-resource-boundary-batch-ghsa.md)
+- [FileBrowser, etcd, gittuf, and Tempo boundary batch](2026-05-07-filebrowser-etcd-gittuf-and-tempo-boundary-batch-ghsa.md)
 - [SSRF, policy-reference, and URL boundary batch](2026-05-07-ssrf-policy-reference-and-url-boundary-batch-ghsa.md)
 - [Image, DNS, and policy resource-boundary batch](2026-05-07-image-dns-and-policy-resource-boundary-batch-ghsa.md)
 - [Tenant, session, cluster, and log boundary batch](2026-05-07-tenant-session-cluster-and-log-boundary-batch-ghsa.md)
