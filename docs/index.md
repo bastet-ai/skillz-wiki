@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [FacturaScripts immutable identity boundary bypass](alerts/2026-05-07-facturascripts-immutable-identity-boundary-ghsa-pp79-hqv6-vmc3.md)
 - [intercom-client npm compromise and install-hook credential theft](alerts/2026-04-30-intercom-client-npm-malware-ghsa-4594-wxqv-j3pm.md)
 - [intercom-php Composer tag compromise boundary](alerts/2026-05-07-intercom-php-composer-tag-compromise-boundary-ghsa-gr3r-crp5-qrrm.md)
 - [Query-builder and management-plane execution boundary batch](alerts/2026-05-07-query-builder-and-management-plane-execution-boundary-batch-ghsa.md)
