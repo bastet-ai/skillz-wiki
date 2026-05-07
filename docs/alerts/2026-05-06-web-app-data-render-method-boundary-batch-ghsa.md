@@ -10,7 +10,7 @@
 - **CyberChef XSS** — [GHSA-h4hv-92pp-pcjg](https://github.com/advisories/GHSA-h4hv-92pp-pcjg): crafted input could cross into script execution.
 - **Bagisto SSRF and XSS** — [GHSA-x3f9-vcp2-hgcw](https://github.com/advisories/GHSA-x3f9-vcp2-hgcw), [GHSA-65fp-7g2v-658r](https://github.com/advisories/GHSA-65fp-7g2v-658r): server-side fetch and render paths need explicit origin and HTML boundaries.
 - **Hatchet cross-tenant task disclosure** — [GHSA-55gc-6fmc-fpx9](https://github.com/advisories/GHSA-55gc-6fmc-fpx9): `listTasksByDAGIds` could disclose tasks across tenants.
-- **xxl-job resource injection** — [GHSA-gw2x-mfwr-h46p](https://github.com/advisories/GHSA-gw2x-mfwr-h46p): resource identifiers needed stricter validation before reaching runtime effects.
+- **xxl-job resource injection and weak token generation** — [GHSA-gw2x-mfwr-h46p](https://github.com/advisories/GHSA-gw2x-mfwr-h46p), [GHSA-565h-44m8-4c2v](https://github.com/advisories/GHSA-565h-44m8-4c2v): resource identifiers need stricter validation before runtime effects, and admin/session token material must use modern high-entropy generation rather than low-effort password hashing.
 - **Flight framework batch** — [GHSA-qrch-52m5-vv85](https://github.com/advisories/GHSA-qrch-52m5-vv85), [GHSA-vxrr-w42w-w76g](https://github.com/advisories/GHSA-vxrr-w42w-w76g), [GHSA-xwqr-rcqg-22mr](https://github.com/advisories/GHSA-xwqr-rcqg-22mr), [GHSA-3xjv-pmf2-gf2q](https://github.com/advisories/GHSA-3xjv-pmf2-gf2q), [GHSA-fcx8-ph5r-mxr4](https://github.com/advisories/GHSA-fcx8-ph5r-mxr4): default error disclosure, method override, identifier SQL injection, CLI path traversal, and JSONP callback XSS.
 
 ## Why this is durable
@@ -19,15 +19,15 @@ The recurring pattern is that framework convenience crossed from labels, callbac
 
 ## Immediate triage
 
-1. Patch the affected applications and frameworks as vendor fixes land; prioritize exposed admin, multi-tenant, and public render surfaces.
+1. Patch the affected applications and frameworks as vendor fixes land; prioritize exposed admin, scheduler/control-plane, multi-tenant, and public render surfaces. For `xxl-job-admin`, target **3.2.0+** for the token-generation fix.
 2. Disable JSONP, method override, and developer error disclosure unless a route has an explicit business need and tests.
 3. Add tenant-scoped authorization checks around list/query helpers, not only around route entrypoints.
-4. Replace dynamic SQL identifiers with allowlisted schema maps; parameterization does not protect table/column names.
+4. Replace dynamic SQL identifiers with allowlisted schema maps; parameterization does not protect table/column names. Rotate or invalidate weakly generated admin tokens/secrets after patching.
 5. Gate server-side fetch features with canonicalized DNS/IP checks, redirect revalidation, and egress allowlists.
 
 ## Durable controls
 
 - Encode output by context and keep stored user properties as data through the final render step.
 - Bind every query helper to tenant, project, and resource ownership before applying caller-supplied IDs.
-- Treat method-override and callback features as privileged framework extensions with deny-by-default configuration.
+- Treat method-override, callback, scheduler, and token-generation features as privileged framework extensions with deny-by-default configuration and cryptographically strong random secrets.
 - Exercise CLI generators and developer tooling with traversal payloads, not only HTTP handlers.
