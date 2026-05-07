@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [MCP SSH and APM plugin filesystem-boundary batch](2026-05-07-mcp-ssh-and-apm-plugin-filesystem-boundary-batch-ghsa.md)
+- [Ech0 auth, SSRF, feed, and public-API boundary batch](2026-05-07-ech0-auth-ssrf-feed-and-public-api-boundary-batch-ghsa.md)
 - [Note Mark identity, export, and deletion-boundary batch](2026-05-07-note-mark-identity-export-and-deletion-boundary-batch-ghsa.md)
 - [Zebra consensus and network resource-boundary batch](2026-05-07-zebra-consensus-and-network-resource-boundary-batch-ghsa.md)
 - [AI, MCP, deserialization, command, and path-boundary batch](2026-05-07-ai-mcp-deserialization-command-and-path-boundary-batch-ghsa.md)
