@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [DOMPurify mXSS and Ivanti EPMM KEV boundary guidance](alerts/2026-05-07-dompurify-mxss-and-ivanti-epmm-kev-boundary-guidance.md)
 - [ExecuTorch model-loader and LeafKit render-boundary batch](alerts/2026-05-07-executorch-model-loader-and-leafkit-render-boundary-batch-ghsa.md)
 - [Nginx-UI WebSocket origin boundary bypass](alerts/2026-05-07-nginx-ui-websocket-origin-boundary-ghsa-78mf-482w-62qj.md)
 - [vm2 sandbox-escape boundary batch](alerts/2026-05-07-vm2-sandbox-escape-boundary-batch-ghsa.md)
