@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [intercom-php Composer tag compromise boundary](2026-05-07-intercom-php-composer-tag-compromise-boundary-ghsa-gr3r-crp5-qrrm.md)
+- [Query-builder and management-plane execution boundary batch](2026-05-07-query-builder-and-management-plane-execution-boundary-batch-ghsa.md)
+- [Client token, build-context, and webhook identity boundary batch](2026-05-07-client-token-build-context-and-webhook-identity-boundary-batch-ghsa.md)
 - [DOMPurify mXSS and Ivanti EPMM KEV boundary guidance](2026-05-07-dompurify-mxss-and-ivanti-epmm-kev-boundary-guidance.md)
 - [ExecuTorch model-loader and LeafKit render-boundary batch](2026-05-07-executorch-model-loader-and-leafkit-render-boundary-batch-ghsa.md)
 - [Nginx-UI WebSocket origin boundary bypass](2026-05-07-nginx-ui-websocket-origin-boundary-ghsa-78mf-482w-62qj.md)
