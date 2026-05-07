@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [FacturaScripts upload, render, and install-boundary batch](2026-05-07-facturascripts-upload-render-install-boundary-batch-ghsa.md)
 - [FacturaScripts immutable identity boundary bypass](2026-05-07-facturascripts-immutable-identity-boundary-ghsa-pp79-hqv6-vmc3.md)
 - [intercom-client npm compromise and install-hook credential theft](2026-04-30-intercom-client-npm-malware-ghsa-4594-wxqv-j3pm.md)
 - [intercom-php Composer tag compromise boundary](2026-05-07-intercom-php-composer-tag-compromise-boundary-ghsa-gr3r-crp5-qrrm.md)
