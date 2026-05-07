@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [intercom-client npm compromise and install-hook credential theft](2026-04-30-intercom-client-npm-malware-ghsa-4594-wxqv-j3pm.md)
 - [intercom-php Composer tag compromise boundary](2026-05-07-intercom-php-composer-tag-compromise-boundary-ghsa-gr3r-crp5-qrrm.md)
 - [Query-builder and management-plane execution boundary batch](2026-05-07-query-builder-and-management-plane-execution-boundary-batch-ghsa.md)
 - [Client token, build-context, and webhook identity boundary batch](2026-05-07-client-token-build-context-and-webhook-identity-boundary-batch-ghsa.md)
@@ -108,7 +109,6 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 - [npm malware wave in Web3, UI, and banking-scoped packages](2026-05-03-npm-malware-web3-ui-and-bank-package-wave-ghsa.md)
 - [KEV: Linux kernel CopyFail AF_ALG local privilege escalation](2026-05-01-linux-kernel-copyfail-algif-aead-cve-2026-31431.md)
 - [Avo action-class access control bypass](2026-05-01-avo-action-class-access-control-bypass-ghsa-qc5p-3mg5-9fh8.md)
-- [Malware in intercom-client npm package](2026-04-30-intercom-client-npm-malware-ghsa-4594-wxqv-j3pm.md)
 - [Sentry SAML, Patreon auth, and locize message-origin identity boundary batch](2026-04-30-sentry-patreon-locize-identity-boundary-batch-ghsa.md)
 - [Kirby, Arcane, Flarum, and PrestaShop admin/data-boundary batch](2026-04-30-kirby-arcane-flarum-prestashop-admin-data-boundary-batch-ghsa.md)
 - [Contrast, pgx, copilot-api, and verl execution-boundary batch](2026-04-30-contrast-pgx-copilot-verl-execution-boundary-batch-ghsa.md)
