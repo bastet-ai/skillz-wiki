@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Cluster control-plane secret and impersonation boundary batch](alerts/2026-05-07-cluster-control-plane-secret-and-impersonation-boundary-batch-ghsa.md)
+- [Free5GC and mobile-core state boundary batch](alerts/2026-05-07-free5gc-and-mobile-core-state-boundary-batch-ghsa.md)
+- [Session, redirect, and agent identity boundary batch](alerts/2026-05-07-session-redirect-and-agent-identity-boundary-batch-ghsa.md)
+- [Parser, TLS, and commerce-app boundary batch](alerts/2026-05-07-parser-tls-and-commerce-app-boundary-batch-ghsa.md)
 - [Gotenberg, Netty, and package-compromise boundary batch](alerts/2026-05-07-gotenberg-netty-and-package-compromise-boundary-batch-ghsa.md)
 - [Protocol, search, and runtime-boundary batch](alerts/2026-05-07-protocol-search-and-runtime-boundary-batch-ghsa.md)
 - [Identity, webhook, render, and origin-boundary batch](alerts/2026-05-07-identity-webhook-render-and-origin-boundary-batch-ghsa.md)
