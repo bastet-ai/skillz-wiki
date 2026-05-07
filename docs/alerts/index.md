@@ -10,6 +10,12 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Gotenberg, Netty, and package-compromise boundary batch](2026-05-07-gotenberg-netty-and-package-compromise-boundary-batch-ghsa.md)
+- [Protocol, search, and runtime-boundary batch](2026-05-07-protocol-search-and-runtime-boundary-batch-ghsa.md)
+- [Identity, webhook, render, and origin-boundary batch](2026-05-07-identity-webhook-render-and-origin-boundary-batch-ghsa.md)
+- [Agent, Git, sandbox, and local-execution boundary batch](2026-05-07-agent-git-sandbox-and-local-execution-boundary-batch-ghsa.md)
+- [Directory identity and parser-resource boundary batch](2026-05-07-directory-identity-and-parser-resource-boundary-batch-ghsa.md)
+- [OpenClaw, ShellHub, and cloud tenant-boundary batch](2026-05-07-openclaw-shellhub-and-cloud-tenant-boundary-batch-ghsa.md)
 - [Webhook, tenant, and token-boundary batch](2026-05-06-webhook-tenant-and-token-boundary-batch-ghsa.md)
 - [File upload, path, and config-execution boundary batch](2026-05-06-file-upload-path-and-config-execution-boundary-batch-ghsa.md)
 - [CI, plugin, render, and proxy-boundary batch](2026-05-06-ci-plugin-render-and-proxy-boundary-batch-ghsa.md)

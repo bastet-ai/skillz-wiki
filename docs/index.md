@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Gotenberg, Netty, and package-compromise boundary batch](alerts/2026-05-07-gotenberg-netty-and-package-compromise-boundary-batch-ghsa.md)
 - [Protocol, search, and runtime-boundary batch](alerts/2026-05-07-protocol-search-and-runtime-boundary-batch-ghsa.md)
 - [Identity, webhook, render, and origin-boundary batch](alerts/2026-05-07-identity-webhook-render-and-origin-boundary-batch-ghsa.md)
 - [Agent, Git, sandbox, and local-execution boundary batch](alerts/2026-05-07-agent-git-sandbox-and-local-execution-boundary-batch-ghsa.md)
