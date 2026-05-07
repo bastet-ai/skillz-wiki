@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Note Mark identity, export, and deletion-boundary batch](2026-05-07-note-mark-identity-export-and-deletion-boundary-batch-ghsa.md)
+- [Zebra consensus and network resource-boundary batch](2026-05-07-zebra-consensus-and-network-resource-boundary-batch-ghsa.md)
+- [AI, MCP, deserialization, command, and path-boundary batch](2026-05-07-ai-mcp-deserialization-command-and-path-boundary-batch-ghsa.md)
+- [Client override, SSRF, and URL-canonicalization boundary batch](2026-05-07-client-override-ssrf-and-url-canonicalization-boundary-batch-ghsa.md)
 - [FacturaScripts upload, render, and install-boundary batch](2026-05-07-facturascripts-upload-render-install-boundary-batch-ghsa.md)
 - [FacturaScripts immutable identity boundary bypass](2026-05-07-facturascripts-immutable-identity-boundary-ghsa-pp79-hqv6-vmc3.md)
 - [intercom-client npm compromise and install-hook credential theft](2026-04-30-intercom-client-npm-malware-ghsa-4594-wxqv-j3pm.md)
