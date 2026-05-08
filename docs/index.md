@@ -8,6 +8,11 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [free5GC mobile-core auth and crash-boundary batch](alerts/2026-05-08-mobile-core-auth-and-crash-boundary-batch-ghsa.md)
+- [App file, render, and permission-boundary batch](alerts/2026-05-08-app-file-render-and-permission-boundary-batch-ghsa.md)
+- [Parser, deserialization, and crypto-boundary batch](alerts/2026-05-08-parser-deserialization-and-crypto-boundary-batch-ghsa.md)
+- [Provenance, signature, and sphere-boundary batch](alerts/2026-05-08-provenance-signature-and-sphere-boundary-batch-ghsa.md)
+
 - [Django cache, upload, and session-boundary batch](alerts/2026-05-08-django-cache-upload-and-session-boundary-batch-ghsa.md)
 - [Query and data-pipeline SQL-boundary batch](alerts/2026-05-08-query-and-data-pipeline-sql-boundary-batch-ghsa.md)
 - [XML, SCP, and transfer-boundary batch](alerts/2026-05-08-xml-scp-and-transfer-boundary-batch-ghsa.md)
