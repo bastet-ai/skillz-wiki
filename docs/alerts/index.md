@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Parser, cache, identity, and transport-auth boundary batch](2026-05-08-parser-cache-identity-boundary-batch-ghsa.md)
+- [MCP client SSRF, filesystem, and spend-boundary batch](2026-05-08-mcp-client-ssrf-and-filesystem-boundary-batch-ghsa.md)
+- [Render, client-RCE, and app authorization boundary batch](2026-05-08-render-client-rce-and-app-auth-boundary-batch-ghsa.md)
+- [vm2, XML builder, and routing resource-boundary batch](2026-05-08-vm2-xml-and-routing-resource-boundary-batch-ghsa.md)
 - [Agent, sandbox, session, and file-boundary batch](2026-05-08-agent-sandbox-session-and-file-boundary-batch-ghsa.md)
 - [DNS, QUIC, and protocol auth/resource-boundary batch](2026-05-08-dns-quic-and-protocol-auth-resource-boundary-batch-ghsa.md)
 - [Render, secret-storage, and crypto-boundary batch](2026-05-08-render-secret-and-crypto-boundary-batch-ghsa.md)
