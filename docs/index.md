@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [CKAN CSRF exemption request-state boundary](alerts/2026-05-07-ckan-csrf-exemption-request-state-ghsa-mcvf-jxcw-vj73.md)
 - [Crypto, SSRF, render, and signature-boundary batch](alerts/2026-05-07-crypto-ssrf-render-and-signature-boundary-batch-ghsa.md)
 - [MCP SSH and APM plugin filesystem-boundary batch](alerts/2026-05-07-mcp-ssh-and-apm-plugin-filesystem-boundary-batch-ghsa.md)
 - [Ech0 auth, SSRF, feed, and public-API boundary batch](alerts/2026-05-07-ech0-auth-ssrf-feed-and-public-api-boundary-batch-ghsa.md)
