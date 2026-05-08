@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Agent, sandbox, session, and file-boundary batch](2026-05-08-agent-sandbox-session-and-file-boundary-batch-ghsa.md)
+- [DNS, QUIC, and protocol auth/resource-boundary batch](2026-05-08-dns-quic-and-protocol-auth-resource-boundary-batch-ghsa.md)
+- [Render, secret-storage, and crypto-boundary batch](2026-05-08-render-secret-and-crypto-boundary-batch-ghsa.md)
 - [HTTP client, cache-key, and SSRF enforcement boundary batch](2026-05-08-http-client-cache-and-ssrf-boundary-batch-ghsa.md)
 - [electerm terminal command boundary](2026-05-08-electerm-terminal-command-boundary-ghsa-8x35-hph8-37hq.md)
 - [CKAN CSRF exemption request-state boundary](2026-05-07-ckan-csrf-exemption-request-state-ghsa-mcvf-jxcw-vj73.md)

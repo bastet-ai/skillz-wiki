@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Agent, sandbox, session, and file-boundary batch](alerts/2026-05-08-agent-sandbox-session-and-file-boundary-batch-ghsa.md)
+- [DNS, QUIC, and protocol auth/resource-boundary batch](alerts/2026-05-08-dns-quic-and-protocol-auth-resource-boundary-batch-ghsa.md)
+- [Render, secret-storage, and crypto-boundary batch](alerts/2026-05-08-render-secret-and-crypto-boundary-batch-ghsa.md)
 - [HTTP client, cache-key, and SSRF enforcement boundary batch](alerts/2026-05-08-http-client-cache-and-ssrf-boundary-batch-ghsa.md)
 - [electerm terminal command boundary](alerts/2026-05-08-electerm-terminal-command-boundary-ghsa-8x35-hph8-37hq.md)
 - [CKAN CSRF exemption request-state boundary](alerts/2026-05-07-ckan-csrf-exemption-request-state-ghsa-mcvf-jxcw-vj73.md)
