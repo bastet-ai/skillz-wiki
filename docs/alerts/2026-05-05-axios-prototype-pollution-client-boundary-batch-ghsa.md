@@ -17,6 +17,7 @@
 - **Unbounded `toFormData` recursion** — deeply nested attacker-controlled request data or params can exhaust the Node.js call stack in Axios form serialization. Affects `axios >= 1.0.0, < 1.15.1` and `<= 0.31.0`; fixed in 1.15.1 and 0.31.1. Reference: <https://github.com/advisories/GHSA-62hf-57xw-28j9>.
 - **Streamed upload `maxBodyLength` bypass** — Node HTTP-adapter streamed request bodies can bypass `maxBodyLength` when `maxRedirects: 0` selects the native transport path. Affects `axios >= 1.0.0, < 1.15.1` and `<= 0.31.0`; fixed in 1.15.1 and 0.31.1. Reference: <https://github.com/advisories/GHSA-5c9x-8gcm-mpgx>.
 - **Streamed response `maxContentLength` bypass** — `responseType: 'stream'` returns the stream before enforcing `maxContentLength`, so callers can consume unbounded responses despite configured limits. Affects `axios >= 1.0.0, < 1.15.1` and `<= 0.31.0`; fixed in 1.15.1 and 0.31.1. Reference: <https://github.com/advisories/GHSA-vf2m-468p-8v99>.
+- **`mergeConfig` denial of service through own `__proto__` key** — attacker-controlled JSON config can make `mergeMap['__proto__']` resolve through the prototype chain to a non-function and crash request creation with `TypeError: merge is not a function`. Affects `axios >= 1.0.0, <= 1.13.4` and `<= 0.30.2`; fixed in 1.13.5 and 0.30.3. Reference: <https://github.com/advisories/GHSA-43fc-jf86-j433>.
 
 ## Why this is durable
 
