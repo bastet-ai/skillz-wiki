@@ -28,3 +28,23 @@ Reference: <https://github.com/advisories/GHSA-8x35-hph8-37hq>
 
 ## Durable lesson
 Terminal clients are not just viewers; they are command brokers. Any UI/config field that reaches a shell must be modeled as untrusted data, passed as argv where possible, and rejected when it contains command syntax instead of a literal value.
+
+## 19:15 UTC expansion — renderer, link, filename, and widget execution paths
+
+The later **2026-05-08 19:15 UTC** scan added a broader electerm advisory cluster. Treat these as the same terminal-client trust boundary, not as isolated bugs:
+
+- **Arbitrary protocol execution from terminal link clicks** — [GHSA-fwf6-j56g-m97c](https://github.com/advisories/GHSA-fwf6-j56g-m97c): `shell.openExternal` accepted unsafe protocols from terminal output. A malicious remote host can print links that jump from terminal text into local app/protocol execution.
+- **Widget path traversal to code execution** — [GHSA-f77v-9vpc-6pjm](https://github.com/advisories/GHSA-f77v-9vpc-6pjm): `runWidget` path handling allowed traversal into unintended code paths. Patch to `3.7.16+` for that path.
+- **Malicious SSH-server filename RCE** — [GHSA-q4p8-8j9m-8hxj](https://github.com/advisories/GHSA-q4p8-8j9m-8hxj): remote filenames flowing into `openFileWithEditor` could become command execution. Patch to `3.7.9+` for that path.
+- **Renderer environment exposure** — [GHSA-37j4-88rp-2f6h](https://github.com/advisories/GHSA-37j4-88rp-2f6h): `window.pre.env` exposed the full `process.env` to renderer code in affected versions.
+- **Dangerous link/command-line execution** — [GHSA-mpm8-cx2p-626q](https://github.com/advisories/GHSA-mpm8-cx2p-626q): affected `electerm >=3.0.6 <3.8.15`; patch to `3.8.15+`.
+
+Upgrade target: use the newest fixed release available, and do not consider partial line-item fixes sufficient if any renderer, widget, terminal-link, external-editor, or environment-bridge advisory remains open.
+
+Additional hunts:
+
+- Terminal output containing `file://`, custom app protocols, `ssh://`, `vscode://`, `cursor://`, `openclaw://`, or OS-specific launcher protocols clicked from electerm.
+- Unexpected editor launches after SFTP/SSH file browsing, especially filenames containing shell metacharacters, spaces/newlines, URL encodings, or path traversal sequences.
+- Widget directories or cached extension bundles modified shortly before a suspicious session.
+- Secrets that were only present in process environment variables on hosts where renderer compromise is plausible.
+

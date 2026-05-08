@@ -42,3 +42,13 @@ The durable lesson: consensus clients need differential tests against the refere
 - Count resource and sigop budgets in exactly the same places as the reference implementation.
 - Enforce protocol-specific length ceilings before allocation, not after parse.
 - Use independent validation diversity for mining and critical chain infrastructure.
+
+## 2026-05-08 follow-up advisories
+
+The **2026-05-08 19:15 UTC** scan added two more Zebra items that refine the upgrade floor and reinforce the resource-boundary lesson:
+
+- **V5 `SIGHASH_SINGLE` missing-output acceptance remained possible in Zebra 4.4.0** — [GHSA-pvmv-cwg8-v6c8](https://github.com/advisories/GHSA-pvmv-cwg8-v6c8): patch `zebrad` to `4.4.1+` and `zebra-script` to `6.0.1+`. Operators who stopped at 4.4.0 should treat that as incomplete.
+- **Permanent block discovery halt via gossip queue saturation and syncer poisoning** — [GHSA-h9hm-m2xj-4rq9](https://github.com/advisories/GHSA-h9hm-m2xj-4rq9): patch `zebrad` to `4.4.0+` and watch peers that can keep discovery queues full or poison sync progress.
+
+Updated triage: make `zebrad 4.4.1+` and `zebra-script 6.0.1+` the minimum target for consensus-sensitive infrastructure, then replay malformed SIGHASH and peer-gossip fixtures before re-enabling mining/template automation.
+

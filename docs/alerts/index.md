@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Desktop render, upload, and token-boundary batch](2026-05-08-desktop-render-upload-and-token-boundary-batch-ghsa.md)
+- [URL, SSRF, and parser-canonicalization boundary batch](2026-05-08-url-ssrf-and-parser-canonicalization-boundary-batch-ghsa.md)
 - [OpenClaw gateway admin and onboarding boundary batch](2026-05-08-openclaw-gateway-admin-and-onboarding-boundary-batch-ghsa.md)
 - [Apache storage, model, and search-boundary batch](2026-05-08-apache-storage-model-and-search-boundary-batch-ghsa.md)
 - [Parser, model, signature, and crypto-boundary batch](2026-05-08-parser-model-signature-and-crypto-boundary-batch-ghsa.md)

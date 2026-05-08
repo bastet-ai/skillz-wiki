@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Desktop render, upload, and token-boundary batch](alerts/2026-05-08-desktop-render-upload-and-token-boundary-batch-ghsa.md)
+- [URL, SSRF, and parser-canonicalization boundary batch](alerts/2026-05-08-url-ssrf-and-parser-canonicalization-boundary-batch-ghsa.md)
 - [OpenClaw gateway admin and onboarding boundary batch](alerts/2026-05-08-openclaw-gateway-admin-and-onboarding-boundary-batch-ghsa.md)
 - [Apache storage, model, and search-boundary batch](alerts/2026-05-08-apache-storage-model-and-search-boundary-batch-ghsa.md)
 - [Parser, model, signature, and crypto-boundary batch](alerts/2026-05-08-parser-model-signature-and-crypto-boundary-batch-ghsa.md)
