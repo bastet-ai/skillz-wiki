@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenClaw gateway admin and onboarding boundary batch](2026-05-08-openclaw-gateway-admin-and-onboarding-boundary-batch-ghsa.md)
+- [Apache storage, model, and search-boundary batch](2026-05-08-apache-storage-model-and-search-boundary-batch-ghsa.md)
+- [Parser, model, signature, and crypto-boundary batch](2026-05-08-parser-model-signature-and-crypto-boundary-batch-ghsa.md)
+- [Identity, project, and registry-boundary batch](2026-05-08-identity-project-and-registry-boundary-batch-ghsa.md)
 - [Parser, cache, identity, and transport-auth boundary batch](2026-05-08-parser-cache-identity-boundary-batch-ghsa.md)
 - [MCP client SSRF, filesystem, and spend-boundary batch](2026-05-08-mcp-client-ssrf-and-filesystem-boundary-batch-ghsa.md)
 - [Render, client-RCE, and app authorization boundary batch](2026-05-08-render-client-rce-and-app-auth-boundary-batch-ghsa.md)
