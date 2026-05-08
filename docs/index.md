@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Stream, proxy, WebSocket, and resource-boundary batch](alerts/2026-05-08-stream-proxy-websocket-and-resource-boundary-batch-ghsa.md)
+- [CMS, render, template, and secret-boundary batch](alerts/2026-05-08-cms-render-template-and-secret-boundary-batch-ghsa.md)
 - [Container, CMS filesystem, and session-boundary batch](alerts/2026-05-08-container-cms-filesystem-and-session-boundary-batch-ghsa.md)
 - [XML, SQL, and dynamic-object boundary batch](alerts/2026-05-08-xml-sql-and-dynamic-object-boundary-batch-ghsa.md)
 - [Open WebUI model, channel, and knowledge-boundary batch](alerts/2026-05-08-open-webui-model-channel-and-knowledge-boundary-batch-ghsa.md)
