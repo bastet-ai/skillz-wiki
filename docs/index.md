@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Django cache, upload, and session-boundary batch](alerts/2026-05-08-django-cache-upload-and-session-boundary-batch-ghsa.md)
+- [Query and data-pipeline SQL-boundary batch](alerts/2026-05-08-query-and-data-pipeline-sql-boundary-batch-ghsa.md)
+- [XML, SCP, and transfer-boundary batch](alerts/2026-05-08-xml-scp-and-transfer-boundary-batch-ghsa.md)
 - [Stream, proxy, WebSocket, and resource-boundary batch](alerts/2026-05-08-stream-proxy-websocket-and-resource-boundary-batch-ghsa.md)
 - [CMS, render, template, and secret-boundary batch](alerts/2026-05-08-cms-render-template-and-secret-boundary-batch-ghsa.md)
 - [Container, CMS filesystem, and session-boundary batch](alerts/2026-05-08-container-cms-filesystem-and-session-boundary-batch-ghsa.md)
