@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Hono render, JWT, cache, and prototype-boundary batch](alerts/2026-05-09-hono-render-jwt-cache-and-prototype-boundary-batch-ghsa.md)
+- [MCP command and TLS resource-boundary batch](alerts/2026-05-09-mcp-command-and-tls-resource-boundary-batch-ghsa.md)
 - [Render, Markdown, and preview-boundary batch](alerts/2026-05-09-render-markdown-and-preview-boundary-batch-ghsa.md)
 - [Agent, Git, and MCP auth-boundary batch](alerts/2026-05-09-agent-git-and-mcp-auth-boundary-batch-ghsa.md)
 - [Archive, memory, and signature-boundary batch](alerts/2026-05-09-archive-memory-and-signature-boundary-batch-ghsa.md)

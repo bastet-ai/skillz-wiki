@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Hono render, JWT, cache, and prototype-boundary batch](2026-05-09-hono-render-jwt-cache-and-prototype-boundary-batch-ghsa.md)
+- [MCP command and TLS resource-boundary batch](2026-05-09-mcp-command-and-tls-resource-boundary-batch-ghsa.md)
 - [Render, Markdown, and preview-boundary batch](2026-05-09-render-markdown-and-preview-boundary-batch-ghsa.md)
 - [Agent, Git, and MCP auth-boundary batch](2026-05-09-agent-git-and-mcp-auth-boundary-batch-ghsa.md)
 - [Archive, memory, and signature-boundary batch](2026-05-09-archive-memory-and-signature-boundary-batch-ghsa.md)
