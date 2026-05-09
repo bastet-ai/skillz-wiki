@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Render, Markdown, and preview-boundary batch](alerts/2026-05-09-render-markdown-and-preview-boundary-batch-ghsa.md)
+- [Agent, Git, and MCP auth-boundary batch](alerts/2026-05-09-agent-git-and-mcp-auth-boundary-batch-ghsa.md)
+- [Archive, memory, and signature-boundary batch](alerts/2026-05-09-archive-memory-and-signature-boundary-batch-ghsa.md)
+
 - [free5GC mobile-core auth and crash-boundary batch](alerts/2026-05-08-mobile-core-auth-and-crash-boundary-batch-ghsa.md)
 - [App file, render, and permission-boundary batch](alerts/2026-05-08-app-file-render-and-permission-boundary-batch-ghsa.md)
 - [Parser, deserialization, and crypto-boundary batch](alerts/2026-05-08-parser-deserialization-and-crypto-boundary-batch-ghsa.md)

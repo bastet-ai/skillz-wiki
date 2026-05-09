@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Render, Markdown, and preview-boundary batch](2026-05-09-render-markdown-and-preview-boundary-batch-ghsa.md)
+- [Agent, Git, and MCP auth-boundary batch](2026-05-09-agent-git-and-mcp-auth-boundary-batch-ghsa.md)
+- [Archive, memory, and signature-boundary batch](2026-05-09-archive-memory-and-signature-boundary-batch-ghsa.md)
+
 - [Django cache, upload, and session-boundary batch](2026-05-08-django-cache-upload-and-session-boundary-batch-ghsa.md)
 - [Query and data-pipeline SQL-boundary batch](2026-05-08-query-and-data-pipeline-sql-boundary-batch-ghsa.md)
 - [XML, SCP, and transfer-boundary batch](2026-05-08-xml-scp-and-transfer-boundary-batch-ghsa.md)
