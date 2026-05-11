@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Next.js middleware, cache, and render-boundary batch](alerts/2026-05-11-nextjs-middleware-cache-and-render-boundary-batch-ghsa.md)
+- [Database metrics, logging, and mobile-core boundary batch](alerts/2026-05-11-database-metrics-logging-and-mobile-core-boundary-batch-ghsa.md)
+- [Form merge prototype-pollution boundary batch](alerts/2026-05-11-form-merge-prototype-pollution-boundary-batch-ghsa.md)
 - [App auth, session, and message-boundary batch](alerts/2026-05-11-app-auth-session-and-message-boundary-batch-ghsa.md)
 - [Agent, sandbox, tool, and secret-boundary batch](alerts/2026-05-11-agent-sandbox-tool-and-secret-boundary-batch-ghsa.md)
 - [URL, SSRF, i18n, and render-boundary batch](alerts/2026-05-11-url-ssrf-i18n-and-render-boundary-batch-ghsa.md)

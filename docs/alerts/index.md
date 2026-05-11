@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Next.js middleware, cache, and render-boundary batch](2026-05-11-nextjs-middleware-cache-and-render-boundary-batch-ghsa.md)
+- [Database metrics, logging, and mobile-core boundary batch](2026-05-11-database-metrics-logging-and-mobile-core-boundary-batch-ghsa.md)
+- [Form merge prototype-pollution boundary batch](2026-05-11-form-merge-prototype-pollution-boundary-batch-ghsa.md)
 - [HTTP client, template loader, and authorization-boundary batch](2026-05-11-http-client-template-and-authz-boundary-batch-ghsa.md)
 - [Server Components, parser, and metrics resource-boundary batch](2026-05-11-server-components-parser-and-metrics-resource-boundary-batch-ghsa.md)
 - [Git scanner, attestation, and build-boundary batch](2026-05-11-git-scanner-attestation-and-build-boundary-batch-ghsa.md)
