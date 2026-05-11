@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Mongoose `sanitizeFilter` NoSQL-boundary bypass](2026-05-11-mongoose-sanitizefilter-nosql-boundary-ghsa-wpg9-53fq-2r8h.md)
 - [Hono render, JWT, cache, and prototype-boundary batch](2026-05-09-hono-render-jwt-cache-and-prototype-boundary-batch-ghsa.md)
 - [MCP command and TLS resource-boundary batch](2026-05-09-mcp-command-and-tls-resource-boundary-batch-ghsa.md)
 - [Render, Markdown, and preview-boundary batch](2026-05-09-render-markdown-and-preview-boundary-batch-ghsa.md)
