@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [HTTP client, template loader, and authorization-boundary batch](2026-05-11-http-client-template-and-authz-boundary-batch-ghsa.md)
+- [Server Components, parser, and metrics resource-boundary batch](2026-05-11-server-components-parser-and-metrics-resource-boundary-batch-ghsa.md)
+- [Git scanner, attestation, and build-boundary batch](2026-05-11-git-scanner-attestation-and-build-boundary-batch-ghsa.md)
+- [File stream, framework session, and UI-boundary batch](2026-05-11-file-stream-framework-session-boundary-batch-ghsa.md)
 - [App auth, session, and message-boundary batch](2026-05-11-app-auth-session-and-message-boundary-batch-ghsa.md)
 - [Agent, sandbox, tool, and secret-boundary batch](2026-05-11-agent-sandbox-tool-and-secret-boundary-batch-ghsa.md)
 - [URL, SSRF, i18n, and render-boundary batch](2026-05-11-url-ssrf-i18n-and-render-boundary-batch-ghsa.md)
