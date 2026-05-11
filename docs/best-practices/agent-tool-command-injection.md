@@ -15,12 +15,15 @@ A reviewed GitHub Security Advisory describes an argument injection vulnerabilit
 ### Claude Code: bypassing user approval prompts via `find`
 GitHub also published an advisory for **@anthropic-ai/claude-code** describing a command injection issue where untrusted input could bypass the confirmation prompt and trigger execution through the `find` command.
 
+### WebdriverIO BrowserStack service: branch-name command injection
+CVE-2026-25244 / GHSA-5c46-x3qw-q7j7 describes `@wdio/browserstack-service <=9.23.2` interpolating git branch metadata into shell commands during BrowserStack test orchestration. A malicious repository or branch name can execute commands on CI or developer hosts unless metadata is passed as structured argv and the job is sandboxed.
+
 Even if your system “asks the user first”, treat this as a reminder that **prompt gates are not a security boundary** unless the tool interface is strictly structured/validated and the executor is sandboxed.
 
 **Core anti-pattern:**
 - string interpolation into a shell command
 - `shell=True`
-- passing LLM-controlled strings into “safe” tools without a human confirmation boundary
+- passing LLM-, repository-, or web-controlled strings into “safe” tools without a human confirmation boundary
 
 ## Defensive guidance (durable)
 ### 1) Never concatenate command strings with untrusted input
@@ -65,3 +68,4 @@ Assume any content fetched from the web or repos can contain attacker instructio
 ## References
 - GitHub Advisory (CAI framework, `find` argument injection): https://github.com/advisories/GHSA-jfpc-wj3m-qw2m
 - GitHub Advisory (Claude Code, `find` command injection / approval bypass): https://github.com/advisories/GHSA-qgqw-h4xq-7w8w
+- GitHub Advisory (WebdriverIO BrowserStack service branch-name command injection): https://github.com/advisories/GHSA-5c46-x3qw-q7j7

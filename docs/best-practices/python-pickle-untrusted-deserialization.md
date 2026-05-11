@@ -2,7 +2,7 @@
 
 ## Summary
 
-`pickle` is **not a safe data format**. Deserializing attacker-controlled pickle payloads can lead to:
+`pickle` is **not a safe data format**. The same principle applies to PHP `unserialize()`, Java object streams, Ruby Marshal, and other object-graph formats. Deserializing attacker-controlled payloads can lead to:
 
 - **Remote Code Execution (RCE)** (common outcome)
 - **unexpected side effects** even when “RCE keywords” are filtered
@@ -14,7 +14,7 @@ Blocklists (“deny `os.system`”, “deny `subprocess`”) are routinely bypas
 
 ### 1) Policy: treat pickle as code
 
-- Do not accept pickle payloads from:
+- Do not accept pickle, PHP serialized objects, or comparable object-graph payloads from:
   - users
   - network clients
   - queues/topics not fully controlled
@@ -60,3 +60,4 @@ Even then, assume bypasses exist.
 
 - [Supply Chain Malware Triage](supply-chain-malware-triage.md)
 - [Untrusted XML parsing hardening](untrusted-xml-parsing-hardening.md)
+- GitHub Advisory (torrentpier PHP serialize injection): https://github.com/advisories/GHSA-h29g-c9cx-c73q

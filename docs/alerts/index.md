@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Identity, build command, and deserialization-boundary batch](2026-05-11-identity-build-command-and-deserialization-boundary-batch-ghsa.md)
 - [Config, OT, and web-admin boundary batch](2026-05-11-config-ot-and-web-admin-boundary-batch-ghsa.md)
 - [Sandbox, Git, and Kubernetes execution-boundary batch](2026-05-11-sandbox-git-and-kubernetes-execution-boundary-batch-ghsa.md)
 - [Next.js middleware, cache, and render-boundary batch](2026-05-11-nextjs-middleware-cache-and-render-boundary-batch-ghsa.md)

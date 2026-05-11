@@ -7,6 +7,7 @@ This shows up in real systems when a “heartbeat”, “refresh”, or “sessi
 
 - accepts a user/role in a request body and returns a signed JWT
 - uses a weak/guessable signing key (or lets the client choose the algorithm)
+- lets an incoming token choose its own issuer / JWKS discovery URL
 - fails open when verification fails
 - allows privilege escalation by trusting unvalidated claims (e.g., `role=admin`)
 
@@ -31,6 +32,7 @@ Checklist:
 - ensure algorithm is fixed server-side (don’t accept algorithm from token header)
 - verify signature before reading claims
 - validate `iss`, `aud`, `exp`, `nbf` (and `iat` where relevant)
+- bind each trusted `iss` to an explicit JWKS URI / key set; do not discover trust roots from untrusted token claims
 - reject tokens with missing required claims
 
 ### 4) Long-lived admin JWTs + “automation” APIs
@@ -72,3 +74,4 @@ If your product has administrative scripting/automation features:
 
 ## References
 - GitHub Advisory example: unauthenticated admin JWT minting via “heartbeat refresh” endpoint (class of issue)
+- GitHub Advisory (Unity Catalog token-exchange issuer/JWKS trust-root bypass): https://github.com/advisories/GHSA-qqcj-rghw-829x
