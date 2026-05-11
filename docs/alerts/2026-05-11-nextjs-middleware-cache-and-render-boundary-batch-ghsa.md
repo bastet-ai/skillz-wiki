@@ -16,11 +16,12 @@ This batch is durable because it shows one framework lesson from several angles:
 - **Dynamic route parameter middleware bypass** — [GHSA-492v-c6pp-mqqv](https://github.com/advisories/GHSA-492v-c6pp-mqqv): external parameters could alter the dynamic route value seen by the page while middleware saw the visible path. Affects `next >=15.4.0,<15.5.16` and `>=16.0.0,<16.2.5`.
 - **RSC response cache poisoning** — [GHSA-wfc6-r584-vfw7](https://github.com/advisories/GHSA-wfc6-r584-vfw7): shared caches could serve component payload variants from the original URL. Affects `next >=14.2.0,<15.5.16` and `>=16.0.0,<16.2.5`.
 - **App Router segment-prefetch middleware bypass** — [GHSA-267c-6grr-h53f](https://github.com/advisories/GHSA-267c-6grr-h53f): `.rsc` and segment-prefetch route variants could miss intended middleware rules. Affects `next >=15.2.0,<15.5.16` and `>=16.0.0,<16.2.5`.
+- **Turbopack middleware/proxy incomplete-fix follow-up** — [GHSA-26hh-7cqf-hhc6](https://github.com/advisories/GHSA-26hh-7cqf-hhc6) / CVE-2026-45109: the CVE-2026-44575 fix did not cover `middleware.ts` with Turbopack, so App Router segment-prefetch bypasses still require newer patches. Affects `next >=15.2.0,<15.5.18` and `>=16.0.0,<16.2.6`.
 - **Pages Router i18n data-route middleware bypass** — [GHSA-36qx-fr4f-26g5](https://github.com/advisories/GHSA-36qx-fr4f-26g5): locale-less `/_next/data/<buildId>/<page>.json` requests could retrieve protected SSR JSON without the expected middleware check. Affects `next >=12.2.0,<15.5.16` and `>=16.0.0,<16.2.5`.
 
 ## Operator triage
 
-1. Upgrade all affected Next.js applications to **15.5.16** or **16.2.5** or later; patching only one route class is not enough for this batch.
+1. Upgrade all affected Next.js applications to **15.5.18** or **16.2.6** or later; earlier 15.5.16/16.2.5 builds did not fully cover Turbopack `middleware.ts` for the segment-prefetch bypass.
 2. For self-hosted deployments, place explicit deny/allow rules in front of `/_next/data/`, `/_next/image`, `.rsc`, segment-prefetch URLs, WebSocket upgrades, and internal-only Next.js headers.
 3. Review CDN and reverse-proxy cache keys. Include `RSC`, `_rsc`, data-route classification, relevant locale, authorization state, and response type, or bypass shared caching for authenticated pages.
 4. Audit middleware/proxy authorization assumptions: verify protected content cannot be fetched through JSON data routes, RSC route variants, prefetch paths, or dynamic-route parameter confusion.

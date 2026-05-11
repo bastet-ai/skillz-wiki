@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Config, OT, and web-admin boundary batch](2026-05-11-config-ot-and-web-admin-boundary-batch-ghsa.md)
+- [Sandbox, Git, and Kubernetes execution-boundary batch](2026-05-11-sandbox-git-and-kubernetes-execution-boundary-batch-ghsa.md)
 - [Next.js middleware, cache, and render-boundary batch](2026-05-11-nextjs-middleware-cache-and-render-boundary-batch-ghsa.md)
 - [Database metrics, logging, and mobile-core boundary batch](2026-05-11-database-metrics-logging-and-mobile-core-boundary-batch-ghsa.md)
 - [Form merge prototype-pollution boundary batch](2026-05-11-form-merge-prototype-pollution-boundary-batch-ghsa.md)
