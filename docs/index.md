@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [App auth, session, and message-boundary batch](alerts/2026-05-11-app-auth-session-and-message-boundary-batch-ghsa.md)
+- [Agent, sandbox, tool, and secret-boundary batch](alerts/2026-05-11-agent-sandbox-tool-and-secret-boundary-batch-ghsa.md)
+- [URL, SSRF, i18n, and render-boundary batch](alerts/2026-05-11-url-ssrf-i18n-and-render-boundary-batch-ghsa.md)
+- [Framework file, observability, and parser-boundary batch](alerts/2026-05-11-framework-file-observability-and-parser-boundary-batch-ghsa.md)
 - [Pelican WebUI OAuth admin-bootstrap boundary](alerts/2026-05-11-pelican-webui-oauth-admin-bootstrap-boundary-ghsa-rpfr-x88x-xwcw.md)
 - [Mongoose `sanitizeFilter` NoSQL-boundary bypass](alerts/2026-05-11-mongoose-sanitizefilter-nosql-boundary-ghsa-wpg9-53fq-2r8h.md)
 - [AVideo session, CSRF, SQL, and race-boundary batch](alerts/2026-05-09-avideo-session-csrf-sql-and-race-boundary-batch-ghsa.md)

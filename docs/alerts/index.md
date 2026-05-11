@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [App auth, session, and message-boundary batch](2026-05-11-app-auth-session-and-message-boundary-batch-ghsa.md)
+- [Agent, sandbox, tool, and secret-boundary batch](2026-05-11-agent-sandbox-tool-and-secret-boundary-batch-ghsa.md)
+- [URL, SSRF, i18n, and render-boundary batch](2026-05-11-url-ssrf-i18n-and-render-boundary-batch-ghsa.md)
+- [Framework file, observability, and parser-boundary batch](2026-05-11-framework-file-observability-and-parser-boundary-batch-ghsa.md)
 - [Mongoose `sanitizeFilter` NoSQL-boundary bypass](2026-05-11-mongoose-sanitizefilter-nosql-boundary-ghsa-wpg9-53fq-2r8h.md)
 - [Hono render, JWT, cache, and prototype-boundary batch](2026-05-09-hono-render-jwt-cache-and-prototype-boundary-batch-ghsa.md)
 - [MCP command and TLS resource-boundary batch](2026-05-09-mcp-command-and-tls-resource-boundary-batch-ghsa.md)
