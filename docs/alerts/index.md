@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Active Record YAML serialized-column RCE](2026-05-11-active-record-yaml-serialized-columns-rce-ghsa-3hhc-qp5v-9p2j.md)
 - [Identity, build command, and deserialization-boundary batch](2026-05-11-identity-build-command-and-deserialization-boundary-batch-ghsa.md)
 - [Config, OT, and web-admin boundary batch](2026-05-11-config-ot-and-web-admin-boundary-batch-ghsa.md)
 - [Sandbox, Git, and Kubernetes execution-boundary batch](2026-05-11-sandbox-git-and-kubernetes-execution-boundary-batch-ghsa.md)
