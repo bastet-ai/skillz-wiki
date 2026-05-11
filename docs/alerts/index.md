@@ -10,6 +10,11 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [MantisBT attachment, issue, and UI-boundary batch](2026-05-11-mantisbt-attachment-issue-and-ui-boundary-batch-ghsa.md)
+- [Mermaid diagram render-boundary batch](2026-05-11-mermaid-diagram-render-boundary-batch-ghsa.md)
+- [JSON path, PDF export, and PHP view-boundary batch](2026-05-11-jsonpath-pdf-and-php-view-boundary-batch-ghsa.md)
+- [SandboxJS Function.caller sandbox-escape boundary](2026-05-11-sandboxjs-function-caller-sandbox-escape-ghsa-g8f2-4f4f-5jqw.md)
+
 - [Active Record YAML serialized-column RCE](2026-05-11-active-record-yaml-serialized-columns-rce-ghsa-3hhc-qp5v-9p2j.md)
 - [Identity, build command, and deserialization-boundary batch](2026-05-11-identity-build-command-and-deserialization-boundary-batch-ghsa.md)
 - [Config, OT, and web-admin boundary batch](2026-05-11-config-ot-and-web-admin-boundary-batch-ghsa.md)

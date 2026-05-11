@@ -8,6 +8,11 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [MantisBT attachment, issue, and UI-boundary batch](alerts/2026-05-11-mantisbt-attachment-issue-and-ui-boundary-batch-ghsa.md)
+- [Mermaid diagram render-boundary batch](alerts/2026-05-11-mermaid-diagram-render-boundary-batch-ghsa.md)
+- [JSON path, PDF export, and PHP view-boundary batch](alerts/2026-05-11-jsonpath-pdf-and-php-view-boundary-batch-ghsa.md)
+- [SandboxJS Function.caller sandbox-escape boundary](alerts/2026-05-11-sandboxjs-function-caller-sandbox-escape-ghsa-g8f2-4f4f-5jqw.md)
+
 - [Identity, build command, and deserialization-boundary batch](alerts/2026-05-11-identity-build-command-and-deserialization-boundary-batch-ghsa.md)
 - [Next.js middleware, cache, and render-boundary batch](alerts/2026-05-11-nextjs-middleware-cache-and-render-boundary-batch-ghsa.md)
 - [Database metrics, logging, and mobile-core boundary batch](alerts/2026-05-11-database-metrics-logging-and-mobile-core-boundary-batch-ghsa.md)
