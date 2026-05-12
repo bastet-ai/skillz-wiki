@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [TanStack npm compromise and ImageMagick XMP-boundary batch](2026-05-12-tanstack-npm-compromise-and-imagemagick-xmp-boundary-batch-ghsa.md)
 - [MantisBT attachment, issue, and UI-boundary batch](2026-05-11-mantisbt-attachment-issue-and-ui-boundary-batch-ghsa.md)
 - [Mermaid diagram render-boundary batch](2026-05-11-mermaid-diagram-render-boundary-batch-ghsa.md)
 - [JSON path, PDF export, and PHP view-boundary batch](2026-05-11-jsonpath-pdf-and-php-view-boundary-batch-ghsa.md)
