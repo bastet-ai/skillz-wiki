@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [OpenClaw runtime and channel boundary refresh](alerts/2026-05-12-openclaw-runtime-and-channel-boundary-refresh-ghsa.md)
+- [App identity, URL, and filesystem-boundary batch](alerts/2026-05-12-app-identity-url-and-filesystem-boundary-batch-ghsa.md)
+- [Agent, framework command, and data-boundary batch](alerts/2026-05-12-agent-framework-command-and-data-boundary-batch-ghsa.md)
+- [Parser, render, and consensus-boundary batch](alerts/2026-05-12-parser-render-and-consensus-boundary-batch-ghsa.md)
 - [Nuclei template update hygiene](best-practices/nuclei-template-update-hygiene.md)
 - [Go fuzzing: keep `testing.F`, upgrade the engine with gosentry](best-practices/go-fuzzing-with-gosentry.md)
 - [TanStack npm compromise and ImageMagick XMP-boundary batch](alerts/2026-05-12-tanstack-npm-compromise-and-imagemagick-xmp-boundary-batch-ghsa.md)

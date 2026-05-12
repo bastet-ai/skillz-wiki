@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenClaw runtime and channel boundary refresh](2026-05-12-openclaw-runtime-and-channel-boundary-refresh-ghsa.md)
+- [App identity, URL, and filesystem-boundary batch](2026-05-12-app-identity-url-and-filesystem-boundary-batch-ghsa.md)
+- [Agent, framework command, and data-boundary batch](2026-05-12-agent-framework-command-and-data-boundary-batch-ghsa.md)
+- [Parser, render, and consensus-boundary batch](2026-05-12-parser-render-and-consensus-boundary-batch-ghsa.md)
 - [TanStack npm compromise and ImageMagick XMP-boundary batch](2026-05-12-tanstack-npm-compromise-and-imagemagick-xmp-boundary-batch-ghsa.md)
 - [MantisBT attachment, issue, and UI-boundary batch](2026-05-11-mantisbt-attachment-issue-and-ui-boundary-batch-ghsa.md)
 - [Mermaid diagram render-boundary batch](2026-05-11-mermaid-diagram-render-boundary-batch-ghsa.md)
