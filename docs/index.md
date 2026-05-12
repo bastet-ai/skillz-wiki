@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Dalfox server-mode API boundary batch](alerts/2026-05-12-dalfox-server-mode-api-boundary-batch-ghsa.md)
+- [protobuf.js codegen and parser-boundary batch](alerts/2026-05-12-protobufjs-codegen-parser-boundary-batch-ghsa.md)
+- [Secret-token and decimal resource-boundary batch](alerts/2026-05-12-secret-token-and-decimal-resource-boundary-batch-ghsa.md)
 - [OpenClaw runtime and channel boundary refresh](alerts/2026-05-12-openclaw-runtime-and-channel-boundary-refresh-ghsa.md)
 - [App identity, URL, and filesystem-boundary batch](alerts/2026-05-12-app-identity-url-and-filesystem-boundary-batch-ghsa.md)
 - [Agent, framework command, and data-boundary batch](alerts/2026-05-12-agent-framework-command-and-data-boundary-batch-ghsa.md)
