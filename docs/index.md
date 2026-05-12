@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Hosted app, CDN, and serializer-boundary batch](alerts/2026-05-12-hosted-app-cdn-and-serializer-boundary-batch-ghsa.md)
 - [OpenClaude sandbox and OpenClaw media-replay policy boundaries](alerts/2026-05-12-openclaude-and-openclaw-runtime-policy-boundaries-ghsa.md)
 - [npm command and prototype-pollution boundary batch](alerts/2026-05-12-npm-command-and-prototype-pollution-boundaries-ghsa.md)
 - [Parser and web-render boundary batch](alerts/2026-05-12-parser-and-web-render-boundary-batch-ghsa.md)
