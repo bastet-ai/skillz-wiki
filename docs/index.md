@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Nuclei template update hygiene](best-practices/nuclei-template-update-hygiene.md)
 - [Go fuzzing: keep `testing.F`, upgrade the engine with gosentry](best-practices/go-fuzzing-with-gosentry.md)
 - [TanStack npm compromise and ImageMagick XMP-boundary batch](alerts/2026-05-12-tanstack-npm-compromise-and-imagemagick-xmp-boundary-batch-ghsa.md)
 - [MantisBT attachment, issue, and UI-boundary batch](alerts/2026-05-11-mantisbt-attachment-issue-and-ui-boundary-batch-ghsa.md)
