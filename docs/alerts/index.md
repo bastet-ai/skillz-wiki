@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenClaude MCP OAuth callback state boundary](2026-05-12-openclaude-mcp-oauth-callback-state-boundary-ghsa-c73c-x77g-854r.md)
 - [OpenClaw runtime and channel boundary refresh](2026-05-12-openclaw-runtime-and-channel-boundary-refresh-ghsa.md)
 - [App identity, URL, and filesystem-boundary batch](2026-05-12-app-identity-url-and-filesystem-boundary-batch-ghsa.md)
 - [Agent, framework command, and data-boundary batch](2026-05-12-agent-framework-command-and-data-boundary-batch-ghsa.md)
