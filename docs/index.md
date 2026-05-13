@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Strapi session, SQL, and rate-limit boundary batch](alerts/2026-05-13-strapi-session-sql-and-rate-limit-boundary-batch-ghsa.md)
 - [Template, render, CMS, and execution-boundary batch](alerts/2026-05-13-template-render-cms-and-execution-boundary-batch-ghsa.md)
 - [Identity, auth, and control-plane boundary batch](alerts/2026-05-13-identity-auth-and-control-plane-boundary-batch-ghsa.md)
 - [Parser, resource, HTTP, and Rack-boundary batch](alerts/2026-05-13-parser-resource-http-and-rack-boundary-batch-ghsa.md)
