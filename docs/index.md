@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [CMS, identity, and permission-boundary batch](alerts/2026-05-13-cms-identity-and-permission-boundary-batch-ghsa.md)
+- [Agent, build, SSRF, and tool-execution boundary batch](alerts/2026-05-13-agent-build-ssrf-and-tool-execution-boundary-batch-ghsa.md)
+- [Protocol, parser, and resource-boundary batch](alerts/2026-05-13-protocol-parser-and-resource-boundary-batch-ghsa.md)
+- [URL, i18n, render, and data-boundary batch](alerts/2026-05-13-url-i18n-render-and-data-boundary-batch-ghsa.md)
 - [Identity, OAuth, and tenant-authorization boundary batch](alerts/2026-05-13-identity-oauth-and-tenant-authorization-boundary-batch-ghsa.md)
 - [Render, code, and encrypted-context boundary batch](alerts/2026-05-13-render-code-and-encrypted-context-boundary-batch-ghsa.md)
 - [P2P decompression resource boundary: Klever-Go MultiDataInterceptor](alerts/2026-05-13-p2p-decompression-resource-boundary-ghsa-87m7-qffr-542v.md)

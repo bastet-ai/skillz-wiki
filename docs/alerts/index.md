@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [CMS, identity, and permission-boundary batch](2026-05-13-cms-identity-and-permission-boundary-batch-ghsa.md)
+- [Agent, build, SSRF, and tool-execution boundary batch](2026-05-13-agent-build-ssrf-and-tool-execution-boundary-batch-ghsa.md)
+- [Protocol, parser, and resource-boundary batch](2026-05-13-protocol-parser-and-resource-boundary-batch-ghsa.md)
+- [URL, i18n, render, and data-boundary batch](2026-05-13-url-i18n-render-and-data-boundary-batch-ghsa.md)
 - [OpenClaude sandbox and OpenClaw media-replay policy boundaries](2026-05-12-openclaude-and-openclaw-runtime-policy-boundaries-ghsa.md)
 - [npm command and prototype-pollution boundary batch](2026-05-12-npm-command-and-prototype-pollution-boundaries-ghsa.md)
 - [Parser and web-render boundary batch](2026-05-12-parser-and-web-render-boundary-batch-ghsa.md)
