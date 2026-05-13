@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Identity, OAuth, and tenant-authorization boundary batch](alerts/2026-05-13-identity-oauth-and-tenant-authorization-boundary-batch-ghsa.md)
+- [Render, code, and encrypted-context boundary batch](alerts/2026-05-13-render-code-and-encrypted-context-boundary-batch-ghsa.md)
+- [P2P decompression resource boundary: Klever-Go MultiDataInterceptor](alerts/2026-05-13-p2p-decompression-resource-boundary-ghsa-87m7-qffr-542v.md)
 - [Hosted app, CDN, and serializer-boundary batch](alerts/2026-05-12-hosted-app-cdn-and-serializer-boundary-batch-ghsa.md)
 - [OpenClaude sandbox and OpenClaw media-replay policy boundaries](alerts/2026-05-12-openclaude-and-openclaw-runtime-policy-boundaries-ghsa.md)
 - [npm command and prototype-pollution boundary batch](alerts/2026-05-12-npm-command-and-prototype-pollution-boundaries-ghsa.md)
