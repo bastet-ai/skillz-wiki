@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [AVideo platform SSRF, auth, and secret-boundary batch](alerts/2026-05-13-avideo-platform-ssrf-auth-and-secret-boundary-batch-ghsa.md)
+- [SSRF, storage, proxy, and URL-boundary batch](alerts/2026-05-13-ssrf-storage-proxy-and-url-boundary-batch-ghsa.md)
+- [Kubernetes secret, WebUI, and config-boundary batch](alerts/2026-05-13-kubernetes-secret-webui-and-config-boundary-batch-ghsa.md)
+- [Render, MCP, command, and HTTP-boundary batch](alerts/2026-05-13-render-mcp-command-and-http-boundary-batch-ghsa.md)
 - [CMS, identity, and permission-boundary batch](alerts/2026-05-13-cms-identity-and-permission-boundary-batch-ghsa.md)
 - [Agent, build, SSRF, and tool-execution boundary batch](alerts/2026-05-13-agent-build-ssrf-and-tool-execution-boundary-batch-ghsa.md)
 - [Protocol, parser, and resource-boundary batch](alerts/2026-05-13-protocol-parser-and-resource-boundary-batch-ghsa.md)
