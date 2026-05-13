@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Rails, Rack, render, and static-boundary batch](alerts/2026-05-13-rails-rack-render-and-static-boundary-batch-ghsa.md)
+- [Notes, control-plane, and authorization-boundary batch](alerts/2026-05-13-notes-control-plane-and-authz-boundary-batch-ghsa.md)
+- [Tool execution, deserialization, and secret-boundary batch](alerts/2026-05-13-tool-execution-deserialization-and-secret-boundary-batch-ghsa.md)
+- [Protocol, crypto, resource, and type-boundary batch](alerts/2026-05-13-protocol-crypto-resource-and-type-boundary-batch-ghsa.md)
 - [AVideo platform SSRF, auth, and secret-boundary batch](alerts/2026-05-13-avideo-platform-ssrf-auth-and-secret-boundary-batch-ghsa.md)
 - [SSRF, storage, proxy, and URL-boundary batch](alerts/2026-05-13-ssrf-storage-proxy-and-url-boundary-batch-ghsa.md)
 - [Kubernetes secret, WebUI, and config-boundary batch](alerts/2026-05-13-kubernetes-secret-webui-and-config-boundary-batch-ghsa.md)

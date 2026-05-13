@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Rails, Rack, render, and static-boundary batch](2026-05-13-rails-rack-render-and-static-boundary-batch-ghsa.md)
+- [Notes, control-plane, and authorization-boundary batch](2026-05-13-notes-control-plane-and-authz-boundary-batch-ghsa.md)
+- [Tool execution, deserialization, and secret-boundary batch](2026-05-13-tool-execution-deserialization-and-secret-boundary-batch-ghsa.md)
+- [Protocol, crypto, resource, and type-boundary batch](2026-05-13-protocol-crypto-resource-and-type-boundary-batch-ghsa.md)
 - [CMS, identity, and permission-boundary batch](2026-05-13-cms-identity-and-permission-boundary-batch-ghsa.md)
 - [Agent, build, SSRF, and tool-execution boundary batch](2026-05-13-agent-build-ssrf-and-tool-execution-boundary-batch-ghsa.md)
 - [Protocol, parser, and resource-boundary batch](2026-05-13-protocol-parser-and-resource-boundary-batch-ghsa.md)
