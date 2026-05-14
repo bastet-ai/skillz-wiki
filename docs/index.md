@@ -8,6 +8,10 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Portainer control-plane and host-boundary batch](alerts/2026-05-14-portainer-control-plane-host-boundary-batch-ghsa.md)
+- [Flowise and n8n tenant/workflow boundary batch](alerts/2026-05-14-flowise-and-n8n-tenant-workflow-boundary-batch-ghsa.md)
+- [Render, resource, and session-boundary batch](alerts/2026-05-14-render-resource-and-session-boundary-batch-ghsa.md)
+- [TanStack server-function deserialization boundary](alerts/2026-05-14-tanstack-server-function-boundary-ghsa-9m65-766c-r333.md)
 - [Flowise RCE, secret, and tenant-boundary batch](alerts/2026-05-14-flowise-rce-secret-and-tenant-boundary-batch-ghsa.md)
 - [Fleet, Strapi, and CI execution-boundary batch](alerts/2026-05-14-fleet-strapi-and-ci-execution-boundary-batch-ghsa.md)
 - [Fleet MDM identity and rate-limit boundary batch](alerts/2026-05-14-fleet-mdm-identity-and-rate-limit-boundary-batch-ghsa.md)
