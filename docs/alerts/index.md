@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Fleet MDM identity and rate-limit boundary batch](2026-05-14-fleet-mdm-identity-and-rate-limit-boundary-batch-ghsa.md)
+- [Upload, vector-store, JDBC, and NiFi execution-boundary batch](2026-05-14-upload-vector-jdbc-and-nifi-execution-boundary-batch-ghsa.md)
+- [GraphQL, CMS, XML, and crypto-boundary batch](2026-05-14-graphql-cms-xml-and-crypto-boundary-batch-ghsa.md)
 - [Authlib cache-backed OAuth state CSRF boundary](2026-05-14-authlib-cache-oauth-csrf-boundary-ghsa-jj8c-mmj3-mmgv.md)
 - [AutoMapper recursion resource-boundary crash](2026-05-14-automapper-recursion-resource-boundary-ghsa-rvv3-g6hj-g44x.md)
 - [Template, render, CMS, and execution-boundary batch](2026-05-13-template-render-cms-and-execution-boundary-batch-ghsa.md)

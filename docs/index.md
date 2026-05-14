@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Fleet MDM identity and rate-limit boundary batch](alerts/2026-05-14-fleet-mdm-identity-and-rate-limit-boundary-batch-ghsa.md)
+- [Upload, vector-store, JDBC, and NiFi execution-boundary batch](alerts/2026-05-14-upload-vector-jdbc-and-nifi-execution-boundary-batch-ghsa.md)
+- [GraphQL, CMS, XML, and crypto-boundary batch](alerts/2026-05-14-graphql-cms-xml-and-crypto-boundary-batch-ghsa.md)
 - [Authlib cache-backed OAuth state CSRF boundary](alerts/2026-05-14-authlib-cache-oauth-csrf-boundary-ghsa-jj8c-mmj3-mmgv.md)
 - [AutoMapper recursion resource-boundary crash](alerts/2026-05-14-automapper-recursion-resource-boundary-ghsa-rvv3-g6hj-g44x.md)
 - [Strapi session, SQL, and rate-limit boundary batch](alerts/2026-05-13-strapi-session-sql-and-rate-limit-boundary-batch-ghsa.md)
