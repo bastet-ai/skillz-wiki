@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Fleet, Strapi, and CI execution-boundary batch](2026-05-14-fleet-strapi-and-ci-execution-boundary-batch-ghsa.md)
 - [Fleet MDM identity and rate-limit boundary batch](2026-05-14-fleet-mdm-identity-and-rate-limit-boundary-batch-ghsa.md)
 - [Upload, vector-store, JDBC, and NiFi execution-boundary batch](2026-05-14-upload-vector-jdbc-and-nifi-execution-boundary-batch-ghsa.md)
 - [GraphQL, CMS, XML, and crypto-boundary batch](2026-05-14-graphql-cms-xml-and-crypto-boundary-batch-ghsa.md)
