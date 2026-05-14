@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Authlib cache-backed OAuth state CSRF boundary](2026-05-14-authlib-cache-oauth-csrf-boundary-ghsa-jj8c-mmj3-mmgv.md)
+- [AutoMapper recursion resource-boundary crash](2026-05-14-automapper-recursion-resource-boundary-ghsa-rvv3-g6hj-g44x.md)
 - [Template, render, CMS, and execution-boundary batch](2026-05-13-template-render-cms-and-execution-boundary-batch-ghsa.md)
 - [Identity, auth, and control-plane boundary batch](2026-05-13-identity-auth-and-control-plane-boundary-batch-ghsa.md)
 - [Parser, resource, HTTP, and Rack-boundary batch](2026-05-13-parser-resource-http-and-rack-boundary-batch-ghsa.md)
