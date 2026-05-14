@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Tool protocol, sandbox, and MCP boundary batch](alerts/2026-05-14-tool-protocol-sandbox-and-mcp-boundary-batch-ghsa.md)
+- [Auth, query, and protocol-parser boundary batch](alerts/2026-05-14-auth-query-and-protocol-parser-boundary-batch-ghsa.md)
 - [Open WebUI, Electerm, and Kuma local-boundary batch](alerts/2026-05-14-open-webui-electerm-and-kuma-local-boundary-batch-ghsa.md)
 - [Render, SSRF, filesystem, and MCP secret-boundary batch](alerts/2026-05-14-render-ssrf-filesystem-and-mcp-secret-boundary-batch-ghsa.md)
 - [Netty transport and Cisco SD-WAN edge-boundary batch](alerts/2026-05-14-netty-transport-and-cisco-sdwan-edge-boundary-batch.md)

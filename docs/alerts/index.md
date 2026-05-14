@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Tool protocol, sandbox, and MCP boundary batch](2026-05-14-tool-protocol-sandbox-and-mcp-boundary-batch-ghsa.md)
+- [Auth, query, and protocol-parser boundary batch](2026-05-14-auth-query-and-protocol-parser-boundary-batch-ghsa.md)
 - [Open WebUI, Electerm, and Kuma local-boundary batch](2026-05-14-open-webui-electerm-and-kuma-local-boundary-batch-ghsa.md)
 - [Render, SSRF, filesystem, and MCP secret-boundary batch](2026-05-14-render-ssrf-filesystem-and-mcp-secret-boundary-batch-ghsa.md)
 - [Netty transport and Cisco SD-WAN edge-boundary batch](2026-05-14-netty-transport-and-cisco-sdwan-edge-boundary-batch.md)
