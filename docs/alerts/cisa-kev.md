@@ -13,6 +13,10 @@ This section captures **durable, actionable guidance** triggered by noteworthy a
 
 ## Recent additions worth prioritizing
 
+- **CVE-2026-20182 — Cisco Catalyst SD-WAN Controller authentication bypass**
+  - Emergency-priority SD-WAN control-plane exposure with known exploitation and a CISA due date of 2026-05-17.
+  - Restrict controller/manager exposure, apply ED 26-03 mitigation and hunt guidance, and rotate controller/admin secrets after compromise assessment.
+
 - **CVE-2026-41940 — WebPros cPanel & WHM / WP2 authentication bypass**
   - Emergency-priority hosting control-panel exposure with reported exploitation.
   - Patch branch-specific fixed builds immediately and restrict WHM/cPanel management ports while validating compromise indicators.

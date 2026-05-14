@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Netty transport and Cisco SD-WAN edge-boundary batch](alerts/2026-05-14-netty-transport-and-cisco-sdwan-edge-boundary-batch.md)
 - [Portainer control-plane and host-boundary batch](alerts/2026-05-14-portainer-control-plane-host-boundary-batch-ghsa.md)
 - [Flowise and n8n tenant/workflow boundary batch](alerts/2026-05-14-flowise-and-n8n-tenant-workflow-boundary-batch-ghsa.md)
 - [Render, resource, and session-boundary batch](alerts/2026-05-14-render-resource-and-session-boundary-batch-ghsa.md)
