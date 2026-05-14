@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [AutoMapper recursion resource-boundary crash](alerts/2026-05-14-automapper-recursion-resource-boundary-ghsa-rvv3-g6hj-g44x.md)
 - [Strapi session, SQL, and rate-limit boundary batch](alerts/2026-05-13-strapi-session-sql-and-rate-limit-boundary-batch-ghsa.md)
 - [Template, render, CMS, and execution-boundary batch](alerts/2026-05-13-template-render-cms-and-execution-boundary-batch-ghsa.md)
 - [Identity, auth, and control-plane boundary batch](alerts/2026-05-13-identity-auth-and-control-plane-boundary-batch-ghsa.md)
