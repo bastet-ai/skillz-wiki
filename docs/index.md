@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Budibase, auth, filesystem, and crypto-boundary batch](alerts/2026-05-15-budibase-auth-filesystem-and-crypto-boundary-batch-ghsa.md)
 - [Exchange render, filesystem, and CGI boundary batch](alerts/2026-05-15-exchange-render-filesystem-and-cgi-boundary-batch.md)
 - [Open WebUI feedback mass-assignment boundary](alerts/2026-05-15-open-webui-feedback-mass-assignment-boundary-ghsa-rjmp-vjf2-qf4g.md)
 - [devalue sparse-array and Open WebUI banner-boundary batch](alerts/2026-05-15-devalue-sparse-array-and-open-webui-banner-boundary-batch-ghsa.md)
