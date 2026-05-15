@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [AVideo auth, SSRF, command, and transport-boundary batch](2026-05-15-avideo-auth-ssrf-command-and-transport-boundary-batch-ghsa.md)
 - [Budibase, auth, filesystem, and crypto-boundary batch](2026-05-15-budibase-auth-filesystem-and-crypto-boundary-batch-ghsa.md)
 - [Exchange render, filesystem, and CGI boundary batch](2026-05-15-exchange-render-filesystem-and-cgi-boundary-batch.md)
 - [Open WebUI feedback mass-assignment boundary](2026-05-15-open-webui-feedback-mass-assignment-boundary-ghsa-rjmp-vjf2-qf4g.md)
