@@ -13,6 +13,10 @@ This section captures **durable, actionable guidance** triggered by noteworthy a
 
 ## Recent additions worth prioritizing
 
+- **CVE-2026-42897 — Microsoft Exchange Server OWA cross-site scripting**
+  - KEV-tracked Exchange web-render exposure with a CISA due date of 2026-05-29.
+  - Patch or apply vendor mitigations, verify Exchange Emergency Mitigation Service health, restrict OWA exposure where possible, and hunt for suspicious OWA/session/mailbox-rule activity.
+
 - **CVE-2026-20182 — Cisco Catalyst SD-WAN Controller authentication bypass**
   - Emergency-priority SD-WAN control-plane exposure with known exploitation and a CISA due date of 2026-05-17.
   - Restrict controller/manager exposure, apply ED 26-03 mitigation and hunt guidance, and rotate controller/admin secrets after compromise assessment.

@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Exchange render, filesystem, and CGI boundary batch](2026-05-15-exchange-render-filesystem-and-cgi-boundary-batch.md)
 - [Open WebUI feedback mass-assignment boundary](2026-05-15-open-webui-feedback-mass-assignment-boundary-ghsa-rjmp-vjf2-qf4g.md)
 - [devalue sparse-array and Open WebUI banner-boundary batch](2026-05-15-devalue-sparse-array-and-open-webui-banner-boundary-batch-ghsa.md)
 - [Git checkout and upload filesystem-boundary batch](2026-05-14-git-checkout-and-upload-filesystem-boundary-batch-ghsa.md)
