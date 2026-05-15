@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [devalue sparse-array and Open WebUI banner-boundary batch](alerts/2026-05-15-devalue-sparse-array-and-open-webui-banner-boundary-batch-ghsa.md)
 - [Git checkout and upload filesystem-boundary batch](alerts/2026-05-14-git-checkout-and-upload-filesystem-boundary-batch-ghsa.md)
 - [Svelte devalue own-`__proto__` deserialization boundary](alerts/2026-05-14-devalue-own-proto-deserialization-boundary-ghsa-mwv9-gp5h-frr4.md)
 - [Tool protocol, sandbox, and MCP boundary batch](alerts/2026-05-14-tool-protocol-sandbox-and-mcp-boundary-batch-ghsa.md)

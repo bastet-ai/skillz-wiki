@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [devalue sparse-array and Open WebUI banner-boundary batch](2026-05-15-devalue-sparse-array-and-open-webui-banner-boundary-batch-ghsa.md)
 - [Git checkout and upload filesystem-boundary batch](2026-05-14-git-checkout-and-upload-filesystem-boundary-batch-ghsa.md)
 - [Svelte devalue own-`__proto__` deserialization boundary](2026-05-14-devalue-own-proto-deserialization-boundary-ghsa-mwv9-gp5h-frr4.md)
 - [Tool protocol, sandbox, and MCP boundary batch](2026-05-14-tool-protocol-sandbox-and-mcp-boundary-batch-ghsa.md)
