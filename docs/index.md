@@ -8,6 +8,11 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Open WebUI and image-fetch RAG, SSRF, and knowledge-boundary batch](alerts/2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md)
+- [Open WebUI auth, session, and API authorization-boundary batch](alerts/2026-05-16-open-webui-auth-session-and-api-authorization-boundary-batch-ghsa.md)
+- [Open WebUI model, render, cache, and execution-boundary batch](alerts/2026-05-16-open-webui-model-render-cache-and-execution-boundary-batch-ghsa.md)
+- [Supply-chain, signature, SSRF, and crypto-boundary batch](alerts/2026-05-16-supply-chain-signature-ssrf-and-crypto-boundary-batch-ghsa.md)
+- [Web app identity, render, filesystem, and proxy-boundary batch](alerts/2026-05-16-web-app-identity-render-filesystem-and-proxy-boundary-batch-ghsa.md)
 - [AVideo auth, SSRF, command, and transport-boundary batch](alerts/2026-05-15-avideo-auth-ssrf-command-and-transport-boundary-batch-ghsa.md)
 - [Budibase, auth, filesystem, and crypto-boundary batch](alerts/2026-05-15-budibase-auth-filesystem-and-crypto-boundary-batch-ghsa.md)
 - [Exchange render, filesystem, and CGI boundary batch](alerts/2026-05-15-exchange-render-filesystem-and-cgi-boundary-batch.md)
