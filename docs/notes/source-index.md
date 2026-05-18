@@ -5,6 +5,13 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Apache Tomcat security advisories: https://tomcat.apache.org/security.html
+- ImageMagick security policy and releases: https://imagemagick.org/script/security-policy.php
+- NiceGUI advisories: https://github.com/zauberzeug/nicegui/security/advisories
+- HAPI FHIR project: https://github.com/hapifhir/hapi-fhir
+- PyTorch Lightning project: https://github.com/Lightning-AI/pytorch-lightning
+- Snorkel project: https://github.com/snorkel-team/snorkel
+- PySyft project: https://github.com/OpenMined/PySyft
 - .NET security advisories: https://github.com/dotnet/announcements/issues
 - ASP.NET Core security advisories: https://github.com/dotnet/aspnetcore/security/advisories
 - ws WebSocket advisories: https://github.com/websockets/ws/security/advisories
