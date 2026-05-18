@@ -18,6 +18,12 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - MLflow security advisories: https://github.com/mlflow/mlflow/security/advisories
 - Magick.NET/ImageMagick advisories: https://github.com/dlemstra/Magick.NET/security/advisories
 - flash-attention project: https://github.com/Dao-AILab/flash-attention
+- Zebra security advisories: https://github.com/ZcashFoundation/zebra/security/advisories
+- dynoxide project/advisories: https://github.com/wojciech-graj/dynoxide/security/advisories
+- Dozzle project/advisories: https://github.com/amir20/dozzle/security/advisories
+- Erlang cowlib advisories: https://github.com/ninenines/cowlib/security/advisories
+- LibreNMS advisories: https://github.com/librenms/librenms/security/advisories
+- CI4MS advisories: https://github.com/ci4-cms-erp/ci4ms/security/advisories
 
 ## Network and service discovery
 

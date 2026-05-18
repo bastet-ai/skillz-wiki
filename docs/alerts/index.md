@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [MCP, parser, admin, and consensus-boundary batch](2026-05-18-mcp-parser-admin-and-consensus-boundary-batch-ghsa.md)
 - [Auth, render, ML, and parser-boundary batch](2026-05-18-auth-render-ml-and-parser-boundary-batch-ghsa.md)
 - [pgAdmin, URL, XML, and loopback-boundary batch](2026-05-18-pgadmin-url-xml-and-loopback-boundary-batch-ghsa.md)
 - [Admin Git, FastCGI, MCP, and parser-boundary batch](2026-05-18-admin-git-fastcgi-mcp-and-parser-boundary-batch-ghsa.md)
