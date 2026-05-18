@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenTelemetry eBPF and WindowsDesktop runtime-boundary batch](2026-05-18-opentelemetry-ebpf-and-windowsdesktop-runtime-boundary-batch-ghsa.md)
 - [Observability, container, AI, and parser-boundary batch](2026-05-18-observability-container-ai-and-parser-boundary-batch-ghsa.md)
 - [MCP, parser, admin, and consensus-boundary batch](2026-05-18-mcp-parser-admin-and-consensus-boundary-batch-ghsa.md)
 - [Auth, render, ML, and parser-boundary batch](2026-05-18-auth-render-ml-and-parser-boundary-batch-ghsa.md)
