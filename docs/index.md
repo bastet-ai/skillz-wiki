@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Observability, container, AI, and parser-boundary batch](alerts/2026-05-18-observability-container-ai-and-parser-boundary-batch-ghsa.md)
 - [MCP, parser, admin, and consensus-boundary batch](alerts/2026-05-18-mcp-parser-admin-and-consensus-boundary-batch-ghsa.md)
 - [Auth, render, ML, and parser-boundary batch](alerts/2026-05-18-auth-render-ml-and-parser-boundary-batch-ghsa.md)
 - [pgAdmin, URL, XML, and loopback-boundary batch](alerts/2026-05-18-pgadmin-url-xml-and-loopback-boundary-batch-ghsa.md)

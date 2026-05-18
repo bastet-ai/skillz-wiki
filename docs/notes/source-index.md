@@ -24,6 +24,13 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Erlang cowlib advisories: https://github.com/ninenines/cowlib/security/advisories
 - LibreNMS advisories: https://github.com/librenms/librenms/security/advisories
 - CI4MS advisories: https://github.com/ci4-cms-erp/ci4ms/security/advisories
+- OpenTelemetry eBPF Instrumentation advisories: https://github.com/open-telemetry/opentelemetry-ebpf-instrumentation/security/advisories
+- Mistral AI package advisories: https://github.com/mistralai/client-python/security/advisories
+- Spring AI advisories: https://github.com/spring-projects/spring-ai/security/advisories
+- Docker/Moby security advisories: https://github.com/moby/moby/security/advisories
+- Budibase advisories: https://github.com/Budibase/budibase/security/advisories
+- n8n-MCP advisories: https://github.com/czlonkowski/n8n-mcp/security/advisories
+- multiparty advisories: https://github.com/pillarjs/multiparty/security/advisories
 
 ## Network and service discovery
 
