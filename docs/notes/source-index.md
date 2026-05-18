@@ -13,6 +13,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Caddy security advisories: https://github.com/caddyserver/caddy/security/advisories
 - Spring AI MCP Security: https://github.com/spring-ai-community/mcp-security
 - webpack-dev-server advisories: https://github.com/webpack/webpack-dev-server/security/advisories
+- eduMFA advisories: https://github.com/eduMFA/eduMFA/security/advisories
+- Statamic CMS security advisories: https://github.com/statamic/cms/security/advisories
+- MLflow security advisories: https://github.com/mlflow/mlflow/security/advisories
+- Magick.NET/ImageMagick advisories: https://github.com/dlemstra/Magick.NET/security/advisories
+- flash-attention project: https://github.com/Dao-AILab/flash-attention
 
 ## Network and service discovery
 
