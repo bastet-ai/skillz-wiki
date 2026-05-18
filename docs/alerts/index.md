@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Admin Git, FastCGI, MCP, and parser-boundary batch](2026-05-18-admin-git-fastcgi-mcp-and-parser-boundary-batch-ghsa.md)
+- [Avro map allocation resource boundary](2026-05-18-avro-map-allocation-resource-boundary-ghsa-mx64-mj3q-7prj.md)
 - [Open WebUI and image-fetch RAG, SSRF, and knowledge-boundary batch](2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md)
 - [Open WebUI auth, session, and API authorization-boundary batch](2026-05-16-open-webui-auth-session-and-api-authorization-boundary-batch-ghsa.md)
 - [Open WebUI model, render, cache, and execution-boundary batch](2026-05-16-open-webui-model-render-cache-and-execution-boundary-batch-ghsa.md)

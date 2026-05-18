@@ -6,6 +6,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - Trail of Bits Blog: https://blog.trailofbits.com/
+- Caddy security advisories: https://github.com/caddyserver/caddy/security/advisories
+- Spring AI MCP Security: https://github.com/spring-ai-community/mcp-security
+- webpack-dev-server advisories: https://github.com/webpack/webpack-dev-server/security/advisories
 
 ## Network and service discovery
 
