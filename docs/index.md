@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Avro map allocation resource boundary](alerts/2026-05-18-avro-map-allocation-resource-boundary-ghsa-mx64-mj3q-7prj.md)
 - [Open WebUI and image-fetch RAG, SSRF, and knowledge-boundary batch](alerts/2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md)
 - [Open WebUI auth, session, and API authorization-boundary batch](alerts/2026-05-16-open-webui-auth-session-and-api-authorization-boundary-batch-ghsa.md)
 - [Open WebUI model, render, cache, and execution-boundary batch](alerts/2026-05-16-open-webui-model-render-cache-and-execution-boundary-batch-ghsa.md)

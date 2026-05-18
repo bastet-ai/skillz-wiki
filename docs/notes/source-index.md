@@ -4,6 +4,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 ## Application security research
 
+- GitHub Security Advisories: https://github.com/advisories
 - Trail of Bits Blog: https://blog.trailofbits.com/
 
 ## Network and service discovery
