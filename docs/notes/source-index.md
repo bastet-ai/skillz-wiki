@@ -5,6 +5,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- pgAdmin security advisories: https://www.pgadmin.org/support/security/
+- Faraday project security advisories: https://github.com/lostisland/faraday/security/advisories
+- Docling project: https://github.com/docling-project/docling
+- Neotoma project: https://github.com/NeotomaDB/neotoma
 - Trail of Bits Blog: https://blog.trailofbits.com/
 - Caddy security advisories: https://github.com/caddyserver/caddy/security/advisories
 - Spring AI MCP Security: https://github.com/spring-ai-community/mcp-security

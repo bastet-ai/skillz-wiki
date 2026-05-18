@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [pgAdmin, URL, XML, and loopback-boundary batch](2026-05-18-pgadmin-url-xml-and-loopback-boundary-batch-ghsa.md)
 - [Admin Git, FastCGI, MCP, and parser-boundary batch](2026-05-18-admin-git-fastcgi-mcp-and-parser-boundary-batch-ghsa.md)
 - [Avro map allocation resource boundary](2026-05-18-avro-map-allocation-resource-boundary-ghsa-mx64-mj3q-7prj.md)
 - [Open WebUI and image-fetch RAG, SSRF, and knowledge-boundary batch](2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md)
