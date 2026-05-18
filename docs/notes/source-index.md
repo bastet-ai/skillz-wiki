@@ -5,6 +5,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- .NET security advisories: https://github.com/dotnet/announcements/issues
+- ASP.NET Core security advisories: https://github.com/dotnet/aspnetcore/security/advisories
+- ws WebSocket advisories: https://github.com/websockets/ws/security/advisories
+- AVideo advisories: https://github.com/WWBN/AVideo/security/advisories
 - pgAdmin security advisories: https://www.pgadmin.org/support/security/
 - Faraday project security advisories: https://github.com/lostisland/faraday/security/advisories
 - Docling project: https://github.com/docling-project/docling
