@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Podman `kube play` symlink host-write boundary](alerts/2026-05-19-podman-kube-play-symlink-host-write-boundary-ghsa-wp3j-xq48-xpjw.md)
 - [Apostrophe host-header password-reset boundary](alerts/2026-05-19-apostrophe-host-header-password-reset-boundary-ghsa-gf43-24g3-5hw2.md)
 - [OpenTelemetry eBPF and WindowsDesktop runtime-boundary batch](alerts/2026-05-18-opentelemetry-ebpf-and-windowsdesktop-runtime-boundary-batch-ghsa.md)
 - [.NET, WebSocket, and AVideo file-boundary batch](alerts/2026-05-18-dotnet-websocket-and-avideo-file-boundary-batch-ghsa.md)
