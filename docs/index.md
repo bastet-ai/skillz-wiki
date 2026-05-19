@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [MCP, admin, parser, and service-boundary batch](alerts/2026-05-19-mcp-admin-parser-and-service-boundary-batch-ghsa.md)
 - [MCP fetch, upload, cache, and parser-boundary batch](alerts/2026-05-19-mcp-upload-cache-and-parser-boundary-batch-ghsa.md)
 - [Open WebUI, OpenClaw, Nomad, and filesystem boundary batch](alerts/2026-05-19-open-webui-openclaw-nomad-filesystem-boundary-batch-ghsa.md)
 - [HAXcms, Algernon, Tomcat, and supply-chain boundary batch](alerts/2026-05-19-haxcms-algernon-tomcat-supply-chain-boundary-batch-ghsa.md)

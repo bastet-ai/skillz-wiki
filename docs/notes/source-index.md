@@ -58,6 +58,14 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Budibase advisories: https://github.com/Budibase/budibase/security/advisories
 - n8n-MCP advisories: https://github.com/czlonkowski/n8n-mcp/security/advisories
 - multiparty advisories: https://github.com/pillarjs/multiparty/security/advisories
+- Coder advisories: https://github.com/coder/coder/security/advisories
+- Kong Ingress Controller advisories: https://github.com/Kong/kubernetes-ingress-controller/security/advisories
+- Bandit advisories: https://github.com/mtrudel/bandit/security/advisories
+- Cowboy advisories: https://github.com/ninenines/cowboy/security/advisories
+- MCP Gateway advisories: https://github.com/IBM/mcp-context-forge/security/advisories
+- SQLFluff advisories: https://github.com/sqlfluff/sqlfluff/security/advisories
+- libp2p JavaScript advisories: https://github.com/libp2p/js-libp2p/security/advisories
+- Kopia advisories: https://github.com/kopia/kopia/security/advisories
 
 ## Network and service discovery
 
