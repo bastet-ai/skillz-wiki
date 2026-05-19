@@ -66,6 +66,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - SQLFluff advisories: https://github.com/sqlfluff/sqlfluff/security/advisories
 - libp2p JavaScript advisories: https://github.com/libp2p/js-libp2p/security/advisories
 - Kopia advisories: https://github.com/kopia/kopia/security/advisories
+- Angular security advisories: https://github.com/angular/angular/security/advisories
+- Caddy Defender advisories: https://github.com/JasonLovesDoggo/caddy-defender/security/advisories
+- Nautobot security advisories: https://github.com/nautobot/nautobot/security/advisories
+- Gradio advisories: https://github.com/gradio-app/gradio/security/advisories
+- Anchor framework advisories: https://github.com/coral-xyz/anchor/security/advisories
 
 ## Network and service discovery
 
