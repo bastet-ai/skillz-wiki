@@ -5,6 +5,14 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Open WebUI advisories: https://github.com/open-webui/open-webui/security/advisories
+- OpenClaw advisories: https://github.com/openclaw/openclaw/security/advisories
+- HashiCorp Nomad advisories: https://github.com/hashicorp/nomad/security/advisories
+- go-git advisories: https://github.com/go-git/go-git/security/advisories
+- zrok advisories: https://github.com/openziti/zrok/security/advisories
+- Mailpit advisories: https://github.com/axllent/mailpit/security/advisories
+- Argo CD advisories: https://github.com/argoproj/argo-cd/security/advisories
+- Nuxt advisories: https://github.com/nuxt/nuxt/security/advisories
 - HAXcms / HAX advisories: https://github.com/haxtheweb/issues/security/advisories
 - Algernon advisories: https://github.com/xyproto/algernon/security/advisories
 - Scriban advisories: https://github.com/scriban/scriban/security/advisories

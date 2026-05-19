@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Open WebUI, OpenClaw, Nomad, and filesystem boundary batch](alerts/2026-05-19-open-webui-openclaw-nomad-filesystem-boundary-batch-ghsa.md)
 - [HAXcms, Algernon, Tomcat, and supply-chain boundary batch](alerts/2026-05-19-haxcms-algernon-tomcat-supply-chain-boundary-batch-ghsa.md)
 - [Podman `kube play` symlink host-write boundary](alerts/2026-05-19-podman-kube-play-symlink-host-write-boundary-ghsa-wp3j-xq48-xpjw.md)
 - [Apostrophe host-header password-reset boundary](alerts/2026-05-19-apostrophe-host-header-password-reset-boundary-ghsa-gf43-24g3-5hw2.md)
