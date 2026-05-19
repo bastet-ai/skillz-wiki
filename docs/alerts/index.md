@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Apostrophe host-header password-reset boundary](2026-05-19-apostrophe-host-header-password-reset-boundary-ghsa-gf43-24g3-5hw2.md)
 - [Tomcat, ImageMagick, ML, and OBI boundary batch](2026-05-18-tomcat-imagemagick-ml-and-obi-boundary-batch-ghsa.md)
 - [OpenTelemetry eBPF and WindowsDesktop runtime-boundary batch](2026-05-18-opentelemetry-ebpf-and-windowsdesktop-runtime-boundary-batch-ghsa.md)
 - [Observability, container, AI, and parser-boundary batch](2026-05-18-observability-container-ai-and-parser-boundary-batch-ghsa.md)
