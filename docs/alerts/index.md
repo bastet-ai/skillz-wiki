@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [HAXcms, Algernon, Tomcat, and supply-chain boundary batch](2026-05-19-haxcms-algernon-tomcat-supply-chain-boundary-batch-ghsa.md)
 - [Podman `kube play` symlink host-write boundary](2026-05-19-podman-kube-play-symlink-host-write-boundary-ghsa-wp3j-xq48-xpjw.md)
 - [Apostrophe host-header password-reset boundary](2026-05-19-apostrophe-host-header-password-reset-boundary-ghsa-gf43-24g3-5hw2.md)
 - [Tomcat, ImageMagick, ML, and OBI boundary batch](2026-05-18-tomcat-imagemagick-ml-and-obi-boundary-batch-ghsa.md)
