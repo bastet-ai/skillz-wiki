@@ -171,24 +171,25 @@ body::after {
 }
 
 .md-typeset h1 {
-  margin-bottom: 0.8rem;
-  font-size: clamp(2.3rem, 5vw, 3.45rem);
+  margin-bottom: 0.65rem;
+  font-size: clamp(1.55rem, 2.8vw, 2.35rem);
   font-weight: 800;
-  letter-spacing: 0.05em;
-  line-height: 0.98;
+  letter-spacing: 0.025em;
+  line-height: 1.08;
+  text-wrap: balance;
   text-transform: uppercase;
   color: var(--skillz-gold-bright);
-  text-shadow: 0 0 28px rgba(255, 224, 146, 0.12);
-  overflow-wrap: normal;
+  text-shadow: 0 0 24px rgba(255, 224, 146, 0.12);
+  overflow-wrap: anywhere;
   word-break: normal;
 }
 
 .md-typeset h1::after {
   content: "";
   display: block;
-  width: min(18rem, 42vw);
+  width: min(12rem, 30vw);
   height: 2px;
-  margin-top: 0.6rem;
+  margin-top: 0.45rem;
   background: linear-gradient(90deg, var(--skillz-gold-bright), transparent);
   box-shadow: 0 0 18px rgba(255, 224, 146, 0.2);
 }
@@ -352,8 +353,9 @@ body::after {
   }
 
   .md-typeset h1 {
-    font-size: clamp(2rem, 14vw, 3.1rem);
-    letter-spacing: 0.06em;
+    font-size: clamp(1.45rem, 8vw, 2rem);
+    letter-spacing: 0.02em;
+    line-height: 1.12;
   }
 
   .md-typeset h2 {
