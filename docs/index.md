@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Tomcat parser, client-certificate, and session-boundary batch](alerts/2026-05-20-tomcat-parser-clientcert-and-session-boundary-batch-ghsa.md)
 - [pip archive type-confusion boundary](alerts/2026-05-20-pip-archive-type-confusion-boundary-ghsa-58qw-9mgm-455v.md)
 - [Tomcat HTTP/2 resource-exhaustion boundary batch](alerts/2026-05-20-tomcat-http2-resource-exhaustion-boundary-batch-ghsa.md)
 - [Tomcat, Rclone, Mako, and ML runtime-boundary batch](alerts/2026-05-20-tomcat-rclone-mako-and-ml-runtime-boundary-batch-ghsa.md)
