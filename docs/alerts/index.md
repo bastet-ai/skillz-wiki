@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Tomcat HTTP/2 resource-exhaustion boundary batch](2026-05-20-tomcat-http2-resource-exhaustion-boundary-batch-ghsa.md)
 - [OpenClaude and TeleJSON policy/render-boundary batch](2026-05-20-openclaude-and-telejson-policy-render-boundary-batch-ghsa.md)
 - [CISA KEV legacy client and Defender boundary guidance](2026-05-20-cisa-kev-legacy-client-and-defender-boundary-guidance.md)
 - [VPN, app-auth, agent-build, and parser-boundary batch](2026-05-20-vpn-app-auth-agent-build-and-parser-boundary-batch-ghsa-hacktron.md)
