@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [VPN, app-auth, agent-build, and parser-boundary batch](2026-05-20-vpn-app-auth-agent-build-and-parser-boundary-batch-ghsa-hacktron.md)
 - [VS Code Copilot `applyPatchTool` TOCTOU agent-boundary bypass](2026-05-20-vscode-copilot-applypatch-toctou-agent-boundary-hacktron.md)
 - [Tomcat, Rclone, Mako, and ML runtime-boundary batch](2026-05-20-tomcat-rclone-mako-and-ml-runtime-boundary-batch-ghsa.md)
 - [Keycloak, Jetty, Axios, and parser-boundary batch](2026-05-20-keycloak-jetty-axios-and-parser-boundary-batch-ghsa.md)

@@ -80,6 +80,14 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Rclone advisories: https://github.com/rclone/rclone/security/advisories
 - Mako advisories: https://github.com/sqlalchemy/mako/security/advisories
 - pm2 advisories: https://github.com/Unitech/pm2/security/advisories
+- Palo Alto Networks security advisories: https://security.paloaltonetworks.com/
+- phpMyFAQ advisories: https://github.com/thorsten/phpMyFAQ/security/advisories
+- Flowise advisories: https://github.com/FlowiseAI/Flowise/security/advisories
+- wger advisories: https://github.com/wger-project/wger/security/advisories
+- setup-php advisories: https://github.com/shivammathur/setup-php/security/advisories
+- Hugging Face Diffusers advisories: https://github.com/huggingface/diffusers/security/advisories
+- OpenTofu advisories: https://github.com/opentofu/opentofu/security/advisories
+- Plug advisories: https://github.com/elixir-plug/plug/security/advisories
 
 ## Network and service discovery
 
