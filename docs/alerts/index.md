@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Keycloak, Jetty, Axios, and parser-boundary batch](2026-05-20-keycloak-jetty-axios-and-parser-boundary-batch-ghsa.md)
 - [Open WebUI, OpenClaw, Nomad, and filesystem boundary batch](2026-05-19-open-webui-openclaw-nomad-filesystem-boundary-batch-ghsa.md)
 - [HAXcms, Algernon, Tomcat, and supply-chain boundary batch](2026-05-19-haxcms-algernon-tomcat-supply-chain-boundary-batch-ghsa.md)
 - [Podman `kube play` symlink host-write boundary](2026-05-19-podman-kube-play-symlink-host-write-boundary-ghsa-wp3j-xq48-xpjw.md)

@@ -71,6 +71,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Nautobot security advisories: https://github.com/nautobot/nautobot/security/advisories
 - Gradio advisories: https://github.com/gradio-app/gradio/security/advisories
 - Anchor framework advisories: https://github.com/coral-xyz/anchor/security/advisories
+- Keycloak security advisories: https://github.com/keycloak/keycloak/security/advisories
+- Eclipse Jetty security advisories: https://github.com/jetty/jetty.project/security/advisories
+- Axios advisories: https://github.com/axios/axios/security/advisories
+- seroval advisories: https://github.com/lxsmnsyc/seroval/security/advisories
+- Databento DBN advisories: https://github.com/databento/dbn/security/advisories
 
 ## Network and service discovery
 

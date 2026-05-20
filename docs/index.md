@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Keycloak, Jetty, Axios, and parser-boundary batch](alerts/2026-05-20-keycloak-jetty-axios-and-parser-boundary-batch-ghsa.md)
 - [SSR, proxy, supply-chain, and render-boundary batch](alerts/2026-05-19-ssr-proxy-supply-chain-and-render-boundary-batch-ghsa.md)
 - [MCP, admin, parser, and service-boundary batch](alerts/2026-05-19-mcp-admin-parser-and-service-boundary-batch-ghsa.md)
 - [MCP fetch, upload, cache, and parser-boundary batch](alerts/2026-05-19-mcp-upload-cache-and-parser-boundary-batch-ghsa.md)
