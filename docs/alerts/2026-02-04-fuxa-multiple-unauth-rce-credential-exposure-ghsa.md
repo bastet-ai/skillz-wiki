@@ -45,6 +45,6 @@ Multiple GitHub advisories were published describing **unauthenticated** weaknes
 - <https://github.com/advisories/GHSA-vwcg-c828-9822>
 - Related: <https://github.com/advisories/GHSA-7g56-fwxj-cm23>
 
-## Related Bastet Wisdom
+## Related Skillz Wiki
 
 - [2026-02-04 — FUXA unauthenticated file upload leading to overwrite / RCE (GHSA-7g56-fwxj-cm23)](2026-02-04-fuxa-unauth-file-upload-ghsa-7g56-fwxj-cm23.md)

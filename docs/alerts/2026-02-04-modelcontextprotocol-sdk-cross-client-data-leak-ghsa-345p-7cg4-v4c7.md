@@ -24,7 +24,7 @@ This matters most when:
 
 - GitHub advisory: <https://github.com/advisories/GHSA-345p-7cg4-v4c7>
 
-## Related Bastet Wisdom
+## Related Skillz Wiki
 
 - [OAuth Misconfigs (MCP/Agents)](../methodology/oauth-mcp-misconfig.md)
 - [Agent + CI Hardening](../best-practices/agent-ci-hardening.md)

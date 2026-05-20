@@ -29,7 +29,7 @@ The advisory notes this primarily affects deployments using **wildcard domain pa
 - GitHub advisory entry: <https://github.com/advisories/GHSA-2xcx-75h9-vr9h>
 - Upstream advisory: <https://github.com/n8n-io/n8n/security/advisories/GHSA-2xcx-75h9-vr9h>
 
-## Related Bastet Wisdom
+## Related Skillz Wiki
 - [2026-02-04 — n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8)](2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md)
 - [2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw)](2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md)
 - [2026-02-04 — n8n arbitrary file read (GHSA-gfvg-qv54-r4pc)](2026-02-04-n8n-arbitrary-file-read-ghsa-gfvg-qv54-r4pc.md)
