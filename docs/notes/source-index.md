@@ -76,6 +76,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Axios advisories: https://github.com/axios/axios/security/advisories
 - seroval advisories: https://github.com/lxsmnsyc/seroval/security/advisories
 - Databento DBN advisories: https://github.com/databento/dbn/security/advisories
+- Rclone advisories: https://github.com/rclone/rclone/security/advisories
+- Mako advisories: https://github.com/sqlalchemy/mako/security/advisories
+- pm2 advisories: https://github.com/Unitech/pm2/security/advisories
 
 ## Network and service discovery
 
