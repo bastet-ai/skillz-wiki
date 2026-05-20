@@ -5,6 +5,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- OpenClaude advisories: https://github.com/Gitlawb/openclaude/security/advisories
+- TeleJSON advisories: https://github.com/storybookjs/telejson/security/advisories
 - Apify MCP server advisories: https://github.com/apify/actors-mcp-server/security/advisories
 - protobufjs advisories: https://github.com/protobufjs/protobuf.js/security/advisories
 - Open WebUI advisories: https://github.com/open-webui/open-webui/security/advisories
