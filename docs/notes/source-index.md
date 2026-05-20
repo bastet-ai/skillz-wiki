@@ -37,6 +37,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Docling project: https://github.com/docling-project/docling
 - Neotoma project: https://github.com/NeotomaDB/neotoma
 - Trail of Bits Blog: https://blog.trailofbits.com/
+- Hacktron AI Blog: https://www.hacktron.ai/blog/
 - Caddy security advisories: https://github.com/caddyserver/caddy/security/advisories
 - Spring AI MCP Security: https://github.com/spring-ai-community/mcp-security
 - webpack-dev-server advisories: https://github.com/webpack/webpack-dev-server/security/advisories
