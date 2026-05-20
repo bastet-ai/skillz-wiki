@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Moby AuthZ and electerm command-boundary batch](2026-05-20-moby-authz-and-electerm-command-boundary-batch-ghsa.md)
 - [Tomcat parser, client-certificate, and session-boundary batch](2026-05-20-tomcat-parser-clientcert-and-session-boundary-batch-ghsa.md)
 - [pip archive type-confusion boundary](2026-05-20-pip-archive-type-confusion-boundary-ghsa-58qw-9mgm-455v.md)
 - [Tomcat HTTP/2 resource-exhaustion boundary batch](2026-05-20-tomcat-http2-resource-exhaustion-boundary-batch-ghsa.md)

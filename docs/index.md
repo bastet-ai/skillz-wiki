@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Moby AuthZ and electerm command-boundary batch](alerts/2026-05-20-moby-authz-and-electerm-command-boundary-batch-ghsa.md)
 - [Tomcat parser, client-certificate, and session-boundary batch](alerts/2026-05-20-tomcat-parser-clientcert-and-session-boundary-batch-ghsa.md)
 - [pip archive type-confusion boundary](alerts/2026-05-20-pip-archive-type-confusion-boundary-ghsa-58qw-9mgm-455v.md)
 - [Tomcat HTTP/2 resource-exhaustion boundary batch](alerts/2026-05-20-tomcat-http2-resource-exhaustion-boundary-batch-ghsa.md)
@@ -19,7 +20,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Open WebUI, OpenClaw, Nomad, and filesystem boundary batch](alerts/2026-05-19-open-webui-openclaw-nomad-filesystem-boundary-batch-ghsa.md)
 - [HAXcms, Algernon, Tomcat, and supply-chain boundary batch](alerts/2026-05-19-haxcms-algernon-tomcat-supply-chain-boundary-batch-ghsa.md)
 - [Podman `kube play` symlink host-write boundary](alerts/2026-05-19-podman-kube-play-symlink-host-write-boundary-ghsa-wp3j-xq48-xpjw.md)
-- [Apostrophe host-header password-reset boundary](alerts/2026-05-19-apostrophe-host-header-password-reset-boundary-ghsa-gf43-24g3-5hw2.md)
 
 ## What lives here
 
