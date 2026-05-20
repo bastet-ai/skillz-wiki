@@ -32,8 +32,9 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 
 ## Collaborator preferences
 
-- Keep the public site centered on pentesting, red-team, and bug-bounty operator workflows.
-- Prefer recon tools and concrete exploit chains over defensive-response or mitigation content.
+- Keep the public site centered on offensive security: penetration testing, red-team, and bug-bounty operator workflows.
+- Prefer recon tools, attack-path discovery, proof-of-concept validation, and concrete exploit chains over defensive-response or mitigation content.
+- Do not publish blue-team guidance, defensive SecOps runbooks, incident-response playbooks, alert triage, or mitigation-first advisory pages unless Dean explicitly asks for that framing.
 - Favor proven, replayable pathways with explicit prerequisites, commands, and validation boundaries.
 
 ## Content structure
@@ -72,7 +73,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Maintain `docs/notes/editorial-checklist.md` as the publishing gate.
 - Maintain `docs/notes/source-index.md` as the canonical source seed list.
 - The current public taxonomy is `Skills`, `Recon`, `Exploit Paths`, `Templates`, `Notes`, and `Blog`.
-- For hourly news-driven updates, prefer short durable best-practice pages over alerts when the lesson generalizes beyond one advisory.
+- For hourly news-driven updates, only promote items that can become offensive operator guidance: recon technique, exploit path, validation workflow, tool usage, bypass pattern, or bug-hunting heuristic. Do not turn generic advisories into blue-team alerts.
 
 ## Security / attribution
 

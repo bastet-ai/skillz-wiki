@@ -1,6 +1,6 @@
 # Source index
 
-Maintain this as the seed list of official or primary sources for the tool families documented here.
+Maintain this as the seed list of official or primary sources for the tool families documented here. Use these sources to discover offensive operator guidance for authorized testing, not blue-team alerting or defensive SecOps runbooks.
 
 ## Application security research
 
@@ -109,5 +109,6 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Maintenance rules
 
 - Prefer official documentation, source repos, vendor advisories, and primary project docs.
+- Only convert advisory/news items into wiki content when they produce an offensive testing skill, replayable validation workflow, recon heuristic, or exploit-path lesson for authorized work.
 - Add a source here when a new skill depends on it repeatedly.
 - Remove links that stop being canonical.
