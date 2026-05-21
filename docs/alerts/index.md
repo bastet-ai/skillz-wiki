@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Fission, MLflow, Langflow, SSRF, and Crabbox boundary batch](2026-05-21-fission-mlflow-langflow-ssrf-crabbox-boundary-batch-ghsa-kev.md)
 - [SvelteKit, Markdown, SageMaker, and LM runtime-boundary batch](2026-05-21-svelte-markdown-sagemaker-lmdeploy-boundary-batch-ghsa.md)
 - [SAML, MCP, metadata, and render-boundary batch](2026-05-21-saml-mcp-metadata-render-boundary-batch-ghsa.md)
 - [Strapi relational-filter oracle to admin reset-token extraction](2026-05-21-strapi-relational-filter-oracle-admin-token-ghsa-rjg2-95x7-8qmx.md)

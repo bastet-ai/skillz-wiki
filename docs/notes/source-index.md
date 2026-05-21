@@ -5,6 +5,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Fission security advisories: https://github.com/fission/fission/security/advisories
+- pyload-ng security advisories: https://github.com/pyload/pyload/security/advisories
+- Crawlee security advisories: https://github.com/apify/crawlee-python/security/advisories
+- Crabbox security advisories: https://github.com/openclaw/crabbox/security/advisories
+- Langflow security advisories: https://github.com/langflow-ai/langflow/security/advisories
 - samlify advisories: https://github.com/tngan/samlify/security/advisories
 - Windows-MCP advisories: https://github.com/CursorTouch/Windows-MCP/security/advisories
 - OpenMetadata advisories: https://github.com/open-metadata/OpenMetadata/security/advisories

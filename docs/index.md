@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Fission, MLflow, Langflow, SSRF, and Crabbox boundary batch](alerts/2026-05-21-fission-mlflow-langflow-ssrf-crabbox-boundary-batch-ghsa-kev.md)
 - [SvelteKit, Markdown, SageMaker, and LM runtime-boundary batch](alerts/2026-05-21-svelte-markdown-sagemaker-lmdeploy-boundary-batch-ghsa.md)
 - [SAML, MCP, metadata, and render-boundary batch](alerts/2026-05-21-saml-mcp-metadata-render-boundary-batch-ghsa.md)
 - [CI/CD to cloud pivot chain](methodology/ci-cd-cloud-pivot-chain.md)
@@ -17,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [pip archive type-confusion boundary](alerts/2026-05-20-pip-archive-type-confusion-boundary-ghsa-58qw-9mgm-455v.md)
 - [Tomcat HTTP/2 resource-exhaustion boundary batch](alerts/2026-05-20-tomcat-http2-resource-exhaustion-boundary-batch-ghsa.md)
 - [Tomcat, Rclone, Mako, and ML runtime-boundary batch](alerts/2026-05-20-tomcat-rclone-mako-and-ml-runtime-boundary-batch-ghsa.md)
-- [Keycloak, Jetty, Axios, and parser-boundary batch](alerts/2026-05-20-keycloak-jetty-axios-and-parser-boundary-batch-ghsa.md)
-- [SSR, proxy, supply-chain, and render-boundary batch](alerts/2026-05-19-ssr-proxy-supply-chain-and-render-boundary-batch-ghsa.md)
 
 ## What lives here
 
