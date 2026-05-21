@@ -77,6 +77,7 @@ nav:
       - Large-Scale Reconnaissance: methodology/large-scale-reconnaissance.md
       - Client-Side Analysis: methodology/client-side-analysis.md
   - Exploit Paths:
+      - CI/CD to Cloud Pivot Chain: methodology/ci-cd-cloud-pivot-chain.md
       - CORS Credential Abuse: methodology/cors-vulnerability-analysis.md
       - OAuth Token Theft: methodology/oauth-token-theft.md
       - OAuth Misconfigs for MCP / Agents: methodology/oauth-mcp-misconfig.md
