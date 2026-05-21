@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [SvelteKit, Markdown, SageMaker, and LM runtime-boundary batch](alerts/2026-05-21-svelte-markdown-sagemaker-lmdeploy-boundary-batch-ghsa.md)
 - [SAML, MCP, metadata, and render-boundary batch](alerts/2026-05-21-saml-mcp-metadata-render-boundary-batch-ghsa.md)
 - [CI/CD to cloud pivot chain](methodology/ci-cd-cloud-pivot-chain.md)
 - [Strapi relational-filter oracle to admin reset-token extraction](alerts/2026-05-21-strapi-relational-filter-oracle-admin-token-ghsa-rjg2-95x7-8qmx.md)
