@@ -5,6 +5,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- samlify advisories: https://github.com/tngan/samlify/security/advisories
+- Windows-MCP advisories: https://github.com/CursorTouch/Windows-MCP/security/advisories
+- OpenMetadata advisories: https://github.com/open-metadata/OpenMetadata/security/advisories
+- sanitize-html advisories: https://github.com/apostrophecms/sanitize-html/security/advisories
 - pip security advisories: https://github.com/pypa/pip/security/advisories
 - OpenClaude advisories: https://github.com/Gitlawb/openclaude/security/advisories
 - TeleJSON advisories: https://github.com/storybookjs/telejson/security/advisories

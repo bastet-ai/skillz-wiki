@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [SAML, MCP, metadata, and render-boundary batch](2026-05-21-saml-mcp-metadata-render-boundary-batch-ghsa.md)
 - [Strapi relational-filter oracle to admin reset-token extraction](2026-05-21-strapi-relational-filter-oracle-admin-token-ghsa-rjg2-95x7-8qmx.md)
 - [Moby AuthZ and electerm command-boundary batch](2026-05-20-moby-authz-and-electerm-command-boundary-batch-ghsa.md)
 - [Tomcat parser, client-certificate, and session-boundary batch](2026-05-20-tomcat-parser-clientcert-and-session-boundary-batch-ghsa.md)

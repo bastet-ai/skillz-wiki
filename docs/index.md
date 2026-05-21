@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [SAML, MCP, metadata, and render-boundary batch](alerts/2026-05-21-saml-mcp-metadata-render-boundary-batch-ghsa.md)
 - [CI/CD to cloud pivot chain](methodology/ci-cd-cloud-pivot-chain.md)
 - [Strapi relational-filter oracle to admin reset-token extraction](alerts/2026-05-21-strapi-relational-filter-oracle-admin-token-ghsa-rjg2-95x7-8qmx.md)
 - [Moby AuthZ and electerm command-boundary batch](alerts/2026-05-20-moby-authz-and-electerm-command-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Tomcat, Rclone, Mako, and ML runtime-boundary batch](alerts/2026-05-20-tomcat-rclone-mako-and-ml-runtime-boundary-batch-ghsa.md)
 - [Keycloak, Jetty, Axios, and parser-boundary batch](alerts/2026-05-20-keycloak-jetty-axios-and-parser-boundary-batch-ghsa.md)
 - [SSR, proxy, supply-chain, and render-boundary batch](alerts/2026-05-19-ssr-proxy-supply-chain-and-render-boundary-batch-ghsa.md)
-- [MCP, admin, parser, and service-boundary batch](alerts/2026-05-19-mcp-admin-parser-and-service-boundary-batch-ghsa.md)
 
 ## What lives here
 
