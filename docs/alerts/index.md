@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Boxlite, containerd, Twig, and token-boundary batch](2026-05-21-boxlite-containerd-twig-and-token-boundary-batch-ghsa.md)
 - [Fission, NocoDB, MCP, and SSRF boundary batch](2026-05-21-fission-nocodb-mcp-and-ssrf-boundary-batch-ghsa.md)
 - [Fission, MLflow, Langflow, SSRF, and Crabbox boundary batch](2026-05-21-fission-mlflow-langflow-ssrf-crabbox-boundary-batch-ghsa-kev.md)
 - [SvelteKit, Markdown, SageMaker, and LM runtime-boundary batch](2026-05-21-svelte-markdown-sagemaker-lmdeploy-boundary-batch-ghsa.md)

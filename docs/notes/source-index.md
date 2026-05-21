@@ -6,6 +6,13 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - Fission security advisories: https://github.com/fission/fission/security/advisories
+- Boxlite security advisories: https://github.com/rapiz1/boxlite/security/advisories
+- containerd security advisories: https://github.com/containerd/containerd/security/advisories
+- Pydantic AI security advisories: https://github.com/pydantic/pydantic-ai/security/advisories
+- SQLAdmin security advisories: https://github.com/aminalaee/sqladmin/security/advisories
+- Twig security advisories: https://github.com/twigphp/Twig/security/advisories
+- Tekton Pipelines security advisories: https://github.com/tektoncd/pipeline/security/advisories
+- JavaScript Cookie security advisories: https://github.com/js-cookie/js-cookie/security/advisories
 - pyload-ng security advisories: https://github.com/pyload/pyload/security/advisories
 - Crawlee security advisories: https://github.com/apify/crawlee-python/security/advisories
 - Crabbox security advisories: https://github.com/openclaw/crabbox/security/advisories
