@@ -100,6 +100,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - pm2 advisories: https://github.com/Unitech/pm2/security/advisories
 - Palo Alto Networks security advisories: https://security.paloaltonetworks.com/
 - phpMyFAQ advisories: https://github.com/thorsten/phpMyFAQ/security/advisories
+- NocoDB advisories: https://github.com/nocodb/nocodb/security/advisories
+- MCP Server Kubernetes advisories: https://github.com/Flux159/mcp-server-kubernetes/security/advisories
+- FlaskBB advisories: https://github.com/flaskbb/flaskbb/security/advisories
+- Knp Snappy advisories: https://github.com/KnpLabs/snappy/security/advisories
 - Flowise advisories: https://github.com/FlowiseAI/Flowise/security/advisories
 - wger advisories: https://github.com/wger-project/wger/security/advisories
 - setup-php advisories: https://github.com/shivammathur/setup-php/security/advisories

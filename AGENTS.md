@@ -61,6 +61,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 
 - `python -m pip install -r requirements.txt`
 - `mkdocs build --strict`
+- On hosts where `python`/global `mkdocs` are unavailable or PEP 668 blocks global installs, use a disposable venv: `python3 -m venv /tmp/skillz-wiki-venv && /tmp/skillz-wiki-venv/bin/python -m pip install -r requirements.txt && /tmp/skillz-wiki-venv/bin/mkdocs build --strict`.
 
 ## Maintenance rules
 

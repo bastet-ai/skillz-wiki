@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Fission, NocoDB, MCP, and SSRF boundary batch](alerts/2026-05-21-fission-nocodb-mcp-and-ssrf-boundary-batch-ghsa.md)
 - [Fission, MLflow, Langflow, SSRF, and Crabbox boundary batch](alerts/2026-05-21-fission-mlflow-langflow-ssrf-crabbox-boundary-batch-ghsa-kev.md)
 - [SvelteKit, Markdown, SageMaker, and LM runtime-boundary batch](alerts/2026-05-21-svelte-markdown-sagemaker-lmdeploy-boundary-batch-ghsa.md)
 - [SAML, MCP, metadata, and render-boundary batch](alerts/2026-05-21-saml-mcp-metadata-render-boundary-batch-ghsa.md)
