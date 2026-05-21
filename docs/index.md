@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Strapi relational-filter oracle to admin reset-token extraction](alerts/2026-05-21-strapi-relational-filter-oracle-admin-token-ghsa-rjg2-95x7-8qmx.md)
 - [Moby AuthZ and electerm command-boundary batch](alerts/2026-05-20-moby-authz-and-electerm-command-boundary-batch-ghsa.md)
 - [Tomcat parser, client-certificate, and session-boundary batch](alerts/2026-05-20-tomcat-parser-clientcert-and-session-boundary-batch-ghsa.md)
 - [pip archive type-confusion boundary](alerts/2026-05-20-pip-archive-type-confusion-boundary-ghsa-58qw-9mgm-455v.md)
@@ -17,9 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [SSR, proxy, supply-chain, and render-boundary batch](alerts/2026-05-19-ssr-proxy-supply-chain-and-render-boundary-batch-ghsa.md)
 - [MCP, admin, parser, and service-boundary batch](alerts/2026-05-19-mcp-admin-parser-and-service-boundary-batch-ghsa.md)
 - [MCP fetch, upload, cache, and parser-boundary batch](alerts/2026-05-19-mcp-upload-cache-and-parser-boundary-batch-ghsa.md)
-- [Open WebUI, OpenClaw, Nomad, and filesystem boundary batch](alerts/2026-05-19-open-webui-openclaw-nomad-filesystem-boundary-batch-ghsa.md)
-- [HAXcms, Algernon, Tomcat, and supply-chain boundary batch](alerts/2026-05-19-haxcms-algernon-tomcat-supply-chain-boundary-batch-ghsa.md)
-- [Podman `kube play` symlink host-write boundary](alerts/2026-05-19-podman-kube-play-symlink-host-write-boundary-ghsa-wp3j-xq48-xpjw.md)
 
 ## What lives here
 
