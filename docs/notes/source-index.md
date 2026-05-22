@@ -60,7 +60,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Faraday project security advisories: https://github.com/lostisland/faraday/security/advisories
 - Docling project: https://github.com/docling-project/docling
 - Neotoma project: https://github.com/NeotomaDB/neotoma
-- Trail of Bits Blog: https://blog.trailofbits.com/
+- Trail of Bits Blog: https://blog.trailofbits.com/ (RSS: https://blog.trailofbits.com/feed/)
 - Hacktron AI Blog: https://www.hacktron.ai/blog/
 - ProjectDiscovery Blog: https://projectdiscovery.io/blog/
 - ProjectDiscovery Neo: https://neo.projectdiscovery.io/
