@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Flask-Security, FileBrowser, and Drupal boundary batch](2026-05-22-flask-security-filebrowser-drupal-boundary-batch-ghsa-kev.md)
 - [Tekton, Flink, and YesWiki execution-boundary batch](2026-05-22-tekton-flink-yeswiki-execution-boundary-batch-ghsa.md)
 - [Prefect, Camel, ImageMagick, and Airflow boundary batch](2026-05-22-prefect-camel-imagemagick-airflow-boundary-batch-ghsa.md)
 - [Tekton git resolver and Network-AI MCP boundary batch](2026-05-21-tekton-git-resolver-and-network-ai-mcp-boundary-batch-ghsa.md)

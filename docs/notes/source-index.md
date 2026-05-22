@@ -5,6 +5,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Flask-Security advisories: https://github.com/pallets-eco/flask-security/security/advisories
+- FileBrowser Quantum advisories: https://github.com/gtsteffaniak/filebrowser/security/advisories
+- Drupal core security advisories: https://www.drupal.org/security
 - Prefect security advisories: https://github.com/PrefectHQ/prefect/security/advisories
 - Apache Camel security advisories: https://camel.apache.org/security/
 - Apache Airflow security advisories: https://github.com/apache/airflow/security/advisories

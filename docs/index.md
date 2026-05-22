@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Flask-Security, FileBrowser, and Drupal boundary batch](alerts/2026-05-22-flask-security-filebrowser-drupal-boundary-batch-ghsa-kev.md)
 - [Tekton, Flink, and YesWiki execution-boundary batch](alerts/2026-05-22-tekton-flink-yeswiki-execution-boundary-batch-ghsa.md)
 - [Prefect, Camel, ImageMagick, and Airflow boundary batch](alerts/2026-05-22-prefect-camel-imagemagick-airflow-boundary-batch-ghsa.md)
 - [GitHub Actions static-analysis recon](methodology/github-actions-static-analysis-recon.md)
