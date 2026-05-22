@@ -15,6 +15,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - SQLAdmin security advisories: https://github.com/aminalaee/sqladmin/security/advisories
 - Twig security advisories: https://github.com/twigphp/Twig/security/advisories
 - Tekton Pipelines security advisories: https://github.com/tektoncd/pipeline/security/advisories
+- Apache Flink security advisories: https://flink.apache.org/what-is-flink/security/
+- YesWiki security advisories: https://github.com/YesWiki/yeswiki/security/advisories
 - Network-AI security advisories: https://github.com/Jovancoding/Network-AI/security/advisories
 - JavaScript Cookie security advisories: https://github.com/js-cookie/js-cookie/security/advisories
 - pyload-ng security advisories: https://github.com/pyload/pyload/security/advisories

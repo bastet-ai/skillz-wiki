@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Tekton, Flink, and YesWiki execution-boundary batch](alerts/2026-05-22-tekton-flink-yeswiki-execution-boundary-batch-ghsa.md)
 - [Prefect, Camel, ImageMagick, and Airflow boundary batch](alerts/2026-05-22-prefect-camel-imagemagick-airflow-boundary-batch-ghsa.md)
 - [GitHub Actions static-analysis recon](methodology/github-actions-static-analysis-recon.md)
 - [Tekton git resolver and Network-AI MCP boundary batch](alerts/2026-05-21-tekton-git-resolver-and-network-ai-mcp-boundary-batch-ghsa.md)
