@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Prefect, Camel, ImageMagick, and Airflow boundary batch](2026-05-22-prefect-camel-imagemagick-airflow-boundary-batch-ghsa.md)
 - [Tekton git resolver and Network-AI MCP boundary batch](2026-05-21-tekton-git-resolver-and-network-ai-mcp-boundary-batch-ghsa.md)
 - [Boxlite, containerd, Twig, and token-boundary batch](2026-05-21-boxlite-containerd-twig-and-token-boundary-batch-ghsa.md)
 - [Fission, NocoDB, MCP, and SSRF boundary batch](2026-05-21-fission-nocodb-mcp-and-ssrf-boundary-batch-ghsa.md)

@@ -5,6 +5,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Prefect security advisories: https://github.com/PrefectHQ/prefect/security/advisories
+- Apache Camel security advisories: https://camel.apache.org/security/
+- Apache Airflow security advisories: https://github.com/apache/airflow/security/advisories
 - Fission security advisories: https://github.com/fission/fission/security/advisories
 - Boxlite security advisories: https://github.com/rapiz1/boxlite/security/advisories
 - containerd security advisories: https://github.com/containerd/containerd/security/advisories
