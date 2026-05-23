@@ -5,6 +5,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Nezha Monitoring advisories: https://github.com/nezhahq/nezha/security/advisories
+- AstrBot advisories: https://github.com/AstrBotDevs/AstrBot/security/advisories
+- Beetl project issues/advisories: https://gitee.com/xiandafu/beetl/issues
+- instagrapi advisories: https://github.com/subzeroid/instagrapi/security/advisories
+- aiograpi advisories: https://github.com/subzeroid/aiograpi/security/advisories
 - Flask-Security advisories: https://github.com/pallets-eco/flask-security/security/advisories
 - FileBrowser Quantum advisories: https://github.com/gtsteffaniak/filebrowser/security/advisories
 - Drupal core security advisories: https://www.drupal.org/security

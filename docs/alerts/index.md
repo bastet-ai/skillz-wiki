@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Nezha, AstrBot, Beetl, and API-client boundary batch](2026-05-22-nezha-astrbot-beetl-client-boundary-batch-ghsa.md)
 - [Flask-Security, FileBrowser, and Drupal boundary batch](2026-05-22-flask-security-filebrowser-drupal-boundary-batch-ghsa-kev.md)
 - [Tekton, Flink, and YesWiki execution-boundary batch](2026-05-22-tekton-flink-yeswiki-execution-boundary-batch-ghsa.md)
 - [Prefect, Camel, ImageMagick, and Airflow boundary batch](2026-05-22-prefect-camel-imagemagick-airflow-boundary-batch-ghsa.md)
