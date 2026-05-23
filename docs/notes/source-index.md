@@ -6,6 +6,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - Nezha Monitoring advisories: https://github.com/nezhahq/nezha/security/advisories
+- Arcane advisories: https://github.com/getarcaneapp/arcane/security/advisories
 - AstrBot advisories: https://github.com/AstrBotDevs/AstrBot/security/advisories
 - Beetl project issues/advisories: https://gitee.com/xiandafu/beetl/issues
 - instagrapi advisories: https://github.com/subzeroid/instagrapi/security/advisories

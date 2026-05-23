@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Nezha cron RCE and Arcane global-variables boundary batch](2026-05-22-nezha-cron-rce-arcane-global-variables-boundary-batch-ghsa.md)
 - [Nezha, AstrBot, Beetl, and API-client boundary batch](2026-05-22-nezha-astrbot-beetl-client-boundary-batch-ghsa.md)
 - [Flask-Security, FileBrowser, and Drupal boundary batch](2026-05-22-flask-security-filebrowser-drupal-boundary-batch-ghsa-kev.md)
 - [Tekton, Flink, and YesWiki execution-boundary batch](2026-05-22-tekton-flink-yeswiki-execution-boundary-batch-ghsa.md)
