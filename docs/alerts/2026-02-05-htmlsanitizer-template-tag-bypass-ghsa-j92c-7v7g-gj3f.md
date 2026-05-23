@@ -1,18 +1,8 @@
-# 2026-02-05 — HtmlSanitizer bypass via `<template>` tag (GHSA-j92c-7v7g-gj3f)
+<!-- duplicate_of: alerts/2026-02-03-htmlsanitizer-template-tag-bypass-ghsa-j92c-7v7g-gj3f.md -->
+# Moved: 2026-02-05 — HtmlSanitizer bypass via `<template>` tag (GHSA-j92c-7v7g-gj3f)
 
-**Product:** .NET **HtmlSanitizer** (NuGet: `HtmlSanitizer`)
+This page was consolidated during the 2026-05-22 redundancy cleanup.
 
-## Impact (per advisory)
-If the sanitizer configuration allows the **`<template>`** tag, its contents may be **left unsanitized**, enabling XSS.
+Canonical page: [2026-02-03 — HtmlSanitizer bypass via `<template>` tag (GHSA-j92c-7v7g-gj3f)](2026-02-03-htmlsanitizer-template-tag-bypass-ghsa-j92c-7v7g-gj3f.md)
 
-Risk increases if `shadowrootmode` is allowed, which can cause template content to render.
-
-**Fixed:** **9.0.892** (and **9.1.893-beta**)
-
-## Recommended actions
-- **Upgrade** to **9.0.892+** (or 9.1.893-beta+).
-- Keep `<template>` **disallowed** unless you have a strong reason.
-- Avoid allowing `shadowrootmode` unless you fully understand the implications.
-
-## References
-- GitHub advisory: <https://github.com/advisories/GHSA-j92c-7v7g-gj3f>
+Keep this compatibility pointer so old links do not 404, but make future updates on the canonical page.

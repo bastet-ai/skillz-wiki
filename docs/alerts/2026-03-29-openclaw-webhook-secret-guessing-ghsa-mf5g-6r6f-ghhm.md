@@ -21,3 +21,10 @@ Webhook tokens are bearer secrets. If they are short, predictable, or accepted w
 
 ## References
 - GitHub advisory: <https://github.com/advisories/GHSA-mf5g-6r6f-ghhm>
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-03-29-openclaw-synology-chat-webhook-preauth-rate-limit-bypass-ghsa-mf5g-6r6f-ghhm.md`

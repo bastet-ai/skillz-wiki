@@ -1,21 +1,8 @@
-# 2026-03-29 — OpenClaw Synology Chat webhook pre-auth rate-limit bypass enables brute-force guessing of webhook token (GHSA-mf5g-6r6f-ghhm)
+<!-- duplicate_of: alerts/2026-03-29-openclaw-webhook-secret-guessing-ghsa-mf5g-6r6f-ghhm.md -->
+# Moved: 2026-03-29 — OpenClaw Synology Chat webhook pre-auth rate-limit bypass enables brute-force guessing of webhook token (GHSA-mf5g-6r6f-ghhm)
 
-**Product:** **OpenClaw** (npm package: `openclaw`)
+This page was consolidated during the 2026-05-22 redundancy cleanup.
 
-**Impact (per advisory):** A Synology Chat webhook path allowed pre-auth token guessing without sufficient throttling, making weak webhook tokens practical to brute force.
+Canonical page: [2026-03-29 — OpenClaw Synology Chat webhook token brute-force exposure (GHSA-mf5g-6r6f-ghhm)](2026-03-29-openclaw-webhook-secret-guessing-ghsa-mf5g-6r6f-ghhm.md)
 
-## Why this matters
-A webhook token is a bearer secret. If an endpoint allows repeated guesses without backoff, secrecy alone is not enough; the endpoint itself becomes an online guessing target.
-
-## Recommended actions
-- **Patch/upgrade:** update to **openclaw 2026.3.28** or later.
-- **Require high-entropy webhook secrets**.
-- **Throttle failures** with rate limiting, backoff, and temporary lockouts.
-- **Keep webhook endpoints off the public internet** where possible.
-
-## Detection / hunting ideas
-- Alert on bursts of 401/403s against webhook endpoints.
-- Correlate repeated failures with a later success from the same origin.
-
-## References
-- GitHub advisory: <https://github.com/advisories/GHSA-mf5g-6r6f-ghhm>
+Keep this compatibility pointer so old links do not 404, but make future updates on the canonical page.

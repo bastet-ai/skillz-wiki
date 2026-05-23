@@ -20,3 +20,10 @@ Callback handlers are privileged state-transition endpoints. If a callback can b
 
 ## References
 - GitHub advisory: <https://github.com/advisories/GHSA-j4c9-w69r-cw33>
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-03-29-openclaw-telegram-dm-scoped-inline-button-callbacks-bypass-dm-pairing-ghsa-j4c9-w69r-cw33.md`

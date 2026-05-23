@@ -73,3 +73,10 @@ Pass confirmed hosts into [Nmap Scanning](nmap-scanning.md) or application-speci
 - keep active bruteforce inside engagement limits
 - do not treat wildcard hits as confirmed assets without validation
 - avoid long-running resolver floods on small or fragile targets
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `methodology/dns-enumeration.md`

@@ -1,23 +1,8 @@
-# 2026-02-05 — n8n credential exfiltration via domain allowlist bypass (GHSA-2xcx-75h9-vr9h)
+<!-- duplicate_of: alerts/2026-02-05-n8n-http-request-allowed-domains-bypass-credential-exfil-ghsa-2xcx-75h9-vr9h.md -->
+# Moved: 2026-02-05 — n8n credential exfiltration via domain allowlist bypass (GHSA-2xcx-75h9-vr9h)
 
-**Product:** **n8n** (npm package: `n8n`)
+This page was consolidated during the 2026-05-22 redundancy cleanup.
 
-## Impact (per advisory)
-A flaw in the **HTTP Request node** credential domain validation could allow an **authenticated attacker** to send requests **with stored credentials** to unintended domains, potentially enabling **credential exfiltration**.
+Canonical page: [2026-02-05 — n8n HTTP Request “Allowed domains” validation bypass → credential exfiltration (GHSA-2xcx-75h9-vr9h)](2026-02-05-n8n-http-request-allowed-domains-bypass-credential-exfil-ghsa-2xcx-75h9-vr9h.md)
 
-**Fixed:** **n8n 1.121.0**
-
-## Who is most at risk
-Instances that:
-- Use HTTP Request credentials with **wildcard allowlist patterns** (e.g., `*.example.com`)
-- Allow untrusted users to create/modify workflows
-
-## Recommended actions
-- **Upgrade** to **n8n 1.121.0+**.
-- Until upgraded:
-  - Replace wildcard allowlist entries with **explicit hostnames**.
-  - Restrict workflow authoring/modification to trusted users.
-  - Audit existing workflows that use HTTP Request nodes with domain-restricted credentials.
-
-## References
-- GitHub advisory: <https://github.com/advisories/GHSA-2xcx-75h9-vr9h>
+Keep this compatibility pointer so old links do not 404, but make future updates on the canonical page.

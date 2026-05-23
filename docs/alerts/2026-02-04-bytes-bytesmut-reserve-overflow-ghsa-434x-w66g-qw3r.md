@@ -23,3 +23,10 @@ Upgrade `bytes` to **1.11.1** or later.
   - <https://rustsec.org/advisories/RUSTSEC-2026-0007.html>
 - GitHub advisory database mirror:
   - <https://github.com/advisories/GHSA-434x-w66g-qw3r>
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-02-03-rust-bytes-integer-overflow-ghsa-434x-w66g-qw3r.md`

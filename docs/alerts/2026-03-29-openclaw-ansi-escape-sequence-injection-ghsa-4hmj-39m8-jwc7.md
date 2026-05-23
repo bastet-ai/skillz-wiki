@@ -20,3 +20,10 @@ Approval prompts and audit logs are part of the trust boundary. If untrusted too
 
 ## References
 - GitHub advisory: <https://github.com/advisories/GHSA-4hmj-39m8-jwc7>
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-03-29-openclaw-acp-approval-prompt-ansi-escape-sequence-injection-ghsa-4hmj-39m8-jwc7.md`

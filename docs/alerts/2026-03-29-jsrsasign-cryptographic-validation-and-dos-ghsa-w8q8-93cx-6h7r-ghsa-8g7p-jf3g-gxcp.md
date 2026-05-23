@@ -30,3 +30,10 @@ If either check is missing, an attacker can turn a helper library into a confide
 - GitHub advisories:
   - <https://github.com/advisories/GHSA-w8q8-93cx-6h7r>
   - <https://github.com/advisories/GHSA-8g7p-jf3g-gxcp>
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-03-29-jsrsasign-dsa-validation-and-zero-input-dos-ghsa-w8q8-93cx-6h7r-ghsa-8g7p-jf3g-gxcp.md`

@@ -1,23 +1,8 @@
-# 2026-02-05 — @modelcontextprotocol/sdk cross-client data leak via shared server/transport reuse (GHSA-345p-7cg4-v4c7)
+<!-- duplicate_of: alerts/2026-02-04-modelcontextprotocol-sdk-cross-client-data-leak-ghsa-345p-7cg4-v4c7.md -->
+# Moved: 2026-02-05 — @modelcontextprotocol/sdk cross-client data leak via shared server/transport reuse (GHSA-345p-7cg4-v4c7)
 
-**Product:** **Model Context Protocol TypeScript SDK** (npm: `@modelcontextprotocol/sdk`)
+This page was consolidated during the 2026-05-22 redundancy cleanup.
 
-## Impact (per advisory)
-If a deployment **reuses the same server + transport instance across multiple concurrent clients**, JSON-RPC message ID collisions can cause **responses to be routed to the wrong client connection**.
+Canonical page: [2026-02-04 — `@modelcontextprotocol/sdk` cross-client data leak via shared server instance reuse (GHSA-345p-7cg4-v4c7)](2026-02-04-modelcontextprotocol-sdk-cross-client-data-leak-ghsa-345p-7cg4-v4c7.md)
 
-Net effect: **cross-client response data leak** (Client A can receive Client B’s response data).
-
-**Fixed:** **1.26.0**
-
-## Recommended actions
-- **Upgrade** to `@modelcontextprotocol/sdk` **1.26.0+**.
-- Ensure your architecture creates:
-  - **new server + transport per request** (stateless), or
-  - **new server + transport per session** (stateful).
-
-## Detection / review
-- Grep for patterns where a singleton `McpServer`/`Server` is shared across all requests.
-- Load-test with concurrent clients and verify responses cannot cross.
-
-## References
-- GitHub advisory: <https://github.com/advisories/GHSA-345p-7cg4-v4c7>
+Keep this compatibility pointer so old links do not 404, but make future updates on the canonical page.

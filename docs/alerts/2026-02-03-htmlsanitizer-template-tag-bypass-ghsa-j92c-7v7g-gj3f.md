@@ -25,3 +25,10 @@
 ## References
 
 - GitHub Advisory Database: <https://github.com/advisories/GHSA-j92c-7v7g-gj3f>
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-02-05-htmlsanitizer-template-tag-bypass-ghsa-j92c-7v7g-gj3f.md`

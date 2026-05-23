@@ -33,3 +33,10 @@ The advisory notes this primarily affects deployments using **wildcard domain pa
 - [2026-02-04 — n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8)](2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md)
 - [2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw)](2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md)
 - [2026-02-04 — n8n arbitrary file read (GHSA-gfvg-qv54-r4pc)](2026-02-04-n8n-arbitrary-file-read-ghsa-gfvg-qv54-r4pc.md)
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-02-05-n8n-http-request-credential-domain-allowlist-bypass-ghsa-2xcx-75h9-vr9h.md`

@@ -27,3 +27,10 @@ If cert issuance/renewal is mission-critical, controller DoS becomes an operatio
 
 ## References
 - GitHub Advisory: https://github.com/cert-manager/cert-manager/security/advisories/GHSA-gx3x-vq4p-mhhv
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-02-05-cert-manager-controller-dns-response-dos-ghsa-gx3x-vq4p-mhhv.md`

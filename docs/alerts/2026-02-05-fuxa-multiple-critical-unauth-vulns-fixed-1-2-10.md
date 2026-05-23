@@ -31,3 +31,11 @@ FUXA is often deployed close to operational environments (ICS/OT). A remote unau
 - GHSA (FUXA unauth file write / upload API): <https://github.com/advisories/GHSA-88qh-cphv-996c>
 - GHSA (FUXA unauth RCE via admin JWT minting): <https://github.com/advisories/GHSA-vwcg-c828-9822>
 - GHSA (FUXA unauth secrets/config exposure): <https://github.com/advisories/GHSA-c5gq-4h56-4mmx>
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-02-04-fuxa-multiple-unauth-rce-credential-exposure-ghsa.md`
+- `alerts/2026-02-06-fuxa-unauth-rce-triple-ghsa.md`

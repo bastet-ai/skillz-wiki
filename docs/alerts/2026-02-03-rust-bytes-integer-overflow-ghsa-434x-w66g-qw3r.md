@@ -1,22 +1,8 @@
-# 2026-02-03 — Rust `bytes` integer overflow in `BytesMut::reserve` (GHSA-434x-w66g-qw3r)
+<!-- duplicate_of: alerts/2026-02-04-bytes-bytesmut-reserve-overflow-ghsa-434x-w66g-qw3r.md -->
+# Moved: 2026-02-03 — Rust `bytes` integer overflow in `BytesMut::reserve` (GHSA-434x-w66g-qw3r)
 
-**What happened:** The Rust `bytes` crate had an integer overflow in `BytesMut::reserve`.
+This page was consolidated during the 2026-05-22 redundancy cleanup.
 
-**Why it matters:** Memory safety in Rust depends on library correctness. Overflows in capacity/length math can lead to:
-- panics (DoS)
-- memory corruption in unsafe code paths
+Canonical page: [2026-02-04 — Rust `bytes` integer overflow in `BytesMut::reserve` (GHSA-434x-w66g-qw3r / RUSTSEC-2026-0007)](2026-02-04-bytes-bytesmut-reserve-overflow-ghsa-434x-w66g-qw3r.md)
 
-## Durable guidance (defensive)
-
-1. **Upgrade dependencies promptly**
-   - Especially core crates used in network parsing and message framing.
-
-2. **Treat lengths from the network as hostile**
-   - Cap maximum frame/message sizes before reserving.
-
-3. **Fuzz critical parsers**
-   - Add fuzzing for any code that computes buffer sizes from untrusted inputs.
-
-## References
-
-- GitHub Advisory Database: <https://github.com/advisories/GHSA-434x-w66g-qw3r>
+Keep this compatibility pointer so old links do not 404, but make future updates on the canonical page.

@@ -28,3 +28,10 @@ This matters most when:
 
 - [OAuth Misconfigs (MCP/Agents)](../methodology/oauth-mcp-misconfig.md)
 - [Agent + CI Hardening](../best-practices/agent-ci-hardening.md)
+
+## Consolidation note
+<!-- consolidation-note: wiki-redundancy-2026-05-22 -->
+
+This is the canonical page for this topic. During the 2026-05-22 redundancy pass, overlapping pages were reduced to compatibility pointers:
+
+- `alerts/2026-02-05-mcp-typescript-sdk-cross-client-data-leak-ghsa-345p-7cg4-v4c7.md`
