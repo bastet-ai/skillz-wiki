@@ -132,6 +132,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Hugging Face Diffusers advisories: https://github.com/huggingface/diffusers/security/advisories
 - OpenTofu advisories: https://github.com/opentofu/opentofu/security/advisories
 - Plug advisories: https://github.com/elixir-plug/plug/security/advisories
+- Craft CMS security advisories: https://github.com/craftcms/cms/security/advisories
 
 ## Network and service discovery
 
