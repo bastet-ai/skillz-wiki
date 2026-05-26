@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Yeoman generator bootstrap package-install boundary](alerts/2026-05-26-yeoman-generator-bootstrap-package-install-boundary-ghsa-vv9j.md)
 - [XWiki LiveTable password-hash oracle boundary](alerts/2026-05-26-xwiki-livetable-password-hash-oracle-ghsa-rh28.md)
 - [XWiki WebJar extension file-write boundary](alerts/2026-05-26-xwiki-webjar-extension-file-write-boundary-ghsa-vgwr.md)
 - [CryptPad `srcdoc` sanitizer and XWiki XAR import boundary batch](alerts/2026-05-26-cryptpad-srcdoc-and-xwiki-xar-import-boundary-batch-ghsa.md)

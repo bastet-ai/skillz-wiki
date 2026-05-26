@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Yeoman generator bootstrap package-install boundary](2026-05-26-yeoman-generator-bootstrap-package-install-boundary-ghsa-vv9j.md)
 - [XWiki LiveTable password-hash oracle boundary](2026-05-26-xwiki-livetable-password-hash-oracle-ghsa-rh28.md)
 - [XWiki WebJar extension file-write boundary](2026-05-26-xwiki-webjar-extension-file-write-boundary-ghsa-vgwr.md)
 - [CryptPad `srcdoc` sanitizer and XWiki XAR import boundary batch](2026-05-26-cryptpad-srcdoc-and-xwiki-xar-import-boundary-batch-ghsa.md)
