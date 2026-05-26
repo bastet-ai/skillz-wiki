@@ -62,6 +62,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Weblate advisories: https://github.com/WeblateOrg/weblate/security/advisories
 - Typebot advisories: https://github.com/baptisteArno/typebot.io/security/advisories
 - XWiki advisories: https://github.com/xwiki/xwiki-commons/security/advisories
+- CryptPad advisories: https://github.com/cryptpad/cryptpad/security/advisories
+- XWiki Platform advisories: https://github.com/xwiki/xwiki-platform/security/advisories
 - LiteSpeed cPanel plugin security updates: https://blog.litespeedtech.com/
 - Apache Tomcat security advisories: https://tomcat.apache.org/security.html
 - ImageMagick security policy and releases: https://imagemagick.org/script/security-policy.php
