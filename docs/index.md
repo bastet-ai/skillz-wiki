@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Weblate Mercurial repo-URL SSRF and file-enumeration primitive](alerts/2026-05-26-weblate-repo-url-ssrf-and-file-enumeration-ghsa-hfpv-mc5v-p9mm.md)
 - [Rich-text import SSRF testing](methodology/rich-text-import-ssrf-testing.md)
 - [Agentic DAST benchmark validation](methodology/agentic-dast-benchmark-validation.md)
 - [Return URL scheme-bypass testing](methodology/return-url-scheme-bypass-testing.md)
