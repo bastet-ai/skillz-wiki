@@ -84,6 +84,7 @@ nav:
       - OAuth Token Theft: methodology/oauth-token-theft.md
       - OAuth Misconfigs for MCP / Agents: methodology/oauth-mcp-misconfig.md
       - Return URL Scheme Bypasses: methodology/return-url-scheme-bypass-testing.md
+      - Rich-text Import SSRF: methodology/rich-text-import-ssrf-testing.md
       - CVE Reversing: methodology/cve-reversing-web-vulnerabilities.md
   - Templates:
       - Vulnerability Report: report-templates/vulnerability-report.md
