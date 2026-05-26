@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [XWiki WebJar extension file-write boundary](2026-05-26-xwiki-webjar-extension-file-write-boundary-ghsa-vgwr.md)
 - [CryptPad `srcdoc` sanitizer and XWiki XAR import boundary batch](2026-05-26-cryptpad-srcdoc-and-xwiki-xar-import-boundary-batch-ghsa.md)
 - [Typebot, XWiki, and LiteSpeed cPanel boundary batch](2026-05-26-typebot-xss-xwiki-traversal-litespeed-cpanel-boundary-batch.md)
 - [Weblate Mercurial repo-URL SSRF and file-enumeration primitive](2026-05-26-weblate-repo-url-ssrf-and-file-enumeration-ghsa-hfpv-mc5v-p9mm.md)
