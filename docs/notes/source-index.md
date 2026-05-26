@@ -78,6 +78,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Hacktron AI Blog: https://www.hacktron.ai/blog/
 - ProjectDiscovery Blog: https://projectdiscovery.io/blog/
 - ProjectDiscovery Neo: https://neo.projectdiscovery.io/
+- ProjectDiscovery Neo black-box DAST benchmark notes: https://projectdiscovery.io/blog/neo-black-box-dast-capabilities
+- Argus validation benchmarks: https://github.com/pensarai/argus-validation-benchmarks
+- XBOW validation benchmarks: https://github.com/xbow-engineering/validation-benchmarks
 - Caddy security advisories: https://github.com/caddyserver/caddy/security/advisories
 - Spring AI MCP Security: https://github.com/spring-ai-community/mcp-security
 - webpack-dev-server advisories: https://github.com/webpack/webpack-dev-server/security/advisories

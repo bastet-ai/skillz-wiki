@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Agentic DAST benchmark validation](methodology/agentic-dast-benchmark-validation.md)
 - [Return URL scheme-bypass testing](methodology/return-url-scheme-bypass-testing.md)
 - [Nezha cron RCE and Arcane global-variables boundary batch](alerts/2026-05-22-nezha-cron-rce-arcane-global-variables-boundary-batch-ghsa.md)
 - [Nezha, AstrBot, Beetl, and API-client boundary batch](alerts/2026-05-22-nezha-astrbot-beetl-client-boundary-batch-ghsa.md)
