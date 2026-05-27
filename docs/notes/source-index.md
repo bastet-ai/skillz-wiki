@@ -11,6 +11,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Symfony routing advisories: https://github.com/symfony/symfony/security/advisories
 - Symfony security-http advisories: https://github.com/symfony/symfony/security/advisories
 - Symfony HtmlSanitizer advisories: https://github.com/symfony/symfony/security/advisories
+- Symfony MonologBridge advisories: https://github.com/symfony/symfony/security/advisories
+- Symfony Cache advisories: https://github.com/symfony/symfony/security/advisories
+- Symfony Mailer advisories: https://github.com/symfony/symfony/security/advisories
+- Symfony Mime advisories: https://github.com/symfony/symfony/security/advisories
+- Symfony DomCrawler advisories: https://github.com/symfony/symfony/security/advisories
 - CrowdSec advisories: https://github.com/crowdsecurity/crowdsec/security/advisories
 - Deno advisories: https://github.com/denoland/deno/security/advisories
 - Langroid advisories: https://github.com/langroid/langroid/security/advisories
