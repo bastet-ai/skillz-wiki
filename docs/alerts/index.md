@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [AI model hub, AsyncSSH, and Automad boundary batch](2026-05-27-ai-model-hub-ssh-cms-boundary-batch-ghsa.md)
 - [Symfony mail, auth, cache, XML, and log-listener boundary batch](2026-05-27-symfony-mail-auth-cache-xml-log-boundary-batch-ghsa.md)
 - [Symfony, CrowdSec, Deno, and Langroid boundary batch](2026-05-27-symfony-crowdsec-deno-langroid-boundary-batch-ghsa.md)
 - [LiquidJS filter-context RCE boundary](2026-05-27-liquidjs-filter-context-rce-boundary-ghsa-gf2q.md)

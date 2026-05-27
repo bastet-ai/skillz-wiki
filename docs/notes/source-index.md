@@ -5,6 +5,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- mamba / mamba-ssm advisories: https://github.com/state-spaces/mamba/security/advisories
+- Guardrails AI advisories: https://github.com/guardrails-ai/guardrails/security/advisories
+- Horovod project advisories: https://github.com/horovod/horovod/security/advisories
+- AsyncSSH advisories: https://github.com/ronf/asyncssh/security/advisories
+- Automad advisories: https://github.com/marcantondahmen/automad/security/advisories
 - Hapi content advisories: https://github.com/hapijs/content/security/advisories
 - Hapi wreck advisories: https://github.com/hapijs/wreck/security/advisories
 - Pimcore advisories: https://github.com/pimcore/pimcore/security/advisories

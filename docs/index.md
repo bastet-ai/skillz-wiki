@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [AI model hub, AsyncSSH, and Automad boundary batch](alerts/2026-05-27-ai-model-hub-ssh-cms-boundary-batch-ghsa.md)
 - [Symfony mail, auth, cache, XML, and log-listener boundary batch](alerts/2026-05-27-symfony-mail-auth-cache-xml-log-boundary-batch-ghsa.md)
 - [Symfony, CrowdSec, Deno, and Langroid boundary batch](alerts/2026-05-27-symfony-crowdsec-deno-langroid-boundary-batch-ghsa.md)
 - [LiquidJS filter-context RCE boundary](alerts/2026-05-27-liquidjs-filter-context-rce-boundary-ghsa-gf2q.md)
