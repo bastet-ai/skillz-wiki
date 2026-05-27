@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [LiquidJS filter-context RCE boundary](alerts/2026-05-27-liquidjs-filter-context-rce-boundary-ghsa-gf2q.md)
 - [Pimcore WebDAV, Kirby frontend XSS, and LiquidJS resource-boundary batch](alerts/2026-05-27-pimcore-webdav-kirby-xss-liquid-resource-boundary-batch-ghsa.md)
 - [Pimcore deserialization and Symfony regex boundary batch](alerts/2026-05-27-pimcore-deserialization-and-symfony-regex-boundary-batch-ghsa.md)
 - [Hapi, Pimcore, tmp, and LiquidJS boundary batch](alerts/2026-05-26-hapi-pimcore-tmp-liquid-boundary-batch-ghsa.md)
