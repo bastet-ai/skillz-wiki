@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Pimcore deserialization and Symfony regex boundary batch](alerts/2026-05-27-pimcore-deserialization-and-symfony-regex-boundary-batch-ghsa.md)
 - [Hapi, Pimcore, tmp, and LiquidJS boundary batch](alerts/2026-05-26-hapi-pimcore-tmp-liquid-boundary-batch-ghsa.md)
 - [Template, container, CMS, ICS, and signature-boundary batch](alerts/2026-05-26-template-container-cms-ics-and-signature-boundary-batch-ghsa.md)
 - [Yeoman generator bootstrap package-install boundary](alerts/2026-05-26-yeoman-generator-bootstrap-package-install-boundary-ghsa-vv9j.md)

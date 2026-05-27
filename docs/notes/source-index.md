@@ -8,6 +8,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Hapi content advisories: https://github.com/hapijs/content/security/advisories
 - Hapi wreck advisories: https://github.com/hapijs/wreck/security/advisories
 - Pimcore advisories: https://github.com/pimcore/pimcore/security/advisories
+- Symfony routing advisories: https://github.com/symfony/symfony/security/advisories
+- Symfony security-http advisories: https://github.com/symfony/symfony/security/advisories
 - tmp / node-tmp advisories: https://github.com/raszi/node-tmp/security/advisories
 - Nezha Monitoring advisories: https://github.com/nezhahq/nezha/security/advisories
 - Arcane advisories: https://github.com/getarcaneapp/arcane/security/advisories

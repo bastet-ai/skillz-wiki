@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Pimcore deserialization and Symfony regex boundary batch](2026-05-27-pimcore-deserialization-and-symfony-regex-boundary-batch-ghsa.md)
 - [Hapi, Pimcore, tmp, and LiquidJS boundary batch](2026-05-26-hapi-pimcore-tmp-liquid-boundary-batch-ghsa.md)
 - [Template, container, CMS, ICS, and signature-boundary batch](2026-05-26-template-container-cms-ics-and-signature-boundary-batch-ghsa.md)
 - [Yeoman generator bootstrap package-install boundary](2026-05-26-yeoman-generator-bootstrap-package-install-boundary-ghsa-vv9j.md)
