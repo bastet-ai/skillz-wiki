@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Template, container, CMS, ICS, and signature-boundary batch](2026-05-26-template-container-cms-ics-and-signature-boundary-batch-ghsa.md)
 - [Yeoman generator bootstrap package-install boundary](2026-05-26-yeoman-generator-bootstrap-package-install-boundary-ghsa-vv9j.md)
 - [XWiki LiveTable password-hash oracle boundary](2026-05-26-xwiki-livetable-password-hash-oracle-ghsa-rh28.md)
 - [XWiki WebJar extension file-write boundary](2026-05-26-xwiki-webjar-extension-file-write-boundary-ghsa-vgwr.md)

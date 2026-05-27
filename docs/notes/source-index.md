@@ -65,6 +65,13 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - CryptPad advisories: https://github.com/cryptpad/cryptpad/security/advisories
 - XWiki Platform advisories: https://github.com/xwiki/xwiki-platform/security/advisories
 - Yeoman environment advisories: https://github.com/yeoman/environment/security/advisories
+- Fedify advisories: https://github.com/fedify-dev/fedify/security/advisories
+- Yamcs advisories: https://github.com/yamcs/yamcs/security/advisories
+- FUXA advisories: https://github.com/frangoteam/FUXA/security/advisories
+- Kirby CMS advisories: https://github.com/getkirby/kirby/security/advisories
+- Kata Containers advisories: https://github.com/kata-containers/kata-containers/security/advisories
+- CarrierWave advisories: https://github.com/carrierwaveuploader/carrierwave/security/advisories
+- LiquidJS advisories: https://github.com/harttle/liquidjs/security/advisories
 - LiteSpeed cPanel plugin security updates: https://blog.litespeedtech.com/
 - Apache Tomcat security advisories: https://tomcat.apache.org/security.html
 - ImageMagick security policy and releases: https://imagemagick.org/script/security-policy.php
