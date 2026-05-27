@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Symfony, CrowdSec, Deno, and Langroid boundary batch](alerts/2026-05-27-symfony-crowdsec-deno-langroid-boundary-batch-ghsa.md)
 - [LiquidJS filter-context RCE boundary](alerts/2026-05-27-liquidjs-filter-context-rce-boundary-ghsa-gf2q.md)
 - [Pimcore WebDAV, Kirby frontend XSS, and LiquidJS resource-boundary batch](alerts/2026-05-27-pimcore-webdav-kirby-xss-liquid-resource-boundary-batch-ghsa.md)
 - [Pimcore deserialization and Symfony regex boundary batch](alerts/2026-05-27-pimcore-deserialization-and-symfony-regex-boundary-batch-ghsa.md)

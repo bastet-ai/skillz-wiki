@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Symfony, CrowdSec, Deno, and Langroid boundary batch](2026-05-27-symfony-crowdsec-deno-langroid-boundary-batch-ghsa.md)
 - [LiquidJS filter-context RCE boundary](2026-05-27-liquidjs-filter-context-rce-boundary-ghsa-gf2q.md)
 - [Pimcore WebDAV, Kirby frontend XSS, and LiquidJS resource-boundary batch](2026-05-27-pimcore-webdav-kirby-xss-liquid-resource-boundary-batch-ghsa.md)
 - [Pimcore deserialization and Symfony regex boundary batch](2026-05-27-pimcore-deserialization-and-symfony-regex-boundary-batch-ghsa.md)
