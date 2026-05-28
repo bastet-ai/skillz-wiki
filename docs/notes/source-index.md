@@ -5,6 +5,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- nono advisories: https://github.com/always-further/nono/security/advisories
+- local-deep-research advisories: https://github.com/LearningCircuit/local-deep-research/security/advisories
+- shamefile advisories: https://github.com/BKDDFS/shamefile/security/advisories
+- Symfony polyfill advisories: https://github.com/symfony/polyfill/security/advisories
 - mem0 advisories: https://github.com/mem0ai/mem0/security/advisories
 - compliance-trestle advisories: https://github.com/oscal-compass/compliance-trestle/security/advisories
 - Flask-HTTPAuth advisories: https://github.com/miguelgrinberg/Flask-HTTPAuth/security/advisories

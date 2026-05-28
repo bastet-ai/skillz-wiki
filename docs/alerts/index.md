@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Agent sandbox, research SSRF, path-read, and IDN boundary batch](2026-05-28-agent-sandbox-ssrf-path-idn-boundary-batch-ghsa.md)
 - [mem0, compliance-trestle, and Flask token-auth boundary batch](2026-05-28-mem0-trestle-flask-token-boundary-batch-ghsa.md)
 - [OpenCTI, UnoPim, compliance-trestle, OpenBao, and Symfony boundary batch](2026-05-28-opencti-unopim-trestle-openbao-symfony-boundary-batch-ghsa.md)
 - [Capsule tenant-resource escalation and Symfony sanitizer URL-attribute batch](2026-05-28-capsule-symfony-tenant-and-sanitizer-boundary-batch-ghsa.md)
