@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Pimcore composite-index SQLi and FUXA secure-read boundary batch](2026-05-28-pimcore-composite-index-and-fuxa-secure-read-boundary-batch-ghsa.md)
 - [Agent sandbox, research SSRF, path-read, and IDN boundary batch](2026-05-28-agent-sandbox-ssrf-path-idn-boundary-batch-ghsa.md)
 - [mem0, compliance-trestle, and Flask token-auth boundary batch](2026-05-28-mem0-trestle-flask-token-boundary-batch-ghsa.md)
 - [OpenCTI, UnoPim, compliance-trestle, OpenBao, and Symfony boundary batch](2026-05-28-opencti-unopim-trestle-openbao-symfony-boundary-batch-ghsa.md)

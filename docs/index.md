@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Pimcore composite-index SQLi and FUXA secure-read boundary batch](alerts/2026-05-28-pimcore-composite-index-and-fuxa-secure-read-boundary-batch-ghsa.md)
 - [Agent sandbox, research SSRF, path-read, and IDN boundary batch](alerts/2026-05-28-agent-sandbox-ssrf-path-idn-boundary-batch-ghsa.md)
 - [mem0, compliance-trestle, and Flask token-auth boundary batch](alerts/2026-05-28-mem0-trestle-flask-token-boundary-batch-ghsa.md)
 - [OpenCTI, UnoPim, compliance-trestle, OpenBao, and Symfony boundary batch](alerts/2026-05-28-opencti-unopim-trestle-openbao-symfony-boundary-batch-ghsa.md)
