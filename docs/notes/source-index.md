@@ -5,6 +5,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- mem0 advisories: https://github.com/mem0ai/mem0/security/advisories
+- compliance-trestle advisories: https://github.com/oscal-compass/compliance-trestle/security/advisories
+- Flask-HTTPAuth advisories: https://github.com/miguelgrinberg/Flask-HTTPAuth/security/advisories
 - league/commonmark advisories: https://github.com/thephpleague/commonmark/security/advisories
 - mamba / mamba-ssm advisories: https://github.com/state-spaces/mamba/security/advisories
 - Guardrails AI advisories: https://github.com/guardrails-ai/guardrails/security/advisories
