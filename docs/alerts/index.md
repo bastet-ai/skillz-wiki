@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Open WebUI redirect-hop SSRF validation update](2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md)
 - [Pimcore composite-index SQLi and FUXA secure-read boundary batch](2026-05-28-pimcore-composite-index-and-fuxa-secure-read-boundary-batch-ghsa.md)
 - [Agent sandbox, research SSRF, path-read, and IDN boundary batch](2026-05-28-agent-sandbox-ssrf-path-idn-boundary-batch-ghsa.md)
 - [mem0, compliance-trestle, and Flask token-auth boundary batch](2026-05-28-mem0-trestle-flask-token-boundary-batch-ghsa.md)
