@@ -17,6 +17,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Symfony routing advisories: https://github.com/symfony/symfony/security/advisories
 - Symfony security-http advisories: https://github.com/symfony/symfony/security/advisories
 - Symfony HtmlSanitizer advisories: https://github.com/symfony/symfony/security/advisories
+- Capsule / Project Capsule advisories: https://github.com/projectcapsule/capsule/security/advisories
 - Symfony MonologBridge advisories: https://github.com/symfony/symfony/security/advisories
 - Symfony Cache advisories: https://github.com/symfony/symfony/security/advisories
 - Symfony Mailer advisories: https://github.com/symfony/symfony/security/advisories

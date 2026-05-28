@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Capsule tenant-resource escalation and Symfony sanitizer URL-attribute batch](2026-05-28-capsule-symfony-tenant-and-sanitizer-boundary-batch-ghsa.md)
 - [league/commonmark Attributes extension XSS boundary](2026-05-28-commonmark-attributes-extension-xss-ghsa-3527.md)
 - [Agent, container, ICS, and CMS boundary batch](2026-05-27-agent-container-ics-cms-boundary-batch-ghsa.md)
 - [AI model hub, AsyncSSH, and Automad boundary batch](2026-05-27-ai-model-hub-ssh-cms-boundary-batch-ghsa.md)
