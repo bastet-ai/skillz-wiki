@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [OpenCTI, UnoPim, compliance-trestle, OpenBao, and Symfony boundary batch](alerts/2026-05-28-opencti-unopim-trestle-openbao-symfony-boundary-batch-ghsa.md)
 - [Capsule tenant-resource escalation and Symfony sanitizer URL-attribute batch](alerts/2026-05-28-capsule-symfony-tenant-and-sanitizer-boundary-batch-ghsa.md)
 - [league/commonmark Attributes extension XSS boundary](alerts/2026-05-28-commonmark-attributes-extension-xss-ghsa-3527.md)
 - [Agent, container, ICS, and CMS boundary batch](alerts/2026-05-27-agent-container-ics-cms-boundary-batch-ghsa.md)
