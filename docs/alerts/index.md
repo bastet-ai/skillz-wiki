@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [league/commonmark Attributes extension XSS boundary](2026-05-28-commonmark-attributes-extension-xss-ghsa-3527.md)
 - [Agent, container, ICS, and CMS boundary batch](2026-05-27-agent-container-ics-cms-boundary-batch-ghsa.md)
 - [AI model hub, AsyncSSH, and Automad boundary batch](2026-05-27-ai-model-hub-ssh-cms-boundary-batch-ghsa.md)
 - [Symfony mail, auth, cache, XML, and log-listener boundary batch](2026-05-27-symfony-mail-auth-cache-xml-log-boundary-batch-ghsa.md)

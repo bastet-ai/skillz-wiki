@@ -5,6 +5,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- league/commonmark advisories: https://github.com/thephpleague/commonmark/security/advisories
 - mamba / mamba-ssm advisories: https://github.com/state-spaces/mamba/security/advisories
 - Guardrails AI advisories: https://github.com/guardrails-ai/guardrails/security/advisories
 - Horovod project advisories: https://github.com/horovod/horovod/security/advisories
