@@ -84,6 +84,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Mailpit advisories: https://github.com/axllent/mailpit/security/advisories
 - Argo CD advisories: https://github.com/argoproj/argo-cd/security/advisories
 - Nuxt advisories: https://github.com/nuxt/nuxt/security/advisories
+- Gotenberg advisories: https://github.com/gotenberg/gotenberg/security/advisories
 - HAXcms / HAX advisories: https://github.com/haxtheweb/issues/security/advisories
 - Algernon advisories: https://github.com/xyproto/algernon/security/advisories
 - Scriban advisories: https://github.com/scriban/scriban/security/advisories

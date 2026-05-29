@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Nuxt island middleware bypass and Gotenberg SSRF/file-boundary batch](alerts/2026-05-29-nuxt-gotenberg-render-and-file-boundary-batch-ghsa.md)
 - [Axios prototype-pollution, Froxlor shell, and GitHub CLI token-boundary batch](alerts/2026-05-29-axios-froxlor-gh-cli-boundary-batch-ghsa.md)
 - [HaxCMS saveNode event-handler sanitizer bypass](alerts/2026-05-29-haxcms-savenode-event-handler-xss-ghsa-g2g8.md)
 - [OpenClaw gateway config and subagent control-boundary batch](alerts/2026-05-29-openclaw-gateway-config-and-subagent-boundary-batch-ghsa.md)
