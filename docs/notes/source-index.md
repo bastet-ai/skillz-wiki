@@ -5,8 +5,14 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Palo Alto Networks PAN-OS advisories: https://security.paloaltonetworks.com/
 - vm2 advisories: https://github.com/patriksimek/vm2/security/advisories
 - SGLang advisories: https://github.com/sgl-project/sglang/security/advisories
+- ChromaDB advisories and research: https://github.com/chroma-core/chroma/security/advisories and https://www.hiddenlayer.com/research/chromatoast-served-pre-auth
+- ngrok npm wrapper advisory reference: https://gist.github.com/Dremig/90c2a0a2f85b0921f10e0bb3192a0c23
+- astral-tokio-tar advisories: https://github.com/astral-sh/tokio-tar/security/advisories
+- eZ Publish Legacy security advisories/labs: https://github.com/ezsystems/ezpublish-legacy/security/advisories and https://github.com/Goaterino/ezpublish-legacy-lab
+- Cluster API Provider Metal3 advisories: https://github.com/metal3-io/cluster-api-provider-metal3/security/advisories
 - python-tuf advisories: https://github.com/theupdateframework/python-tuf/security/advisories
 - Dulwich advisories: https://github.com/dulwich/dulwich/security/advisories
 - nono advisories: https://github.com/always-further/nono/security/advisories
