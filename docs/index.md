@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Koel podcast SSRF, Summarize daemon/file boundaries, Redshift rogue-server RCE, uv entry-point write, MLflow artifact tamper, russh auth state, and AgenticMail boundary batch](alerts/2026-05-29-koel-summarize-redshift-uv-agent-boundary-batch-ghsa.md)
 - [ChromaDB pre-auth model loading, GlobalProtect auth bypass, Parse GraphQL schema leak, ngrok command injection, tar parser differential, and CAPI boundary batch](alerts/2026-05-29-chromadb-ngrok-tar-capi-boundary-batch-ghsa.md)
 - [vm2 / NodeVM sandbox escapes and SGLang multimodal runtime boundary batch](alerts/2026-05-29-vm2-nodevm-and-sglang-runtime-boundary-batch-ghsa.md)
 - [Nuxt island middleware bypass and Gotenberg SSRF/file-boundary batch](alerts/2026-05-29-nuxt-gotenberg-render-and-file-boundary-batch-ghsa.md)
