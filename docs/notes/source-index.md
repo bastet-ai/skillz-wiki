@@ -163,6 +163,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Keycloak security advisories: https://github.com/keycloak/keycloak/security/advisories
 - Eclipse Jetty security advisories: https://github.com/jetty/jetty.project/security/advisories
 - Axios advisories: https://github.com/axios/axios/security/advisories
+- Froxlor advisories: https://github.com/froxlor/Froxlor/security/advisories
+- GitHub CLI advisories: https://github.com/cli/cli/security/advisories
 - seroval advisories: https://github.com/lxsmnsyc/seroval/security/advisories
 - Databento DBN advisories: https://github.com/databento/dbn/security/advisories
 - Rclone advisories: https://github.com/rclone/rclone/security/advisories

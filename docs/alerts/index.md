@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Axios prototype-pollution, Froxlor shell, and GitHub CLI token-boundary batch](2026-05-29-axios-froxlor-gh-cli-boundary-batch-ghsa.md)
 - [HaxCMS saveNode event-handler sanitizer bypass](2026-05-29-haxcms-savenode-event-handler-xss-ghsa-g2g8.md)
 - [OpenClaw gateway config and subagent control-boundary batch](2026-05-29-openclaw-gateway-config-and-subagent-boundary-batch-ghsa.md)
 - [TUF delegation, Dulwich Git, and Arcane control-plane boundary batch](2026-05-28-supply-chain-git-and-control-plane-boundary-batch-ghsa.md)
