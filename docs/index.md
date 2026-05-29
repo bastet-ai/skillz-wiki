@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Nezha DDNS SSRF, Admidio document/auth boundaries, OpenC3 file/SQL boundaries, and Ouroboros tool-path batch](alerts/2026-05-29-nezha-admidio-openc3-ouroboros-boundary-batch-ghsa.md)
 - [authentik SAML wrapping, CC-Tweaked NAT64 SSRF, and Keras model-loading boundary batch](alerts/2026-05-29-authentik-cc-tweaked-keras-identity-and-model-boundary-batch-ghsa.md)
 - [Koel podcast SSRF, Summarize daemon/file boundaries, Redshift rogue-server RCE, uv entry-point write, MLflow artifact tamper, russh auth state, and AgenticMail boundary batch](alerts/2026-05-29-koel-summarize-redshift-uv-agent-boundary-batch-ghsa.md)
 - [ChromaDB pre-auth model loading, GlobalProtect auth bypass, Parse GraphQL schema leak, ngrok command injection, tar parser differential, and CAPI boundary batch](alerts/2026-05-29-chromadb-ngrok-tar-capi-boundary-batch-ghsa.md)
