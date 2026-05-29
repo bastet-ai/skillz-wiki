@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenClaw gateway config and subagent control-boundary batch](2026-05-29-openclaw-gateway-config-and-subagent-boundary-batch-ghsa.md)
 - [TUF delegation, Dulwich Git, and Arcane control-plane boundary batch](2026-05-28-supply-chain-git-and-control-plane-boundary-batch-ghsa.md)
 - [Open WebUI redirect-hop SSRF validation update](2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md)
 - [Pimcore composite-index SQLi and FUXA secure-read boundary batch](2026-05-28-pimcore-composite-index-and-fuxa-secure-read-boundary-batch-ghsa.md)

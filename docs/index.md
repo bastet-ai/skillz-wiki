@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [OpenClaw gateway config and subagent control-boundary batch](alerts/2026-05-29-openclaw-gateway-config-and-subagent-boundary-batch-ghsa.md)
 - [TUF delegation, Dulwich Git, and Arcane control-plane boundary batch](alerts/2026-05-28-supply-chain-git-and-control-plane-boundary-batch-ghsa.md)
 - [Open WebUI redirect-hop SSRF validation update](alerts/2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md)
 - [Pimcore composite-index SQLi and FUXA secure-read boundary batch](alerts/2026-05-28-pimcore-composite-index-and-fuxa-secure-read-boundary-batch-ghsa.md)
