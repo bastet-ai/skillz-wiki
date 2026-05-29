@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [authentik SAML wrapping, CC-Tweaked NAT64 SSRF, and Keras model-loading boundary batch](2026-05-29-authentik-cc-tweaked-keras-identity-and-model-boundary-batch-ghsa.md)
 - [Koel podcast SSRF, Summarize daemon/file boundaries, Redshift rogue-server RCE, uv entry-point write, MLflow artifact tamper, russh auth state, and AgenticMail boundary batch](2026-05-29-koel-summarize-redshift-uv-agent-boundary-batch-ghsa.md)
 - [ChromaDB pre-auth model loading, GlobalProtect auth bypass, Parse GraphQL schema leak, ngrok command injection, tar parser differential, and CAPI boundary batch](2026-05-29-chromadb-ngrok-tar-capi-boundary-batch-ghsa.md)
 - [vm2 / NodeVM sandbox escapes and SGLang multimodal runtime boundary batch](2026-05-29-vm2-nodevm-and-sglang-runtime-boundary-batch-ghsa.md)

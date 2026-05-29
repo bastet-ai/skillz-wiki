@@ -5,6 +5,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- authentik advisories: https://github.com/goauthentik/authentik/security/advisories
+- CC-Tweaked advisories: https://github.com/cc-tweaked/CC-Tweaked/security/advisories
+- Keras advisories: https://github.com/keras-team/keras/security/advisories
 - Koel advisories: https://github.com/koel/koel/security/advisories
 - Summarize advisories: https://github.com/steipete/summarize/security/advisories and https://www.vulncheck.com/advisories/
 - Amazon Redshift Python driver advisories: https://github.com/aws/amazon-redshift-python-driver/security/advisories
