@@ -5,6 +5,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- tar-rs advisories: https://github.com/composefs/tar-rs/security/advisories
+- Parse Server advisories: https://github.com/parse-community/parse-server/security/advisories
 - Palo Alto Networks PAN-OS advisories: https://security.paloaltonetworks.com/
 - vm2 advisories: https://github.com/patriksimek/vm2/security/advisories
 - SGLang advisories: https://github.com/sgl-project/sglang/security/advisories

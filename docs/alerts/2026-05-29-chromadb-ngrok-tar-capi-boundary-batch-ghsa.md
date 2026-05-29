@@ -1,12 +1,14 @@
-# ChromaDB pre-auth model loading, GlobalProtect auth bypass, ngrok command injection, tar parser differential, and CAPI boundary batch
+# ChromaDB pre-auth model loading, GlobalProtect auth bypass, Parse GraphQL schema leak, ngrok command injection, tar parser differential, and CAPI boundary batch
 
-Source: GitHub Security Advisories REST fallback, updated 2026-05-29: [GHSA-f4j7-r4q5-qw2c](https://github.com/advisories/GHSA-f4j7-r4q5-qw2c) / CVE-2026-45829, [GHSA-qr28-p3wr-mxq3](https://github.com/advisories/GHSA-qr28-p3wr-mxq3) / CVE-2025-57282, [GHSA-3cv2-h65g-fgmm](https://github.com/advisories/GHSA-3cv2-h65g-fgmm), [GHSA-xg9x-h37w-h3r3](https://github.com/advisories/GHSA-xg9x-h37w-h3r3) / CVE-2026-38739, [GHSA-rf84-wr5g-m3rp](https://github.com/advisories/GHSA-rf84-wr5g-m3rp), and [GHSA-9g8x-92q2-p28f](https://github.com/advisories/GHSA-9g8x-92q2-p28f) / CVE-2026-47141. CISA KEV also added [CVE-2026-0257](https://security.paloaltonetworks.com/CVE-2026-0257) for Palo Alto Networks PAN-OS GlobalProtect authentication bypass exploitation.
+Source: GitHub Security Advisories REST fallback, updated 2026-05-29: [GHSA-8cph-rgr4-g5vj](https://github.com/advisories/GHSA-8cph-rgr4-g5vj) / CVE-2026-47248, [GHSA-3pv8-6f4r-ffg2](https://github.com/advisories/GHSA-3pv8-6f4r-ffg2), [GHSA-f4j7-r4q5-qw2c](https://github.com/advisories/GHSA-f4j7-r4q5-qw2c) / CVE-2026-45829, [GHSA-qr28-p3wr-mxq3](https://github.com/advisories/GHSA-qr28-p3wr-mxq3) / CVE-2025-57282, [GHSA-3cv2-h65g-fgmm](https://github.com/advisories/GHSA-3cv2-h65g-fgmm), [GHSA-xg9x-h37w-h3r3](https://github.com/advisories/GHSA-xg9x-h37w-h3r3) / CVE-2026-38739, [GHSA-rf84-wr5g-m3rp](https://github.com/advisories/GHSA-rf84-wr5g-m3rp), and [GHSA-9g8x-92q2-p28f](https://github.com/advisories/GHSA-9g8x-92q2-p28f) / CVE-2026-47141. CISA KEV also added [CVE-2026-0257](https://security.paloaltonetworks.com/CVE-2026-0257) for Palo Alto Networks PAN-OS GlobalProtect authentication bypass exploitation.
 
-This batch is durable because it captures reusable offensive validation patterns: unauthenticated AI runtime model-loading before auth, edge VPN authentication override bypass validation, package wrapper command construction, archive parser differentials that smuggle filesystem writes, local maintenance-script SQL injection, Kubernetes cross-namespace control-plane references, and sandbox observability modules leaking host request context.
+This batch is durable because it captures reusable offensive validation patterns: unauthenticated AI runtime model-loading before auth, edge VPN authentication override bypass validation, GraphQL schema-reconstruction by validation-error suggestions, package wrapper command construction, archive parser differentials that smuggle filesystem writes, local maintenance-script SQL injection, Kubernetes cross-namespace control-plane references, and sandbox observability modules leaking host request context.
 
 ## What changed
 
 - **ChromaDB Python FastAPI pre-auth code execution** — `chromadb` Python server versions `>=1.0.0, <=1.5.9` can instantiate client-supplied embedding function configuration before the `/api/v2/tenants/{tenant}/databases/{db}/collections` authorization check. Supplying a Hugging Face model name with `trust_remote_code: true` can execute attacker-controlled model code even when the API request is later rejected.
+- **Parse Server GraphQL schema disclosure through suggestions** — `parse-server` versions `<8.6.78` and `>=9.0.0, <9.9.1-alpha.2` can disclose GraphQL schema metadata to unauthenticated callers through validation-error `Did you mean ...?` suggestions even when public introspection is disabled. This does not leak object data by itself, but it is a strong recon accelerator for class names, field names, mutations, arguments, and input-object fields.
+- **tar-rs PAX header desynchronization** — Rust `tar <=0.4.45` has the same `x -> L -> file` PAX/GNU-longname parser differential pattern: the PAX header is applied to the next header entry instead of the next file entry, so `tar-rs` can skip or extract members differently than reference tar tools.
 - **PAN-OS GlobalProtect authentication bypass in active exploitation** — CVE-2026-0257 affects PAN-OS GlobalProtect portal or gateway deployments where authentication override cookies are enabled with a specific certificate configuration. Successful abuse can establish an unauthorized VPN connection. Palo Alto marks exploit maturity as `ATTACKED`; CISA added it to KEV on 2026-05-29. Panorama and Cloud NGFW are not affected.
 - **ngrok npm wrapper command injection** — `ngrok` npm package versions `4.3.3` and `5.0.0-beta.2` pass caller-controlled `binPath` behavior into command execution paths such as `getVersion()`. This matters when build scripts, scaffolding tools, or agent workflows call ngrok with options derived from project-controlled configuration.
 - **astral-tokio-tar PAX header desynchronization** — `astral-tokio-tar <=0.6.1` applies PAX headers to the next header entry instead of the next file entry in sequences such as `x -> L -> file`. Crafted archives can extract differently under astral-tokio-tar than GNU/BSD tar and smuggle unexpected files.
@@ -20,11 +22,12 @@ This batch is durable because it captures reusable offensive validation patterns
 2. **Separate Python from Rust Chroma paths:** the advisory centers on the Python FastAPI server; record deployment mode before reporting impact.
 3. **Map model-loading trust:** look for products that let users configure embedding functions, Hugging Face model IDs, or `trust_remote_code` kwargs through collection setup, RAG admin panels, or tenant self-service APIs.
 4. **Triage GlobalProtect exposure:** identify PAN-OS GlobalProtect portals or gateways, confirm affected version families, and determine whether authentication override cookies are enabled. This is an edge-access finding, so prioritize explicit program scope and non-invasive version/config proof.
-5. **Find ngrok wrapper reachability:** search CI scripts, CLIs, developer portals, agent sandboxes, and scaffolding tools that call `ngrok.getVersion()`, `connect()`, or wrapper helpers with user/project-controlled option objects.
-6. **Trace tar extraction consumers:** flag Rust services, package managers, CI ingestion flows, upload processors, and artifact scanners that use `astral-tokio-tar` and then trust extracted paths or presence/absence of specific files.
-7. **Assess local-maintenance escalation:** for eZ Publish Legacy, treat `dfscleanup.php` as a local post-compromise or low-privileged-shell escalation primitive into database reads and filesystem deletion, not a remote web SQLi.
-8. **Identify CAPI shared-management clusters:** CAPM3 is most interesting where multiple teams or customers can create Metal3 resources in separate namespaces on one management cluster.
-9. **Extend vm2 config review:** alongside the RCE-focused NodeVM checks, inspect whether `diagnostics_channel`, `async_hooks`, or `perf_hooks` are allowed in sandboxes that process untrusted plugin code near HTTP request handling.
+5. **Probe Parse GraphQL schema-hiding drift:** find Parse Server GraphQL endpoints where an app id is public, introspection is disabled, and malformed query validation errors are exposed.
+6. **Find ngrok wrapper reachability:** search CI scripts, CLIs, developer portals, agent sandboxes, and scaffolding tools that call `ngrok.getVersion()`, `connect()`, or wrapper helpers with user/project-controlled option objects.
+7. **Trace tar extraction consumers:** flag Rust services, package managers, CI ingestion flows, upload processors, and artifact scanners that use `astral-tokio-tar` and then trust extracted paths or presence/absence of specific files.
+8. **Assess local-maintenance escalation:** for eZ Publish Legacy, treat `dfscleanup.php` as a local post-compromise or low-privileged-shell escalation primitive into database reads and filesystem deletion, not a remote web SQLi.
+9. **Identify CAPI shared-management clusters:** CAPM3 is most interesting where multiple teams or customers can create Metal3 resources in separate namespaces on one management cluster.
+10. **Extend vm2 config review:** alongside the RCE-focused NodeVM checks, inspect whether `diagnostics_channel`, `async_hooks`, or `perf_hooks` are allowed in sandboxes that process untrusted plugin code near HTTP request handling.
 
 ## Replayable validation boundaries
 
@@ -41,6 +44,13 @@ This batch is durable because it captures reusable offensive validation patterns
 - **Confirm configuration through authorized channels:** the vulnerable condition depends on authentication override cookie settings and certificate use. Prefer admin-export evidence, screenshots from an authorized operator, or lab reproduction over probing production login flows.
 - **Use lab replay for exploit-path validation:** if proof is required, mirror the affected PAN-OS version and GlobalProtect configuration in a lab and demonstrate unauthorized tunnel establishment with synthetic accounts and networks only.
 - **Report active-exploitation context:** include CISA KEV date, Palo Alto `ATTACKED` status, affected version train, GlobalProtect role, and whether the target is an internet-facing portal or gateway.
+
+### Parse Server GraphQL suggestion oracle check
+
+- **Start with a known public app id:** this finding requires only unauthenticated GraphQL access plus enough application metadata to send requests accepted by the Parse app boundary.
+- **Use malformed query names:** send near-miss type, field, mutation, argument, and input-object names and record whether validation errors append `Did you mean ...?` suggestions.
+- **Reconstruct only metadata:** stop at schema shape, field names, and mutation names. Do not query object data, brute-force tokens, or mutate records unless separately authorized.
+- **Pair with authorization testing carefully:** schema disclosure is strongest when it reveals hidden classes or privileged mutations that can then be tested with normal low-privilege accounts in scope. Keep the report separated: metadata oracle first, downstream auth bug second if present.
 
 ### ngrok npm wrapper command-boundary check
 
@@ -75,6 +85,7 @@ This batch is durable because it captures reusable offensive validation patterns
 ## Reporting heuristics
 
 - For ChromaDB, highlight the **pre-auth side effect**: code executes before auth rejection. Include the exact endpoint, embedding-function configuration field, model-loading evidence, and deployment mode.
+- For Parse Server, include the GraphQL route, app-id acquisition path, introspection-disabled evidence, malformed queries used, and exact suggestion strings that reveal class/field/mutation names.
 - For GlobalProtect, distinguish exposed portal/gateway presence from proven authentication bypass. Include version train, auth-override cookie configuration evidence, certificate configuration evidence if available, and a scoped lab proof if production testing is not authorized.
 - For ngrok, impact depends on who controls the options object. Include caller path, project-controlled input source, vulnerable package version, and benign command marker.
 - For tar parser issues, include both extraction manifests and explain the parser differential rather than only naming a package version.
