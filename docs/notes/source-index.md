@@ -5,6 +5,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- vm2 advisories: https://github.com/patriksimek/vm2/security/advisories
+- SGLang advisories: https://github.com/sgl-project/sglang/security/advisories
 - python-tuf advisories: https://github.com/theupdateframework/python-tuf/security/advisories
 - Dulwich advisories: https://github.com/dulwich/dulwich/security/advisories
 - nono advisories: https://github.com/always-further/nono/security/advisories

@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [vm2 / NodeVM sandbox escapes and SGLang multimodal runtime boundary batch](2026-05-29-vm2-nodevm-and-sglang-runtime-boundary-batch-ghsa.md)
 - [Nuxt island middleware bypass and Gotenberg SSRF/file-boundary batch](2026-05-29-nuxt-gotenberg-render-and-file-boundary-batch-ghsa.md)
 - [Axios prototype-pollution, Froxlor shell, and GitHub CLI token-boundary batch](2026-05-29-axios-froxlor-gh-cli-boundary-batch-ghsa.md)
 - [HaxCMS saveNode event-handler sanitizer bypass](2026-05-29-haxcms-savenode-event-handler-xss-ghsa-g2g8.md)
