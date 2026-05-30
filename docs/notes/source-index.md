@@ -5,6 +5,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- arnika advisories: https://github.com/arnika-project/arnika/security/advisories
 - PraisonAI advisories: https://github.com/MervinPraison/PraisonAI/security/advisories
 - Formie advisories: https://github.com/verbb/formie/security/advisories
 - authentik advisories: https://github.com/goauthentik/authentik/security/advisories
