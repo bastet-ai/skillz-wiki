@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Git LFS symlink and hard-link working-tree write boundaries](alerts/2026-05-31-git-lfs-symlink-working-tree-write-boundary-ghsa.md)
 - [phpMyFAQ password-reset and admin IDOR account-takeover boundaries](alerts/2026-05-31-phpmyfaq-account-takeover-boundary-ghsa.md)
 - [arnika QKD/PQC/KMS protocol-boundary checks](alerts/2026-05-30-arnika-qkd-pqc-kms-boundary-ghsa.md)
 - [PraisonAI agent/platform control boundaries and Formie submission overwrite batch](alerts/2026-05-29-praisonai-agent-platform-and-formie-boundary-batch-ghsa.md)
