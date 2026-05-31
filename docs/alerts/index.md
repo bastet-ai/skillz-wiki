@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [phpMyFAQ password-reset and admin IDOR account-takeover boundaries](2026-05-31-phpmyfaq-account-takeover-boundary-ghsa.md)
 - [arnika QKD/PQC/KMS protocol-boundary checks](2026-05-30-arnika-qkd-pqc-kms-boundary-ghsa.md)
 - [PraisonAI agent/platform control boundaries and Formie submission overwrite batch](2026-05-29-praisonai-agent-platform-and-formie-boundary-batch-ghsa.md)
 - [Nezha DDNS SSRF, Admidio document/auth boundaries, OpenC3 file/SQL boundaries, and Ouroboros tool-path batch](2026-05-29-nezha-admidio-openc3-ouroboros-boundary-batch-ghsa.md)
