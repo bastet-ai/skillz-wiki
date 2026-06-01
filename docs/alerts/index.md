@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Mattermost OAuth/command boundaries, kas SHA-like branch checkout, and PraisonAI tenant IDOR batch](2026-06-01-mattermost-kas-praisonai-boundary-batch-ghsa.md)
 - [Rattler/Pixi install writes, Vitest dev-server code execution, DOMPurify selectedcontent XSS, and MCP HTTP auth boundaries](2026-06-01-rattler-vitest-dompurify-mcp-boundary-batch-ghsa.md)
 - [Sentry Python SDK subprocess environment boundary](2026-06-01-sentry-python-subprocess-env-boundary-ghsa.md)
 - [Fission router invocation and runtime token boundaries](2026-06-01-fission-router-and-runtime-token-boundary-batch-ghsa.md)

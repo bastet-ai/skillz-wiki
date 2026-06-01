@@ -5,6 +5,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Mattermost advisories: https://github.com/mattermost/mattermost/security/advisories
+- kas advisories: https://github.com/siemens/kas/security/advisories
 - rattler advisories: https://github.com/conda/rattler/security/advisories
 - Vitest advisories: https://github.com/vitest-dev/vitest/security/advisories
 - DOMPurify advisories: https://github.com/cure53/DOMPurify/security/advisories

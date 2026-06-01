@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Mattermost OAuth/command boundaries, kas SHA-like branch checkout, and PraisonAI tenant IDOR batch](alerts/2026-06-01-mattermost-kas-praisonai-boundary-batch-ghsa.md)
 - [Rattler/Pixi install writes, Vitest dev-server code execution, DOMPurify selectedcontent XSS, and MCP HTTP auth boundaries](alerts/2026-06-01-rattler-vitest-dompurify-mcp-boundary-batch-ghsa.md)
 - [Sentry Python SDK subprocess environment boundary](alerts/2026-06-01-sentry-python-subprocess-env-boundary-ghsa.md)
 - [Fission router invocation and runtime token boundaries](alerts/2026-06-01-fission-router-and-runtime-token-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [PraisonAI agent/platform control boundaries and Formie submission overwrite batch](alerts/2026-05-29-praisonai-agent-platform-and-formie-boundary-batch-ghsa.md)
 - [Nezha DDNS SSRF, Admidio document/auth boundaries, OpenC3 file/SQL boundaries, and Ouroboros tool-path batch](alerts/2026-05-29-nezha-admidio-openc3-ouroboros-boundary-batch-ghsa.md)
 - [authentik SAML wrapping, CC-Tweaked NAT64 SSRF, and Keras model-loading boundary batch](alerts/2026-05-29-authentik-cc-tweaked-keras-identity-and-model-boundary-batch-ghsa.md)
-- [Koel podcast SSRF, Summarize daemon/file boundaries, Redshift rogue-server RCE, uv entry-point write, MLflow artifact tamper, russh auth state, and AgenticMail boundary batch](alerts/2026-05-29-koel-summarize-redshift-uv-agent-boundary-batch-ghsa.md)
 
 ## What lives here
 
