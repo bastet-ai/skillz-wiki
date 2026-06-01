@@ -5,6 +5,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Sentry Python SDK advisories: https://github.com/getsentry/sentry-python/security/advisories
 - Git LFS advisories: https://github.com/git-lfs/git-lfs/security/advisories
 - phpMyFAQ advisories: https://github.com/thorsten/phpMyFAQ/security/advisories
 - arnika advisories: https://github.com/arnika-project/arnika/security/advisories

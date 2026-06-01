@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Sentry Python SDK subprocess environment boundary](2026-06-01-sentry-python-subprocess-env-boundary-ghsa.md)
 - [Fission router invocation and runtime token boundaries](2026-06-01-fission-router-and-runtime-token-boundary-batch-ghsa.md)
 - [Git LFS symlink and hard-link working-tree write boundaries](2026-05-31-git-lfs-symlink-working-tree-write-boundary-ghsa.md)
 - [phpMyFAQ password-reset and admin IDOR account-takeover boundaries](2026-05-31-phpmyfaq-account-takeover-boundary-ghsa.md)
