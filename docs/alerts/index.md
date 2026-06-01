@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Mattermost shared-channel, AI rewrite, support-packet secret, and chatops boundary batch](2026-06-01-mattermost-shared-channel-ai-secret-boundary-batch-ghsa.md)
 - [Mattermost OAuth/command boundaries, kas SHA-like branch checkout, and PraisonAI tenant IDOR batch](2026-06-01-mattermost-kas-praisonai-boundary-batch-ghsa.md)
 - [Rattler/Pixi install writes, Vitest dev-server code execution, DOMPurify selectedcontent XSS, and MCP HTTP auth boundaries](2026-06-01-rattler-vitest-dompurify-mcp-boundary-batch-ghsa.md)
 - [Sentry Python SDK subprocess environment boundary](2026-06-01-sentry-python-subprocess-env-boundary-ghsa.md)
