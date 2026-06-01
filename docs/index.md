@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Rattler/Pixi install writes, Vitest dev-server code execution, DOMPurify selectedcontent XSS, and MCP HTTP auth boundaries](alerts/2026-06-01-rattler-vitest-dompurify-mcp-boundary-batch-ghsa.md)
 - [Sentry Python SDK subprocess environment boundary](alerts/2026-06-01-sentry-python-subprocess-env-boundary-ghsa.md)
 - [Fission router invocation and runtime token boundaries](alerts/2026-06-01-fission-router-and-runtime-token-boundary-batch-ghsa.md)
 - [Git LFS symlink and hard-link working-tree write boundaries](alerts/2026-05-31-git-lfs-symlink-working-tree-write-boundary-ghsa.md)

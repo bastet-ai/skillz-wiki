@@ -5,6 +5,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- rattler advisories: https://github.com/conda/rattler/security/advisories
+- Vitest advisories: https://github.com/vitest-dev/vitest/security/advisories
+- DOMPurify advisories: https://github.com/cure53/DOMPurify/security/advisories
 - Sentry Python SDK advisories: https://github.com/getsentry/sentry-python/security/advisories
 - Git LFS advisories: https://github.com/git-lfs/git-lfs/security/advisories
 - phpMyFAQ advisories: https://github.com/thorsten/phpMyFAQ/security/advisories
