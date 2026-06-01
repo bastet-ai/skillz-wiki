@@ -51,7 +51,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 
 - Use `theme.custom_dir` for template overrides; do not add a non-MkDocs `overrides:` key to `mkdocs.yml`.
 - Keep the Pages workflow strict-friendly; config warnings should be treated as build failures.
-- Keep the landing page updated with a manual "Recent entries" section.
+- Keep the landing page updated with a manual "Recent entries" section capped at 10 links.
 - Maintain `docs/feed.xml` manually when major launch posts or release-style updates are added.
 - The chosen custom domain is `skillz.wiki`; keep `mkdocs.yml`, `docs/feed.xml`, and `docs/CNAME` aligned with it.
 - Archived reference pages that stay outside the main nav will show up as informational "not included in nav" lines during `mkdocs build --strict`; that is expected while the public taxonomy stays narrower than the repo contents.
