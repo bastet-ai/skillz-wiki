@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [ruby-jwt empty HMAC key boundary checks](alerts/2026-06-02-ruby-jwt-empty-hmac-key-boundary-ghsa.md)
 - [Linux cgroup v1 `release_agent` container-escape boundary](alerts/2026-06-02-linux-cgroup-release-agent-container-escape-boundary-kev.md)
 - [Ech0 scoped-token and dashboard-log boundary checks](alerts/2026-06-02-ech0-scoped-token-and-log-boundary-ghsa.md)
 - [Apache Airflow Variable, event-log, and JWT cookie boundary batch](alerts/2026-06-01-airflow-variable-eventlog-cookie-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Rattler/Pixi install writes, Vitest dev-server code execution, DOMPurify selectedcontent XSS, and MCP HTTP auth boundaries](alerts/2026-06-01-rattler-vitest-dompurify-mcp-boundary-batch-ghsa.md)
 - [Sentry Python SDK subprocess environment boundary](alerts/2026-06-01-sentry-python-subprocess-env-boundary-ghsa.md)
 - [Fission router invocation and runtime token boundaries](alerts/2026-06-01-fission-router-and-runtime-token-boundary-batch-ghsa.md)
-- [Git LFS symlink and hard-link working-tree write boundaries](alerts/2026-05-31-git-lfs-symlink-working-tree-write-boundary-ghsa.md)
 
 ## What lives here
 
