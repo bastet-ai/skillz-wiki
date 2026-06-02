@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Linux cgroup v1 `release_agent` container-escape boundary](2026-06-02-linux-cgroup-release-agent-container-escape-boundary-kev.md)
 - [Ech0 scoped-token and dashboard-log boundary checks](2026-06-02-ech0-scoped-token-and-log-boundary-ghsa.md)
 - [Apache Airflow Variable, event-log, and JWT cookie boundary batch](2026-06-01-airflow-variable-eventlog-cookie-boundary-batch-ghsa.md)
 - [ActiveMQ Jolokia, Flink operator `jarURI`, and WebLogic middleware boundary batch](2026-06-01-activemq-flink-weblogic-control-plane-boundary-batch.md)

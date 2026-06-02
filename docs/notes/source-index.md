@@ -5,6 +5,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Linux kernel source and fixes: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/
 - Apache ActiveMQ security advisories: https://activemq.apache.org/security-advisories
 - Oracle Critical Patch Updates: https://www.oracle.com/security-alerts/
 - Mattermost advisories: https://github.com/mattermost/mattermost/security/advisories
