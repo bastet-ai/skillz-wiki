@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Ech0 scoped-token and dashboard-log boundary checks](alerts/2026-06-02-ech0-scoped-token-and-log-boundary-ghsa.md)
 - [Apache Airflow Variable, event-log, and JWT cookie boundary batch](alerts/2026-06-01-airflow-variable-eventlog-cookie-boundary-batch-ghsa.md)
 - [ActiveMQ Jolokia, Flink operator `jarURI`, and WebLogic middleware boundary batch](alerts/2026-06-01-activemq-flink-weblogic-control-plane-boundary-batch.md)
 - [Mattermost shared-channel, AI rewrite, support-packet secret, and chatops boundary batch](alerts/2026-06-01-mattermost-shared-channel-ai-secret-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Fission router invocation and runtime token boundaries](alerts/2026-06-01-fission-router-and-runtime-token-boundary-batch-ghsa.md)
 - [Git LFS symlink and hard-link working-tree write boundaries](alerts/2026-05-31-git-lfs-symlink-working-tree-write-boundary-ghsa.md)
 - [phpMyFAQ password-reset and admin IDOR account-takeover boundaries](alerts/2026-05-31-phpmyfaq-account-takeover-boundary-ghsa.md)
-- [arnika QKD/PQC/KMS protocol-boundary checks](alerts/2026-05-30-arnika-qkd-pqc-kms-boundary-ghsa.md)
 
 ## What lives here
 

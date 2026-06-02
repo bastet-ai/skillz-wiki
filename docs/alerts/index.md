@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Ech0 scoped-token and dashboard-log boundary checks](2026-06-02-ech0-scoped-token-and-log-boundary-ghsa.md)
 - [Apache Airflow Variable, event-log, and JWT cookie boundary batch](2026-06-01-airflow-variable-eventlog-cookie-boundary-batch-ghsa.md)
 - [ActiveMQ Jolokia, Flink operator `jarURI`, and WebLogic middleware boundary batch](2026-06-01-activemq-flink-weblogic-control-plane-boundary-batch.md)
 - [Mattermost shared-channel, AI rewrite, support-packet secret, and chatops boundary batch](2026-06-01-mattermost-shared-channel-ai-secret-boundary-batch-ghsa.md)
