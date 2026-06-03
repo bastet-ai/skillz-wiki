@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Jupyter Enterprise Gateway, browserstack-runner, Froxlor API, and client-redirect boundaries](2026-06-03-jupyter-browserstack-froxlor-client-boundary-batch-ghsa.md)
 - [React Router redirect, RSC, manifest, and deserialization boundaries](2026-06-03-react-router-redirect-rsc-and-manifest-boundary-batch-ghsa.md)
 - [Docling HTML, XML, LaTeX, and resource-fetch boundaries](2026-06-03-docling-html-xml-latex-resource-boundary-batch-ghsa.md)
 - [Docling EasyOCR model ZIP extraction boundary](2026-06-03-docling-easyocr-model-zip-slip-boundary-ghsa.md)

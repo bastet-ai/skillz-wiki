@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Jupyter Enterprise Gateway, browserstack-runner, Froxlor API, and client-redirect boundaries](alerts/2026-06-03-jupyter-browserstack-froxlor-client-boundary-batch-ghsa.md)
 - [React Router redirect, RSC, manifest, and deserialization boundaries](alerts/2026-06-03-react-router-redirect-rsc-and-manifest-boundary-batch-ghsa.md)
 - [Docling HTML, XML, LaTeX, and resource-fetch boundaries](alerts/2026-06-03-docling-html-xml-latex-resource-boundary-batch-ghsa.md)
 - [Docling EasyOCR model ZIP extraction boundary](alerts/2026-06-03-docling-easyocr-model-zip-slip-boundary-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Azure Key Vault Keys Java local-crypto integrity boundary](alerts/2026-06-02-azure-keyvault-keys-java-local-crypto-integrity-boundary-ghsa.md)
 - [ruby-jwt empty HMAC key boundary checks](alerts/2026-06-02-ruby-jwt-empty-hmac-key-boundary-ghsa.md)
 - [Linux cgroup v1 `release_agent` container-escape boundary](alerts/2026-06-02-linux-cgroup-release-agent-container-escape-boundary-kev.md)
-- [Ech0 scoped-token and dashboard-log boundary checks](alerts/2026-06-02-ech0-scoped-token-and-log-boundary-ghsa.md)
 
 ## What lives here
 
