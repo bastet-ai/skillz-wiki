@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [`launch-editor` Windows command-injection boundary](alerts/2026-06-03-launch-editor-windows-command-injection-ghsa.md)
 - [Mirasvit Cache Warmer `CacheWarmer` cookie deserialization boundary](alerts/2026-06-03-mirasvit-cache-warmer-cookie-deserialization-boundary-kev.md)
 - [Agent skill supply-chain testing](methodology/agent-skill-supply-chain-testing.md)
 - [Azure Key Vault Keys Java local-crypto integrity boundary](alerts/2026-06-02-azure-keyvault-keys-java-local-crypto-integrity-boundary-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Apache Airflow Variable, event-log, and JWT cookie boundary batch](alerts/2026-06-01-airflow-variable-eventlog-cookie-boundary-batch-ghsa.md)
 - [ActiveMQ Jolokia, Flink operator `jarURI`, and WebLogic middleware boundary batch](alerts/2026-06-01-activemq-flink-weblogic-control-plane-boundary-batch.md)
 - [Mattermost shared-channel, AI rewrite, support-packet secret, and chatops boundary batch](alerts/2026-06-01-mattermost-shared-channel-ai-secret-boundary-batch-ghsa.md)
-- [Mattermost OAuth/command boundaries, kas SHA-like branch checkout, and PraisonAI tenant IDOR batch](alerts/2026-06-01-mattermost-kas-praisonai-boundary-batch-ghsa.md)
 
 ## What lives here
 
