@@ -5,6 +5,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
+- Mirasvit Cache Warmer changelog: https://mirasvit.com/package/changelog/?package=mirasvit/module-cache-warmer
+- Sansec Mirasvit Cache Warmer object-injection research: https://sansec.io/research/mirasvit-cache-warmer-object-injection
 - ruby-jwt advisories: https://github.com/jwt/ruby-jwt/security/advisories
 - Linux kernel source and fixes: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/
 - Apache ActiveMQ security advisories: https://activemq.apache.org/security-advisories

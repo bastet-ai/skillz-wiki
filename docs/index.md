@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Mirasvit Cache Warmer `CacheWarmer` cookie deserialization boundary](alerts/2026-06-03-mirasvit-cache-warmer-cookie-deserialization-boundary-kev.md)
 - [Agent skill supply-chain testing](methodology/agent-skill-supply-chain-testing.md)
 - [Azure Key Vault Keys Java local-crypto integrity boundary](alerts/2026-06-02-azure-keyvault-keys-java-local-crypto-integrity-boundary-ghsa.md)
 - [ruby-jwt empty HMAC key boundary checks](alerts/2026-06-02-ruby-jwt-empty-hmac-key-boundary-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [ActiveMQ Jolokia, Flink operator `jarURI`, and WebLogic middleware boundary batch](alerts/2026-06-01-activemq-flink-weblogic-control-plane-boundary-batch.md)
 - [Mattermost shared-channel, AI rewrite, support-packet secret, and chatops boundary batch](alerts/2026-06-01-mattermost-shared-channel-ai-secret-boundary-batch-ghsa.md)
 - [Mattermost OAuth/command boundaries, kas SHA-like branch checkout, and PraisonAI tenant IDOR batch](alerts/2026-06-01-mattermost-kas-praisonai-boundary-batch-ghsa.md)
-- [Rattler/Pixi install writes, Vitest dev-server code execution, DOMPurify selectedcontent XSS, and MCP HTTP auth boundaries](alerts/2026-06-01-rattler-vitest-dompurify-mcp-boundary-batch-ghsa.md)
 
 ## What lives here
 

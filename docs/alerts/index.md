@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Mirasvit Cache Warmer `CacheWarmer` cookie deserialization boundary](2026-06-03-mirasvit-cache-warmer-cookie-deserialization-boundary-kev.md)
 - [Azure Key Vault Keys Java local-crypto integrity boundary](2026-06-02-azure-keyvault-keys-java-local-crypto-integrity-boundary-ghsa.md)
 - [ruby-jwt empty HMAC key boundary checks](2026-06-02-ruby-jwt-empty-hmac-key-boundary-ghsa.md)
 - [Linux cgroup v1 `release_agent` container-escape boundary](2026-06-02-linux-cgroup-release-agent-container-escape-boundary-kev.md)
