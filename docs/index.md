@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [React Router redirect, RSC, manifest, and deserialization boundaries](alerts/2026-06-03-react-router-redirect-rsc-and-manifest-boundary-batch-ghsa.md)
+- [Docling HTML, XML, LaTeX, and resource-fetch boundaries](alerts/2026-06-03-docling-html-xml-latex-resource-boundary-batch-ghsa.md)
 - [Docling EasyOCR model ZIP extraction boundary](alerts/2026-06-03-docling-easyocr-model-zip-slip-boundary-ghsa.md)
 - [`launch-editor` Windows command-injection boundary](alerts/2026-06-03-launch-editor-windows-command-injection-ghsa.md)
 - [Mirasvit Cache Warmer `CacheWarmer` cookie deserialization boundary](alerts/2026-06-03-mirasvit-cache-warmer-cookie-deserialization-boundary-kev.md)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [ruby-jwt empty HMAC key boundary checks](alerts/2026-06-02-ruby-jwt-empty-hmac-key-boundary-ghsa.md)
 - [Linux cgroup v1 `release_agent` container-escape boundary](alerts/2026-06-02-linux-cgroup-release-agent-container-escape-boundary-kev.md)
 - [Ech0 scoped-token and dashboard-log boundary checks](alerts/2026-06-02-ech0-scoped-token-and-log-boundary-ghsa.md)
-- [Apache Airflow Variable, event-log, and JWT cookie boundary batch](alerts/2026-06-01-airflow-variable-eventlog-cookie-boundary-batch-ghsa.md)
-- [ActiveMQ Jolokia, Flink operator `jarURI`, and WebLogic middleware boundary batch](alerts/2026-06-01-activemq-flink-weblogic-control-plane-boundary-batch.md)
 
 ## What lives here
 

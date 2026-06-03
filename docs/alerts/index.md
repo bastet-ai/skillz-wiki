@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [React Router redirect, RSC, manifest, and deserialization boundaries](2026-06-03-react-router-redirect-rsc-and-manifest-boundary-batch-ghsa.md)
+- [Docling HTML, XML, LaTeX, and resource-fetch boundaries](2026-06-03-docling-html-xml-latex-resource-boundary-batch-ghsa.md)
 - [Docling EasyOCR model ZIP extraction boundary](2026-06-03-docling-easyocr-model-zip-slip-boundary-ghsa.md)
 - [`launch-editor` Windows command-injection boundary](2026-06-03-launch-editor-windows-command-injection-ghsa.md)
 - [Mirasvit Cache Warmer `CacheWarmer` cookie deserialization boundary](2026-06-03-mirasvit-cache-warmer-cookie-deserialization-boundary-kev.md)
