@@ -76,6 +76,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Maintain `docs/notes/source-index.md` as the canonical source seed list.
 - The current public taxonomy is `Skills`, `Recon`, `Exploit Paths`, `Templates`, `Notes`, and `Blog`.
 - For hourly news-driven updates, only promote items that can become offensive operator guidance: recon technique, exploit path, validation workflow, tool usage, bypass pattern, or bug-hunting heuristic. Do not turn generic advisories into blue-team alerts.
+- Trail of Bits skill-distribution scanner-bypass research was promoted as a reusable agent skill supply-chain testing workflow rather than an alert; keep future skill-marketplace content framed as authorized scanner/ingestion coverage testing with inert canaries.
 
 ## Security / attribution
 

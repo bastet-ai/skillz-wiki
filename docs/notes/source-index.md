@@ -160,6 +160,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Docling project: https://github.com/docling-project/docling
 - Neotoma project: https://github.com/NeotomaDB/neotoma
 - Trail of Bits Blog: https://blog.trailofbits.com/ (RSS: https://blog.trailofbits.com/feed/)
+- Trail of Bits skill-distribution scanner-bypass research: https://blog.trailofbits.com/2026/06/03/the-sorry-state-of-skill-distribution/
 - Hacktron AI Blog: https://www.hacktron.ai/blog/
 - ProjectDiscovery Blog: https://projectdiscovery.io/blog/
 - ProjectDiscovery Neo: https://neo.projectdiscovery.io/
