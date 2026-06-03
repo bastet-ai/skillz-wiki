@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Docling EasyOCR model ZIP extraction boundary](2026-06-03-docling-easyocr-model-zip-slip-boundary-ghsa.md)
+- [`launch-editor` Windows command-injection boundary](2026-06-03-launch-editor-windows-command-injection-ghsa.md)
 - [Mirasvit Cache Warmer `CacheWarmer` cookie deserialization boundary](2026-06-03-mirasvit-cache-warmer-cookie-deserialization-boundary-kev.md)
 - [Azure Key Vault Keys Java local-crypto integrity boundary](2026-06-02-azure-keyvault-keys-java-local-crypto-integrity-boundary-ghsa.md)
 - [ruby-jwt empty HMAC key boundary checks](2026-06-02-ruby-jwt-empty-hmac-key-boundary-ghsa.md)
