@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Shopware Store API/admin/media boundaries and AdGuard DoQ source-port oracle](2026-06-04-shopware-store-api-admin-media-and-adguard-dns-boundaries-ghsa.md)
+- [AVideo WebSocket/gallery/payment, OpenMeter JSONPath SQLi, and Spree CSV export boundaries](2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md)
 - [Hono parser/auth, Nhost localhost configserver, and Singularity path-prefix boundaries](2026-06-04-hono-nhost-singularity-boundary-batch-ghsa.md)
 - [Nuclio, Better Auth, Doorkeeper, and WebOb boundary batch](2026-06-04-nuclio-betterauth-doorkeeper-webob-boundary-batch-ghsa.md)
 - [Axios proxy-authorization redirect boundary](2026-06-04-axios-proxy-authorization-redirect-boundary-ghsa.md)
