@@ -240,6 +240,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Hono advisories: https://github.com/honojs/hono/security/advisories
 - Nhost advisories: https://github.com/nhost/nhost/security/advisories
 - Singularity advisories: https://github.com/sylabs/singularity/security/advisories
+- AVideo advisories: https://github.com/WWBN/AVideo/security/advisories
+- OpenMeter advisories: https://github.com/openmeterio/openmeter/security/advisories
+- Spree advisories: https://github.com/spree/spree/security/advisories
 
 ## Network and service discovery
 
