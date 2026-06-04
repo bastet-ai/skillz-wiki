@@ -6,6 +6,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
+- Nuclio advisories: https://github.com/nuclio/nuclio/security/advisories
+- Better Auth advisories: https://github.com/better-auth/better-auth/security/advisories
+- Doorkeeper OpenID Connect advisories: https://github.com/doorkeeper-gem/doorkeeper-openid_connect/security/advisories
+- WebOb advisories: https://github.com/Pylons/webob/security/advisories
 - Axios advisories: https://github.com/axios/axios/security/advisories
 - Mirasvit Cache Warmer changelog: https://mirasvit.com/package/changelog/?package=mirasvit/module-cache-warmer
 - Sansec Mirasvit Cache Warmer object-injection research: https://sansec.io/research/mirasvit-cache-warmer-object-injection

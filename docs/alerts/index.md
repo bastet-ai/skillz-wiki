@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Nuclio, Better Auth, Doorkeeper, and WebOb boundary batch](2026-06-04-nuclio-betterauth-doorkeeper-webob-boundary-batch-ghsa.md)
 - [Axios proxy-authorization redirect boundary](2026-06-04-axios-proxy-authorization-redirect-boundary-ghsa.md)
 - [Starlette Host header URL-path boundary](2026-06-04-starlette-host-header-url-path-boundary-ghsa.md)
 - [Froxlor DNS TXT BIND zone injection boundary](2026-06-04-froxlor-dns-txt-bind-zone-injection-ghsa.md)
