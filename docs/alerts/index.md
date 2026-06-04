@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Axios proxy-authorization redirect boundary](2026-06-04-axios-proxy-authorization-redirect-boundary-ghsa.md)
 - [Starlette Host header URL-path boundary](2026-06-04-starlette-host-header-url-path-boundary-ghsa.md)
 - [Froxlor DNS TXT BIND zone injection boundary](2026-06-04-froxlor-dns-txt-bind-zone-injection-ghsa.md)
 - [Jupyter Enterprise Gateway, browserstack-runner, Froxlor API, and client-redirect boundaries](2026-06-03-jupyter-browserstack-froxlor-client-boundary-batch-ghsa.md)
