@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Froxlor DNS TXT BIND zone injection boundary](2026-06-04-froxlor-dns-txt-bind-zone-injection-ghsa.md)
 - [Jupyter Enterprise Gateway, browserstack-runner, Froxlor API, and client-redirect boundaries](2026-06-03-jupyter-browserstack-froxlor-client-boundary-batch-ghsa.md)
 - [React Router redirect, RSC, manifest, and deserialization boundaries](2026-06-03-react-router-redirect-rsc-and-manifest-boundary-batch-ghsa.md)
 - [Docling HTML, XML, LaTeX, and resource-fetch boundaries](2026-06-03-docling-html-xml-latex-resource-boundary-batch-ghsa.md)
