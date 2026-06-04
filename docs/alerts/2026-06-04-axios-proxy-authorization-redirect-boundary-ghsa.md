@@ -2,7 +2,7 @@
 
 ## Operator value
 
-Axios advisory [GHSA-j5f8-grm9-p9fc / CVE-2026-44486](https://github.com/advisories/GHSA-j5f8-grm9-p9fc) describes a Node.js HTTP-adapter bug where an authenticated proxy credential header can survive an automatic redirect after Axios re-evaluates the redirected request as direct/non-proxied.
+Axios advisories [GHSA-j5f8-grm9-p9fc / CVE-2026-44486](https://github.com/advisories/GHSA-j5f8-grm9-p9fc) and [GHSA-p92q-9vqr-4j8v / CVE-2026-44487](https://github.com/advisories/GHSA-p92q-9vqr-4j8v) describe Node.js HTTP-adapter bugs where an authenticated proxy credential header can survive an automatic redirect after Axios re-evaluates the redirected request as direct/non-proxied.
 
 For authorized testing, treat this as an outbound client and redirect-boundary check: can a URL you control cause a target service, worker, webhook fetcher, crawler, integration runner, or agent tool to disclose its `Proxy-Authorization` header to your final redirect origin?
 
@@ -97,6 +97,7 @@ Frame this as a stale proxy-auth header crossing an origin and proxy-mode bounda
 ## Sources
 
 - GitHub Advisory Database: [GHSA-j5f8-grm9-p9fc / CVE-2026-44486](https://github.com/advisories/GHSA-j5f8-grm9-p9fc)
+- GitHub Advisory Database: [GHSA-p92q-9vqr-4j8v / CVE-2026-44487](https://github.com/advisories/GHSA-p92q-9vqr-4j8v)
 - Axios project advisory: [GHSA-j5f8-grm9-p9fc](https://github.com/axios/axios/security/advisories/GHSA-j5f8-grm9-p9fc)
 - Axios fix pull request: [axios/axios#10794](https://github.com/axios/axios/pull/10794)
 - Axios v1 fix commit: [`afca61a070728e717203c2bc21e7b589b59b858b`](https://github.com/axios/axios/commit/afca61a070728e717203c2bc21e7b589b59b858b)
