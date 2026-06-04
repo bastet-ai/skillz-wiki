@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Hono parser/auth, Nhost localhost configserver, and Singularity path-prefix boundaries](2026-06-04-hono-nhost-singularity-boundary-batch-ghsa.md)
 - [Nuclio, Better Auth, Doorkeeper, and WebOb boundary batch](2026-06-04-nuclio-betterauth-doorkeeper-webob-boundary-batch-ghsa.md)
 - [Axios proxy-authorization redirect boundary](2026-06-04-axios-proxy-authorization-redirect-boundary-ghsa.md)
 - [Starlette Host header URL-path boundary](2026-06-04-starlette-host-header-url-path-boundary-ghsa.md)

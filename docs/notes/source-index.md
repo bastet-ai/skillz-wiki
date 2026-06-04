@@ -237,6 +237,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Plug advisories: https://github.com/elixir-plug/plug/security/advisories
 - Craft CMS security advisories: https://github.com/craftcms/cms/security/advisories
 - MCP Registry advisories: https://github.com/modelcontextprotocol/registry/security/advisories
+- Hono advisories: https://github.com/honojs/hono/security/advisories
+- Nhost advisories: https://github.com/nhost/nhost/security/advisories
+- Singularity advisories: https://github.com/sylabs/singularity/security/advisories
 
 ## Network and service discovery
 

@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Hono parser/auth, Nhost localhost configserver, and Singularity path-prefix boundaries](alerts/2026-06-04-hono-nhost-singularity-boundary-batch-ghsa.md)
 - [GitHub CLI TUF mirror authorization-header boundary](alerts/2026-06-04-github-cli-tuf-mirror-authorization-header-boundary-ghsa.md)
 - [Keycloak and MLflow authentication-boundary batch](alerts/2026-06-04-keycloak-mlflow-auth-boundary-batch-ghsa.md)
 - [Nuclio, Better Auth, Doorkeeper, and WebOb boundary batch](alerts/2026-06-04-nuclio-betterauth-doorkeeper-webob-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Jupyter Enterprise Gateway, browserstack-runner, Froxlor API, and client-redirect boundaries](alerts/2026-06-03-jupyter-browserstack-froxlor-client-boundary-batch-ghsa.md)
 - [React Router redirect, RSC, manifest, and deserialization boundaries](alerts/2026-06-03-react-router-redirect-rsc-and-manifest-boundary-batch-ghsa.md)
 - [Docling HTML, XML, LaTeX, and resource-fetch boundaries](alerts/2026-06-03-docling-html-xml-latex-resource-boundary-batch-ghsa.md)
-- [Docling EasyOCR model ZIP extraction boundary](alerts/2026-06-03-docling-easyocr-model-zip-slip-boundary-ghsa.md)
 
 ## What lives here
 
