@@ -6,6 +6,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
+- APScheduler advisories: https://github.com/agronholm/apscheduler/security/advisories
+- BillaBear advisories/project: https://github.com/billabear/billabear and https://github.com/advisories/GHSA-xp6r-8pcc-xv5p
 - MCP-for-Stata advisories: https://github.com/SepineTam/stata-mcp/security/advisories
 - Shopware advisories: https://github.com/shopware/shopware/security/advisories
 - AdGuard Home advisories: https://github.com/AdguardTeam/AdGuardHome/security/advisories
