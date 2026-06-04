@@ -6,6 +6,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
+- MCP-for-Stata advisories: https://github.com/SepineTam/stata-mcp/security/advisories
 - Shopware advisories: https://github.com/shopware/shopware/security/advisories
 - AdGuard Home advisories: https://github.com/AdguardTeam/AdGuardHome/security/advisories
 - dnsproxy source/fixes: https://github.com/AdguardTeam/dnsproxy

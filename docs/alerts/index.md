@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [MCP-for-Stata `log_file_name` command-injection boundary](2026-06-04-mcp-for-stata-log-file-name-command-injection-ghsa.md)
 - [Shopware Store API/admin/media boundaries and AdGuard DoQ source-port oracle](2026-06-04-shopware-store-api-admin-media-and-adguard-dns-boundaries-ghsa.md)
 - [AVideo WebSocket/gallery/payment, OpenMeter JSONPath SQLi, and Spree CSV export boundaries](2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md)
 - [Hono parser/auth, Nhost localhost configserver, and Singularity path-prefix boundaries](2026-06-04-hono-nhost-singularity-boundary-batch-ghsa.md)

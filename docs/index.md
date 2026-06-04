@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [MCP-for-Stata `log_file_name` command-injection boundary](alerts/2026-06-04-mcp-for-stata-log-file-name-command-injection-ghsa.md)
 - [Shopware Store API/admin/media boundaries and AdGuard DoQ source-port oracle](alerts/2026-06-04-shopware-store-api-admin-media-and-adguard-dns-boundaries-ghsa.md)
 - [AVideo WebSocket/gallery/payment, OpenMeter JSONPath SQLi, and Spree CSV export boundaries](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md)
 - [Hono parser/auth, Nhost localhost configserver, and Singularity path-prefix boundaries](alerts/2026-06-04-hono-nhost-singularity-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Axios proxy-authorization redirect boundary](alerts/2026-06-04-axios-proxy-authorization-redirect-boundary-ghsa.md)
 - [Starlette Host header URL-path boundary](alerts/2026-06-04-starlette-host-header-url-path-boundary-ghsa.md)
 - [Froxlor DNS TXT BIND zone injection boundary](alerts/2026-06-04-froxlor-dns-txt-bind-zone-injection-ghsa.md)
-- [Jupyter Enterprise Gateway, browserstack-runner, Froxlor API, and client-redirect boundaries](alerts/2026-06-03-jupyter-browserstack-froxlor-client-boundary-batch-ghsa.md)
 
 ## What lives here
 
