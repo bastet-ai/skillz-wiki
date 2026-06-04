@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Keycloak and MLflow authentication-boundary batch](alerts/2026-06-04-keycloak-mlflow-auth-boundary-batch-ghsa.md)
 - [Nuclio, Better Auth, Doorkeeper, and WebOb boundary batch](alerts/2026-06-04-nuclio-betterauth-doorkeeper-webob-boundary-batch-ghsa.md)
 - [Axios proxy-authorization redirect boundary](alerts/2026-06-04-axios-proxy-authorization-redirect-boundary-ghsa.md)
 - [Starlette Host header URL-path boundary](alerts/2026-06-04-starlette-host-header-url-path-boundary-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Docling HTML, XML, LaTeX, and resource-fetch boundaries](alerts/2026-06-03-docling-html-xml-latex-resource-boundary-batch-ghsa.md)
 - [Docling EasyOCR model ZIP extraction boundary](alerts/2026-06-03-docling-easyocr-model-zip-slip-boundary-ghsa.md)
 - [`launch-editor` Windows command-injection boundary](alerts/2026-06-03-launch-editor-windows-command-injection-ghsa.md)
-- [Mirasvit Cache Warmer `CacheWarmer` cookie deserialization boundary](alerts/2026-06-03-mirasvit-cache-warmer-cookie-deserialization-boundary-kev.md)
 
 ## What lives here
 
