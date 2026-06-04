@@ -9,6 +9,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Mirasvit Cache Warmer changelog: https://mirasvit.com/package/changelog/?package=mirasvit/module-cache-warmer
 - Sansec Mirasvit Cache Warmer object-injection research: https://sansec.io/research/mirasvit-cache-warmer-object-injection
 - ruby-jwt advisories: https://github.com/jwt/ruby-jwt/security/advisories
+- Starlette advisories: https://github.com/Kludex/starlette/security/advisories
 - Linux kernel source and fixes: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/
 - Apache ActiveMQ security advisories: https://activemq.apache.org/security-advisories
 - Oracle Critical Patch Updates: https://www.oracle.com/security-alerts/

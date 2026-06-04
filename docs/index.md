@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Starlette Host header URL-path boundary](alerts/2026-06-04-starlette-host-header-url-path-boundary-ghsa.md)
 - [Froxlor DNS TXT BIND zone injection boundary](alerts/2026-06-04-froxlor-dns-txt-bind-zone-injection-ghsa.md)
 - [Jupyter Enterprise Gateway, browserstack-runner, Froxlor API, and client-redirect boundaries](alerts/2026-06-03-jupyter-browserstack-froxlor-client-boundary-batch-ghsa.md)
 - [React Router redirect, RSC, manifest, and deserialization boundaries](alerts/2026-06-03-react-router-redirect-rsc-and-manifest-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Mirasvit Cache Warmer `CacheWarmer` cookie deserialization boundary](alerts/2026-06-03-mirasvit-cache-warmer-cookie-deserialization-boundary-kev.md)
 - [Agent skill supply-chain testing](methodology/agent-skill-supply-chain-testing.md)
 - [Azure Key Vault Keys Java local-crypto integrity boundary](alerts/2026-06-02-azure-keyvault-keys-java-local-crypto-integrity-boundary-ghsa.md)
-- [ruby-jwt empty HMAC key boundary checks](alerts/2026-06-02-ruby-jwt-empty-hmac-key-boundary-ghsa.md)
 
 ## What lives here
 
