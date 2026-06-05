@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [TinyMCE nested-SVG, skillctl path-safety, and Admidio export-CSRF boundaries](alerts/2026-06-05-tinymce-skillctl-admidio-boundary-batch-ghsa.md)
 - [NASA AIT, Gradio, Diffusers, Fickling, and identity boundary batch](alerts/2026-06-05-nasa-ait-gradio-diffusers-fickling-boundary-batch-ghsa.md)
 - [DbGate, Sync-in Server, and Flux source-controller boundary batch](alerts/2026-06-05-dbgate-syncin-flux-rce-ssrf-file-boundaries-ghsa.md)
 - [NocoDB, MCP Kubernetes, Omni, Authlib, and runtime boundary batch](alerts/2026-06-05-nocodb-mcp-kubernetes-omni-authlib-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Netavark / Podman search-domain DNS confusion boundary](alerts/2026-06-05-netavark-podman-search-domain-dns-confusion-ghsa.md)
 - [APScheduler serializer RCE and BillaBear identifier-injection boundaries](alerts/2026-06-04-apscheduler-billabear-serialization-and-identifier-boundaries-ghsa.md)
 - [MCP-for-Stata `log_file_name` command-injection boundary](alerts/2026-06-04-mcp-for-stata-log-file-name-command-injection-ghsa.md)
-- [Shopware Store API/admin/media/sync boundaries and AdGuard DoQ source-port oracle](alerts/2026-06-04-shopware-store-api-admin-media-and-adguard-dns-boundaries-ghsa.md)
 
 ## What lives here
 
