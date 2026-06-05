@@ -6,6 +6,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
+- NocoDB advisories and source: https://github.com/nocodb/nocodb/security/advisories and https://github.com/nocodb/nocodb
+- MCP Server Kubernetes advisories and source: https://github.com/Flux159/mcp-server-kubernetes/security/advisories and https://github.com/Flux159/mcp-server-kubernetes
+- Omni advisories and source: https://github.com/siderolabs/omni/security/advisories and https://github.com/siderolabs/omni
+- Authlib advisories and source: https://github.com/lepture/authlib/security/advisories and https://github.com/lepture/authlib
+- Wasmtime advisories and source: https://github.com/bytecodealliance/wasmtime/security/advisories and https://github.com/bytecodealliance/wasmtime
 - Crawl4AI advisories and source: https://github.com/unclecode/crawl4ai/security/advisories and https://github.com/unclecode/crawl4ai
 - changedetection.io advisories and source: https://github.com/dgtlmoon/changedetection.io/security/advisories and https://github.com/dgtlmoon/changedetection.io
 - Dagster advisories and source: https://github.com/dagster-io/dagster/security/advisories and https://github.com/dagster-io/dagster
