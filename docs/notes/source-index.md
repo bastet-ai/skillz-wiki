@@ -176,7 +176,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Docling project and advisories: https://github.com/docling-project/docling and https://github.com/docling-project/docling/security/advisories
 - Jupyter Enterprise Gateway advisories: https://github.com/jupyter-server/enterprise_gateway/security/advisories
 - browserstack-runner advisories: https://github.com/browserstack/browserstack-runner/security/advisories
-- aiohttp advisories: https://github.com/aio-libs/aiohttp/security/advisories
+- AIOHTTP advisories: https://github.com/aio-libs/aiohttp/security/advisories
+- ModelScope advisories/project: https://github.com/modelscope/modelscope/security/advisories and https://github.com/modelscope/modelscope
 - Neotoma project: https://github.com/NeotomaDB/neotoma
 - Trail of Bits Blog: https://blog.trailofbits.com/ (RSS: https://blog.trailofbits.com/feed/)
 - Trail of Bits skill-distribution scanner-bypass research: https://blog.trailofbits.com/2026/06/03/the-sorry-state-of-skill-distribution/

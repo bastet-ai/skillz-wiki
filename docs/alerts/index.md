@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Camel CXF/Knative header injection and ModelScope module boundary batch](2026-06-05-camel-cxf-knative-header-injection-and-modelscope-module-boundary-ghsa.md)
 - [Netavark / Podman search-domain DNS confusion boundary](2026-06-05-netavark-podman-search-domain-dns-confusion-ghsa.md)
 - [MCP-for-Stata `log_file_name` command-injection boundary](2026-06-04-mcp-for-stata-log-file-name-command-injection-ghsa.md)
 - [Shopware Store API/admin/media/sync boundaries and AdGuard DoQ source-port oracle](2026-06-04-shopware-store-api-admin-media-and-adguard-dns-boundaries-ghsa.md)
