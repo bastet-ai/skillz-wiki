@@ -6,6 +6,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
+- Crawl4AI advisories and source: https://github.com/unclecode/crawl4ai/security/advisories and https://github.com/unclecode/crawl4ai
+- changedetection.io advisories and source: https://github.com/dgtlmoon/changedetection.io/security/advisories and https://github.com/dgtlmoon/changedetection.io
+- Dagster advisories and source: https://github.com/dagster-io/dagster/security/advisories and https://github.com/dagster-io/dagster
+- Django security releases and advisories: https://docs.djangoproject.com/en/dev/releases/security/ and https://github.com/django/django/security/advisories
 - AgentScope advisories and source: https://github.com/modelscope/agentscope/security/advisories and https://github.com/modelscope/agentscope
 - Netavark / Podman networking advisories and fixes: https://github.com/containers/netavark, https://github.com/containers/netavark/security/advisories, https://github.com/containers/podman/issues
 - APScheduler advisories: https://github.com/agronholm/apscheduler/security/advisories

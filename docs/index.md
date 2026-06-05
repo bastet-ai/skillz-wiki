@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Crawl4AI, changedetection.io, Dagster, and Django file/query boundary batch](alerts/2026-06-05-crawl4ai-changedetection-dagster-django-file-query-boundaries-ghsa.md)
 - [AgentScope, Mako, Airflow, and Faraday boundary batch](alerts/2026-06-05-agentscope-mako-airflow-file-read-and-log-secret-boundaries-ghsa.md)
 - [Camel CXF/Knative header injection and ModelScope module boundary batch](alerts/2026-06-05-camel-cxf-knative-header-injection-and-modelscope-module-boundary-ghsa.md)
 - [Netavark / Podman search-domain DNS confusion boundary](alerts/2026-06-05-netavark-podman-search-domain-dns-confusion-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [AVideo WebSocket/gallery/payment, OpenMeter JSONPath SQLi, and Spree CSV export boundaries](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md)
 - [Hono parser/auth, Nhost localhost configserver, and Singularity path-prefix boundaries](alerts/2026-06-04-hono-nhost-singularity-boundary-batch-ghsa.md)
 - [GitHub CLI TUF mirror authorization-header boundary](alerts/2026-06-04-github-cli-tuf-mirror-authorization-header-boundary-ghsa.md)
-- [Keycloak and MLflow authentication-boundary batch](alerts/2026-06-04-keycloak-mlflow-auth-boundary-batch-ghsa.md)
 
 ## What lives here
 
