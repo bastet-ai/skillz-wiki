@@ -6,6 +6,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
+- AgentScope advisories and source: https://github.com/modelscope/agentscope/security/advisories and https://github.com/modelscope/agentscope
 - Netavark / Podman networking advisories and fixes: https://github.com/containers/netavark, https://github.com/containers/netavark/security/advisories, https://github.com/containers/podman/issues
 - APScheduler advisories: https://github.com/agronholm/apscheduler/security/advisories
 - BillaBear advisories/project: https://github.com/billabear/billabear and https://github.com/advisories/GHSA-xp6r-8pcc-xv5p
@@ -230,6 +231,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Databento DBN advisories: https://github.com/databento/dbn/security/advisories
 - Rclone advisories: https://github.com/rclone/rclone/security/advisories
 - Mako advisories: https://github.com/sqlalchemy/mako/security/advisories
+- Faraday advisories: https://github.com/lostisland/faraday/security/advisories
 - pm2 advisories: https://github.com/Unitech/pm2/security/advisories
 - Palo Alto Networks security advisories: https://security.paloaltonetworks.com/
 - phpMyFAQ advisories: https://github.com/thorsten/phpMyFAQ/security/advisories
