@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [NASA AIT, Gradio, Diffusers, Fickling, and identity boundary batch](2026-06-05-nasa-ait-gradio-diffusers-fickling-boundary-batch-ghsa.md)
 - [DbGate, Sync-in Server, and Flux source-controller boundary batch](2026-06-05-dbgate-syncin-flux-rce-ssrf-file-boundaries-ghsa.md)
 - [NocoDB, MCP Kubernetes, Omni, Authlib, and runtime boundary batch](2026-06-05-nocodb-mcp-kubernetes-omni-authlib-boundary-batch-ghsa.md)
 - [Crawl4AI, changedetection.io, Dagster, and Django file/query boundary batch](2026-06-05-crawl4ai-changedetection-dagster-django-file-query-boundaries-ghsa.md)

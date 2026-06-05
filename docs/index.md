@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [NASA AIT, Gradio, Diffusers, Fickling, and identity boundary batch](alerts/2026-06-05-nasa-ait-gradio-diffusers-fickling-boundary-batch-ghsa.md)
 - [DbGate, Sync-in Server, and Flux source-controller boundary batch](alerts/2026-06-05-dbgate-syncin-flux-rce-ssrf-file-boundaries-ghsa.md)
 - [NocoDB, MCP Kubernetes, Omni, Authlib, and runtime boundary batch](alerts/2026-06-05-nocodb-mcp-kubernetes-omni-authlib-boundary-batch-ghsa.md)
 - [Crawl4AI, changedetection.io, Dagster, and Django file/query boundary batch](alerts/2026-06-05-crawl4ai-changedetection-dagster-django-file-query-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [APScheduler serializer RCE and BillaBear identifier-injection boundaries](alerts/2026-06-04-apscheduler-billabear-serialization-and-identifier-boundaries-ghsa.md)
 - [MCP-for-Stata `log_file_name` command-injection boundary](alerts/2026-06-04-mcp-for-stata-log-file-name-command-injection-ghsa.md)
 - [Shopware Store API/admin/media/sync boundaries and AdGuard DoQ source-port oracle](alerts/2026-06-04-shopware-store-api-admin-media-and-adguard-dns-boundaries-ghsa.md)
-- [AVideo WebSocket/gallery/payment, OpenMeter JSONPath SQLi, and Spree CSV export boundaries](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md)
 
 ## What lives here
 
