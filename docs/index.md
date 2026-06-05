@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Netavark / Podman search-domain DNS confusion boundary](alerts/2026-06-05-netavark-podman-search-domain-dns-confusion-ghsa.md)
 - [APScheduler serializer RCE and BillaBear identifier-injection boundaries](alerts/2026-06-04-apscheduler-billabear-serialization-and-identifier-boundaries-ghsa.md)
 - [MCP-for-Stata `log_file_name` command-injection boundary](alerts/2026-06-04-mcp-for-stata-log-file-name-command-injection-ghsa.md)
 - [Shopware Store API/admin/media/sync boundaries and AdGuard DoQ source-port oracle](alerts/2026-06-04-shopware-store-api-admin-media-and-adguard-dns-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Keycloak and MLflow authentication-boundary batch](alerts/2026-06-04-keycloak-mlflow-auth-boundary-batch-ghsa.md)
 - [Nuclio, Better Auth, Doorkeeper, and WebOb boundary batch](alerts/2026-06-04-nuclio-betterauth-doorkeeper-webob-boundary-batch-ghsa.md)
 - [Axios proxy-authorization redirect boundary](alerts/2026-06-04-axios-proxy-authorization-redirect-boundary-ghsa.md)
-- [Starlette Host header URL-path boundary](alerts/2026-06-04-starlette-host-header-url-path-boundary-ghsa.md)
 
 ## What lives here
 
