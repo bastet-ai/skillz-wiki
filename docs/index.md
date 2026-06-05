@@ -10,7 +10,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 - [APScheduler serializer RCE and BillaBear identifier-injection boundaries](alerts/2026-06-04-apscheduler-billabear-serialization-and-identifier-boundaries-ghsa.md)
 - [MCP-for-Stata `log_file_name` command-injection boundary](alerts/2026-06-04-mcp-for-stata-log-file-name-command-injection-ghsa.md)
-- [Shopware Store API/admin/media boundaries and AdGuard DoQ source-port oracle](alerts/2026-06-04-shopware-store-api-admin-media-and-adguard-dns-boundaries-ghsa.md)
+- [Shopware Store API/admin/media/sync boundaries and AdGuard DoQ source-port oracle](alerts/2026-06-04-shopware-store-api-admin-media-and-adguard-dns-boundaries-ghsa.md)
 - [AVideo WebSocket/gallery/payment, OpenMeter JSONPath SQLi, and Spree CSV export boundaries](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md)
 - [Hono parser/auth, Nhost localhost configserver, and Singularity path-prefix boundaries](alerts/2026-06-04-hono-nhost-singularity-boundary-batch-ghsa.md)
 - [GitHub CLI TUF mirror authorization-header boundary](alerts/2026-06-04-github-cli-tuf-mirror-authorization-header-boundary-ghsa.md)

