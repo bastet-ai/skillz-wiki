@@ -10,6 +10,11 @@ This batch is durable because the advisories map to reusable offensive testing p
 - **NocoDB cross-workspace integration connection test** — [GHSA-96fh-m4r8-6v9v](https://github.com/advisories/GHSA-96fh-m4r8-6v9v) / CVE-2026-47381: the `testConnection` path fetched integrations in a bypass scope and accepted a caller who had owner/creator role on any base in any workspace, letting one workspace drive another workspace's integration/database credentials through connection testing.
 - **NocoDB Postgres formula SQL injection** — [GHSA-cxv7-gmmp-228p](https://github.com/advisories/GHSA-cxv7-gmmp-228p) / CVE-2026-47375: an authenticated user with `columnAdd` permission on a Postgres-backed base could supply an unrestricted `ARRAYSORT(..., direction)` value that became a raw `ORDER BY` fragment during formula column creation and later reads.
 - **NocoDB shared-view timing oracle** — [GHSA-qhxg-623c-cfjm](https://github.com/advisories/GHSA-qhxg-623c-cfjm) / CVE-2026-47379: legacy plaintext shared-view passwords used strict equality comparison, leaking length and prefix through response timing. Treat this as a lab-only timing validation pattern unless the engagement explicitly permits timing-oracle testing.
+- **NocoDB MCP attachment ownership gap** — [GHSA-xxpj-q764-9r6q](https://github.com/advisories/GHSA-xxpj-q764-9r6q) / CVE-2026-47388: low-privilege MCP tokens could read known attachment paths from shared storage across bases/workspaces because `readAttachment` streamed caller-supplied paths without verifying file ownership against the MCP context.
+- **NocoDB SQLite source filename traversal** — [GHSA-wvqj-9wv4-7ff5](https://github.com/advisories/GHSA-wvqj-9wv4-7ff5) / CVE-2026-47385: users with base-create permission could attach a SQLite source whose filename pointed at arbitrary host files, including NocoDB internal databases or tenant database files, then read or overwrite them through table APIs.
+- **NocoDB bulk GroupBy column-title SQL injection** — [GHSA-p8wx-5f39-w3x4](https://github.com/advisories/GHSA-p8wx-5f39-w3x4) / CVE-2026-47384: column lookup matched a free-text title that could contain SQL syntax and later reached raw `knex.raw()` aggregation fragments in bulk GroupBy paths.
+- **NocoDB OAuth authorization-code race** — [GHSA-8m7c-hf24-5g47](https://github.com/advisories/GHSA-8m7c-hf24-5g47) / CVE-2026-47386: concurrent token exchanges could claim the same authorization code before `is_used` was marked, breaking the single-use property relied on by PKCE flows when an attacker can observe the code and verifier.
+- **NocoDB connection-test SSRF canonicalization gap** — [GHSA-w43h-r5m5-p832](https://github.com/advisories/GHSA-w43h-r5m5-p832) / CVE-2026-47382: authenticated users with connection-test permission could supply database hosts that resolved to private, loopback, link-local, IPv4-mapped IPv6, or `localhost` destinations and make the NocoDB process probe internal services through the database driver.
 - **MCP Server Kubernetes `kubectl_generic` flag injection** — [GHSA-6mx4-4h42-r8vh](https://github.com/advisories/GHSA-6mx4-4h42-r8vh) / CVE-2026-47250: `mcp-server-kubernetes` accepted arbitrary `kubectl` flags/args in the generic tool. A low-privileged actor who can plant instructions into pod logs can cause an AI/operator workflow to run `kubectl` with attacker-controlled `--server` and `--insecure-skip-tls-verify`, making privileged kubeconfig bearer tokens leave the intended API-server boundary.
 - **Omni imported-cluster CA secret read** — [GHSA-wv8c-6mx2-xf4j](https://github.com/advisories/GHSA-wv8c-6mx2-xf4j) / CVE-2026-45726: Reader-level Omni users could retrieve `ImportedClusterSecrets` for imported Talos clusters whose secrets were not rotated, exposing Kubernetes, Talos, etcd, and service-account CA material.
 - **Omni image-factory same-host path traversal** — [GHSA-c66c-vq6w-fvh5](https://github.com/advisories/GHSA-c66c-vq6w-fvh5) / CVE-2026-45723: `CreateSchematic` embedded caller-controlled `talos_version` into an image-factory path, allowing authenticated Operators to traverse to unintended paths on the configured image-factory host and receive reflected error-body content.
@@ -26,6 +31,7 @@ This batch is durable because the advisories map to reusable offensive testing p
 5. Search Python OAuth clients using Authlib integrations with cache-backed state storage. Prioritize account-linking, SSO connect, and “connect provider” flows where a victim can be induced to visit a callback URL.
 6. Search changedetection.io targets for backup management routes and decorator-order mistakes in custom Flask blueprints.
 7. Search Rust/Wasm platforms for `wasmtime-wasi` embeddings that intentionally expose read-only file content while still granting directory mutate permissions.
+8. For late NocoDB advisories, search MCP-enabled bases with shared object storage, SQLite-source creation paths, bulk GroupBy use on user-renamable columns, and OAuth clients where authorization-code exchanges can be raced in a lab.
 
 ## Replayable validation boundaries
 
@@ -56,6 +62,44 @@ Keep the proof non-destructive and bounded to a fixture table.
 3. Read the formula column while logging generated SQL or measuring only a controlled fixture behavior.
 4. Vulnerable result: the direction argument is embedded as SQL syntax in the generated `ORDER BY` fragment.
 5. Capture the formula expression, generated SQL excerpt, affected NocoDB version, database backend, and controlled fixture result.
+
+### NocoDB MCP attachment ownership proof
+
+1. In a lab with two bases/workspaces using the same storage backend, upload an attachment containing only a unique marker in workspace B.
+2. Give the tester a low-privilege MCP token scoped to workspace A and learn only the marker attachment path through lab setup, not production enumeration.
+3. Call the MCP `readAttachment` tool with the workspace B attachment path.
+4. Vulnerable result: the workspace A MCP context streams the workspace B marker attachment instead of returning an inaccessible-context error.
+5. Capture MCP token scope, attachment path style, base/workspace IDs, request, and marker-only response.
+
+### NocoDB SQLite source filename traversal proof
+
+1. Use a disposable NocoDB host with base-create permission for the test user.
+2. Create a marker SQLite file outside the normal source directory, or a scratch copy of an internal NocoDB database with no sensitive records.
+3. Add a SQLite source whose filename points to that marker path using traversal or an absolute path accepted by the target version.
+4. Vulnerable result: NocoDB opens the unintended file and exposes/modifies marker data through normal table APIs.
+5. Capture caller role, supplied filename, resolved marker path, table API response, and version. Do not read real tenant databases.
+
+### NocoDB bulk GroupBy column-title SQL proof
+
+1. In a lab table, create or rename a column title to include a harmless SQL-shape marker that should never be treated as identifier syntax.
+2. Call the bulk GroupBy endpoint using the crafted title as the column selector.
+3. Observe generated SQL logs or a marker-only fixture effect.
+4. Vulnerable result: the free-text title reaches raw aggregation SQL rather than being resolved to a sanitized column identifier.
+5. Capture the column title, sanitized column name, request, generated SQL excerpt, and controlled fixture result.
+
+### NocoDB OAuth authorization-code race proof
+
+1. Configure a lab OAuth client using PKCE and capture an authorization code/verifier pair for a test account you control.
+2. Submit two token-exchange requests for the same code/verifier concurrently.
+3. Vulnerable result: both exchanges mint valid token pairs instead of exactly one succeeding with the second returning `invalid_grant`.
+4. Capture timestamps, request correlation IDs, token metadata fingerprints, and revocation state. Do not race real users' authorization codes.
+
+### NocoDB connection-test SSRF proof
+
+1. Host a controlled canary TCP service on loopback, RFC1918, link-local, and IPv4-mapped IPv6 lab addresses reachable from the NocoDB process.
+2. As an authenticated user with connection-test permission, submit database connection-test hosts that should be rejected, including `localhost`, a private-IP hostname, and an IPv4-mapped IPv6 form.
+3. Vulnerable result: NocoDB opens a socket or database-driver connection attempt to the private canary instead of rejecting the destination before driver invocation.
+4. Capture supplied host, DNS answer, normalized address family, canary hit, caller role, and version. Do not probe cloud metadata or production internal services.
 
 ### MCP Kubernetes flag-injection canary
 
@@ -121,6 +165,11 @@ Never exfiltrate a real kubeconfig token. Use a disposable kubeconfig with a fak
 - GitHub Advisory Database: [GHSA-96fh-m4r8-6v9v / CVE-2026-47381](https://github.com/advisories/GHSA-96fh-m4r8-6v9v)
 - GitHub Advisory Database: [GHSA-cxv7-gmmp-228p / CVE-2026-47375](https://github.com/advisories/GHSA-cxv7-gmmp-228p)
 - GitHub Advisory Database: [GHSA-qhxg-623c-cfjm / CVE-2026-47379](https://github.com/advisories/GHSA-qhxg-623c-cfjm)
+- GitHub Advisory Database: [GHSA-xxpj-q764-9r6q / CVE-2026-47388](https://github.com/advisories/GHSA-xxpj-q764-9r6q)
+- GitHub Advisory Database: [GHSA-wvqj-9wv4-7ff5 / CVE-2026-47385](https://github.com/advisories/GHSA-wvqj-9wv4-7ff5)
+- GitHub Advisory Database: [GHSA-p8wx-5f39-w3x4 / CVE-2026-47384](https://github.com/advisories/GHSA-p8wx-5f39-w3x4)
+- GitHub Advisory Database: [GHSA-8m7c-hf24-5g47 / CVE-2026-47386](https://github.com/advisories/GHSA-8m7c-hf24-5g47)
+- GitHub Advisory Database: [GHSA-w43h-r5m5-p832 / CVE-2026-47382](https://github.com/advisories/GHSA-w43h-r5m5-p832)
 - GitHub Advisory Database: [GHSA-6mx4-4h42-r8vh / CVE-2026-47250](https://github.com/advisories/GHSA-6mx4-4h42-r8vh)
 - GitHub Advisory Database: [GHSA-wv8c-6mx2-xf4j / CVE-2026-45726](https://github.com/advisories/GHSA-wv8c-6mx2-xf4j)
 - GitHub Advisory Database: [GHSA-c66c-vq6w-fvh5 / CVE-2026-45723](https://github.com/advisories/GHSA-c66c-vq6w-fvh5)

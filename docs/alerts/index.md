@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [DbGate, Sync-in Server, and Flux source-controller boundary batch](2026-06-05-dbgate-syncin-flux-rce-ssrf-file-boundaries-ghsa.md)
 - [NocoDB, MCP Kubernetes, Omni, Authlib, and runtime boundary batch](2026-06-05-nocodb-mcp-kubernetes-omni-authlib-boundary-batch-ghsa.md)
 - [Crawl4AI, changedetection.io, Dagster, and Django file/query boundary batch](2026-06-05-crawl4ai-changedetection-dagster-django-file-query-boundaries-ghsa.md)
 - [AgentScope, Mako, Airflow, and Faraday boundary batch](2026-06-05-agentscope-mako-airflow-file-read-and-log-secret-boundaries-ghsa.md)

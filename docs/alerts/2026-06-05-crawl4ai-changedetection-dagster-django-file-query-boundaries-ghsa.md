@@ -7,15 +7,17 @@ This batch is durable because the advisories map to reusable offensive testing p
 ## What changed
 
 - **Crawl4AI Docker API `file://` local file inclusion** — [GHSA-vx9w-5cx4-9796](https://github.com/advisories/GHSA-vx9w-5cx4-9796) / CVE-2026-26217: `crawl4ai` before `0.8.0` accepted `file://` URLs on Docker API endpoints including `/execute_js`, `/screenshot`, `/pdf`, and `/html`. When those endpoints are reachable without a strong access gate, a caller can make the browser/runtime read files from the server-side container or host filesystem context.
+- **Crawl4AI Docker API hooks RCE** — [GHSA-5882-5rx9-xgxp](https://github.com/advisories/GHSA-5882-5rx9-xgxp) / CVE-2026-26216: the Docker API `/crawl` endpoint accepted a `hooks` parameter containing Python code executed with `exec()`, and allowed `__import__`, letting unauthenticated callers on exposed API deployments import modules and execute commands.
 - **changedetection.io backup-restore local file read** — [GHSA-8757-69j2-hx56](https://github.com/advisories/GHSA-8757-69j2-hx56) / CVE-2026-43891: affected `changedetection.io` versions trusted restored watch snapshot paths from backup ZIP contents. A crafted backup could preserve attacker-controlled watch/history metadata that later resolves to local files readable by the application process.
 - **changedetection.io XML/RSS XPath XXE** — [GHSA-v7cp-2cx9-x793](https://github.com/advisories/GHSA-v7cp-2cx9-x793) / CVE-2026-41895: XML/RSS include-filter parsing used `lxml` XML parsing without explicitly disabling external entity resolution in the affected path. Watches that parse attacker-controlled XML/RSS with XPath include filters may expose local-file or network-backed entity behavior, depending on runtime parser defaults.
 - **Dagster gRPC notebook local file inclusion** — [GHSA-h7x8-jv97-fvvm](https://github.com/advisories/GHSA-h7x8-jv97-fvvm) / CVE-2025-51481: Dagster before `1.10.16` let callers with access to the gRPC server supply traversal sequences in `ExternalNotebookData.notebook_path`, bypassing the intended notebook extension check and reading arbitrary files reachable by the Dagster process.
-- **Django ORM dictionary-expansion SQL injection family** — [GHSA-6w2r-r2m5-xq5w](https://github.com/advisories/GHSA-6w2r-r2m5-xq5w) / CVE-2025-57833, [GHSA-hpr9-3m2g-3j9p](https://github.com/advisories/GHSA-hpr9-3m2g-3j9p) / CVE-2025-59681, [GHSA-frmv-pr5f-9mcr](https://github.com/advisories/GHSA-frmv-pr5f-9mcr) / CVE-2025-64459, and [GHSA-rqw2-ghq9-44m7](https://github.com/advisories/GHSA-rqw2-ghq9-44m7) / CVE-2025-13372: multiple Django releases fixed SQL injection primitives where attacker-influenced dictionaries were expanded into ORM helper kwargs such as `QuerySet.annotate()`, `QuerySet.alias()`, `QuerySet.aggregate()`, `QuerySet.extra()`, `FilteredRelation`, `Q()`, `filter()`, `exclude()`, and `get()` across backend-specific paths.
+- **Django ORM dictionary-expansion SQL injection family** — [GHSA-6w2r-r2m5-xq5w](https://github.com/advisories/GHSA-6w2r-r2m5-xq5w) / CVE-2025-57833, [GHSA-hpr9-3m2g-3j9p](https://github.com/advisories/GHSA-hpr9-3m2g-3j9p) / CVE-2025-59681, [GHSA-frmv-pr5f-9mcr](https://github.com/advisories/GHSA-frmv-pr5f-9mcr) / CVE-2025-64459, [GHSA-rqw2-ghq9-44m7](https://github.com/advisories/GHSA-rqw2-ghq9-44m7) / CVE-2025-13372, [GHSA-gvg8-93h5-g6qq](https://github.com/advisories/GHSA-gvg8-93h5-g6qq) / CVE-2026-1287, and [GHSA-6426-9fv3-65x8](https://github.com/advisories/GHSA-6426-9fv3-65x8) / CVE-2026-1312: multiple Django releases fixed SQL injection primitives where attacker-influenced dictionaries were expanded into ORM helper kwargs such as `QuerySet.annotate()`, `QuerySet.alias()`, `QuerySet.aggregate()`, `QuerySet.extra()`, `values()`, `values_list()`, `FilteredRelation`, `Q()`, `filter()`, `exclude()`, and `get()` across backend-specific paths.
+- **Django PostGIS `RasterField` band-index SQL injection** — [GHSA-mwm9-4648-f68q](https://github.com/advisories/GHSA-mwm9-4648-f68q) / CVE-2026-1207: PostGIS raster lookups accepted a user-influenced band index that could cross into SQL syntax when applications expose raster lookup parameters.
 
 ## Operator triage
 
 1. Search asset inventories for exposed Crawl4AI Docker/API deployments, AI crawling services, screenshot/PDF/HTML render workers, or agent tools that wrap Crawl4AI endpoints.
-2. Prioritize Crawl4AI instances where `/execute_js`, `/screenshot`, `/pdf`, or `/html` are reachable from user-controlled jobs, unauthenticated network positions, shared workspaces, or low-trust tenants.
+2. Prioritize Crawl4AI instances where `/crawl`, `/execute_js`, `/screenshot`, `/pdf`, or `/html` are reachable from user-controlled jobs, unauthenticated network positions, shared workspaces, or low-trust tenants.
 3. Search changedetection.io targets for administrative backup restore access, watch import workflows, XML/RSS monitors, and XPath include filters applied to attacker-controlled feed responses.
 4. Search orchestrator inventories for Dagster gRPC servers, user-code deployments, notebooks exposed through Dagster metadata, and network paths where a tester or lower-privileged service can call notebook data APIs.
 5. Search Django code for patterns that unpack request, JSON, form, GraphQL, or tenant-config dictionaries directly into ORM methods: `annotate(**data)`, `alias(**data)`, `aggregate(**data)`, `extra(**data)`, `filter(**data)`, `exclude(**data)`, `get(**data)`, `Q(**data)`, or `FilteredRelation(..., **data)`.
@@ -31,6 +33,13 @@ Use a disposable Crawl4AI lab or an explicitly approved non-production service. 
 2. Send the target API path a server-side URL of `file:///tmp/skillz-crawl4ai-marker.txt`. For `/execute_js`, use a harmless script that returns page/body text; for `/html`, request the rendered content directly.
 3. Vulnerable result: the API response, screenshot/PDF text extraction, or HTML output contains the marker content from the local filesystem.
 4. Capture endpoint, auth state, package version, container/runtime identity, exact `file://` URL, and marker-only output. Avoid `/etc/passwd`, `/proc/self/environ`, SSH keys, cloud credentials, and application config files.
+
+### Crawl4AI hooks execution canary
+
+1. In a lab Docker API instance, enable only the minimum feature set needed to reproduce `/crawl` hooks behavior.
+2. Submit a `/crawl` request whose hook code does not run OS commands; instead have it import a harmless module and write/return a marker value inside the crawler result path.
+3. Vulnerable result: hook code supplied by the API caller executes server-side and can import modules through `__import__`.
+4. Capture endpoint exposure, auth state, hook configuration, package version, and marker-only output. Do not include command-execution payloads in public reports.
 
 ### changedetection.io crafted backup local-read proof
 
@@ -84,6 +93,7 @@ Prefer source review plus a tiny canary harness over blind production payloads.
 ## Sources
 
 - GitHub Advisory Database: [GHSA-vx9w-5cx4-9796 / CVE-2026-26217](https://github.com/advisories/GHSA-vx9w-5cx4-9796)
+- GitHub Advisory Database: [GHSA-5882-5rx9-xgxp / CVE-2026-26216](https://github.com/advisories/GHSA-5882-5rx9-xgxp)
 - Crawl4AI upstream advisory: [unclecode/crawl4ai GHSA-vx9w-5cx4-9796](https://github.com/unclecode/crawl4ai/security/advisories/GHSA-vx9w-5cx4-9796)
 - GitHub Advisory Database: [GHSA-8757-69j2-hx56 / CVE-2026-43891](https://github.com/advisories/GHSA-8757-69j2-hx56)
 - changedetection.io upstream advisory: [dgtlmoon/changedetection.io GHSA-8757-69j2-hx56](https://github.com/dgtlmoon/changedetection.io/security/advisories/GHSA-8757-69j2-hx56)
@@ -95,4 +105,7 @@ Prefer source review plus a tiny canary harness over blind production payloads.
 - GitHub Advisory Database: [GHSA-hpr9-3m2g-3j9p / CVE-2025-59681](https://github.com/advisories/GHSA-hpr9-3m2g-3j9p)
 - GitHub Advisory Database: [GHSA-frmv-pr5f-9mcr / CVE-2025-64459](https://github.com/advisories/GHSA-frmv-pr5f-9mcr)
 - GitHub Advisory Database: [GHSA-rqw2-ghq9-44m7 / CVE-2025-13372](https://github.com/advisories/GHSA-rqw2-ghq9-44m7)
+- GitHub Advisory Database: [GHSA-gvg8-93h5-g6qq / CVE-2026-1287](https://github.com/advisories/GHSA-gvg8-93h5-g6qq)
+- GitHub Advisory Database: [GHSA-6426-9fv3-65x8 / CVE-2026-1312](https://github.com/advisories/GHSA-6426-9fv3-65x8)
+- GitHub Advisory Database: [GHSA-mwm9-4648-f68q / CVE-2026-1207](https://github.com/advisories/GHSA-mwm9-4648-f68q)
 - Django security release archive: <https://docs.djangoproject.com/en/dev/releases/security/>

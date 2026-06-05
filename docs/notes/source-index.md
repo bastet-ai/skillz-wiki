@@ -7,6 +7,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - GitHub Security Advisories: https://github.com/advisories
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
 - NocoDB advisories and source: https://github.com/nocodb/nocodb/security/advisories and https://github.com/nocodb/nocodb
+- DbGate advisories/source: https://github.com/dbgate/dbgate/security/advisories and https://github.com/dbgate/dbgate
+- Sync-in Server advisories/source: https://github.com/Sync-in/server/security/advisories and https://github.com/Sync-in/server
+- Flux source-controller advisories/source: https://github.com/fluxcd/source-controller/security/advisories and https://github.com/fluxcd/source-controller
 - MCP Server Kubernetes advisories and source: https://github.com/Flux159/mcp-server-kubernetes/security/advisories and https://github.com/Flux159/mcp-server-kubernetes
 - Omni advisories and source: https://github.com/siderolabs/omni/security/advisories and https://github.com/siderolabs/omni
 - Authlib advisories and source: https://github.com/lepture/authlib/security/advisories and https://github.com/lepture/authlib
