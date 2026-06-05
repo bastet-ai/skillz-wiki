@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Twig source-policy sandbox, Shopper Livewire, and TinyMCE `data-mce` boundaries](2026-06-05-twig-shopper-tinymce-boundary-batch-ghsa.md)
 - [TinyMCE nested-SVG, skillctl path-safety, and Admidio export-CSRF boundaries](2026-06-05-tinymce-skillctl-admidio-boundary-batch-ghsa.md)
 - [NASA AIT, Gradio, Diffusers, Fickling, and identity boundary batch](2026-06-05-nasa-ait-gradio-diffusers-fickling-boundary-batch-ghsa.md)
 - [DbGate, Sync-in Server, and Flux source-controller boundary batch](2026-06-05-dbgate-syncin-flux-rce-ssrf-file-boundaries-ghsa.md)

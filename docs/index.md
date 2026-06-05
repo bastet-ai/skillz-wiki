@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Twig source-policy sandbox, Shopper Livewire, and TinyMCE `data-mce` boundaries](alerts/2026-06-05-twig-shopper-tinymce-boundary-batch-ghsa.md)
 - [TinyMCE nested-SVG, skillctl path-safety, and Admidio export-CSRF boundaries](alerts/2026-06-05-tinymce-skillctl-admidio-boundary-batch-ghsa.md)
 - [NASA AIT, Gradio, Diffusers, Fickling, and identity boundary batch](alerts/2026-06-05-nasa-ait-gradio-diffusers-fickling-boundary-batch-ghsa.md)
 - [DbGate, Sync-in Server, and Flux source-controller boundary batch](alerts/2026-06-05-dbgate-syncin-flux-rce-ssrf-file-boundaries-ghsa.md)
@@ -16,7 +17,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [AgentScope, Mako, Airflow, and Faraday boundary batch](alerts/2026-06-05-agentscope-mako-airflow-file-read-and-log-secret-boundaries-ghsa.md)
 - [Camel CXF/Knative header injection and ModelScope module boundary batch](alerts/2026-06-05-camel-cxf-knative-header-injection-and-modelscope-module-boundary-ghsa.md)
 - [Netavark / Podman search-domain DNS confusion boundary](alerts/2026-06-05-netavark-podman-search-domain-dns-confusion-ghsa.md)
-- [APScheduler serializer RCE and BillaBear identifier-injection boundaries](alerts/2026-06-04-apscheduler-billabear-serialization-and-identifier-boundaries-ghsa.md)
 - [MCP-for-Stata `log_file_name` command-injection boundary](alerts/2026-06-04-mcp-for-stata-log-file-name-command-injection-ghsa.md)
 
 ## What lives here

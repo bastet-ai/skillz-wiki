@@ -6,6 +6,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 - GitHub Security Advisories: https://github.com/advisories
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
+- Shopper advisories/source: https://github.com/shopperlabs/shopper/security/advisories and https://github.com/shopperlabs/shopper
+- TinyMCE advisories/source: https://github.com/tinymce/tinymce/security/advisories and https://github.com/tinymce/tinymce
 - NASA AMMOS AIT-Core advisories/source: https://github.com/NASA-AMMOS/AIT-Core/security/advisories and https://github.com/NASA-AMMOS/AIT-Core
 - Gradio advisories/source: https://github.com/gradio-app/gradio/security/advisories and https://github.com/gradio-app/gradio
 - Hugging Face Diffusers advisories/source: https://github.com/huggingface/diffusers/security/advisories and https://github.com/huggingface/diffusers
