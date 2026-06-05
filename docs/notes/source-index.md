@@ -130,6 +130,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Pydantic AI security advisories: https://github.com/pydantic/pydantic-ai/security/advisories
 - SQLAdmin security advisories: https://github.com/aminalaee/sqladmin/security/advisories
 - Twig security advisories: https://github.com/twigphp/Twig/security/advisories
+- Bugsink security advisories: https://github.com/bugsink/bugsink/security/advisories
 - Tekton Pipelines security advisories: https://github.com/tektoncd/pipeline/security/advisories
 - Apache Flink security advisories: https://flink.apache.org/what-is-flink/security/
 - YesWiki security advisories: https://github.com/YesWiki/yeswiki/security/advisories
