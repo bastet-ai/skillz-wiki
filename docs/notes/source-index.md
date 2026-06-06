@@ -5,6 +5,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- lxml advisories/source: https://github.com/lxml/lxml/security/advisories and https://github.com/lxml/lxml
+- LangChain advisories/source: https://github.com/langchain-ai/langchain/security/advisories and https://github.com/langchain-ai/langchain
+- LangGraph advisories/source: https://github.com/langchain-ai/langgraph/security/advisories and https://github.com/langchain-ai/langgraph
+- MindsDB advisories/source: https://github.com/mindsdb/mindsdb/security/advisories and https://github.com/mindsdb/mindsdb
+- MONAI advisories/source: https://github.com/Project-MONAI/MONAI/security/advisories and https://github.com/Project-MONAI/MONAI
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
 - Shopper advisories/source: https://github.com/shopperlabs/shopper/security/advisories and https://github.com/shopperlabs/shopper
 - TinyMCE advisories/source: https://github.com/tinymce/tinymce/security/advisories and https://github.com/tinymce/tinymce

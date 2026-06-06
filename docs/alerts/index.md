@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [lxml, LangChain, Langflow, and ML/AI file-boundary checks](2026-06-06-lxml-langchain-langflow-ml-ai-boundary-batch-ghsa.md)
 - [Twig `__toString()` sandbox and Bugsink project-boundary checks](2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md)
 - [Twig source-policy sandbox, Shopper Livewire, and TinyMCE `data-mce` boundaries](2026-06-05-twig-shopper-tinymce-boundary-batch-ghsa.md)
 - [TinyMCE nested-SVG, skillctl path-safety, and Admidio export-CSRF boundaries](2026-06-05-tinymce-skillctl-admidio-boundary-batch-ghsa.md)
