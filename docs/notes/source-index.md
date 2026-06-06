@@ -5,6 +5,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- NLTK advisories/source: https://github.com/nltk/nltk/security/advisories and https://github.com/nltk/nltk
+- NiceGUI advisories/source: https://github.com/zauberzeug/nicegui/security/advisories and https://github.com/zauberzeug/nicegui
+- Picklescan advisories/source: https://github.com/mmaitre314/picklescan/security/advisories and https://github.com/mmaitre314/picklescan
+- ONNX source/issues: https://github.com/onnx/onnx and https://github.com/onnx/onnx/issues
 - lxml advisories/source: https://github.com/lxml/lxml/security/advisories and https://github.com/lxml/lxml
 - LangChain advisories/source: https://github.com/langchain-ai/langchain/security/advisories and https://github.com/langchain-ai/langchain
 - LangGraph advisories/source: https://github.com/langchain-ai/langgraph/security/advisories and https://github.com/langchain-ai/langgraph

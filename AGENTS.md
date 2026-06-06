@@ -62,6 +62,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - `python -m pip install -r requirements.txt`
 - `mkdocs build --strict`
 - `npm run test:sources` checks the WebLogic batch source paragraph renders precise clickable links and that each external source returns HTTP 200 with the expected advisory/CVE token.
+- `python3 scripts/check_duplicate_alert_ids.py` currently reports pre-existing duplicate CVE/GHSA references but exits 0; use it as an advisory hygiene check, not a strict publish gate until the historical duplicates are resolved.
 - On hosts where `python`/global `mkdocs` are unavailable or PEP 668 blocks global installs, use a disposable venv: `python3 -m venv /tmp/skillz-wiki-venv && /tmp/skillz-wiki-venv/bin/python -m pip install -r requirements.txt && /tmp/skillz-wiki-venv/bin/mkdocs build --strict`.
 
 ## Maintenance rules

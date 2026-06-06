@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [NLTK, NiceGUI, Picklescan, and ML archive-boundary checks](alerts/2026-06-06-nltk-nicegui-picklescan-ml-archive-boundaries-ghsa.md)
 - [lxml, LangChain, Langflow, and ML/AI file-boundary checks](alerts/2026-06-06-lxml-langchain-langflow-ml-ai-boundary-batch-ghsa.md)
 - [Twig `__toString()` sandbox and Bugsink project-boundary checks](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md)
 - [Twig source-policy sandbox, Shopper Livewire, and TinyMCE `data-mce` boundaries](alerts/2026-06-05-twig-shopper-tinymce-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [NocoDB, MCP Kubernetes, Omni, Authlib, and runtime boundary batch](alerts/2026-06-05-nocodb-mcp-kubernetes-omni-authlib-boundary-batch-ghsa.md)
 - [Crawl4AI, changedetection.io, Dagster, and Django file/query boundary batch](alerts/2026-06-05-crawl4ai-changedetection-dagster-django-file-query-boundaries-ghsa.md)
 - [AgentScope, Mako, Airflow, and Faraday boundary batch](alerts/2026-06-05-agentscope-mako-airflow-file-read-and-log-secret-boundaries-ghsa.md)
-- [Camel CXF/Knative header injection and ModelScope module boundary batch](alerts/2026-06-05-camel-cxf-knative-header-injection-and-modelscope-module-boundary-ghsa.md)
 
 ## What lives here
 
