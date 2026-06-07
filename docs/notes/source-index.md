@@ -5,6 +5,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- MetaGPT source/issues: https://github.com/FoundationAgents/MetaGPT and https://github.com/FoundationAgents/MetaGPT/issues
+- go-fastdfs-web advisories/research references: https://github.com/advisories/GHSA-6g49-gvr8-2cj2 and https://vuldb.com/vuln/369017
+- vertex-app Vertex source/fixes: https://github.com/vertex-app/vertex and https://github.com/vertex-app/vertex/commit/805d82e7100d49b79b3beb1b9420e8e458987198
+- clash-verge-service-ipc source/releases: https://github.com/clash-verge-rev/clash-verge-service-ipc and https://github.com/clash-verge-rev/clash-verge-service-ipc/releases/tag/v2.3.0
 - NLTK advisories/source: https://github.com/nltk/nltk/security/advisories and https://github.com/nltk/nltk
 - NiceGUI advisories/source: https://github.com/zauberzeug/nicegui/security/advisories and https://github.com/zauberzeug/nicegui
 - Picklescan advisories/source: https://github.com/mmaitre314/picklescan/security/advisories and https://github.com/mmaitre314/picklescan

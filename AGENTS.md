@@ -79,6 +79,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - For hourly news-driven updates, only promote items that can become offensive operator guidance: recon technique, exploit path, validation workflow, tool usage, bypass pattern, or bug-hunting heuristic. Do not turn generic advisories into blue-team alerts.
 - Trail of Bits skill-distribution scanner-bypass research was promoted as a reusable agent skill supply-chain testing workflow rather than an alert; keep future skill-marketplace content framed as authorized scanner/ingestion coverage testing with inert canaries.
 - GitHub Advisory REST API batches can publish adjacent advisories slightly out of order; before closing an hourly run, re-check the newest page for unprocessed IDs that belong with an already-created batch page and update that page instead of creating a duplicate.
+- VulDB-style GHSA waves often contain sparse product-specific SQLi/XSS/auth-bypass/router/memory-safety/DoS entries; promote only those with reusable operator patterns (for example agent tool-path command injection, installer SSRF, log-viewer command injection, or IPC boundary checks) and mark the rest processed without publication.
 
 ## Security / attribution
 

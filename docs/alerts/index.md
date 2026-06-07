@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Agent, SSRF, command, and local IPC boundary checks](2026-06-07-agent-ssrf-command-and-local-ipc-boundaries-ghsa.md)
 - [NLTK, NiceGUI, Picklescan, and ML archive-boundary checks](2026-06-06-nltk-nicegui-picklescan-ml-archive-boundaries-ghsa.md)
 - [lxml, LangChain, Langflow, and ML/AI file-boundary checks](2026-06-06-lxml-langchain-langflow-ml-ai-boundary-batch-ghsa.md)
 - [Twig `__toString()` sandbox and Bugsink project-boundary checks](2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md)
