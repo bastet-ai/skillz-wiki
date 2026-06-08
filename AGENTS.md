@@ -82,6 +82,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - VulDB-style GHSA waves often contain sparse product-specific SQLi/XSS/auth-bypass/router/memory-safety/DoS entries; promote only those with reusable operator patterns (for example agent tool-path command injection, installer SSRF, log-viewer command injection, or IPC boundary checks) and mark the rest processed without publication.
 - Trail of Bits RSS works at `https://blog.trailofbits.com/feed/` and `https://blog.trailofbits.com/index.xml`; `https://blog.trailofbits.com/feed.xml` returned 404 during the 2026-06-08 hourly scan.
 - When a late GitHub updated-feed wave contains IDs adjacent to an already-published same-day batch (for example ONNX or pyLoad follow-up advisories), update the existing batch page and mark those IDs processed instead of creating a duplicate alert.
+- Check Point IKEv1 VPN auth-bypass KEV was promoted as an operator validation page because it offers durable VPN perimeter recon and authentication-boundary testing guidance; keep future perimeter VPN KEVs focused on IKE/protocol reachability, lab/customer-approved validation, and post-auth access boundaries.
 
 ## Security / attribution
 

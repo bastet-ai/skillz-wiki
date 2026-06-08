@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Check Point IKEv1 VPN authentication-bypass validation](alerts/2026-06-08-check-point-ikev1-vpn-auth-bypass.md)
 - [Budibase, BentoML, Weblate, vLLM, and API/runtime boundary checks](alerts/2026-06-08-budibase-bentoml-weblate-vllm-runtime-boundary-batch-ghsa.md)
 - [pyLoad, OpenHands, PyJWT, Netty, and ONNX boundary checks](alerts/2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md)
 - [LiteLLM, Authlib, Dash uploader, and Vitest boundary checks](alerts/2026-06-08-litellm-authlib-dash-vitest-boundary-batch.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [NLTK, NiceGUI, Picklescan, and ML archive-boundary checks](alerts/2026-06-06-nltk-nicegui-picklescan-ml-archive-boundaries-ghsa.md)
 - [lxml, LangChain, Langflow, and ML/AI file-boundary checks](alerts/2026-06-06-lxml-langchain-langflow-ml-ai-boundary-batch-ghsa.md)
 - [Twig `__toString()` sandbox and Bugsink project-boundary checks](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md)
-- [Twig source-policy sandbox, Shopper Livewire, and TinyMCE `data-mce` boundaries](alerts/2026-06-05-twig-shopper-tinymce-boundary-batch-ghsa.md)
 
 ## What lives here
 
