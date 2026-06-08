@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Nebula Mesh, FUXA, MagicMirror, Langflow, MCP, and local automation boundaries](2026-06-08-nebula-fuxa-magicmirror-langflow-mcp-boundary-batch-ghsa.md)
 - [Budibase, BentoML, Weblate, vLLM, and API/runtime boundary checks](2026-06-08-budibase-bentoml-weblate-vllm-runtime-boundary-batch-ghsa.md)
 - [pyLoad, OpenHands, PyJWT, Netty, and ONNX boundary checks](2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md)
 - [LiteLLM, Authlib, Dash uploader, and Vitest boundary checks](2026-06-08-litellm-authlib-dash-vitest-boundary-batch.md)

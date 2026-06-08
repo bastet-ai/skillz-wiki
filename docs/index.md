@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Nebula Mesh, FUXA, MagicMirror, Langflow, MCP, and local automation boundaries](alerts/2026-06-08-nebula-fuxa-magicmirror-langflow-mcp-boundary-batch-ghsa.md)
 - [Check Point IKEv1 VPN authentication-bypass validation](alerts/2026-06-08-check-point-ikev1-vpn-auth-bypass.md)
 - [Budibase, BentoML, Weblate, vLLM, and API/runtime boundary checks](alerts/2026-06-08-budibase-bentoml-weblate-vllm-runtime-boundary-batch-ghsa.md)
 - [pyLoad, OpenHands, PyJWT, Netty, and ONNX boundary checks](alerts/2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Agent, SSRF, command, and local IPC boundary checks](alerts/2026-06-07-agent-ssrf-command-and-local-ipc-boundaries-ghsa.md)
 - [NLTK, NiceGUI, Picklescan, and ML archive-boundary checks](alerts/2026-06-06-nltk-nicegui-picklescan-ml-archive-boundaries-ghsa.md)
 - [lxml, LangChain, Langflow, and ML/AI file-boundary checks](alerts/2026-06-06-lxml-langchain-langflow-ml-ai-boundary-batch-ghsa.md)
-- [Twig `__toString()` sandbox and Bugsink project-boundary checks](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md)
 
 ## What lives here
 
