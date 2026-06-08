@@ -13,6 +13,15 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - NiceGUI advisories/source: https://github.com/zauberzeug/nicegui/security/advisories and https://github.com/zauberzeug/nicegui
 - Picklescan advisories/source: https://github.com/mmaitre314/picklescan/security/advisories and https://github.com/mmaitre314/picklescan
 - ONNX source/issues: https://github.com/onnx/onnx and https://github.com/onnx/onnx/issues
+- Budibase advisories/source: https://github.com/Budibase/budibase/security/advisories and https://github.com/Budibase/budibase
+- Yii 2 advisories/source: https://github.com/yiisoft/yii2/security/advisories and https://github.com/yiisoft/yii2
+- OpenClaw advisories/source: https://github.com/openclaw/openclaw/security/advisories and https://github.com/openclaw/openclaw
+- free5GC advisories/source: https://github.com/free5gc/free5gc/security/advisories and https://github.com/free5gc/free5gc
+- OpenStack Ironic advisories/source: https://security.openstack.org/ and https://opendev.org/openstack/ironic
+- BentoML advisories/source: https://github.com/bentoml/BentoML/security/advisories and https://github.com/bentoml/BentoML
+- Weblate advisories/source: https://github.com/WeblateOrg/weblate/security/advisories and https://github.com/WeblateOrg/weblate
+- vLLM advisories/source: https://github.com/vllm-project/vllm/security/advisories and https://github.com/vllm-project/vllm
+- Strawberry GraphQL advisories/source: https://github.com/strawberry-graphql/strawberry/security/advisories and https://github.com/strawberry-graphql/strawberry
 - lxml advisories/source: https://github.com/lxml/lxml/security/advisories and https://github.com/lxml/lxml
 - LangChain advisories/source: https://github.com/langchain-ai/langchain/security/advisories and https://github.com/langchain-ai/langchain
 - LangGraph advisories/source: https://github.com/langchain-ai/langgraph/security/advisories and https://github.com/langchain-ai/langgraph

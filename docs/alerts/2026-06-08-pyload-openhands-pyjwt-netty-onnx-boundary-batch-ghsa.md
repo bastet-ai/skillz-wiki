@@ -1,6 +1,6 @@
 # pyLoad, OpenHands, PyJWT, Netty, and ONNX boundary batch
 
-Source: hourly offensive-security scan, 2026-06-08. Primary entries: GitHub advisories [GHSA-q485-cg9q-xq2r](https://github.com/advisories/GHSA-q485-cg9q-xq2r), [GHSA-w7hq-f2pj-c53g](https://github.com/advisories/GHSA-w7hq-f2pj-c53g), [GHSA-6px9-j4qr-xfjw](https://github.com/advisories/GHSA-6px9-j4qr-xfjw), [GHSA-ppvx-rwh9-7rj7](https://github.com/advisories/GHSA-ppvx-rwh9-7rj7), [GHSA-7h8w-hj9j-8rjw](https://github.com/advisories/GHSA-7h8w-hj9j-8rjw), [GHSA-752w-5fwx-jx9f](https://github.com/advisories/GHSA-752w-5fwx-jx9f), [GHSA-3qp7-7mw8-wx86](https://github.com/advisories/GHSA-3qp7-7mw8-wx86), [GHSA-p433-9wv8-28xj](https://github.com/advisories/GHSA-p433-9wv8-28xj), and [GHSA-hqmj-h5c6-369m](https://github.com/advisories/GHSA-hqmj-h5c6-369m).
+Source: hourly offensive-security scan, 2026-06-08. Primary entries: GitHub advisories [GHSA-q485-cg9q-xq2r](https://github.com/advisories/GHSA-q485-cg9q-xq2r), [GHSA-w7hq-f2pj-c53g](https://github.com/advisories/GHSA-w7hq-f2pj-c53g), [GHSA-6px9-j4qr-xfjw](https://github.com/advisories/GHSA-6px9-j4qr-xfjw), [GHSA-ppvx-rwh9-7rj7](https://github.com/advisories/GHSA-ppvx-rwh9-7rj7), [GHSA-7h8w-hj9j-8rjw](https://github.com/advisories/GHSA-7h8w-hj9j-8rjw), [GHSA-752w-5fwx-jx9f](https://github.com/advisories/GHSA-752w-5fwx-jx9f), [GHSA-3qp7-7mw8-wx86](https://github.com/advisories/GHSA-3qp7-7mw8-wx86), [GHSA-p433-9wv8-28xj](https://github.com/advisories/GHSA-p433-9wv8-28xj), [GHSA-hqmj-h5c6-369m](https://github.com/advisories/GHSA-hqmj-h5c6-369m), [GHSA-q56x-g2fj-4rj6](https://github.com/advisories/GHSA-q56x-g2fj-4rj6), [GHSA-838g-gr43-qqg9](https://github.com/advisories/GHSA-838g-gr43-qqg9), [GHSA-97r3-5w84-r4q8](https://github.com/advisories/GHSA-97r3-5w84-r4q8), [GHSA-pg67-9wjv-mr85](https://github.com/advisories/GHSA-pg67-9wjv-mr85), [GHSA-ccxc-x975-4hh9](https://github.com/advisories/GHSA-ccxc-x975-4hh9), [GHSA-mp82-fmj6-f22v](https://github.com/advisories/GHSA-mp82-fmj6-f22v), and [GHSA-mvwx-582f-56r7](https://github.com/advisories/GHSA-mvwx-582f-56r7).
 
 This batch is durable because the items share reusable operator patterns: localhost-only API bypass through `Host` trust, download-manager file-write-to-script execution, agent runtime command injection, JWT critical-header validation gaps, IPv6 subnet-filter bypasses, and ML model repository/file-boundary checks.
 
@@ -8,11 +8,11 @@ This batch is durable because the items share reusable operator patterns: localh
 
 - **pyLoad local-check bypass** — pyLoad's Click'N'Load routes are intended for localhost clients, but the advisory describes a `@local_check` implementation that trusts user-controlled host/origin data. External attackers can reach local-only download APIs and queue arbitrary URLs, creating SSRF and denial-of-service primitives.
 - **pyLoad download-to-script RCE chain** — the `/flashgot` API can be combined with script-folder download destinations and executable download permissions so a completed download lands under `~/.pyload/scripts` and is run by pyLoad's event hooks.
-- **pyLoad package-folder traversal and SSL path privilege gaps** — authenticated users with lower permissions can abuse insufficient `pack_folder` normalization or admin-only option-name mismatches to write outside intended directories or alter sensitive TLS path settings.
+- **pyLoad package-folder traversal, archive extraction, and outbound proxy/TLS setting gaps** — authenticated users with lower permissions can abuse insufficient `pack_folder` normalization, incomplete tar extraction prefix checks, unrestricted `proxy.*` / `ssl_verify` settings, admin-only option-name mismatches, or `X-Forwarded-Proto` global-state races to write outside intended directories or redirect/degrade outbound traffic.
 - **OpenHands git diff command injection** — an authenticated `path` parameter flowing into `get_git_diff()` reaches a shell command in the agent sandbox, bypassing the normal agent-command channel.
 - **PyJWT unknown `crit` acceptance** — PyJWT accepts JWS tokens that list unsupported critical header extensions instead of rejecting them. This is a validation-boundary finding: impact depends on an application or identity gateway relying on PyJWT where critical header processing semantics matter.
 - **Netty IPv6 subnet-filter bypass** — Netty's `IpSubnetFilterRule` comparator can mask against the configured network address instead of the subnet mask, allowing valid public IPv6 addresses to bypass IPv6 allow/deny subnet rules.
-- **ONNX model file boundaries** — ONNX external data loading can follow symlinks outside the model directory, and `onnx.hub.load(..., silent=True)` can suppress untrusted repository prompts while relying on a hash manifest controlled by the same repository.
+- **ONNX model file boundaries** — ONNX external data loading can follow symlinks outside the model directory, `save_external_data` has time-of-check/time-of-use arbitrary file read/write risk around external data files, and `onnx.hub.load(..., silent=True)` can suppress untrusted repository prompts while relying on a hash manifest controlled by the same repository.
 
 ## Operator triage
 
@@ -30,7 +30,8 @@ This batch is durable because the items share reusable operator patterns: localh
 - Start with non-invasive fingerprinting: title strings, static assets, login redirects, route existence, and HTTP status differences for `/flashgot` or CNL endpoints.
 - For local-check bypass validation, use a tester-controlled URL such as an HTTPS canary endpoint. Capture only the inbound callback, requested path, and source IP class. Do not target cloud metadata, internal admin panels, or third-party hosts.
 - For download-to-script RCE validation, use a lab clone or explicit written authorization. Use a harmless shell script that writes a marker to a disposable temp directory; do not persist, beacon, or modify real pyLoad hooks on production systems.
-- For traversal checks, write only canary content into target-provided scratch paths. Report the normalized path escape and required permission (`MODIFY`, `SETTINGS`, or unauthenticated CNL) separately from impact.
+- For traversal and extraction checks, write only canary content into target-provided scratch paths. Report the normalized path escape, archive member form, and required permission (`MODIFY`, `SETTINGS`, or unauthenticated CNL) separately from impact.
+- For outbound proxy/TLS settings checks, use tester-controlled HTTP/DNS canaries and a disposable destination. Do not proxy production victim traffic or weaken TLS verification outside an approved lab.
 
 ### OpenHands git diff command injection
 
@@ -56,7 +57,7 @@ This batch is durable because the items share reusable operator patterns: localh
 ### ONNX symlink and hub-loading checks
 
 - Use a local harness or sandboxed service account when testing model loading. Model files are untrusted active content for this workflow.
-- For external data symlink traversal, create a model directory containing a symlink to a synthetic canary file outside the directory. Prove the loader follows it without reading sensitive files.
+- For external data symlink traversal and `save_external_data` TOCTOU checks, create a model directory containing synthetic canary files and symlinks in a local sandbox. Prove the loader or writer crosses the intended model directory boundary without touching sensitive files.
 - For `onnx.hub.load(..., silent=True)`, demonstrate that an untrusted repository reference loads without prompt and that the hash manifest is repository-controlled. Do not fetch or execute attacker code from public repos during validation; use a private test repo or local mirror.
 - Capture call sites, repository strings, loader flags, and file paths. The finding is strongest when user-controlled model references reach automated evaluation, CI, notebook, or agent pipelines.
 
