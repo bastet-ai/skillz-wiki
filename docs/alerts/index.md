@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [vm2 WASM, SMTP PROXY, and 1Panel file-write boundaries](2026-06-08-vm2-proxy-protocol-and-1panel-boundary-batch-ghsa.md)
+- [GeoNode service-registration SSRF validation](2026-06-08-geonode-service-registration-ssrf.md)
 - [Agent, SSRF, command, and local IPC boundary checks](2026-06-07-agent-ssrf-command-and-local-ipc-boundaries-ghsa.md)
 - [NLTK, NiceGUI, Picklescan, and ML archive-boundary checks](2026-06-06-nltk-nicegui-picklescan-ml-archive-boundaries-ghsa.md)
 - [lxml, LangChain, Langflow, and ML/AI file-boundary checks](2026-06-06-lxml-langchain-langflow-ml-ai-boundary-batch-ghsa.md)

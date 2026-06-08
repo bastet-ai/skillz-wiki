@@ -88,6 +88,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Parse Server advisories: https://github.com/parse-community/parse-server/security/advisories
 - Palo Alto Networks PAN-OS advisories: https://security.paloaltonetworks.com/
 - vm2 advisories: https://github.com/patriksimek/vm2/security/advisories
+- Go-Guerrilla SMTP daemon advisories/source: https://github.com/flashmob/go-guerrilla/security/advisories and https://github.com/flashmob/go-guerrilla
+- 1Panel advisories/source: https://github.com/1Panel-dev/1Panel/security/advisories and https://github.com/1Panel-dev/1Panel
 - SGLang advisories: https://github.com/sgl-project/sglang/security/advisories
 - ChromaDB advisories and research: https://github.com/chroma-core/chroma/security/advisories and https://www.hiddenlayer.com/research/chromatoast-served-pre-auth
 - ngrok npm wrapper advisory reference: https://gist.github.com/Dremig/90c2a0a2f85b0921f10e0bb3192a0c23
