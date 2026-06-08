@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [pyLoad, OpenHands, PyJWT, Netty, and ONNX boundary checks](alerts/2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md)
 - [LiteLLM, Authlib, Dash uploader, and Vitest boundary checks](alerts/2026-06-08-litellm-authlib-dash-vitest-boundary-batch.md)
 - [vm2 WASM, SMTP PROXY, and 1Panel file-write boundaries](alerts/2026-06-08-vm2-proxy-protocol-and-1panel-boundary-batch-ghsa.md)
 - [GeoNode service-registration SSRF validation](alerts/2026-06-08-geonode-service-registration-ssrf.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Twig `__toString()` sandbox and Bugsink project-boundary checks](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md)
 - [Twig source-policy sandbox, Shopper Livewire, and TinyMCE `data-mce` boundaries](alerts/2026-06-05-twig-shopper-tinymce-boundary-batch-ghsa.md)
 - [TinyMCE nested-SVG, skillctl path-safety, and Admidio export-CSRF boundaries](alerts/2026-06-05-tinymce-skillctl-admidio-boundary-batch-ghsa.md)
-- [NASA AIT, Gradio, Diffusers, Fickling, and identity boundary batch](alerts/2026-06-05-nasa-ait-gradio-diffusers-fickling-boundary-batch-ghsa.md)
 
 ## What lives here
 
