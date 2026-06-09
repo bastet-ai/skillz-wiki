@@ -89,6 +89,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Arista EOS tunnel decapsulation KEVs are promotable when they reveal protocol-confusion at a VXLAN/GRE/decap-group boundary; frame validation around configured decap IP reachability, unexpected tunnel protocol acceptance, and controlled canary forwarding rather than broad network probing.
 - Net::IMAP raw-argument advisories are promotable when they expose a reusable protocol-injection boundary: untrusted criteria/fetch/search fragments crossing into IMAP literal framing and server capability negotiation. Pair adjacent parser-state DoS with command-injection guidance rather than publishing availability-only pages.
 - Cisco SD-WAN crafted-file root KEVs are promotable as post-auth appliance validation workflows when they cover `netadmin` file/CLI handling and control-plane-to-edge blast radius; avoid framing as unauthenticated RCE or suggesting production config changes.
+- Svelte SSR attribute-spread and DOM-clobbering advisories are promotable when they expose a reusable object-key-to-DOM-attribute trust boundary; frame validation around user-controlled spread keys, pre-hydration event timing, and form/input clobbering preconditions rather than generic XSS or resource-stress testing.
 
 ## Security / attribution
 

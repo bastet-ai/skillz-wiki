@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Svelte SSR spread and DOM-clobbering boundary checks](alerts/2026-06-09-svelte-ssr-spread-dom-clobbering-boundary-ghsa.md)
 - [Net::IMAP raw argument command boundary](alerts/2026-06-09-net-imap-raw-argument-command-boundary-ghsa.md)
 - [Cisco Catalyst SD-WAN crafted-file root boundary](alerts/2026-06-09-cisco-sdwan-crafted-file-root-boundary.md)
 - [Arista EOS tunnel decapsulation boundary validation](alerts/2026-06-09-arista-eos-tunnel-decap-boundary.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Auth parser, device-flow, HAXcms token, and redirect-cookie boundaries](alerts/2026-06-09-auth-device-haxcms-redirect-boundary-batch-ghsa.md)
 - [File Browser command-scope and web3.py CCIP SSRF boundaries](alerts/2026-06-09-filebrowser-command-scope-and-web3-ccip-ssrf-boundary-ghsa.md)
 - [Puma PROXY, Arc DuckDB, and phpMyFAQ boundary checks](alerts/2026-06-09-puma-arc-phpmyfaq-boundary-batch-ghsa.md)
-- [Nebula Mesh, FUXA, MagicMirror, Langflow, MCP, and local automation boundaries](alerts/2026-06-08-nebula-fuxa-magicmirror-langflow-mcp-boundary-batch-ghsa.md)
 
 ## What lives here
 

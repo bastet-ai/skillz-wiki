@@ -1,6 +1,6 @@
 # Net::IMAP raw argument command boundary
 
-Source: hourly offensive-security scan, 2026-06-09. Primary entries: GitHub advisories [GHSA-8p34-64r3-mwg8](https://github.com/advisories/GHSA-8p34-64r3-mwg8) / CVE-2026-47240 and [GHSA-c4fp-cxrr-mj66](https://github.com/advisories/GHSA-c4fp-cxrr-mj66) / CVE-2026-47241 for Ruby `net-imap`.
+Source: hourly offensive-security scan, 2026-06-09. Primary entries: GitHub advisories [GHSA-8p34-64r3-mwg8](https://github.com/advisories/GHSA-8p34-64r3-mwg8) / CVE-2026-47240, [GHSA-c4fp-cxrr-mj66](https://github.com/advisories/GHSA-c4fp-cxrr-mj66) / CVE-2026-47241, and [GHSA-46q3-7gv7-qmgg](https://github.com/advisories/GHSA-46q3-7gv7-qmgg) / CVE-2026-47242 for Ruby `net-imap`.
 
 This page is durable because it captures a reusable protocol-injection pattern: client libraries that expose "raw" protocol fragments may validate CRLF but still mishandle literal framing, continuation markers, and server capability negotiation.
 
@@ -8,12 +8,13 @@ This page is durable because it captures a reusable protocol-injection pattern: 
 
 - **Command injection via non-synchronizing literals** — affected `Net::IMAP` command helpers accept raw string arguments that are sent verbatim after validation. If an IMAP server does not advertise `LITERAL+`, `LITERAL-`, or `IMAP4rev2`, a non-synchronizing literal marker can be parsed as a malformed line ending and the following bytes can become new pipelined IMAP commands.
 - **Affected argument surfaces** — the advisory calls out `criteria` for `#search` and `#uid_search`, `search_keys` for `#sort`, `#thread`, `#uid_sort`, and `#uid_thread`, and `attr` for `#fetch` and `#uid_fetch`.
+- **Client identity and capability toggles are also command surfaces** — `#id` hash field values did not reject CRLF, and `#enable` could send argument `#to_s` values verbatim instead of validating them as supported atoms. Untrusted input to either command is uncommon but gives bug hunters another config-to-IMAP-command boundary to audit.
 - **Continuation-marker DoS is adjacent evidence** — CVE-2026-47241 shows the same raw-argument boundary can absorb a following command when a string ends in `{0}` or `{0+}`. Treat it as a parser-state validation signal, not as a standalone availability playbook.
-- **Fixed versions** — command-injection handling is fixed in `net-imap` `0.6.4.1`, `0.5.14.1`, and `0.4.24.1`; the adjacent continuation-marker DoS is fixed in `0.6.5`, `0.5.15`, and `0.4.25`.
+- **Fixed versions** — raw-argument command-injection handling is fixed in `net-imap` `0.6.4.1`, `0.5.14.1`, and `0.4.24.1`; `#id`/`#enable` validation is fixed in `0.6.4.1` and `0.5.15`; the adjacent continuation-marker DoS is fixed in `0.6.5`, `0.5.15`, and `0.4.25`.
 
 ## Operator triage
 
-1. **Find raw IMAP fragments:** search Ruby repos for `Net::IMAP`, `uid_search`, `search(`, `uid_fetch`, `fetch(`, `sort(`, `thread(`, `Net::IMAP::RawData`, and custom wrappers that pass search criteria or fetch attributes directly.
+1. **Find raw IMAP fragments:** search Ruby repos for `Net::IMAP`, `uid_search`, `search(`, `uid_fetch`, `fetch(`, `sort(`, `thread(`, `id(`, `enable(`, `Net::IMAP::RawData`, and custom wrappers that pass search criteria, fetch attributes, client identity fields, or capability names directly.
 2. **Prioritize attacker-shaped query builders:** interesting paths let users, tenants, plugins, workflow rules, mailbox filters, CRM imports, ticket parsers, or automation jobs influence IMAP criteria/search keys/fetch attributes.
 3. **Check server capability assumptions:** record whether the target mailbox server advertises `LITERAL+`, `LITERAL-`, or `IMAP4rev2`. The command-injection route depends on non-synchronizing literal support being absent or mishandled.
 4. **Trace privilege and mailbox impact:** identify whether injected IMAP commands can read other folders, alter mailbox state, delete messages, exfiltrate message metadata, or pivot through service credentials. Do not touch production mail content.
