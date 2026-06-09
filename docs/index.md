@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Arista EOS tunnel decapsulation boundary validation](alerts/2026-06-09-arista-eos-tunnel-decap-boundary.md)
 - [pretix email placeholder injection](alerts/2026-06-09-pretix-email-placeholder-injection.md)
 - [shell-quote newline operator boundary](alerts/2026-06-09-shell-quote-newline-operator-boundary-ghsa.md)
 - [Fides banner override, Froxlor API 2FA, and Ironic image-boundary checks](alerts/2026-06-09-fides-froxlor-ironic-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Nebula Mesh, FUXA, MagicMirror, Langflow, MCP, and local automation boundaries](alerts/2026-06-08-nebula-fuxa-magicmirror-langflow-mcp-boundary-batch-ghsa.md)
 - [Check Point IKEv1 VPN authentication-bypass validation](alerts/2026-06-08-check-point-ikev1-vpn-auth-bypass.md)
 - [Budibase, BentoML, Weblate, vLLM, and API/runtime boundary checks](alerts/2026-06-08-budibase-bentoml-weblate-vllm-runtime-boundary-batch-ghsa.md)
-- [pyLoad, OpenHands, PyJWT, Netty, and ONNX boundary checks](alerts/2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md)
 
 ## What lives here
 
