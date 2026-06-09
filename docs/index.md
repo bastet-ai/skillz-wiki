@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Auth parser, device-flow, HAXcms token, and redirect-cookie boundaries](alerts/2026-06-09-auth-device-haxcms-redirect-boundary-batch-ghsa.md)
 - [File Browser command-scope and web3.py CCIP SSRF boundaries](alerts/2026-06-09-filebrowser-command-scope-and-web3-ccip-ssrf-boundary-ghsa.md)
 - [Puma PROXY, Arc DuckDB, and phpMyFAQ boundary checks](alerts/2026-06-09-puma-arc-phpmyfaq-boundary-batch-ghsa.md)
 - [Nebula Mesh, FUXA, MagicMirror, Langflow, MCP, and local automation boundaries](alerts/2026-06-08-nebula-fuxa-magicmirror-langflow-mcp-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [LiteLLM, Authlib, Dash uploader, and Vitest boundary checks](alerts/2026-06-08-litellm-authlib-dash-vitest-boundary-batch.md)
 - [vm2 WASM, SMTP PROXY, and 1Panel file-write boundaries](alerts/2026-06-08-vm2-proxy-protocol-and-1panel-boundary-batch-ghsa.md)
 - [GeoNode service-registration SSRF validation](alerts/2026-06-08-geonode-service-registration-ssrf.md)
-- [Agent, SSRF, command, and local IPC boundary checks](alerts/2026-06-07-agent-ssrf-command-and-local-ipc-boundaries-ghsa.md)
 
 ## What lives here
 

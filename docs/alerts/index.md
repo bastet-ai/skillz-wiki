@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Auth parser, device-flow, HAXcms token, and redirect-cookie boundaries](2026-06-09-auth-device-haxcms-redirect-boundary-batch-ghsa.md)
 - [File Browser command-scope and web3.py CCIP SSRF boundaries](2026-06-09-filebrowser-command-scope-and-web3-ccip-ssrf-boundary-ghsa.md)
 - [Puma PROXY, Arc DuckDB, and phpMyFAQ boundary checks](2026-06-09-puma-arc-phpmyfaq-boundary-batch-ghsa.md)
 - [Nebula Mesh, FUXA, MagicMirror, Langflow, MCP, and local automation boundaries](2026-06-08-nebula-fuxa-magicmirror-langflow-mcp-boundary-batch-ghsa.md)
