@@ -87,6 +87,8 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Puma PROXY protocol v1 advisories are worth promoting when source-IP spoofing is tied to HTTP keep-alive/trusted edge decisions; pair availability-only parser issues with that trust-boundary workflow instead of publishing standalone DoS guidance.
 - Sanitized rich-text placeholder injection in transactional email is promotable when it gives bug hunters a reusable trust-confusion workflow; frame it as user-controlled profile/order data rendered as trusted system messaging, not as XSS unless script execution is independently proven.
 - Arista EOS tunnel decapsulation KEVs are promotable when they reveal protocol-confusion at a VXLAN/GRE/decap-group boundary; frame validation around configured decap IP reachability, unexpected tunnel protocol acceptance, and controlled canary forwarding rather than broad network probing.
+- Net::IMAP raw-argument advisories are promotable when they expose a reusable protocol-injection boundary: untrusted criteria/fetch/search fragments crossing into IMAP literal framing and server capability negotiation. Pair adjacent parser-state DoS with command-injection guidance rather than publishing availability-only pages.
+- Cisco SD-WAN crafted-file root KEVs are promotable as post-auth appliance validation workflows when they cover `netadmin` file/CLI handling and control-plane-to-edge blast radius; avoid framing as unauthenticated RCE or suggesting production config changes.
 
 ## Security / attribution
 
