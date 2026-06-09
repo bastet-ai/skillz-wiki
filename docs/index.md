@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Pheditor, Dex, Phoenix Storybook, and Symfony Runtime boundary checks](alerts/2026-06-09-pheditor-dex-phoenixstory-symfony-boundary-batch-ghsa.md)
 - [Svelte SSR spread and DOM-clobbering boundary checks](alerts/2026-06-09-svelte-ssr-spread-dom-clobbering-boundary-ghsa.md)
 - [Net::IMAP raw argument command boundary](alerts/2026-06-09-net-imap-raw-argument-command-boundary-ghsa.md)
 - [Cisco Catalyst SD-WAN crafted-file root boundary](alerts/2026-06-09-cisco-sdwan-crafted-file-root-boundary.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Fides banner override, Froxlor API 2FA, and Ironic image-boundary checks](alerts/2026-06-09-fides-froxlor-ironic-boundary-batch-ghsa.md)
 - [Auth parser, device-flow, HAXcms token, and redirect-cookie boundaries](alerts/2026-06-09-auth-device-haxcms-redirect-boundary-batch-ghsa.md)
 - [File Browser command-scope and web3.py CCIP SSRF boundaries](alerts/2026-06-09-filebrowser-command-scope-and-web3-ccip-ssrf-boundary-ghsa.md)
-- [Puma PROXY, Arc DuckDB, and phpMyFAQ boundary checks](alerts/2026-06-09-puma-arc-phpmyfaq-boundary-batch-ghsa.md)
 
 ## What lives here
 
