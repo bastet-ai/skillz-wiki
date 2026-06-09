@@ -231,6 +231,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Trail of Bits skill-distribution scanner-bypass research: https://blog.trailofbits.com/2026/06/03/the-sorry-state-of-skill-distribution/
 - Hacktron AI Blog: https://www.hacktron.ai/blog/
 - ProjectDiscovery Blog: https://projectdiscovery.io/blog/
+- pretix advisories and releases: https://github.com/pretix/pretix/security/advisories and https://pretix.eu/about/en/blog/
 - ProjectDiscovery Neo: https://neo.projectdiscovery.io/
 - ProjectDiscovery Neo black-box DAST benchmark notes: https://projectdiscovery.io/blog/neo-black-box-dast-capabilities
 - Argus validation benchmarks: https://github.com/pensarai/argus-validation-benchmarks

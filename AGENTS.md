@@ -85,6 +85,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - When a late GitHub updated-feed wave contains IDs adjacent to an already-published same-day batch (for example ONNX or pyLoad follow-up advisories), update the existing batch page and mark those IDs processed instead of creating a duplicate alert.
 - Check Point IKEv1 VPN auth-bypass KEV was promoted as an operator validation page because it offers durable VPN perimeter recon and authentication-boundary testing guidance; keep future perimeter VPN KEVs focused on IKE/protocol reachability, lab/customer-approved validation, and post-auth access boundaries.
 - Puma PROXY protocol v1 advisories are worth promoting when source-IP spoofing is tied to HTTP keep-alive/trusted edge decisions; pair availability-only parser issues with that trust-boundary workflow instead of publishing standalone DoS guidance.
+- Sanitized rich-text placeholder injection in transactional email is promotable when it gives bug hunters a reusable trust-confusion workflow; frame it as user-controlled profile/order data rendered as trusted system messaging, not as XSS unless script execution is independently proven.
 
 ## Security / attribution
 
