@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [shell-quote newline operator boundary](2026-06-09-shell-quote-newline-operator-boundary-ghsa.md)
 - [Fides banner override, Froxlor API 2FA, and Ironic image-boundary checks](2026-06-09-fides-froxlor-ironic-boundary-batch-ghsa.md)
 - [Auth parser, device-flow, HAXcms token, and redirect-cookie boundaries](2026-06-09-auth-device-haxcms-redirect-boundary-batch-ghsa.md)
 - [File Browser command-scope and web3.py CCIP SSRF boundaries](2026-06-09-filebrowser-command-scope-and-web3-ccip-ssrf-boundary-ghsa.md)

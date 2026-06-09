@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [shell-quote newline operator boundary](alerts/2026-06-09-shell-quote-newline-operator-boundary-ghsa.md)
 - [Fides banner override, Froxlor API 2FA, and Ironic image-boundary checks](alerts/2026-06-09-fides-froxlor-ironic-boundary-batch-ghsa.md)
 - [Auth parser, device-flow, HAXcms token, and redirect-cookie boundaries](alerts/2026-06-09-auth-device-haxcms-redirect-boundary-batch-ghsa.md)
 - [File Browser command-scope and web3.py CCIP SSRF boundaries](alerts/2026-06-09-filebrowser-command-scope-and-web3-ccip-ssrf-boundary-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Budibase, BentoML, Weblate, vLLM, and API/runtime boundary checks](alerts/2026-06-08-budibase-bentoml-weblate-vllm-runtime-boundary-batch-ghsa.md)
 - [pyLoad, OpenHands, PyJWT, Netty, and ONNX boundary checks](alerts/2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md)
 - [LiteLLM, Authlib, Dash uploader, and Vitest boundary checks](alerts/2026-06-08-litellm-authlib-dash-vitest-boundary-batch.md)
-- [vm2 WASM, SMTP PROXY, and 1Panel file-write boundaries](alerts/2026-06-08-vm2-proxy-protocol-and-1panel-boundary-batch-ghsa.md)
 
 ## What lives here
 
