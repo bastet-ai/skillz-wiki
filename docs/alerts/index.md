@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Puma PROXY, Arc DuckDB, and phpMyFAQ boundary checks](2026-06-09-puma-arc-phpmyfaq-boundary-batch-ghsa.md)
 - [Nebula Mesh, FUXA, MagicMirror, Langflow, MCP, and local automation boundaries](2026-06-08-nebula-fuxa-magicmirror-langflow-mcp-boundary-batch-ghsa.md)
 - [Budibase, BentoML, Weblate, vLLM, and API/runtime boundary checks](2026-06-08-budibase-bentoml-weblate-vllm-runtime-boundary-batch-ghsa.md)
 - [pyLoad, OpenHands, PyJWT, Netty, and ONNX boundary checks](2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md)
