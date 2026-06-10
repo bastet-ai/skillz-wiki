@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Litestar and Fission builder boundary checks](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md)
 - [OpenTelemetry ServiceMonitor token-file boundary](alerts/2026-06-10-opentelemetry-servicemonitor-token-file-boundary-ghsa.md)
 - [vLLM and Anyquery boundary checks](alerts/2026-06-10-vllm-lmdeploy-anyquery-boundary-batch-ghsa.md)
 - [Nezha, Papra, Pipecat, SimpleSAMLphp, and Hulumi boundary checks](alerts/2026-06-10-nezha-papra-pipecat-simplesaml-hulumi-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Svelte SSR spread and DOM-clobbering boundary checks](alerts/2026-06-09-svelte-ssr-spread-dom-clobbering-boundary-ghsa.md)
 - [Net::IMAP raw argument command boundary](alerts/2026-06-09-net-imap-raw-argument-command-boundary-ghsa.md)
 - [Cisco Catalyst SD-WAN crafted-file root boundary](alerts/2026-06-09-cisco-sdwan-crafted-file-root-boundary.md)
-- [Arista EOS tunnel decapsulation boundary validation](alerts/2026-06-09-arista-eos-tunnel-decap-boundary.md)
 
 ## What lives here
 

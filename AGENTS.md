@@ -96,6 +96,9 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - vLLM/LMDeploy model-loading advisories are promotable when revision pins, `code_revision`, side artifacts, or `trust_remote_code` defaults create reusable AI inference supply-chain boundaries; keep proofs to inert model/config canaries and avoid loading untrusted code on production workers.
 - Anyquery `clear_plugin_cache` traversal is promotable as a SQL-exposed filesystem boundary when it demonstrates cache-root escape via `os.RemoveAll`; prove only with disposable canary directories outside the plugin cache.
 - OpenTelemetry Operator TargetAllocator `ServiceMonitor`/`PodMonitor` file-backed auth is promotable when tenant monitor writes cause collector pod-local files to be forwarded as scrape bearer auth; prove with synthetic mounted canary files and never capture live service-account tokens in wiki/report evidence.
+- Fission advisory clusters are promotable when they reveal serverless tenant boundaries across router internal routes, storage service archive CRUD, function service-account token exposure, or builder command control; prove only with canary functions, archives, and namespace-scoped test environments.
+- Litestar host/CSRF advisories are promotable when they expose reusable client-controlled framework trust boundaries: missing `Host` plus `X-Forwarded-Host` fallback, or cookie-sourced CSRF tokens rendered as trusted template markup.
+- Crawlee sitemap SSRF and FrankenPHP Unicode path-splitting advisories are promotable as crawler ingestion and upload-to-script-execution boundary checks; keep proofs to canary URLs/files and avoid internal-service or production command-execution payloads.
 
 ## Security / attribution
 
