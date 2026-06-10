@@ -176,6 +176,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - md-fileserver advisories: https://github.com/commenthol/md-fileserver/security/advisories
 - Amazon SageMaker Python SDK advisories: https://github.com/aws/sagemaker-python-sdk/security/advisories
 - LMDeploy advisories: https://github.com/InternLM/lmdeploy/security/advisories
+- Anyquery advisories/source: https://github.com/julien040/anyquery/security/advisories and https://github.com/julien040/anyquery
 - pip security advisories: https://github.com/pypa/pip/security/advisories
 - OpenClaude advisories: https://github.com/Gitlawb/openclaude/security/advisories
 - TeleJSON advisories: https://github.com/storybookjs/telejson/security/advisories

@@ -93,6 +93,8 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - MCP Java SDK wildcard-CORS advisories are promotable when event-stream or streamable-HTTP transports leak session bootstrap data to arbitrary browser origins; pair sparse CORS findings with browser-relay validation boundaries rather than generic header-hardening guidance.
 - Ray Dashboard path traversal advisories are promotable as AI/ML developer-infrastructure file-boundary checks when they involve unauthenticated or weakly segmented dashboard static routes; keep validation to synthetic canaries and avoid reading secrets, notebooks, model weights, or cloud credentials.
 - samlify/OpenMetadata/MVT batches are promotable when they expose reusable identity, workflow-secret, and analyst-tool input boundaries; keep SAML proofs to signed canary attributes, OpenMetadata evidence to redacted field presence, and MVT traversal proofs to disposable synthetic backups.
+- vLLM/LMDeploy model-loading advisories are promotable when revision pins, `code_revision`, side artifacts, or `trust_remote_code` defaults create reusable AI inference supply-chain boundaries; keep proofs to inert model/config canaries and avoid loading untrusted code on production workers.
+- Anyquery `clear_plugin_cache` traversal is promotable as a SQL-exposed filesystem boundary when it demonstrates cache-root escape via `os.RemoveAll`; prove only with disposable canary directories outside the plugin cache.
 
 ## Security / attribution
 
