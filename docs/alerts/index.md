@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Claude Code Action MCP and Baileys event-boundary checks](2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md)
+- [Litestar and Fission builder boundary checks](2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md)
 - [OpenTelemetry ServiceMonitor token-file boundary](2026-06-10-opentelemetry-servicemonitor-token-file-boundary-ghsa.md)
 - [vLLM and Anyquery boundary checks](2026-06-10-vllm-lmdeploy-anyquery-boundary-batch-ghsa.md)
 - [Nezha, Papra, Pipecat, SimpleSAMLphp, and Hulumi boundary checks](2026-06-10-nezha-papra-pipecat-simplesaml-hulumi-boundary-batch-ghsa.md)
