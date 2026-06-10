@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [PDM wheel and project-local file-write boundaries](2026-06-10-pdm-wheel-and-project-local-file-write-boundaries-ghsa.md)
 - [Claude Code Action MCP and Baileys event-boundary checks](2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md)
 - [Litestar and Fission builder boundary checks](2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md)
 - [OpenTelemetry ServiceMonitor token-file boundary](2026-06-10-opentelemetry-servicemonitor-token-file-boundary-ghsa.md)

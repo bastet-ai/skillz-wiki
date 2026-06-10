@@ -100,6 +100,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Litestar host/CSRF advisories are promotable when they expose reusable client-controlled framework trust boundaries: missing `Host` plus `X-Forwarded-Host` fallback, or cookie-sourced CSRF tokens rendered as trusted template markup.
 - Crawlee sitemap SSRF and FrankenPHP Unicode path-splitting advisories are promotable as crawler ingestion and upload-to-script-execution boundary checks; keep proofs to canary URLs/files and avoid internal-service or production command-execution payloads.
 - Claude Code Action project MCP advisories are promotable when PR-controlled `.mcp.json` or similar agent config can execute in a privileged CI context; prove with inert canary MCP commands only, never secret exfiltration. Baileys/message-SDK event spoofing is promotable when protocol input crosses into trusted bot/business events; keep proofs to owned accounts and canary sinks.
+- PDM/Python package-manager file-write advisories are promotable when malicious wheels, lockfile/package sources, or repository-local symlinks cross into filesystem writes outside the project/install root; keep proofs to disposable canary files and avoid overwriting shell startup files, credentials, or production config.
 
 ## Security / attribution
 
