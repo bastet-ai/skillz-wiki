@@ -95,6 +95,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - samlify/OpenMetadata/MVT batches are promotable when they expose reusable identity, workflow-secret, and analyst-tool input boundaries; keep SAML proofs to signed canary attributes, OpenMetadata evidence to redacted field presence, and MVT traversal proofs to disposable synthetic backups.
 - vLLM/LMDeploy model-loading advisories are promotable when revision pins, `code_revision`, side artifacts, or `trust_remote_code` defaults create reusable AI inference supply-chain boundaries; keep proofs to inert model/config canaries and avoid loading untrusted code on production workers.
 - Anyquery `clear_plugin_cache` traversal is promotable as a SQL-exposed filesystem boundary when it demonstrates cache-root escape via `os.RemoveAll`; prove only with disposable canary directories outside the plugin cache.
+- OpenTelemetry Operator TargetAllocator `ServiceMonitor`/`PodMonitor` file-backed auth is promotable when tenant monitor writes cause collector pod-local files to be forwarded as scrape bearer auth; prove with synthetic mounted canary files and never capture live service-account tokens in wiki/report evidence.
 
 ## Security / attribution
 
