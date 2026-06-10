@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Nezha, Papra, Pipecat, SimpleSAMLphp, and Hulumi boundary checks](alerts/2026-06-10-nezha-papra-pipecat-simplesaml-hulumi-boundary-batch-ghsa.md)
 - [SAML, MCP, OpenMetadata, MVT, and render-boundary checks](alerts/2026-05-21-saml-mcp-metadata-render-boundary-batch-ghsa.md)
 - [MCP Java CORS and Ray Dashboard file-boundary checks](alerts/2026-06-10-mcp-java-cors-ray-dashboard-file-boundary-ghsa.md)
 - [Pheditor, Dex, Phoenix Storybook, and Symfony Runtime boundary checks](alerts/2026-06-09-pheditor-dex-phoenixstory-symfony-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Arista EOS tunnel decapsulation boundary validation](alerts/2026-06-09-arista-eos-tunnel-decap-boundary.md)
 - [pretix email placeholder injection](alerts/2026-06-09-pretix-email-placeholder-injection.md)
 - [shell-quote newline operator boundary](alerts/2026-06-09-shell-quote-newline-operator-boundary-ghsa.md)
-- [Fides banner override, Froxlor API 2FA, and Ironic image-boundary checks](alerts/2026-06-09-fides-froxlor-ironic-boundary-batch-ghsa.md)
 
 ## What lives here
 
