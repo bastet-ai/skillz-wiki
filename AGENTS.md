@@ -92,6 +92,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Svelte SSR attribute-spread and DOM-clobbering advisories are promotable when they expose a reusable object-key-to-DOM-attribute trust boundary; frame validation around user-controlled spread keys, pre-hydration event timing, and form/input clobbering preconditions rather than generic XSS or resource-stress testing.
 - MCP Java SDK wildcard-CORS advisories are promotable when event-stream or streamable-HTTP transports leak session bootstrap data to arbitrary browser origins; pair sparse CORS findings with browser-relay validation boundaries rather than generic header-hardening guidance.
 - Ray Dashboard path traversal advisories are promotable as AI/ML developer-infrastructure file-boundary checks when they involve unauthenticated or weakly segmented dashboard static routes; keep validation to synthetic canaries and avoid reading secrets, notebooks, model weights, or cloud credentials.
+- samlify/OpenMetadata/MVT batches are promotable when they expose reusable identity, workflow-secret, and analyst-tool input boundaries; keep SAML proofs to signed canary attributes, OpenMetadata evidence to redacted field presence, and MVT traversal proofs to disposable synthetic backups.
 
 ## Security / attribution
 
