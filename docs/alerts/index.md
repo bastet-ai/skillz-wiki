@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [MCP Java CORS and Ray Dashboard file-boundary checks](2026-06-10-mcp-java-cors-ray-dashboard-file-boundary-ghsa.md)
 - [shell-quote newline operator boundary](2026-06-09-shell-quote-newline-operator-boundary-ghsa.md)
 - [Fides banner override, Froxlor API 2FA, and Ironic image-boundary checks](2026-06-09-fides-froxlor-ironic-boundary-batch-ghsa.md)
 - [Auth parser, device-flow, HAXcms token, and redirect-cookie boundaries](2026-06-09-auth-device-haxcms-redirect-boundary-batch-ghsa.md)

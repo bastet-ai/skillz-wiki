@@ -90,6 +90,8 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Net::IMAP raw-argument advisories are promotable when they expose a reusable protocol-injection boundary: untrusted criteria/fetch/search fragments crossing into IMAP literal framing and server capability negotiation. Pair adjacent parser-state DoS with command-injection guidance rather than publishing availability-only pages.
 - Cisco SD-WAN crafted-file root KEVs are promotable as post-auth appliance validation workflows when they cover `netadmin` file/CLI handling and control-plane-to-edge blast radius; avoid framing as unauthenticated RCE or suggesting production config changes.
 - Svelte SSR attribute-spread and DOM-clobbering advisories are promotable when they expose a reusable object-key-to-DOM-attribute trust boundary; frame validation around user-controlled spread keys, pre-hydration event timing, and form/input clobbering preconditions rather than generic XSS or resource-stress testing.
+- MCP Java SDK wildcard-CORS advisories are promotable when event-stream or streamable-HTTP transports leak session bootstrap data to arbitrary browser origins; pair sparse CORS findings with browser-relay validation boundaries rather than generic header-hardening guidance.
+- Ray Dashboard path traversal advisories are promotable as AI/ML developer-infrastructure file-boundary checks when they involve unauthenticated or weakly segmented dashboard static routes; keep validation to synthetic canaries and avoid reading secrets, notebooks, model weights, or cloud credentials.
 
 ## Security / attribution
 

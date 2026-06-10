@@ -5,6 +5,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - GitHub Security Advisories: https://github.com/advisories
+- Model Context Protocol Java SDK advisories/source: https://github.com/modelcontextprotocol/java-sdk/security/advisories and https://github.com/modelcontextprotocol/java-sdk
+- Ray advisories/source: https://github.com/ray-project/ray/security/advisories and https://github.com/ray-project/ray
 - MetaGPT source/issues: https://github.com/FoundationAgents/MetaGPT and https://github.com/FoundationAgents/MetaGPT/issues
 - go-fastdfs-web advisories/research references: https://github.com/advisories/GHSA-6g49-gvr8-2cj2 and https://vuldb.com/vuln/369017
 - vertex-app Vertex source/fixes: https://github.com/vertex-app/vertex and https://github.com/vertex-app/vertex/commit/805d82e7100d49b79b3beb1b9420e8e458987198
