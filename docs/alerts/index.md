@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Sharp generic-download storage-object boundary](2026-06-11-sharp-generic-download-storage-boundary-ghsa.md)
+- [MCP tool, codegen, redirect, and router boundary checks](2026-06-11-mcp-codegen-redirect-and-router-boundaries-ghsa.md)
+- [Guzzle PSR-7 host and XML boundary checks](2026-06-11-guzzle-psr7-host-and-xml-boundary-ghsa.md)
+- [Netty DNS and Redis protocol codec boundaries](2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md)
 - [Undertow proxy-parser request-smuggling boundary](2026-06-11-undertow-proxy-parser-request-smuggling-boundary-ghsa.md)
 - [PDM wheel and project-local file-write boundaries](2026-06-10-pdm-wheel-and-project-local-file-write-boundaries-ghsa.md)
 - [Claude Code Action MCP and Baileys event-boundary checks](2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md)

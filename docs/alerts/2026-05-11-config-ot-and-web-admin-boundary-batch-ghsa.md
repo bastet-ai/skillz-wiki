@@ -23,6 +23,15 @@ This batch is durable because it repeats the same control-plane lesson across OT
 4. Move Spring Cloud Config clone directories and file-serving roots onto dedicated, non-shared, non-symlinkable paths; restrict Config Server clients to explicit app/profile/project allowlists.
 5. For Velociraptor multi-org deployments, treat ACL-policy disclosure as tenant metadata exposure: audit low-privilege calls to role/ACL APIs and update collectors before processing untrusted `.evtx` evidence.
 
+## Spring Cloud Config validation refresh (2026-06-11)
+
+The June 11 updated-feed refresh did not need a duplicate Spring page, but it sharpened the operator workflow for the two high-value Config Server primitives:
+
+- **Path traversal while serving text/binary files:** prove only with a synthetic file outside the configured application/profile/label or repository namespace, such as `skillz-config-traversal-canary.txt`. Capture the Config Server version, intended namespace, redacted crafted URL, and whether the canary content is returned. Do not request host secrets, Git credentials, process environment files, SSH keys, cloud metadata, or customer config repositories.
+- **Google Secret Manager project/key confusion:** use disposable GCP projects or approved test namespaces and a harmless secret value such as `skillz-gsm-boundary-canary`. The useful proof is that user-controlled key material causes the Config Server service principal to access or attempt access to a canary project/key outside the expected namespace. Capture redacted request metadata and canary audit/log evidence; never enumerate production project IDs, secret names, versions, or values.
+
+Report these as **config client to file/secret namespace boundary failures**. Dependency reachability alone is weak; a strong report shows the specific path, project, or key selector that escaped the namespace approved for that client.
+
 ## Durable controls
 
 - Control-plane APIs need object-level authorization on the requested tenant, organization, project, and user — not just authenticated access to the endpoint.
