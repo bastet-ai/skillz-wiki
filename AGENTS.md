@@ -103,6 +103,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - PDM/Python package-manager file-write advisories are promotable when malicious wheels, lockfile/package sources, or repository-local symlinks cross into filesystem writes outside the project/install root; keep proofs to disposable canary files and avoid overwriting shell startup files, credentials, or production config.
 - Keycloak forced-browsing advisories are promotable when disabled feature flags leave alternate versioned account/API route families reachable; frame validation around positive/negative route controls with disposable authenticated users, not generic auth bypass.
 - Undertow request-smuggling advisories are promotable when they expose reusable front-end proxy vs origin parser differentials; frame validation around single-connection canaries, raw-byte evidence, and harmless route/cache/auth-boundary effects rather than production desync or cross-user targeting.
+- Netty DNS/Redis codec advisories are promotable when user-controlled protocol tokens cross into encoders/decoders without RFC grammar, length, delimiter, or CRLF validation; frame proof around lab-only canary domains, mock resolvers, disposable Redis instances, and string-to-wire or command-boundary mismatch evidence.
 
 ## Security / attribution
 
