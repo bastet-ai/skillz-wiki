@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [MCP tool, codegen, redirect, and router boundaries](alerts/2026-06-11-mcp-codegen-redirect-and-router-boundaries-ghsa.md)
 - [Guzzle PSR-7 host and XML serialization boundaries](alerts/2026-06-11-guzzle-psr7-host-and-xml-boundary-ghsa.md)
 - [Netty DNS and Redis codec protocol-boundary checks](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md)
 - [Undertow proxy-parser request-smuggling boundary](alerts/2026-06-11-undertow-proxy-parser-request-smuggling-boundary-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Claude Code Action MCP and Baileys event-boundary checks](alerts/2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md)
 - [Litestar and Fission builder boundary checks](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md)
 - [OpenTelemetry ServiceMonitor token-file boundary](alerts/2026-06-10-opentelemetry-servicemonitor-token-file-boundary-ghsa.md)
-- [vLLM and Anyquery boundary checks](alerts/2026-06-10-vllm-lmdeploy-anyquery-boundary-batch-ghsa.md)
 
 ## What lives here
 
