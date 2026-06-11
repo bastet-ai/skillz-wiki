@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Undertow proxy-parser request-smuggling boundary](2026-06-11-undertow-proxy-parser-request-smuggling-boundary-ghsa.md)
 - [PDM wheel and project-local file-write boundaries](2026-06-10-pdm-wheel-and-project-local-file-write-boundaries-ghsa.md)
 - [Claude Code Action MCP and Baileys event-boundary checks](2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md)
 - [Litestar and Fission builder boundary checks](2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md)

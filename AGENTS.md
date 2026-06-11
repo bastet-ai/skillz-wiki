@@ -102,6 +102,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Claude Code Action project MCP advisories are promotable when PR-controlled `.mcp.json` or similar agent config can execute in a privileged CI context; prove with inert canary MCP commands only, never secret exfiltration. Baileys/message-SDK event spoofing is promotable when protocol input crosses into trusted bot/business events; keep proofs to owned accounts and canary sinks.
 - PDM/Python package-manager file-write advisories are promotable when malicious wheels, lockfile/package sources, or repository-local symlinks cross into filesystem writes outside the project/install root; keep proofs to disposable canary files and avoid overwriting shell startup files, credentials, or production config.
 - Keycloak forced-browsing advisories are promotable when disabled feature flags leave alternate versioned account/API route families reachable; frame validation around positive/negative route controls with disposable authenticated users, not generic auth bypass.
+- Undertow request-smuggling advisories are promotable when they expose reusable front-end proxy vs origin parser differentials; frame validation around single-connection canaries, raw-byte evidence, and harmless route/cache/auth-boundary effects rather than production desync or cross-user targeting.
 
 ## Security / attribution
 

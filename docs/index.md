@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Undertow proxy-parser request-smuggling boundary](alerts/2026-06-11-undertow-proxy-parser-request-smuggling-boundary-ghsa.md)
 - [Keycloak account-API feature-flag boundary](alerts/2026-06-10-keycloak-account-api-feature-flag-boundary-ghsa.md)
 - [Nebula Mesh API-key redirect and mesh-management boundaries](alerts/2026-06-08-nebula-fuxa-magicmirror-langflow-mcp-boundary-batch-ghsa.md)
 - [PDM wheel and project-local file-write boundaries](alerts/2026-06-10-pdm-wheel-and-project-local-file-write-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [vLLM and Anyquery boundary checks](alerts/2026-06-10-vllm-lmdeploy-anyquery-boundary-batch-ghsa.md)
 - [Nezha, Papra, Pipecat, SimpleSAMLphp, and Hulumi boundary checks](alerts/2026-06-10-nezha-papra-pipecat-simplesaml-hulumi-boundary-batch-ghsa.md)
 - [SAML, MCP, OpenMetadata, MVT, and render-boundary checks](alerts/2026-05-21-saml-mcp-metadata-render-boundary-batch-ghsa.md)
-- [MCP Java CORS and Ray Dashboard file-boundary checks](alerts/2026-06-10-mcp-java-cors-ray-dashboard-file-boundary-ghsa.md)
 
 ## What lives here
 
