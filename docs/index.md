@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [CodeIgniter4 upload extension validation boundary](alerts/2026-06-11-codeigniter-upload-extension-boundary-ghsa.md)
 - [Kolibri SSRF, Hapi static-file, Keycloak IDP, Flowise vector-store, and Arc debug boundaries](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md)
 - [Sharp generic-download storage-object boundary](alerts/2026-06-11-sharp-generic-download-storage-boundary-ghsa.md)
 - [MCP tool, codegen, redirect, and router boundaries](alerts/2026-06-11-mcp-codegen-redirect-and-router-boundaries-ghsa.md)
@@ -17,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Keycloak account-API feature-flag boundary](alerts/2026-06-10-keycloak-account-api-feature-flag-boundary-ghsa.md)
 - [Nebula Mesh API-key redirect and mesh-management boundaries](alerts/2026-06-08-nebula-fuxa-magicmirror-langflow-mcp-boundary-batch-ghsa.md)
 - [PDM wheel and project-local file-write boundaries](alerts/2026-06-10-pdm-wheel-and-project-local-file-write-boundaries-ghsa.md)
-- [Claude Code Action MCP and Baileys event-boundary checks](alerts/2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md)
-- [Litestar and Fission builder boundary checks](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md)
 
 ## What lives here
 
