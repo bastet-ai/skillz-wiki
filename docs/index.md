@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Kolibri SSRF, Hapi static-file, Keycloak IDP, Flowise vector-store, and Arc debug boundaries](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md)
+- [Sharp generic-download storage-object boundary](alerts/2026-06-11-sharp-generic-download-storage-boundary-ghsa.md)
 - [MCP tool, codegen, redirect, and router boundaries](alerts/2026-06-11-mcp-codegen-redirect-and-router-boundaries-ghsa.md)
 - [Guzzle PSR-7 host and XML serialization boundaries](alerts/2026-06-11-guzzle-psr7-host-and-xml-boundary-ghsa.md)
 - [Netty DNS and Redis codec protocol-boundary checks](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md)
@@ -17,7 +19,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [PDM wheel and project-local file-write boundaries](alerts/2026-06-10-pdm-wheel-and-project-local-file-write-boundaries-ghsa.md)
 - [Claude Code Action MCP and Baileys event-boundary checks](alerts/2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md)
 - [Litestar and Fission builder boundary checks](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md)
-- [OpenTelemetry ServiceMonitor token-file boundary](alerts/2026-06-10-opentelemetry-servicemonitor-token-file-boundary-ghsa.md)
 
 ## What lives here
 

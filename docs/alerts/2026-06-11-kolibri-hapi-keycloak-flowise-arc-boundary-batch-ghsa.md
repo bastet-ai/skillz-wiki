@@ -1,0 +1,69 @@
+# Kolibri SSRF, Hapi static-file, Keycloak IDP, Flowise vector-store, and Arc debug boundary checks
+
+Source: hourly offensive-security scan, 2026-06-11. Primary entries: GitHub advisories [GHSA-4mj9-pf4r-cqrc](https://github.com/advisories/GHSA-4mj9-pf4r-cqrc) / CVE-2026-48053, [GHSA-rcvq-m9j9-6f4g](https://github.com/advisories/GHSA-rcvq-m9j9-6f4g) / CVE-2026-48049, [GHSA-m6qj-3mpp-57v8](https://github.com/advisories/GHSA-m6qj-3mpp-57v8) / CVE-2026-9087, [GHSA-hmg2-jjjx-jcp2](https://github.com/advisories/GHSA-hmg2-jjjx-jcp2) / CVE-2026-46444, and [GHSA-j93g-rp6m-j32m](https://github.com/advisories/GHSA-j93g-rp6m-j32m) / CVE-2026-48050.
+
+This batch is durable because each advisory exposes a reusable operator pattern: server-side URL fetches that reflect remote responses, string-prefix filesystem confinement, identity-provider proof scoping, low-privilege AI-workflow object control, and accidentally public Go `pprof` debug surfaces.
+
+## What changed
+
+- **Kolibri unauthenticated reflected SSRF** — several Kolibri endpoints accepted a caller-controlled `baseurl`, fetched remote Kolibri-shaped APIs, followed redirects, and reflected the fetched JSON body. The clearest unauthenticated route is `GET /api/auth/remotefacilityuser`; adjacent routes include remote-facility authenticated user, setup-wizard LOD data on unprovisioned devices, and network-location facility listing.
+- **`@hapi/inert` sibling-prefix static file escape** — `@hapi/inert` `>= 4.0.0, <= 7.1.0` enforced `confine` with a raw absolute-path string-prefix check. A served directory such as `/app/static` could be escaped into a sibling like `/app/static-secret` via encoded traversal if that sibling path shared the same prefix and was readable by the process.
+- **Keycloak identity-provider account-link proof reuse** — Keycloak `keycloak-services < 26.6.3` keyed cross-session verification proof only by local user ID and IdP alias, not by the upstream identity that was verified. A second upstream account on the same IdP could consume proof scoped for another identity and link into the victim local account.
+- **Flowise OpenAI Assistants vector-store permission gap** — Flowise `<= 3.1.1` exposed vector-store CRUD/upload routes without per-operation permission checks. Any authenticated user with API access could create, modify, delete, or upload files to OpenAI Assistants vector stores outside their intended role.
+- **Arc public Go `pprof` debug endpoints** — Arc builds before `v26.06.1` registered `net/http/pprof` handlers under `/debug/pprof/*` and added that path to public prefixes, allowing unauthenticated heap/goroutine/profile/trace access. Treat the useful signal as debug surface exposure and runtime-state leakage; CPU-burn is secondary and should not be stress-tested in production.
+
+## Operator triage
+
+1. **Map reachability first:** identify internet- or partner-reachable Kolibri, Hapi static-file apps, Keycloak brokers, Flowise workspaces, and Arc API ports. Confirm versions before probing.
+2. **For Kolibri, inspect redirect behavior:** a hostile `baseurl` that first looks Kolibri-like and then redirects is the important primitive. Prioritize devices where remote-facility workflows or setup wizard endpoints are reachable without local authentication.
+3. **For Hapi, inventory sibling names:** exploitation depends on a sibling directory whose absolute path begins with the served directory path. Look for `static` next to `static-private`, `public` next to `public-backup`, or `assets` next to `assets-secrets`.
+4. **For Keycloak, separate IdP alias from upstream subject:** the finding requires external identity-provider account linking and more than one upstream account under the same IdP alias. Plain local-login account takeover is not implied without that broker workflow.
+5. **For Flowise, enumerate vector-store roles:** collect the lowest role/API token that can reach `/api/v1/openai-assistants-vector-store` and compare permitted UI actions with direct API actions.
+6. **For Arc, test metadata reads only:** request cheap endpoints such as `/debug/pprof/` or a bounded goroutine listing in an isolated or approved environment. Avoid long `profile?seconds=` or `trace` requests on shared systems.
+
+## Replayable validation boundaries
+
+### Kolibri reflected SSRF
+
+- Use only tester-controlled callback infrastructure or an approved lab internal URL. Do not probe cloud metadata, admin panels, or internal production services.
+- Host a benign Kolibri-shaped response for `/api/public/info/`, then redirect the endpoint Kolibri fetches to a canary URL or a JSON canary body.
+- Send one request to `GET /api/auth/remotefacilityuser?baseurl=<owned-url>` and record whether the Kolibri server fetches the canary and reflects the canary JSON.
+- Evidence should include endpoint, version, unauthenticated/authenticated state, callback log, reflected canary string, and redirect chain. Stop at reachability/reflection proof.
+
+### `@hapi/inert` sibling-prefix escape
+
+- Validate only with synthetic sibling directories and marker files in lab or with customer-approved canaries.
+- Confirm the served directory and sibling prefix relationship, for example `/srv/app/static` and `/srv/app/static-secret`.
+- Request an encoded traversal path such as `/..%2fstatic-secret/skillz-inert-canary.txt` through the static route.
+- A strong report compares: normal in-scope static file succeeds, non-prefix sibling fails, prefix-sharing sibling canary succeeds, and patched `7.1.1` rejects the same path.
+
+### Keycloak broker proof scoping
+
+- Use a test realm and disposable local/upstream accounts. Do not attempt account linking against real users.
+- Configure one IdP alias and two upstream identities. Trigger verification proof for upstream identity A, then attempt to consume it from upstream identity B under the same IdP alias.
+- The proof is positive only if B can link to the local account after A completed the verification step. Capture realm, IdP alias, account IDs as canary labels, and browser/session sequencing.
+- Avoid framing as generic authentication bypass unless the brokered account-link chain is demonstrated end to end.
+
+### Flowise vector-store authorization
+
+- Use a low-privilege test user and an isolated workspace/vector store with disposable files.
+- Compare the UI-permitted actions for that role with direct API calls to create/update/delete/upload under `/api/v1/openai-assistants-vector-store`.
+- Prove only with inert canary files and object IDs. Do not upload payloads, delete production stores, or read real assistant documents.
+- Useful evidence shows role, token type, route/method, target vector-store ID, expected permission, and actual result.
+
+### Arc `pprof` exposure
+
+- Check for `/debug/pprof/` unauthenticated access with a single request. If more evidence is needed, prefer `/debug/pprof/goroutine?debug=1` over heap/profile/trace on production.
+- Never collect or publish heap contents that may include tokens, SQL strings, request bodies, or tenant data. Redact runtime excerpts to route names and proof of unauthenticated access.
+- If testing CPU profiling is authorized, keep `seconds` small and perform it only on a lab clone.
+
+## Reporting heuristics
+
+- Lead with the crossed boundary: unauthenticated user to server-side fetch and reflected body, static route to sibling filesystem tree, verified upstream identity to different upstream account link, low-privilege Flowise user to vector-store CRUD, or anonymous HTTP client to debug runtime state.
+- Include exact versions and route shapes. These advisories are highly preconditioned; versionless reports will be weak.
+- Use canaries instead of secrets. The wiki proof standard is controlled callback/marker evidence, not extraction of internal service data, filesystem secrets, vector-store documents, or heap tokens.
+- Where an item is mainly availability-oriented, keep it secondary unless paired with a confidentiality or authorization boundary.
+
+## Notes on skipped adjacent items
+
+The same scan rechecked Disclosed, PortSwigger, Trail of Bits, ProjectDiscovery, GitHub Security Blog, CISA KEV, and GitHub advisory published/updated feeds. The GitHub Security Blog secret-scanning article was not promoted because it did not add a replayable offensive operator workflow for this wiki. Boxlite host-write and read-only mount advisories were updated in the feed but already covered in the existing [Boxlite, containerd, Twig, and token-boundary batch](2026-05-21-boxlite-containerd-twig-and-token-boundary-batch-ghsa.md). Bugsink tag DoS, Tomcat availability updates, proxy DoS, wangEditor/Survey Creator XSS, OpenEXR resource exhaustion, Dulwich resource/formatting issues, and BoxLite timeout bypass were tracked but not promoted because they were availability-only, already covered, or lacked a clearer reusable validation boundary than the items above.

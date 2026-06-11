@@ -126,6 +126,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Automad advisories: https://github.com/marcantondahmen/automad/security/advisories
 - Hapi content advisories: https://github.com/hapijs/content/security/advisories
 - Hapi wreck advisories: https://github.com/hapijs/wreck/security/advisories
+- Hapi inert advisories/source: https://github.com/hapijs/inert/security/advisories and https://github.com/hapijs/inert
 - Pimcore advisories: https://github.com/pimcore/pimcore/security/advisories
 - Symfony routing advisories: https://github.com/symfony/symfony/security/advisories
 - Symfony security-http advisories: https://github.com/symfony/symfony/security/advisories
@@ -153,6 +154,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Apache Camel security advisories: https://camel.apache.org/security/
 - Apache Airflow security advisories: https://github.com/apache/airflow/security/advisories
 - Fission security advisories: https://github.com/fission/fission/security/advisories
+- Kolibri advisories/source: https://github.com/learningequality/kolibri/security/advisories and https://github.com/learningequality/kolibri
+- Keycloak advisories/source: https://github.com/keycloak/keycloak/security/advisories and https://github.com/keycloak/keycloak
 - Boxlite security advisories: https://github.com/rapiz1/boxlite/security/advisories
 - containerd security advisories: https://github.com/containerd/containerd/security/advisories
 - Pydantic AI security advisories: https://github.com/pydantic/pydantic-ai/security/advisories

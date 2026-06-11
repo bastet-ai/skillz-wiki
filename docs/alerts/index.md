@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Kolibri SSRF, Hapi static-file, Keycloak IDP, Flowise vector-store, and Arc debug boundary checks](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md)
 - [Sharp generic-download storage-object boundary](2026-06-11-sharp-generic-download-storage-boundary-ghsa.md)
 - [MCP tool, codegen, redirect, and router boundary checks](2026-06-11-mcp-codegen-redirect-and-router-boundaries-ghsa.md)
 - [Guzzle PSR-7 host and XML boundary checks](2026-06-11-guzzle-psr7-host-and-xml-boundary-ghsa.md)
