@@ -113,6 +113,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - GeoServer DB2 datastore JNDI, WsgiDAV prefix share-root escapes, OpenFGA cache-key collisions, DevGuard public-asset writes, Filament relation scope mismatches, and Aurora PostgreSQL wrapper search-path privilege issues are promotable when they expose admin-to-runtime, filesystem, authorization-cache, cross-tenant, UI-to-server validation, or DB privilege boundaries; keep proofs to inert callbacks, marker files, synthetic tuples/assets/relations, and benign database canaries.
 - Trail of Bits short-sleeve RSA research was promoted as weak public-key recon, not as exploit code: focus on scoped public-key corpus collection, badkeys/offline weak-key checks, product-lineage clustering, and proofs that stop before private-key use.
 - Budibase/SwiftNIO/LangGraph/Chisel advisory clusters are promotable when they expose reusable outbound-fetch, HTTP bridge parser-differential, checkpoint tenant-scope, or tunnel ACL enforcement boundaries; keep proofs to canary callbacks, raw-byte lab backends, synthetic checkpoints, and disposable listeners.
+- PeopleSoft PeopleTools Updates Environment Management KEVs are promotable when primary sources identify unauthenticated HTTP access to critical management functions; keep validation to route-level auth gating, version evidence, and inert canaries, never update/deployment/environment-changing actions.
 
 ## Security / attribution
 
