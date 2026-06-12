@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [File Browser command allowlist, share, archive, symlink, Fleet, Fabric.js, and Cordova callback boundary checks](2026-06-12-filebrowser-fleet-fabric-cordova-boundary-batch-ghsa.md)
 - [esbuild, mise, Tomcat, Radius, and late TYPO3 boundary checks](2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md)
 - [PeopleSoft PeopleTools Updates Environment Management authentication-boundary validation](2026-06-12-peoplesoft-peopletools-uem-auth-boundary-kev.md)
 - [Budibase SSRF, SwiftNIO HTTP translation, LangGraph checkpoint, and Chisel tunnel boundary checks](2026-06-12-budibase-swiftnio-langgraph-chisel-boundary-batch-ghsa.md)

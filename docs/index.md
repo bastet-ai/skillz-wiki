@@ -8,7 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
-- [File Browser, Fleet, Fabric.js, and Cordova callback boundaries](alerts/2026-06-12-filebrowser-fleet-fabric-cordova-boundary-batch-ghsa.md)
+- [File Browser command allowlist, share, archive, symlink, Fleet, Fabric.js, and Cordova boundaries](alerts/2026-06-12-filebrowser-fleet-fabric-cordova-boundary-batch-ghsa.md)
 - [esbuild, mise, Tomcat, Radius, and late TYPO3 boundaries](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md)
 - [TYPO3, Budibase, GeoServer, and Appsmith control-plane boundaries](alerts/2026-06-12-typo3-budibase-geoserver-appsmith-boundary-batch-ghsa.md)
 - [Budibase SSRF, SwiftNIO HTTP translation, LangGraph checkpoint, and Chisel tunnel boundaries](alerts/2026-06-12-budibase-swiftnio-langgraph-chisel-boundary-batch-ghsa.md)
