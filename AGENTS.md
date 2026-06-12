@@ -114,6 +114,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Trail of Bits short-sleeve RSA research was promoted as weak public-key recon, not as exploit code: focus on scoped public-key corpus collection, badkeys/offline weak-key checks, product-lineage clustering, and proofs that stop before private-key use.
 - Budibase/SwiftNIO/LangGraph/Chisel advisory clusters are promotable when they expose reusable outbound-fetch, HTTP bridge parser-differential, checkpoint tenant-scope, or tunnel ACL enforcement boundaries; keep proofs to canary callbacks, raw-byte lab backends, synthetic checkpoints, and disposable listeners.
 - PeopleSoft PeopleTools Updates Environment Management KEVs are promotable when primary sources identify unauthenticated HTTP access to critical management functions; keep validation to route-level auth gating, version evidence, and inert canaries, never update/deployment/environment-changing actions.
+- TYPO3/Budibase/GeoServer/Appsmith advisory waves are promotable when they expose backend file-mount escapes, local storage-to-deserialization chains, low-code datasource secret relay, unauthenticated webhook schema mutation, app-scoped builder-to-global-admin escalation, host-field SSRF, CSRF route-matcher bypass, GeoServer XML/entity or absolute-path file boundaries, or reset-link origin trust. Keep proofs to marker files, canary credentials/callbacks, synthetic schemas/users, lab-only paths, and owned-account emails.
 
 ## Security / attribution
 
