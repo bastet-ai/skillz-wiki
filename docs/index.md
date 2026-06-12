@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [esbuild, mise, Tomcat, Radius, and late TYPO3 boundaries](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md)
 - [TYPO3, Budibase, GeoServer, and Appsmith control-plane boundaries](alerts/2026-06-12-typo3-budibase-geoserver-appsmith-boundary-batch-ghsa.md)
 - [Budibase SSRF, SwiftNIO HTTP translation, LangGraph checkpoint, and Chisel tunnel boundaries](alerts/2026-06-12-budibase-swiftnio-langgraph-chisel-boundary-batch-ghsa.md)
 - [Weak public-key recon](methodology/weak-public-key-recon.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Kolibri SSRF, Hapi static-file, Keycloak IDP, Flowise vector-store, and Arc debug boundaries](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md)
 - [Sharp generic-download storage-object boundary](alerts/2026-06-11-sharp-generic-download-storage-boundary-ghsa.md)
 - [MCP tool, codegen, redirect, and router boundaries](alerts/2026-06-11-mcp-codegen-redirect-and-router-boundaries-ghsa.md)
-- [Guzzle PSR-7 host and XML serialization boundaries](alerts/2026-06-11-guzzle-psr7-host-and-xml-boundary-ghsa.md)
 
 ## What lives here
 
