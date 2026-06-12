@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Weak public-key recon](methodology/weak-public-key-recon.md)
 - [GeoServer JNDI, WsgiDAV share-root, OpenFGA cache-key, DevGuard public-asset, and Filament scope boundaries](alerts/2026-06-11-geoserver-wsgidav-openfga-devguard-filament-boundary-batch-ghsa.md)
 - [Ivanti Sentry unmanaged-appliance command boundary](alerts/2026-06-11-ivanti-sentry-unmanaged-appliance-boundary-kev.md)
 - [CodeIgniter4 upload extension validation boundary](alerts/2026-06-11-codeigniter-upload-extension-boundary-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Guzzle PSR-7 host and XML serialization boundaries](alerts/2026-06-11-guzzle-psr7-host-and-xml-boundary-ghsa.md)
 - [Netty DNS and Redis codec protocol-boundary checks](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md)
 - [Undertow proxy-parser request-smuggling boundary](alerts/2026-06-11-undertow-proxy-parser-request-smuggling-boundary-ghsa.md)
-- [Keycloak account-API feature-flag boundary](alerts/2026-06-10-keycloak-account-api-feature-flag-boundary-ghsa.md)
 
 ## What lives here
 
