@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Budibase SSRF, SwiftNIO HTTP translation, LangGraph checkpoint, and Chisel tunnel boundary checks](2026-06-12-budibase-swiftnio-langgraph-chisel-boundary-batch-ghsa.md)
 - [GeoServer JNDI, WsgiDAV share-root, OpenFGA cache-key, DevGuard public-asset, and Filament scope boundary checks](2026-06-11-geoserver-wsgidav-openfga-devguard-filament-boundary-batch-ghsa.md)
 - [Kolibri SSRF, Hapi static-file, Keycloak IDP, Flowise vector-store, and Arc debug boundary checks](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md)
 - [Sharp generic-download storage-object boundary](2026-06-11-sharp-generic-download-storage-boundary-ghsa.md)
