@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Angular hydration TransferState cache-poisoning boundary](alerts/2026-06-15-angular-hydration-transferstate-cache-boundary-ghsa.md)
 - [Jupyter Server CORS origin-regex boundary update](alerts/2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md#jupyter-cors-origin-regex-validation-update)
 - [Admidio log credential-sink and Aurora PostgreSQL wrapper privilege boundaries](alerts/2026-06-15-admidio-aurora-secret-and-db-privilege-boundaries-ghsa.md)
 - [File Browser command allowlist, share, archive, symlink, Fleet, Fabric.js, and Cordova boundaries](alerts/2026-06-12-filebrowser-fleet-fabric-cordova-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Weak public-key recon](methodology/weak-public-key-recon.md)
 - [GeoServer JNDI, WsgiDAV share-root, OpenFGA cache-key, DevGuard public-asset, and Filament scope boundaries](alerts/2026-06-11-geoserver-wsgidav-openfga-devguard-filament-boundary-batch-ghsa.md)
 - [Ivanti Sentry unmanaged-appliance command boundary](alerts/2026-06-11-ivanti-sentry-unmanaged-appliance-boundary-kev.md)
-- [CodeIgniter4 upload extension validation boundary](alerts/2026-06-11-codeigniter-upload-extension-boundary-ghsa.md)
 
 ## What lives here
 
