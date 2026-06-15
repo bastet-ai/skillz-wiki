@@ -51,3 +51,41 @@ This batch is durable because all three clusters are recurring trust-boundary mi
 - Couple credential rotation with session-secret rotation. If the signing key remains valid, old cookies remain credentials.
 - Do not depend on language-level JavaScript membranes as the only isolation boundary for hostile code. Runtime features evolve faster than proxy-based sandboxes.
 - Model token validation as a typed protocol decision, not a crypto-only decision: every token class needs an allowlisted issuer, audience, type, and claim contract.
+
+## Jupyter CORS origin-regex validation update
+
+Updated: hourly offensive-security scan, 2026-06-15. GitHub updated [GHSA-24qx-w28j-9m6p / CVE-2026-40110](https://github.com/advisories/GHSA-24qx-w28j-9m6p) with a clear exploit precondition: Jupyter Server validates `allow_origin_pat` with Python `re.match()`, so an unanchored trusted-origin regex can match an attacker-controlled suffix origin. Upstream references include the [Jupyter Server advisory](https://github.com/jupyter-server/jupyter_server/security/advisories/GHSA-24qx-w28j-9m6p), [pull request 603](https://github.com/jupyter-server/jupyter_server/pull/603), and patch commits [`057869a`](https://github.com/jupyter-server/jupyter_server/commit/057869a327c46730afede3eab0ca2d2e3e74acea) and [`49b3439`](https://github.com/jupyter-server/jupyter_server/commit/49b34392feaa97735b3b777e3baf8f22f2a14ed8).
+
+### Why this is operator-useful
+
+This is a reusable **browser-origin trust-boundary** pattern: a server accepts a regex for trusted CORS origins, but evaluates it as a prefix match instead of a whole-origin match. A suffix domain such as `https://trusted.example.com.attacker-owned.test` can satisfy a pattern intended only for `https://trusted.example.com` when that pattern lacks explicit anchors.
+
+### Safe validation workflow
+
+1. **Confirm the path exists.** Test only deployments using `allow_origin_pat` or an equivalent regex-based CORS allowlist. Do not assume every Jupyter deployment is affected.
+2. **Use an owned suffix origin.** Host the proof page on a canary domain controlled by the test team, for example `https://trusted.example.com.attacker-owned.test`.
+3. **Baseline regex behavior locally.** Show the semantic mismatch without touching the target:
+
+   ```python
+   import re
+
+   pattern = r"https://trusted\.example\.com"
+   origins = [
+       "https://trusted.example.com",
+       "https://trusted.example.com.attacker-owned.test",
+       "https://other.example.com",
+   ]
+
+   for origin in origins:
+       print(origin, bool(re.match(pattern, origin)), bool(re.fullmatch(pattern, origin)))
+   ```
+
+4. **Exercise only a harmless endpoint.** From the canary origin, request an owner-approved status/version route with browser `fetch(..., { credentials: "include", mode: "cors" })`. The proof is the browser exposing a response or CORS header to the suffix origin, not access to notebooks or files.
+5. **Add controls.** Compare the suffix origin with a clearly unrelated origin and, where possible, a lab configuration using anchored `^...$` matching.
+
+### Evidence boundaries
+
+- Capture version/package evidence, the redacted `allow_origin_pat` shape, the request `Origin`, and the CORS response header.
+- Keep screenshots and HAR files limited to harmless status/version responses.
+- Never collect notebooks, terminals, tokens, model files, datasets, environment variables, cloud credentials, or user content.
+- Report the root cause as **prefix regex matching used for origin authorization**, not merely generic CORS misconfiguration.
