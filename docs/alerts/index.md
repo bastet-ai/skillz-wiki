@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Gitea, LangChain4j, HAPI FHIR, agent WebFetch, and WebSocket boundary checks](2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md)
 - [Jupyter Server CORS origin-regex boundary validation update](2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md#jupyter-cors-origin-regex-validation-update)
 - [Admidio log credential-sink and Aurora PostgreSQL wrapper privilege-boundary validation](2026-06-15-admidio-aurora-secret-and-db-privilege-boundaries-ghsa.md)
 - [File Browser command allowlist, share, archive, symlink, Fleet, Fabric.js, and Cordova callback boundary checks](2026-06-12-filebrowser-fleet-fabric-cordova-boundary-batch-ghsa.md)
