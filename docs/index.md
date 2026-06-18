@@ -8,7 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
-- [Agent, proxy, Kubernetes, document-render, and AI service boundaries](alerts/2026-06-18-agent-proxy-k8s-and-render-boundary-batch-ghsa.md)
+- [Agent, proxy, Kubernetes, CMS, scanner, and render boundaries](alerts/2026-06-18-agent-proxy-k8s-and-render-boundary-batch-ghsa.md)
 - [Open WebUI Playwright redirect-chain SSRF validation update](alerts/2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md#june-18-playwright-loader-update)
 - [Gitea, LangChain4j, HAPI FHIR, agent WebFetch, and WebSocket boundaries](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md)
 - [Angular hydration TransferState cache-poisoning boundary](alerts/2026-06-15-angular-hydration-transferstate-cache-boundary-ghsa.md)
