@@ -66,9 +66,44 @@ Source: GitHub advisories published after the initial June 18 update: [GHSA-cf98
 - **Agent and MCP defaults:** Check PraisonAI/OpenClaw defaults, env toggles, MCP HTTP binding, sandbox availability, and approval order in isolated workers with inert tools. Evidence should be auth bypass, wrong policy branch, or marker execution only.
 - **Runtime import and mail/render escape hatches:** For Podman, Nodemailer, python-statemachine, undici, and MCPVault, use disposable images, synthetic files, lab CA certificates, and canary paths to demonstrate metadata-to-host, raw-message-to-resource, SCXML-to-eval, SOCKS-to-TLS-policy, or path-filter-to-OS-canonicalization gaps.
 
+## Third June 18 advisory wave
+
+Source: GitHub advisories published after the second June 18 update: [GHSA-wm69-2pc3-rmmf](https://github.com/advisories/GHSA-wm69-2pc3-rmmf), [GHSA-r253-r9jw-qg44](https://github.com/advisories/GHSA-r253-r9jw-qg44), [GHSA-2jq4-q6vv-4cp3](https://github.com/advisories/GHSA-2jq4-q6vv-4cp3), [GHSA-qqf5-x7mj-v43p](https://github.com/advisories/GHSA-qqf5-x7mj-v43p), [GHSA-gfj5-979r-92pw](https://github.com/advisories/GHSA-gfj5-979r-92pw), [GHSA-hgw6-8c77-v4gq](https://github.com/advisories/GHSA-hgw6-8c77-v4gq) / CVE-2026-11752, [GHSA-hxpf-9xvq-wph8](https://github.com/advisories/GHSA-hxpf-9xvq-wph8), [GHSA-fq4x-789w-jg5h](https://github.com/advisories/GHSA-fq4x-789w-jg5h), [GHSA-hjwc-26pj-v3pm](https://github.com/advisories/GHSA-hjwc-26pj-v3pm), and [GHSA-jr45-52cw-69h5](https://github.com/advisories/GHSA-jr45-52cw-69h5) / CVE-2026-54683.
+
+| Advisory cluster | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| GHSA-wm69-2pc3-rmmf, GHSA-r253-r9jw-qg44, GHSA-2jq4-q6vv-4cp3 | Crawl4AI Docker API and crawler downloads | unauthenticated crawl routes accepted URLs, Chromium launch flags, or download filenames that crossed into server-side fetches, container command execution, or filesystem writes outside the downloads root | Treat exposed crawler/AI-browser services as privileged automation surfaces: test stream vs non-stream route parity, request-controlled browser flags, and download path confinement with inert canaries. |
+| GHSA-qqf5-x7mj-v43p | Budibase database connectors | administrator-controlled schema/table connector configuration was interpolated into PostgreSQL, MSSQL, or MySQL introspection SQL | Revisit low-code datasource setup flows where builder/admin input becomes raw connector SQL; scope proofs to disposable schemas and marker queries only. |
+| GHSA-gfj5-979r-92pw | `@acastellon/auth` middleware | service-to-service bypass trusted client-controlled `auth-user` and `Host` headers before token validation | Add spoofed service-header and host-header canaries to middleware assessments, especially when downstream services trust identity headers. |
+| GHSA-hgw6-8c77-v4gq / CVE-2026-11752 | Armeria xDS SDS `DataSource` | control-plane supplied filenames or environment-variable names were resolved by xDS clients as TLS material without allowlist or base-directory confinement | In service-mesh reviews, test whether semi-trusted control-plane data can steer clients into local file/env reads; use synthetic mounted key files only. |
+| GHSA-hxpf-9xvq-wph8 | `netlicensing-mcp` product tool | caller-controlled REST path segment normalized through `../token`, bypassing token-specific redaction wrappers | Validate MCP tools that interpolate path parameters before generic response serialization; prove with redaction canaries, not live API keys. |
+| GHSA-fq4x-789w-jg5h, GHSA-hjwc-26pj-v3pm | AgenticMail inbound-mail bridge and task API | unauthenticated inbound mail could resume an operator Claude Code session in bypass-permissions mode, and authenticated agents could enumerate/claim/complete other agents' tasks by assignee/task id | Treat email-to-agent bridges and task queues as authorization boundaries; verify sender provenance, prompt injection into privileged sessions, task-id capability secrecy, and cross-agent mutation controls with owned accounts and inert tasks. |
+| GHSA-jr45-52cw-69h5 / CVE-2026-54683 | NL Portal document APIs | document-content endpoints remained object-id-only downloads for any logged-in user after an incomplete prior fix | For IDOR regression testing, check every alternate route family and fixed-version claim with synthetic documents owned by separate lab users. |
+
+### Crawler and AI-browser service boundaries
+
+- Inventory every exposed Crawl4AI route in scope: `/crawl`, `/crawl/stream`, and `/crawl/job`, including flags such as `crawler_config.stream=true` that switch handlers.
+- For SSRF checks, use only owned callback URLs and lab-local synthetic HTTP services. Positive proof is a callback or streamed marker body from the controlled canary service; do not request cloud metadata, RFC1918 production hosts, service discovery, or admin panels.
+- For browser launch controls, submit request-supplied `browser_config.extra_args` containing only inert marker flags in an isolated container. Evidence should show whether untrusted flags reach Chromium launch construction; do not execute commands on production runners.
+- For download path confinement, serve a file from owned infrastructure with a traversal-like or absolute-looking filename that writes only a disposable marker under a lab temp directory. Never overwrite shell startup files, SSH keys, cron entries, application modules, or mounted secrets.
+
+### Low-code, auth-header, xDS, and MCP path boundaries
+
+- For Budibase connectors, create disposable PostgreSQL/MSSQL/MySQL schemas and connector configs with harmless quote/identifier canaries. Evidence is connector-generated SQL or a marker query result; do not alter production data or enable database OS-command features.
+- For auth middleware, pair spoofed `auth-user`, `Host`, and downstream `is-*` header attempts with negative controls using valid/invalid tokens and untrusted hostnames. Report only route reachability and identity-claim confusion.
+- For xDS SDS, use a lab xDS control plane and synthetic files/env vars containing non-secret markers. Positive proof is the client attempting to consume marker bytes as configured key/cert/CA data, never real private keys or service-account tokens.
+- For MCP REST tools, fuzz path parameters containing encoded slashes, dot segments, and normalization variants against mocked APIs where secret-like values are fake and redaction behavior is observable.
+
+### Mail-to-agent and task-queue boundaries
+
+- Send inbound mail from owned external accounts to a lab bridge and verify whether sender provenance is checked before any privileged resume, tool invocation, or `bypassPermissions` mode change.
+- Keep prompt-injection content inert: fixed markers and requests to write only under a disposable workspace. Do not ask the resumed agent to exfiltrate secrets, read home directories, or access real OAuth resources.
+- For cross-agent task APIs, create two lab agents, seed synthetic tasks, and test whether one agent can list, claim, complete, fail, or submit results for the other's task ids.
+- Evidence should include authenticated principal, target assignee/task id, route, and state transition. Do not collect tenant task payloads or production mailbox content.
+
 ## Operator triage
 
-1. **Start with control-plane composition.** MCP gateways, agent workspaces, Kubernetes operators, identity providers, and proxy layers are high-value because a small parsing or routing mistake can cross into host execution, cross-tenant access, or backend trust.
+1. **Start with control-plane composition.** MCP gateways, agent workspaces, crawler/AI-browser servers, mail-to-agent bridges, Kubernetes operators, identity providers, and proxy layers are high-value because a small parsing or routing mistake can cross into host execution, cross-tenant access, or backend trust.
 2. **Confirm reachability before impact.** The strongest cases require a lower-trust actor controlling an OCI label, repository workspace file, request body, `Host` header, document upload, custom resource, or IdP URL setting that is actually consumed by the vulnerable code path.
 3. **Use synthetic canaries only.** Prove with disposable images, workspaces, request fields, backend route markers, mock server variables, prototype-pollution lab objects, document URLs, Kubernetes namespaces, and identity-provider test users. Do not mount real host secrets, exfiltrate tokens, collect tenant data, or query internal production services.
 4. **Keep negative controls explicit.** Pair every positive with a patched build, rejected route, absent outbound callback, denied RBAC, sanitized environment, or revocation reconnect failure.
