@@ -101,9 +101,30 @@ Source: GitHub advisories published after the second June 18 update: [GHSA-wm69-
 - For cross-agent task APIs, create two lab agents, seed synthetic tasks, and test whether one agent can list, claim, complete, fail, or submit results for the other's task ids.
 - Evidence should include authenticated principal, target assignee/task id, route, and state transition. Do not collect tenant task payloads or production mailbox content.
 
+## Fourth June 18 OpenClaw policy-state wave
+
+Source: GitHub advisories published after the third June 18 update: [GHSA-x629-46cc-7xgw](https://github.com/advisories/GHSA-x629-46cc-7xgw) / CVE-2026-53847, [GHSA-w9hf-3pp7-pvxv](https://github.com/advisories/GHSA-w9hf-3pp7-pvxv) / CVE-2026-53841, [GHSA-fcvx-5cxc-v5p8](https://github.com/advisories/GHSA-fcvx-5cxc-v5p8) / CVE-2026-53851, [GHSA-9v8j-9c9g-w66c](https://github.com/advisories/GHSA-9v8j-9c9g-w66c) / CVE-2026-53862, [GHSA-5cj2-3jr2-5h77](https://github.com/advisories/GHSA-5cj2-3jr2-5h77) / CVE-2026-53855, [GHSA-gxg4-2rrr-jhc7](https://github.com/advisories/GHSA-gxg4-2rrr-jhc7) / CVE-2026-53859, and [GHSA-cwpp-5962-q4f6](https://github.com/advisories/GHSA-cwpp-5962-q4f6) / CVE-2026-53848.
+
+| Advisory cluster | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| GHSA-x629-46cc-7xgw / CVE-2026-53847 | OpenClaw Active Memory | write-scope controls could mutate global configuration instead of staying inside the intended memory scope | Treat agent memory tools as policy-state mutation surfaces; test project, user, and global config boundaries with inert marker keys. |
+| GHSA-w9hf-3pp7-pvxv / CVE-2026-53841 | OpenClaw session export | exported HTML sessions could preserve unsafe markdown links from lower-trust chat content | Include export/share artifacts in agent UI testing, not just the live chat renderer; prove with harmless `javascript:`-style or external-link canaries only. |
+| GHSA-fcvx-5cxc-v5p8 / CVE-2026-53851 | OpenClaw Slack reaction handling | reaction-triggered automation could ignore configured notification or reaction settings | Validate chatops reaction paths as action triggers with negative controls for disabled reactions, wrong emoji, wrong channel, and wrong actor. |
+| GHSA-9v8j-9c9g-w66c / CVE-2026-53862 | OpenClaw bootstrap pairing | replayed bootstrap tokens could widen pending pairing scopes | Exercise pairing-token replay, scope narrowing, and pending-device transitions before treating bootstrap as one-time or least-privilege. |
+| GHSA-5cj2-3jr2-5h77 / CVE-2026-53855, GHSA-cwpp-5962-q4f6 / CVE-2026-53848 | OpenClaw shell policy | positional parameters or transparent command wrappers could weaken inline-eval and exec allowlist enforcement | Test every shell spelling that reaches the same execution sink: positional args, wrappers, aliases, compact flags, and inline forms. |
+| GHSA-gxg4-2rrr-jhc7 / CVE-2026-53859 | OpenClaw hostname checks | trailing-dot hostnames could be normalized inconsistently across allowlist or trust decisions | Add DNS canonicalization canaries to agent callbacks, webhooks, and remote-tool host allowlists, including trailing dots and case variants. |
+
+### OpenClaw replay boundaries
+
+- Use an isolated OpenClaw workspace with no real Slack, cloud, or production MCP credentials loaded.
+- For memory/global-config tests, write only synthetic marker keys and verify whether project-scoped tools can mutate user/global settings; do not alter real approvals, credentials, or shell profiles.
+- For exported-session rendering, use inert link canaries and capture only the generated HTML/link target. Do not embed credential-bearing URLs or browser exploit payloads.
+- For chatops reactions and pairing flows, use lab Slack channels/devices and record actor, channel, token age, requested scope, and final action state.
+- For shell and hostname controls, keep proofs to blocked/allowed decision tables plus marker command construction; do not execute destructive commands or probe third-party hosts.
+
 ## Operator triage
 
-1. **Start with control-plane composition.** MCP gateways, agent workspaces, crawler/AI-browser servers, mail-to-agent bridges, Kubernetes operators, identity providers, and proxy layers are high-value because a small parsing or routing mistake can cross into host execution, cross-tenant access, or backend trust.
+1. **Start with control-plane composition.** MCP gateways, agent workspaces, crawler/AI-browser servers, mail-to-agent bridges, Kubernetes operators, identity providers, chatops bridges, and proxy layers are high-value because a small parsing or routing mistake can cross into host execution, cross-tenant access, or backend trust.
 2. **Confirm reachability before impact.** The strongest cases require a lower-trust actor controlling an OCI label, repository workspace file, request body, `Host` header, document upload, custom resource, or IdP URL setting that is actually consumed by the vulnerable code path.
 3. **Use synthetic canaries only.** Prove with disposable images, workspaces, request fields, backend route markers, mock server variables, prototype-pollution lab objects, document URLs, Kubernetes namespaces, and identity-provider test users. Do not mount real host secrets, exfiltrate tokens, collect tenant data, or query internal production services.
 4. **Keep negative controls explicit.** Pair every positive with a patched build, rejected route, absent outbound callback, denied RBAC, sanitized environment, or revocation reconnect failure.
