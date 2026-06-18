@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Open WebUI Playwright redirect-chain SSRF validation update](2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md#june-18-playwright-loader-update)
 - [Gitea, LangChain4j, HAPI FHIR, agent WebFetch, and WebSocket boundary checks](2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md)
 - [Jupyter Server CORS origin-regex boundary validation update](2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md#jupyter-cors-origin-regex-validation-update)
 - [Admidio log credential-sink and Aurora PostgreSQL wrapper privilege-boundary validation](2026-06-15-admidio-aurora-secret-and-db-privilege-boundaries-ghsa.md)
