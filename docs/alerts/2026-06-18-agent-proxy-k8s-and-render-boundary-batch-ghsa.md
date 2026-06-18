@@ -144,9 +144,25 @@ Source: GitHub advisories published after the fourth June 18 update: [GHSA-q59x-
 - For MCP CLI wrappers, use a throwaway workspace with fake `@file` targets and marker prompts. Positive proof is command construction or marker file access only; never request shell history, keys, source secrets, cloud config, or production files.
 - For Signal K and agent/chat policies, keep callbacks and identities lab-owned. Test URL redirects/rebinding only against controlled listeners and chat authorization only with disposable users/channels/devices.
 
+## Sixth June 18 SSRF-filter and config-server update wave
+
+Source: GitHub advisories updated after the fifth June 18 update: [GHSA-8p33-q827-ghj5](https://github.com/advisories/GHSA-8p33-q827-ghj5) / CVE-2026-44232 and [GHSA-86wq-234q-r6wg](https://github.com/advisories/GHSA-86wq-234q-r6wg) / CVE-2026-41002.
+
+| Advisory cluster | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| GHSA-8p33-q827-ghj5 / CVE-2026-44232 | `dssrf` URL safety filter | IPv6 loopback, ULA, link-local, IPv4-mapped, NAT64, SRv6, and deprecated site-local forms could be classified differently from equivalent blocked IPv4 destinations | Expand SSRF allowlist/denylist tests beyond literal IPv4 and hostname cases; include bracketed IPv6, mapped IPv4, NAT64 translation prefixes, redirects, and post-DNS canonicalization canaries. |
+| GHSA-86wq-234q-r6wg / CVE-2026-41002 | Spring Cloud Config Server Git clone base directory | repository clone base-directory checks could race with filesystem changes between validation and use | In config-server assessments, treat Git-backed repository materialization as a filesystem boundary; use disposable basedirs and symlink/swap canaries to validate clone-root confinement without touching production config or secrets. |
+
+### SSRF canonicalization and config materialization boundaries
+
+- For SSRF filters, build a local harness that calls the exact deployed validator and outbound HTTP client. Test loopback/private equivalents across `http://[::1]/`, `http://[fc00::1]/`, `http://[fe80::1]/`, IPv4-mapped forms such as `http://[::ffff:127.0.0.1]/`, NAT64 prefixes, trailing dots, redirects, and DNS rebinding only against owned listeners.
+- Evidence should show the validator decision, the normalized destination, and whether the outbound client attempted the canary request. Do not query cloud metadata, internal production hosts, service discovery, or admin interfaces.
+- For Spring Cloud Config Server, use an isolated instance, synthetic Git repositories, and temp clone roots. Positive proof is clone/root materialization outside the intended basedir via a marker directory or symlink/swap race; never read live application configuration, credentials, or Kubernetes service-account tokens.
+- Pair positive tests with patched-version or hardened-wrapper negative controls, and report the crossed boundary as **URL canonicalization to SSRF filter bypass** or **Git clone basedir check to filesystem race**.
+
 ## Operator triage
 
-1. **Start with control-plane composition.** MCP gateways, agent workspaces, crawler/AI-browser servers, mail-to-agent bridges, Kubernetes operators, identity providers, chatops bridges, proxy layers, token parsers, and IoT/operations connectors are high-value because a small parsing or routing mistake can cross into host execution, cross-tenant access, backend trust, or cryptographic acceptance.
+1. **Start with control-plane composition.** MCP gateways, agent workspaces, crawler/AI-browser servers, mail-to-agent bridges, Kubernetes operators, identity providers, chatops bridges, proxy layers, token parsers, SSRF filters, Git-backed config servers, and IoT/operations connectors are high-value because a small parsing or routing mistake can cross into host execution, cross-tenant access, backend trust, filesystem access, or cryptographic acceptance.
 2. **Confirm reachability before impact.** The strongest cases require a lower-trust actor controlling an OCI label, repository workspace file, request body, `Host` header, document upload, custom resource, or IdP URL setting that is actually consumed by the vulnerable code path.
 3. **Use synthetic canaries only.** Prove with disposable images, workspaces, request fields, backend route markers, mock server variables, prototype-pollution lab objects, document URLs, Kubernetes namespaces, and identity-provider test users. Do not mount real host secrets, exfiltrate tokens, collect tenant data, or query internal production services.
 4. **Keep negative controls explicit.** Pair every positive with a patched build, rejected route, absent outbound callback, denied RBAC, sanitized environment, or revocation reconnect failure.
