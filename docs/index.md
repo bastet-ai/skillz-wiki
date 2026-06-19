@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [JupyterLab Git, NLP model, container runtime, backend API, and archive boundary checks](alerts/2026-06-19-jupyterlab-stanza-containerd-parse-symfony-archive-boundaries-ghsa.md)
 - [Developer agent, dashboard, SDK, and framework control-boundary checks](alerts/2026-06-19-tilt-network-ai-canto-dev-control-boundaries-ghsa.md)
 - [Splunk PostgreSQL sidecar authentication-boundary validation](alerts/2026-06-18-splunk-postgres-sidecar-auth-boundary-kev.md)
 - [Agent, proxy, Kubernetes, CMS, scanner, and render boundaries](alerts/2026-06-18-agent-proxy-k8s-and-render-boundary-batch-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Jupyter Server CORS origin-regex boundary update](alerts/2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md#jupyter-cors-origin-regex-validation-update)
 - [Admidio log credential-sink and Aurora PostgreSQL wrapper privilege boundaries](alerts/2026-06-15-admidio-aurora-secret-and-db-privilege-boundaries-ghsa.md)
 - [File Browser command allowlist, share, archive, symlink, Fleet, Fabric.js, and Cordova boundaries](alerts/2026-06-12-filebrowser-fleet-fabric-cordova-boundary-batch-ghsa.md)
-- [esbuild, mise, Tomcat, Radius, and late TYPO3 boundaries](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md)
 
 ## What lives here
 
