@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Framework, report, IaC, MCP, CMS, and package-control boundary checks](2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md)
+- [JupyterLab Git, NLP model, container runtime, backend API, and archive boundary checks](2026-06-19-jupyterlab-stanza-containerd-parse-symfony-archive-boundaries-ghsa.md)
 - [Tilt HUD, Network-AI, and Canto API control-boundary checks](2026-06-19-tilt-network-ai-canto-dev-control-boundaries-ghsa.md)
 - [Agent, proxy, Kubernetes, CMS, scanner, and render boundary checks](2026-06-18-agent-proxy-k8s-and-render-boundary-batch-ghsa.md)
 - [Open WebUI Playwright redirect-chain SSRF validation update](2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md#june-18-playwright-loader-update)
