@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Langflow, Mailpit, Outerbase, Miniflux, and render-boundary checks](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md)
 - [Framework, report, IaC, MCP, CMS, and package-control boundary checks](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md)
 - [JupyterLab Git, NLP model, container runtime, backend API, and archive boundary checks](alerts/2026-06-19-jupyterlab-stanza-containerd-parse-symfony-archive-boundaries-ghsa.md)
 - [Developer agent, dashboard, SDK, and framework control-boundary checks](alerts/2026-06-19-tilt-network-ai-canto-dev-control-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Gitea, LangChain4j, HAPI FHIR, agent WebFetch, and WebSocket boundaries](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md)
 - [Angular hydration TransferState cache-poisoning boundary](alerts/2026-06-15-angular-hydration-transferstate-cache-boundary-ghsa.md)
 - [Jupyter Server CORS origin-regex boundary update](alerts/2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md#jupyter-cors-origin-regex-validation-update)
-- [Admidio log credential-sink and Aurora PostgreSQL wrapper privilege boundaries](alerts/2026-06-15-admidio-aurora-secret-and-db-privilege-boundaries-ghsa.md)
 
 ## What lives here
 
