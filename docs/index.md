@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Agent, secret-store, identity-token, and renderer boundary checks](alerts/2026-06-19-agent-secret-identity-render-boundary-batch-ghsa.md)
 - [SurrealDB, Anki, MCP, file-read, SSRF, and workflow boundary checks](alerts/2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md)
 - [Langflow, Mailpit, Outerbase, Miniflux, and render-boundary checks](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md)
 - [Framework, report, IaC, MCP, CMS, and package-control boundary checks](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Agent, proxy, Kubernetes, CMS, scanner, and render boundaries](alerts/2026-06-18-agent-proxy-k8s-and-render-boundary-batch-ghsa.md)
 - [Open WebUI Playwright redirect-chain SSRF validation update](alerts/2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md#june-18-playwright-loader-update)
 - [Gitea, LangChain4j, HAPI FHIR, agent WebFetch, and WebSocket boundaries](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md)
-- [Angular hydration TransferState cache-poisoning boundary](alerts/2026-06-15-angular-hydration-transferstate-cache-boundary-ghsa.md)
 
 ## What lives here
 
