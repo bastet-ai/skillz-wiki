@@ -8,7 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
-- [Tilt HUD, Network-AI, and Canto API control-boundary checks](alerts/2026-06-19-tilt-network-ai-canto-dev-control-boundaries-ghsa.md)
+- [Developer agent, dashboard, SDK, and framework control-boundary checks](alerts/2026-06-19-tilt-network-ai-canto-dev-control-boundaries-ghsa.md)
 - [Splunk PostgreSQL sidecar authentication-boundary validation](alerts/2026-06-18-splunk-postgres-sidecar-auth-boundary-kev.md)
 - [Agent, proxy, Kubernetes, CMS, scanner, and render boundaries](alerts/2026-06-18-agent-proxy-k8s-and-render-boundary-batch-ghsa.md)
 - [Open WebUI Playwright redirect-chain SSRF validation update](alerts/2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md#june-18-playwright-loader-update)
