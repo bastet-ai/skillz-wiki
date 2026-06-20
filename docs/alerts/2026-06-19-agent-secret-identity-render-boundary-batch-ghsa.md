@@ -4,6 +4,8 @@ Source: hourly offensive-security scan, 2026-06-19. Primary entries: GitHub advi
 
 This batch is durable because the advisories share repeatable offensive validation patterns: agent sandboxes and backup manifests crossing filesystem boundaries, vault path filters that only protect root-level directory names, CMS previewers and icon loaders rendering trusted same-origin markup from untrusted content, recipe manifests writing outside intended roots, authorization engines turning conditional decisions into unconditional grants, secret-store namespace and LDAP query boundaries, agent approval caches that reuse consent too broadly, server-side renderers and package portals executing attacker-controlled project material, unauthenticated MCP servers reachable through HTTP, and WS-Security/SAML token validators accepting replayed, unsigned, or weakly bound identity material.
 
+June 20 update: [GHSA-4xgf-cpjx-pc3j](https://github.com/advisories/GHSA-4xgf-cpjx-pc3j) adds the same operator pattern for Python application secret loaders: `pydantic-settings` `NestedSecretsSettingsSource` could follow symlinked directories outside `secrets_dir` when `secrets_nested_subdir=True`, loading out-of-tree files while bypassing `secrets_dir_max_size` accounting.
+
 ## What changed
 
 | Advisory | Component | Boundary | Operator value |
@@ -31,6 +33,7 @@ This batch is durable because the advisories share repeatable offensive validati
 | GHSA-48pq-2xq3-c2m4 / CVE-2026-54781 | CoreWCF SAML subject confirmation | bearer/holder-of-key confirmation methods and proof keys were not enforced | Include subject-confirmation and proof-of-possession negative controls in SOAP identity tests. |
 | GHSA-4v55-cpmv-3vcm / CVE-2026-54780 | CoreWCF WS-Security algorithms | weak or unexpected digest methods could bypass the configured algorithm suite | Algorithm-suite policies need token-level and reference-level downgrade attempts with lab messages only. |
 | GHSA-9jr3-rj99-8jq3 / CVE-2026-54779 | CoreWCF SAML replay protection | token replay protection was inoperative | Replay testing should use disposable signed tokens and record whether nonce/timestamp/cache controls reject reuse. |
+| GHSA-4xgf-cpjx-pc3j | `pydantic-settings` `NestedSecretsSettingsSource` | symlinked nested secret directories could resolve outside `secrets_dir` and bypass `secrets_dir_max_size` | Python secret loaders need canonical path and size-accounting tests with disposable secret trees, symlinked canary directories, and no real secret files. |
 
 ## Operator triage
 
@@ -40,6 +43,7 @@ This batch is durable because the advisories share repeatable offensive validati
 4. **Separate browser, direct client, and SSRF-reachable paths.** CMS previews and MCP HTTP servers may be exploitable only from a browser origin, only from a direct client, or through a same-host/server-side relay. Capture `Host`, `Origin`, bind address, and route auth.
 5. **Replay identity controls carefully.** For CoreWCF and SAML/WS-Security issues, use a lab service, disposable keys, and synthetic claims. Never replay production tokens or capture customer SOAP bodies.
 6. **Skip pure crash-only findings unless they unlock a workflow.** Nearby OpenBao transit crash and parser/memory-safety entries were not promoted because they lacked a reusable authorized exploit path beyond availability testing.
+7. **Treat application secret loaders as filesystem boundaries.** When a framework maps files into configuration values, test whether symlinked subdirectories, nested paths, and size limits are enforced by the same canonical iterator that performs the final read.
 
 ## Replayable validation boundaries
 
@@ -72,6 +76,14 @@ This batch is durable because the advisories share repeatable offensive validati
 - Positive evidence is a canary permission, namespace mutation, lease operation, or LDAP search result that contradicts the expected principal or caveat state.
 - Do not test against production secret engines, identity stores, or real policy names.
 
+### Python settings secret-directory harness
+
+- Use a disposable app profile that opts into `NestedSecretsSettingsSource` with `secrets_nested_subdir=True`; never point the harness at a production `secrets_dir`.
+- Create a temporary `secrets_dir`, a separate outside-root directory, and a synthetic canary file such as `outside/db/passwd` containing non-sensitive marker text.
+- Place a symlinked directory inside `secrets_dir` that targets the outside-root canary directory, then instantiate the settings class with a deliberately small `secrets_dir_max_size`.
+- Positive evidence is limited to the synthetic marker loading into the expected settings field, or the size cap being bypassed for that marker. Do not target `/etc`, home directories, cloud credentials, Kubernetes service-account mounts, or real secret stores.
+- Negative controls: resolved path stays within `secrets_dir` before read, symlinked directories pointing outside are skipped, cyclic symlinks are not re-traversed, and size accounting uses the same path walk as the loader.
+
 ### MCP HTTP and localhost/dev-server checks
 
 - Inventory listener address, advertised MCP transport, route authentication, request-size limits, `Host` handling, and `Origin` handling.
@@ -88,6 +100,6 @@ This batch is durable because the advisories share repeatable offensive validati
 
 ## Reporting notes
 
-- State the crossed boundary precisely: **agent sandbox prefix to outside-root file access**, **backup manifest to recursive deletion**, **nested vault path to restricted directory bypass**, **same-origin preview to stored DOM execution**, **recipe manifest to outside-root read/write**, **icon response to trusted SVG markup**, **caveated relation to unconditional authorization**, **secret-store namespace route to parent scope**, **LDAP principal to filter injection**, **lease alias to cross-namespace control**, **multi-agent memory to context leakage**, **coarse approval cache to shell-command consent bypass**, **package/render input to worker command execution**, **HTTP MCP exposure to unauthenticated tool access**, **SAML signature validation to auth bypass**, **subject confirmation to proof-key bypass**, **algorithm-suite downgrade**, or **SAML replay acceptance**.
+- State the crossed boundary precisely: **agent sandbox prefix to outside-root file access**, **backup manifest to recursive deletion**, **nested vault path to restricted directory bypass**, **same-origin preview to stored DOM execution**, **recipe manifest to outside-root read/write**, **icon response to trusted SVG markup**, **caveated relation to unconditional authorization**, **secret-store namespace route to parent scope**, **LDAP principal to filter injection**, **lease alias to cross-namespace control**, **framework secret-directory symlink to out-of-tree config read**, **multi-agent memory to context leakage**, **coarse approval cache to shell-command consent bypass**, **package/render input to worker command execution**, **HTTP MCP exposure to unauthenticated tool access**, **SAML signature validation to auth bypass**, **subject confirmation to proof-key bypass**, **algorithm-suite downgrade**, or **SAML replay acceptance**.
 - Evidence should be boring: route matrices, synthetic claims, redacted headers, fake packages, harmless DOM markers, temp files, and disposable namespaces.
 - Avoid mitigation-first framing; lead with reachability, preconditions, exact trust boundary, canary evidence, and authorized impact.
