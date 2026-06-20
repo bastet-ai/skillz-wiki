@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [JCE profile upload, LiteSpeed cPanel symlink, and Cisco SD-WAN file-write boundary checks](2026-06-20-jce-litespeed-cisco-kev-boundaries.md)
 - [SurrealDB, Anki, MCP, file-read, SSRF, and workflow boundary checks](2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md)
 - [Langflow, Mailpit, Outerbase, Miniflux, and render-boundary checks](2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md)
 - [Framework, report, IaC, MCP, CMS, and package-control boundary checks](2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md)
