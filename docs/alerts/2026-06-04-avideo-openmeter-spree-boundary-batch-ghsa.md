@@ -38,6 +38,22 @@ The durable pattern: sinks often sit behind feature plugins, export jobs, WebSoc
 
 ## Safe validation patterns
 
+### June 22 Authorize.Net webhook and Docker dotfile update
+
+The June 22 scan added two AVideo operator checks that belong with this existing payment/plugin page rather than a duplicate alert:
+
+- [GHSA-95jh-7r58-xmxw](https://github.com/advisories/GHSA-95jh-7r58-xmxw) / CVE-2026-33731: the Authorize.Net webhook path could treat a real transaction lookup as enough to continue even when the webhook signature was invalid, then trust attacker-controlled payload values for `amount` and `metadata.users_id`.
+- [GHSA-wf69-r4mx-43rr](https://github.com/advisories/GHSA-wf69-r4mx-43rr) / CVE-2026-33692: the official Docker Compose layout mounted the project root into the Apache document root, making `.env` reachable as a static file in default deployments.
+
+Operator value: payment integrations and containerized web-app defaults need separate checks for **signed processor event to local wallet credit** and **deployment file to public static route**. Keep both proofs in a lab or explicit test merchant environment.
+
+Safe validation boundaries:
+
+1. For Authorize.Net, use a sandbox merchant and disposable wallet. Send a paired baseline legitimate sandbox event and a canary event with an invalid signature but a real sandbox transaction ID. Report only whether the app rejects the invalid signature before wallet mutation; do not inflate real balances, target other users, or race production webhooks.
+2. For payload precedence, compare the processor-fetched amount/user with the webhook payload amount/user using tiny synthetic values. Positive evidence is a lab ledger entry showing the payload won over authoritative processor data.
+3. For Docker dotfiles, request only a synthetic `.env` in a disposable deployment or a canary hidden file containing no secrets. Evidence should show route reachability and headers/body marker presence, not real credentials.
+4. Negative controls: unconditional signature rejection before transaction enrichment, processor API values overriding payload values, approval/status checks before `processSinglePayment()`, dotfile deny rules, and web roots that exclude project/config directories.
+
 ### AVideo WebSocket metadata to admin DOM
 
 Use an owned lab or a test admin browser. The canary should prove DOM interpretation without stealing cookies or triggering account actions.

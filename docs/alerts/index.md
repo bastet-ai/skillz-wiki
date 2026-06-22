@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Container build/runtime, OpenAM, XWiki, and ComfyUI boundary checks](2026-06-22-container-openam-xwiki-comfyui-boundaries-ghsa.md)
+- [AVideo Authorize.Net webhook and Docker dotfile validation update](2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md#june-22-authorizenet-webhook-and-docker-dotfile-update)
 - [Gogs proxy-auth, OpenCTI ingestion SSRF, motionEye file-read, and Paymenter upload boundary checks](2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md)
 - [JCE profile upload, LiteSpeed cPanel symlink, and Cisco SD-WAN file-write boundary checks](2026-06-20-jce-litespeed-cisco-kev-boundaries.md)
 - [SurrealDB, Anki, MCP, file-read, SSRF, and workflow boundary checks](2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md)
