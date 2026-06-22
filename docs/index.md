@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [AVideo WebSocket/gallery/payment/signup, OpenMeter SQLi, and Spree CSV boundaries](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md)
+- [esbuild, mise, Tomcat, Radius, and late TYPO3 boundary checks](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md)
 - [Gogs proxy-auth, OpenCTI ingestion SSRF, motionEye file-read, and Paymenter upload boundary checks](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md)
 - [JCE profile upload, LiteSpeed cPanel symlink, and Cisco SD-WAN file-write boundary checks](alerts/2026-06-20-jce-litespeed-cisco-kev-boundaries.md)
 - [Agent, secret-store, identity-token, and renderer boundary checks](alerts/2026-06-19-agent-secret-identity-render-boundary-batch-ghsa.md)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Framework, report, IaC, MCP, CMS, and package-control boundary checks](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md)
 - [JupyterLab Git, NLP model, container runtime, backend API, and archive boundary checks](alerts/2026-06-19-jupyterlab-stanza-containerd-parse-symfony-archive-boundaries-ghsa.md)
 - [Developer agent, dashboard, SDK, and framework control-boundary checks](alerts/2026-06-19-tilt-network-ai-canto-dev-control-boundaries-ghsa.md)
-- [Splunk PostgreSQL sidecar authentication-boundary validation](alerts/2026-06-18-splunk-postgres-sidecar-auth-boundary-kev.md)
-- [Agent, proxy, Kubernetes, CMS, scanner, and render boundaries](alerts/2026-06-18-agent-proxy-k8s-and-render-boundary-batch-ghsa.md)
 
 ## What lives here
 
