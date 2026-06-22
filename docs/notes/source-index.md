@@ -308,6 +308,10 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - AVideo advisories: https://github.com/WWBN/AVideo/security/advisories
 - OpenMeter advisories: https://github.com/openmeterio/openmeter/security/advisories
 - Spree advisories: https://github.com/spree/spree/security/advisories
+- Gogs advisories/source: https://github.com/gogs/gogs/security/advisories and https://github.com/gogs/gogs
+- OpenCTI advisories/source: https://github.com/OpenCTI-Platform/opencti/security/advisories and https://github.com/OpenCTI-Platform/opencti
+- motionEye advisories/source: https://github.com/motioneye-project/motioneye/security/advisories and https://github.com/motioneye-project/motioneye
+- Paymenter advisories/source: https://github.com/Paymenter/Paymenter/security/advisories and https://github.com/Paymenter/Paymenter
 
 ## Network and service discovery
 
