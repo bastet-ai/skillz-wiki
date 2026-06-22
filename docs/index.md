@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Glances, OpenDJ, and Spinnaker control-plane boundary checks](alerts/2026-06-22-glances-opendj-spinnaker-control-plane-boundaries-ghsa.md)
 - [Container build/runtime, OpenAM, XWiki, and ComfyUI boundary checks](alerts/2026-06-22-container-openam-xwiki-comfyui-boundaries-ghsa.md)
 - [AVideo Authorize.Net webhook and Docker dotfile validation update](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md#june-22-authorizenet-webhook-and-docker-dotfile-update)
 - [Gogs proxy-auth, OpenCTI ingestion SSRF, motionEye file-read, and Paymenter upload boundary checks](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md)
