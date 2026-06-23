@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [UniFi OS and Lantronix appliance boundary checks](2026-06-23-unifi-lantronix-appliance-boundaries-kev.md)
+- [AWS Bedrock AgentCore package-install boundary update](2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-23-bedrock-agentcore-package-installer-update)
 - [BoxLite sandbox and Alist storage-boundary checks](2026-06-23-boxlite-alist-storage-boundaries-ghsa.md)
 - [Jupyter Enterprise Gateway kernel-ID and Cloudinary upload-signing boundary checks](2026-06-23-jupyter-eg-cloudinary-signing-boundaries-ghsa.md)
 - [Budibase datasource/PWA/webhook, Gogs mirror/org/attachment/notebook, Actual export/session, and automation boundary checks](2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
