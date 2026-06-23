@@ -12,6 +12,15 @@ This batch is durable because the items share reusable operator patterns: AI gat
 - **Vitest UI/API exposure** — exposed Vitest UI or Browser Mode can allow arbitrary file read/write and script execution through privileged API features, with a Windows file-serving bypass involving `\\?\\..\\` path handling called out in the advisory.
 - **TYPO3 news date-menu SQL injection** — the `georgringer/news` extension can expose unauthenticated SQL injection through a URL parameter on pages using the "Date Menu of news articles" plugin when the required plugin setting does not disable override demand.
 
+## June 23 LiteLLM privilege-boundary update
+
+GitHub Advisory Database added two LiteLLM authorization-boundary items: [GHSA-wpfp-gwwc-vwq6](https://github.com/advisories/GHSA-wpfp-gwwc-vwq6) / CVE-2026-47102 and [GHSA-qrc4-49gv-mv9m](https://github.com/advisories/GHSA-qrc4-49gv-mv9m) / CVE-2026-47101.
+
+- **Self role mass assignment:** prior to 1.83.10, `/user/update` lets a reachable user update their own `user_role` field. An `org_admin` or other user who can access the endpoint can set `proxy_admin`, crossing from account profile editing into global proxy administration.
+- **API key route inflation:** prior to 1.83.14, an authenticated `internal_user` can create keys with `allowed_routes` that exceed that user's role permissions. The generated key then authorizes routes the original session should not reach.
+
+Operator validation: in an owned LiteLLM lab, create disposable users for each role, attempt only harmless role/route canaries, and compare direct-session denials against generated-key access. Do not read model provider keys, prompt history, team secrets, or production user records as evidence.
+
 ## Operator triage
 
 1. **Map AI gateway surfaces:** look for `litellm`, LiteLLM proxy containers, `/chat/completions`-style model gateways, admin UIs for model routing, and internal agent platforms that accept model/provider configuration from users or tenants.
@@ -28,6 +37,14 @@ This batch is durable because the items share reusable operator patterns: AI gat
 - Use a lab clone or explicitly authorized tenant before sending payloads to model/provider configuration, callback, tool, or command-adjacent fields.
 - Prove execution with a benign marker such as `id`, `whoami`, DNS canary, or writing to a disposable temp path. Do not read real secrets, prompt logs, model API keys, or cloud metadata.
 - Capture the exact feature path that crosses the boundary: user role, endpoint, parameter, model/provider/plugin setting, and whether execution occurs in the proxy, worker, or sidecar context.
+
+### LiteLLM role and generated-key checks
+
+- Preconditions: owned LiteLLM lab, affected version, disposable `internal_user`, `org_admin`, and `proxy_admin` accounts, and non-sensitive test routes.
+- For `/user/update`, attempt to update only the current user's `user_role` field and record whether the API accepts a transition outside the user's assigned role envelope.
+- For key generation, request an API key whose `allowed_routes` includes a harmless admin-only route the session cannot access directly, then compare direct-session and key-auth responses.
+- Positive evidence: before/after user role, generated key metadata with redacted token value, route-decision table, and patched negative control.
+- Stop before listing real users, teams, spend logs, provider keys, models with sensitive prompts, or production prompt history.
 
 ### Authlib authorization redirect checks
 

@@ -10,6 +10,12 @@ This batch is durable because it turns fresh identity, public-share filesystem, 
 - **FileBrowser Quantum public-share path traversal** — [GHSA-qqqm-5547-774x](https://github.com/advisories/GHSA-qqqm-5547-774x): `publicPatchHandler` joins attacker-controlled `items[].fromPath` and `items[].toPath` with the trusted share path before downstream sanitation. Because `filepath.Join` collapses `..` segments before the sanitizer sees them, a public share link with `AllowModify=true` can move, copy, or rename files outside the shared directory but inside the share owner's source root.
 - **Drupal Core SQL injection in database abstraction API** — [CVE-2026-9082](https://nvd.nist.gov/vuln/detail/CVE-2026-9082), added to [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) on 2026-05-22: Drupal Core SQL injection can enable privilege escalation and remote code execution through specially crafted requests that reach vulnerable database-abstraction API usage. NVD lists affected ranges from 8.9.0 before 10.4.10, 10.5.x before 10.5.10, 10.6.x before 10.6.9, 11.0.x before 11.1.10, 11.2.x before 11.2.12, and 11.3.x before 11.3.10.
 
+### June 23 Flask-Security backslash redirect update
+
+[GHSA-w2j7-f3c6-g8cw](https://github.com/advisories/GHSA-w2j7-f3c6-g8cw) adds another Flask-Security redirect-parser differential. When subdomain redirects are enabled, `validate_redirect_url()` can accept an attacker-controlled authority such as `http://evil.com\\.whitelist.com` or `http://evil.com%5C.whitelist.com` because Python URL parsing sees a host ending in the whitelisted domain while browser normalization can navigate elsewhere.
+
+Operator validation: test only owned callback domains and harmless post-login flows. Capture the accepted `next` or redirect parameter, the server-side `Location` header, and the browser's final origin. Pair this with the existing return-URL scheme/backslash methodology rather than treating it as a generic open redirect.
+
 Tracked but not promoted as primary operator guidance this pass: [GHSA-7m8f-hgjq-8gc9](https://github.com/advisories/GHSA-7m8f-hgjq-8gc9) / aiosend pre-auth webhook deserialization DoS and [GHSA-q8mj-m7cp-5q26](https://github.com/advisories/GHSA-q8mj-m7cp-5q26) / qs stringify DoS, both availability/resource-only without a reusable exploit-path lesson for this wiki's current taxonomy.
 
 ## Operator triage
@@ -24,6 +30,7 @@ Tracked but not promoted as primary operator guidance this pass: [GHSA-7m8f-hgjq
 ## Replayable validation boundaries
 
 - **Flask-Security freshness proof:** in a lab app with two users and OAuth enabled, authenticate as victim, let the session become stale, then complete the reauth OAuth callback using an OAuth account linked to the attacker user. Vulnerable result: the victim session's freshness timestamp updates and a freshness-protected action proceeds. Keep the action to a benign marker route or a reversible username change.
+- **Flask-Security backslash redirect proof:** in a lab app with `SECURITY_REDIRECT_ALLOW_SUBDOMAINS=True`, submit `next` values that place a raw or encoded backslash between an attacker-controlled host and the whitelisted suffix. Vulnerable result: the server accepts and emits a redirect that a real browser resolves outside the intended subdomain boundary. Keep proof to owned domains and no token-bearing URLs.
 - **FileBrowser traversal proof:** create a lab source root with `shared/marker.txt` and `outside-share/canary.txt`, then expose only `shared/` through a public share with modify permission. Send a public PATCH move/copy/rename using `../outside-share/canary-copy.txt` as the destination. Vulnerable result: the operation affects the sibling path even though the share UI boundary was `shared/`.
 - **Drupal SQLi proof:** use a disposable Drupal install in an affected version range and a test module or route that reaches the vulnerable database-abstraction API pattern. Prove impact with a single boolean, version marker, or lab-only row read before attempting privilege-escalation or code-execution chains. Do not test active production Drupal instances with destructive SQL or credential dumping.
 

@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Concrete CMS package, file, and block boundary checks](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md)
 - [Snipe-IT, Mattermost, Camel K, Algernon, and Jackson boundary checks](alerts/2026-06-23-snipeit-mattermost-camelk-algernon-jackson-boundaries-ghsa.md)
 - [UniFi OS and Lantronix appliance boundary checks](alerts/2026-06-23-unifi-lantronix-appliance-boundaries-kev.md)
 - [AWS Bedrock AgentCore package-install boundary update](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-23-bedrock-agentcore-package-installer-update)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [mise local credential and task-include trust-boundary updates](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md#june-23-mise-local-credential-and-task-include-updates)
 - [BoxLite sandbox and Alist storage-boundary checks](alerts/2026-06-23-boxlite-alist-storage-boundaries-ghsa.md)
 - [Jupyter Enterprise Gateway kernel-ID and Cloudinary upload-signing boundary checks](alerts/2026-06-23-jupyter-eg-cloudinary-signing-boundaries-ghsa.md)
-- [Budibase datasource/PWA/webhook, Gogs forge tenant/protocol/merge, Actual export/session, and automation boundary checks](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
 
 ## What lives here
 
