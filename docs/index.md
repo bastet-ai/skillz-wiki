@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [BoxLite sandbox and Alist storage-boundary checks](alerts/2026-06-23-boxlite-alist-storage-boundaries-ghsa.md)
 - [Jupyter Enterprise Gateway kernel-ID and Cloudinary upload-signing boundary checks](alerts/2026-06-23-jupyter-eg-cloudinary-signing-boundaries-ghsa.md)
 - [Budibase datasource/PWA/webhook, Gogs mirror/org/attachment/notebook, Actual export/session, and automation boundary checks](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
 - [Glances XML-RPC, Actual sync-server, OpenDJ, and Spinnaker control-plane boundary checks](alerts/2026-06-22-glances-opendj-spinnaker-control-plane-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [JCE profile upload, LiteSpeed cPanel symlink, and Cisco SD-WAN file-write boundary checks](alerts/2026-06-20-jce-litespeed-cisco-kev-boundaries.md)
 - [Agent, secret-store, identity-token, and renderer boundary checks](alerts/2026-06-19-agent-secret-identity-render-boundary-batch-ghsa.md)
 - [SurrealDB, Anki, MCP, file-read, SSRF, and workflow boundary checks](alerts/2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md)
-- [Langflow, Mailpit, Outerbase, Miniflux, and render-boundary checks](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md)
 
 ## What lives here
 

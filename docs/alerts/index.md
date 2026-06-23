@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [BoxLite sandbox and Alist storage-boundary checks](2026-06-23-boxlite-alist-storage-boundaries-ghsa.md)
+- [Jupyter Enterprise Gateway kernel-ID and Cloudinary upload-signing boundary checks](2026-06-23-jupyter-eg-cloudinary-signing-boundaries-ghsa.md)
 - [Budibase datasource/PWA/webhook, Gogs mirror/org/attachment/notebook, Actual export/session, and automation boundary checks](2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
 - [Glances XML-RPC, Actual sync-server, OpenDJ, and Spinnaker control-plane boundary checks](2026-06-22-glances-opendj-spinnaker-control-plane-boundaries-ghsa.md)
 - [Container build/runtime, OpenAM, XWiki, and ComfyUI boundary checks](2026-06-22-container-openam-xwiki-comfyui-boundaries-ghsa.md)
@@ -21,8 +23,6 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 - [Framework, report, IaC, MCP, CMS, and package-control boundary checks](2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md)
 - [JupyterLab Git, NLP model, container runtime, backend API, and archive boundary checks](2026-06-19-jupyterlab-stanza-containerd-parse-symfony-archive-boundaries-ghsa.md)
 - [Tilt HUD, Network-AI, and Canto API control-boundary checks](2026-06-19-tilt-network-ai-canto-dev-control-boundaries-ghsa.md)
-- [Agent, proxy, Kubernetes, CMS, scanner, and render boundary checks](2026-06-18-agent-proxy-k8s-and-render-boundary-batch-ghsa.md)
-- [Open WebUI Playwright redirect-chain SSRF validation update](2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md#june-18-playwright-loader-update)
 - [Gitea, LangChain4j, HAPI FHIR, agent WebFetch, and WebSocket boundary checks](2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md)
 - [Jupyter Server CORS origin-regex boundary validation update](2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md#jupyter-cors-origin-regex-validation-update)
 - [Admidio log credential-sink and Aurora PostgreSQL wrapper privilege-boundary validation](2026-06-15-admidio-aurora-secret-and-db-privilege-boundaries-ghsa.md)
