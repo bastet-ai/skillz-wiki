@@ -88,3 +88,33 @@ This batch is durable because each item exposes a reusable operator boundary: bu
 ## Notes on skipped adjacent items
 
 The same scan rechecked Disclosed, PortSwigger, Trail of Bits, ProjectDiscovery, GitHub advisory published/updated feeds, and CISA KEV. PyO3 memory-safety advisories, pypdf resource-consumption items, Tomcat cleanup/input-validation updates unrelated to the SNI/Host client-certificate boundary, and duplicate/adjacent TYPO3 sanitizer XSS entries were tracked but not promoted because they do not add a higher-signal replayable operator workflow than the trust, parser, controller, and backend authorization boundaries above. No new PortSwigger, Trail of Bits, ProjectDiscovery, Disclosed, or CISA KEV item in this hour added additional durable guidance.
+
+## June 23 mise HTTP-backend symlink update
+
+GitHub Advisory Database added [GHSA-f94h-j2qg-fxw3](https://github.com/advisories/GHSA-f94h-j2qg-fxw3) / CVE-2026-54557 for a separate mise package-install boundary: the HTTP backend used the raw requested version path when creating the install symlink destination. That makes repository, task, or operator-supplied version strings filesystem material rather than inert package selectors.
+
+Operator value: treat package-manager version fields as write-path inputs. This is adjacent to the existing mise repo-trust and `.tool-versions` guidance because the useful proof is not generic command execution; it is whether an untrusted project can steer mise's install/cache layout outside the expected tool directory.
+
+Safe validation boundaries:
+
+1. Use only a disposable repository, temporary `MISE_DATA_DIR`, and a fake HTTP backend/tool definition under tester control.
+2. Request one baseline version and one traversal-looking version string that should be rejected before symlink creation. Evidence should be a before/after tree rooted under the temp mise data directory and the resolved symlink target.
+3. Do not point the symlink at shell startup files, SSH material, package-manager config, real tool shims, or developer home directories.
+4. Negative controls: version identifiers canonicalized before path join, final symlink destination confined under the tool install root, and patched mise refusing absolute paths, `..`, slash, or platform-specific separator variants.
+
+Reporting heuristic: title this as **HTTP backend version string to install symlink path**, include the backend type, mise version, temp data root, resolved path table, and patched rejection behavior.
+
+## June 23 mise local credential and task-include updates
+
+GitHub Advisory Database added two more mise repository-trust boundaries: [GHSA-29hf-rm4x-xxph](https://github.com/advisories/GHSA-29hf-rm4x-xxph) / CVE-2026-55448 for local `[settings.github] credential_command` execution before a trust decision, and [GHSA-77g9-363w-rccq](https://github.com/advisories/GHSA-77g9-363w-rccq) / CVE-2026-55441 for task-include files that render Tera `exec()` fields in an untrusted, config-less repository.
+
+Operator value: mise testing should now cover three independent local-repo paths, not just `.mise.toml` self-trust or `.tool-versions`: **local GitHub credential helper to shell**, **task metadata/template fields to shell**, and **HTTP backend version string to symlink path**. All three are high-signal in developer workstation, CI, and agent-runner assessments where opening or listing an untrusted repository can invoke tooling.
+
+Safe validation boundaries:
+
+1. Use a disposable repository, temporary `MISE_DATA_DIR`, clean shell profile, and fake GitHub token flow. Do not run in a checkout that has real cloud, package-registry, SSH-agent, or API credentials.
+2. For `credential_command`, set only an inert command that writes a marker under a temp directory, then trigger a GitHub-token resolution path where higher-priority token environment variables are intentionally absent. Evidence is command invocation and marker creation, not environment dumping.
+3. For task includes, create a config-less repository with a single task file under `mise-tasks/` or `.mise/tasks/` containing a harmless Tera marker in a rendered field. Trigger only read-only listing/completion paths such as `mise tasks` or `mise task ls`.
+4. Negative controls: local settings ignored until trust is granted, task include files gated by the same trust checks as config files, Tera `exec()` unavailable in untrusted task metadata, and token helpers restricted to user/global config.
+
+Reporting heuristic: title findings by the exact trigger, for example **local `credential_command` to shell before trust** or **untrusted task include Tera field to shell on task listing**. Include mise version, repository layout, command used, temp marker path, and patched rejection behavior.

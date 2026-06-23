@@ -70,3 +70,18 @@ Adjacent [GHSA-7cfq-5mhv-jrp9](https://github.com/advisories/GHSA-7cfq-5mhv-jrp9
 - Lead with the boundary: **VM inventory label to command runner**, **browser origin/Host header to observability XML-RPC dataset**, **non-admin finance-app user to admin-managed secret-name oracle**, **JMX RMI network bytes to Java deserialization before auth**, or **deployment YAML to privileged Java class loading**.
 - Include reachability and role context: who can rename VMs, which browsers/networks can reach Glances XML-RPC, who can authenticate to Actual as non-admin, who can submit pipeline descriptors, which networks can reach JMX, and what OS/service account executes the affected component.
 - Keep evidence non-sensitive: canary names, temp paths, lab listener logs, CORS/Host decision tables, synthetic secret-name status differences, parser traces, version matrices, and patched-vs-vulnerable comparisons.
+
+## June 23 Glances AMP command update
+
+GitHub Advisory Database added [GHSA-3vwc-qwhc-3mj7](https://github.com/advisories/GHSA-3vwc-qwhc-3mj7) / CVE-2026-53925 for another Glances `secure_popen()` boundary: AMP command configuration could include shell redirection or chaining operators and reach arbitrary file write or command execution.
+
+Operator value: this expands Glances testing beyond VM inventory names and browser-origin trust. Assessments should review **monitoring plugin configuration to command runner** paths, especially where low-privilege operators, config-management pipelines, or tenant-provided templates can influence AMP commands.
+
+Safe validation boundaries:
+
+1. Use a lab Glances instance with a disposable AMP config and a temporary output directory owned by the test user.
+2. Compare a baseline AMP command with an inert canary containing redirection or a single benign chaining marker. Evidence should be command parsing, a temp-file marker, or rejection logs; do not run shell payloads that enumerate the host.
+3. Confirm the run user and plugin enablement. Running Glances as root or with broad host mounts materially changes impact and should be called out as a precondition, not assumed.
+4. Negative controls: AMP command arguments passed as arrays, shell metacharacters rejected before `secure_popen()`, and configs restricted to trusted administrators.
+
+Reporting heuristic: title as **AMP command config to Glances command runner**, include the exact config source, service account, command line or parser trace, temp marker path, and patched-version rejection.

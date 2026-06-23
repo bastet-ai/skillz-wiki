@@ -8,16 +8,16 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [OctoPrint upload reserved-field file-boundary checks](alerts/2026-06-23-octoprint-upload-reserved-field-boundary-ghsa.md)
+- [AVideo Meet participant User-Agent admin-DOM update](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md#june-23-avideo-meet-participant-user-agent-update)
+- [motionEye absolute-path, action, and pass-the-hash chain updates](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#motioneye-media-and-configuration-harness)
+- [mise local credential and task-include trust-boundary updates](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md#june-23-mise-local-credential-and-task-include-updates)
 - [BoxLite sandbox and Alist storage-boundary checks](alerts/2026-06-23-boxlite-alist-storage-boundaries-ghsa.md)
 - [Jupyter Enterprise Gateway kernel-ID and Cloudinary upload-signing boundary checks](alerts/2026-06-23-jupyter-eg-cloudinary-signing-boundaries-ghsa.md)
 - [Budibase datasource/PWA/webhook, Gogs forge tenant/protocol/merge, Actual export/session, and automation boundary checks](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
 - [Glances XML-RPC, Actual sync-server, OpenDJ, and Spinnaker control-plane boundary checks](alerts/2026-06-22-glances-opendj-spinnaker-control-plane-boundaries-ghsa.md)
 - [Container build/runtime, OpenAM, XWiki, and ComfyUI boundary checks](alerts/2026-06-22-container-openam-xwiki-comfyui-boundaries-ghsa.md)
 - [AVideo Authorize.Net webhook and Docker dotfile validation update](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md#june-22-authorizenet-webhook-and-docker-dotfile-update)
-- [Gogs proxy-auth, OpenCTI ingestion SSRF, motionEye file-read, and Paymenter upload boundary checks](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md)
-- [JCE profile upload, LiteSpeed cPanel symlink, and Cisco SD-WAN file-write boundary checks](alerts/2026-06-20-jce-litespeed-cisco-kev-boundaries.md)
-- [Agent, secret-store, identity-token, and renderer boundary checks](alerts/2026-06-19-agent-secret-identity-render-boundary-batch-ghsa.md)
-- [SurrealDB, Anki, MCP, file-read, SSRF, and workflow boundary checks](alerts/2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md)
 
 ## What lives here
 

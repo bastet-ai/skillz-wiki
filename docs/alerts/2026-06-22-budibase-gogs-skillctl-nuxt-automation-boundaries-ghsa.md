@@ -123,3 +123,23 @@ Adjacent [GHSA-qc2x-6f54-m6h9](https://github.com/advisories/GHSA-qc2x-6f54-m6h9
 - Lead with the exact crossed boundary: **public route to stored datasource credentials**, **attacker chat token to victim account identity**, **builder OAuth URL to server-side fetch**, **DNS-rebinding name to blocked fetch target**, **ZIP symlink to served asset bytes**, **mirror edit to local repository import**, **CSRF GET to organization ownership**, **attachment UUID to private file**, **notebook Markdown to same-origin DOM sink**, **CSV cell to spreadsheet formula**, **disabled account to still-valid session**, **webhook redirect to blocked host**, **skill metadata to Git/filesystem side effects**, **unsigned webhook to workflow execution**, **raw navigation string to normalized browser destination**, **SCIM JSON to process-global prototype**, or **database read to enrollment identity claim**.
 - Keep evidence boring and reversible: canary object keys, redirect and DNS logs, fake chat IDs, scratch path trees, inert workflow markers, route decision tables, synthetic SCIM properties, lab enrollment rows, marker repositories, harmless attachments, click-only DOM markers, CSV cells, and stale-token status codes.
 - Do not include secrets, cloud metadata output, real customer files, private repository content, real bank/chat identities, live workflow payloads, or production database contents.
+
+## June 23 Budibase and Gogs follow-up updates
+
+The June 23 GitHub Advisory Database wave added two adjacent items that belong with this boundary batch instead of separate pages:
+
+- [GHSA-8qv3-p479-cj62](https://github.com/advisories/GHSA-8qv3-p479-cj62) / CVE-2026-54350: Budibase published-app query templates could accept anonymous NoSQL operator injection.
+- [GHSA-3w28-36p9-w929](https://github.com/advisories/GHSA-3w28-36p9-w929) / CVE-2026-52816: Gogs' unauthenticated `.ipynb` sanitizer accepted arbitrary `data:` URIs, adding another notebook-preview XSS sink next to the earlier stored `.ipynb` preview issue.
+
+Operator value:
+
+- Budibase public app endpoints should be tested for **anonymous filter/query material to database selector semantics**, not just stored datasource and webhook boundaries.
+- Gogs notebook rendering should be tested across both authenticated repository preview paths and unauthenticated sanitizer/helper routes; dangerous schemes can reappear as same-origin DOM even when no private repo content is involved.
+
+Safe validation boundaries:
+
+1. For Budibase, seed a disposable public app with canary records and submit paired baseline and operator-shaped filters such as harmless `$ne`/comparison probes. Evidence should be result-count or canary-record selection differences only; do not dump real tables or stored datasource credentials.
+2. For Gogs, upload or submit a synthetic notebook containing a harmless `data:` URI marker that proves scheme acceptance or DOM insertion. Keep the marker click-only or visually inert; do not include credential-access scripts or private notebook data.
+3. Negative controls: query templates bind values as literals, operator keys are rejected or escaped, notebook URI schemes are allowlisted after final rendering, and sanitizer routes require the same repository/auth context as previews.
+
+Adjacent [GHSA-p6qx-ghxm-389h](https://github.com/advisories/GHSA-p6qx-ghxm-389h) remains tracked but not promoted here because the OctoPrint suppressed-command notification XSS pattern is narrower unless paired with printer-admin workflow scope and benign UI markers.

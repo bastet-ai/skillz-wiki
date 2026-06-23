@@ -54,6 +54,21 @@ Safe validation boundaries:
 3. For Docker dotfiles, request only a synthetic `.env` in a disposable deployment or a canary hidden file containing no secrets. Evidence should show route reachability and headers/body marker presence, not real credentials.
 4. Negative controls: unconditional signature rejection before transaction enrichment, processor API values overriding payload values, approval/status checks before `processSinglePayment()`, dotfile deny rules, and web roots that exclude project/config directories.
 
+### June 23 AVideo Meet participant User-Agent update
+
+GitHub Advisory Database added [GHSA-7cqp-7cfv-6c3q](https://github.com/advisories/GHSA-7cqp-7cfv-6c3q) for another anonymous-to-privileged-browser path in AVideo: the Meet plugin stored participant `User-Agent` values and later rendered them in the host/admin participant-management panel without output encoding.
+
+Operator value: treat meeting, webinar, chat, support, and presence plugins as **anonymous connection metadata to administrator DOM** surfaces. This is adjacent to the existing YPTSocket metadata issue but uses a different source field and trigger path.
+
+Safe validation boundaries:
+
+1. Use a disposable public meeting in a lab instance and a test host/admin browser. Do not target real meetings, attendees, or administrators.
+2. Join the meeting with a unique inert `User-Agent` marker that proves HTML interpretation without collecting cookies, local storage, meeting tokens, camera streams, or account data.
+3. Open only the lab participant-management panel and capture the stored marker, source field, and DOM/screenshot evidence from the test account.
+4. Negative controls: encode `User-Agent` on output, strip active markup on write, show participant metadata as text, and avoid trusting browser-supplied headers as admin-facing HTML.
+
+Report title: **AVideo Meet participant User-Agent to admin DOM**. Evidence should include plugin enablement, meeting visibility, unauthenticated join path, redacted request headers, and test-admin rendering only.
+
 ### AVideo WebSocket metadata to admin DOM
 
 Use an owned lab or a test admin browser. The canary should prove DOM interpretation without stealing cookies or triggering account actions.
@@ -86,6 +101,19 @@ curl -i -s -b 'PHPSESSID=TEST_USER_SESSION' \
 ```
 
 Report this only if the response and wallet ledger prove a credit occurred without a real payment token, processor transaction ID, signed webhook, server-side order record, or replay guard.
+
+### June 23 AVideo FFmpeg command-sanitizer update
+
+GitHub Advisory Database added [GHSA-wc3f-xc32-435f](https://github.com/advisories/GHSA-wc3f-xc32-435f) / CVE-2026-55173 for an incomplete fix in AVideo's `sanitizeFFmpegCommand`: a single `&` background operator could still reach the same `execAsync` `sh -c` sink.
+
+Use this as a command-boundary check only in a lab or explicit media-processing scope:
+
+1. Identify the feature path that accepts FFmpeg option strings or media-processing command fragments. Confirm it is reachable by the tested role; do not assume all AVideo deployments expose the same plugin path.
+2. Submit paired baseline and canary values where the canary can only create an inert temp-file marker or echo a visible string in a disposable worker directory if shell interpretation occurs.
+3. Do not transcode production media, start persistent background jobs, fetch external payloads, read host files, or modify shared encoder configuration.
+4. Negative controls: shell metacharacters rejected before command construction, FFmpeg invoked as an argument array, allowed-option parsing instead of string concatenation, and worker users confined to disposable media directories.
+
+Report title: **AVideo media option to FFmpeg shell command**. Evidence should include the role, feature/plugin path, sanitized command trace if available, temp marker result, worker user, and patched rejection.
 
 ### AVideo signup permission mass-assignment boundary
 
@@ -191,6 +219,7 @@ Impact should be tied to the concrete enabled feature and demonstrated canary ef
 - GitHub Advisory Database: [GHSA-9392-pj54-qqf8 / CVE-2026-47696](https://github.com/advisories/GHSA-9392-pj54-qqf8)
 - GitHub Advisory Database: [GHSA-8j8m-p79x-g4jm / CVE-2026-33684](https://github.com/advisories/GHSA-8j8m-p79x-g4jm)
 - AVideo project advisory: [GHSA-8j8m-p79x-g4jm](https://github.com/WWBN/AVideo/security/advisories/GHSA-8j8m-p79x-g4jm)
+- GitHub Advisory Database: [GHSA-7cqp-7cfv-6c3q](https://github.com/advisories/GHSA-7cqp-7cfv-6c3q)
 - GitHub Advisory Database: [GHSA-wc3v-3457-c8cm / CVE-2026-8462](https://github.com/advisories/GHSA-wc3v-3457-c8cm)
 - OpenMeter project advisory: [GHSA-wc3v-3457-c8cm](https://github.com/openmeterio/openmeter/security/advisories/GHSA-wc3v-3457-c8cm)
 - GitHub Advisory Database: [GHSA-xf4v-w5x5-pv79](https://github.com/advisories/GHSA-xf4v-w5x5-pv79)
