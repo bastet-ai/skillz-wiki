@@ -14,7 +14,9 @@ Craft CMS [GHSA-fvwq-45qv-xvhv / CVE-2026-31859](https://github.com/advisories/G
 
 CakePHP Authentication [GHSA-hhpq-7wg4-36jm / CVE-2026-55590](https://github.com/advisories/GHSA-hhpq-7wg4-36jm) adds the adjacent open-redirect pattern: post-login redirect helpers that try to allow only local targets can still be bypassed with backslash-normalization quirks if they validate before converting `\` into URL path separators.
 
-The reusable lesson is broader than either framework: URL sinks need URL parsing, canonicalization, and origin decisions made in the same representation the browser or redirect client will follow.
+Gogs [GHSA-xxhq-69mf-w8cr / CVE-2026-52802](https://github.com/advisories/GHSA-xxhq-69mf-w8cr) is the same bug class in a Git forge: `redirect_to` values such as `/a/../\example.com` passed a leading-slash same-site check, then browser normalization turned the destination into a protocol-relative off-origin URL.
+
+The reusable lesson is broader than any one framework: URL sinks need URL parsing, canonicalization, and origin decisions made in the same representation the browser or redirect client will follow.
 
 ## Preconditions
 
@@ -143,3 +145,4 @@ https://allowed.example.invalid@evil.example/
 - [GitHub Advisory Database: Craft CMS GHSA-fvwq-45qv-xvhv / CVE-2026-31859](https://github.com/advisories/GHSA-fvwq-45qv-xvhv)
 - [Craft CMS fix commit](https://github.com/craftcms/cms/commit/cc9921c14897ee2b592a431c2356af8a04ce4cfe)
 - [GitHub Advisory Database: CakePHP Authentication GHSA-hhpq-7wg4-36jm / CVE-2026-55590](https://github.com/advisories/GHSA-hhpq-7wg4-36jm)
+- [GitHub Advisory Database: Gogs GHSA-xxhq-69mf-w8cr / CVE-2026-52802](https://github.com/advisories/GHSA-xxhq-69mf-w8cr)

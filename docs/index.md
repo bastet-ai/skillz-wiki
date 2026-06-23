@@ -10,7 +10,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 - [BoxLite sandbox and Alist storage-boundary checks](alerts/2026-06-23-boxlite-alist-storage-boundaries-ghsa.md)
 - [Jupyter Enterprise Gateway kernel-ID and Cloudinary upload-signing boundary checks](alerts/2026-06-23-jupyter-eg-cloudinary-signing-boundaries-ghsa.md)
-- [Budibase datasource/PWA/webhook, Gogs mirror/org/attachment/notebook, Actual export/session, and automation boundary checks](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
+- [Budibase datasource/PWA/webhook, Gogs forge tenant/protocol/merge, Actual export/session, and automation boundary checks](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
 - [Glances XML-RPC, Actual sync-server, OpenDJ, and Spinnaker control-plane boundary checks](alerts/2026-06-22-glances-opendj-spinnaker-control-plane-boundaries-ghsa.md)
 - [Container build/runtime, OpenAM, XWiki, and ComfyUI boundary checks](alerts/2026-06-22-container-openam-xwiki-comfyui-boundaries-ghsa.md)
 - [AVideo Authorize.Net webhook and Docker dotfile validation update](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md#june-22-authorizenet-webhook-and-docker-dotfile-update)
