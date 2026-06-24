@@ -312,6 +312,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - OpenCTI advisories/source: https://github.com/OpenCTI-Platform/opencti/security/advisories and https://github.com/OpenCTI-Platform/opencti
 - motionEye advisories/source: https://github.com/motioneye-project/motioneye/security/advisories and https://github.com/motioneye-project/motioneye
 - Paymenter advisories/source: https://github.com/Paymenter/Paymenter/security/advisories and https://github.com/Paymenter/Paymenter
+- n8n advisories/source: https://github.com/n8n-io/n8n/security/advisories and https://github.com/n8n-io/n8n
 
 ## Network and service discovery
 

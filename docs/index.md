@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md)
 - [beets metadata-to-web-UI DOM boundary checks](alerts/2026-04-29-beets-web-ui-stored-xss-ghsa-3gxm-wfjx-m847.md)
 - [Concrete CMS package, file, and block boundary checks](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md)
 - [Snipe-IT, Mattermost, Camel K, Algernon, and Jackson boundary checks](alerts/2026-06-23-snipeit-mattermost-camelk-algernon-jackson-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [AVideo Meet participant User-Agent admin-DOM update](alerts/2026-06-04-avideo-openmeter-spree-boundary-batch-ghsa.md#june-23-avideo-meet-participant-user-agent-update)
 - [motionEye absolute-path, action, and pass-the-hash chain updates](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#motioneye-media-and-configuration-harness)
 - [mise local credential and task-include trust-boundary updates](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md#june-23-mise-local-credential-and-task-include-updates)
-- [BoxLite sandbox and Alist storage-boundary checks](alerts/2026-06-23-boxlite-alist-storage-boundaries-ghsa.md)
 
 ## What lives here
 
