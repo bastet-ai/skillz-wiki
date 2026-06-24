@@ -11,6 +11,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 ## Recent highlights
 
 - [Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks](2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md)
+- [OpenTofu provider-cache symlink boundary update](2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-23-opentofu-provider-cache-symlink-update)
+- [phpMyFAQ API write-endpoint authorization update](2026-06-09-puma-arc-phpmyfaq-boundary-batch-ghsa.md#june-23-phpmyfaq-api-write-endpoint-authorization-update)
+- [Filament unauthenticated temporary-upload update](2026-06-11-geoserver-wsgidav-openfga-devguard-filament-boundary-batch-ghsa.md#june-23-filament-temporary-upload-update)
 - [beets metadata-to-web-UI DOM boundary checks](2026-04-29-beets-web-ui-stored-xss-ghsa-3gxm-wfjx-m847.md)
 - [Concrete CMS package, file, and block boundary checks](2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md)
 - [Snipe-IT, Mattermost, Camel K, Algernon, and Jackson boundary checks](2026-06-23-snipeit-mattermost-camelk-algernon-jackson-boundaries-ghsa.md)

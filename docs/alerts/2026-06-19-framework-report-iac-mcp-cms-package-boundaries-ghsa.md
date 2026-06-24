@@ -8,6 +8,10 @@ This batch is durable because the advisories expose reusable operator checks: fr
 
 [GHSA-6rfw-mq36-jm8h](https://github.com/advisories/GHSA-6rfw-mq36-jm8h) / CVE-2026-12530 extends the package-control pattern to AWS Bedrock AgentCore's Python SDK. The advisory says `install_packages()` in the Code Interpreter client built a `pip install` shell command from caller-provided package-name arguments and allowed crafted pip flags such as `--index-url` and `-r`, letting an authenticated remote user redirect package resolution to an attacker-controlled package index or expose arbitrary sandbox files/environment variables. Treat agent package-install helpers as command and dependency-resolution boundaries, even when they accept values that look like package names rather than shell commands.
 
+## June 23 OpenTofu provider-cache symlink update
+
+[GHSA-wcmj-x466-56mm](https://github.com/advisories/GHSA-wcmj-x466-56mm) extends the IaC package-install pattern to OpenTofu provider installation. A repository-controlled symlink under `.terraform/providers` could be followed during `tofu init`, causing provider package contents to be written outside the working tree when the operator initializes an attacker-controlled root module. Treat IaC dependency caches as filesystem write boundaries: a project checkout can contain symlinks and package selectors before the first successful init.
+
 ## What changed
 
 | Advisory | Component | Boundary | Operator value |
@@ -30,6 +34,7 @@ This batch is durable because the advisories expose reusable operator checks: fr
 | GHSA-v75r-vx73-82pj | `@cyclonedx/cyclonedx-npm` | unsanitized `--workspace` reached shell execution | Fuzz package-manager workspace and path arguments as shell boundaries; use inert commands and disposable repos. |
 | GHSA-x845-2f78-7v36 | Blocky DNSSEC | validation cache state could be polluted across DNSSEC decisions | Test resolver cache scope with lab domains and mock resolvers; avoid targeting real recursive infrastructure. |
 | GHSA-6rfw-mq36-jm8h / CVE-2026-12530 | AWS Bedrock AgentCore Python SDK `install_packages()` | package-name arguments crossed into `pip install` flags, package-index selection, and sandbox file/environment exposure | Test agent code-interpreter package installers with pip-flag canaries, owned package indexes, and disposable sandbox files; do not exfiltrate live credentials or run untrusted packages on production workers. |
+| GHSA-wcmj-x466-56mm | OpenTofu provider installer | root-module-controlled `.terraform/providers` symlinks could redirect provider package writes outside the working tree during `tofu init` | Test untrusted IaC checkouts for cache symlink following with disposable outside directories and inert provider packages; never target home directories, credentials, or shared plugin caches. |
 
 ## Operator triage
 
@@ -84,6 +89,13 @@ This batch is durable because the advisories expose reusable operator checks: fr
 - For package-manager CLIs, test workspace names and paths containing shell metacharacters with commands such as `printf marker` redirected to temp files in a disposable repo.
 - Never target shell startup files, SSH keys, package caches, project secrets, or production build agents.
 
+### IaC provider-cache symlink boundaries
+
+- Use only disposable OpenTofu/Terraform-style root modules and a temp directory as the outside write canary. Do not run probes from a real infrastructure repository or a directory containing credentials, state, backend config, or production `.terraform` caches.
+- Pre-create a `.terraform/providers/...` path component as a symlink to the temp outside canary directory, then run `tofu init` with an inert provider source/version under a lab user.
+- Positive evidence is provider package content or marker files written through the symlink into the canary directory, plus path-resolution logs and OpenTofu version. Do not point symlinks at home directories, shell startup files, cloud config, SSH keys, CI workspaces, or shared plugin caches.
+- Negative controls: patched versions remove or reject mismatched symlinks before installation, and provider content remains under the working tree or configured global cache only.
+
 ### Agent code-interpreter package installers
 
 - Use a disposable Bedrock AgentCore Code Interpreter sandbox or a local mock of the SDK call path; never run installer probes in a production agent runtime with real credentials, mounted repos, or customer data.
@@ -101,5 +113,5 @@ This batch is durable because the advisories expose reusable operator checks: fr
 
 ## Reporting notes
 
-- Name the crossed boundary precisely: **digest-auth replay default**, **cookie-scope confusion**, **unkeyed signature helper**, **substring host allowlist**, **Ingress auth-secret fail-open**, **report artifact to trusted browser**, **report path to outside file**, **cassette YAML to code execution**, **MCP context to OAuth token**, **archive symlink to outside write**, **editor message/rich-text to trusted CMS UI**, **Host header to generated JavaScript/SSRF**, **migration label to codegen execution**, **namespace CR field to cluster-admin behavior**, **mutable package tag to verified install**, **workspace argument to shell**, **agent package argument to pip flag/index/file exposure**, or **DNSSEC validation cache to sibling decision**.
+- Name the crossed boundary precisely: **digest-auth replay default**, **cookie-scope confusion**, **unkeyed signature helper**, **substring host allowlist**, **Ingress auth-secret fail-open**, **report artifact to trusted browser**, **report path to outside file**, **cassette YAML to code execution**, **MCP context to OAuth token**, **archive symlink to outside write**, **editor message/rich-text to trusted CMS UI**, **Host header to generated JavaScript/SSRF**, **migration label to codegen execution**, **namespace CR field to cluster-admin behavior**, **mutable package tag to verified install**, **workspace argument to shell**, **agent package argument to pip flag/index/file exposure**, **IaC provider-cache symlink to outside write**, or **DNSSEC validation cache to sibling decision**.
 - Include exact versions, default configuration, negative controls, and the disposable canary values used. The useful artifact is the trust-boundary decision table, not sensitive data exposure.

@@ -13,11 +13,15 @@ This batch is durable because each item exposes a reusable operator boundary: ad
 - **Filament AttachAction/AssociateAction scope mismatch** — Filament relation actions may scope visible `Select` options with `recordSelectOptionsQuery()`, but the built-in validation did not enforce the same scope. A user who can trigger the action can tamper with Livewire component state and submit an out-of-scope related record value.
 - **AWS Advanced Go Wrapper Aurora PostgreSQL privilege boundary** — AWS Go Wrapper 2026-04-06 for Aurora PostgreSQL may allow a low-privilege authenticated database user to create a crafted function that is later executed with permissions of another RDS user, potentially escalating to `rds_superuser`.
 
+### June 23 Filament temporary-upload update
+
+[GHSA-44wp-g8f4-f4v5](https://github.com/advisories/GHSA-44wp-g8f4-f4v5) adds a separate Filament boundary: schemas that do not need file upload, such as panel login forms, still received Livewire's `WithFileUploads` behavior, exposing unauthenticated temporary file uploads. Treat framework-level upload traits as a route-surface boundary, not only as a form-field feature.
+
 ## Operator triage
 
 1. **Confirm the exact trust boundary before probing:** these are not broad unauthenticated internet RCEs. Most require authenticated access, a specific extension, a feature flag, a public asset, a relation action, or an affected database wrapper version.
 2. **Prioritize admin-to-runtime and tenant-to-tenant crossings:** GeoServer datastore creation, DevGuard public assets, Filament relation actions, OpenFGA shared authorization services, and Aurora wrapper deployments all sit on high-value control planes.
-3. **Inventory path-prefix layouts:** WsgiDAV and similar static/file-share providers are most interesting when the served root has prefix-sharing siblings, such as `/srv/share` next to `/srv/share_private`.
+3. **Inventory path-prefix layouts and inherited traits:** WsgiDAV and similar static/file-share providers are most interesting when the served root has prefix-sharing siblings, such as `/srv/share` next to `/srv/share_private`; Filament and Livewire are most interesting when upload traits are inherited by unauthenticated components that do not visibly expose upload fields.
 4. **Use canary objects only:** proof should be a callback URL, marker file, disposable relation row, synthetic FGA tuple, harmless VEX rule, or test database function. Do not read secrets, destroy production files, alter real SBOM/VEX data, or execute payloads on production systems.
 
 ## Replayable validation boundaries
@@ -57,6 +61,13 @@ This batch is durable because each item exposes a reusable operator boundary: ad
 - Proof is positive when the out-of-scope relation is attached/associated despite being absent from the UI-scoped options.
 - Evidence should include model/resource names, user role, visible in-scope IDs, out-of-scope canary ID, request diff, and final relation state.
 
+### Filament unauthenticated temporary uploads
+
+- Use a lab Filament app with a panel login or other unauthenticated schema that should not accept uploads. Do not test production storage buckets or shared app disks with large files.
+- Send a small benign marker file through the Livewire temporary-upload route reachable from the unauthenticated component context. Keep the file inert, non-executable, and clearly disposable.
+- Positive evidence is successful temporary-object creation without authentication or a form-level upload requirement, plus storage path, route, response, and version. Avoid disk-fill, cost-inflation, malware, web-shell, or public execution tests.
+- Negative controls: unauthenticated components without file fields cannot invoke temporary uploads, and authenticated components enforce expected role/storage restrictions.
+
 ### Aurora PostgreSQL wrapper search-path privilege boundary
 
 - Use an isolated Aurora PostgreSQL test instance or a customer-approved lab clone with AWS Go Wrapper 2026-04-06 behavior. Do not attempt privilege escalation on shared production databases.
@@ -66,7 +77,7 @@ This batch is durable because each item exposes a reusable operator boundary: ad
 
 ## Reporting heuristics
 
-- Lead with the crossed boundary: datastore admin to server-side JNDI lookup, WebDAV share user to sibling filesystem path, one authorization request to another cached result, cross-org authenticated user to public-asset writes, UI-scoped relation picker to unscoped server-side attach, or low-privilege DB user to wrapper-mediated elevated execution.
+- Lead with the crossed boundary: datastore admin to server-side JNDI lookup, WebDAV share user to sibling filesystem path, one authorization request to another cached result, cross-org authenticated user to public-asset writes, UI-scoped relation picker to unscoped server-side attach, unauthenticated component to temporary upload storage, or low-privilege DB user to wrapper-mediated elevated execution.
 - State preconditions and non-claims up front. These reports become weak if they omit extension presence, cache flags, public asset visibility, relation action reachability, or affected wrapper version.
 - Keep destructive primitives theoretical unless the customer explicitly authorized them in a lab. For WsgiDAV, DevGuard, and PostgreSQL, marker evidence is enough.
 

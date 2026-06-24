@@ -12,12 +12,16 @@ This batch is durable because it captures reusable operator patterns: PROXY-prot
 - **phpMyFAQ unauthenticated SQLi and 2FA workflow gaps** — phpMyFAQ `<= 4.1.1` includes unauthenticated SQL injection through the `User-Agent` header on `GET /api/captcha`, plus unauthenticated `/admin/check` TOTP probing that accepts arbitrary `user-id` values without binding to a prior password phase or rate limiting.
 - **phpMyFAQ authenticated authorization drift** — additional advisories describe non-terminating admin permission checks, frontend users reaching admin API information endpoints, OAuth token fields interpolated into SQL, and unauthenticated FAQ permission bypass through `solution_id` redirects.
 
+### June 23 phpMyFAQ API write-endpoint authorization update
+
+[GHSA-8c6h-7g6x-m5x4](https://github.com/advisories/GHSA-8c6h-7g6x-m5x4) / CVE-2026-49205 extends the phpMyFAQ route checklist to four API write endpoints that checked only a shared API token with `hasValidToken()` and omitted the per-user `userHasPermission()` gate added for CVE-2026-24421. The advisory names category create, FAQ create, FAQ update, and comment create as the recurring pattern: a bearer of any valid API token can reach admin-class write operations even when their user role should not have category, FAQ, or comment-management permissions.
+
 ## Operator triage
 
 1. **Find PROXY-enabled Puma, not just Ruby apps:** search deploy configs, container env, and Puma DSL files for `set_remote_address proxy_protocol: :v1`. Prioritize apps behind HAProxy, nginx stream, Envoy, ALB/NLB-style relays, or platform routers that preserve keep-alive connections to Puma.
 2. **Tie source spoofing to a decision:** useful findings show that rewritten `REMOTE_ADDR` changes rate limits, IP allowlists, fraud controls, audit attribution, admin route access, tenant routing, or request signing logic. Source-IP log mismatch alone is weaker.
 3. **Inventory SQL console products with embedded engines:** Arc is the concrete case, but the reusable heuristic is user-controlled SQL routed into engines with filesystem and network table functions. Look for DuckDB, SQLite extension loading, Parquet/CSV importers, and analytics APIs that claim RBAC by parsing `FROM` and `JOIN` only.
-4. **Map phpMyFAQ exposure by route:** confirm version and route reachability before sending payloads: `/api/captcha`, `/admin/check`, `/admin/api/index.php/...`, OAuth callback/token flows, and public `/solution_id_{id}.html` redirects.
+4. **Map phpMyFAQ exposure by route:** confirm version and route reachability before sending payloads: `/api/captcha`, `/admin/check`, `/admin/api/index.php/...`, public API category/FAQ/comment write endpoints, OAuth callback/token flows, and public `/solution_id_{id}.html` redirects.
 5. **Separate anonymous from role-bound impact:** phpMyFAQ captcha SQLi and TOTP probing are pre-auth; admin permission leakage and OAuth token SQLi require authenticated or configured identity-provider paths; stored XSS requires content/comment contribution paths and should be reported separately from server-side SQLi.
 
 ## Replayable validation boundaries
@@ -41,12 +45,13 @@ This batch is durable because it captures reusable operator patterns: PROXY-prot
 - For `GET /api/captcha` SQLi, use a time-differential or boolean canary in a lab or explicitly authorized instance. Do not extract database rows; a single controlled delay and a safe negative control are enough.
 - For `/admin/check`, use disposable accounts with TOTP enabled. Prove the endpoint accepts an arbitrary `user-id` without a prior password-authenticated session; do not brute-force real codes.
 - For admin permission bypasses, create low-privilege and high-privilege test accounts. Verify whether the low-privilege account receives protected page content or admin API data after an apparent forbidden response.
+- For API write-endpoint authorization drift, issue paired requests with a valid API token tied to a user lacking category/FAQ/comment permissions and an admin control user. Use only synthetic categories, FAQ entries, and comments, then clean them up.
 - For OAuth token SQLi, use a controlled identity-provider test account with synthetic token/display-name values. Avoid real refresh tokens, access tokens, or IdP production logs.
 - For `solution_id` permission bypass, plant a private FAQ with a known title and confirm whether the public redirect leaks existence and metadata. Do not enumerate sequential IDs at scale.
 
 ## Reporting heuristics
 
-- Lead with the **boundary crossed**: trusted edge IP to application identity, SQL-console user to host filesystem/network, anonymous header to database query, anonymous user ID to TOTP verification, or low-privilege admin to protected admin data.
+- Lead with the **boundary crossed**: trusted edge IP to application identity, SQL-console user to host filesystem/network, anonymous header to database query, anonymous user ID to TOTP verification, shared API token to per-user admin write permission, or low-privilege admin to protected admin data.
 - Include environmental preconditions: Puma PROXY v1 enabled, keep-alive path to Puma, Arc DuckDB function availability, phpMyFAQ version `<= 4.1.1`, enabled comments/OAuth/TOTP where relevant, and reachable public/admin routes.
 - Use canaries over secrets. Strong reports prove impact with planted files, documentation IPs, disposable users, test FAQ entries, and request IDs rather than sensitive reads or destructive state changes.
 - Keep repeated advisories grouped by product and sink. The phpMyFAQ wave is most useful as a route-by-route authorization and input-boundary checklist, not as separate generic CVE summaries.
