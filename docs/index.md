@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Concrete CMS authorization, file, and package-control boundary update](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md#june-24-concrete-cms-authorization-and-package-control-update)
 - [OliveTin action-runner, OpenAM identity-store, and Concrete CMS trusted-render boundary checks](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md)
 - [Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md)
 - [OpenTofu provider-cache symlink boundary update](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-23-opentofu-provider-cache-symlink-update)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Snipe-IT, Mattermost, Camel K, Algernon, and Jackson boundary checks](alerts/2026-06-23-snipeit-mattermost-camelk-algernon-jackson-boundaries-ghsa.md)
 - [UniFi OS and Lantronix appliance boundary checks](alerts/2026-06-23-unifi-lantronix-appliance-boundaries-kev.md)
 - [AWS Bedrock AgentCore package-install boundary update](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-23-bedrock-agentcore-package-installer-update)
-- [OctoPrint upload reserved-field file-boundary checks](alerts/2026-06-23-octoprint-upload-reserved-field-boundary-ghsa.md)
 
 ## What lives here
 
