@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [beets metadata-to-web-UI DOM boundary checks](alerts/2026-04-29-beets-web-ui-stored-xss-ghsa-3gxm-wfjx-m847.md)
 - [Concrete CMS package, file, and block boundary checks](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md)
 - [Snipe-IT, Mattermost, Camel K, Algernon, and Jackson boundary checks](alerts/2026-06-23-snipeit-mattermost-camelk-algernon-jackson-boundaries-ghsa.md)
 - [UniFi OS and Lantronix appliance boundary checks](alerts/2026-06-23-unifi-lantronix-appliance-boundaries-kev.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [motionEye absolute-path, action, and pass-the-hash chain updates](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#motioneye-media-and-configuration-harness)
 - [mise local credential and task-include trust-boundary updates](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md#june-23-mise-local-credential-and-task-include-updates)
 - [BoxLite sandbox and Alist storage-boundary checks](alerts/2026-06-23-boxlite-alist-storage-boundaries-ghsa.md)
-- [Jupyter Enterprise Gateway kernel-ID and Cloudinary upload-signing boundary checks](alerts/2026-06-23-jupyter-eg-cloudinary-signing-boundaries-ghsa.md)
 
 ## What lives here
 

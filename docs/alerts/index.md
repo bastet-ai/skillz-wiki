@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [beets metadata-to-web-UI DOM boundary checks](2026-04-29-beets-web-ui-stored-xss-ghsa-3gxm-wfjx-m847.md)
 - [Concrete CMS package, file, and block boundary checks](2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md)
 - [Snipe-IT, Mattermost, Camel K, Algernon, and Jackson boundary checks](2026-06-23-snipeit-mattermost-camelk-algernon-jackson-boundaries-ghsa.md)
 - [UniFi OS and Lantronix appliance boundary checks](2026-06-23-unifi-lantronix-appliance-boundaries-kev.md)
