@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OliveTin action-runner, OpenAM identity-store, and Concrete CMS trusted-render boundary checks](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md)
 - [Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks](2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md)
 - [OpenTofu provider-cache symlink boundary update](2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-23-opentofu-provider-cache-symlink-update)
 - [phpMyFAQ API write-endpoint authorization update](2026-06-09-puma-arc-phpmyfaq-boundary-batch-ghsa.md#june-23-phpmyfaq-api-write-endpoint-authorization-update)
