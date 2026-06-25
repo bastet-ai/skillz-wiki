@@ -1,11 +1,12 @@
 # Claude Code Action MCP and Baileys event-boundary checks
 
-Source: hourly offensive-security scan, 2026-06-10. Primary entries: GitHub advisories [GHSA-8q5r-mmjf-575q](https://github.com/advisories/GHSA-8q5r-mmjf-575q) / CVE-2026-47751 for Claude Code Action project MCP server execution from pull-request-controlled `.mcp.json`, and [GHSA-qvv5-jq5g-4cgg](https://github.com/advisories/GHSA-qvv5-jq5g-4cgg) / CVE-2026-48063 for Baileys `protocolMessage` payloads that can spoof `messages.upsert` and history-sync state.
+Source: hourly offensive-security scan, 2026-06-10. Primary entries: GitHub advisories [GHSA-8q5r-mmjf-575q](https://github.com/advisories/GHSA-8q5r-mmjf-575q) / CVE-2026-47751 for Claude Code Action project MCP server execution from pull-request-controlled `.mcp.json`, and [GHSA-qvv5-jq5g-4cgg](https://github.com/advisories/GHSA-qvv5-jq5g-4cgg) / CVE-2026-48063 for Baileys `protocolMessage` payloads that can spoof `messages.upsert` and history-sync state. June 25 Claude Code local temp-file update: [GHSA-4vp2-6q8c-pvq2](https://github.com/advisories/GHSA-4vp2-6q8c-pvq2) / CVE-2026-46406.
 
-This batch is durable for operators because both advisories expose a reusable boundary: **untrusted collaboration input being replayed as trusted automation state**.
+This batch is durable for operators because the advisories expose reusable boundaries: **untrusted collaboration input being replayed as trusted automation state** and **agent output being written through predictable local filesystem paths**.
 
 - In CI agent workflows, a pull request can change project-local agent/tool configuration before a privileged action reads it.
 - In messaging bots, remote protocol messages can be promoted into application events without strong origin, key, and state validation.
+- In shared developer workstations or multi-user jump hosts, agent CLI helper commands can write responses to predictable temporary files that another local user can read or pre-seed with symlinks.
 
 ## Claude Code Action PR-controlled MCP config
 
@@ -49,6 +50,32 @@ Validation steps:
 
 A high-quality finding proves both conditions: the attacker controls the config source, and the CI agent trusts that config in a context with privileges the PR author should not have.
 
+## Claude Code `/copy` predictable temporary file
+
+The Claude Code `/copy` advisory describes a local boundary: affected `@anthropic-ai/claude-code` versions wrote copied responses to the predictable path `/tmp/claude/response.md`, used a world-traversable directory, created world-readable files, and did not protect against symlink pre-creation. A local unprivileged user on the same machine could read a privileged user's copied response or cause the response text to overwrite an attacker-chosen symlink target.
+
+This is useful to operators who review AI-assisted developer environments, bastion hosts, training labs, shared CI workers, and remote desktop boxes: **agent output files may contain credentials, prompts, private code snippets, bug-bounty targets, or triage notes even when the agent process itself is not network-exposed**.
+
+### What to map
+
+1. Identify shared hosts where multiple Unix users can run agent CLIs or where privileged users run agents after `sudo`, SSH, VDI, or pair-programming handoff.
+2. Record affected `@anthropic-ai/claude-code` versions before `2.1.128` and whether auto-update is disabled.
+3. Inventory helper commands that export responses, transcripts, diffs, artifacts, or clipboard buffers to `/tmp`, workspace temp directories, or fixed filenames.
+4. Check path ownership, directory mode, file mode, symlink handling, and whether output contains sensitive prompt/response material.
+5. Treat the finding as local privilege/cross-user disclosure unless the environment gives the local attacker a stronger primitive through writable symlink targets.
+
+### Authorized validation boundary
+
+Use a lab host with two disposable Unix users. Do not read another person's real prompts or responses.
+
+Safe proof shape:
+
+1. As the low-privileged test user, watch only the known canary path and pre-create harmless symlink targets under a disposable directory you own.
+2. As the privileged test user, run Claude Code with a synthetic prompt such as `skillz-copy-canary` and invoke `/copy`.
+3. Confirm whether `/tmp/claude/response.md` is world-readable or whether the symlink target receives only the synthetic response text.
+4. Capture redacted evidence: package version, host sharing model, path modes, UID/GID ownership, marker content, and fixed-version negative control.
+5. Do not use `/etc/passwd`, shell startup files, credentials, customer workspaces, real reports, or production shared hosts as overwrite targets.
+
 ## Baileys protocol-message event spoofing
 
 The Baileys advisory describes crafted `protocolMessage` payloads delivered through `placeholderResendMessage` that can trigger fake `messages.upsert` events with fake message keys and payloads. It also notes app-state sync corruption through fake key shares and history-sync spoofing.
@@ -80,6 +107,7 @@ A strong report frames impact as **remote protocol input crossing into trusted a
 ## Reporting heuristics
 
 - For CI-agent findings, include workflow trigger, checkout target, action version or tag, project-config loading path, MCP enablement setting, job permission context, and inert canary execution proof.
+- For local agent temp-file findings, include package version, host user-sharing model, fixed path, mode/ownership, symlink behavior, and synthetic marker-only response evidence.
 - For messaging-event findings, include library version, affected callback, claimed sender/key fields, downstream sink, and a canary-only demonstration of spoofed event acceptance.
 - Keep secrets out of evidence. A marker proves execution or event trust without exposing credentials.
 - Tie severity to privilege crossing: PR author to privileged runner for Claude Code Action, or remote message sender to trusted application state for Baileys.

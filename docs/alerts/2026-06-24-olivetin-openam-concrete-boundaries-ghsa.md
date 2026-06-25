@@ -1,6 +1,6 @@
 # OliveTin action execution, OpenAM identity, and Concrete CMS boundary checks
 
-Source: hourly offensive-security scan, 2026-06-24. Primary entries: GitHub Advisory Database [GHSA-7fq5-7wr8-rjwj](https://github.com/advisories/GHSA-7fq5-7wr8-rjwj), [GHSA-prj9-97mp-mwh2](https://github.com/advisories/GHSA-prj9-97mp-mwh2), [GHSA-f637-w7p2-m7fx](https://github.com/advisories/GHSA-f637-w7p2-m7fx), [GHSA-6c99-87fr-6q7r](https://github.com/advisories/GHSA-6c99-87fr-6q7r), [GHSA-p462-xxwx-pqf4](https://github.com/advisories/GHSA-p462-xxwx-pqf4), [GHSA-x2fp-hj8c-mmxh](https://github.com/advisories/GHSA-x2fp-hj8c-mmxh), [GHSA-h72c-xx3w-w8h7](https://github.com/advisories/GHSA-h72c-xx3w-w8h7), and [GHSA-9v2g-37mp-qpxf](https://github.com/advisories/GHSA-9v2g-37mp-qpxf).
+Source: hourly offensive-security scan, 2026-06-24. Primary entries: GitHub Advisory Database [GHSA-7fq5-7wr8-rjwj](https://github.com/advisories/GHSA-7fq5-7wr8-rjwj), [GHSA-prj9-97mp-mwh2](https://github.com/advisories/GHSA-prj9-97mp-mwh2), [GHSA-f637-w7p2-m7fx](https://github.com/advisories/GHSA-f637-w7p2-m7fx), [GHSA-6c99-87fr-6q7r](https://github.com/advisories/GHSA-6c99-87fr-6q7r), [GHSA-p462-xxwx-pqf4](https://github.com/advisories/GHSA-p462-xxwx-pqf4), [GHSA-x2fp-hj8c-mmxh](https://github.com/advisories/GHSA-x2fp-hj8c-mmxh), [GHSA-h72c-xx3w-w8h7](https://github.com/advisories/GHSA-h72c-xx3w-w8h7), and [GHSA-9v2g-37mp-qpxf](https://github.com/advisories/GHSA-9v2g-37mp-qpxf). June 25 OpenAM push-registration update: [GHSA-pp89-732f-3g8q](https://github.com/advisories/GHSA-pp89-732f-3g8q) and [GHSA-cj8f-2fhf-826r](https://github.com/advisories/GHSA-cj8f-2fhf-826r).
 
 These advisories are durable for operators because they expose reusable trust boundaries: action-runner templates and argument filters crossing into shell command construction, unauthenticated helper RPCs leaking action metadata, identity-provider storage attributes crossing into deserialization and elevated SOAP writes, and CMS public widgets or admin-controlled names crossing into private calendar data or trusted login-page HTML.
 
@@ -13,6 +13,8 @@ These advisories are durable for operators because they expose reusable trust bo
 | [GHSA-f637-w7p2-m7fx](https://github.com/advisories/GHSA-f637-w7p2-m7fx) / CVE-2026-48709 | OliveTin `ValidateArgumentType` RPC | unauthenticated callers could query action binding IDs and argument validation behavior even when guests must log in | Treat validation and schema-check endpoints as recon oracles for command/action surfaces. |
 | [GHSA-6c99-87fr-6q7r](https://github.com/advisories/GHSA-6c99-87fr-6q7r) / CVE-2026-45051 | OpenAM WebAuthn module | WebAuthn authenticator storage could deserialize attacker-controlled data when the configured storage attribute was user-writable | Identity-provider module settings need attribute-writability checks before deserialization proof; stop at safe canary serialization in labs. |
 | [GHSA-p462-xxwx-pqf4](https://github.com/advisories/GHSA-p462-xxwx-pqf4) / CVE-2026-45052 | OpenAM Liberty ID-WSF SOAP receiver | anonymous Liberty Discovery SOAP requests could write persistent discovery records to user or root-realm stores with server-side privileges | Legacy federation endpoints are useful pre-auth identity-boundary checks when exposed; evidence should be route/auth decision plus disposable discovery records. |
+| [GHSA-pp89-732f-3g8q](https://github.com/advisories/GHSA-pp89-732f-3g8q) / CVE-2026-45794 | OpenAM Push Notification SNS callback | a low-privileged Push Registration participant could plant a CTS predicate blob and later trigger anonymous SNS callbacks that load attacker-named classes and deserialize attacker-controlled JSON | Test push/SNS callback paths as identity-provider object-construction boundaries; keep proof to inert class-loading or benign construction markers in labs. |
+| [GHSA-cj8f-2fhf-826r](https://github.com/advisories/GHSA-cj8f-2fhf-826r) / CVE-2026-46498 | OpenAM OAuth2 token-read path | shared CTS rows were accepted as OAuth tokens based on caller-controlled identifiers and untrusted BLOB contents instead of an OAuth-only namespace and trusted CTS type binding | Hunt for token families that trust shared-store rows without type, namespace, or integrity binding; prove with disposable realm/client/user scopes only. |
 | [GHSA-x2fp-hj8c-mmxh](https://github.com/advisories/GHSA-x2fp-hj8c-mmxh) / CVE-2026-8204 | Concrete CMS calendar event frontend dialog | a public calendar block could pivot into private cross-calendar event data | Add public-widget-to-private-object pivot checks for CMS calendar, file, and content dialogs. |
 | [GHSA-h72c-xx3w-w8h7](https://github.com/advisories/GHSA-h72c-xx3w-w8h7) / CVE-2026-8197 | Concrete CMS OAuth integration name | an admin-controlled integration name was rendered as raw HTML in the OAuth authorization template | Treat IdP/client names and integration labels as login-page render sinks; prove with harmless DOM markers only. |
 | [GHSA-9v2g-37mp-qpxf](https://github.com/advisories/GHSA-9v2g-37mp-qpxf) / CVE-2026-8203 | Concrete CMS height parameter | editor-controlled height values could become stored browser-executed markup | Include numeric-looking layout parameters in CMS editor-to-visitor render reviews. |
@@ -24,8 +26,10 @@ These advisories are durable for operators because they expose reusable trust bo
 3. **Validation endpoints are recon endpoints.** Any helper RPC that answers whether a binding ID, argument, type, or workflow node is valid can map hidden actions before direct execution testing.
 4. **Identity stores need attribute ownership maps.** For OpenAM WebAuthn, the important precondition is whether the authenticator storage attribute is server-managed or user/provisioning-writable.
 5. **Legacy federation routes stay in scope.** Liberty ID-WSF endpoints may be shipped even when not actively used; validate route reachability and auth gating before attempting writes.
-6. **CMS public widgets can pivot across private objects.** Calendar/file/dialog routes should be tested with synthetic public and private objects to show object-boundary drift.
-7. **Login and authorization pages are high-trust render origins.** OAuth client names, integration labels, and dimensions rendered there can become stronger findings than generic admin-only XSS.
+6. **Push registration is an identity-store write primitive.** If a low-privileged user can start a Push Registration flow and later unauthenticated callbacks process persisted state, test for stale message IDs, shared secrets, CTS row type confusion, and server-side object construction.
+7. **Token stores need family binding.** OAuth/OIDC token-read paths should reject rows that lack an OAuth-specific namespace, trusted CTS type, issuer/client/realm binding, and integrity protection independent of caller-supplied identifiers.
+8. **CMS public widgets can pivot across private objects.** Calendar/file/dialog routes should be tested with synthetic public and private objects to show object-boundary drift.
+9. **Login and authorization pages are high-trust render origins.** OAuth client names, integration labels, and dimensions rendered there can become stronger findings than generic admin-only XSS.
 
 ## Replayable validation boundaries
 
@@ -45,6 +49,14 @@ These advisories are durable for operators because they expose reusable trust bo
 - Evidence should include route, module/version, auth state, attribute ownership, marker ID, and patched or access-denied negative controls.
 - Do not serialize gadget chains, execute server commands, write to real identity records, alter production federation data, or capture live tokens.
 
+### OpenAM Push Registration and OAuth token-store harness
+
+- Preconditions: OpenAM Community Edition lab through an affected version, OAuth2 Provider service enabled in a test realm, Push Notification service/SNS callbacks enabled, disposable users/clients/scopes, and no production identity data.
+- Map the Push Registration flow first: who can start registration, whether QR-code payloads expose a message ID, shared secret, or challenge to that user, when in-memory dispatcher entries expire, and which callback routes remain anonymous.
+- For SNS deserialization testing, use an inert class-loading or benign-constructor marker in a lab classpath only. Evidence should show stale message ID handling, CTS row mutation, callback auth state, class name attempted, and a patched negative control.
+- For OAuth token-store testing, create only synthetic CTS rows in a disposable realm/client/user namespace and verify whether the token-read path accepts caller-known identifiers whose stored BLOB claims OAuth/OIDC fields such as subject, client, realm, and scope.
+- Stop at proof that a fake lab token or inert object-construction marker is accepted. Do not mint tokens for real users, request production scopes, dump CTS contents, write to root-realm data, or load gadget chains.
+
 ### Concrete CMS widget and trusted-render harness
 
 - Preconditions: Concrete CMS lab, synthetic public/private calendars, disposable OAuth integration, and editor/admin test roles.
@@ -55,6 +67,6 @@ These advisories are durable for operators because they expose reusable trust bo
 
 ## Reporting notes
 
-- Lead with the exact boundary: **reserved argument to command template/environment**, **shared template to cross-user command contamination**, **unauthenticated validation RPC to action enumeration**, **user-writable IdP attribute to deserialization**, **anonymous SOAP to identity-store write**, **public calendar widget to private event**, or **admin/editor field to trusted browser origin**.
+- Lead with the exact boundary: **reserved argument to command template/environment**, **shared template to cross-user command contamination**, **unauthenticated validation RPC to action enumeration**, **user-writable IdP attribute to deserialization**, **anonymous SOAP to identity-store write**, **push-registration state to anonymous object construction**, **shared token-store row to OAuth/OIDC token acceptance**, **public calendar widget to private event**, or **admin/editor field to trusted browser origin**.
 - Include product version, package/advisory ID, route or module, role/auth state, canary value, concurrency level where relevant, and a negative control.
 - Keep artifacts synthetic and redacted: marker arguments, lab binding IDs, fake identity records, synthetic calendars/events, and harmless DOM markers.

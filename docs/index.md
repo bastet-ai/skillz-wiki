@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [OpenAM push-registration SNS and token-store boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-push-registration-and-oauth-token-store-harness)
+- [Claude Code `/copy` predictable temporary-file boundary update](alerts/2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md#claude-code-copy-predictable-temporary-file)
 - [Concrete CMS file-manager and Express association CSRF update](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md#later-june-24-file-manager-and-express-association-csrf-update)
 - [Concrete CMS authorization, file, and package-control boundary update](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md#june-24-concrete-cms-authorization-and-package-control-update)
 - [OliveTin action-runner, OpenAM identity-store, and Concrete CMS trusted-render boundary checks](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [phpMyFAQ API write-endpoint authorization update](alerts/2026-06-09-puma-arc-phpmyfaq-boundary-batch-ghsa.md#june-23-phpmyfaq-api-write-endpoint-authorization-update)
 - [beets metadata-to-web-UI DOM boundary checks](alerts/2026-04-29-beets-web-ui-stored-xss-ghsa-3gxm-wfjx-m847.md)
 - [Concrete CMS package, file, and block boundary checks](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md)
-- [Snipe-IT, Mattermost, Camel K, Algernon, and Jackson boundary checks](alerts/2026-06-23-snipeit-mattermost-camelk-algernon-jackson-boundaries-ghsa.md)
-- [UniFi OS and Lantronix appliance boundary checks](alerts/2026-06-23-unifi-lantronix-appliance-boundaries-kev.md)
 
 ## What lives here
 

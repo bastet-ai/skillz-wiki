@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenAM push-registration SNS and token-store boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-push-registration-and-oauth-token-store-harness)
+- [Claude Code `/copy` predictable temporary-file boundary update](2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md#claude-code-copy-predictable-temporary-file)
 - [Concrete CMS file-manager and Express association CSRF update](2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md#later-june-24-file-manager-and-express-association-csrf-update)
 - [OliveTin action-runner, OpenAM identity-store, and Concrete CMS trusted-render boundary checks](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md)
 - [Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks](2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md)
