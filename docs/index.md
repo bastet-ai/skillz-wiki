@@ -8,7 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
-- [Agent checkpoint, proxy identity, certificate control-plane, and appliance boundary checks](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md)
+- [Agent checkpoint, SSH-agent, proxy identity, certificate control-plane, and appliance boundary checks](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md)
 - [Tenant graph, i18n missing-key, and Markdown render boundary checks](alerts/2026-06-25-tenant-i18n-render-boundaries-ghsa.md)
 - [OpenAM RADIUS response-binding boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-radius-response-binding-harness)
 - [OpenAM push-registration SNS and token-store boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-push-registration-and-oauth-token-store-harness)

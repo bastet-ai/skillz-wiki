@@ -1,8 +1,10 @@
-# Agent checkpoint, proxy identity, certificate control-plane, and appliance boundary checks
+# Agent checkpoint, SSH agent, proxy identity, certificate control-plane, and appliance boundary checks
 
-Source: hourly offensive-security scan, 2026-06-25. Primary entries: GitHub Advisory Database [GHSA-fjqc-hq36-qh5p](https://github.com/advisories/GHSA-fjqc-hq36-qh5p) / CVE-2026-48775, [GHSA-w39p-vh2g-g8g5](https://github.com/advisories/GHSA-w39p-vh2g-g8g5) / CVE-2026-48776, [GHSA-g697-2xrc-gc46](https://github.com/advisories/GHSA-g697-2xrc-gc46) / CVE-2026-9291, [GHSA-qcqw-jwxc-2hqg](https://github.com/advisories/GHSA-qcqw-jwxc-2hqg) / CVE-2026-48508, [GHSA-3fxj-6jh8-hvhx](https://github.com/advisories/GHSA-3fxj-6jh8-hvhx), [GHSA-rjr7-jggh-pgcp](https://github.com/advisories/GHSA-rjr7-jggh-pgcp), [GHSA-9g5q-2w5x-hmxf](https://github.com/advisories/GHSA-9g5q-2w5x-hmxf), CISA KEV [CVE-2026-20230](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) with the [Cisco advisory](https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-cucm-ssrf-cXPnHcW), and CISA KEV [CVE-2026-12569](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) with the [PTC advisory](https://www.ptc.com/en/support/article/CS473270).
+Source: hourly offensive-security scan, 2026-06-25. Initial entries: GitHub Advisory Database [GHSA-fjqc-hq36-qh5p](https://github.com/advisories/GHSA-fjqc-hq36-qh5p) / CVE-2026-48775, [GHSA-w39p-vh2g-g8g5](https://github.com/advisories/GHSA-w39p-vh2g-g8g5) / CVE-2026-48776, [GHSA-g697-2xrc-gc46](https://github.com/advisories/GHSA-g697-2xrc-gc46) / CVE-2026-9291, [GHSA-qcqw-jwxc-2hqg](https://github.com/advisories/GHSA-qcqw-jwxc-2hqg) / CVE-2026-48508, [GHSA-3fxj-6jh8-hvhx](https://github.com/advisories/GHSA-3fxj-6jh8-hvhx), [GHSA-rjr7-jggh-pgcp](https://github.com/advisories/GHSA-rjr7-jggh-pgcp), [GHSA-9g5q-2w5x-hmxf](https://github.com/advisories/GHSA-9g5q-2w5x-hmxf), CISA KEV [CVE-2026-20230](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) with the [Cisco advisory](https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-cucm-ssrf-cXPnHcW), and CISA KEV [CVE-2026-12569](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) with the [PTC advisory](https://www.ptc.com/en/support/article/CS473270).
 
-These items are durable for operators because they expose reusable boundaries: agent checkpoint stores crossing into runtime deserialization, SDK identifiers crossing into URL paths, shared job-result storage crossing into pickle loading, empty authorization requirements turning into allow-all certificate control-plane access, user-controlled forwarding headers crossing into trusted client IPs, and appliance HTTP inputs crossing into SSRF/file-write or deserialization RCE paths.
+June 25 late update: GitHub Advisory Database [GHSA-f5wc-c3c7-36mc](https://github.com/advisories/GHSA-f5wc-c3c7-36mc) / CVE-2026-39832, [GHSA-jppx-rxg9-jmrx](https://github.com/advisories/GHSA-jppx-rxg9-jmrx) / CVE-2026-39833, [GHSA-45gg-vh54-h5m9](https://github.com/advisories/GHSA-45gg-vh54-h5m9) / CVE-2026-39828, [GHSA-v2wp-frmc-5q3v](https://github.com/advisories/GHSA-v2wp-frmc-5q3v) / CVE-2026-55166, [GHSA-r9gp-7f88-9r54](https://github.com/advisories/GHSA-r9gp-7f88-9r54) / CVE-2026-55165, [GHSA-x3vf-mgxj-7785](https://github.com/advisories/GHSA-x3vf-mgxj-7785) / CVE-2026-55163, [GHSA-54vg-pfh7-jq95](https://github.com/advisories/GHSA-54vg-pfh7-jq95) / CVE-2026-55162, and [GHSA-xcjm-wqff-m669](https://github.com/advisories/GHSA-xcjm-wqff-m669) / CVE-2026-49219.
+
+These items are durable for operators because they expose reusable boundaries: agent checkpoint stores crossing into runtime deserialization, SDK identifiers crossing into URL paths, shared job-result storage crossing into pickle loading, SSH-agent constraints crossing into forwarded key use, empty authorization requirements turning into allow-all certificate control-plane access, certificate URLs crossing into server-side fetches, user-controlled forwarding headers crossing into trusted client IPs, image-processing symlinks crossing policy-confined file reads, and appliance HTTP inputs crossing into SSRF/file-write or deserialization RCE paths.
 
 ## What changed
 
@@ -12,7 +14,14 @@ These items are durable for operators because they expose reusable boundaries: a
 | [GHSA-w39p-vh2g-g8g5](https://github.com/advisories/GHSA-w39p-vh2g-g8g5) / CVE-2026-48776 | `langgraph-sdk` resource identifiers | caller-supplied IDs are interpolated into URL templates without format enforcement | Hunt for SDK callers that pass end-user IDs into resource methods while upstream auth is path-prefix based. |
 | [GHSA-g697-2xrc-gc46](https://github.com/advisories/GHSA-g697-2xrc-gc46) / CVE-2026-9291 | Amazon Braket SDK `job.result()`, `load_job_result()`, and `load_job_checkpoint()` | S3 job-result metadata can select `pickled_v4`, causing `pickle.loads()` on result values | Validate ML/quantum job output buckets as execution-adjacent supply-chain stores, using marker-only results. |
 | [GHSA-qcqw-jwxc-2hqg](https://github.com/advisories/GHSA-qcqw-jwxc-2hqg) / CVE-2026-48508 | Lemur `StrictRolePermission` / `AuthorityCreatorPermission` | unset flags created Flask-Principal permissions with zero `Need`s, and empty needs allow every authenticated identity | Test certificate-manager endpoints for **auth-present but role-requirement-empty** behavior with read-only users. |
+| [GHSA-f5wc-c3c7-36mc](https://github.com/advisories/GHSA-f5wc-c3c7-36mc) / CVE-2026-39832, [GHSA-jppx-rxg9-jmrx](https://github.com/advisories/GHSA-jppx-rxg9-jmrx) / CVE-2026-39833 | Go `x/crypto/ssh/agent` | destination and confirm-before-use constraints can be stripped, ignored, or accepted without enforcement by in-memory/forwarded agents | Audit agent-forwarding trust chains where a constrained key is expected to remain constrained on a remote hop. |
+| [GHSA-45gg-vh54-h5m9](https://github.com/advisories/GHSA-45gg-vh54-h5m9) / CVE-2026-39828 | Go `x/crypto/ssh` server callbacks | `PartialSuccessError` with permissions can drop certificate restrictions such as `force-command` after a second factor | Test SSH certificate restrictions across multi-factor authentication transitions, not only on first-factor success. |
+| [GHSA-v2wp-frmc-5q3v](https://github.com/advisories/GHSA-v2wp-frmc-5q3v) / CVE-2026-55166 | Lemur ACME and certificate ownership flows | SSO auto-provisioned users can combine ACME URL SSRF with creator-equality authorization drift | Treat certificate automation URLs and creator IDs as PKI control-plane inputs; prove only with owned callbacks and synthetic certs. |
+| [GHSA-r9gp-7f88-9r54](https://github.com/advisories/GHSA-r9gp-7f88-9r54) / CVE-2026-55165 | Lemur JWT verifier | token verification follows attacker-supplied algorithm metadata in chain-dependent scenarios | Include JWT algorithm-confusion decision tables when a separate secret/key disclosure exists; do not claim single-request takeover without that precondition. |
+| [GHSA-x3vf-mgxj-7785](https://github.com/advisories/GHSA-x3vf-mgxj-7785) / CVE-2026-55163 | Lemur role update API | role members can rewrite membership via `PUT /api/1/roles/<id>` while delete is admin-gated | Use two-role lab users to check whether membership edit endpoints require admin or merely existing membership. |
+| [GHSA-54vg-pfh7-jq95](https://github.com/advisories/GHSA-54vg-pfh7-jq95) / CVE-2026-55162 | Lemur certificate verification | CRL Distribution Point and OCSP URLs inside uploaded certificates are fetched without destination filtering | Test certificate-upload SSRF with synthetic certificates and owned callbacks only. |
 | [GHSA-3fxj-6jh8-hvhx](https://github.com/advisories/GHSA-3fxj-6jh8-hvhx), [GHSA-rjr7-jggh-pgcp](https://github.com/advisories/GHSA-rjr7-jggh-pgcp), [GHSA-9g5q-2w5x-hmxf](https://github.com/advisories/GHSA-9g5q-2w5x-hmxf) | `go-chi/chi` `middleware.RealIP` | `True-Client-IP`, `X-Real-IP`, or leftmost `X-Forwarded-For` can replace `r.RemoteAddr` without trusted-proxy validation | Check IP ACLs, rate limits, audit attribution, and admin route gates that trust framework-derived client IPs. |
+| [GHSA-xcjm-wqff-m669](https://github.com/advisories/GHSA-xcjm-wqff-m669) / CVE-2026-49219 | ImageMagick policy enforcement | filename parsing around symlinks can bypass a configured security policy and read a disallowed file | Validate image-processing sandboxes with disposable symlink canaries, not real secrets or host files. |
 | [CVE-2026-20230](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) | Cisco Unified Communications Manager / SME | crafted unauthenticated HTTP requests can trigger SSRF through the appliance and write files for later root escalation | Scope perimeter UC appliances for route-level SSRF validation with owned callbacks and no production file writes. |
 | [CVE-2026-12569](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) | PTC Windchill PDMLink / FlexPLM | untrusted deserialization exposed as critical remote code execution in product lifecycle systems | Prioritize version and exposure confirmation, then reproduce only in approved labs with non-executing deserialization canaries. |
 
@@ -21,8 +30,11 @@ These items are durable for operators because they expose reusable boundaries: a
 1. **Storage write is often runtime control.** Checkpoint stores, job-result buckets, and model/workflow artifacts should be treated as inputs to future code paths, not passive data.
 2. **Identifier validation belongs before SDK calls.** UUID-looking fields, run IDs, thread IDs, checkpoint IDs, and resource IDs should reject `/`, `%2f`, `..`, `?`, `#`, encoded separators, and mixed-normalization variants before reaching URL-building helpers.
 3. **Empty role lists are authorization decisions.** Look for wrappers where feature flags decide which roles to require; if the disabled branch constructs a permission object with no requirements, verify whether the framework treats it as allow-all.
-4. **Forwarded IP headers are hostile unless a trusted proxy boundary is enforced.** If the app is directly reachable, client-supplied `X-Forwarded-For`, `X-Real-IP`, and `True-Client-IP` should not influence route gates or throttles.
-5. **Appliance KEVs need product ownership first.** For Cisco Unified CM and Windchill/FlexPLM, collect version, exposed route, and role/reachability evidence before any SSRF or deserialization proof.
+4. **SSH constraints must survive handoffs.** Confirm that destination restrictions, confirmation prompts, `force-command`, source-address, and critical options still apply after agent forwarding, in-memory keyring import, and MFA partial-success flows.
+5. **PKI automation is a control plane.** ACME directory URLs, CRL/OCSP endpoints, certificate owner fields, JWT verifier metadata, and role membership APIs can all become privilege or SSRF pivots.
+6. **Forwarded IP headers are hostile unless a trusted proxy boundary is enforced.** If the app is directly reachable, client-supplied `X-Forwarded-For`, `X-Real-IP`, and `True-Client-IP` should not influence route gates or throttles.
+7. **Image processors need file-boundary canaries.** Policy files that block `@/path`, delegates, or sensitive directories should also be tested through symlink and filename-normalization paths.
+8. **Appliance KEVs need product ownership first.** For Cisco Unified CM and Windchill/FlexPLM, collect version, exposed route, and role/reachability evidence before any SSRF or deserialization proof.
 
 ## Replayable validation boundaries
 
@@ -47,6 +59,30 @@ These items are durable for operators because they expose reusable boundaries: a
 - Record whether endpoints guarded by `StrictRolePermission` or `AuthorityCreatorPermission` accept the request when strict role flags are unset.
 - Do not create real root CAs, alter production certificate authorities, or point notification SSRF checks at internal services.
 
+### SSH-agent and SSH-certificate constraint harness
+
+- Preconditions: owned SSH lab, disposable keys, a mock or throwaway remote host, and no production bastions, user keys, or agent sockets.
+- Add a constrained key to the agent with destination or confirm-before-use expectations, then forward it through the same client/library path used by the target product.
+- Attempt only harmless signing or login decisions that prove whether the remote side can use the key outside the intended destination or without the expected confirmation gate.
+- For server-side certificate restrictions, test multi-factor flows where the first factor returns partial success and later factors complete authentication. Confirm whether `force-command`, source-address, principal, and extension restrictions remain attached.
+- Evidence should include library version, key constraints, agent-forwarding path, remote signing/auth decision, and a patched-version negative control. Do not use real operator keys or persist agent sockets on shared hosts.
+
+### Lemur ACME, certificate verification, JWT, and role-edit harness
+
+- Preconditions: lab Lemur instance, SSO test users, disposable roles/certificates, fake JWT signing material, and owned callback infrastructure.
+- For ACME and certificate verification SSRF, use only owned callback URLs embedded in `acme_url`, CRL Distribution Point, or OCSP fields. Record route, authenticated role, outbound callback, and any authorization check that should have blocked the request.
+- For creator-equality and role-edit checks, create two lab users and roles. Prove only whether a non-admin can take over synthetic certificate ownership or rewrite a disposable role membership list.
+- For JWT algorithm handling, build a decision table from the verifier configuration and a fake token corpus. Only demonstrate account takeover if a separate, authorized lab disclosure of the signing secret/key is part of scope.
+- Never target metadata services, Kubernetes APIs, real CAs, production JWT secrets, or live certificate inventories.
+
+### ImageMagick policy symlink harness
+
+- Preconditions: isolated image-processing worker, explicit scope, a policy that denies a synthetic path, and a disposable directory tree.
+- Create a marker file outside the allowed image directory and a symlink or filename-normalization variant inside the processing directory that references it.
+- Run the same ImageMagick command path the application uses and confirm whether policy blocks the read before any output exposes marker content.
+- Evidence should include ImageMagick version, policy excerpt, input filename/symlink layout, blocked-vs-read outcome, and fixed-version negative control.
+- Do not point canaries at `/etc/passwd`, cloud credentials, application secrets, user uploads, or host paths outside the disposable lab.
+
 ### chi RealIP trust-boundary harness
 
 - Preconditions: owned app or lab service using `go-chi/chi` `middleware.RealIP`, plus a harmless route whose behavior depends on client IP.
@@ -61,6 +97,6 @@ These items are durable for operators because they expose reusable boundaries: a
 
 ## Reporting notes
 
-- Lead with the boundary: **checkpoint store to worker deserialization**, **resource ID to URL path**, **job-result bucket to pickle load**, **empty permission needs to allow-all**, **forwarded header to trusted IP**, **appliance HTTP input to SSRF/file-write**, or **PLM deserialization to RCE**.
+- Lead with the boundary: **checkpoint store to worker deserialization**, **resource ID to URL path**, **job-result bucket to pickle load**, **SSH-agent constraints to remote key use**, **empty permission needs to allow-all**, **certificate URL to SSRF**, **role membership to role rewrite**, **forwarded header to trusted IP**, **image symlink to policy-bypassed file read**, **appliance HTTP input to SSRF/file-write**, or **PLM deserialization to RCE**.
 - Include exact package/product versions, route or method name, caller role, canary value, and negative controls.
-- Keep all artifacts synthetic: disposable checkpoints, marker job results, read-only lab users, fake certificates, owned callbacks, and harmless route canaries.
+- Keep all artifacts synthetic: disposable checkpoints, marker job results, throwaway SSH keys, read-only lab users, fake certificates, owned callbacks, symlinked marker files, and harmless route canaries.
