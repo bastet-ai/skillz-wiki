@@ -28,6 +28,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - lxml advisories/source: https://github.com/lxml/lxml/security/advisories and https://github.com/lxml/lxml
 - LangChain advisories/source: https://github.com/langchain-ai/langchain/security/advisories and https://github.com/langchain-ai/langchain
 - LangGraph advisories/source: https://github.com/langchain-ai/langgraph/security/advisories and https://github.com/langchain-ai/langgraph
+- go-chi/chi advisories/source: https://github.com/go-chi/chi/security/advisories and https://github.com/go-chi/chi
+- Lemur advisories/source: https://github.com/Netflix/lemur/security/advisories and https://github.com/Netflix/lemur
+- Amazon Braket SDK advisories/source: https://github.com/amazon-braket/amazon-braket-sdk-python/security/advisories and https://github.com/amazon-braket/amazon-braket-sdk-python
+- Cisco Unified Communications advisories: https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-cucm-ssrf-cXPnHcW
+- PTC security advisories: https://www.ptc.com/en/support/article/CS473270
 - MindsDB advisories/source: https://github.com/mindsdb/mindsdb/security/advisories and https://github.com/mindsdb/mindsdb
 - MONAI advisories/source: https://github.com/Project-MONAI/MONAI/security/advisories and https://github.com/Project-MONAI/MONAI
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
