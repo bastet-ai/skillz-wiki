@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Keycloak WebAuthn, token-revocation, and Account API route-family update](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-webauthn-token-revocation-and-account-api-route-family-checks)
 - [Tenant graph, i18n missing-key, and Markdown render boundary checks](2026-06-25-tenant-i18n-render-boundaries-ghsa.md)
 - [OpenAM RADIUS response-binding boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-radius-response-binding-harness)
 - [OpenAM push-registration SNS and token-store boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-push-registration-and-oauth-token-store-harness)

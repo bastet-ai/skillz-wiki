@@ -2,6 +2,8 @@
 
 Source: hourly offensive-security scan, 2026-06-11. Primary entries: GitHub advisories [GHSA-4mj9-pf4r-cqrc](https://github.com/advisories/GHSA-4mj9-pf4r-cqrc) / CVE-2026-48053, [GHSA-rcvq-m9j9-6f4g](https://github.com/advisories/GHSA-rcvq-m9j9-6f4g) / CVE-2026-48049, [GHSA-m6qj-3mpp-57v8](https://github.com/advisories/GHSA-m6qj-3mpp-57v8) / CVE-2026-9087, [GHSA-hmg2-jjjx-jcp2](https://github.com/advisories/GHSA-hmg2-jjjx-jcp2) / CVE-2026-46444, and [GHSA-j93g-rp6m-j32m](https://github.com/advisories/GHSA-j93g-rp6m-j32m) / CVE-2026-48050.
 
+June 26 Keycloak update: GitHub advisories [GHSA-g8vr-x4qh-25qg](https://github.com/advisories/GHSA-g8vr-x4qh-25qg) / CVE-2026-8830, [GHSA-83c4-ffjp-mxp9](https://github.com/advisories/GHSA-83c4-ffjp-mxp9) / CVE-2026-8922, and [GHSA-hm32-hfmw-rhvg](https://github.com/advisories/GHSA-hm32-hfmw-rhvg) / CVE-2026-7500.
+
 This batch is durable because each advisory exposes a reusable operator pattern: server-side URL fetches that reflect remote responses, string-prefix filesystem confinement, identity-provider proof scoping, low-privilege AI-workflow object control, and accidentally public Go `pprof` debug surfaces.
 
 ## What changed
@@ -9,6 +11,9 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 - **Kolibri unauthenticated reflected SSRF** — several Kolibri endpoints accepted a caller-controlled `baseurl`, fetched remote Kolibri-shaped APIs, followed redirects, and reflected the fetched JSON body. The clearest unauthenticated route is `GET /api/auth/remotefacilityuser`; adjacent routes include remote-facility authenticated user, setup-wizard LOD data on unprovisioned devices, and network-location facility listing.
 - **`@hapi/inert` sibling-prefix static file escape** — `@hapi/inert` `>= 4.0.0, <= 7.1.0` enforced `confine` with a raw absolute-path string-prefix check. A served directory such as `/app/static` could be escaped into a sibling like `/app/static-secret` via encoded traversal if that sibling path shared the same prefix and was readable by the process.
 - **Keycloak identity-provider account-link proof reuse** — Keycloak `keycloak-services < 26.6.3` keyed cross-session verification proof only by local user ID and IdP alias, not by the upstream identity that was verified. A second upstream account on the same IdP could consume proof scoped for another identity and link into the victim local account.
+- **Keycloak WebAuthn policy checked only in the browser** — Keycloak `keycloak-services <= 26.6.2` could let an authenticated user register a WebAuthn credential whose algorithms or parameters did not match realm policy when client-side JavaScript was manipulated.
+- **Keycloak token introspection revocation drift** — Keycloak `keycloak-services <= 26.6.2` could report tokens as active when both realm-level and client-level `notBefore` policies were configured and the realm-level revocation should have invalidated the token.
+- **Keycloak versioned Account API forced browsing** — Keycloak `keycloak-services <= 26.6.1` could leave five `/account/v1alpha1` REST endpoints reachable when the server was started with `--features-disabled=account,account-api`. The advisory notes the caller still needs permissions to use the API; the bug is that the versioned route family lacked the same feature gate as adjacent endpoints.
 - **Flowise OpenAI Assistants vector-store permission gap** — Flowise `<= 3.1.1` exposed vector-store CRUD/upload routes without per-operation permission checks. Any authenticated user with API access could create, modify, delete, or upload files to OpenAI Assistants vector stores outside their intended role.
 - **Arc public Go `pprof` debug endpoints** — Arc builds before `v26.06.1` registered `net/http/pprof` handlers under `/debug/pprof/*` and added that path to public prefixes, allowing unauthenticated heap/goroutine/profile/trace access. Treat the useful signal as debug surface exposure and runtime-state leakage; CPU-burn is secondary and should not be stress-tested in production.
 
@@ -18,8 +23,9 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 2. **For Kolibri, inspect redirect behavior:** a hostile `baseurl` that first looks Kolibri-like and then redirects is the important primitive. Prioritize devices where remote-facility workflows or setup wizard endpoints are reachable without local authentication.
 3. **For Hapi, inventory sibling names:** exploitation depends on a sibling directory whose absolute path begins with the served directory path. Look for `static` next to `static-private`, `public` next to `public-backup`, or `assets` next to `assets-secrets`.
 4. **For Keycloak, separate IdP alias from upstream subject:** the finding requires external identity-provider account linking and more than one upstream account under the same IdP alias. Plain local-login account takeover is not implied without that broker workflow.
-5. **For Flowise, enumerate vector-store roles:** collect the lowest role/API token that can reach `/api/v1/openai-assistants-vector-store` and compare permitted UI actions with direct API actions.
-6. **For Arc, test metadata reads only:** request cheap endpoints such as `/debug/pprof/` or a bounded goroutine listing in an isolated or approved environment. Avoid long `profile?seconds=` or `trace` requests on shared systems.
+5. **For Keycloak, test server-side policy gates, not UI state:** WebAuthn registration, token introspection, and disabled Account API routes all need direct HTTP/API validation because the expected control may live in browser code, route discovery, or one policy layer but not the server-side endpoint that makes the decision.
+6. **For Flowise, enumerate vector-store roles:** collect the lowest role/API token that can reach `/api/v1/openai-assistants-vector-store` and compare permitted UI actions with direct API actions.
+7. **For Arc, test metadata reads only:** request cheap endpoints such as `/debug/pprof/` or a bounded goroutine listing in an isolated or approved environment. Avoid long `profile?seconds=` or `trace` requests on shared systems.
 
 ## Replayable validation boundaries
 
@@ -44,6 +50,14 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 - The proof is positive only if B can link to the local account after A completed the verification step. Capture realm, IdP alias, account IDs as canary labels, and browser/session sequencing.
 - Avoid framing as generic authentication bypass unless the brokered account-link chain is demonstrated end to end.
 
+### Keycloak WebAuthn, token revocation, and Account API route-family checks
+
+- Use a lab realm with disposable users, test clients, and synthetic credentials only. Do not enroll operator passkeys, reuse production IdP accounts, or test against real customer sessions.
+- **WebAuthn policy check:** configure a restrictive realm WebAuthn policy, then submit a credential-registration flow where the client-side parameters are altered before the server receives `processAction()`. A useful proof compares UI-compliant registration, manipulated registration on the affected version, and patched `26.6.3+` rejection.
+- **Token revocation drift:** configure both realm-level and client-level `notBefore` values, mint a disposable OIDC token, move the realm-level revocation boundary forward, and call introspection. The only evidence needed is the synthetic token label, policy timestamps, expected inactive state, and observed introspection result; never publish live tokens.
+- **Disabled Account API forced browsing:** start Keycloak with `--features-disabled=account,account-api`, then probe paired route families as the same low-privilege test user: an endpoint that correctly returns the feature-disabled response and the corresponding `/account/v1alpha1` route that should be blocked. Keep write tests to disposable profile or preference fields.
+- Report these as **server-side policy enforcement gaps**: browser WebAuthn policy to accepted credential, realm revocation policy to introspection result, or disabled feature flag to versioned REST route. Avoid claiming unauthenticated access when the advisory requires an authenticated or permissioned caller.
+
 ### Flowise vector-store authorization
 
 - Use a low-privilege test user and an isolated workspace/vector store with disposable files.
@@ -59,7 +73,7 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 
 ## Reporting heuristics
 
-- Lead with the crossed boundary: unauthenticated user to server-side fetch and reflected body, static route to sibling filesystem tree, verified upstream identity to different upstream account link, low-privilege Flowise user to vector-store CRUD, or anonymous HTTP client to debug runtime state.
+- Lead with the crossed boundary: unauthenticated user to server-side fetch and reflected body, static route to sibling filesystem tree, verified upstream identity to different upstream account link, WebAuthn policy to accepted credential parameters, revocation timestamp to introspection state, disabled feature flag to versioned Account API route, low-privilege Flowise user to vector-store CRUD, or anonymous HTTP client to debug runtime state.
 - Include exact versions and route shapes. These advisories are highly preconditioned; versionless reports will be weak.
 - Use canaries instead of secrets. The wiki proof standard is controlled callback/marker evidence, not extraction of internal service data, filesystem secrets, vector-store documents, or heap tokens.
 - Where an item is mainly availability-oriented, keep it secondary unless paired with a confidentiality or authorization boundary.

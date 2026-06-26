@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Keycloak WebAuthn, token-revocation, and Account API route-family update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-webauthn-token-revocation-and-account-api-route-family-checks)
 - [HTTP anomaly and WebSocket triage](methodology/http-anomaly-websocket-triage.md)
 - [Agent checkpoint, SSH-agent, proxy identity, certificate control-plane, and appliance boundary checks](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md)
 - [Tenant graph, i18n missing-key, and Markdown render boundary checks](alerts/2026-06-25-tenant-i18n-render-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Concrete CMS file-manager and Express association CSRF update](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md#later-june-24-file-manager-and-express-association-csrf-update)
 - [Concrete CMS authorization, file, and package-control boundary update](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md#june-24-concrete-cms-authorization-and-package-control-update)
 - [OliveTin action-runner, OpenAM identity-store, and Concrete CMS trusted-render boundary checks](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md)
-- [Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md)
 
 ## What lives here
 
