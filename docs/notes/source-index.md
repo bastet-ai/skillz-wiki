@@ -244,6 +244,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - PortSwigger Research: https://portswigger.net/research (RSS: https://portswigger.net/research/rss)
 - Hacktron AI Blog: https://www.hacktron.ai/blog/
 - ProjectDiscovery Blog: https://projectdiscovery.io/blog/
+- Brutecat Security articles: https://brutecat.com/articles/ (RSS: https://brutecat.com/rss.xml)
 - pretix advisories and releases: https://github.com/pretix/pretix/security/advisories and https://pretix.eu/about/en/blog/
 - ProjectDiscovery Neo: https://neo.projectdiscovery.io/
 - ProjectDiscovery Neo black-box DAST benchmark notes: https://projectdiscovery.io/blog/neo-black-box-dast-capabilities
