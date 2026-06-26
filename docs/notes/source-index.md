@@ -241,6 +241,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Neotoma project: https://github.com/NeotomaDB/neotoma
 - Trail of Bits Blog: https://blog.trailofbits.com/ (RSS: https://blog.trailofbits.com/feed/)
 - Trail of Bits skill-distribution scanner-bypass research: https://blog.trailofbits.com/2026/06/03/the-sorry-state-of-skill-distribution/
+- PortSwigger Research: https://portswigger.net/research (RSS: https://portswigger.net/research/rss)
 - Hacktron AI Blog: https://www.hacktron.ai/blog/
 - ProjectDiscovery Blog: https://projectdiscovery.io/blog/
 - pretix advisories and releases: https://github.com/pretix/pretix/security/advisories and https://pretix.eu/about/en/blog/

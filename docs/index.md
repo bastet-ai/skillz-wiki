@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [HTTP anomaly and WebSocket triage](methodology/http-anomaly-websocket-triage.md)
 - [Agent checkpoint, SSH-agent, proxy identity, certificate control-plane, and appliance boundary checks](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md)
 - [Tenant graph, i18n missing-key, and Markdown render boundary checks](alerts/2026-06-25-tenant-i18n-render-boundaries-ghsa.md)
 - [OpenAM RADIUS response-binding boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-radius-response-binding-harness)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Concrete CMS authorization, file, and package-control boundary update](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md#june-24-concrete-cms-authorization-and-package-control-update)
 - [OliveTin action-runner, OpenAM identity-store, and Concrete CMS trusted-render boundary checks](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md)
 - [Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md)
-- [OpenTofu provider-cache symlink boundary update](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-23-opentofu-provider-cache-symlink-update)
 
 ## What lives here
 
