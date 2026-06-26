@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [OpenAM OAuth2 credential-rewrite and MSISDN LDAP-filter boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-oauth2-local-credential-and-msisdn-ldap-filter-harness)
 - [MindsDB file-upload to package-installer execution boundary](2026-06-26-mindsdb-file-upload-package-exec-boundary-ghsa.md)
 - [Keycloak WebAuthn, token-revocation, and Account API route-family update](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-webauthn-token-revocation-and-account-api-route-family-checks)
 - [Tenant graph, i18n missing-key, and Markdown render boundary checks](2026-06-25-tenant-i18n-render-boundaries-ghsa.md)
@@ -27,7 +28,6 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 - [Snipe-IT, Mattermost, Camel K, Algernon, and Jackson boundary checks](2026-06-23-snipeit-mattermost-camelk-algernon-jackson-boundaries-ghsa.md)
 - [UniFi OS and Lantronix appliance boundary checks](2026-06-23-unifi-lantronix-appliance-boundaries-kev.md)
 - [AWS Bedrock AgentCore package-install boundary update](2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-23-bedrock-agentcore-package-installer-update)
-- [BoxLite sandbox and Alist storage-boundary checks](2026-06-23-boxlite-alist-storage-boundaries-ghsa.md)
 - [Jupyter Enterprise Gateway kernel-ID and Cloudinary upload-signing boundary checks](2026-06-23-jupyter-eg-cloudinary-signing-boundaries-ghsa.md)
 - [Budibase datasource/PWA/webhook, Gogs mirror/org/attachment/notebook, Actual export/session, and automation boundary checks](2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
 - [Glances XML-RPC, Actual sync-server, OpenDJ, and Spinnaker control-plane boundary checks](2026-06-22-glances-opendj-spinnaker-control-plane-boundaries-ghsa.md)

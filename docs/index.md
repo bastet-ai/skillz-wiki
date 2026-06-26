@@ -9,6 +9,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 ## Recent entries
 
 - [Fluentd log-ingestion placeholder, outbound HTTP, and monitor API boundary checks](alerts/2026-06-26-fluentd-observability-boundaries-ghsa.md)
+- [OpenAM OAuth2 credential-rewrite and MSISDN LDAP-filter boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-oauth2-local-credential-and-msisdn-ldap-filter-harness)
 - [Google-style API black-box recon](methodology/google-api-black-box-recon.md)
 - [Keycloak WebAuthn, token-revocation, and Account API route-family update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-webauthn-token-revocation-and-account-api-route-family-checks)
 - [HTTP anomaly and WebSocket triage](methodology/http-anomaly-websocket-triage.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [OpenAM RADIUS response-binding boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-radius-response-binding-harness)
 - [OpenAM push-registration SNS and token-store boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-push-registration-and-oauth-token-store-harness)
 - [Claude Code `/copy` predictable temporary-file boundary update](alerts/2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md#claude-code-copy-predictable-temporary-file)
-- [Concrete CMS file-manager and Express association CSRF update](alerts/2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md#later-june-24-file-manager-and-express-association-csrf-update)
 
 ## What lives here
 
