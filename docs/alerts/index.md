@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [MCP, identity, static-path, and panel boundary checks](2026-06-26-mcp-identity-static-panel-boundaries-ghsa.md)
 - [Proxy, scanner, and container path boundary checks](2026-06-26-proxy-scanner-container-boundaries-ghsa.md)
 - [Incus image, backup, and object-storage host-boundary checks](2026-06-26-incus-image-backup-host-boundaries-ghsa.md)
 - [OpenAM OAuth2 credential-rewrite and MSISDN LDAP-filter boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-oauth2-local-credential-and-msisdn-ldap-filter-harness)
