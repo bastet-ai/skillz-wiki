@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [CMS, renderer, HTTP-client, and package-manager boundary checks](alerts/2026-06-26-cms-renderer-http-client-package-boundaries-ghsa.md)
 - [MCP, identity, static-path, and panel boundary checks](alerts/2026-06-26-mcp-identity-static-panel-boundaries-ghsa.md)
 - [Proxy, scanner, and container path boundary checks](alerts/2026-06-26-proxy-scanner-container-boundaries-ghsa.md)
 - [Incus image, backup, and object-storage host-boundary checks](alerts/2026-06-26-incus-image-backup-host-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Keycloak WebAuthn, token-revocation, and Account API route-family update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-webauthn-token-revocation-and-account-api-route-family-checks)
 - [HTTP anomaly and WebSocket triage](methodology/http-anomaly-websocket-triage.md)
 - [Agent checkpoint, SSH-agent, proxy identity, certificate control-plane, and appliance boundary checks](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md)
-- [Tenant graph, i18n missing-key, and Markdown render boundary checks](alerts/2026-06-25-tenant-i18n-render-boundaries-ghsa.md)
 
 ## What lives here
 
