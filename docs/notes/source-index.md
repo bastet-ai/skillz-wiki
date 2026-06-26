@@ -34,6 +34,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Cisco Unified Communications advisories: https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-cucm-ssrf-cXPnHcW
 - PTC security advisories: https://www.ptc.com/en/support/article/CS473270
 - MindsDB advisories/source: https://github.com/mindsdb/mindsdb/security/advisories and https://github.com/mindsdb/mindsdb
+- MindsDB file upload path traversal advisory: https://github.com/advisories/GHSA-4894-xqv6-vrfq
 - MONAI advisories/source: https://github.com/Project-MONAI/MONAI/security/advisories and https://github.com/Project-MONAI/MONAI
 - CISA Known Exploited Vulnerabilities catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog (JSON: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json)
 - Shopper advisories/source: https://github.com/shopperlabs/shopper/security/advisories and https://github.com/shopperlabs/shopper
