@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Incus image, backup, and object-storage host-boundary checks](2026-06-26-incus-image-backup-host-boundaries-ghsa.md)
 - [OpenAM OAuth2 credential-rewrite and MSISDN LDAP-filter boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-oauth2-local-credential-and-msisdn-ldap-filter-harness)
 - [MindsDB file-upload to package-installer execution boundary](2026-06-26-mindsdb-file-upload-package-exec-boundary-ghsa.md)
 - [Keycloak WebAuthn, token-revocation, and Account API route-family update](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-webauthn-token-revocation-and-account-api-route-family-checks)

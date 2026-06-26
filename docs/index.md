@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Incus image, backup, and object-storage host-boundary checks](alerts/2026-06-26-incus-image-backup-host-boundaries-ghsa.md)
 - [Fluentd log-ingestion placeholder, outbound HTTP, and monitor API boundary checks](alerts/2026-06-26-fluentd-observability-boundaries-ghsa.md)
 - [OpenAM OAuth2 credential-rewrite and MSISDN LDAP-filter boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-oauth2-local-credential-and-msisdn-ldap-filter-harness)
 - [Google-style API black-box recon](methodology/google-api-black-box-recon.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Tenant graph, i18n missing-key, and Markdown render boundary checks](alerts/2026-06-25-tenant-i18n-render-boundaries-ghsa.md)
 - [OpenAM RADIUS response-binding boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-radius-response-binding-harness)
 - [OpenAM push-registration SNS and token-store boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-push-registration-and-oauth-token-store-harness)
-- [Claude Code `/copy` predictable temporary-file boundary update](alerts/2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md#claude-code-copy-predictable-temporary-file)
 
 ## What lives here
 
