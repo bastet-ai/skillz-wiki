@@ -8,7 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
-- [CMS, renderer, HTTP-client, and package-manager boundary checks](alerts/2026-06-26-cms-renderer-http-client-package-boundaries-ghsa.md)
+- [CMS, renderer, HTTP-client, package-manager, and monitoring boundary checks](alerts/2026-06-26-cms-renderer-http-client-package-boundaries-ghsa.md#late-hour-updates-statamic-pnpm-nezha-sns-and-registry-clients)
 - [MCP, identity, static-path, and panel boundary checks](alerts/2026-06-26-mcp-identity-static-panel-boundaries-ghsa.md)
 - [Proxy, scanner, and container path boundary checks](alerts/2026-06-26-proxy-scanner-container-boundaries-ghsa.md)
 - [Incus image, backup, and object-storage host-boundary checks](alerts/2026-06-26-incus-image-backup-host-boundaries-ghsa.md)
