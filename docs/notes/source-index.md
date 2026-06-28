@@ -4,6 +4,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 
 ## Application security research
 
+- Andromeda bytecode C2 research framework: https://github.com/vyrus001/andromeda
 - badkeys weak-key checker and web service: https://github.com/badkeys/badkeys and https://badkeys.info/
 - GitHub Security Advisories: https://github.com/advisories
 - Model Context Protocol Java SDK advisories/source: https://github.com/modelcontextprotocol/java-sdk/security/advisories and https://github.com/modelcontextprotocol/java-sdk

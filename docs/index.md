@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Andromeda Bytecode C2 Lab Workflow](skills/andromeda-bytecode-c2.md)
 - [CMS, renderer, HTTP-client, package-manager, monitoring, and playlist boundary checks](alerts/2026-06-26-cms-renderer-http-client-package-boundaries-ghsa.md#final-hour-updates-pnpm-install-engines-nezha-secrets-and-media-playlist-apis)
 - [MCP, identity, static-path, and panel boundary checks](alerts/2026-06-26-mcp-identity-static-panel-boundaries-ghsa.md)
 - [Proxy, scanner, and container path boundary checks](alerts/2026-06-26-proxy-scanner-container-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Google-style API black-box recon](methodology/google-api-black-box-recon.md)
 - [Keycloak WebAuthn, token-revocation, and Account API route-family update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-webauthn-token-revocation-and-account-api-route-family-checks)
 - [HTTP anomaly and WebSocket triage](methodology/http-anomaly-websocket-triage.md)
-- [Agent checkpoint, SSH-agent, proxy identity, certificate control-plane, and appliance boundary checks](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md)
 
 ## What lives here
 

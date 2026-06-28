@@ -73,6 +73,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
   - `docs/blog/index.md` and `docs/feed.xml` for major launches
 - Keep page paths stable once they are linked publicly.
 - Prefer one focused skill page per tool over sprawling kitchen-sink references.
+- Agentic C2 / implant research frameworks belong under `docs/skills/` when the page is framed as an authorized lab workflow with explicit controller/listener trust boundaries and safety constraints.
 - Maintain `docs/notes/editorial-checklist.md` as the publishing gate.
 - Maintain `docs/notes/source-index.md` as the canonical source seed list.
 - The current public taxonomy is `Skills`, `Recon`, `Exploit Paths`, `Templates`, `Notes`, and `Blog`.
