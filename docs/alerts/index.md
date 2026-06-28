@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [pyLoad session, CSRF, and localhost-bypass control-plane update](2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md#june-28-pyload-session-csrf-and-localhost-bypass-update)
 - [CMS, renderer, HTTP-client, and package-manager boundary checks](2026-06-26-cms-renderer-http-client-package-boundaries-ghsa.md)
 - [MCP, identity, static-path, and panel boundary checks](2026-06-26-mcp-identity-static-panel-boundaries-ghsa.md)
 - [Proxy, scanner, and container path boundary checks](2026-06-26-proxy-scanner-container-boundaries-ghsa.md)

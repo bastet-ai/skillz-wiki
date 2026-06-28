@@ -73,3 +73,26 @@ This batch is durable because the items share reusable operator patterns: localh
 - Duplicate/withdrawn advisories, historical low-context entries, and availability-only DoS items were marked processed without standalone publication.
 - Sentry client-secret error leakage, Pretalx/Pretix data or email issues, and Plone open redirects may be useful in narrow programs but did not add a reusable workflow beyond existing identity, data-exposure, and open-redirect testing patterns in this wiki.
 - Trail of Bits' working RSS endpoint is `https://blog.trailofbits.com/feed/`; the older `feed.xml` path returned 404 during this scan.
+
+## June 28 pyLoad session, CSRF, and localhost-bypass update
+
+GitHub Advisory Database updates added three adjacent pyLoad control-plane items that extend the existing pyLoad validation workflow: [GHSA-fj52-5g4h-gmq8](https://github.com/advisories/GHSA-fj52-5g4h-gmq8), [GHSA-pgpj-v85q-h5fm](https://github.com/advisories/GHSA-pgpj-v85q-h5fm) / CVE-2024-22416, and [GHSA-x698-5hjm-w2m5](https://github.com/advisories/GHSA-x698-5hjm-w2m5) / CVE-2025-7346.
+
+These are worth folding into the pyLoad page because they are not isolated bugs; they expose the same durable operator boundary from different angles: browser sessions, GET-based API calls, and caller-controlled localhost indicators all reaching a download-manager control plane that can create users, retain revoked privileges, or add arbitrary packages.
+
+### Added operator checks
+
+| Advisory | Boundary | Operator value |
+| --- | --- | --- |
+| [GHSA-fj52-5g4h-gmq8](https://github.com/advisories/GHSA-fj52-5g4h-gmq8) | permission changes did not invalidate or re-scope an already-authenticated pyLoad browser session | When pyLoad permissions are lowered or removed, test whether the existing session can still perform formerly allowed package, settings, or admin actions. |
+| [GHSA-pgpj-v85q-h5fm](https://github.com/advisories/GHSA-pgpj-v85q-h5fm) / CVE-2024-22416 | pyLoad API actions accepted GET requests with ambient browser cookies and insufficient CSRF protection | Validate whether admin-only API calls can be triggered cross-site from a victim browser; use inert state changes such as creating a disposable lab user or toggling a reversible setting only. |
+| [GHSA-x698-5hjm-w2m5](https://github.com/advisories/GHSA-x698-5hjm-w2m5) / CVE-2025-7346 | localhost-only Click'N'Load/CNL routes trusted spoofable `Host` material such as `127.0.0.1:9666` | Re-test CNL and local-only routes with paired external requests: normal external `Host` should fail, spoofed localhost `Host` should not grant package creation. |
+
+### Safe replay boundaries
+
+1. **Session re-scope:** log in as a disposable high-permission pyLoad user, keep the browser session alive, remove that user's permissions from an admin session, then call harmless endpoints that should now be denied. Evidence is route/status/action parity before and after revocation; do not download third-party content or alter production queues.
+2. **CSRF API:** host a minimal same-origin-lab HTML form or image/request harness that targets a reversible pyLoad API action. Prefer a disposable lab instance and actions that create only canary users/packages. Do not publish working admin-takeover payloads for production targets.
+3. **Host-based localhost bypass:** send paired requests to CNL/local-only routes from outside localhost, varying only the `Host` header. Use a canary package URL you control and capture whether pyLoad queues or fetches it. Do not target cloud metadata, internal panels, or unrelated hosts.
+4. **Negative controls:** sessions are invalidated or permissions are re-checked on every privileged action; unsafe methods and CSRF tokens are enforced for API state changes; local-only checks trust the socket peer address or authenticated reverse-proxy metadata, not raw `Host`/origin headers.
+
+Adjacent [GHSA-8fm5-gg2f-f66q](https://github.com/advisories/GHSA-8fm5-gg2f-f66q) was processed without promotion because the Publify redirect-link XSS requires a publisher-controlled admin click and does not add a stronger workflow beyond existing trusted-admin-render checks.
