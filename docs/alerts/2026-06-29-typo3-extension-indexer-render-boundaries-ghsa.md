@@ -1,8 +1,8 @@
 # TYPO3 extension indexer, crawler, and render-boundary checks
 
-Source: hourly offensive-security scan, 2026-06-29. Primary entries: GitHub Advisory Database [GHSA-3h52-6v6j-6wwv](https://github.com/advisories/GHSA-3h52-6v6j-6wwv) / CVE-2026-8827, [GHSA-c72x-mc2p-wv7x](https://github.com/advisories/GHSA-c72x-mc2p-wv7x) / CVE-2026-46724, [GHSA-jr8m-x4p7-p3v5](https://github.com/advisories/GHSA-jr8m-x4p7-p3v5) / CVE-2026-8727, [GHSA-fq39-62gx-8hqx](https://github.com/advisories/GHSA-fq39-62gx-8hqx) / CVE-2026-46722, [GHSA-67j3-jmm3-32xc](https://github.com/advisories/GHSA-67j3-jmm3-32xc) / CVE-2026-46723, and [GHSA-8x3j-439w-537c](https://github.com/advisories/GHSA-8x3j-439w-537c) / CVE-2026-46725.
+Source: hourly offensive-security scan, 2026-06-29. Primary entries: GitHub Advisory Database [GHSA-3h52-6v6j-6wwv](https://github.com/advisories/GHSA-3h52-6v6j-6wwv) / CVE-2026-8827, [GHSA-c72x-mc2p-wv7x](https://github.com/advisories/GHSA-c72x-mc2p-wv7x) / CVE-2026-46724, [GHSA-jr8m-x4p7-p3v5](https://github.com/advisories/GHSA-jr8m-x4p7-p3v5) / CVE-2026-8727, [GHSA-fq39-62gx-8hqx](https://github.com/advisories/GHSA-fq39-62gx-8hqx) / CVE-2026-46722, [GHSA-67j3-jmm3-32xc](https://github.com/advisories/GHSA-67j3-jmm3-32xc) / CVE-2026-46723, [GHSA-8x3j-439w-537c](https://github.com/advisories/GHSA-8x3j-439w-537c) / CVE-2026-46725, and [GHSA-v348-vr4q-fv9p](https://github.com/advisories/GHSA-v348-vr4q-fv9p) / CVE-2026-46721.
 
-These advisories are useful for operators because they expose reusable TYPO3 extension boundaries: backend indexer configuration crossing into filesystem reads and internal table indexing, crawler-controlled response headers crossing into PHP object deserialization, frontend cookies crossing into persistent content-element state, and extension helper APIs crossing from custom code into SQL construction.
+These advisories are useful for operators because they expose reusable TYPO3 extension boundaries: backend indexer configuration crossing into filesystem reads and internal table indexing, crawler-controlled response headers crossing into PHP object deserialization, frontend cookies crossing into persistent content-element state, extension helper APIs crossing from custom code into SQL construction, and frontend registration fields crossing into privileged group assignment.
 
 ## What changed
 
@@ -14,6 +14,7 @@ These advisories are useful for operators because they expose reusable TYPO3 ext
 | [GHSA-jr8m-x4p7-p3v5](https://github.com/advisories/GHSA-jr8m-x4p7-p3v5) / CVE-2026-8727 | `tomasnorre/crawler` Site Crawler | crawler-fetched `X-T3Crawler-Meta` response headers were passed to PHP `unserialize()` | If admins can configure crawler targets, attacker-controlled lab endpoints become deserialization input sources. |
 | [GHSA-8x3j-439w-537c](https://github.com/advisories/GHSA-8x3j-439w-537c) / CVE-2026-46725 | `mmc/ceselector` Content Element Selector | unauthenticated cookies were unserialized when the content element used static persistent mode | Frontend state mechanisms need deserialization review when plugin configuration toggles persistence. |
 | [GHSA-3h52-6v6j-6wwv](https://github.com/advisories/GHSA-3h52-6v6j-6wwv) / CVE-2026-8827 | `friendsoftypo3/tt-address` helper repository | custom extension calls to `AddressRepository::getSqlQuery()` could pass untrusted input into SQL construction | Review custom TYPO3 glue code that wraps extension helper methods; default installation reachability is not enough. |
+| [GHSA-v348-vr4q-fv9p](https://github.com/advisories/GHSA-v348-vr4q-fv9p) / CVE-2026-46721 | `evoweb/sf_register` create/edit flows | submitted user properties could assign arbitrary frontend user groups | Treat account registration and profile-edit forms as mass-assignment boundaries when frontend groups gate content or functionality. |
 
 ## Operator triage
 
@@ -22,6 +23,7 @@ These advisories are useful for operators because they expose reusable TYPO3 ext
 3. **Separate backend-privileged chains from unauthenticated frontend chains.** `ke_search` and `crawler` generally start from backend-controlled configuration; `ceselector` may expose a frontend cookie sink if the affected content element is present and static persistent mode is enabled.
 4. **Prefer index evidence over secret reads.** For file/table/XXE findings, prove the boundary with synthetic canaries that appear in the search index, not with `/etc/passwd`, TYPO3 install secrets, or customer data.
 5. **Custom code matters.** For `tt_address`, look for site-specific extensions that call helper methods with request parameters, route variables, search terms, filters, or imported address data.
+6. **Frontend group assignment is authorization state.** For `sf_register`, map which request fields can be submitted in create/edit flows and whether any privileged frontend group controls restricted pages, downloads, forms, or commerce features.
 
 ## Replayable validation boundaries
 
@@ -55,8 +57,15 @@ These advisories are useful for operators because they expose reusable TYPO3 ext
 - Exercise only a seeded canary route and show SQL-shape change or canary extraction that cannot happen through the intended filter grammar.
 - Do not enumerate production address books, dump tables, bypass legal scope, or report `tt_address` as directly exploitable without a reachable custom call path.
 
+### `sf_register` frontend-group mass-assignment harness
+
+- Preconditions: affected `sf_register` version, disposable frontend users, at least one synthetic privileged frontend user group, and restricted test content that contains only a canary marker.
+- Register or edit a disposable account while adding only group-related request fields observed in the form, extension configuration, or model binding. Verify whether the resulting frontend user record gains the canary privileged group.
+- Evidence should include extension version, create/edit route, submitted field names redacted to canaries, before/after group membership, access to the synthetic restricted marker, and patched or allowlisted-field negative control.
+- Do not add real privileged groups, access customer-only content, brute-force user IDs, alter existing users, or retain elevated test accounts after validation.
+
 ## Reporting notes
 
-- Lead with the concrete boundary: **backend indexer path to file read**, **OOXML entity to index/callback**, **table configuration to internal record exposure**, **crawler response header to PHP deserialization**, **frontend cookie to persistent element unserialize**, or **custom helper API to SQL construction**.
+- Lead with the concrete boundary: **backend indexer path to file read**, **OOXML entity to index/callback**, **table configuration to internal record exposure**, **crawler response header to PHP deserialization**, **frontend cookie to persistent element unserialize**, **custom helper API to SQL construction**, or **registration/profile fields to privileged frontend group assignment**.
 - Include extension version, TYPO3 role, plugin/indexer configuration, route or scheduler path, exact canary, and a fixed-version or permission-denied negative control.
 - Keep artifacts synthetic: marker files, owned callback domains, lab records, harmless cookies, and redacted logs.

@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Graph, web-service, and OAuth integration boundary checks](alerts/2026-06-29-graph-webservice-oauth-boundaries-ghsa.md)
+- [Concrete CMS file-version and Express association update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#concrete-cms-file-version-and-express-association-harness)
+- [TYPO3 sf_register frontend-group mass-assignment update](alerts/2026-06-29-typo3-extension-indexer-render-boundaries-ghsa.md#sf_register-frontend-group-mass-assignment-harness)
 - [SimpleHelp OIDC identity-token boundary check](alerts/2026-06-29-simplehelp-oidc-token-boundary-kev.md)
 - [Tomcat HTTP/0.9 method constraint boundary update](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md#tomcat-http09-method-constraint-validation)
 - [TYPO3 extension indexer, crawler, and render-boundary checks](alerts/2026-06-29-typo3-extension-indexer-render-boundaries-ghsa.md)
@@ -15,9 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Netty HTTP header whitespace request-smuggling boundary update](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#http-header-whitespace-request-smuggling-boundary)
 - [Upload, accounting, and ACL filesystem boundary checks](alerts/2026-06-29-upload-accounting-acl-boundaries-ghsa.md)
 - [Andromeda Bytecode C2 Lab Workflow](skills/andromeda-bytecode-c2.md)
-- [Froxlor DNS LOC/TLSA zone-file injection boundary update](alerts/2026-06-04-froxlor-dns-txt-bind-zone-injection-ghsa.md#june-29-follow-up-loctlsa-validation-regression)
-- [pyLoad session, CSRF, and localhost-bypass control-plane update](alerts/2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md#june-28-pyload-session-csrf-and-localhost-bypass-update)
-- [CMS, renderer, HTTP-client, package-manager, monitoring, and playlist boundary checks](alerts/2026-06-26-cms-renderer-http-client-package-boundaries-ghsa.md#final-hour-updates-pnpm-install-engines-nezha-secrets-and-media-playlist-apis)
 
 ## What lives here
 
