@@ -9,6 +9,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 ## Recent entries
 
 - [SimpleHelp OIDC identity-token boundary check](alerts/2026-06-29-simplehelp-oidc-token-boundary-kev.md)
+- [Tomcat HTTP/0.9 method constraint boundary update](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md#tomcat-http09-method-constraint-validation)
 - [TYPO3 extension indexer, crawler, and render-boundary checks](alerts/2026-06-29-typo3-extension-indexer-render-boundaries-ghsa.md)
 - [OpenAM PKCE, private-key JWT, and script-sandbox boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-pkce-private_key_jwt-and-script-sandbox-harness)
 - [Netty HTTP header whitespace request-smuggling boundary update](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#http-header-whitespace-request-smuggling-boundary)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Froxlor DNS LOC/TLSA zone-file injection boundary update](alerts/2026-06-04-froxlor-dns-txt-bind-zone-injection-ghsa.md#june-29-follow-up-loctlsa-validation-regression)
 - [pyLoad session, CSRF, and localhost-bypass control-plane update](alerts/2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md#june-28-pyload-session-csrf-and-localhost-bypass-update)
 - [CMS, renderer, HTTP-client, package-manager, monitoring, and playlist boundary checks](alerts/2026-06-26-cms-renderer-http-client-package-boundaries-ghsa.md#final-hour-updates-pnpm-install-engines-nezha-secrets-and-media-playlist-apis)
-- [MCP, identity, static-path, and panel boundary checks](alerts/2026-06-26-mcp-identity-static-panel-boundaries-ghsa.md)
 
 ## What lives here
 
