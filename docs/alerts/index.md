@@ -10,16 +10,16 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [TYPO3 extension indexer, crawler, and render-boundary checks](2026-06-29-typo3-extension-indexer-render-boundaries-ghsa.md)
+- [OpenAM PKCE, private-key JWT, and script-sandbox boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-pkce-private_key_jwt-and-script-sandbox-harness)
+- [Upload, accounting, and ACL filesystem boundary checks](2026-06-29-upload-accounting-acl-boundaries-ghsa.md)
+- [Netty HTTP header whitespace request-smuggling boundary update](2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#http-header-whitespace-request-smuggling-boundary)
 - [pyLoad session, CSRF, and localhost-bypass control-plane update](2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md#june-28-pyload-session-csrf-and-localhost-bypass-update)
 - [CMS, renderer, HTTP-client, and package-manager boundary checks](2026-06-26-cms-renderer-http-client-package-boundaries-ghsa.md)
 - [MCP, identity, static-path, and panel boundary checks](2026-06-26-mcp-identity-static-panel-boundaries-ghsa.md)
 - [Proxy, scanner, and container path boundary checks](2026-06-26-proxy-scanner-container-boundaries-ghsa.md)
 - [Incus image, backup, and object-storage host-boundary checks](2026-06-26-incus-image-backup-host-boundaries-ghsa.md)
 - [OpenAM OAuth2 credential-rewrite and MSISDN LDAP-filter boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-oauth2-local-credential-and-msisdn-ldap-filter-harness)
-- [MindsDB file-upload to package-installer execution boundary](2026-06-26-mindsdb-file-upload-package-exec-boundary-ghsa.md)
-- [Keycloak WebAuthn, token-revocation, and Account API route-family update](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-webauthn-token-revocation-and-account-api-route-family-checks)
-- [Tenant graph, i18n missing-key, and Markdown render boundary checks](2026-06-25-tenant-i18n-render-boundaries-ghsa.md)
-- [OpenAM RADIUS response-binding boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-radius-response-binding-harness)
 - [OpenAM push-registration SNS and token-store boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-push-registration-and-oauth-token-store-harness)
 - [Claude Code `/copy` predictable temporary-file boundary update](2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md#claude-code-copy-predictable-temporary-file)
 - [Concrete CMS file-manager and Express association CSRF update](2026-06-23-concrete-cms-package-file-block-boundaries-ghsa.md#later-june-24-file-manager-and-express-association-csrf-update)
