@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Netty HTTP header whitespace request-smuggling boundary update](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#http-header-whitespace-request-smuggling-boundary)
 - [Upload, accounting, and ACL filesystem boundary checks](alerts/2026-06-29-upload-accounting-acl-boundaries-ghsa.md)
 - [Andromeda Bytecode C2 Lab Workflow](skills/andromeda-bytecode-c2.md)
 - [Froxlor DNS LOC/TLSA zone-file injection boundary update](alerts/2026-06-04-froxlor-dns-txt-bind-zone-injection-ghsa.md#june-29-follow-up-loctlsa-validation-regression)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Proxy, scanner, and container path boundary checks](alerts/2026-06-26-proxy-scanner-container-boundaries-ghsa.md)
 - [Incus image, backup, and object-storage host-boundary checks](alerts/2026-06-26-incus-image-backup-host-boundaries-ghsa.md)
 - [Fluentd log-ingestion placeholder, outbound HTTP, and monitor API boundary checks](alerts/2026-06-26-fluentd-observability-boundaries-ghsa.md)
-- [OpenAM OAuth2 credential-rewrite and MSISDN LDAP-filter boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-oauth2-local-credential-and-msisdn-ldap-filter-harness)
 
 ## What lives here
 
