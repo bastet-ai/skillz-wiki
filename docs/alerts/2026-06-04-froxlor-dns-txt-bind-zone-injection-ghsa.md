@@ -68,6 +68,34 @@ Use an isolated delegated lab domain that you are explicitly allowed to modify. 
 
 Emphasize the broken trust boundary: customer-controlled TXT content crossed into BIND zone syntax without newline/metacharacter containment. The impact is not just a malformed TXT value; it can become unauthorized DNS-record or directive injection in the generated zone for a domain the panel manages.
 
+## June 29 follow-up: LOC/TLSA validation regression
+
+The Froxlor DNS validation follow-up already tracked in the [May 29 boundary batch](2026-05-29-axios-froxlor-gh-cli-boundary-batch-ghsa.md) was updated on 2026-06-29 with an incomplete-fix angle for the same DNS-record-to-zone-file boundary. The advisory reports that Froxlor's added LOC validation used whitespace matching that can preserve newlines, TLSA matching type `0` lacked a practical upper bound on hex data, and validators returned raw input that was later concatenated into generated zone files.
+
+Treat this as a broader hosting-panel DNS renderer test, not only a TXT-record issue:
+
+- Add LOC, RP, SSHFP, TLSA, TXT, SRV, CAA, and any provider-specific raw/custom record type to the lab record matrix.
+- For each record, capture input acceptance, stored/read-back value, rendered zone-file line, and authoritative DNS answer.
+- Test delimiter handling with harmless canaries only: newline, carriage return, tab, quoted strings, escaped quotes, semicolon comments, parentheses, long hex strings, and leading/trailing whitespace.
+- For TLSA-like hex/blob fields, verify that documented maximum lengths are enforced before zone rendering.
+- The useful finding is structural mismatch: one submitted record creates an additional harmless canary record, splits a rendered line, comments out later content, or exceeds expected record-size constraints. A rejected save or crash-only parser behavior is not enough for this workflow.
+
+Safe LOC/TLSA canaries for a disposable zone:
+
+```text
+# Expected: one LOC record remains one rendered line or is rejected.
+51 28 38 N 0 0 1 W 10m
+
+# Boundary probe: newline is accepted only if it stays data-safe, not line-structural.
+51 28 38 N 0 0 1 W
+10m
+
+# Expected: TLSA matching type 0 has a bounded, documented maximum.
+3 1 0 aabbccddeeff
+```
+
+Lead reports with the crossed boundary: **DNS record content to generated BIND zone-file structure**. Keep proofs to disposable zones, canary hostnames, non-routable or documentation IP values, short TTLs, rendered-line/authoritative-answer evidence, and fixed-version negative controls. Do not steer production MX/NS/A/AAAA traffic, poison customer zones, or reload production DNS daemons.
+
 ## Sources
 
 - GitHub Advisory Database: [GHSA-37m5-m4q3-fc6x / CVE-2026-41234](https://github.com/advisories/GHSA-37m5-m4q3-fc6x)
