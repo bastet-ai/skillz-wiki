@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Model parser, deserialization, and identity-extractor boundary checks](2026-06-30-model-parser-deserialization-identity-boundaries-ghsa.md)
 - [Auth middleware, VM socket, and supply-chain verifier boundary checks](2026-06-30-auth-middleware-vm-supply-chain-boundaries-ghsa.md)
 - [Fission namespace and trigger boundary update](2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md#june-30-fission-namespace-and-trigger-boundary-update)
 - [Spring AI, MLflow, and Airflow boundary checks](2026-06-30-ai-artifact-airflow-boundaries-ghsa.md)

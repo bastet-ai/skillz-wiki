@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Model parser, deserialization, and identity-extractor boundary checks](alerts/2026-06-30-model-parser-deserialization-identity-boundaries-ghsa.md)
 - [Template, OIDC discovery, path-prefix, and job-dashboard boundary checks](alerts/2026-06-30-template-oidc-path-job-boundaries-ghsa.md)
 - [Fission podspec and package-reference boundary update](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md#june-30-late-fission-podspec-and-package-reference-update)
 - [Keycloak UMA resource and account-lookup update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-uma-resource-and-account-lookup-authorization-checks)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Fission namespace and trigger boundary update](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md#june-30-fission-namespace-and-trigger-boundary-update)
 - [Spring AI, MLflow, and Airflow boundary checks](alerts/2026-06-30-ai-artifact-airflow-boundaries-ghsa.md)
 - [Paymenter checkout configuration injection update](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#paymenter-checkout-configuration-injection-harness)
-- [Agent context and broker-secret boundary checks](alerts/2026-06-30-agent-context-broker-secret-boundaries-ghsa.md)
 
 ## What lives here
 
