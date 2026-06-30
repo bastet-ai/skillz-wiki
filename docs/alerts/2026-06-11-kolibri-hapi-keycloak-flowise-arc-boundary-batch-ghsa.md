@@ -4,6 +4,8 @@ Source: hourly offensive-security scan, 2026-06-11. Primary entries: GitHub advi
 
 June 26 Keycloak update: GitHub advisories [GHSA-g8vr-x4qh-25qg](https://github.com/advisories/GHSA-g8vr-x4qh-25qg) / CVE-2026-8830, [GHSA-83c4-ffjp-mxp9](https://github.com/advisories/GHSA-83c4-ffjp-mxp9) / CVE-2026-8922, and [GHSA-hm32-hfmw-rhvg](https://github.com/advisories/GHSA-hm32-hfmw-rhvg) / CVE-2026-7500.
 
+June 30 Keycloak UMA update: GitHub advisories [GHSA-c739-f6xw-6pv2](https://github.com/advisories/GHSA-c739-f6xw-6pv2) / CVE-2026-4630 and [GHSA-933f-rg6j-f46p](https://github.com/advisories/GHSA-933f-rg6j-f46p) / CVE-2026-37981.
+
 This batch is durable because each advisory exposes a reusable operator pattern: server-side URL fetches that reflect remote responses, string-prefix filesystem confinement, identity-provider proof scoping, low-privilege AI-workflow object control, and accidentally public Go `pprof` debug surfaces.
 
 ## What changed
@@ -14,6 +16,8 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 - **Keycloak WebAuthn policy checked only in the browser** — Keycloak `keycloak-services <= 26.6.2` could let an authenticated user register a WebAuthn credential whose algorithms or parameters did not match realm policy when client-side JavaScript was manipulated.
 - **Keycloak token introspection revocation drift** — Keycloak `keycloak-services <= 26.6.2` could report tokens as active when both realm-level and client-level `notBefore` policies were configured and the realm-level revocation should have invalidated the token.
 - **Keycloak versioned Account API forced browsing** — Keycloak `keycloak-services <= 26.6.1` could leave five `/account/v1alpha1` REST endpoints reachable when the server was started with `--features-disabled=account,account-api`. The advisory notes the caller still needs permissions to use the API; the bug is that the versioned route family lacked the same feature gate as adjacent endpoints.
+- **Keycloak UMA Protection API resource-server IDOR** — authenticated clients using Authorization Services Protection API endpoints could access or modify resource records owned by another Resource Server in the same realm when they knew the target resource UUID.
+- **Keycloak Account Resources user lookup overreach** — an authenticated user who owns at least one UMA resource could query arbitrary username or email values and receive profile objects for unrelated realm users.
 - **Flowise OpenAI Assistants vector-store permission gap** — Flowise `<= 3.1.1` exposed vector-store CRUD/upload routes without per-operation permission checks. Any authenticated user with API access could create, modify, delete, or upload files to OpenAI Assistants vector stores outside their intended role.
 - **Arc public Go `pprof` debug endpoints** — Arc builds before `v26.06.1` registered `net/http/pprof` handlers under `/debug/pprof/*` and added that path to public prefixes, allowing unauthenticated heap/goroutine/profile/trace access. Treat the useful signal as debug surface exposure and runtime-state leakage; CPU-burn is secondary and should not be stress-tested in production.
 
@@ -58,6 +62,14 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 - **Disabled Account API forced browsing:** start Keycloak with `--features-disabled=account,account-api`, then probe paired route families as the same low-privilege test user: an endpoint that correctly returns the feature-disabled response and the corresponding `/account/v1alpha1` route that should be blocked. Keep write tests to disposable profile or preference fields.
 - Report these as **server-side policy enforcement gaps**: browser WebAuthn policy to accepted credential, realm revocation policy to introspection result, or disabled feature flag to versioned REST route. Avoid claiming unauthenticated access when the advisory requires an authenticated or permissioned caller.
 
+### Keycloak UMA resource and account-lookup authorization checks
+
+- Preconditions: lab realm, Authorization Services enabled, two disposable Resource Servers or clients, two disposable users, and synthetic UMA resources only.
+- For Protection API IDOR, create `resource-a` under Resource Server A and `resource-b` under Resource Server B. Authenticate as the client for A, then attempt GET/PUT/DELETE-style Protection API operations against B's resource UUID.
+- Positive evidence is limited to a canary resource name, owner Resource Server ID, HTTP method, expected denial, and observed access or mutation. Do not delete real resources; if DELETE must be tested, use only a disposable marker resource.
+- For Account Resources lookup, use a low-privilege user that owns one canary UMA resource. Query only disposable usernames/emails in the same lab realm and compare whether unrelated user profile objects are returned.
+- Treat these as **same-realm authorization and object-ownership drift**, not unauthenticated account takeover. Keep PII out of evidence; use fake names, fake emails, and redacted profile fields.
+
 ### Flowise vector-store authorization
 
 - Use a low-privilege test user and an isolated workspace/vector store with disposable files.
@@ -73,7 +85,7 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 
 ## Reporting heuristics
 
-- Lead with the crossed boundary: unauthenticated user to server-side fetch and reflected body, static route to sibling filesystem tree, verified upstream identity to different upstream account link, WebAuthn policy to accepted credential parameters, revocation timestamp to introspection state, disabled feature flag to versioned Account API route, low-privilege Flowise user to vector-store CRUD, or anonymous HTTP client to debug runtime state.
+- Lead with the crossed boundary: unauthenticated user to server-side fetch and reflected body, static route to sibling filesystem tree, verified upstream identity to different upstream account link, WebAuthn policy to accepted credential parameters, revocation timestamp to introspection state, disabled feature flag to versioned Account API route, same-realm UMA client to another Resource Server's resource, UMA-owning user to unrelated account profile lookup, low-privilege Flowise user to vector-store CRUD, or anonymous HTTP client to debug runtime state.
 - Include exact versions and route shapes. These advisories are highly preconditioned; versionless reports will be weak.
 - Use canaries instead of secrets. The wiki proof standard is controlled callback/marker evidence, not extraction of internal service data, filesystem secrets, vector-store documents, or heap tokens.
 - Where an item is mainly availability-oriented, keep it secondary unless paired with a confidentiality or authorization boundary.

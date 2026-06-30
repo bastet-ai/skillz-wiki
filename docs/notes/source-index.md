@@ -328,6 +328,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - motionEye advisories/source: https://github.com/motioneye-project/motioneye/security/advisories and https://github.com/motioneye-project/motioneye
 - Paymenter advisories/source: https://github.com/Paymenter/Paymenter/security/advisories and https://github.com/Paymenter/Paymenter
 - n8n advisories/source: https://github.com/n8n-io/n8n/security/advisories and https://github.com/n8n-io/n8n
+- Sigstore Fulcio advisories/source: https://github.com/sigstore/fulcio/security/advisories and https://github.com/sigstore/fulcio
+- CefSharp advisories/source: https://github.com/cefsharp/CefSharp/security/advisories and https://github.com/cefsharp/CefSharp
+- AdonisJS bodyparser advisories/source: https://github.com/adonisjs/bodyparser/security/advisories and https://github.com/adonisjs/bodyparser
+- Oban Web advisories/source: https://github.com/oban-bg/oban/security/advisories and https://github.com/oban-bg/oban
+- Probo advisories/source: https://github.com/probo/probo/security/advisories and https://github.com/probo/probo
 
 ## Network and service discovery
 

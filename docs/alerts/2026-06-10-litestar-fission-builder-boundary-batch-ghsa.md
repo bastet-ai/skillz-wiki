@@ -99,10 +99,35 @@ These belong with the existing Fission builder workflow because the durable patt
 5. Positive evidence should be limited to event receipt, marker-only build output, Deployment manifest fields, or a rejected/accepted controller decision. Do not collect pod specs from real workloads, ConfigMaps, service-account tokens, or production Secrets.
 6. Repeat on Fission `v1.24.0` or later as a negative control: namespace equality checks should reject cross-namespace references, empty watch namespaces should bind to the trigger namespace, Secret values should remain `ValueFrom` references, and PodSpec merges should be allowlisted.
 
+## June 30 late Fission podspec and package-reference update
+
+The later published Fission wave added seven adjacent controller-boundary advisories: [GHSA-3r8v-2xmj-5c39](https://github.com/advisories/GHSA-3r8v-2xmj-5c39) / CVE-2026-49823, [GHSA-cvw6-gfvv-953q](https://github.com/advisories/GHSA-cvw6-gfvv-953q) / CVE-2026-49824, [GHSA-wmgg-3p4h-48x7](https://github.com/advisories/GHSA-wmgg-3p4h-48x7) / CVE-2026-50545, [GHSA-v455-mv2v-5g92](https://github.com/advisories/GHSA-v455-mv2v-5g92) / CVE-2026-50563, [GHSA-gx55-f84r-v3r7](https://github.com/advisories/GHSA-gx55-f84r-v3r7) / CVE-2026-50564, [GHSA-8wcj-mfrc-jx5q](https://github.com/advisories/GHSA-8wcj-mfrc-jx5q) / CVE-2026-50565, and [GHSA-m63v-2g9w-2w6v](https://github.com/advisories/GHSA-m63v-2g9w-2w6v) / CVE-2026-50566.
+
+Promote these as one Fission tenant-control-plane workflow, not seven isolated alerts. The durable operator pattern is **tenant-writable Function/Environment metadata crossing into other namespaces, package archives, service-account tokens, or privileged Kubernetes pod fields**.
+
+| Advisory | Fission object / field | Crossed boundary | Safe evidence |
+| --- | --- | --- | --- |
+| [GHSA-3r8v-2xmj-5c39](https://github.com/advisories/GHSA-3r8v-2xmj-5c39) | `Function.spec.package.packageref.namespace` | attacker namespace Function caused the fetcher sidecar to read a Package from another namespace | disposable victim Package whose archive contains only `skillz-package-canary`; prove marker appears in attacker pool pod path, not real source |
+| [GHSA-cvw6-gfvv-953q](https://github.com/advisories/GHSA-cvw6-gfvv-953q) | `Function.spec.environment.namespace` | attacker namespace Function selected another namespace's Environment/runtime image | canary Environment image or log marker from a lab victim namespace; do not inspect victim images for secrets |
+| [GHSA-wmgg-3p4h-48x7](https://github.com/advisories/GHSA-wmgg-3p4h-48x7), [GHSA-gx55-f84r-v3r7](https://github.com/advisories/GHSA-gx55-f84r-v3r7) | `Environment.spec.runtime.podSpec` / `spec.builder.podSpec` | CRD podspec passthrough propagated `hostPID`, `hostNetwork`, `hostIPC`, `hostPath`, `serviceAccountName`, or privileged container settings | admission decision table and rendered pod template in a throwaway cluster; avoid host mounts and node escape |
+| [GHSA-v455-mv2v-5g92](https://github.com/advisories/GHSA-v455-mv2v-5g92) | `Function.spec.podspec` with container executor | Function-level podspec merged dangerous Kubernetes fields into generated Deployments | rejected/accepted canary fields plus pod-template diff for a disposable Function only |
+| [GHSA-8wcj-mfrc-jx5q](https://github.com/advisories/GHSA-8wcj-mfrc-jx5q) | builder pod `ServiceAccountName: fission-builder` with default automount | user-supplied builder container inherited the builder service-account token | prove the mount path exists with a fake-token lab service account or pod template evidence; never print real token bytes |
+| [GHSA-m63v-2g9w-2w6v](https://github.com/advisories/GHSA-m63v-2g9w-2w6v) | `Environment.spec.runtime.container.securityContext` / `spec.builder.container.securityContext` | standalone Container securityContext bypassed PodSpec-only validation | canary `securityContext` accept/reject matrix on affected and fixed versions; no privileged host operations |
+
+### Podspec and cross-namespace harness
+
+1. Use a disposable Fission cluster with two namespaces, `attacker-a` and `victim-b`, and grant the tester only the tenant role being assessed.
+2. Seed `victim-b` with harmless resources: a Package archive containing `skillz-package-canary`, an Environment using a canary image/label, and a fake Secret/ConfigMap if needed for already-covered trigger tests.
+3. For reference-boundary tests, create Functions in `attacker-a` that point only the tested namespace field at `victim-b`. Positive evidence is marker-only package or environment selection in the generated attacker workload.
+4. For podspec/securityContext tests, submit one dangerous-looking but inert field at a time and capture whether admission, webhook update paths, and controller-generated pod templates accept or reject it. Do not mount host paths, request real privileged containers, or connect to host namespaces outside a lab designed for that purpose.
+5. For service-account automount checks, use pod-template evidence or a fake lab token marker. Never capture Kubernetes service-account tokens, ConfigMaps, Secrets, or package archives from customer workloads.
+6. Re-run on the fixed release as a negative control: cross-namespace references should be rejected or scoped to the caller namespace, update webhooks should cover the same fields as create, service-account tokens should not automount into user-supplied builder containers, and both PodSpec and standalone Container fields should be allowlisted.
+
 ## Reporting heuristics
 
 - For Litestar host findings, include the raw request shape, host allowlist expectation, observed bypass, and the downstream sink that consumed the forwarded host.
 - For Litestar CSRF rendering, include framework/template configuration, the benign cookie marker, and a screenshot or DOM snippet showing markup interpretation.
 - For Fission builder findings, include the actor with `Environment` write, namespace, Fission version, builder service account, canary command, canary artifact/log proof, and why the package or function boundary matters.
 - For Fission namespace/trigger findings, include the exact CRD kind, actor RBAC, source namespace, target namespace, controller service account, canary object name, expected namespace confinement, actual controller behavior, and fixed-version negative control.
+- For Fission podspec/package-reference findings, include the exact CRD path, create/update verb tested, controller-generated pod-template diff, service-account involved, canary package/environment marker, and fixed-version rejection. Keep node-escape language tied to lab evidence; do not imply production host compromise from an admission decision alone.
 - Keep proof narrow: no real tokens, customer package archives, production command output, production workload event payloads, real Secrets, or other users' cookies should appear in reports or wiki evidence.

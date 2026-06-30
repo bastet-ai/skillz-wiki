@@ -21,6 +21,21 @@ This batch is durable because it captures reusable offensive validation patterns
 
 ## Replayable validation boundaries
 
+### June 30 Twig sandbox residual-bypass update
+
+GitHub's late June 30 published feed added four adjacent Twig sandbox advisories: [GHSA-p42q-9prx-q5wq](https://github.com/advisories/GHSA-p42q-9prx-q5wq) / CVE-2026-48805, [GHSA-5v5v-ww74-355v](https://github.com/advisories/GHSA-5v5v-ww74-355v) / CVE-2026-48806, [GHSA-8x9c-rmqh-456c](https://github.com/advisories/GHSA-8x9c-rmqh-456c) / CVE-2026-48807, and [GHSA-h8vq-8gpg-mhcg](https://github.com/advisories/GHSA-h8vq-8gpg-mhcg) / CVE-2026-48808.
+
+These are residual bypasses of earlier sandbox hardening, so keep them with the existing Twig workflow. Add these probes when an assessment includes user-controlled Twig templates, CMS snippets, marketplace themes, email templates, or report builders running under `SourcePolicyInterface` or sandbox policies:
+
+| Advisory | Boundary | Safe probe |
+| --- | --- | --- |
+| [GHSA-5v5v-ww74-355v](https://github.com/advisories/GHSA-5v5v-ww74-355v) | dynamic array mapping keys could string-coerce a `Stringable` object without the sandbox `__toString()` check | use a disposable object whose `__toString()` returns `skillz-twig-key-canary`; prove direct output is denied but dynamic key coercion reaches the marker |
+| [GHSA-8x9c-rmqh-456c](https://github.com/advisories/GHSA-8x9c-rmqh-456c) | `Traversable` values passed to `join` / `replace` materialized `Stringable` contents after array-only policy recursion | use a lab `Traversable` wrapper around a canary object; do not expose real domain objects |
+| [GHSA-h8vq-8gpg-mhcg](https://github.com/advisories/GHSA-h8vq-8gpg-mhcg) | `column` under `SourcePolicyInterface` lost the current `Source`, so property allowlists could be bypassed | compare a denied property read with `column()` over canary objects in a source-policy sandbox |
+| [GHSA-p42q-9prx-q5wq](https://github.com/advisories/GHSA-p42q-9prx-q5wq) | deprecated `src/Resources/core.php` wrappers failed to forward the source-aware sandbox state | only test if the application or third-party bundle calls the legacy wrappers directly; use inert array/arrow canaries |
+
+Report the exact sandbox mode. These advisories do not imply a bypass of every Twig sandbox deployment: some require `SourcePolicyInterface`, some require reachable `Stringable` objects, and one requires legacy wrapper use.
+
 ### Twig sandbox string-coercion canaries
 
 Use a disposable Twig harness or in-scope staging template. Do not call methods that execute commands, mutate data, read files, or reach external networks.
