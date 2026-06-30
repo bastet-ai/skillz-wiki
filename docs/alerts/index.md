@@ -10,9 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Spring AI, MLflow, and Airflow boundary checks](2026-06-30-ai-artifact-airflow-boundaries-ghsa.md)
+- [Paymenter checkout configuration injection update](2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#paymenter-checkout-configuration-injection-harness)
 - [Agent context and broker-secret boundary checks](2026-06-30-agent-context-broker-secret-boundaries-ghsa.md)
-- [TYPO3 extension indexer, crawler, and render-boundary checks](2026-06-29-typo3-extension-indexer-render-boundaries-ghsa.md)
-- [OpenAM PKCE, private-key JWT, and script-sandbox boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-pkce-private_key_jwt-and-script-sandbox-harness)
 - [Upload, accounting, and ACL filesystem boundary checks](2026-06-29-upload-accounting-acl-boundaries-ghsa.md)
 - [Netty HTTP header whitespace request-smuggling boundary update](2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#http-header-whitespace-request-smuggling-boundary)
 - [pyLoad session, CSRF, and localhost-bypass control-plane update](2026-06-08-pyload-openhands-pyjwt-netty-onnx-boundary-batch-ghsa.md#june-28-pyload-session-csrf-and-localhost-bypass-update)

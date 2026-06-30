@@ -8,9 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Spring AI, MLflow, and Airflow boundary checks](alerts/2026-06-30-ai-artifact-airflow-boundaries-ghsa.md)
+- [Paymenter checkout configuration injection update](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#paymenter-checkout-configuration-injection-harness)
 - [Agent context and broker-secret boundary checks](alerts/2026-06-30-agent-context-broker-secret-boundaries-ghsa.md)
-- [Prefect GitHub repository reference argument boundary update](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-30-prefect-github-repository-reference-update)
-- [Graph, web-service, and OAuth integration boundary checks](alerts/2026-06-29-graph-webservice-oauth-boundaries-ghsa.md)
 - [Concrete CMS file-version and Express association update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#concrete-cms-file-version-and-express-association-harness)
 - [TYPO3 sf_register frontend-group mass-assignment update](alerts/2026-06-29-typo3-extension-indexer-render-boundaries-ghsa.md#sf_register-frontend-group-mass-assignment-harness)
 - [SimpleHelp OIDC identity-token boundary check](alerts/2026-06-29-simplehelp-oidc-token-boundary-kev.md)
