@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Auth middleware, VM socket, and supply-chain verifier boundary checks](2026-06-30-auth-middleware-vm-supply-chain-boundaries-ghsa.md)
+- [Fission namespace and trigger boundary update](2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md#june-30-fission-namespace-and-trigger-boundary-update)
 - [Spring AI, MLflow, and Airflow boundary checks](2026-06-30-ai-artifact-airflow-boundaries-ghsa.md)
 - [Paymenter checkout configuration injection update](2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#paymenter-checkout-configuration-injection-harness)
 - [Agent context and broker-secret boundary checks](2026-06-30-agent-context-broker-secret-boundaries-ghsa.md)

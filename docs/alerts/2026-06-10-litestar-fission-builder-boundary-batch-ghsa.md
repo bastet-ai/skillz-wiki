@@ -73,9 +73,36 @@ Use a lab namespace or explicit customer approval. Do not mutate production pack
 
 A finding is high-quality when it shows that a non-admin platform actor or compromised CI/GitOps path can cross from declarative `Environment` control into executable builder behavior.
 
+## June 30 Fission namespace and trigger boundary update
+
+Later GitHub advisories added three adjacent Fission control-plane boundaries: [GHSA-gc3j-79f2-7vvw](https://github.com/advisories/GHSA-gc3j-79f2-7vvw) / CVE-2026-49822 for cross-namespace `KubernetesWatchTrigger` event leakage, [GHSA-vjhc-cf4p-72q4](https://github.com/advisories/GHSA-vjhc-cf4p-72q4) / CVE-2026-49821 for `Package.spec.environment.namespace` crossing into another tenant's builder pod, and [GHSA-7m8x-qg2j-4m3v](https://github.com/advisories/GHSA-7m8x-qg2j-4m3v) for `MessageQueueTrigger` secret materialization plus arbitrary connector `PodSpec` merge.
+
+These belong with the existing Fission builder workflow because the durable pattern is the same: tenant-editable Fission CRDs are interpreted by higher-privilege controllers and can cross namespace, service-account, secret, event-stream, or pod-spec boundaries.
+
+### What to add to Fission assessments
+
+| Advisory | Fission object | Crossed boundary | Safe evidence |
+| --- | --- | --- | --- |
+| [GHSA-gc3j-79f2-7vvw](https://github.com/advisories/GHSA-gc3j-79f2-7vvw) | `KubernetesWatchTrigger` | user-controlled `spec.namespace` or empty namespace caused the cluster-scoped watcher to POST Pod/Service/Job events from another namespace or all namespaces | lab namespace A trigger receiving synthetic namespace B canary events; no real workload metadata |
+| [GHSA-vjhc-cf4p-72q4](https://github.com/advisories/GHSA-vjhc-cf4p-72q4) | `Package` | `spec.environment.namespace` selected another tenant's `Environment` and ran build steps in the victim builder pod | marker-only build log from a disposable victim namespace; never read service-account tokens |
+| [GHSA-7m8x-qg2j-4m3v](https://github.com/advisories/GHSA-7m8x-qg2j-4m3v) | `MessageQueueTrigger` | controller copied named Secret values into Deployment envvars and merged user-controlled `PodSpec` fields without a tight allowlist | synthetic Secret key appearing in a lab Deployment pod template, or inert image/command override proof |
+
+### Replayable namespace-control harness
+
+1. Stand up a disposable Fission cluster or customer-approved lab with two namespaces: `attacker-a` and `victim-b`.
+2. Grant the tester only the specific tenant role under test, such as `kuberneteswatchtriggers/create`, `packages/create`, or `messagequeuetriggers/create` in `attacker-a`.
+3. Seed only harmless canaries in `victim-b`: a fake Pod/Service/Job label, a throwaway Environment and Package, and a Secret such as `skillz-fission-canary=not-a-secret`.
+4. Attempt the exact CRD boundary:
+   - set `KubernetesWatchTrigger.spec.namespace` to `victim-b` or omit it to test all-namespace defaulting;
+   - set `Package.spec.environment.namespace` to `victim-b` and use an inert build lifecycle marker;
+   - set `MessageQueueTrigger.spec.secret` to the canary Secret and, separately, set a harmless `PodSpec` override such as a canary image or command.
+5. Positive evidence should be limited to event receipt, marker-only build output, Deployment manifest fields, or a rejected/accepted controller decision. Do not collect pod specs from real workloads, ConfigMaps, service-account tokens, or production Secrets.
+6. Repeat on Fission `v1.24.0` or later as a negative control: namespace equality checks should reject cross-namespace references, empty watch namespaces should bind to the trigger namespace, Secret values should remain `ValueFrom` references, and PodSpec merges should be allowlisted.
+
 ## Reporting heuristics
 
 - For Litestar host findings, include the raw request shape, host allowlist expectation, observed bypass, and the downstream sink that consumed the forwarded host.
 - For Litestar CSRF rendering, include framework/template configuration, the benign cookie marker, and a screenshot or DOM snippet showing markup interpretation.
 - For Fission builder findings, include the actor with `Environment` write, namespace, Fission version, builder service account, canary command, canary artifact/log proof, and why the package or function boundary matters.
-- Keep proof narrow: no real tokens, customer package archives, production command output, or other users' cookies should appear in reports or wiki evidence.
+- For Fission namespace/trigger findings, include the exact CRD kind, actor RBAC, source namespace, target namespace, controller service account, canary object name, expected namespace confinement, actual controller behavior, and fixed-version negative control.
+- Keep proof narrow: no real tokens, customer package archives, production command output, production workload event payloads, real Secrets, or other users' cookies should appear in reports or wiki evidence.

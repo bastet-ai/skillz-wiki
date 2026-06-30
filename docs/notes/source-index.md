@@ -7,6 +7,12 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Andromeda bytecode C2 research framework: https://github.com/vyrus001/andromeda
 - badkeys weak-key checker and web service: https://github.com/badkeys/badkeys and https://badkeys.info/
 - GitHub Security Advisories: https://github.com/advisories
+- Fission advisories/source: https://github.com/fission/fission/security/advisories and https://github.com/fission/fission
+- Cedar Express authorization middleware advisories/source: https://github.com/cedar-policy/authorization-for-expressjs/security/advisories and https://github.com/cedar-policy/authorization-for-expressjs
+- KubeVirt advisories/source: https://github.com/kubevirt/kubevirt/security/advisories and https://github.com/kubevirt/kubevirt
+- Apache Shiro advisories: https://shiro.apache.org/security-reports.html
+- Apache Syncope advisories: https://syncope.apache.org/security
+- Sigstore Java advisories/source: https://github.com/sigstore/sigstore-java/security/advisories and https://github.com/sigstore/sigstore-java
 - Model Context Protocol Java SDK advisories/source: https://github.com/modelcontextprotocol/java-sdk/security/advisories and https://github.com/modelcontextprotocol/java-sdk
 - Ray advisories/source: https://github.com/ray-project/ray/security/advisories and https://github.com/ray-project/ray
 - MetaGPT source/issues: https://github.com/FoundationAgents/MetaGPT and https://github.com/FoundationAgents/MetaGPT/issues

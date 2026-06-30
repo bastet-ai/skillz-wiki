@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Auth middleware, VM socket, and supply-chain verifier boundary checks](alerts/2026-06-30-auth-middleware-vm-supply-chain-boundaries-ghsa.md)
+- [Fission namespace and trigger boundary update](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md#june-30-fission-namespace-and-trigger-boundary-update)
 - [Spring AI, MLflow, and Airflow boundary checks](alerts/2026-06-30-ai-artifact-airflow-boundaries-ghsa.md)
 - [Paymenter checkout configuration injection update](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#paymenter-checkout-configuration-injection-harness)
 - [Agent context and broker-secret boundary checks](alerts/2026-06-30-agent-context-broker-secret-boundaries-ghsa.md)
@@ -17,7 +19,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Tomcat HTTP/0.9 method constraint boundary update](alerts/2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md#tomcat-http09-method-constraint-validation)
 - [TYPO3 extension indexer, crawler, and render-boundary checks](alerts/2026-06-29-typo3-extension-indexer-render-boundaries-ghsa.md)
 - [OpenAM PKCE, private-key JWT, and script-sandbox boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-pkce-private_key_jwt-and-script-sandbox-harness)
-- [Netty HTTP header whitespace request-smuggling boundary update](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#http-header-whitespace-request-smuggling-boundary)
 
 ## What lives here
 
