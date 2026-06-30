@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Agent context and broker-secret boundary checks](alerts/2026-06-30-agent-context-broker-secret-boundaries-ghsa.md)
 - [Prefect GitHub repository reference argument boundary update](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#june-30-prefect-github-repository-reference-update)
 - [Graph, web-service, and OAuth integration boundary checks](alerts/2026-06-29-graph-webservice-oauth-boundaries-ghsa.md)
 - [Concrete CMS file-version and Express association update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#concrete-cms-file-version-and-express-association-harness)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [TYPO3 extension indexer, crawler, and render-boundary checks](alerts/2026-06-29-typo3-extension-indexer-render-boundaries-ghsa.md)
 - [OpenAM PKCE, private-key JWT, and script-sandbox boundary update](alerts/2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-pkce-private_key_jwt-and-script-sandbox-harness)
 - [Netty HTTP header whitespace request-smuggling boundary update](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#http-header-whitespace-request-smuggling-boundary)
-- [Upload, accounting, and ACL filesystem boundary checks](alerts/2026-06-29-upload-accounting-acl-boundaries-ghsa.md)
 
 ## What lives here
 

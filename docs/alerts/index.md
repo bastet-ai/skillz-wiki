@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Agent context and broker-secret boundary checks](2026-06-30-agent-context-broker-secret-boundaries-ghsa.md)
 - [TYPO3 extension indexer, crawler, and render-boundary checks](2026-06-29-typo3-extension-indexer-render-boundaries-ghsa.md)
 - [OpenAM PKCE, private-key JWT, and script-sandbox boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-pkce-private_key_jwt-and-script-sandbox-harness)
 - [Upload, accounting, and ACL filesystem boundary checks](2026-06-29-upload-accounting-acl-boundaries-ghsa.md)
