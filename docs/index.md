@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [MCP SSRF, geospatial search, and model-ingestion boundary checks](alerts/2026-07-01-mcp-geospatial-model-ingestion-boundaries-ghsa.md)
 - [Bouncy Castle CTR keystream-reuse boundary check](alerts/2026-07-01-bouncy-castle-ctr-keystream-boundary-ghsa.md)
 - [Model parser, deserialization, and identity-extractor boundary checks](alerts/2026-06-30-model-parser-deserialization-identity-boundaries-ghsa.md)
 - [Template, OIDC discovery, path-prefix, and job-dashboard boundary checks](alerts/2026-06-30-template-oidc-path-job-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Twig sandbox residual-bypass update](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md#june-30-twig-sandbox-residual-bypass-update)
 - [Auth middleware, VM socket, and supply-chain verifier boundary checks](alerts/2026-06-30-auth-middleware-vm-supply-chain-boundaries-ghsa.md)
 - [Fission namespace and trigger boundary update](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md#june-30-fission-namespace-and-trigger-boundary-update)
-- [Spring AI, MLflow, and Airflow boundary checks](alerts/2026-06-30-ai-artifact-airflow-boundaries-ghsa.md)
 
 ## What lives here
 
