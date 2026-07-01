@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [MCP authorization and ORAS redirect/file-store follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-mcp-authorization-and-oras-redirectfile-store-follow-up)
+- [Cache, fileshare, and export-boundary checks](alerts/2026-07-01-cache-fileshare-export-boundaries-ghsa.md)
 - [Rancher Fleet, JWKS cache, QUIC client, and SDK parameter boundary checks](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md)
 - [ORAS registry realm and layer-extraction update](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-oras-registry-and-layer-extraction-update)
 - [SurrealDB query, session, and network-policy follow-up](alerts/2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md#july-1-surrealdb-query-session-and-network-policy-follow-up)
@@ -17,7 +19,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [MCP SSRF, geospatial search, and model-ingestion boundary checks](alerts/2026-07-01-mcp-geospatial-model-ingestion-boundaries-ghsa.md)
 - [Bouncy Castle CTR keystream-reuse boundary check](alerts/2026-07-01-bouncy-castle-ctr-keystream-boundary-ghsa.md)
 - [Model parser, deserialization, and identity-extractor boundary checks](alerts/2026-06-30-model-parser-deserialization-identity-boundaries-ghsa.md)
-- [Template, OIDC discovery, path-prefix, and job-dashboard boundary checks](alerts/2026-06-30-template-oidc-path-job-boundaries-ghsa.md)
 
 ## What lives here
 

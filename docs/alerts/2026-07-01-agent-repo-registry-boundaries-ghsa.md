@@ -91,3 +91,39 @@ Later GitHub Advisory Database entries extend the registry and artifact-boundary
 - For `oras-java-sdk`, build a tar/zip layer that creates a symlink inside the extraction directory pointing to a temp outside directory, followed by a file entry that writes through the symlink. Positive evidence is a marker file under the outside directory.
 - Negative controls: exact approved auth-realm policy, HTTPS-only token services, host/scheme pinning where configured, symlink rejection, realpath checks before every file write, and fixed-version denial.
 - Do not reuse real registry tokens, publish malicious layers to public registries, overwrite shell startup files, or extract into developer home directories.
+
+## July 1 MCP authorization and ORAS redirect/file-store follow-up
+
+Late GitHub Advisory Database entries add adjacent MCP and OCI client boundaries: [GHSA-6gr2-qh89-hxwm](https://github.com/advisories/GHSA-6gr2-qh89-hxwm) / CVE-2026-50143 for Apify Actor MCP path authority injection, [GHSA-9c3v-684m-579c](https://github.com/advisories/GHSA-9c3v-684m-579c) for OpenClaw MCP SSE redirect authorization forwarding, [GHSA-jxpm-75mh-9fp7](https://github.com/advisories/GHSA-jxpm-75mh-9fp7) / CVE-2026-50151 and [GHSA-vh4v-2xq2-g5cg](https://github.com/advisories/GHSA-vh4v-2xq2-g5cg) for ORAS credential forwarding across registry-controlled `Location`/redirect targets, [GHSA-8xwf-rjm4-xvhv](https://github.com/advisories/GHSA-8xwf-rjm4-xvhv) / CVE-2026-50162 and [GHSA-fxhp-mv3v-67qp](https://github.com/advisories/GHSA-fxhp-mv3v-67qp) / CVE-2026-50163 for ORAS file-store and hardlink extraction escapes, and [GHSA-p9jg-fcr6-3mhf](https://github.com/advisories/GHSA-p9jg-fcr6-3mhf) / CVE-2026-53712 for SCRAM channel-binding downgrade handling.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-6gr2-qh89-hxwm](https://github.com/advisories/GHSA-6gr2-qh89-hxwm) / CVE-2026-50143 | `@apify/actors-mcp-server < 0.10.11` | Actor-controlled `webServerMcpPath` could be concatenated into a standby URL so `@host` userinfo syntax changes the final authority while bearer auth is still attached | MCP actor/tool metadata is a URL authority boundary; validate parsed scheme/host after joining, not just string prefixes. |
+| [GHSA-9c3v-684m-579c](https://github.com/advisories/GHSA-9c3v-684m-579c) | `openclaw < 2026.6.5` | MCP SSE redirects could carry `Authorization` beyond the intended endpoint | Test MCP/SSE transports for redirect-follow behavior and header stripping with fake operator tokens. |
+| [GHSA-jxpm-75mh-9fp7](https://github.com/advisories/GHSA-jxpm-75mh-9fp7) / CVE-2026-50151 | `oras-go < 2.6.1` blob upload | registry-controlled upload `Location` could redirect a credentialed `PUT` to another origin | Add cross-origin `Location` canaries to OCI upload clients and capture only fake `Authorization` values. |
+| [GHSA-vh4v-2xq2-g5cg](https://github.com/advisories/GHSA-vh4v-2xq2-g5cg) | `oras-go < 2.6.1` registry requests | authenticated manifest/metadata redirects could forward origin registry credentials to a different host or port | Registry redirect handling needs same-origin checks and header-stripping negative controls, not just auth-realm validation. |
+| [GHSA-8xwf-rjm4-xvhv](https://github.com/advisories/GHSA-8xwf-rjm4-xvhv) / CVE-2026-50162 | `oras-go < 2.6.1` file content store | lexical `workingDir` confinement could be bypassed through symlink path components in blob titles | Treat OCI annotation titles as filesystem write selectors; test symlink components with disposable roots. |
+| [GHSA-fxhp-mv3v-67qp](https://github.com/advisories/GHSA-fxhp-mv3v-67qp) / CVE-2026-50163 | `oras-go <= 2.6.1` tar extraction | hardlink `Linkname` validation resolved relative targets differently from `link(2)`, allowing CWD-relative links into extracted layers | Extraction proofs should record resolved validation paths and final inode/link targets; never point links at real secrets. |
+| [GHSA-p9jg-fcr6-3mhf](https://github.com/advisories/GHSA-p9jg-fcr6-3mhf) / CVE-2026-53712 | OnGres SCRAM client/common `<= 3.2` | unsupported certificate signature algorithms could turn required `SCRAM-SHA-256-PLUS` channel binding into non-channel-bound SCRAM | Database auth validation should include certificate-algorithm fixtures and mechanism negotiation transcripts. |
+
+### MCP URL authority and redirect harness
+
+- Preconditions: disposable MCP server/client harness, fake Apify/OpenClaw tokens, owned callback host, and no real actor, Gateway, cloud, or operator secrets.
+- For Actor MCP URL construction, seed an actor definition or mock API response whose MCP path contains userinfo/authority-shifting characters such as `@owned.example/mcp`; record the parsed final URL and whether a fake bearer token reaches the owned host.
+- For SSE redirects, serve an MCP endpoint that responds with a same-origin control redirect and a cross-origin redirect. Positive evidence is a fake `Authorization` header on the cross-origin request.
+- Negative controls: path values must be relative paths beginning with `/`, final URLs must be parsed and pinned to the expected origin, and redirect-following must strip credentials when scheme/host/port changes.
+
+### ORAS redirect and filesystem follow-up harness
+
+- Preconditions: loopback registry/mock registry, fake registry config credentials, temp extraction root, temp outside directory, and no production OCI credentials or developer home paths.
+- Test blob upload `Location`, manifest redirects, and Bearer realms separately. For each, compare same-origin and cross-origin destinations and record whether fake auth material is forwarded.
+- For file-store writes, create a symlink component under the working directory pointing to a temp outside directory, then use a blob title that should remain inside the work root.
+- For hardlink extraction, keep the process CWD under a disposable directory containing only a marker file; build a tar layer whose relative `Linkname` can show CWD-vs-extraction-root resolution without touching sensitive files.
+- Negative controls: strict scheme/host/port equality for credential forwarding, redirect target allowlists when cross-origin storage is explicitly supported, realpath checks before every write/link, symlink rejection, and fixed ORAS versions.
+
+### SCRAM channel-binding downgrade harness
+
+- Preconditions: lab PostgreSQL/SCRAM harness or unit test, disposable credentials, and test certificates using both traditional `WITH`-named algorithms and modern algorithms such as Ed25519.
+- Configure the client policy to require channel binding, then record advertised mechanisms, selected mechanism, channel-binding data/hash result, and final auth decision.
+- Positive evidence is a required-channel-binding client silently authenticating without channel binding after certificate-hash derivation fails.
+- Do not run MITM tests against production databases, capture real passwords, or downgrade live database sessions.

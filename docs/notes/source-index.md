@@ -333,6 +333,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - AdonisJS bodyparser advisories/source: https://github.com/adonisjs/bodyparser/security/advisories and https://github.com/adonisjs/bodyparser
 - Oban Web advisories/source: https://github.com/oban-bg/oban/security/advisories and https://github.com/oban-bg/oban
 - Probo advisories/source: https://github.com/probo/probo/security/advisories and https://github.com/probo/probo
+- ORAS Go advisories/source: https://github.com/oras-project/oras-go/security/advisories and https://github.com/oras-project/oras-go
+- Ghost security advisories/source: https://github.com/TryGhost/Ghost/security/advisories and https://github.com/TryGhost/Ghost
+- goshs advisories/source: https://github.com/patrickhener/goshs/security/advisories and https://github.com/patrickhener/goshs
+- Apache Ignite advisories/source: https://ignite.apache.org/security.html and https://github.com/apache/ignite
+- OnGres SCRAM project: https://github.com/ongres/scram
 
 ## Network and service discovery
 
