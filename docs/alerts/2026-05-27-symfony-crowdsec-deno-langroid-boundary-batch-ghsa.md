@@ -91,6 +91,25 @@ Safe validation path:
 
 Reporting heuristic: the strongest report ties together **untrusted prompt influence, unrestricted SQL execution, and a database role capable of host/file impact**. If the DB role is read-only, report it as an agent-tool policy bypass or data-integrity risk rather than RCE.
 
+## July 1 Langroid `TableChatAgent` pandas-eval update
+
+GitHub Advisory Database updated [GHSA-jqq5-wc57-f8hj](https://github.com/advisories/GHSA-jqq5-wc57-f8hj) / CVE-2025-46724 for `langroid < 0.53.15`: `TableChatAgent` could pass untrusted prompt-controlled expressions into pandas `eval()`-style handling. This is adjacent to the `SQLChatAgent` boundary above, but the operator lesson is separate: **LLM table assistants often expose dataframe expression engines, not just SQL tools**.
+
+Where to look:
+
+- Public or semi-public Langroid apps using `TableChatAgent`, especially CSV/dataframe chat demos, business-intelligence copilots, notebook helpers, and support analytics tools.
+- Agent flows where retrieved web/user content can instruct the table agent indirectly.
+- Hosts where the Langroid process has access to notebooks, datasets, service credentials, or cloud metadata; do not read those during testing.
+
+Safe validation path:
+
+1. Confirm `langroid < 0.53.15` and that `TableChatAgent` is reachable from untrusted prompts or retrieved content.
+2. Start with a harmless dataframe expression canary that should be allowed, then try a synthetic expression that would leave the intended dataframe/query language and only writes or prints an inert marker in a disposable lab.
+3. In production or bug-bounty environments, stop at source/version plus expression-construction evidence unless the program explicitly permits command execution tests. Do not list directories, read files, call cloud metadata, or access real datasets.
+4. Compare patched/default-sanitized behavior in `0.53.15+`.
+
+Reporting heuristic: strong evidence ties **untrusted prompt input to dataframe expression evaluation outside the intended table-query sandbox**. Distinguish `TableChatAgent` pandas expression injection from `SQLChatAgent` database execution; they may exist in the same app but cross different tool boundaries.
+
 ## Non-signal this hour
 
 Reviewed but not promoted as new standalone Skillz guidance:

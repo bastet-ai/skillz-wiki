@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Contour cookie-rewrite Lua boundary check](alerts/2026-07-01-contour-cookie-rewrite-lua-boundary-ghsa.md)
+- [Keycloak client-policy, scope-mapping, and organization-metadata update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-1-keycloak-client-policy-scope-mapping-and-organization-metadata-update)
+- [Langroid `TableChatAgent` pandas-eval update](alerts/2026-05-27-symfony-crowdsec-deno-langroid-boundary-batch-ghsa.md#july-1-langroid-tablechatagent-pandas-eval-update)
 - [MCP authorization and ORAS redirect/file-store follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-mcp-authorization-and-oras-redirectfile-store-follow-up)
 - [Cache, fileshare, and export-boundary checks](alerts/2026-07-01-cache-fileshare-export-boundaries-ghsa.md)
 - [Rancher Fleet, JWKS cache, QUIC client, and SDK parameter boundary checks](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md)
@@ -15,10 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [SurrealDB query, session, and network-policy follow-up](alerts/2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md#july-1-surrealdb-query-session-and-network-policy-follow-up)
 - [MCP Toolbox DNS-rebinding update](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#july-1-mcp-toolbox-dns-rebinding-update)
 - [Agent repository, MCP file-read, and registry trust-boundary checks](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md)
-- [Twig cached-template sandbox allow-list update](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md#july-1-twig-cached-template-sandbox-allow-list-update)
-- [MCP SSRF, geospatial search, and model-ingestion boundary checks](alerts/2026-07-01-mcp-geospatial-model-ingestion-boundaries-ghsa.md)
-- [Bouncy Castle CTR keystream-reuse boundary check](alerts/2026-07-01-bouncy-castle-ctr-keystream-boundary-ghsa.md)
-- [Model parser, deserialization, and identity-extractor boundary checks](alerts/2026-06-30-model-parser-deserialization-identity-boundaries-ghsa.md)
 
 ## What lives here
 
