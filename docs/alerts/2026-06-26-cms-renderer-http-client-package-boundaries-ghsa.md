@@ -118,8 +118,19 @@ A final same-day advisory wave extended the same operator patterns. Sources: pnp
 - Capture request/response ownership decisions, normalized storage path, marker-file creation location, and fixed-version negative controls.
 - Do not delete real playlists, enumerate private libraries, write outside the lab root, or use payloads that execute through media players.
 
+## July 1 update: mailer attachment paths and PHAR parsing
+
+GitHub's updated advisory feed resurfaced PHPMailer [GHSA-m298-fh5c-jc66](https://github.com/advisories/GHSA-m298-fh5c-jc66) / CVE-2020-36326. It is worth tracking on this existing renderer/file-boundary page because it repeats the same PHP stream-wrapper theme: an application that lets untrusted input choose a mail attachment path can accidentally hand a `phar://`-style path to PHP file APIs and cross from "attach this file" into deserialization side effects.
+
+Operator validation boundaries:
+
+- Preconditions: disposable PHP lab, fixed PHPMailer version comparison, synthetic attachment directory, inert PHAR/canary fixtures, and no production mail delivery.
+- Map every workflow where a user, tenant, import job, template, API request, or admin-uploaded object can influence filenames passed to `addAttachment()`, `file_exists()`, `is_file()`, or similar PHP file functions before mailing.
+- Exercise URL-looking paths, stream-wrapper prefixes, case variants, encoded separators, and archive-wrapper forms against canary files only. Evidence should be accepted/rejected path decision tables, harmless local canary access, and fixed-version denials.
+- Do not use production mailboxes, customer attachments, secrets, gadget chains, or executable payloads. Stop at proving wrapper reachability and unsafe path acceptance.
+
 ## Reporting notes
 
-- Lead with the crossed boundary: **fieldtype endpoint to restricted CMS resource**, **renderer attachment to SSRF/local file**, **renderer output path to PHAR/config execution**, **HTTP-client input to wire-level header/authority**, **registry identity to cache/credential scope**, **repository config to secret egress**, **package-manager self-selection to executable bytes**, **dashboard route/Host/list API to control-plane identity or secret exposure**, **media playlist ID to ownership/storage path**, or **webhook certificate URL to signature trust**.
+- Lead with the crossed boundary: **fieldtype endpoint to restricted CMS resource**, **renderer attachment to SSRF/local file**, **renderer output path to PHAR/config execution**, **mailer attachment path to PHP stream-wrapper/PHAR parsing**, **HTTP-client input to wire-level header/authority**, **registry identity to cache/credential scope**, **repository config to secret egress**, **package-manager self-selection to executable bytes**, **dashboard route/Host/list API to control-plane identity or secret exposure**, **media playlist ID to ownership/storage path**, or **webhook certificate URL to signature trust**.
 - Include exact package/version, route or option name, role matrix, raw request capture, normalized path/URL, callback evidence, fake-token destination, marker storage path, and fixed-version negative control.
 - Keep proofs synthetic and reversible: disposable users, owned callbacks, fake tokens, scratch registries, inert binaries, lab certificates, scratch media libraries, and marker files only.
