@@ -75,6 +75,29 @@ Additional GitHub Advisory Database entries published on 2026-07-01 reinforce th
 - [GHSA-65rj-r9fh-jp2v](https://github.com/advisories/GHSA-65rj-r9fh-jp2v), [GHSA-q8qp-67f9-wr3f](https://github.com/advisories/GHSA-q8qp-67f9-wr3f), [GHSA-wjjj-24cx-f28g](https://github.com/advisories/GHSA-wjjj-24cx-f28g), and [GHSA-q729-696q-g9pq](https://github.com/advisories/GHSA-q729-696q-g9pq) are availability-focused parser/RPC/WebSocket issues; keep any validation to explicit lab stress testing and do not turn them into production operator playbooks.
 - [GHSA-m492-gv72-xvxj](https://github.com/advisories/GHSA-m492-gv72-xvxj) is a stale password-reset-link issue; it was processed without promotion because it does not add a distinct workflow beyond existing reset-token lifecycle checks.
 
+## July 1 SurrealDB query, session, and network-policy follow-up
+
+Additional same-day SurrealDB advisories extend this page's database authorization matrix: [GHSA-f82j-v89j-mf86](https://github.com/advisories/GHSA-f82j-v89j-mf86), [GHSA-6wqw-vhfr-9999](https://github.com/advisories/GHSA-6wqw-vhfr-9999), [GHSA-97vg-427p-8hx5](https://github.com/advisories/GHSA-97vg-427p-8hx5), [GHSA-wp87-mgvq-5j93](https://github.com/advisories/GHSA-wp87-mgvq-5j93), [GHSA-c8jx-96c9-8xrp](https://github.com/advisories/GHSA-c8jx-96c9-8xrp), [GHSA-fwg2-gr34-q3w8](https://github.com/advisories/GHSA-fwg2-gr34-q3w8), and [GHSA-whwg-vh4f-pmmf](https://github.com/advisories/GHSA-whwg-vh4f-pmmf). They are promotable because they add repeatable checks for relation mutation, Live subscription authorization, redirect-following network policy, namespace/database creation authorization, indexed aggregate side channels, JWT algorithm handling, and edge delete permissions.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-f82j-v89j-mf86](https://github.com/advisories/GHSA-f82j-v89j-mf86) | SurrealDB `RELATE` | relation creation could overwrite an existing edge record without `UPDATE` permission | Add pre-existing edge rows to relation-permission tests; positive evidence is only a synthetic edge marker changing state. |
+| [GHSA-6wqw-vhfr-9999](https://github.com/advisories/GHSA-6wqw-vhfr-9999) | SurrealDB Live subscriptions | authenticated subscribers could read records hidden by `SELECT` permissions via live events | Realtime authorization must be compared against canonical `SELECT` denial for the same principal and row. |
+| [GHSA-97vg-427p-8hx5](https://github.com/advisories/GHSA-97vg-427p-8hx5) | SurrealDB `--deny-net` | port-specific network-deny rules could be bypassed when HTTP redirects changed the final target | Treat database URL fetchers as redirect-aware SSRF surfaces; test final host and port, not only the first URL. |
+| [GHSA-wp87-mgvq-5j93](https://github.com/advisories/GHSA-wp87-mgvq-5j93) | SurrealDB `USE NS` / `USE DB` | implicit namespace/database creation could bypass `DEFINE` authorization | Include namespace and database creation side effects in auth matrices, not only table-level operations. |
+| [GHSA-c8jx-96c9-8xrp](https://github.com/advisories/GHSA-c8jx-96c9-8xrp) | SurrealDB indexed `COUNT` fast paths | indexed aggregate paths could bypass field-level `SELECT` permissions | Test aggregate/count/index shortcuts as restricted-field oracles with seeded canary rows. |
+| [GHSA-fwg2-gr34-q3w8](https://github.com/advisories/GHSA-fwg2-gr34-q3w8) | SurrealDB JWT parsing | ES512 could be silently downgraded to ES384 because of a library limitation | JWT validation checks should compare declared algorithm, accepted key type/curve, and fixed-version denial with disposable tokens. |
+| [GHSA-whwg-vh4f-pmmf](https://github.com/advisories/GHSA-whwg-vh4f-pmmf) | SurrealDB edge permissions | `PERMISSIONS FOR delete` on edges could be bypassed when a connected node was deleted | Edge authorization tests need node deletion side effects; prove with disposable graph nodes and relations only. |
+
+### Follow-up harness additions
+
+- Extend the two-principal lab with synthetic graph nodes, pre-existing relation rows, restricted fields, indexed fields, Live subscriptions, namespace/database names, and disposable JWT issuers.
+- For relation and edge checks, capture before/after edge records and canonical permission-denied controls. Do not mutate production graph data.
+- For Live subscription checks, show direct `SELECT` denial for the same row, then whether a live event reveals the marker after create/update/delete by another principal.
+- For `--deny-net`, use an owned redirector that changes only host/port within a lab callback environment. Do not target cloud metadata, internal services, or customer networks.
+- For JWT checks, use disposable keys and non-sensitive claims; evidence is accept/deny behavior by algorithm and key class, not token contents.
+- For implicit namespace/database creation, use throwaway names and capture route/query state only. Do not create production namespaces, tables, or users.
+
 ### Local desktop and MCP transport checks
 
 - Build an isolated desktop or containerized lab profile with no real notes, decks, credentials, devices, or MCP tools.

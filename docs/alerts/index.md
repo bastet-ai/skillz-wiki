@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Rancher Fleet, JWKS cache, QUIC client, and SDK parameter boundary checks](2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md)
+- [ORAS registry realm and layer-extraction update](2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-oras-registry-and-layer-extraction-update)
+- [SurrealDB query, session, and network-policy follow-up](2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md#july-1-surrealdb-query-session-and-network-policy-follow-up)
+- [MCP Toolbox DNS-rebinding update](2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#july-1-mcp-toolbox-dns-rebinding-update)
 - [SurrealDB realtime/session authorization update](2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md#july-1-surrealdb-realtimesession-authorization-update)
 - [sigstore verification-constraint update](2026-06-30-auth-middleware-vm-supply-chain-boundaries-ghsa.md#july-1-sigstore-verification-constraint-update)
 - [Agent repository, MCP file-read, and registry trust-boundary checks](2026-07-01-agent-repo-registry-boundaries-ghsa.md)

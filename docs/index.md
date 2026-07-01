@@ -8,16 +8,16 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Rancher Fleet, JWKS cache, QUIC client, and SDK parameter boundary checks](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md)
+- [ORAS registry realm and layer-extraction update](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-oras-registry-and-layer-extraction-update)
+- [SurrealDB query, session, and network-policy follow-up](alerts/2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md#july-1-surrealdb-query-session-and-network-policy-follow-up)
+- [MCP Toolbox DNS-rebinding update](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#july-1-mcp-toolbox-dns-rebinding-update)
 - [Agent repository, MCP file-read, and registry trust-boundary checks](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md)
 - [Twig cached-template sandbox allow-list update](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md#july-1-twig-cached-template-sandbox-allow-list-update)
 - [MCP SSRF, geospatial search, and model-ingestion boundary checks](alerts/2026-07-01-mcp-geospatial-model-ingestion-boundaries-ghsa.md)
 - [Bouncy Castle CTR keystream-reuse boundary check](alerts/2026-07-01-bouncy-castle-ctr-keystream-boundary-ghsa.md)
 - [Model parser, deserialization, and identity-extractor boundary checks](alerts/2026-06-30-model-parser-deserialization-identity-boundaries-ghsa.md)
 - [Template, OIDC discovery, path-prefix, and job-dashboard boundary checks](alerts/2026-06-30-template-oidc-path-job-boundaries-ghsa.md)
-- [Fission podspec and package-reference boundary update](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md#june-30-late-fission-podspec-and-package-reference-update)
-- [Keycloak UMA resource and account-lookup update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-uma-resource-and-account-lookup-authorization-checks)
-- [Paymenter credit race update](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#paymenter-credit-race-harness)
-- [Twig sandbox residual-bypass update](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md#june-30-twig-sandbox-residual-bypass-update)
 
 ## What lives here
 

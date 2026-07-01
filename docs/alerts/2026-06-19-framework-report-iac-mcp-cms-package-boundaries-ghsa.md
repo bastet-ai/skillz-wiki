@@ -16,6 +16,18 @@ This batch is durable because the advisories expose reusable operator checks: fr
 
 [GHSA-cw25-2p92-7f75](https://github.com/advisories/GHSA-cw25-2p92-7f75) / CVE-2026-3515 extends the repository-control pattern to Prefect's `prefect-github` integration. The advisory says the `GitHubRepository` block concatenated the user-controlled `reference` value into a `git clone` command string before `shlex.split()` parsing, allowing crafted references to become git command-line options such as `-c`. Treat workflow-orchestrator repository references as command-argument boundaries: branch, tag, SHA, and pull-request fields may be operator-controlled strings that reach clone/fetch helpers before any project code runs.
 
+## July 1 MCP Toolbox DNS-rebinding update
+
+[GHSA-7pf3-8xx7-rvhf](https://github.com/advisories/GHSA-7pf3-8xx7-rvhf) / CVE-2026-9739 extends the MCP/OAuth context exposure pattern to Google MCP Toolbox for Databases. The advisory says the SSE initialization handler retained `Access-Control-Allow-Origin: *`, creating a DNS-rebinding path for browser-originated access to Toolbox SSE under MCP specification v2024-11-05 even when `allowed-origins` and `allowed-hosts` were intended to enforce MCP security guidelines.
+
+Operator validation boundaries:
+
+- Preconditions: isolated Toolbox instance, fake database tools/credentials, owned rebinding domain or local host-header harness, and no production databases attached.
+- Compare direct host access, allowed host/origin, disallowed host/origin, and rebinding-style browser requests against harmless MCP routes such as tool listing or a canary read-only tool.
+- Positive evidence is browser-originated SSE/session bootstrap access from an origin/host combination that policy should deny, with only fake token or tool metadata in scope.
+- Negative controls: fixed version, strict `Origin` and `Host` checks before SSE initialization, no wildcard CORS on authenticated transports, and rejection after DNS answer changes.
+- Do not run write-capable database tools, query real schemas, capture real MCP tokens, or expose Toolbox to the public internet for testing.
+
 ## What changed
 
 | Advisory | Component | Boundary | Operator value |
@@ -40,6 +52,7 @@ This batch is durable because the advisories expose reusable operator checks: fr
 | GHSA-6rfw-mq36-jm8h / CVE-2026-12530 | AWS Bedrock AgentCore Python SDK `install_packages()` | package-name arguments crossed into `pip install` flags, package-index selection, and sandbox file/environment exposure | Test agent code-interpreter package installers with pip-flag canaries, owned package indexes, and disposable sandbox files; do not exfiltrate live credentials or run untrusted packages on production workers. |
 | GHSA-wcmj-x466-56mm | OpenTofu provider installer | root-module-controlled `.terraform/providers` symlinks could redirect provider package writes outside the working tree during `tofu init` | Test untrusted IaC checkouts for cache symlink following with disposable outside directories and inert provider packages; never target home directories, credentials, or shared plugin caches. |
 | GHSA-cw25-2p92-7f75 / CVE-2026-3515 | Prefect `GitHubRepository` block | repository `reference` value crossed into `git clone` option parsing after shell-string construction and `shlex.split()` | Test orchestration Git integrations with branch/tag/reference option canaries, dry-run clone logging, and owned callback remotes; never expose real workflow tokens, SSH keys, deployment secrets, or production work pools. |
+| [GHSA-7pf3-8xx7-rvhf](https://github.com/advisories/GHSA-7pf3-8xx7-rvhf) / CVE-2026-9739 | MCP Toolbox for Databases SSE transport | wildcard CORS on SSE initialization could allow DNS-rebinding access despite intended host/origin policy | Test MCP HTTP/SSE transports with browser-origin, Host, DNS-rebinding, and harmless tool-list canaries before trusting local-only deployment assumptions. |
 
 ## Operator triage
 

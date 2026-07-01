@@ -74,3 +74,20 @@ These advisories are durable for operators because they expose recurring boundar
 
 - [GHSA-mjgf-xj26-9qf9](https://github.com/advisories/GHSA-mjgf-xj26-9qf9) is a webhook HMAC timing issue; useful for secure verification, but it did not add a distinct offensive workflow beyond existing signature-testing guidance.
 - [GHSA-3ccm-4qq2-5wrp](https://github.com/advisories/GHSA-3ccm-4qq2-5wrp) is a panic on short ciphertext input and was not promoted because it is availability-focused.
+
+## July 1 ORAS registry and layer-extraction update
+
+Later GitHub Advisory Database entries extend the registry and artifact-boundary theme: [GHSA-xf85-363p-868w](https://github.com/advisories/GHSA-xf85-363p-868w) / CVE-2026-48978 for `oras-go` Bearer-token `realm` handling, and [GHSA-j6hm-v3x2-qv6j](https://github.com/advisories/GHSA-j6hm-v3x2-qv6j) for `land.oras:oras-java-sdk` symlink-following archive extraction.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-xf85-363p-868w](https://github.com/advisories/GHSA-xf85-363p-868w) / CVE-2026-48978 | `oras-go` auth client | registry-controlled `WWW-Authenticate: Bearer realm=` could steer token exchange to an untrusted endpoint | OCI client tests should include realm scheme/host validation and fake-token destination capture, not just registry-host allowlists. |
+| [GHSA-j6hm-v3x2-qv6j](https://github.com/advisories/GHSA-j6hm-v3x2-qv6j) | `oras-java-sdk` archive utilities | tar/zip OCI layer extraction could create a symlink and then write through it outside the extraction root | Treat pulled artifact layers like untrusted archives; prove only with disposable extraction roots and outside-root canary files. |
+
+### ORAS credential-realm and archive harness
+
+- Preconditions: disposable OCI registry or mock registry, fake credentials/refresh tokens, owned token-service endpoint, temp extraction root, and no production image/package credentials.
+- For `oras-go`, return a Bearer challenge whose `realm` points to an owned host, wrong scheme, sibling host, or path outside the expected registry trust domain. Positive evidence is a fake credential or refresh-token request reaching the owned endpoint.
+- For `oras-java-sdk`, build a tar/zip layer that creates a symlink inside the extraction directory pointing to a temp outside directory, followed by a file entry that writes through the symlink. Positive evidence is a marker file under the outside directory.
+- Negative controls: exact approved auth-realm policy, HTTPS-only token services, host/scheme pinning where configured, symlink rejection, realpath checks before every file write, and fixed-version denial.
+- Do not reuse real registry tokens, publish malicious layers to public registries, overwrite shell startup files, or extract into developer home directories.
