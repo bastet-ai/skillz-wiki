@@ -21,6 +21,23 @@ Adjacent updated advisories for Kahi supervisor permissions, Dolibarr installer 
 
 ## Replayable validation boundaries
 
+## July 1 sigstore verification-constraint update
+
+GitHub Advisory Database entries [GHSA-52v5-jr5w-gjxr](https://github.com/advisories/GHSA-52v5-jr5w-gjxr) / CVE-2026-48815 and [GHSA-xgjw-pm74-86q4](https://github.com/advisories/GHSA-xgjw-pm74-86q4) / CVE-2026-48816 add two adjacent artifact-verification boundaries for sigstore-js. They belong with the existing sigstore Java integrated-time test pattern: policy constraints are only useful when the verifier binds every configured identity, certificate-extension, time, and transparency-log property into the accept/reject decision.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-52v5-jr5w-gjxr](https://github.com/advisories/GHSA-52v5-jr5w-gjxr) / CVE-2026-48815 | `sigstore` / sigstore-js `certificateOIDs` constraints | configured certificate OID verification constraints could be silently dropped | Supply-chain gate tests should include a must-match OID policy and a signed canary bundle that lacks or mismatches that OID. |
+| [GHSA-xgjw-pm74-86q4](https://github.com/advisories/GHSA-xgjw-pm74-86q4) / CVE-2026-48816 | sigstore-js verification | insufficient authenticity verification in the JavaScript verifier | Compare accepted bundles against every expected identity, issuer, certificate extension, log, and artifact digest constraint; treat any ignored constraint as an authz bypass in the release pipeline. |
+
+### Sigstore JS constraint-negative-control harness
+
+- Preconditions: isolated Node.js verification runner, affected and fixed sigstore-js versions, disposable artifacts, and public or synthetic conformance bundles with no production release material.
+- Configure verification with strict identity and certificate-extension expectations, including `certificateOIDs` that the canary bundle intentionally does not satisfy.
+- Verify the same artifact/bundle pair with affected and fixed versions and record the accept/reject decision.
+- Positive evidence is the affected verifier accepting a bundle while ignoring the configured OID/authenticity constraint; do not use real stolen signing keys, private release artifacts, or customer provenance.
+- Negative controls: fixed version, explicit failure on unknown/unsatisfied constraints, pinned issuer/subject/log roots, and digest mismatch rejection.
+
 ### Express/Cedar and Koa parser-drift harness
 
 - Preconditions: owned Express or Koa app, route/action map, two disposable roles, and no production data.

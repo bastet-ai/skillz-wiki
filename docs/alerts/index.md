@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [SurrealDB realtime/session authorization update](2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md#july-1-surrealdb-realtimesession-authorization-update)
+- [sigstore verification-constraint update](2026-06-30-auth-middleware-vm-supply-chain-boundaries-ghsa.md#july-1-sigstore-verification-constraint-update)
 - [Agent repository, MCP file-read, and registry trust-boundary checks](2026-07-01-agent-repo-registry-boundaries-ghsa.md)
 - [Twig cached-template sandbox allow-list update](2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md#july-1-twig-cached-template-sandbox-allow-list-update)
 - [Keycloak token-exchange and redirect-parameter pollution update](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-1-keycloak-token-exchange-and-redirect-parameter-pollution-update)
@@ -26,7 +28,6 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 - [CMS, renderer, HTTP-client, and package-manager boundary checks](2026-06-26-cms-renderer-http-client-package-boundaries-ghsa.md)
 - [MCP, identity, static-path, and panel boundary checks](2026-06-26-mcp-identity-static-panel-boundaries-ghsa.md)
 - [Proxy, scanner, and container path boundary checks](2026-06-26-proxy-scanner-container-boundaries-ghsa.md)
-- [Incus image, backup, and object-storage host-boundary checks](2026-06-26-incus-image-backup-host-boundaries-ghsa.md)
 - [OpenAM OAuth2 credential-rewrite and MSISDN LDAP-filter boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-oauth2-local-credential-and-msisdn-ldap-filter-harness)
 - [OpenAM push-registration SNS and token-store boundary update](2026-06-24-olivetin-openam-concrete-boundaries-ghsa.md#openam-push-registration-and-oauth-token-store-harness)
 - [Claude Code `/copy` predictable temporary-file boundary update](2026-06-10-claude-code-action-mcp-and-baileys-event-boundaries-ghsa.md#claude-code-copy-predictable-temporary-file)

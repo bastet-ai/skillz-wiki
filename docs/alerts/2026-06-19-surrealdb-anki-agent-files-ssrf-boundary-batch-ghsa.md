@@ -47,6 +47,34 @@ This batch is durable because the advisories cluster around repeatable boundarie
 
 ## Replayable validation boundaries
 
+## July 1 SurrealDB realtime/session authorization update
+
+Additional GitHub Advisory Database entries published on 2026-07-01 reinforce the same database authorization theme: [GHSA-6g9v-7gq3-p2c6](https://github.com/advisories/GHSA-6g9v-7gq3-p2c6), [GHSA-4m82-p8cx-f94j](https://github.com/advisories/GHSA-4m82-p8cx-f94j), [GHSA-gcwr-5mrf-fvch](https://github.com/advisories/GHSA-gcwr-5mrf-fvch), [GHSA-4v76-cw68-4vc9](https://github.com/advisories/GHSA-4v76-cw68-4vc9), [GHSA-6vg3-hgrw-p5gf](https://github.com/advisories/GHSA-6vg3-hgrw-p5gf), [GHSA-vjjx-rfw4-rmfc](https://github.com/advisories/GHSA-vjjx-rfw4-rmfc), [GHSA-98fx-66cf-fc7c](https://github.com/advisories/GHSA-98fx-66cf-fc7c), [GHSA-4vgr-h27g-cf9p](https://github.com/advisories/GHSA-4vgr-h27g-cf9p), [GHSA-5qfp-32cf-69jh](https://github.com/advisories/GHSA-5qfp-32cf-69jh), and adjacent CrateDB blob authorization advisory [GHSA-2xv8-gjwh-fv8p](https://github.com/advisories/GHSA-2xv8-gjwh-fv8p) / CVE-2026-49989. Availability-only SurrealDB parser and WebSocket memory-amplification items from the same wave were reviewed but not promoted beyond noting that they should stay in bounded lab stress tests.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-6g9v-7gq3-p2c6](https://github.com/advisories/GHSA-6g9v-7gq3-p2c6) | SurrealDB field permissions | error messages could disclose fields hidden by field-level `SELECT` permissions | Add error paths to field-permission tests; positive evidence is a synthetic hidden value reflected in an error, not direct table dumping. |
+| [GHSA-4m82-p8cx-f94j](https://github.com/advisories/GHSA-4m82-p8cx-f94j) | SurrealDB Live Query | subscriptions could survive session state changes | Realtime authorization must be rechecked after logout, token rotation, role change, and ACL mutation, not only when the subscription is created. |
+| [GHSA-gcwr-5mrf-fvch](https://github.com/advisories/GHSA-gcwr-5mrf-fvch) | SurrealDB `KILL` statement | callers could terminate other users' live queries | Treat control statements for subscriptions/jobs as cross-principal control planes; prove with two disposable users and marker subscription IDs. |
+| [GHSA-4v76-cw68-4vc9](https://github.com/advisories/GHSA-4v76-cw68-4vc9) | SurrealDB crafted `LIVE` queries | live-query construction could write to a table without the expected table permission | Query features that look read-only can have write side effects; validate with a disposable table and marker rows only. |
+| [GHSA-6vg3-hgrw-p5gf](https://github.com/advisories/GHSA-6vg3-hgrw-p5gf) and [GHSA-vjjx-rfw4-rmfc](https://github.com/advisories/GHSA-vjjx-rfw4-rmfc) | SurrealDB record-id paths and graph traversal | composite record IDs and graph traversal could bypass table or field `SELECT` permissions | Expand authorization matrices to cover record-id normalization, graph edges, relation traversal, and path aliases in addition to direct `SELECT`. |
+| [GHSA-98fx-66cf-fc7c](https://github.com/advisories/GHSA-98fx-66cf-fc7c) | SurrealDB `TABLE` scraping | table scraping could expose data despite no available permissions for the current auth level | Test metadata/export/scrape helpers separately from normal query APIs; use seeded non-sensitive rows and expected-deny controls. |
+| [GHSA-4vgr-h27g-cf9p](https://github.com/advisories/GHSA-4vgr-h27g-cf9p) and [GHSA-5qfp-32cf-69jh](https://github.com/advisories/GHSA-5qfp-32cf-69jh) | SurrealDB HTTP RPC sessions | race conditions or session-list leakage could expose or hijack attached session UUIDs | Session identifiers exposed by RPC/control endpoints are credentials; prove with anonymous-vs-authenticated lab users and sanitized UUID evidence only. |
+| [GHSA-2xv8-gjwh-fv8p](https://github.com/advisories/GHSA-2xv8-gjwh-fv8p) / CVE-2026-49989 | CrateDB Blob HTTP handler | blob download route bypassed authorization | Include object/blob endpoints in database authorization matrices; compare SQL/table permission denial with blob-route access to synthetic objects. |
+
+### Realtime/session/database auth harness
+
+- Preconditions: isolated SurrealDB or CrateDB lab, patched negative-control version when available, two disposable principals, and only synthetic tables, blobs, sessions, and live-query IDs.
+- Seed low-sensitivity markers for hidden fields, relation targets, graph edges, table rows, blob objects, and realtime events.
+- Build a matrix for direct `SELECT`, graph traversal, composite record IDs, error responses, `LIVE` query creation, post-subscription ACL changes, logout/token rotation, `KILL`, table-scrape helpers, blob HTTP routes, and HTTP RPC session listing.
+- Positive evidence should be a canary field, row, relation, blob marker, live event, or session UUID visible to a principal that the canonical direct route denies.
+- Stop at proof of boundary crossing. Do not dump production tables, subscribe to other users' live data, terminate real workloads, collect live session IDs, or run resource-exhaustion payloads.
+
+### Reviewed but not promoted in this update
+
+- [GHSA-65rj-r9fh-jp2v](https://github.com/advisories/GHSA-65rj-r9fh-jp2v), [GHSA-q8qp-67f9-wr3f](https://github.com/advisories/GHSA-q8qp-67f9-wr3f), [GHSA-wjjj-24cx-f28g](https://github.com/advisories/GHSA-wjjj-24cx-f28g), and [GHSA-q729-696q-g9pq](https://github.com/advisories/GHSA-q729-696q-g9pq) are availability-focused parser/RPC/WebSocket issues; keep any validation to explicit lab stress testing and do not turn them into production operator playbooks.
+- [GHSA-m492-gv72-xvxj](https://github.com/advisories/GHSA-m492-gv72-xvxj) is a stale password-reset-link issue; it was processed without promotion because it does not add a distinct workflow beyond existing reset-token lifecycle checks.
+
 ### Local desktop and MCP transport checks
 
 - Build an isolated desktop or containerized lab profile with no real notes, decks, credentials, devices, or MCP tools.
