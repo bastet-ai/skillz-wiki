@@ -91,6 +91,13 @@ Do not send payloads that steal cookies, make privileged changes, or call extern
    - mixed-case scheme accepted → case-normalization miss
 5. **Prove with minimum impact.** Use a benign `alert(1)` or visible DOM marker in a lab account, and record the request, response, rendered DOM, and click/navigation result.
 
+### Concourse post-login double-decode redirect update
+
+- Test only your own lab or explicitly authorized Concourse web endpoint and account. Do not send crafted login links to other users.
+- Seed the login flow with a harmless owned destination such as `/sky/login?redirect_uri=/%252Fexample.invalid/\` and complete login in your own browser session.
+- Positive evidence is the final `Location` or browser navigation resolving to the off-origin canary host after authentication, while a normal local `redirect_uri` remains on the Concourse origin.
+- Capture the raw parameter, server response chain, browser-normalized destination, Concourse version, and patched negative control. Do not claim credential theft: the advisory notes the redirect happens after login completes and no credentials are leaked by the redirect alone.
+
 ## What to report
 
 A strong bug-bounty report should include:
@@ -146,3 +153,4 @@ https://allowed.example.invalid@evil.example/
 - [Craft CMS fix commit](https://github.com/craftcms/cms/commit/cc9921c14897ee2b592a431c2356af8a04ce4cfe)
 - [GitHub Advisory Database: CakePHP Authentication GHSA-hhpq-7wg4-36jm / CVE-2026-55590](https://github.com/advisories/GHSA-hhpq-7wg4-36jm)
 - [GitHub Advisory Database: Gogs GHSA-xxhq-69mf-w8cr / CVE-2026-52802](https://github.com/advisories/GHSA-xxhq-69mf-w8cr)
+- [GitHub Advisory Database: Concourse GHSA-8w27-c4vc-88q9 / CVE-2026-49826](https://github.com/advisories/GHSA-8w27-c4vc-88q9)

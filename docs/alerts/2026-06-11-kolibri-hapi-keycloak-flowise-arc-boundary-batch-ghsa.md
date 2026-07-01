@@ -6,6 +6,8 @@ June 26 Keycloak update: GitHub advisories [GHSA-g8vr-x4qh-25qg](https://github.
 
 June 30 Keycloak UMA update: GitHub advisories [GHSA-c739-f6xw-6pv2](https://github.com/advisories/GHSA-c739-f6xw-6pv2) / CVE-2026-4630 and [GHSA-933f-rg6j-f46p](https://github.com/advisories/GHSA-933f-rg6j-f46p) / CVE-2026-37981.
 
+July 1 Keycloak update: GitHub advisories [GHSA-rr5q-3xwr-f323](https://github.com/advisories/GHSA-rr5q-3xwr-f323) / CVE-2026-9704 and [GHSA-wcvj-vpvw-9rr5](https://github.com/advisories/GHSA-wcvj-vpvw-9rr5) / CVE-2026-9689.
+
 This batch is durable because each advisory exposes a reusable operator pattern: server-side URL fetches that reflect remote responses, string-prefix filesystem confinement, identity-provider proof scoping, low-privilege AI-workflow object control, and accidentally public Go `pprof` debug surfaces.
 
 ## What changed
@@ -18,6 +20,8 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 - **Keycloak versioned Account API forced browsing** — Keycloak `keycloak-services <= 26.6.1` could leave five `/account/v1alpha1` REST endpoints reachable when the server was started with `--features-disabled=account,account-api`. The advisory notes the caller still needs permissions to use the API; the bug is that the versioned route family lacked the same feature gate as adjacent endpoints.
 - **Keycloak UMA Protection API resource-server IDOR** — authenticated clients using Authorization Services Protection API endpoints could access or modify resource records owned by another Resource Server in the same realm when they knew the target resource UUID.
 - **Keycloak Account Resources user lookup overreach** — an authenticated user who owns at least one UMA resource could query arbitrary username or email values and receive profile objects for unrelated realm users.
+- **Keycloak token-exchange oversized `subject_token` fallback** — a low-privilege authenticated user could send an oversized `subject_token` JWT to the TokenEndpoint; when the token exceeded the server limit and was silently dropped, processing could fall back to client credentials and return the client's service-account permissions.
+- **Keycloak redirect HTTP parameter pollution** — when a client accepts broad redirect URIs, crafted authentication URLs could manipulate duplicate or conflicting parameters so attacker-controlled data is prioritized over legitimate redirect data during the login flow.
 - **Flowise OpenAI Assistants vector-store permission gap** — Flowise `<= 3.1.1` exposed vector-store CRUD/upload routes without per-operation permission checks. Any authenticated user with API access could create, modify, delete, or upload files to OpenAI Assistants vector stores outside their intended role.
 - **Arc public Go `pprof` debug endpoints** — Arc builds before `v26.06.1` registered `net/http/pprof` handlers under `/debug/pprof/*` and added that path to public prefixes, allowing unauthenticated heap/goroutine/profile/trace access. Treat the useful signal as debug surface exposure and runtime-state leakage; CPU-burn is secondary and should not be stress-tested in production.
 
@@ -69,6 +73,13 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 - Positive evidence is limited to a canary resource name, owner Resource Server ID, HTTP method, expected denial, and observed access or mutation. Do not delete real resources; if DELETE must be tested, use only a disposable marker resource.
 - For Account Resources lookup, use a low-privilege user that owns one canary UMA resource. Query only disposable usernames/emails in the same lab realm and compare whether unrelated user profile objects are returned.
 - Treat these as **same-realm authorization and object-ownership drift**, not unauthenticated account takeover. Keep PII out of evidence; use fake names, fake emails, and redacted profile fields.
+
+### July 1 Keycloak token-exchange and redirect-parameter pollution update
+
+- Preconditions: lab realm, disposable users, a test client with service-account roles, broad redirect URI configuration only in an isolated app, and synthetic tokens. Do not reuse production clients, IdPs, sessions, or real user tokens.
+- **Oversized `subject_token` fallback:** mint a low-privilege synthetic token and create an oversized JWT-shaped `subject_token` canary that exceeds the documented server limit without containing real claims. Submit the token-exchange request as the low-privilege caller and compare expected denial with whether the response reflects the client's service-account roles. Evidence should show request shape, token labels, expected subject, returned subject/roles, and patched `26.6.3+` rejection.
+- **Redirect parameter pollution:** configure a disposable client with intentionally broad redirect URI rules. Send paired authorization requests: one baseline with a single legitimate redirect value and one with duplicate/conflicting redirect-related parameters that should not override the legitimate destination. A positive proof shows the server choosing attacker-controlled redirect data after login. Use owned `example.invalid`-style domains or a local canary route; never target real users.
+- Frame both as **server-side consistency and fallback failures**: oversized token input to unintended client-credential fallback, or duplicate redirect input to wrong destination selection. Avoid claiming unauthenticated access; the token-exchange issue requires an authenticated low-privilege caller and the redirect issue depends on client redirect configuration plus user interaction.
 
 ### Flowise vector-store authorization
 

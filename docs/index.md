@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Agent repository, MCP file-read, and registry trust-boundary checks](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md)
+- [Twig cached-template sandbox allow-list update](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md#july-1-twig-cached-template-sandbox-allow-list-update)
 - [MCP SSRF, geospatial search, and model-ingestion boundary checks](alerts/2026-07-01-mcp-geospatial-model-ingestion-boundaries-ghsa.md)
 - [Bouncy Castle CTR keystream-reuse boundary check](alerts/2026-07-01-bouncy-castle-ctr-keystream-boundary-ghsa.md)
 - [Model parser, deserialization, and identity-extractor boundary checks](alerts/2026-06-30-model-parser-deserialization-identity-boundaries-ghsa.md)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Keycloak UMA resource and account-lookup update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#keycloak-uma-resource-and-account-lookup-authorization-checks)
 - [Paymenter credit race update](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#paymenter-credit-race-harness)
 - [Twig sandbox residual-bypass update](alerts/2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md#june-30-twig-sandbox-residual-bypass-update)
-- [Auth middleware, VM socket, and supply-chain verifier boundary checks](alerts/2026-06-30-auth-middleware-vm-supply-chain-boundaries-ghsa.md)
-- [Fission namespace and trigger boundary update](alerts/2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md#june-30-fission-namespace-and-trigger-boundary-update)
 
 ## What lives here
 

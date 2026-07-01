@@ -21,6 +21,19 @@ This batch is durable because it captures reusable offensive validation patterns
 
 ## Replayable validation boundaries
 
+### July 1 Twig cached-template sandbox allow-list update
+
+GitHub's July 1 published feed added [GHSA-529h-vh3j-85hq](https://github.com/advisories/GHSA-529h-vh3j-85hq) / CVE-2026-49981 for Twig `<= 3.26.0`. This is adjacent to the existing sandbox workflow, but the boundary is different: filter, tag, and function allow-list checks were compiled into a `Template` subclass and run at construction time, while the `Environment` cached that `Template` instance. If the same long-lived `Environment` renders a shared template once outside the sandbox, a later sandboxed render can reuse the cached instance without rechecking the current sandbox allow-list for that template.
+
+Add this probe when a target uses long-lived PHP workers, shared Twig `Environment` instances, user-controlled sandboxed templates, CMS snippets, marketplace themes, email templates, or report builders that can include/import/extend templates also reachable outside the sandbox.
+
+| Boundary | Safe probe |
+| --- | --- |
+| Non-sandbox render pre-warms a shared layout, macro, parent, or included template; later sandboxed render reaches that cached template with a stricter filter/tag/function policy | in a lab harness, render a shared template outside sandbox, then render an attacker-controlled sandboxed child that includes/imports/extends it and uses only inert custom filters/functions/tags as canaries |
+| `enableSandbox()` / `disableSandbox()`, `setSecurityPolicy()`, or `SourcePolicyInterface` decisions change between renders on the same `Environment` | compare a fresh process where the sandbox denies the canary construct with a warmed process where the same construct executes |
+
+Evidence should include Twig version, worker/runtime model, whether the same `Environment` instance is reused, the warm-up render path, the sandboxed render path, the exact filter/tag/function allow-list, expected denial in a fresh or patched control, and observed cached-template behavior. Do not use filters or functions that execute commands, read files, access network resources, or expose real domain objects; canary filters should return fixed strings such as `skillz-twig-cache-canary`.
+
 ### June 30 Twig sandbox residual-bypass update
 
 GitHub's late June 30 published feed added four adjacent Twig sandbox advisories: [GHSA-p42q-9prx-q5wq](https://github.com/advisories/GHSA-p42q-9prx-q5wq) / CVE-2026-48805, [GHSA-5v5v-ww74-355v](https://github.com/advisories/GHSA-5v5v-ww74-355v) / CVE-2026-48806, [GHSA-8x9c-rmqh-456c](https://github.com/advisories/GHSA-8x9c-rmqh-456c) / CVE-2026-48807, and [GHSA-h8vq-8gpg-mhcg](https://github.com/advisories/GHSA-h8vq-8gpg-mhcg) / CVE-2026-48808.

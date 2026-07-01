@@ -10,6 +10,10 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Agent repository, MCP file-read, and registry trust-boundary checks](2026-07-01-agent-repo-registry-boundaries-ghsa.md)
+- [Twig cached-template sandbox allow-list update](2026-06-05-twig-tostring-bugsink-project-boundary-batch-ghsa.md#july-1-twig-cached-template-sandbox-allow-list-update)
+- [Keycloak token-exchange and redirect-parameter pollution update](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-1-keycloak-token-exchange-and-redirect-parameter-pollution-update)
+- [Concourse post-login redirect parser differential](../methodology/return-url-scheme-bypass-testing.md#concourse-post-login-double-decode-redirect-update)
 - [Model parser, deserialization, and identity-extractor boundary checks](2026-06-30-model-parser-deserialization-identity-boundaries-ghsa.md)
 - [Auth middleware, VM socket, and supply-chain verifier boundary checks](2026-06-30-auth-middleware-vm-supply-chain-boundaries-ghsa.md)
 - [Fission namespace and trigger boundary update](2026-06-10-litestar-fission-builder-boundary-batch-ghsa.md#june-30-fission-namespace-and-trigger-boundary-update)
