@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Coder workspace, Dulwich submodule, and Kerberos Hub redirect follow-up](2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-coder-dulwich-and-kerberos-hub-follow-up)
+- [Langroid SQL and file-tool boundary follow-up](2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-2-langroid-sql-and-file-tool-boundary-follow-up)
+- [OpenClaw native command, PowerShell, retry endpoint, and Telegram callback updates](2026-07-02-openclaw-mcp-memory-agent-boundaries-ghsa.md#native-command-powershell-retry-endpoint-and-telegram-callback-checks)
 - [Contour cookie-rewrite Lua boundary check](2026-07-01-contour-cookie-rewrite-lua-boundary-ghsa.md)
 - [Keycloak CIBA, request-object, admin-role, client-policy, and organization updates](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-1-keycloak-ciba-request-object-and-admin-role-toctou-follow-up)
 - [Langroid `TableChatAgent` WAF-bypass boundary check](2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md)

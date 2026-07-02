@@ -36,3 +36,23 @@ Prioritize this when a target:
 Lead with the crossed boundary: **untrusted prompt or retrieved content to dataframe expression sandbox escape**. Strong reports show that the application relies on `TableChatAgent` filtering as a security boundary, that the model/tool path is reachable by the attacker, and that an inert capability escape is possible in a controlled environment.
 
 Keep the proof bounded. This page is for authorized validation, not for publishing payloads that read files, exfiltrate credentials, call metadata endpoints, or run production commands.
+
+## July 2 Langroid SQL and file-tool boundary follow-up
+
+GitHub Advisory Database published two adjacent Langroid issues on 2026-07-02: [GHSA-pmch-g965-grmr](https://github.com/advisories/GHSA-pmch-g965-grmr) / CVE-2026-50180 for `SQLChatAgent` `_validate_query` blocklist gaps, and [GHSA-fg23-3346-88f5](https://github.com/advisories/GHSA-fg23-3346-88f5) / CVE-2026-50181 for `ReadFileTool` / `WriteFileTool` traversal outside `curr_dir`. Both affect `langroid <= 0.63.0` and extend the same operator lesson: LLM tool guardrails are security boundaries only if final SQL, file paths, and filesystem effects are constrained after model/tool generation.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-pmch-g965-grmr](https://github.com/advisories/GHSA-pmch-g965-grmr) / CVE-2026-50180 | `SQLChatAgent.run_query` and `_validate_query` | prompt-shaped `SELECT` queries can reach PostgreSQL filesystem-disclosure functions such as `pg_read_file()` or adjacent SQL Server/SQLite file primitives despite `allow_dangerous_operations=False` | Test SQL agents against dialect-specific file and extension functions, not just statement-type allowlists or generic dangerous-keyword filters. |
+| [GHSA-fg23-3346-88f5](https://github.com/advisories/GHSA-fg23-3346-88f5) / CVE-2026-50181 | Langroid `ReadFileTool` and `WriteFileTool` | `curr_dir` changes the process working directory but does not enforce final realpath confinement, allowing `../` traversal reads/writes | Agent file tools need final-path containment checks; changing CWD is not a sandbox. |
+
+### Safe validation additions
+
+- Preconditions: isolated Langroid lab, `langroid <= 0.63.0`, synthetic database/filesystem canaries, least-privilege database role, empty temp workspace, and no production datasets or secrets.
+- For `SQLChatAgent`, seed a disposable database with normal table data and configure a harmless canary file owned by the database service only in a lab. Shape the agent/tool call toward a `SELECT`-only filesystem function and record whether `_validate_query` permits it. Positive evidence can be a fixed marker string from the synthetic file or a blocked/allowed decision table; do not read `/etc/passwd`, credentials, logs, cloud metadata, or application data.
+- For `ReadFileTool` / `WriteFileTool`, set `curr_dir` to a temp project directory and place a marker file in a sibling temp directory. Attempt only `../skillz-langroid-canary.txt`-style traversal. Positive evidence is marker read/write outside `curr_dir`; negative control is realpath rejection or a patched version.
+- For both issues, include a negative control where the same prompt/tool call is rejected after final SQL function policy or final realpath containment is enforced.
+
+### Additional reporting heuristic
+
+Lead with the crossed boundary: **LLM-generated SELECT to database-host file primitive** or **agent file tool path to outside-workspace read/write**. Strong reports show how untrusted prompt, RAG content, uploaded data, or delegated agent tasks can influence the final tool input while the application relies on Langroid guardrails for containment.

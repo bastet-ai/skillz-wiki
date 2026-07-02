@@ -70,6 +70,31 @@ These advisories are durable for operators because they expose recurring boundar
 - Include affected package/version, tool invocation route, normalized path/argv/host evidence, canary value label, and patched negative control.
 - Keep evidence synthetic. Do not read real secrets, source files, prompts, notebooks, model weights, package tokens, image registry credentials, or operator SSH/Git configuration.
 
+## July 2 Coder, Dulwich, and Kerberos Hub follow-up
+
+Later July 2 GitHub Advisory Database entries add three adjacent developer-control and credential-boundary cases: [GHSA-m3cr-vc2j-pm27](https://github.com/advisories/GHSA-m3cr-vc2j-pm27) / CVE-2026-44454 for Coder dotfiles workspace auto-creation, [GHSA-gfhv-vqv2-4544](https://github.com/advisories/GHSA-gfhv-vqv2-4544) / CVE-2026-52726 for Dulwich submodule path traversal into `.git/hooks`, and [GHSA-h5gx-45rj-2h5j](https://github.com/advisories/GHSA-h5gx-45rj-2h5j) / CVE-2026-50192 for Kerberos Hub custom credential headers crossing redirects.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-m3cr-vc2j-pm27](https://github.com/advisories/GHSA-m3cr-vc2j-pm27) / CVE-2026-44454 | `github.com/coder/coder/v2` dotfiles registry module and Create Workspace `mode=auto` links | URL-controlled `param.dotfiles_uri` can cross from a workspace deep link into shell-expanded dotfiles setup during automatic workspace creation | Developer-platform assessments should treat workspace templates, dotfiles URLs, and auto-provision links as command surfaces, especially when one-click links skip explicit user confirmation. |
+| [GHSA-gfhv-vqv2-4544](https://github.com/advisories/GHSA-gfhv-vqv2-4544) / CVE-2026-52726 | `dulwich >= 0.23.2, < 1.2.5` `porcelain.submodule_update` and `clone(..., recurse_submodules=True)` | repository-controlled `.gitmodules` plus gitlink path can materialize submodule content under the parent repository's `.git/hooks` directory | Git-library clients need the same submodule path validation as Git itself; prove with disposable repositories and inert hook markers only. |
+| [GHSA-h5gx-45rj-2h5j](https://github.com/advisories/GHSA-h5gx-45rj-2h5j) / CVE-2026-50192 | Kerberos Hub agent upload client | custom `X-Kerberos-Hub-PrivateKey` / `X-Kerberos-Hub-PublicKey` headers can be forwarded to a cross-host redirect target because Go strips standard sensitive headers, not custom auth headers | Credential-forwarding tests must cover custom headers and redirect policy, not only `Authorization`/`Cookie`. |
+
+### Workspace, submodule, and redirect harness
+
+- Preconditions: disposable Coder or equivalent developer-workspace lab, throwaway Dulwich repository/client, mock Kerberos Hub endpoint, fake credentials, temp directories, and no production Git, workspace, camera, or Hub secrets.
+- For Coder, create a workspace template or harness that logs the final dotfiles setup command. Compare a normal Create Workspace path with a `mode=auto` deep link carrying a shell-metacharacter canary in `param.dotfiles_uri`. Positive evidence is command construction/execution of only an inert marker inside the new disposable workspace.
+- For Dulwich, build a malicious test repository where `.gitmodules` and the tree gitlink name a submodule path under `.git/hooks`; clone with `recurse_submodules=True` or run `submodule_update` in an isolated target directory. Positive evidence is a marker hook file written under the target repository's `.git/hooks` with executable mode, followed only by a harmless hook invocation if the program allows it.
+- For Kerberos Hub, serve a mock Hub URL that first receives fake `X-Kerberos-Hub-*` headers and then returns same-origin and cross-origin redirects to an owned callback. Positive evidence is the fake custom header reaching the cross-origin endpoint.
+- Negative controls: explicit workspace-create confirmation, dotfiles URI grammar validation before shell use, no shell interpolation for dotfiles setup, Dulwich `>= 1.2.5`, submodule paths rejected when absolute/outside-worktree/inside `.git`, and redirect-following that strips custom credential headers when scheme/host/port changes.
+- Do not auto-create workspaces in shared production projects, run real dotfiles, clone untrusted repositories with real hooks enabled, forward live Kerberos Hub keys, or publish payloads beyond marker creation and fake-header capture.
+
+### Additional reporting notes
+
+- Lead with the crossed boundary: **workspace URL to shell-expanded dotfiles command**, **repository metadata to Git hook write**, or **custom Hub credential header to redirected authority**.
+- Include versions, exact route or library entry point, argv/path/header decision table, confirmation state, and patched negative controls.
+- Keep evidence synthetic: fake dotfiles URLs, temp hooks, fake private/public keys, owned redirectors, and disposable workspaces only.
+
 ## Reviewed but not promoted here
 
 - [GHSA-mjgf-xj26-9qf9](https://github.com/advisories/GHSA-mjgf-xj26-9qf9) is a webhook HMAC timing issue; useful for secure verification, but it did not add a distinct offensive workflow beyond existing signature-testing guidance.

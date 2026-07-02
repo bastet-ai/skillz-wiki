@@ -38,6 +38,10 @@ Adjacent OpenClaw advisories published later on July 2 continue the same operato
 | [GHSA-hcm3-8f6r-6xwg](https://github.com/advisories/GHSA-hcm3-8f6r-6xwg) and [GHSA-grc3-2j34-p6gm](https://github.com/advisories/GHSA-grc3-2j34-p6gm) | browser debug/export routes and `message.action` forwarding | already-open blocked tabs or model-supplied loopback URLs could bypass private-network/token-forwarding assumptions | Test browser/export and action-forwarding paths with owned canary tabs, local listeners, and fake Gateway tokens. |
 | [GHSA-6c4r-g249-wv3c](https://github.com/advisories/GHSA-6c4r-g249-wv3c) | sandboxed child session spawn | child prompts could receive real workspace path/context from a sandboxed parent | Capture prompt/context disclosure only with synthetic path markers. |
 | [GHSA-cqwv-9qjx-vxw2](https://github.com/advisories/GHSA-cqwv-9qjx-vxw2) | Skill Workshop apply flow | tool calls could apply workshop changes despite a pending approval policy | Bind generated skill changes to immutable approval state before applying. |
+| [GHSA-p73f-w79w-jqr5](https://github.com/advisories/GHSA-p73f-w79w-jqr5) | native command authorization | native command handling could authorize owner-style commands without enforcing owner-command policy | Test native command surfaces separately from text/Gateway routes and prove lower-trust sender rejection. |
+| [GHSA-j472-gf56-x589](https://github.com/advisories/GHSA-j472-gf56-x589) | PowerShell encoded-command allowlist parsing | abbreviated encoded-command flags could evade an exec allowlist parser that recognized only canonical forms | Windows agent exec tests should include final PowerShell option normalization, especially encoded-command aliases. |
+| [GHSA-77q5-rr5v-x43q](https://github.com/advisories/GHSA-77q5-rr5v-x43q) | trusted retry endpoint validation | hostname-prefix matching could trust an attacker-controlled retry endpoint that only starts with a trusted host string | URL allowlists must compare parsed scheme/host/port labels, not string prefixes. |
+| [GHSA-w5ww-7chg-mxcq](https://github.com/advisories/GHSA-w5ww-7chg-mxcq) | Telegram interactive callbacks | callback authorization could mark a sender trusted before applying `commands.allowFrom` | Chat-native callbacks need the same stable identity and allowlist checks as command messages. |
 
 ## Operator triage
 
@@ -47,6 +51,7 @@ Adjacent OpenClaw advisories published later on July 2 continue the same operato
 4. **Keep canaries inert.** Prefer `printf`/`id`-free marker commands, fake MCP tools, disposable memory documents, synthetic channels, and local files containing only marker text. Do not read real prompts, chat history, credentials, notebooks, node configs, or production memories.
 5. **Separate auth bypass from trusted-operator behavior.** Many OpenClaw surfaces intentionally execute privileged local actions for trusted operators. Report only where a lower-trust route crosses a documented approval, scope, allowlist, locality, proxy, or authentication boundary.
 6. **Treat repo-local state as an agent input.** For skill install, memory-core loading, child sessions, and embedded runners, record whether workspace `.env`, package roots, provider aliases, or prompt context influence privileged helper behavior.
+7. **Normalize before allowlisting.** For retry endpoints and Windows shell wrappers, compare final parsed URL authorities and final PowerShell option aliases against policy, not the pre-normalized presentation string.
 
 ## Replayable validation boundaries
 
@@ -75,6 +80,16 @@ Adjacent OpenClaw advisories published later on July 2 continue the same operato
 - Positive evidence: the native button resolves the approval while the text path rejects the same identity.
 - Negative controls: fixed version, approval message visible only to the configured approver, and a pending action that is already expired or canceled.
 - Do not place approval buttons for real exec/plugin actions in shared chats.
+
+### Native command, PowerShell, retry endpoint, and Telegram callback checks
+
+- Preconditions: disposable OpenClaw lab, affected versions, synthetic owner-only/native commands, fake retry credentials, one non-owner chat identity, Telegram callbacks enabled only in a lab, and a Windows/PowerShell runner only if that surface is in scope.
+- Native commands: compare the canonical text/Gateway route and the native command handler using a non-owner sender. Positive evidence is owner-command behavior reachable only through the native path.
+- PowerShell encoded commands: build a decision table for canonical and abbreviated encoded-command flags. Capture the displayed command, policy input, normalized PowerShell argv, and final decision using only inert marker commands.
+- Trusted retry endpoints: configure a fake trusted origin and attempt owned prefix-confusion hosts such as `trusted.example.attacker.invalid` or `trusted.example-evidence.invalid`. Positive evidence is fake auth material sent to the prefix-confusion endpoint.
+- Telegram callbacks: verify a non-allowed Telegram identity cannot trigger the equivalent text command, then attempt the interactive callback. Positive evidence is callback execution before `commands.allowFrom` rejection.
+- Negative controls: patched OpenClaw versions, exact URL authority checks, final argv/option normalization before allowlist decisions, and callback authorization that uses stable Telegram user/chat IDs before any trusted-sender flag is set.
+- Never use live operator chats, real Gateway tokens, production retry endpoints, or PowerShell payloads beyond marker creation.
 
 ### Hook, MCP loopback, and memory API boundary checks
 
