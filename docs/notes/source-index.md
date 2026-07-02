@@ -7,6 +7,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Andromeda bytecode C2 research framework: https://github.com/vyrus001/andromeda
 - badkeys weak-key checker and web service: https://github.com/badkeys/badkeys and https://badkeys.info/
 - GitHub Security Advisories: https://github.com/advisories
+- Trail of Bits Patch the Planet field reports: https://blog.trailofbits.com/2026/07/02/field-reports-from-patch-the-planet/
 - Fission advisories/source: https://github.com/fission/fission/security/advisories and https://github.com/fission/fission
 - Cedar Express authorization middleware advisories/source: https://github.com/cedar-policy/authorization-for-expressjs/security/advisories and https://github.com/cedar-policy/authorization-for-expressjs
 - KubeVirt advisories/source: https://github.com/kubevirt/kubevirt/security/advisories and https://github.com/kubevirt/kubevirt

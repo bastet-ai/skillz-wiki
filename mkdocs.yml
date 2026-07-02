@@ -83,6 +83,7 @@ nav:
       - GitHub Actions Static Analysis: methodology/github-actions-static-analysis-recon.md
       - Agent Skill Supply Chain Testing: methodology/agent-skill-supply-chain-testing.md
       - Agentic DAST Benchmark Validation: methodology/agentic-dast-benchmark-validation.md
+      - Agent-guided Fuzzing Campaigns: methodology/agent-guided-fuzzing-campaigns.md
   - Exploit Paths:
       - CI/CD to Cloud Pivot Chain: methodology/ci-cd-cloud-pivot-chain.md
       - CORS Credential Abuse: methodology/cors-vulnerability-analysis.md
