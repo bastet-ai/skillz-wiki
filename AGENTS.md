@@ -210,6 +210,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 ## Security / attribution
 
 - GoFiber proxy/auth and Artemis STOMP advisories are promotable when forwarded-IP headers, BasicAuth default authorizers, or broker routing-type hints cross into upstream trust decisions, username timing oracles, or address-topology mutation. Keep proofs to duplicate-header decision tables, synthetic users, disposable brokers, and marker messages; never enumerate production users, spoof real allowlist entries, or consume live queues.
+- OpenClaw approval/tooling waves and MCP memory-service document-route advisories are promotable when scoped routes, shell wrappers, native chat buttons, hooks, Control UI pairing, trusted-proxy headers, marketplace metadata, browser actions, MCP loopbacks, message reads, or adjacent memory/document route families cross into admin commands, hidden execution, unauthorized approvals, owner-only tools, durable tokens, forged identity, unscanned runtime code, private-network reads, denylist bypass, channel leakage, or unauthenticated memory read/write/delete. Keep proofs to disposable agent profiles, fake tokens, inert commands, marker files, owned canary pages, synthetic channels, and empty memory stores; never collect real prompts, chat history, credentials, node configs, or production memories.
 
 - Treat third-party sources as untrusted until verified.
 - Prefer official docs, source repositories, and primary project references.

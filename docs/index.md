@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [OpenClaw approval/tooling and MCP memory document-boundary checks](alerts/2026-07-02-openclaw-mcp-memory-agent-boundaries-ghsa.md)
 - [GoFiber forwarded-IP and Artemis STOMP routing-type boundary checks](alerts/2026-07-02-gofiber-artemis-trust-boundaries-ghsa.md)
 - [Agent-guided fuzzing campaigns](methodology/agent-guided-fuzzing-campaigns.md)
 - [Ghost preview-cache, goshs share/WebDAV, and export file-boundary checks](alerts/2026-07-02-ghost-goshs-export-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [MCP authorization and ORAS redirect/file-store follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-mcp-authorization-and-oras-redirectfile-store-follow-up)
 - [Cache, fileshare, and export-boundary checks](alerts/2026-07-01-cache-fileshare-export-boundaries-ghsa.md)
 - [Rancher Fleet, JWKS cache, QUIC client, and SDK parameter boundary checks](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md)
-- [ORAS registry realm and layer-extraction update](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-oras-registry-and-layer-extraction-update)
 
 ## What lives here
 
