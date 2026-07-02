@@ -4,7 +4,7 @@ title: Rich-text import SSRF testing
 
 # Rich-text import SSRF testing
 
-Use this when a CMS, page builder, document importer, or WYSIWYG widget accepts HTML and rewrites embedded media by fetching it server-side. The durable bug-hunting pattern is: user-controlled markup crosses into an image/import pipeline, the backend resolves relative URLs against a supplied base URL, fetches the result, then stores or re-hosts fetched bytes.
+Use this when a CMS, page builder, document importer, HTML-to-PDF renderer, or WYSIWYG widget accepts HTML and rewrites embedded media by fetching it server-side. The durable bug-hunting pattern is: user-controlled markup crosses into an image/import/render pipeline, the backend resolves relative URLs against a supplied base URL, validates the URL, fetches the result, then stores, re-hosts, or embeds fetched bytes.
 
 !!! warning "Authorized testing only"
     Run these checks only on systems where you have explicit permission. Keep targets to your own callback host, owned lab services, and in-scope internal canaries provided by the program. Do not probe cloud metadata, loopback admin panels, or private services unless the rules of engagement explicitly allow it.
@@ -13,12 +13,14 @@ Use this when a CMS, page builder, document importer, or WYSIWYG widget accepts 
 
 GitHub advisory [GHSA-pr28-mf3q-qpg6 / CVE-2026-45012](https://github.com/advisories/GHSA-pr28-mf3q-qpg6) showed this shape in ApostropheCMS: an authenticated rich-text widget validation endpoint accepted an `import.html` value containing an image, resolved the `src` with `new URL(src, import.baseUrl || baseUrl)`, fetched it server-side, and imported image-compatible responses into Apostrophe's attachment pipeline.
 
+GitHub advisory [GHSA-983w-rhvv-gwmv / CVE-2025-68616](https://github.com/advisories/GHSA-983w-rhvv-gwmv) exposed the same operator seam in WeasyPrint's `default_url_fetcher`: an application-level `url_fetcher` could validate the initial URL, then the underlying fetch layer followed an HTTP redirect to a destination that was not revalidated. Treat server-side renderers as URL-fetch pipelines with **per-hop** authority decisions, not one-time string filters.
+
 That is more useful than a one-off product advisory because the same pattern appears in many CMS/editor features:
 
 - paste-from-URL and paste-from-Word/HTML import;
 - page-builder widget validation or preview APIs;
 - avatar, OpenGraph, favicon, media-library, and attachment import helpers;
-- Markdown/HTML-to-PDF previewers that rewrite images;
+- Markdown/HTML-to-PDF previewers that rewrite or embed images, CSS, fonts, and linked resources;
 - migration tools that ingest remote HTML and localize assets.
 
 ## Inputs
@@ -96,6 +98,31 @@ Record proof only when your callback logs a server-side request that cannot be e
 - put the image URL only inside the API payload, not in rendered page HTML;
 - compare callback `User-Agent`, source IP/ASN, and timing to the submitted request;
 - repeat with a new random path and confirm the request follows the server action.
+
+## Redirect revalidation harness
+
+Use this when the target claims to block private or loopback destinations before server-side rendering/fetching.
+
+Preconditions: an owned redirector, an owned external callback endpoint, and explicit authorization before using any internal canary. Do not aim redirects at cloud metadata, admin panels, Kubernetes APIs, databases, or production intranet hosts.
+
+Set up two controlled URLs:
+
+```text
+https://redirector.example/to-external-canary -> 302 https://callback.example/proof-<run-id>.png
+https://redirector.example/to-approved-internal-canary -> 302 http://127.0.0.1:<approved-canary-port>/proof.png
+```
+
+Submit the first URL through the renderer/importer and confirm the callback proves server-side redirect following. Only then, if the rules of engagement allow it, use a program-provided internal canary for the second URL.
+
+Positive evidence is a decision-table mismatch:
+
+| Input | Expected policy | Observed behavior |
+| --- | --- | --- |
+| Direct blocked URL | rejected before fetch | rejected |
+| Allowed URL that redirects to blocked URL | rejected after redirect revalidation | fetched or attempted |
+| Allowed URL that redirects to owned external canary | fetched | callback hit |
+
+Capture the redirect chain, normalized destination, status code, and whether the renderer stored or exposed fetched bytes. Stop at canary reachability; do not enumerate ports or fetch real internal resources.
 
 ## Exfiltration check for image-compatible responses
 
