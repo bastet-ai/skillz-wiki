@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Ghost preview-cache, goshs share/WebDAV, and export file-boundary checks](alerts/2026-07-02-ghost-goshs-export-boundaries-ghsa.md)
 - [Contour cookie-rewrite Lua boundary check](alerts/2026-07-01-contour-cookie-rewrite-lua-boundary-ghsa.md)
 - [Keycloak client-policy, scope-mapping, and organization-metadata update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-1-keycloak-client-policy-scope-mapping-and-organization-metadata-update)
 - [Langroid `TableChatAgent` pandas-eval update](alerts/2026-05-27-symfony-crowdsec-deno-langroid-boundary-batch-ghsa.md#july-1-langroid-tablechatagent-pandas-eval-update)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [ORAS registry realm and layer-extraction update](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-oras-registry-and-layer-extraction-update)
 - [SurrealDB query, session, and network-policy follow-up](alerts/2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md#july-1-surrealdb-query-session-and-network-policy-follow-up)
 - [MCP Toolbox DNS-rebinding update](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#july-1-mcp-toolbox-dns-rebinding-update)
-- [Agent repository, MCP file-read, and registry trust-boundary checks](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md)
 
 ## What lives here
 
