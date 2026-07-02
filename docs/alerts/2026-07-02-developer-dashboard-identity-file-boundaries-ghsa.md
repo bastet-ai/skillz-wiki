@@ -1,6 +1,6 @@
 # Developer dashboard, identity handoff, and file-serving boundary checks
 
-Source: hourly offensive-security scan, 2026-07-02. Primary entries: GitHub Advisory Database [GHSA-rh62-j648-g5qc](https://github.com/advisories/GHSA-rh62-j648-g5qc), [GHSA-g6g7-pvmx-m74p](https://github.com/advisories/GHSA-g6g7-pvmx-m74p), [GHSA-jphh-m39h-6gwx](https://github.com/advisories/GHSA-jphh-m39h-6gwx), [GHSA-6g2f-w7g3-77vf](https://github.com/advisories/GHSA-6g2f-w7g3-77vf), [GHSA-q8r6-xj3f-wrrm](https://github.com/advisories/GHSA-q8r6-xj3f-wrrm), [GHSA-6929-8p9f-26jx](https://github.com/advisories/GHSA-6929-8p9f-26jx), [GHSA-794g-x443-36f7](https://github.com/advisories/GHSA-794g-x443-36f7), [GHSA-5g75-477j-2c2f](https://github.com/advisories/GHSA-5g75-477j-2c2f), [GHSA-mm6c-5j6x-hq8m](https://github.com/advisories/GHSA-mm6c-5j6x-hq8m), [GHSA-fggg-964j-3j7h](https://github.com/advisories/GHSA-fggg-964j-3j7h), [GHSA-3ggm-c5m7-hfv5](https://github.com/advisories/GHSA-3ggm-c5m7-hfv5), and [GHSA-82m5-3pcp-hccq](https://github.com/advisories/GHSA-82m5-3pcp-hccq).
+Source: hourly offensive-security scan, 2026-07-02. Primary entries: GitHub Advisory Database [GHSA-rh62-j648-g5qc](https://github.com/advisories/GHSA-rh62-j648-g5qc), [GHSA-g6g7-pvmx-m74p](https://github.com/advisories/GHSA-g6g7-pvmx-m74p), [GHSA-jphh-m39h-6gwx](https://github.com/advisories/GHSA-jphh-m39h-6gwx), [GHSA-6g2f-w7g3-77vf](https://github.com/advisories/GHSA-6g2f-w7g3-77vf), [GHSA-q8r6-xj3f-wrrm](https://github.com/advisories/GHSA-q8r6-xj3f-wrrm), [GHSA-6929-8p9f-26jx](https://github.com/advisories/GHSA-6929-8p9f-26jx), [GHSA-794g-x443-36f7](https://github.com/advisories/GHSA-794g-x443-36f7), [GHSA-5g75-477j-2c2f](https://github.com/advisories/GHSA-5g75-477j-2c2f), [GHSA-mm6c-5j6x-hq8m](https://github.com/advisories/GHSA-mm6c-5j6x-hq8m), [GHSA-fggg-964j-3j7h](https://github.com/advisories/GHSA-fggg-964j-3j7h), [GHSA-3ggm-c5m7-hfv5](https://github.com/advisories/GHSA-3ggm-c5m7-hfv5), [GHSA-82m5-3pcp-hccq](https://github.com/advisories/GHSA-82m5-3pcp-hccq), and [GHSA-qhqw-rrw9-25rm](https://github.com/advisories/GHSA-qhqw-rrw9-25rm) / CVE-2025-65896.
 
 These advisories are durable for operators because they repeat the same validation seams across developer tools, identity middleware, and file-serving helpers: unauthenticated dashboard APIs reaching SQL or shell primitives, trusted identity responses accepted outside their original issuer/request binding, static or media helpers reading/writing outside intended roots, and URL/upload/vector metadata helpers crossing into server-side fetch or query construction. Keep proofs to owned labs, disposable projects, synthetic identities, marker files, canary callbacks, and fixed-version negative controls.
 
@@ -16,6 +16,7 @@ These advisories are durable for operators because they repeat the same validati
 | [GHSA-mm6c-5j6x-hq8m](https://github.com/advisories/GHSA-mm6c-5j6x-hq8m) | Algernon on Windows/NTFS | NTFS-equivalent names such as alternate data-stream or trailing-dot/space forms can bypass script-extension dispatch and return raw source | Windows path testing should include filesystem-equivalent names, not only `../` traversal. |
 | [GHSA-fggg-964j-3j7h](https://github.com/advisories/GHSA-fggg-964j-3j7h), [GHSA-3ggm-c5m7-hfv5](https://github.com/advisories/GHSA-3ggm-c5m7-hfv5) | Spatie Laravel Media Library `< 11.23.0` | application-controlled media helpers can fetch arbitrary URLs or preserve dangerous double-extension/upload names depending on integration | Laravel media assessments should test helper-call reachability, redirect/callback behavior, and stored filename policy with benign uploads only. |
 | [GHSA-82m5-3pcp-hccq](https://github.com/advisories/GHSA-82m5-3pcp-hccq) | agno ClickHouse vector backend | metadata keys/values passed to vector-store deletion can cross into SQL construction | AI/vector workflow reviews should fuzz metadata-to-query boundaries with seeded synthetic rows. |
+| [GHSA-qhqw-rrw9-25rm](https://github.com/advisories/GHSA-qhqw-rrw9-25rm) / CVE-2025-65896 | asyncmy `<= 0.2.11` | crafted Python `dict` keys can cross from caller-controlled mapping shape into raw SQL text | Database-client reviews should test identifier/key material separately from parameter values, using query-log canaries only. |
 
 ## Operator triage
 
@@ -62,11 +63,12 @@ These advisories are durable for operators because they repeat the same validati
 
 ### Media helper, URL fetch, upload-name, and vector metadata checks
 
-- Preconditions: local Laravel app using Spatie Media Library, local agno/ClickHouse vector harness, owned callback endpoint, synthetic uploads, seeded marker rows, and no production data.
+- Preconditions: local Laravel app using Spatie Media Library, local agno/ClickHouse vector harness, asyncmy harness connected only to a disposable database, owned callback endpoint, synthetic uploads, seeded marker rows, and no production data.
 - Media URL fetch: exercise only application paths that call `addMediaFromUrl()` with an owned callback URL and controlled redirects. Positive evidence is a server-originated callback from the application.
 - Upload sanitizer: upload benign marker files with double-extension or omitted-extension variants and record stored filename, content type, web serving behavior, and fixed-version rejection. Do not upload executable payloads.
 - Vector metadata: seed a single synthetic row and send metadata keys/values designed to change only the test query shape. Positive evidence can be a harmless SQL error mentioning a marker token or an unintended mutation of only the synthetic row.
-- Negative controls: Spatie `>= 11.23.0`, application-level URL allowlists, forced attachment/non-executable storage, parameterized vector queries, and metadata key allowlists.
+- asyncmy mapping keys: instrument query logging against a scratch schema, then pass mapping/dict keys containing inert SQL marker tokens through only the affected helper path. Positive evidence is the key material changing the generated SQL text or query structure before execution.
+- Negative controls: Spatie `>= 11.23.0`, application-level URL allowlists, forced attachment/non-executable storage, parameterized vector queries, metadata key allowlists, and database-client code that treats keys as fixed application identifiers rather than request-controlled input.
 
 ## Reporting notes
 
@@ -76,7 +78,7 @@ Lead with the crossed boundary:
 - **9router public/tunnel route or default secret -> dashboard/MCP process authority**
 - **SAML response/artifact/encrypted assertion -> wrong issuer/request/client session**
 - **File-server request target or NTFS-equivalent name -> outside-root read or raw script source**
-- **Media URL/upload metadata or vector metadata -> server fetch, stored filename bypass, or SQL construction**
+- **Media URL/upload metadata, vector metadata, or DB mapping keys -> server fetch, stored filename bypass, SQL construction, or generated-SQL mutation**
 
 Strong reports include affected version, deployment topology, raw and normalized input, exact route/helper, test role, synthetic canary evidence, and fixed-version or configuration negative controls.
 
@@ -85,3 +87,4 @@ Strong reports include affected version, deployment topology, raw and normalized
 - [GHSA-q675-qj96-32m9](https://github.com/advisories/GHSA-q675-qj96-32m9), [GHSA-5pmv-rx8r-wmv5](https://github.com/advisories/GHSA-5pmv-rx8r-wmv5), [GHSA-66m8-c62j-h6v5](https://github.com/advisories/GHSA-66m8-c62j-h6v5), [GHSA-2v8p-fqpx-2q3w](https://github.com/advisories/GHSA-2v8p-fqpx-2q3w), and nearby Zebra/JXL resource-exhaustion or crash advisories were skipped as standalone wiki items because they did not add a non-availability operator workflow in this scan.
 - [GHSA-v8rp-6xcv-fwgh](https://github.com/advisories/GHSA-v8rp-6xcv-fwgh) was not promoted because the advisory describes Kiwi TCMS `/init-db/` repeat access as a reentrant/no-op migration status path.
 - [GHSA-5j8p-5rrj-8wjg](https://github.com/advisories/GHSA-5j8p-5rrj-8wjg) was noted as a generic music-directory prefix traversal; it did not add a distinct workflow beyond the file-server path-boundary checks above.
+- [GHSA-rcjc-c4pj-xxrp](https://github.com/advisories/GHSA-rcjc-c4pj-xxrp), [GHSA-6r7r-jj8h-pq6v](https://github.com/advisories/GHSA-6r7r-jj8h-pq6v), and [GHSA-5843-p793-ghmm](https://github.com/advisories/GHSA-5843-p793-ghmm) were processed without a new page because the July 2 update did not add a reusable operator workflow beyond existing LDAP input, unsafe deserialization, or availability-only multipart checks.
