@@ -95,10 +95,31 @@ Later July 2 GitHub Advisory Database entries add three adjacent developer-contr
 - Include versions, exact route or library entry point, argv/path/header decision table, confirmation state, and patched negative controls.
 - Keep evidence synthetic: fake dotfiles URLs, temp hooks, fake private/public keys, owned redirectors, and disposable workspaces only.
 
+## July 2 Grackle PowerLine worktree branch injection follow-up
+
+A late July 2 GitHub Advisory Database entry adds another agent-orchestration command boundary: [GHSA-vv65-f55v-xm6g](https://github.com/advisories/GHSA-vv65-f55v-xm6g) for `@grackle-ai/runtime-sdk` / `@grackle-ai/powerline <= 0.132.1`. PowerLine `SpawnSession` request metadata can supply a task branch name that flows into Git worktree operations while the default executor invokes `git` with `shell:true`, turning a branch string into shell command construction on provisioned SSH hosts, Docker containers, or Codespaces.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-vv65-f55v-xm6g](https://github.com/advisories/GHSA-vv65-f55v-xm6g) | Grackle runtime SDK / PowerLine Git worktree executor | untrusted `req.branch` reaches `git worktree add -b <branch>` / related operations through a shell-backed executor instead of a safe argv vector | Agent orchestration assessments should treat task/session metadata as command input whenever it controls Git, package managers, shells, provisioned environments, or workspace bootstrap. |
+
+### Grackle worktree command-boundary harness
+
+- Preconditions: isolated Grackle/PowerLine lab, disposable provisioned host/container/Codespace, fake repository, no production SSH agent, Git credentials, workspace secrets, or long-lived agent state.
+- Instrument the executor or wrap `git` to capture the final argv/string passed to the process launcher. Compare a normal branch name with a branch-name canary containing only inert metacharacters or a marker-write command targeted at a temp file.
+- Positive evidence: the branch value is interpreted by a shell rather than passed as a literal Git ref. If execution is explicitly allowed in the lab, stop at creating a temp marker such as `/tmp/skillz-grackle-branch-canary`.
+- Negative controls: executor uses `shell:false`, branch names pass strict Git ref grammar, leading dashes/metacharacters are rejected, a positional `--` is used where supported, and fixed package versions reject the canary.
+- Do not run reverse shells, download payloads, read workspace files, use real dotfiles, or test on shared developer environments.
+
+### Additional reporting notes
+
+Lead with the crossed boundary: **agent task branch metadata to shell-backed Git worktree command**. Include package/version, RPC or orchestration route, normalized branch string, captured process-launch evidence, provisioned-environment type, inert marker result, and fixed-version negative control.
+
 ## Reviewed but not promoted here
 
 - [GHSA-mjgf-xj26-9qf9](https://github.com/advisories/GHSA-mjgf-xj26-9qf9) is a webhook HMAC timing issue; useful for secure verification, but it did not add a distinct offensive workflow beyond existing signature-testing guidance.
 - [GHSA-3ccm-4qq2-5wrp](https://github.com/advisories/GHSA-3ccm-4qq2-5wrp) is a panic on short ciphertext input and was not promoted because it is availability-focused.
+- [GHSA-525m-7f82-2mf7](https://github.com/advisories/GHSA-525m-7f82-2mf7) is a Conform form-parser CPU exhaustion issue and was not promoted because it is resource-exhaustion focused.
 
 ## July 1 ORAS registry and layer-extraction update
 

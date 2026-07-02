@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Grackle PowerLine worktree branch injection follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-grackle-powerline-worktree-branch-injection-follow-up)
 - [SFTPGo share, SpecifyJS URL/GraphQL, Casdoor SAML, and JWT empty-key checks](alerts/2026-07-02-sftpgo-specifyjs-casdoor-token-boundaries-ghsa.md)
 - [Craft CMS peer-permission and entry-mutation follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-craft-cms-peer-permission-and-entry-mutation-follow-up)
 - [Coder workspace, Dulwich submodule, and Kerberos Hub redirect follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-coder-dulwich-and-kerberos-hub-follow-up)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Agent-guided fuzzing campaigns](methodology/agent-guided-fuzzing-campaigns.md)
 - [Ghost preview-cache, goshs share/WebDAV, and export file-boundary checks](alerts/2026-07-02-ghost-goshs-export-boundaries-ghsa.md)
 - [Contour cookie-rewrite Lua boundary check](alerts/2026-07-01-contour-cookie-rewrite-lua-boundary-ghsa.md)
-- [Keycloak CIBA, request-object, admin-role, client-policy, and organization updates](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-1-keycloak-ciba-request-object-and-admin-role-toctou-follow-up)
 
 ## What lives here
 
