@@ -57,3 +57,19 @@ Later GitHub Advisory Database entries add four adjacent Craft CMS authorization
 ### Reporting additions
 
 Lead with the crossed boundary: **folder action to peer-asset deletion**, **source asset selector to unauthorized deletion**, **view-only destination to entry move**, or **pre-check entry state to post-mutation authorship change**. Strong reports include the route, affected version, permission matrix, before/after object IDs, canary-only evidence, and fixed-version negative controls.
+
+## July 2 forced-folder-move and bulk-duplicate follow-up
+
+Two later Craft CMS advisories add more sibling-route authorization and model-population drift under the same operator pattern: [GHSA-3w32-23wj-rxg3](https://github.com/advisories/GHSA-3w32-23wj-rxg3) / CVE-2026-50282 and [GHSA-x5m4-g2cq-52pq](https://github.com/advisories/GHSA-x5m4-g2cq-52pq) / CVE-2026-50281.
+
+| Advisory | Boundary | Operator value |
+| --- | --- | --- |
+| [GHSA-3w32-23wj-rxg3](https://github.com/advisories/GHSA-3w32-23wj-rxg3) | `AssetsController::actionMoveFolder()` allowed `force=true` to delete a conflicting destination folder while checking source delete plus destination create/save, but not destination delete permission. | Test overwrite/force flags as delete operations against both source and destination objects. |
+| [GHSA-x5m4-g2cq-52pq](https://github.com/advisories/GHSA-x5m4-g2cq-52pq) | `ElementsController::actionBulkDuplicate()` rejected top-level `id`, but accepted `newAttributes[id]`; duplication reset `id = null` before `Craft::configure()` restored an attacker-supplied ID and updated an existing element row. | Check nested request bags and safe-attribute allowlists for primary keys that can override framework clone/reset logic. |
+
+### Safe validation additions
+
+- Preconditions: disposable Craft CMS lab, affected `craftcms/cms` versions, low-privilege Control Panel users, synthetic assets/entries only, and fixed-version negative controls. Patched versions are `4.17.14+` / `5.9.21+` for forced folder moves and `5.9.21+` for bulk duplicate.
+- For forced folder moves, create a destination conflict folder containing only marker assets. Attempt `force=true` as a user with source delete and destination create/save but without destination delete. Positive evidence is deletion of the destination conflict marker.
+- For bulk duplicate, use predictable synthetic entry IDs and submit `newAttributes[id]` for a victim-owned marker entry while duplicating an attacker-owned source. Positive evidence is an update to the victim marker row instead of insertion of a new element.
+- Do not test against production asset volumes, media libraries, customer entries, or editorial workflows. Avoid large folders, irreversible deletes, and any payload beyond tiny text/image marker files.

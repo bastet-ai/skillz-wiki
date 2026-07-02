@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Mautic campaign import, theme template, API owner-scope, and Focus SSRF checks](alerts/2026-07-02-mautic-campaign-theme-api-focus-boundaries-ghsa.md)
+- [Craft CMS forced-folder-move and bulk-duplicate follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-forced-folder-move-and-bulk-duplicate-follow-up)
 - [Grackle PowerLine worktree branch injection follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-grackle-powerline-worktree-branch-injection-follow-up)
 - [SFTPGo share, SpecifyJS URL/GraphQL, Casdoor SAML, and JWT empty-key checks](alerts/2026-07-02-sftpgo-specifyjs-casdoor-token-boundaries-ghsa.md)
 - [Craft CMS peer-permission and entry-mutation follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-craft-cms-peer-permission-and-entry-mutation-follow-up)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [OpenClaw approval/tooling and MCP memory document-boundary checks](alerts/2026-07-02-openclaw-mcp-memory-agent-boundaries-ghsa.md)
 - [GoFiber forwarded-IP and Artemis STOMP routing-type boundary checks](alerts/2026-07-02-gofiber-artemis-trust-boundaries-ghsa.md)
 - [Agent-guided fuzzing campaigns](methodology/agent-guided-fuzzing-campaigns.md)
-- [Ghost preview-cache, goshs share/WebDAV, and export file-boundary checks](alerts/2026-07-02-ghost-goshs-export-boundaries-ghsa.md)
-- [Contour cookie-rewrite Lua boundary check](alerts/2026-07-01-contour-cookie-rewrite-lua-boundary-ghsa.md)
 
 ## What lives here
 

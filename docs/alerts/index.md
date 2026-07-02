@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Mautic campaign import, theme template, API owner-scope, and Focus SSRF checks](2026-07-02-mautic-campaign-theme-api-focus-boundaries-ghsa.md)
+- [Craft CMS forced-folder-move and bulk-duplicate follow-up](2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-forced-folder-move-and-bulk-duplicate-follow-up)
 - [Coder workspace, Dulwich submodule, and Kerberos Hub redirect follow-up](2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-coder-dulwich-and-kerberos-hub-follow-up)
 - [Langroid SQL and file-tool boundary follow-up](2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-2-langroid-sql-and-file-tool-boundary-follow-up)
 - [OpenClaw native command, PowerShell, retry endpoint, and Telegram callback updates](2026-07-02-openclaw-mcp-memory-agent-boundaries-ghsa.md#native-command-powershell-retry-endpoint-and-telegram-callback-checks)
