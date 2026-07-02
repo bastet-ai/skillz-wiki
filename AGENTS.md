@@ -209,6 +209,8 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 
 ## Security / attribution
 
+- GoFiber proxy/auth and Artemis STOMP advisories are promotable when forwarded-IP headers, BasicAuth default authorizers, or broker routing-type hints cross into upstream trust decisions, username timing oracles, or address-topology mutation. Keep proofs to duplicate-header decision tables, synthetic users, disposable brokers, and marker messages; never enumerate production users, spoof real allowlist entries, or consume live queues.
+
 - Treat third-party sources as untrusted until verified.
 - Prefer official docs, source repositories, and primary project references.
 - Keep usage guidance scoped to authorized testing, lab use, and defensive research.

@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [GoFiber forwarded-IP and Artemis STOMP routing-type boundary checks](alerts/2026-07-02-gofiber-artemis-trust-boundaries-ghsa.md)
 - [Agent-guided fuzzing campaigns](methodology/agent-guided-fuzzing-campaigns.md)
 - [Ghost preview-cache, goshs share/WebDAV, and export file-boundary checks](alerts/2026-07-02-ghost-goshs-export-boundaries-ghsa.md)
 - [Contour cookie-rewrite Lua boundary check](alerts/2026-07-01-contour-cookie-rewrite-lua-boundary-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Cache, fileshare, and export-boundary checks](alerts/2026-07-01-cache-fileshare-export-boundaries-ghsa.md)
 - [Rancher Fleet, JWKS cache, QUIC client, and SDK parameter boundary checks](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md)
 - [ORAS registry realm and layer-extraction update](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-oras-registry-and-layer-extraction-update)
-- [SurrealDB query, session, and network-policy follow-up](alerts/2026-06-19-surrealdb-anki-agent-files-ssrf-boundary-batch-ghsa.md#july-1-surrealdb-query-session-and-network-policy-follow-up)
 
 ## What lives here
 
