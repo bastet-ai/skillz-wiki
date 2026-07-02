@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Developer dashboard, identity handoff, and file-serving boundary checks](alerts/2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md)
 - [Mautic campaign import, theme template, API owner-scope, and Focus SSRF checks](alerts/2026-07-02-mautic-campaign-theme-api-focus-boundaries-ghsa.md)
 - [Craft CMS forced-folder-move and bulk-duplicate follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-forced-folder-move-and-bulk-duplicate-follow-up)
 - [Grackle PowerLine worktree branch injection follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-grackle-powerline-worktree-branch-injection-follow-up)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Langroid SQL and file-tool boundary follow-up](alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-2-langroid-sql-and-file-tool-boundary-follow-up)
 - [OpenClaw approval/tooling and MCP memory document-boundary checks](alerts/2026-07-02-openclaw-mcp-memory-agent-boundaries-ghsa.md)
 - [GoFiber forwarded-IP and Artemis STOMP routing-type boundary checks](alerts/2026-07-02-gofiber-artemis-trust-boundaries-ghsa.md)
-- [Agent-guided fuzzing campaigns](methodology/agent-guided-fuzzing-campaigns.md)
 
 ## What lives here
 
