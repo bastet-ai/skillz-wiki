@@ -10,8 +10,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 - [Ghost preview-cache, goshs share/WebDAV, and export file-boundary checks](alerts/2026-07-02-ghost-goshs-export-boundaries-ghsa.md)
 - [Contour cookie-rewrite Lua boundary check](alerts/2026-07-01-contour-cookie-rewrite-lua-boundary-ghsa.md)
-- [Keycloak client-policy, scope-mapping, and organization-metadata update](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-1-keycloak-client-policy-scope-mapping-and-organization-metadata-update)
-- [Langroid `TableChatAgent` pandas-eval update](alerts/2026-05-27-symfony-crowdsec-deno-langroid-boundary-batch-ghsa.md#july-1-langroid-tablechatagent-pandas-eval-update)
+- [Keycloak CIBA, request-object, admin-role, client-policy, and organization updates](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-1-keycloak-ciba-request-object-and-admin-role-toctou-follow-up)
+- [Langroid `TableChatAgent` WAF-bypass boundary check](alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md)
 - [MCP authorization and ORAS redirect/file-store follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-mcp-authorization-and-oras-redirectfile-store-follow-up)
 - [Cache, fileshare, and export-boundary checks](alerts/2026-07-01-cache-fileshare-export-boundaries-ghsa.md)
 - [Rancher Fleet, JWKS cache, QUIC client, and SDK parameter boundary checks](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md)

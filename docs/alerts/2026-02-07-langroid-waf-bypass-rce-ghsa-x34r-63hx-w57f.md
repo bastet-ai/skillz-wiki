@@ -1,57 +1,38 @@
-# 2026-02-07 — Langroid TableChatAgent WAF bypass → RCE in `pandas_eval` (GHSA-x34r-63hx-w57f)
+# Langroid `TableChatAgent` WAF-bypass boundary check
 
-GitHub advisory: <https://github.com/advisories/GHSA-x34r-63hx-w57f>
+GitHub advisory: <https://github.com/advisories/GHSA-x34r-63hx-w57f> / CVE-2026-25481.
 
-## Summary
+GitHub Advisory Database refreshed this item on 2026-07-01. The durable operator lesson is not the public proof string itself; it is the recurring boundary where an LLM table assistant exposes a dataframe expression engine, wraps it in a WAF-like filter, and still leaves Python object capabilities reachable through method chains and dunder/global access.
 
-Langroid’s `TableChatAgent` includes a `pandas_eval` capability that evaluates expressions against a DataFrame.
+## Why operators should care
 
-A WAF-like filter added to mitigate an earlier issue can be **bypassed**, enabling attackers who can influence the expression/tool-call arguments to achieve **remote code execution (RCE)**.
+`TableChatAgent` can call a `pandas_eval` capability against a DataFrame. Langroid added filtering after the earlier `TableChatAgent` eval issue, but affected versions `<= 0.59.31` could still be driven from allowed dataframe operations into dangerous Python reflection surfaces such as dunder attributes, `__globals__`, builtins, or equivalent object-capability paths.
 
-This is a classic “agent tool” pitfall:
+Prioritize this when a target:
 
-- a “safe eval” guardrail that can be bypassed
-- plus access to Python’s dangerous reflection surface (dunder attributes / `__globals__` / builtins)
+- exposes `TableChatAgent`, CSV/dataframe chat, BI copilots, notebook helpers, or support analytics bots to untrusted or semi-trusted prompts;
+- lets retrieved web/user content influence the table agent indirectly;
+- runs the agent near notebooks, datasets, service credentials, CI/CD tokens, cloud metadata, or internal network routes;
+- upgraded only to the first sanitizer but has not confirmed `langroid >= 0.59.32`.
 
-## Who is at risk
+## Safe validation path
 
-Higher risk if you:
+1. Confirm package evidence for `langroid <= 0.59.31` and that `TableChatAgent` or `pandas_eval` is reachable from user-controlled prompts, files, or retrieved content.
+2. Establish a benign dataframe expression that should be allowed and record the normal tool-call path.
+3. In an isolated lab, test whether an expression can leave the intended dataframe/query language and reach Python object capabilities. Use an inert marker such as printing a fixed string or writing to a disposable temp file.
+4. For production or bug-bounty environments, stop at source/version plus expression-construction evidence unless the program explicitly allows code-execution validation. Do not list directories, read files, access cloud metadata, query real datasets, or spawn shells.
+5. Compare against `langroid >= 0.59.32`, where the bypass chain should be rejected.
 
-- Expose `TableChatAgent` (or any `pandas_eval`-style tool) to **untrusted users**.
-- Allow the model to call tools with arguments that are **not validated server-side**.
-- Run the agent on hosts with:
-  - broad filesystem/network access
-  - access to secrets (env vars, instance metadata)
-  - CI/CD tokens or cloud credentials
+## Evidence to capture
 
-## Mitigation
+- Langroid version and the exact agent/tool configuration.
+- Whether the prompt path is direct user input, uploaded data, RAG content, or an internal-only operator console.
+- The allowed dataframe operation, the attempted object-capability escape class, and the inert marker result.
+- Patched-version or disabled-tool negative control.
+- A clear statement of host privileges and reachable data categories without collecting secrets.
 
-1. **Upgrade**
-   - Upgrade `langroid` to **0.59.32** or later (per advisory).
+## Reporting heuristic
 
-2. **Prefer removing “eval of user input” entirely**
-   - Disable `pandas_eval` (or equivalent) if you don’t explicitly need it.
-   - Replace with a constrained query interface (e.g., specific analytics operations) instead of free-form expressions.
+Lead with the crossed boundary: **untrusted prompt or retrieved content to dataframe expression sandbox escape**. Strong reports show that the application relies on `TableChatAgent` filtering as a security boundary, that the model/tool path is reachable by the attacker, and that an inert capability escape is possible in a controlled environment.
 
-3. **Hard sandbox the execution** (defense-in-depth)
-   - Run the evaluation in a separate, heavily sandboxed process/container with:
-     - no secrets mounted
-     - tight egress controls
-     - read-only filesystem (or tightly scoped writable dir)
-     - low privileges (no Docker socket, no host mounts)
-
-4. **Central argument validation for tool calls**
-   - Treat tool-call inputs as attacker-controlled:
-     - reject dunder access patterns (`__*__`)
-     - block attribute traversal / globals / builtins access
-     - apply tight allowlists for permitted operations
-
-## Detection / hunt
-
-- Audit logs for suspicious tool-call arguments targeting DataFrame expression evaluation.
-- Look for attempted access patterns like:
-  - `__init__`, `__globals__`, `__builtins__`, `eval`, `exec`, `import`
-- Endpoint telemetry:
-  - new outbound connections from the agent host
-  - unexpected process spawns (shell, curl/wget)
-  - access to environment variables / credential files
+Keep the proof bounded. This page is for authorized validation, not for publishing payloads that read files, exfiltrate credentials, call metadata endpoints, or run production commands.
