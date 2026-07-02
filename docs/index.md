@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [SFTPGo share, SpecifyJS URL/GraphQL, Casdoor SAML, and JWT empty-key checks](alerts/2026-07-02-sftpgo-specifyjs-casdoor-token-boundaries-ghsa.md)
+- [Craft CMS peer-permission and entry-mutation follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-craft-cms-peer-permission-and-entry-mutation-follow-up)
 - [Coder workspace, Dulwich submodule, and Kerberos Hub redirect follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-coder-dulwich-and-kerberos-hub-follow-up)
 - [Langroid SQL and file-tool boundary follow-up](alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-2-langroid-sql-and-file-tool-boundary-follow-up)
 - [OpenClaw approval/tooling and MCP memory document-boundary checks](alerts/2026-07-02-openclaw-mcp-memory-agent-boundaries-ghsa.md)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Ghost preview-cache, goshs share/WebDAV, and export file-boundary checks](alerts/2026-07-02-ghost-goshs-export-boundaries-ghsa.md)
 - [Contour cookie-rewrite Lua boundary check](alerts/2026-07-01-contour-cookie-rewrite-lua-boundary-ghsa.md)
 - [Keycloak CIBA, request-object, admin-role, client-policy, and organization updates](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-1-keycloak-ciba-request-object-and-admin-role-toctou-follow-up)
-- [Langroid `TableChatAgent` WAF-bypass boundary check](alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md)
-- [MCP authorization and ORAS redirect/file-store follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-1-mcp-authorization-and-oras-redirectfile-store-follow-up)
 
 ## What lives here
 

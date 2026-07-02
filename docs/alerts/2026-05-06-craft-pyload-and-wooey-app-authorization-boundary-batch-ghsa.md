@@ -33,3 +33,27 @@ These are not exotic memory bugs. They are authorization edges left out of sibli
 - Cleanse dynamic object configuration before construction; do not let request data reach framework magic keys, behaviors, event handlers, or class names.
 - Treat GraphQL schema scopes as mandatory row-level filters, not only a binary capability check.
 - Never return raw tracebacks to clients. Keep rich errors in authenticated logs and emit opaque failure IDs externally.
+
+## July 2 Craft CMS peer-permission and entry-mutation follow-up
+
+Later GitHub Advisory Database entries add four adjacent Craft CMS authorization-drift cases: [GHSA-7h62-6v23-v8fm](https://github.com/advisories/GHSA-7h62-6v23-v8fm) / CVE-2026-50284 for `AssetsController::actionDeleteFolder`, [GHSA-qh45-9g5p-m2v4](https://github.com/advisories/GHSA-qh45-9g5p-m2v4) / CVE-2026-50283 for `AssetsController::actionReplaceFile`, [GHSA-43cq-c2gq-pfpw](https://github.com/advisories/GHSA-43cq-c2gq-pfpw) / CVE-2026-50280 for `EntriesController::actionMoveToSection`, and [GHSA-qq2c-2q8j-jh27](https://github.com/advisories/GHSA-qq2c-2q8j-jh27) / CVE-2026-50279 for `EntriesController::actionSaveEntry` authorship mutation.
+
+| Advisory | Boundary | Operator value |
+| --- | --- | --- |
+| [GHSA-7h62-6v23-v8fm](https://github.com/advisories/GHSA-7h62-6v23-v8fm) | folder-level `deleteAssets:<volume>` permission could cascade into deletion of peer-uploaded descendant assets without `deletePeerAssets:<volume>` | Test bulk/folder actions separately from single-asset routes; sibling endpoints often miss peer-permission checks. |
+| [GHSA-qh45-9g5p-m2v4](https://github.com/advisories/GHSA-qh45-9g5p-m2v4) | `assetId` and `sourceAssetId` were both accepted, but authorization was evaluated against the replacement target while the source asset could be deleted | Multi-object actions need permission checks for every object that is read, written, moved, or deleted. |
+| [GHSA-43cq-c2gq-pfpw](https://github.com/advisories/GHSA-43cq-c2gq-pfpw) | `entries/move-to-section` checked destination visibility rather than destination save permission | Content-management route tests should distinguish read/view access from write/save access after moves. |
+| [GHSA-qq2c-2q8j-jh27](https://github.com/advisories/GHSA-qq2c-2q8j-jh27) | edit authorization happened before request-controlled `authors` / `author` mutation, without a post-mutation peer-author check | TOCTOU-style model population bugs are reportable when pre-check state differs from saved state. |
+
+### Safe Craft validation additions
+
+- Preconditions: disposable Craft CMS lab, affected `craftcms/cms` versions, low-privilege Control Panel users, shared test volumes/sections, and synthetic assets/entries only.
+- For asset folder deletion, seed a shared volume with an attacker-owned folder containing a peer-owned canary asset. Attempt only the folder action and record whether the peer canary is deleted without `deletePeerAssets`.
+- For replacement, create target and source canary assets in different permission scopes. Submit both `assetId` and `sourceAssetId` and record whether the source canary is removed without source delete permission.
+- For section moves, give the test user source-section move rights plus destination-section view-only rights. Positive evidence is movement into a section where the user lacks save permission.
+- For authorship mutation, capture pre-check entry author state, submitted `authors` / `author` parameter, saved author state, and whether dedicated peer-author-change permission was absent.
+- Do not test against production content, media libraries, customer files, live editorial workflows, or destructive asset trees. Use tiny marker assets and disposable sections, and restore the lab state after each case.
+
+### Reporting additions
+
+Lead with the crossed boundary: **folder action to peer-asset deletion**, **source asset selector to unauthorized deletion**, **view-only destination to entry move**, or **pre-check entry state to post-mutation authorship change**. Strong reports include the route, affected version, permission matrix, before/after object IDs, canary-only evidence, and fixed-version negative controls.
