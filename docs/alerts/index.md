@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [fast-mcp Telegram and Steeltoe actuator follow-up](2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md#july-3-fast-mcp-telegram-and-steeltoe-actuator-follow-up)
+- [Snapshot-write, SSR form fallback, and sudoers argument boundary checks](2026-07-03-snapshot-form-sudoers-boundaries-ghsa.md)
 - [Mautic campaign import, theme template, API owner-scope, and Focus SSRF checks](2026-07-02-mautic-campaign-theme-api-focus-boundaries-ghsa.md)
 - [Craft CMS forced-folder-move and bulk-duplicate follow-up](2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-forced-folder-move-and-bulk-duplicate-follow-up)
 - [Coder workspace, Dulwich submodule, and Kerberos Hub redirect follow-up](2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-coder-dulwich-and-kerberos-hub-follow-up)

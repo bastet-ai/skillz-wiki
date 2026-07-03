@@ -1,6 +1,6 @@
 # Developer dashboard, identity handoff, and file-serving boundary checks
 
-Source: hourly offensive-security scan, 2026-07-02. Primary entries: GitHub Advisory Database [GHSA-rh62-j648-g5qc](https://github.com/advisories/GHSA-rh62-j648-g5qc), [GHSA-g6g7-pvmx-m74p](https://github.com/advisories/GHSA-g6g7-pvmx-m74p), [GHSA-jphh-m39h-6gwx](https://github.com/advisories/GHSA-jphh-m39h-6gwx), [GHSA-6g2f-w7g3-77vf](https://github.com/advisories/GHSA-6g2f-w7g3-77vf), [GHSA-q8r6-xj3f-wrrm](https://github.com/advisories/GHSA-q8r6-xj3f-wrrm), [GHSA-6929-8p9f-26jx](https://github.com/advisories/GHSA-6929-8p9f-26jx), [GHSA-794g-x443-36f7](https://github.com/advisories/GHSA-794g-x443-36f7), [GHSA-5g75-477j-2c2f](https://github.com/advisories/GHSA-5g75-477j-2c2f), [GHSA-mm6c-5j6x-hq8m](https://github.com/advisories/GHSA-mm6c-5j6x-hq8m), [GHSA-fggg-964j-3j7h](https://github.com/advisories/GHSA-fggg-964j-3j7h), [GHSA-3ggm-c5m7-hfv5](https://github.com/advisories/GHSA-3ggm-c5m7-hfv5), [GHSA-82m5-3pcp-hccq](https://github.com/advisories/GHSA-82m5-3pcp-hccq), and [GHSA-qhqw-rrw9-25rm](https://github.com/advisories/GHSA-qhqw-rrw9-25rm) / CVE-2025-65896.
+Source: hourly offensive-security scan, 2026-07-02, with July 3 follow-up. Primary entries: GitHub Advisory Database [GHSA-rh62-j648-g5qc](https://github.com/advisories/GHSA-rh62-j648-g5qc), [GHSA-g6g7-pvmx-m74p](https://github.com/advisories/GHSA-g6g7-pvmx-m74p), [GHSA-jphh-m39h-6gwx](https://github.com/advisories/GHSA-jphh-m39h-6gwx), [GHSA-6g2f-w7g3-77vf](https://github.com/advisories/GHSA-6g2f-w7g3-77vf), [GHSA-q8r6-xj3f-wrrm](https://github.com/advisories/GHSA-q8r6-xj3f-wrrm), [GHSA-6929-8p9f-26jx](https://github.com/advisories/GHSA-6929-8p9f-26jx), [GHSA-794g-x443-36f7](https://github.com/advisories/GHSA-794g-x443-36f7), [GHSA-5g75-477j-2c2f](https://github.com/advisories/GHSA-5g75-477j-2c2f), [GHSA-mm6c-5j6x-hq8m](https://github.com/advisories/GHSA-mm6c-5j6x-hq8m), [GHSA-fggg-964j-3j7h](https://github.com/advisories/GHSA-fggg-964j-3j7h), [GHSA-3ggm-c5m7-hfv5](https://github.com/advisories/GHSA-3ggm-c5m7-hfv5), [GHSA-82m5-3pcp-hccq](https://github.com/advisories/GHSA-82m5-3pcp-hccq), [GHSA-qhqw-rrw9-25rm](https://github.com/advisories/GHSA-qhqw-rrw9-25rm) / CVE-2025-65896, [GHSA-rxw2-pc8j-vxwm](https://github.com/advisories/GHSA-rxw2-pc8j-vxwm), [GHSA-58f6-6rj2-3v8r](https://github.com/advisories/GHSA-58f6-6rj2-3v8r), [GHSA-227r-jm2g-7cp4](https://github.com/advisories/GHSA-227r-jm2g-7cp4), [GHSA-q62h-354g-5r85](https://github.com/advisories/GHSA-q62h-354g-5r85), and [GHSA-7fqc-p256-7pwj](https://github.com/advisories/GHSA-7fqc-p256-7pwj).
 
 These advisories are durable for operators because they repeat the same validation seams across developer tools, identity middleware, and file-serving helpers: unauthenticated dashboard APIs reaching SQL or shell primitives, trusted identity responses accepted outside their original issuer/request binding, static or media helpers reading/writing outside intended roots, and URL/upload/vector metadata helpers crossing into server-side fetch or query construction. Keep proofs to owned labs, disposable projects, synthetic identities, marker files, canary callbacks, and fixed-version negative controls.
 
@@ -17,6 +17,8 @@ These advisories are durable for operators because they repeat the same validati
 | [GHSA-fggg-964j-3j7h](https://github.com/advisories/GHSA-fggg-964j-3j7h), [GHSA-3ggm-c5m7-hfv5](https://github.com/advisories/GHSA-3ggm-c5m7-hfv5) | Spatie Laravel Media Library `< 11.23.0` | application-controlled media helpers can fetch arbitrary URLs or preserve dangerous double-extension/upload names depending on integration | Laravel media assessments should test helper-call reachability, redirect/callback behavior, and stored filename policy with benign uploads only. |
 | [GHSA-82m5-3pcp-hccq](https://github.com/advisories/GHSA-82m5-3pcp-hccq) | agno ClickHouse vector backend | metadata keys/values passed to vector-store deletion can cross into SQL construction | AI/vector workflow reviews should fuzz metadata-to-query boundaries with seeded synthetic rows. |
 | [GHSA-qhqw-rrw9-25rm](https://github.com/advisories/GHSA-qhqw-rrw9-25rm) / CVE-2025-65896 | asyncmy `<= 0.2.11` | crafted Python `dict` keys can cross from caller-controlled mapping shape into raw SQL text | Database-client reviews should test identifier/key material separately from parameter values, using query-log canaries only. |
+| [GHSA-rxw2-pc8j-vxwm](https://github.com/advisories/GHSA-rxw2-pc8j-vxwm) | `fast-mcp-telegram` HTTP bearer sessions | bearer token strings are joined into session-file paths; exact reserved-name checks miss traversal aliases | MCP transport reviews should test whether token/user/session selectors can escape into filesystem-backed account selection. |
+| [GHSA-58f6-6rj2-3v8r](https://github.com/advisories/GHSA-58f6-6rj2-3v8r), [GHSA-227r-jm2g-7cp4](https://github.com/advisories/GHSA-227r-jm2g-7cp4), [GHSA-q62h-354g-5r85](https://github.com/advisories/GHSA-q62h-354g-5r85), [GHSA-7fqc-p256-7pwj](https://github.com/advisories/GHSA-7fqc-p256-7pwj) | Steeltoe actuators and token-key resolver | `Host` controls management-port isolation, low-trust CF roles reach sensitive actuators, connection-string keys evade sanitizer, and JWKS cache keys lack issuer namespace/expiry | Control-plane reviews should pair listener-vs-header reachability, role matrices, fake env canaries, and multi-issuer `kid` collision checks. |
 
 ## Operator triage
 
@@ -70,6 +72,27 @@ These advisories are durable for operators because they repeat the same validati
 - asyncmy mapping keys: instrument query logging against a scratch schema, then pass mapping/dict keys containing inert SQL marker tokens through only the affected helper path. Positive evidence is the key material changing the generated SQL text or query structure before execution.
 - Negative controls: Spatie `>= 11.23.0`, application-level URL allowlists, forced attachment/non-executable storage, parameterized vector queries, metadata key allowlists, and database-client code that treats keys as fixed application identifiers rather than request-controlled input.
 
+## July 3 fast-mcp Telegram and Steeltoe actuator follow-up
+
+The July 3 updated feed added two adjacent operator patterns that belong with this dashboard/control-plane batch rather than a standalone page.
+
+### MCP bearer-token-to-session-file boundary
+
+- Preconditions: isolated `fast-mcp-telegram` HTTP server, disposable Telegram test account or mocked session files, temp config directory, and account-prefixed tools configured with inert sinks.
+- Create a canary session file representing the reserved/default account, then try bearer-token variants that include path separators or dot segments.
+- Positive evidence: the token selects the reserved/default session despite exact reserved-name rejection. Capture only session selector, account label, and inert tool availability.
+- Negative controls: tokens rejected if they contain path separators, normalized session path constrained to the session directory, reserved names rejected after canonicalization, and patched behavior.
+- Do not read real messages, send real messages, or capture MTProto session files from operator machines.
+
+### Steeltoe actuator and JWKS control-plane boundary
+
+- Preconditions: Steeltoe app with synthetic actuator values, two lab JWT issuers with controlled `kid`s, fake connection strings, and no real heap dumps or database credentials.
+- Compare public listener requests whose `Host` header names the management port against requests that reach the actual management listener. Positive evidence is actuator access that follows spoofed `Host` rather than the bound socket/port.
+- Build a Cloud Foundry role-to-endpoint matrix with low-trust lab roles. Positive evidence is access to sensitive actuator families such as heap dump, thread dump, or environment where the expected sensitive-data permission is absent. Record route/status only, not dump contents.
+- Seed `/actuator/env` or `/cloudfoundryapplication/env` with fake `ConnectionStrings:*` and Steeltoe connector keys. Positive evidence is an unsanitized canary value containing only fake credentials.
+- For JWT validation, configure two issuers with the same `kid` and different keys. Positive evidence is a token/key decision that uses a key cached for the wrong issuer or keeps a revoked key trusted until process restart.
+- Do not dump heap/thread data, real environment variables, production tokens, customer rows, service bindings, or backing database contents.
+
 ## Reporting notes
 
 Lead with the crossed boundary:
@@ -79,6 +102,8 @@ Lead with the crossed boundary:
 - **SAML response/artifact/encrypted assertion -> wrong issuer/request/client session**
 - **File-server request target or NTFS-equivalent name -> outside-root read or raw script source**
 - **Media URL/upload metadata, vector metadata, or DB mapping keys -> server fetch, stored filename bypass, SQL construction, or generated-SQL mutation**
+- **Bearer token string -> filesystem-backed MCP session selection**
+- **Host header / CF role / shared `kid` -> actuator or token-authority drift**
 
 Strong reports include affected version, deployment topology, raw and normalized input, exact route/helper, test role, synthetic canary evidence, and fixed-version or configuration negative controls.
 
