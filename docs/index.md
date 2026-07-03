@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Snapshot-write, SSR form fallback, and sudoers argument boundary checks](alerts/2026-07-03-snapshot-form-sudoers-boundaries-ghsa.md)
+- [electerm remote filename command and transfer-path follow-up](alerts/2026-05-08-electerm-terminal-command-boundary-ghsa-8x35-hph8-37hq.md#july-3-expansion-remote-filenames-file-helpers-and-transfer-paths)
 - [Rich-text import SSRF testing: redirect revalidation follow-up](methodology/rich-text-import-ssrf-testing.md#redirect-revalidation-harness)
 - [Developer dashboard, identity handoff, and file-serving boundary checks](alerts/2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md)
 - [Mautic campaign import, theme template, API owner-scope, and Focus SSRF checks](alerts/2026-07-02-mautic-campaign-theme-api-focus-boundaries-ghsa.md)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [SFTPGo share, SpecifyJS URL/GraphQL, Casdoor SAML, and JWT empty-key checks](alerts/2026-07-02-sftpgo-specifyjs-casdoor-token-boundaries-ghsa.md)
 - [Craft CMS peer-permission and entry-mutation follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-craft-cms-peer-permission-and-entry-mutation-follow-up)
 - [Coder workspace, Dulwich submodule, and Kerberos Hub redirect follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-coder-dulwich-and-kerberos-hub-follow-up)
-- [Langroid SQL and file-tool boundary follow-up](alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-2-langroid-sql-and-file-tool-boundary-follow-up)
-- [OpenClaw approval/tooling and MCP memory document-boundary checks](alerts/2026-07-02-openclaw-mcp-memory-agent-boundaries-ghsa.md)
 
 ## What lives here
 

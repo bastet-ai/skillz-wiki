@@ -29,6 +29,24 @@ Reference: <https://github.com/advisories/GHSA-8x35-hph8-37hq>
 ## Durable lesson
 Terminal clients are not just viewers; they are command brokers. Any UI/config field that reaches a shell must be modeled as untrusted data, passed as argv where possible, and rejected when it contains command syntax instead of a literal value.
 
+## July 3 expansion — remote filenames, file helpers, and transfer paths
+
+The 2026-07-03 hourly scan added two more electerm advisories under the same terminal-client boundary: [GHSA-v5ff-xmfp-p245](https://github.com/advisories/GHSA-v5ff-xmfp-p245) / CVE-2026-49255 for command injection through `rmrf`, `mv`, and `cp`, and [GHSA-38j7-23hf-9mhc](https://github.com/advisories/GHSA-38j7-23hf-9mhc) / CVE-2026-49253 for Zmodem/Trzsz download path traversal. Both affect `electerm <= 3.11.0`; the GitHub Advisory Database lists `3.11.11` as the first patched version.
+
+| Advisory | Boundary | Operator value |
+| --- | --- | --- |
+| [GHSA-v5ff-xmfp-p245](https://github.com/advisories/GHSA-v5ff-xmfp-p245) / CVE-2026-49255 | remote SSH/SFTP filenames could be interpolated into local shell command strings during file operations such as remove, move, copy, remote-to-local transfer, or rename-on-conflict | Treat remote directory listings as local command input. Prove with inert filenames and process-launch logging, not real payloads. |
+| [GHSA-38j7-23hf-9mhc](https://github.com/advisories/GHSA-38j7-23hf-9mhc) / CVE-2026-49253 | Zmodem/Trzsz receive handlers joined a remote-supplied filename with the user-selected download directory without confinement checks | Terminal file-transfer clients need archive-style traversal tests for `rz/sz`, `trz/tsz`, and GUI save helpers. |
+
+### Safe validation additions
+
+- Preconditions: disposable workstation or VM, affected electerm version, malicious SSH/SFTP lab server you control, temp download directory, and no real user home, shell config, SSH keys, password manager data, or production bookmarks accessible to the test process.
+- For file-operation command construction, expose remote filenames containing only inert metacharacter canaries designed to write a temp marker if interpreted by a shell. Trigger the vulnerable local helper through rename-on-conflict, remote-to-local copy, move, or delete flows that the assessment explicitly permits.
+- Prefer process-launch instrumentation or wrapper logging to prove command-string construction. If execution proof is necessary, stop at creating a marker such as `/tmp/skillz-electerm-command-canary`.
+- For Zmodem/Trzsz traversal, initiate a lab transfer with filenames such as `../skillz-electerm-transfer-canary.txt` targeting a disposable parent directory. Positive evidence is a marker written outside the user-selected download directory and still inside your temp lab root.
+- Negative controls: electerm `>= 3.11.11`, direct exec APIs instead of shell interpolation, basename-only transfer handling, realpath containment after join, overwrite prompts that show resolved paths, and rejection of absolute or traversal filenames.
+- Do not send reverse shells, overwrite `.bashrc`, write autostart files, read local files, or test against real SSH/SFTP servers.
+
 ## 19:15 UTC expansion — renderer, link, filename, and widget execution paths
 
 The later **2026-05-08 19:15 UTC** scan added a broader electerm advisory cluster. Treat these as the same terminal-client trust boundary, not as isolated bugs:
