@@ -173,3 +173,24 @@ Late GitHub Advisory Database entries add adjacent MCP and OCI client boundaries
 - Configure the client policy to require channel binding, then record advertised mechanisms, selected mechanism, channel-binding data/hash result, and final auth decision.
 - Positive evidence is a required-channel-binding client silently authenticating without channel binding after certificate-hash derivation fails.
 - Do not run MITM tests against production databases, capture real passwords, or downgrade live database sessions.
+
+## July 5 TidGi and AD_Miner import/cache follow-up
+
+The July 5 GitHub Advisory Database wave adds two adjacent operator patterns for tools that ingest repository or cache material: [GHSA-vv7r-8584-6pm6](https://github.com/advisories/GHSA-vv7r-8584-6pm6) / CVE-2026-14722 for TidGi-Desktop Git repository import, and [GHSA-2rqq-j7w9-23vp](https://github.com/advisories/GHSA-2rqq-j7w9-23vp) / CVE-2026-14723 for AD_Miner cache handling.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-vv7r-8584-6pm6](https://github.com/advisories/GHSA-vv7r-8584-6pm6) / CVE-2026-14722 | TidGi-Desktop `<= 0.13.0` Git repository import / sub-wiki loading | repository-controlled wiki/sub-wiki content can cross from import metadata into code execution in the desktop process | Desktop knowledge-base and note-taking imports should be treated like package installs when they execute loaders, plugins, scripts, or generated wiki code. |
+| [GHSA-2rqq-j7w9-23vp](https://github.com/advisories/GHSA-2rqq-j7w9-23vp) / CVE-2026-14723 | AD-Security AD_Miner `1.9.0` cache handler | a local cache path supplied as `sys.argv[1]` can reach unsafe deserialization in analysis code | Recon-tool assessments should include cache/project restore paths, not only network inputs, because imported assessment artifacts often come from third parties. |
+
+### Repository import and cache-deserialization harness
+
+- Preconditions: isolated desktop/recon-tool lab VM, disposable TidGi workspace, affected AD_Miner version, throwaway Git repositories/cache files, no real browser profiles, AD dumps, notes, client workspaces, or operator credentials.
+- For TidGi, import only an owned repository with a harmless marker in the sub-wiki/loading path. Positive evidence should be an inert marker action such as writing a temp file or logging a canary string from the desktop process.
+- For AD_Miner, invoke the affected analysis path with a synthetic cache file designed to prove deserialization reachability using only an inert marker class or blocked-policy trace. Keep the cache path under a temp directory you control.
+- Negative controls: patched TidGi behavior, import mode that disables active loaders/plugins by default, signed or trusted workspace prompts, AD_Miner cache parsing that uses safe formats, and deserialization allowlists that reject unexpected classes.
+- Do not import untrusted public repositories into a real notes workspace, execute shell payloads, read local notes or credential stores, load real BloodHound/AD_Miner assessment artifacts, or publish payloads beyond marker creation.
+
+### Additional reporting notes
+
+Lead with the crossed boundary: **Git repository import to desktop wiki code execution** or **recon-tool cache file to unsafe deserialization**. Include tool version, import/CLI path, synthetic repo/cache layout, marker-only evidence, and fixed-version or safe-mode negative controls.
