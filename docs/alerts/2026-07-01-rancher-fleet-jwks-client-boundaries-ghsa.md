@@ -1,8 +1,8 @@
-# Rancher Fleet, JWKS cache, QUIC client, and SDK parameter boundary checks
+# Rancher Fleet, Kyverno policy SSRF, JWKS cache, QUIC client, and SDK parameter boundary checks
 
-Source: hourly offensive-security scan, 2026-07-01. Primary entries: GitHub Advisory Database [GHSA-vx8h-4prv-g744](https://github.com/advisories/GHSA-vx8h-4prv-g744) / CVE-2026-41052, [GHSA-4j6x-2764-m8gh](https://github.com/advisories/GHSA-4j6x-2764-m8gh) / CVE-2026-41053, [GHSA-xr65-5cpm-g36x](https://github.com/advisories/GHSA-xr65-5cpm-g36x) / CVE-2026-44935, [GHSA-hx4v-cxpf-vh8m](https://github.com/advisories/GHSA-hx4v-cxpf-vh8m) / CVE-2026-44936, [GHSA-mhc6-2gfq-xx62](https://github.com/advisories/GHSA-mhc6-2gfq-xx62) / CVE-2026-44939, [GHSA-jmf4-m7j9-g72r](https://github.com/advisories/GHSA-jmf4-m7j9-g72r) / CVE-2026-44937, [GHSA-864g-863m-vcvq](https://github.com/advisories/GHSA-864g-863m-vcvq) / CVE-2026-44938, [GHSA-g6vg-wj8f-48cj](https://github.com/advisories/GHSA-g6vg-wj8f-48cj) / CVE-2026-49998, [GHSA-2r8v-p65x-3663](https://github.com/advisories/GHSA-2r8v-p65x-3663) / CVE-2026-49457, and [GHSA-hhx9-57xq-r5rw](https://github.com/advisories/GHSA-hhx9-57xq-r5rw) / CVE-2026-48819.
+Source: hourly offensive-security scan, 2026-07-01, with a July 5 Kyverno follow-up. Primary entries: GitHub Advisory Database [GHSA-vx8h-4prv-g744](https://github.com/advisories/GHSA-vx8h-4prv-g744) / CVE-2026-41052, [GHSA-4j6x-2764-m8gh](https://github.com/advisories/GHSA-4j6x-2764-m8gh) / CVE-2026-41053, [GHSA-xr65-5cpm-g36x](https://github.com/advisories/GHSA-xr65-5cpm-g36x) / CVE-2026-44935, [GHSA-hx4v-cxpf-vh8m](https://github.com/advisories/GHSA-hx4v-cxpf-vh8m) / CVE-2026-44936, [GHSA-mhc6-2gfq-xx62](https://github.com/advisories/GHSA-mhc6-2gfq-xx62) / CVE-2026-44939, [GHSA-jmf4-m7j9-g72r](https://github.com/advisories/GHSA-jmf4-m7j9-g72r) / CVE-2026-44937, [GHSA-864g-863m-vcvq](https://github.com/advisories/GHSA-864g-863m-vcvq) / CVE-2026-44938, [GHSA-rggm-jjmc-3394](https://github.com/advisories/GHSA-rggm-jjmc-3394) / CVE-2026-4789, [GHSA-g6vg-wj8f-48cj](https://github.com/advisories/GHSA-g6vg-wj8f-48cj) / CVE-2026-49998, [GHSA-2r8v-p65x-3663](https://github.com/advisories/GHSA-2r8v-p65x-3663) / CVE-2026-49457, and [GHSA-hhx9-57xq-r5rw](https://github.com/advisories/GHSA-hhx9-57xq-r5rw) / CVE-2026-48819.
 
-These advisories are durable because they map to reusable operator workflows: GitOps controllers consuming repository YAML into cluster privileges, multi-tenant Kubernetes dashboards expanding identity and namespace authority, token verifiers caching keys across issuers, protocol clients skipping TLS peer verification, and generated SDK parameter builders treating object keys as trusted structure.
+These advisories are durable because they map to reusable operator workflows: GitOps and admission-policy controllers consuming tenant-controlled declarations into cluster or network authority, multi-tenant Kubernetes dashboards expanding identity and namespace authority, token verifiers caching keys across issuers, protocol clients skipping TLS peer verification, and generated SDK parameter builders treating object keys as trusted structure.
 
 ## What changed
 
@@ -15,17 +15,19 @@ These advisories are durable because they map to reusable operator workflows: Gi
 | [GHSA-mhc6-2gfq-xx62](https://github.com/advisories/GHSA-mhc6-2gfq-xx62) / CVE-2026-44939 | Rancher cluster import YAML endpoint | query-controlled `authImage` material could inject YAML into generated cluster-import manifests | Treat generated Kubernetes manifest endpoints as template-injection boundaries; prove with inert manifest fields in labs only. |
 | [GHSA-jmf4-m7j9-g72r](https://github.com/advisories/GHSA-jmf4-m7j9-g72r) / CVE-2026-44937 | Rancher Fleet webhook | unauthenticated webhook mode plus unsanitized repository URL regex construction could trigger unintended repository processing | Webhook routes need secret, repository, and path binding tests; evidence should be a harmless reconciliation marker, not cluster resource changes. |
 | [GHSA-864g-863m-vcvq](https://github.com/advisories/GHSA-864g-863m-vcvq) / CVE-2026-44938 | Rancher Fleet agent deployer | `namespaceLabels` from `fleet.yaml` or `BundleDeployment` options could override Pod Security Standards labels | Git-pushed label metadata can be a privilege boundary; test only with disposable namespaces and marker workloads. |
+| [GHSA-rggm-jjmc-3394](https://github.com/advisories/GHSA-rggm-jjmc-3394) / CVE-2026-4789 | Kyverno `policies.kyverno.io` CEL HTTP library | namespace-scoped policy authors could call unrestricted `http.Get()` / `http.Post()` from the Kyverno admission controller | Admission policies can become cluster-network SSRF gadgets; prove only with canary services, owned callbacks, and synthetic error-message markers. |
 | [GHSA-g6vg-wj8f-48cj](https://github.com/advisories/GHSA-g6vg-wj8f-48cj) / CVE-2026-49998 | Centrifugo dynamic JWKS | key cache was keyed only by `kid`, allowing key reuse across allowed issuers | Multi-issuer JWT tests must vary issuer, JWKS endpoint, audience, and `kid` collisions, with disposable keys and claims only. |
 | [GHSA-2r8v-p65x-3663](https://github.com/advisories/GHSA-2r8v-p65x-3663) / CVE-2026-49457 | Erlang `quic` / HTTP/3 client | TLS 1.3 server authentication was effectively not enforced | Client-library reviews should include active MITM negative controls: wrong chain, wrong hostname, and invalid `CertificateVerify` signatures. |
 | [GHSA-hhx9-57xq-r5rw](https://github.com/advisories/GHSA-hhx9-57xq-r5rw) / CVE-2026-48819 | `@hey-api/openapi-ts` generated SDK params | `$query___proto__`-style keys could alter generated parameter object prototypes | Generated API clients need object-key fuzzing for path/query/header/body builders; evidence should be local object-shape changes, not live API abuse. |
 
 ## Operator triage
 
-1. **Map who controls the declarative input.** In Rancher/Fleet, the important inputs are project roles, GitHub teams, `GitRepo`, `fleet.yaml`, Helm values references, webhook requests, cluster-import query parameters, and namespace labels.
+1. **Map who controls the declarative input.** In Rancher/Fleet/Kyverno-style controllers, the important inputs are project roles, GitHub teams, `GitRepo`, `fleet.yaml`, Helm values references, webhook requests, cluster-import query parameters, namespace labels, and namespaced admission-policy bodies.
 2. **Separate GitOps reconciliation from direct cluster access.** A user may lack direct Kubernetes RBAC to read a Secret or modify namespace labels but still influence a controller that performs those actions.
-3. **Use fake credentials and owned endpoints.** Helm repository BasicAuth, JWKS documents, QUIC server certificates, and generated SDK request parameters can all be proven without real tokens or production services.
-4. **Record negative controls.** Show expected denial for direct namespace access, direct Secret read, wrong issuer, wrong TLS certificate, or sanitized parameter keys before demonstrating the alternate path.
-5. **Skip availability-only siblings.** The same scan reviewed a Mailpit sibling-endpoint memory-exhaustion advisory but did not promote it because it adds no non-availability operator workflow.
+3. **Treat controller egress as a separate trust boundary.** A namespace-scoped policy author may not have Pod exec or Service read permissions, but the admission controller may have routable egress to sibling namespaces, cluster services, or metadata endpoints.
+4. **Use fake credentials and owned endpoints.** Helm repository BasicAuth, Kyverno SSRF callbacks, JWKS documents, QUIC server certificates, and generated SDK request parameters can all be proven without real tokens or production services.
+5. **Record negative controls.** Show expected denial for direct namespace access, direct Secret read, direct Service fetch, wrong issuer, wrong TLS certificate, or sanitized parameter keys before demonstrating the alternate path.
+6. **Skip availability-only siblings.** The same scan reviewed a Mailpit sibling-endpoint memory-exhaustion advisory but did not promote it because it adds no non-availability operator workflow.
 
 ## Replayable validation boundaries
 
@@ -43,6 +45,14 @@ These advisories are durable because they map to reusable operator workflows: Gi
 - For Fleet webhooks, compare secret-protected and secretless configurations with repository URL/path variations. Positive evidence is unintended reconciliation of a marker repo or path.
 - For Rancher GitHub App authentication, create a disposable GitHub organization or mock provider with two teams and two users. Validate Rancher route/project access for actual team membership versus expanded cached memberships.
 - Do not trigger production repository syncs, cluster deployments, or real organization membership changes.
+
+### Kyverno CEL HTTP egress harness
+
+- Preconditions: isolated Kubernetes lab, Kyverno version in scope, `policies.kyverno.io` CRDs enabled, one low-privilege user allowed to create namespaced policies, and explicit approval to test controller egress.
+- Seed a same-namespace canary Service, a sibling-namespace canary Service, and an owned external callback endpoint. If metadata-service behavior is in scope, use an explicit mock metadata endpoint inside the lab instead of cloud metadata.
+- Create only inert CEL policy expressions that call `http.Get()` or `http.Post()` against canary URLs and reflect a marker value in the admission result or policy error path. Do not request real Secrets, service-account tokens, kubelet endpoints, cloud metadata, or internal production services.
+- Capture a decision table: direct low-privilege user access to each target, Kyverno controller egress result, namespace of the policy object, URL requested, marker received, and patched-version or configured-deny result.
+- Useful positive evidence is a marker callback or synthetic response body crossing from a namespaced policy into the admission controller's network context.
 
 ### Multi-issuer JWKS cache collision harness
 
@@ -67,6 +77,6 @@ These advisories are durable because they map to reusable operator workflows: Gi
 
 ## Reporting notes
 
-- Lead with the exact boundary: **Project Owner to PSA label mutation**, **GitHub App team-cache expansion**, **Fleet `valuesFrom` to cross-namespace Secret**, **Fleet Helm repo URL to credential forwarding**, **cluster-import query to YAML injection**, **secretless webhook to reconciliation trigger**, **namespaceLabels to PSS downgrade**, **JWKS `kid` cache to cross-issuer token acceptance**, **QUIC client to unauthenticated TLS peer**, or **SDK parameter key to prototype substitution**.
-- Keep evidence synthetic: disposable namespaces, fake Helm credentials, marker Secrets, owned callbacks, lab GitHub teams, disposable JWT keys, lab QUIC certificates, and local SDK object traces.
-- Do not read Kubernetes service-account tokens, deploy privileged production workloads, harvest Helm registry credentials, collect live JWTs, intercept user traffic, or mutate production Rancher clusters.
+- Lead with the exact boundary: **Project Owner to PSA label mutation**, **GitHub App team-cache expansion**, **Fleet `valuesFrom` to cross-namespace Secret**, **Fleet Helm repo URL to credential forwarding**, **cluster-import query to YAML injection**, **secretless webhook to reconciliation trigger**, **namespaceLabels to PSS downgrade**, **Kyverno namespaced policy to admission-controller SSRF**, **JWKS `kid` cache to cross-issuer token acceptance**, **QUIC client to unauthenticated TLS peer**, or **SDK parameter key to prototype substitution**.
+- Keep evidence synthetic: disposable namespaces, fake Helm credentials, marker Secrets, Kyverno canary Services, owned callbacks, lab GitHub teams, disposable JWT keys, lab QUIC certificates, and local SDK object traces.
+- Do not read Kubernetes service-account tokens, deploy privileged production workloads, harvest Helm registry credentials, collect live JWTs, query real cloud metadata, intercept user traffic, or mutate production Rancher/Kyverno clusters.
