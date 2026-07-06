@@ -72,3 +72,20 @@ Use this only in a local lab or an explicitly authorized file-ingestion test har
 - Lead with the crossed boundary: **pod-local user to Envoy admin socket**, **request metadata to server-side Twig**, **read-only asset role to predicted datapoint write**, or **untrusted scientific file to native parser memory corruption**.
 - Include version, feature/configuration preconditions, test identity, exact synthetic canary, positive/negative decision table, and patched or fixed-control evidence.
 - Keep impact claims scoped to what was proven. Do not claim cluster compromise, RCE, telemetry manipulation, or arbitrary native code execution unless the authorized test safely demonstrates that chain in a lab.
+
+## July 6 OpenRemote KNX import and realm-boundary follow-up
+
+Later July 6 GitHub Advisory Database entries add two adjacent OpenRemote checks: [GHSA-7v6w-c3f4-9wpq](https://github.com/advisories/GHSA-7v6w-c3f4-9wpq) / CVE-2026-54640 for an incomplete XXE fix in the KNX asset import path, and [GHSA-xqr9-4wvv-gvch](https://github.com/advisories/GHSA-xqr9-4wvv-gvch) / CVE-2026-54641 for cross-realm user information disclosure in `UserResourceImpl`.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-7v6w-c3f4-9wpq](https://github.com/advisories/GHSA-7v6w-c3f4-9wpq) | OpenRemote KNX ETS project ZIP import | a sibling asset-import handler missed the XXE protections added to the Velbus parser path | Incomplete-fix reviews should diff sibling import handlers and prove file-read reachability with synthetic mounted canary files only. |
+| [GHSA-xqr9-4wvv-gvch](https://github.com/advisories/GHSA-xqr9-4wvv-gvch) | OpenRemote realm user API | tenant realm admins could supply user UUIDs from other realms and receive profile/role data | Multi-tenant API tests should pair route role checks with object-realm ownership checks, especially for identity-provider wrapper routes. |
+
+### OpenRemote KNX XXE and realm-ownership harness
+
+- Preconditions: disposable OpenRemote lab with two synthetic realms, non-sensitive test users, an affected KNX import path, one mounted canary text file outside application secrets, and no production telemetry or identity data.
+- For KNX import, build a minimal ETS project ZIP that references only the synthetic canary file through an XML external entity. Positive evidence is the canary marker appearing in import output, logs, or controlled error text. Do not target `/etc/passwd`, cloud credentials, application config, or service-account files.
+- For realm ownership, authenticate as a realm admin in tenant B and request only synthetic tenant A user IDs through the affected profile/role routes. Positive evidence is a route decision table showing tenant B can read tenant A canary user metadata despite lacking cross-realm authority.
+- Negative controls: patched KNX parser path using the same secure XML factory as sibling handlers, external entities disabled in every XML/XSLT import path, explicit `targetUser.realm == caller.realm` checks, and patched builds that deny the same requests.
+- Reporting should separate **authenticated file-read through import parser** from **cross-tenant identity metadata disclosure** and include only redacted/synthetic canary values.

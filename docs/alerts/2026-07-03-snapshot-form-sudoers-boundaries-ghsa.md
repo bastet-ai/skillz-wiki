@@ -57,6 +57,23 @@ Lead with the crossed boundary:
 
 Strong reports include affected package/version, exact route or user gesture, raw input, normalized path/form/sudoers decision, temp-marker evidence, user interaction requirements, and a fixed-version or policy negative control.
 
+## July 6 Linuxfabrik command-construction follow-up
+
+[GHSA-798h-hpph-m24j](https://github.com/advisories/GHSA-798h-hpph-m24j) / CVE-2026-55426 adds a stronger Linuxfabrik Monitoring Plugins boundary than the earlier broad `apt-get` sudoers entry: plugin arguments such as `restic-check --repo` could be interpolated into a string passed to `shell_exec`, and common deployments may allow the monitoring user to run the plugin through sudo.
+
+Operator value: monitoring plugins often sit at a privileged boundary where low-trust service users can invoke narrowly intended checks. Test both sides together: whether sudoers allows the plugin and whether any plugin argument is later embedded in shell command construction.
+
+### Monitoring plugin shell-construction harness
+
+- Preconditions: disposable VM/container, affected Linuxfabrik Monitoring Plugins version, synthetic `nagios` or monitoring user, lab sudoers entry matching the engagement scope, no production backup repositories, no real monitoring hosts, and no persistent root-level changes.
+- Enumerate allowed commands with `sudo -l` and record whether the monitoring user can invoke `restic-check` or other plugins with caller-controlled arguments.
+- Wrap the downstream binary or run in an instrumented lab to capture the final command string assembled by the plugin for benign argument values and separator canaries. If a proof must execute, create only a temp marker under a disposable root and destroy the VM afterward.
+- Positive evidence: a plugin argument is interpreted by a shell as command syntax rather than passed as a literal argv value to the intended binary.
+- Negative controls: fixed plugin release, direct argv execution without a shell, strict argument grammar for repository/path fields, sudoers pinning exact safe arguments, and plugin runs without root where root is unnecessary.
+- Do not create files under `/root` on shared systems, run reverse shells, install packages, read backup contents, or test production monitoring servers.
+
+Additional reporting note: lead with **monitoring user argument -> sudo-permitted plugin -> shell command construction**. Include sudoers scope, plugin/version, raw argument, captured command/argv evidence, marker-only result, and fixed-version negative control.
+
 ## Reviewed but not promoted here
 
 - [GHSA-x4hg-hfwf-p9mw](https://github.com/advisories/GHSA-x4hg-hfwf-p9mw) was processed as ReDoS/resource-exhaustion only and did not add a non-availability operator workflow.

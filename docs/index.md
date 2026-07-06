@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Coder workspace app-proxy, identity, and AI Bridge follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-6-coder-workspace-app-proxy-identity-and-ai-bridge-follow-up)
+- [OpenRemote KNX import and realm-boundary follow-up](alerts/2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md#july-6-openremote-knx-import-and-realm-boundary-follow-up)
+- [Linuxfabrik monitoring plugin command-construction follow-up](alerts/2026-07-03-snapshot-form-sudoers-boundaries-ghsa.md#july-6-linuxfabrik-command-construction-follow-up)
 - [uutils coreutils filesystem, temp-file, and script-parity follow-up](alerts/2026-04-29-uutils-coreutils-safety-and-data-integrity-batch-ghsa.md#july-6-filesystem-temp-file-and-script-parity-follow-up)
 - [Nginx-UI hidden settings, certificate file-write, and ordered-query boundary checks](alerts/2026-07-06-nginx-ui-settings-command-boundaries-ghsa.md)
 - [flyto-core HTTP MCP execution and SSRF guard-boundary checks](alerts/2026-07-06-flyto-mcp-ssrf-boundaries-ghsa.md)
@@ -15,9 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Scriban TemplateContext cache, object mass-assignment, and sandbox-boundary checks](alerts/2026-07-06-scriban-template-context-boundaries-ghsa.md)
 - [Cilium Envoy socket, Formie hidden-field SSTI, OpenRemote datapoint, and Open Babel parser-boundary checks](alerts/2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md)
 - [Kyverno policy SSRF and Kubernetes controller-boundary follow-up](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md#kyverno-cel-http-egress-harness)
-- [fast-mcp Telegram and Steeltoe actuator follow-up](alerts/2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md#july-3-fast-mcp-telegram-and-steeltoe-actuator-follow-up)
-- [Snapshot-write, SSR form fallback, and sudoers argument boundary checks](alerts/2026-07-03-snapshot-form-sudoers-boundaries-ghsa.md)
-- [electerm remote filename command and transfer-path follow-up](alerts/2026-05-08-electerm-terminal-command-boundary-ghsa-8x35-hph8-37hq.md#july-3-expansion-remote-filenames-file-helpers-and-transfer-paths)
 
 ## What lives here
 
