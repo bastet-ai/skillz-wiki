@@ -48,6 +48,22 @@ These advisories are durable for operators because they repeat the same validati
 - Local-only gate: behind a controlled proxy/tunnel, vary `Host` and `Origin` while recording the TCP peer address and final access decision. Positive evidence is loopback-only behavior granted from a non-loopback peer because headers claimed locality.
 - MCP/process evidence should be inert: a marker-only tool invocation or dry-run argv log. Do not install tailscale, pass real sudo passwords, run shell payloads, or operate on production agent profiles.
 
+### July 6 9router provider, usage, database, and rate-limit follow-up
+
+Later July 6 entries add three adjacent 9router checks: [GHSA-vjc7-jrh9-9j86](https://github.com/advisories/GHSA-vjc7-jrh9-9j86) for unauthenticated provider CRUD and API-key leakage through usage stats, [GHSA-qvfm-67h2-2qfx](https://github.com/advisories/GHSA-qvfm-67h2-2qfx) / CVE-2026-55500 for sensitive information exposure and unprotected database import/export, and [GHSA-7cfm-pqrj-xgq7](https://github.com/advisories/GHSA-7cfm-pqrj-xgq7) / CVE-2026-55501 for login brute-force protection bypass via spoofed `X-Forwarded-For`.
+
+| Advisory | Boundary | Operator value |
+| --- | --- | --- |
+| [GHSA-vjc7-jrh9-9j86](https://github.com/advisories/GHSA-vjc7-jrh9-9j86) | unauthenticated provider routes and usage stats can expose or mutate model/provider configuration and API-key material | Agent-router reviews should enumerate provider, usage, stats, and model-management routes separately from the main dashboard guard. |
+| [GHSA-qvfm-67h2-2qfx](https://github.com/advisories/GHSA-qvfm-67h2-2qfx) | database import/export endpoints can expose credential-bearing state or accept attacker-controlled state | Backup/import helpers are control-plane boundaries; prove only with fake provider keys and disposable database snapshots. |
+| [GHSA-7cfm-pqrj-xgq7](https://github.com/advisories/GHSA-7cfm-pqrj-xgq7) | brute-force rate limiting trusts caller-supplied forwarding headers | Rate-limit validation should record trusted-proxy topology and peer IP vs forwarded-IP decisions before claiming bypass. |
+
+- Preconditions: disposable 9router lab, fake provider credentials, synthetic usage rows, disposable database exports, and a controlled proxy/tunnel when testing forwarding headers.
+- For provider and usage routes, use fake API keys with obvious marker prefixes and verify only route access, redaction state, and CRUD effects on disposable provider entries.
+- For database import/export, export a lab database containing only marker users/providers; import only a marker snapshot into the same disposable lab. Do not collect real SQLite files, tokens, prompts, usage history, or provider secrets.
+- For rate limiting, vary `X-Forwarded-For` behind known proxy and direct-connect paths while recording TCP peer, configured trusted proxy state, and throttle decisions. Do not conduct password spraying against real accounts.
+- Negative controls: patched versions, route-level auth on every provider/stats/import/export endpoint, secret redaction at response boundaries, import role checks, and rate-limit keys derived from trusted proxy metadata rather than arbitrary browser headers.
+
 ### SAML issuer, request, artifact, and encryption binding checks
 
 - Preconditions: lab SimpleSAMLphp or Keycloak deployment, at least two lab IdPs with different trust labels, disposable SP/client, synthetic users, and lab signing/encryption keys.

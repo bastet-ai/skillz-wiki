@@ -73,3 +73,20 @@ Two later Craft CMS advisories add more sibling-route authorization and model-po
 - For forced folder moves, create a destination conflict folder containing only marker assets. Attempt `force=true` as a user with source delete and destination create/save but without destination delete. Positive evidence is deletion of the destination conflict marker.
 - For bulk duplicate, use predictable synthetic entry IDs and submit `newAttributes[id]` for a victim-owned marker entry while duplicating an attacker-owned source. Positive evidence is an update to the victim marker row instead of insertion of a new element.
 - Do not test against production asset volumes, media libraries, customer entries, or editorial workflows. Avoid large folders, irreversible deletes, and any payload beyond tiny text/image marker files.
+
+## July 6 Craft CMS referrer and file-read follow-up
+
+The July 6 GitHub Advisory Database wave adds two Craft CMS items that extend this page's Craft boundary model: [GHSA-f74w-488g-8x5r](https://github.com/advisories/GHSA-f74w-488g-8x5r) / CVE-2026-55794 for potential authenticated remote code execution via a referrer redirect path, and [GHSA-287w-mxq6-x2cp](https://github.com/advisories/GHSA-287w-mxq6-x2cp) / CVE-2026-55792 for sensitive file disclosure / server-side file read.
+
+| Advisory | Boundary | Operator value |
+| --- | --- | --- |
+| [GHSA-f74w-488g-8x5r](https://github.com/advisories/GHSA-f74w-488g-8x5r) | authenticated Control Panel flow where referrer/redirect-controlled state can reach a code-execution-capable backend path | Test redirect/referrer helpers as stateful server-side control inputs, not only browser navigation issues. |
+| [GHSA-287w-mxq6-x2cp](https://github.com/advisories/GHSA-287w-mxq6-x2cp) | Craft route can disclose server-side files to an authenticated user | File-read proofs should use synthetic marker files and permission matrices, not real config, license, media, or credential files. |
+
+### Safe Craft referrer and file-read harness
+
+- Preconditions: disposable Craft CMS lab, affected versions, low-privilege Control Panel users, a synthetic marker file under a lab-only path, and fixed-version negative controls.
+- For referrer/redirect handling, capture route, role, and state transition evidence with an inert marker action only. If code execution validation is explicitly allowed, stop at a temp-file or log-marker canary in the lab; otherwise report route reachability and source/patch evidence.
+- For file read, request only the synthetic marker file and a denied-control marker. Positive evidence is the canary content returned where the role should not access server files.
+- Do not read `.env`, `config/`, database backups, private keys, user uploads, license files, templates containing secrets, or production logs. Do not publish shell payloads.
+- Report crossed boundaries as **authenticated referrer/redirect state to backend execution path** or **authenticated Craft route to server-side file read**, with version, route, role, raw/normalized path or redirect state, marker evidence, and patched negative controls.

@@ -283,6 +283,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - n8n-MCP advisories: https://github.com/czlonkowski/n8n-mcp/security/advisories
 - multiparty advisories: https://github.com/pillarjs/multiparty/security/advisories
 - Coder advisories: https://github.com/coder/coder/security/advisories
+- 9router advisories/source: https://github.com/advisories?query=9router and https://github.com/9router/9router
 - Kong Ingress Controller advisories: https://github.com/Kong/kubernetes-ingress-controller/security/advisories
 - Bandit advisories: https://github.com/mtrudel/bandit/security/advisories
 - Cowboy advisories: https://github.com/ninenines/cowboy/security/advisories

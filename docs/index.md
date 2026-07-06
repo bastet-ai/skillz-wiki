@@ -8,16 +8,16 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Coder cross-agent redirect file-authority follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-6-late-coder-cross-agent-redirect-follow-up)
+- [9router provider, database, and rate-limit follow-up](alerts/2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md#july-6-9router-provider-usage-database-and-rate-limit-follow-up)
+- [OpenRemote crosstab export SQL follow-up](alerts/2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md#july-6-openremote-datapoint-crosstab-sql-follow-up)
+- [Langroid Neo4jChatAgent Cypher boundary follow-up](alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-6-neo4jchatagent-cypher-boundary-follow-up)
+- [Craft CMS referrer and file-read follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-6-craft-cms-referrer-and-file-read-follow-up)
+- [uutils coreutils filesystem, temp-file, and script-parity follow-up](alerts/2026-04-29-uutils-coreutils-safety-and-data-integrity-batch-ghsa.md#july-6-filesystem-temp-file-and-script-parity-follow-up)
 - [Coder workspace app-proxy, identity, and AI Bridge follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-6-coder-workspace-app-proxy-identity-and-ai-bridge-follow-up)
 - [OpenRemote KNX import and realm-boundary follow-up](alerts/2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md#july-6-openremote-knx-import-and-realm-boundary-follow-up)
 - [Linuxfabrik monitoring plugin command-construction follow-up](alerts/2026-07-03-snapshot-form-sudoers-boundaries-ghsa.md#july-6-linuxfabrik-command-construction-follow-up)
-- [uutils coreutils filesystem, temp-file, and script-parity follow-up](alerts/2026-04-29-uutils-coreutils-safety-and-data-integrity-batch-ghsa.md#july-6-filesystem-temp-file-and-script-parity-follow-up)
 - [Nginx-UI hidden settings, certificate file-write, and ordered-query boundary checks](alerts/2026-07-06-nginx-ui-settings-command-boundaries-ghsa.md)
-- [flyto-core HTTP MCP execution and SSRF guard-boundary checks](alerts/2026-07-06-flyto-mcp-ssrf-boundaries-ghsa.md)
-- [Rich-text import SSRF testing: WeasyPrint presentational-hint CSS fetches](methodology/rich-text-import-ssrf-testing.md#presentational-hint-css-injection-harness)
-- [Scriban TemplateContext cache, object mass-assignment, and sandbox-boundary checks](alerts/2026-07-06-scriban-template-context-boundaries-ghsa.md)
-- [Cilium Envoy socket, Formie hidden-field SSTI, OpenRemote datapoint, and Open Babel parser-boundary checks](alerts/2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md)
-- [Kyverno policy SSRF and Kubernetes controller-boundary follow-up](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md#kyverno-cel-http-egress-harness)
 
 ## What lives here
 

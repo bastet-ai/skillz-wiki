@@ -56,3 +56,20 @@ GitHub Advisory Database published two adjacent Langroid issues on 2026-07-02: [
 ### Additional reporting heuristic
 
 Lead with the crossed boundary: **LLM-generated SELECT to database-host file primitive** or **agent file tool path to outside-workspace read/write**. Strong reports show how untrusted prompt, RAG content, uploaded data, or delegated agent tasks can influence the final tool input while the application relies on Langroid guardrails for containment.
+
+## July 6 Neo4jChatAgent Cypher boundary follow-up
+
+GitHub Advisory Database published [GHSA-2pq5-3q89-j7cc](https://github.com/advisories/GHSA-2pq5-3q89-j7cc) / CVE-2026-55615 for Langroid `Neo4jChatAgent`, where LLM-generated Cypher can execute without sufficient validation and, depending on Neo4j configuration, may reach dangerous procedures or command-capable plugins.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-2pq5-3q89-j7cc](https://github.com/advisories/GHSA-2pq5-3q89-j7cc) | Langroid `Neo4jChatAgent` | prompt-shaped graph queries cross from natural language into Cypher execution without a final safe-query policy | Graph/LLM agents need dialect-aware query containment just like SQL/table agents; validate generated Cypher against allowed clauses, procedures, labels, and write/file/network capabilities. |
+
+### Safe Neo4j agent validation additions
+
+- Preconditions: isolated Langroid lab, disposable Neo4j instance with synthetic graph data, no APOC or command/file procedures unless explicitly part of the lab negative-control matrix, and no production datasets or secrets.
+- Establish the normal natural-language-to-Cypher tool path using a benign read-only query over seeded marker nodes.
+- Shape prompts or retrieved content toward a Cypher form that should be rejected by policy, such as write clauses, procedure calls, multi-statement behavior, or configuration-conditional dangerous procedures. Use parser/log evidence or inert marker nodes only.
+- Positive evidence: the agent executes a query class outside the intended read-only graph-question boundary. If a dangerous procedure is enabled in a lab, stop at a fixed canary string or temp marker and document the enabling precondition.
+- Negative controls: strict generated-query allowlist, procedure deny/allow policy, read-only database credentials, patched Langroid behavior, and a same prompt rejected before Neo4j execution.
+- Report this as **untrusted prompt/RAG content to unconstrained Cypher execution**. Never read real graph data, run shell commands, access filesystem paths, or connect to production Neo4j plugins.

@@ -46,6 +46,8 @@ Operator value stays the same: replacement utilities become attack surface when 
 | `chmod -R` | recursive failures can be masked by a final successful entry | Lab tree with one intentionally denied path and one succeeding final path; capture exit code and stderr. |
 | `id`, `cut`, `ln`, `comm` | pretty-print identity, newline-delimited filtering, non-UTF-8 filenames, or lossy UTF-8 conversion can drift from GNU behavior | Compare GNU vs uutils with numeric identity controls and byte fixtures; connect drift to a concrete downstream script decision. |
 | `kill` | negative numeric arguments can cross from signal parsing into process-group targeting | Use source references or mocked syscall harnesses. Do not execute mass-signal forms on shared systems. |
+| `cut -z -d '' -s` | field-suppression and delimiter semantics can diverge in NUL-delimited pipelines | Byte-fixture comparison only; connect the mismatch to a downstream script decision before reporting impact. |
+| `mknod` / `mkfifo` | special-file creation, cleanup, and post-create permission/label handling can target the wrong path or leave misleading SELinux/device-node state | Disposable container or mocked syscall harness with marker paths only; never create privileged device nodes on shared hosts. |
 
 ### July 6 triage additions
 
@@ -54,6 +56,8 @@ Operator value stays the same: replacement utilities become attack surface when 
 3. Treat utility version plus script reachability as the finding seed; package presence alone is weak evidence.
 4. Build proofs in disposable containers with marker-only artifacts, dry-run wrappers, byte-level diffs, and patched/GNU negative controls.
 5. Stop before production side effects: no destructive `rm`, no mass-signal `kill`, no high-value path overwrite, and no real secrets in temp-file or byte-diff artifacts.
+
+Later July 6 entries [GHSA-pmfc-4wjj-gmhx](https://github.com/advisories/GHSA-pmfc-4wjj-gmhx) / CVE-2026-35381, [GHSA-r9hw-mj3w-phcq](https://github.com/advisories/GHSA-r9hw-mj3w-phcq) / CVE-2026-35361, and [GHSA-pmf6-rcx4-v53v](https://github.com/advisories/GHSA-pmf6-rcx4-v53v) / CVE-2026-35341 reinforce the same rule: when scripts depend on GNU-compatible `cut`, `mknod`, or `mkfifo` behavior for parsing, special-file setup, labels, cleanup, or permissions, prove replacement-tool drift with byte fixtures and temp marker paths before claiming an exploitable chain.
 
 ## Triage
 1. Identify hosts, containers, CI images, and embedded appliances using uutils coreutils instead of GNU coreutils.

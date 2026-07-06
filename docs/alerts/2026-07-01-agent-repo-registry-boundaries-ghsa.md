@@ -236,3 +236,19 @@ These advisories are operator-relevant because Coder-style developer platforms c
 ### Additional reporting notes
 
 Lead with the crossed boundary: **workspace hostname to CORS owner**, **browser header to app routing**, **agent route metadata to tailnet prefixes**, **provisioner app ID to cross-workspace rebinding**, **workspace/template URL to CLI token leak**, **server setting to local SSH config directive**, **OIDC claim type to account link**, or **AI proxy token/TLS state to provider traffic**. Include feature preconditions, role or user-interaction requirements, synthetic canary values, route/config decision tables, and patched negative controls.
+
+## July 6 late Coder cross-agent redirect follow-up
+
+A later July 6 GitHub Advisory Database entry adds [GHSA-qrwj-vh9x-gw5v](https://github.com/advisories/GHSA-qrwj-vh9x-gw5v), covering Coder workspace-agent API redirect handling that could cross from one agent context into another agent's file-read or file-write surface.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-qrwj-vh9x-gw5v](https://github.com/advisories/GHSA-qrwj-vh9x-gw5v) | Coder workspace agent API redirects | redirect-follow behavior can carry an agent API request into a different workspace-agent authority and expose cross-agent file read/write effects | Developer-platform tests should include per-hop authority checks for agent-local APIs, not only the initial workspace, app, or agent selector. |
+
+### Cross-agent redirect harness
+
+- Preconditions: disposable Coder deployment, two synthetic workspaces/agents, fake file contents, owned callback or mock agent endpoints, and no real workspace files, SSH keys, tokens, prompts, or customer source trees.
+- From an authorized lab client, send only marker-only file-read/write requests through the affected agent API path and make one hop redirect to a sibling synthetic agent authority.
+- Positive evidence: the request follows the redirect and reads or writes a canary file under the sibling agent context despite being authorized for the original agent.
+- Negative controls: patched build, redirect-follow disabled for file APIs, same scheme/host/port/agent identity enforced after every redirect, and a sibling-agent redirect rejected before file access.
+- Report this as **workspace-agent redirect to cross-agent file authority**. Include route, original and redirected agent identifiers, redirect status/location, canary-only path, and the fixed-version decision table.

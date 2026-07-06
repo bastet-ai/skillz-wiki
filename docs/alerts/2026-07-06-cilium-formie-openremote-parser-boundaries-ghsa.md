@@ -89,3 +89,19 @@ Later July 6 GitHub Advisory Database entries add two adjacent OpenRemote checks
 - For realm ownership, authenticate as a realm admin in tenant B and request only synthetic tenant A user IDs through the affected profile/role routes. Positive evidence is a route decision table showing tenant B can read tenant A canary user metadata despite lacking cross-realm authority.
 - Negative controls: patched KNX parser path using the same secure XML factory as sibling handlers, external entities disabled in every XML/XSLT import path, explicit `targetUser.realm == caller.realm` checks, and patched builds that deny the same requests.
 - Reporting should separate **authenticated file-read through import parser** from **cross-tenant identity metadata disclosure** and include only redacted/synthetic canary values.
+
+## July 6 OpenRemote datapoint crosstab SQL follow-up
+
+A later July 6 GitHub Advisory Database entry adds [GHSA-cgfv-jrfp-2r7v](https://github.com/advisories/GHSA-cgfv-jrfp-2r7v), an authenticated SQL injection boundary in OpenRemote's Datapoint Crosstab Export path.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-cgfv-jrfp-2r7v](https://github.com/advisories/GHSA-cgfv-jrfp-2r7v) | OpenRemote Datapoint Crosstab Export | authenticated export parameters can cross into SQL construction for datapoint crosstab queries | Export/report builders are query compilers; test selector, attribute, time-bucket, order, and crosstab dimensions with synthetic rows and SQL parser canaries. |
+
+### OpenRemote crosstab export SQL harness
+
+- Preconditions: disposable OpenRemote realm, one synthetic asset/attribute, seeded datapoints containing only marker values, and a low-privilege user allowed to export that synthetic data.
+- Map normal crosstab export parameters first, then mutate one candidate SQL-shaping field at a time with harmless syntax-error or fixed-expression canaries.
+- Positive evidence: database parser errors, generated-query logs, or export output prove the parameter entered SQL structure rather than a bound value.
+- Negative controls: patched build, fixed enum/identifier allowlists, parameterized values, and the same export succeeding with only valid dimensions.
+- Do not dump unrelated tables, enumerate tenants, run time-heavy queries, or export production telemetry. Report this as **authenticated export parameter to SQL crosstab construction**.
