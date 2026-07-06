@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Cilium Envoy socket, Formie hidden-field SSTI, OpenRemote datapoint, and Open Babel parser-boundary checks](alerts/2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md)
 - [Scriban TemplateContext cache and sandbox-boundary checks](alerts/2026-07-06-scriban-template-context-boundaries-ghsa.md)
 - [Kyverno policy SSRF and Kubernetes controller-boundary follow-up](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md#kyverno-cel-http-egress-harness)
 - [fast-mcp Telegram and Steeltoe actuator follow-up](alerts/2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md#july-3-fast-mcp-telegram-and-steeltoe-actuator-follow-up)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Developer dashboard, identity handoff, and file-serving boundary checks](alerts/2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md)
 - [Mautic campaign import, theme template, API owner-scope, and Focus SSRF checks](alerts/2026-07-02-mautic-campaign-theme-api-focus-boundaries-ghsa.md)
 - [Craft CMS forced-folder-move and bulk-duplicate follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-forced-folder-move-and-bulk-duplicate-follow-up)
-- [Grackle PowerLine worktree branch injection follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-2-grackle-powerline-worktree-branch-injection-follow-up)
 
 ## What lives here
 
