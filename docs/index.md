@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Nginx-UI hidden settings, certificate file-write, and ordered-query boundary checks](alerts/2026-07-06-nginx-ui-settings-command-boundaries-ghsa.md)
 - [flyto-core HTTP MCP execution and SSRF guard-boundary checks](alerts/2026-07-06-flyto-mcp-ssrf-boundaries-ghsa.md)
 - [Rich-text import SSRF testing: WeasyPrint presentational-hint CSS fetches](methodology/rich-text-import-ssrf-testing.md#presentational-hint-css-injection-harness)
 - [Scriban TemplateContext cache, object mass-assignment, and sandbox-boundary checks](alerts/2026-07-06-scriban-template-context-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Snapshot-write, SSR form fallback, and sudoers argument boundary checks](alerts/2026-07-03-snapshot-form-sudoers-boundaries-ghsa.md)
 - [electerm remote filename command and transfer-path follow-up](alerts/2026-05-08-electerm-terminal-command-boundary-ghsa-8x35-hph8-37hq.md#july-3-expansion-remote-filenames-file-helpers-and-transfer-paths)
 - [Developer dashboard, identity handoff, and file-serving boundary checks](alerts/2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md)
-- [Mautic campaign import, theme template, API owner-scope, and Focus SSRF checks](alerts/2026-07-02-mautic-campaign-theme-api-focus-boundaries-ghsa.md)
 
 ## What lives here
 

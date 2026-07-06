@@ -212,6 +212,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - HAXcms / HAX advisories: https://github.com/haxtheweb/issues/security/advisories
 - Algernon advisories: https://github.com/xyproto/algernon/security/advisories
 - Scriban advisories: https://github.com/scriban/scriban/security/advisories
+- Nginx-UI advisories/source: https://github.com/0xJacky/nginx-ui/security/advisories and https://github.com/0xJacky/nginx-ui
 - OpenSearch JavaScript client advisories: https://github.com/opensearch-project/opensearch-js/security/advisories
 - Python idna advisories: https://github.com/kjd/idna/security/advisories
 - ApostropheCMS advisories: https://github.com/apostrophecms/apostrophe/security/advisories
