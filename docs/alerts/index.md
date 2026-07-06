@@ -10,7 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
-- [Scriban `TemplateContext` cache and sandbox-boundary checks](2026-07-06-scriban-template-context-boundaries-ghsa.md)
+- [flyto-core HTTP MCP execution and SSRF guard-boundary checks](2026-07-06-flyto-mcp-ssrf-boundaries-ghsa.md)
+- [Scriban `TemplateContext`, object mass-assignment, and sandbox-boundary checks](2026-07-06-scriban-template-context-boundaries-ghsa.md)
+- [Cilium Envoy socket, Formie hidden-field SSTI, OpenRemote datapoint, and Open Babel parser-boundary checks](2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md)
 - [fast-mcp Telegram and Steeltoe actuator follow-up](2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md#july-3-fast-mcp-telegram-and-steeltoe-actuator-follow-up)
 - [Snapshot-write, SSR form fallback, and sudoers argument boundary checks](2026-07-03-snapshot-form-sudoers-boundaries-ghsa.md)
 - [Mautic campaign import, theme template, API owner-scope, and Focus SSRF checks](2026-07-02-mautic-campaign-theme-api-focus-boundaries-ghsa.md)

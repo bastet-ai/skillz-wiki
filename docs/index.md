@@ -8,16 +8,16 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [flyto-core HTTP MCP execution and SSRF guard-boundary checks](alerts/2026-07-06-flyto-mcp-ssrf-boundaries-ghsa.md)
+- [Rich-text import SSRF testing: WeasyPrint presentational-hint CSS fetches](methodology/rich-text-import-ssrf-testing.md#presentational-hint-css-injection-harness)
+- [Scriban TemplateContext cache, object mass-assignment, and sandbox-boundary checks](alerts/2026-07-06-scriban-template-context-boundaries-ghsa.md)
 - [Cilium Envoy socket, Formie hidden-field SSTI, OpenRemote datapoint, and Open Babel parser-boundary checks](alerts/2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md)
-- [Scriban TemplateContext cache and sandbox-boundary checks](alerts/2026-07-06-scriban-template-context-boundaries-ghsa.md)
 - [Kyverno policy SSRF and Kubernetes controller-boundary follow-up](alerts/2026-07-01-rancher-fleet-jwks-client-boundaries-ghsa.md#kyverno-cel-http-egress-harness)
 - [fast-mcp Telegram and Steeltoe actuator follow-up](alerts/2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md#july-3-fast-mcp-telegram-and-steeltoe-actuator-follow-up)
 - [Snapshot-write, SSR form fallback, and sudoers argument boundary checks](alerts/2026-07-03-snapshot-form-sudoers-boundaries-ghsa.md)
 - [electerm remote filename command and transfer-path follow-up](alerts/2026-05-08-electerm-terminal-command-boundary-ghsa-8x35-hph8-37hq.md#july-3-expansion-remote-filenames-file-helpers-and-transfer-paths)
-- [Rich-text import SSRF testing: redirect revalidation follow-up](methodology/rich-text-import-ssrf-testing.md#redirect-revalidation-harness)
 - [Developer dashboard, identity handoff, and file-serving boundary checks](alerts/2026-07-02-developer-dashboard-identity-file-boundaries-ghsa.md)
 - [Mautic campaign import, theme template, API owner-scope, and Focus SSRF checks](alerts/2026-07-02-mautic-campaign-theme-api-focus-boundaries-ghsa.md)
-- [Craft CMS forced-folder-move and bulk-duplicate follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-2-forced-folder-move-and-bulk-duplicate-follow-up)
 
 ## What lives here
 

@@ -15,12 +15,15 @@ GitHub advisory [GHSA-pr28-mf3q-qpg6 / CVE-2026-45012](https://github.com/adviso
 
 GitHub advisory [GHSA-983w-rhvv-gwmv / CVE-2025-68616](https://github.com/advisories/GHSA-983w-rhvv-gwmv) exposed the same operator seam in WeasyPrint's `default_url_fetcher`: an application-level `url_fetcher` could validate the initial URL, then the underlying fetch layer followed an HTTP redirect to a destination that was not revalidated. Treat server-side renderers as URL-fetch pipelines with **per-hop** authority decisions, not one-time string filters.
 
+GitHub advisory [GHSA-jhhc-3hcp-qhm5 / CVE-2026-49452](https://github.com/advisories/GHSA-jhhc-3hcp-qhm5) added another WeasyPrint renderer seam: when applications enable `presentational_hints=True`, unescaped HTML presentational attributes can be embedded into CSS and parsed as stylesheet declarations. For operators, the reusable pattern is **HTML attribute value to CSS `url()` fetch**, not generic styling injection. Prove it only with owned callback URLs or explicitly approved internal canaries.
+
 That is more useful than a one-off product advisory because the same pattern appears in many CMS/editor features:
 
 - paste-from-URL and paste-from-Word/HTML import;
 - page-builder widget validation or preview APIs;
 - avatar, OpenGraph, favicon, media-library, and attachment import helpers;
 - Markdown/HTML-to-PDF previewers that rewrite or embed images, CSS, fonts, and linked resources;
+- HTML-to-PDF renderers that enable legacy presentational hints and convert attributes such as `background` into CSS;
 - migration tools that ingest remote HTML and localize assets.
 
 ## Inputs
@@ -124,6 +127,27 @@ Positive evidence is a decision-table mismatch:
 
 Capture the redirect chain, normalized destination, status code, and whether the renderer stored or exposed fetched bytes. Stop at canary reachability; do not enumerate ports or fetch real internal resources.
 
+## Presentational-hint CSS injection harness
+
+Use this when an HTML-to-PDF or document-rendering path uses WeasyPrint or a similar renderer with legacy presentational hints enabled.
+
+Preconditions: an owned callback endpoint, an authorized render/preview/upload path, and evidence that the application enables presentational hints. Do not test production metadata, loopback admin panels, or private services.
+
+1. First submit harmless HTML containing a normal external image or CSS resource pointing to your callback and confirm server-side fetch behavior.
+2. Then place a fixed canary URL in a presentational attribute value that the renderer may transform into CSS. The proof goal is a callback hit for the injected CSS resource, not data retrieval.
+3. Capture the rendered-document request, callback path, source IP/UA, and whether the application returned a PDF, preview, or renderer error.
+4. Run negative controls: presentational hints disabled, patched/fixed renderer behavior when available, and a literal attribute value that should not create a second CSS declaration.
+
+Positive evidence is a decision-table mismatch:
+
+| Input location | Expected policy | Observed behavior |
+| --- | --- | --- |
+| Normal image/CSS URL to owned callback | fetched if remote resources are allowed | callback hit |
+| Presentational attribute with callback canary embedded as CSS resource | treated as a literal attribute or rejected | callback hit from renderer |
+| Same attribute with presentational hints disabled | no CSS-derived fetch | no callback hit |
+
+Keep the report scoped to **attribute-to-CSS resource fetch** unless you separately prove a stronger impact in a lab. Do not include cloud metadata URLs or internal hostnames in the wiki or report artifacts.
+
 ## Exfiltration check for image-compatible responses
 
 Some importers store and re-host fetched images. This turns blind SSRF into response exfiltration for image-compatible content.
@@ -183,7 +207,8 @@ If the application claims to filter private destinations, validate the filter at
 - mixed-case schemes and whitespace/control-character normalization;
 - protocol-relative URLs such as `//host/path`;
 - multiple images where only the first URL is validated;
-- thumbnail or metadata extraction paths that refetch after initial validation.
+- thumbnail or metadata extraction paths that refetch after initial validation;
+- presentational HTML attributes that are converted into CSS without escaping.
 
 Document which variants were tested and which were intentionally not attempted because they were out of scope.
 

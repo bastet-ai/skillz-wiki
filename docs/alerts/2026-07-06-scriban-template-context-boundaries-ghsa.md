@@ -1,6 +1,6 @@
 # Scriban `TemplateContext` cache and sandbox-boundary checks
 
-Source: hourly offensive-security scan, 2026-07-06. Primary entries: GitHub Advisory Database [GHSA-5wr9-m6jw-xx44](https://github.com/advisories/GHSA-5wr9-m6jw-xx44), [GHSA-x6m9-38vm-2xhf](https://github.com/advisories/GHSA-x6m9-38vm-2xhf), and adjacent Scriban resource-limit advisories including [GHSA-c875-h985-hvrc](https://github.com/advisories/GHSA-c875-h985-hvrc), [GHSA-xw6w-9jjh-p9cr](https://github.com/advisories/GHSA-xw6w-9jjh-p9cr), [GHSA-wgh7-7m3c-fx25](https://github.com/advisories/GHSA-wgh7-7m3c-fx25), [GHSA-q6rr-fm2g-g5x8](https://github.com/advisories/GHSA-q6rr-fm2g-g5x8), [GHSA-6q7j-xr26-3h2c](https://github.com/advisories/GHSA-6q7j-xr26-3h2c), [GHSA-p6q4-fgr8-vx4p](https://github.com/advisories/GHSA-p6q4-fgr8-vx4p), [GHSA-grr9-747v-xvcp](https://github.com/advisories/GHSA-grr9-747v-xvcp), [GHSA-5rpf-x9jg-8j5p](https://github.com/advisories/GHSA-5rpf-x9jg-8j5p), [GHSA-v66j-x4hw-fv9g](https://github.com/advisories/GHSA-v66j-x4hw-fv9g), [GHSA-xcx6-vp38-8hr5](https://github.com/advisories/GHSA-xcx6-vp38-8hr5), and [GHSA-m2p3-hwv5-xpqw](https://github.com/advisories/GHSA-m2p3-hwv5-xpqw).
+Source: hourly offensive-security scan, 2026-07-06. Primary entries: GitHub Advisory Database [GHSA-5wr9-m6jw-xx44](https://github.com/advisories/GHSA-5wr9-m6jw-xx44), [GHSA-x6m9-38vm-2xhf](https://github.com/advisories/GHSA-x6m9-38vm-2xhf), [GHSA-7jvp-hj45-2f2m](https://github.com/advisories/GHSA-7jvp-hj45-2f2m), and adjacent Scriban resource-limit advisories including [GHSA-c875-h985-hvrc](https://github.com/advisories/GHSA-c875-h985-hvrc), [GHSA-xw6w-9jjh-p9cr](https://github.com/advisories/GHSA-xw6w-9jjh-p9cr), [GHSA-wgh7-7m3c-fx25](https://github.com/advisories/GHSA-wgh7-7m3c-fx25), [GHSA-q6rr-fm2g-g5x8](https://github.com/advisories/GHSA-q6rr-fm2g-g5x8), [GHSA-6q7j-xr26-3h2c](https://github.com/advisories/GHSA-6q7j-xr26-3h2c), [GHSA-p6q4-fgr8-vx4p](https://github.com/advisories/GHSA-p6q4-fgr8-vx4p), [GHSA-grr9-747v-xvcp](https://github.com/advisories/GHSA-grr9-747v-xvcp), [GHSA-5rpf-x9jg-8j5p](https://github.com/advisories/GHSA-5rpf-x9jg-8j5p), [GHSA-v66j-x4hw-fv9g](https://github.com/advisories/GHSA-v66j-x4hw-fv9g), [GHSA-xcx6-vp38-8hr5](https://github.com/advisories/GHSA-xcx6-vp38-8hr5), and [GHSA-m2p3-hwv5-xpqw](https://github.com/advisories/GHSA-m2p3-hwv5-xpqw).
 
 These advisories are durable for operators because the strongest issues are not generic template DoS. They expose a reusable **cross-render template runtime state** pattern: applications pool or reuse a Scriban `TemplateContext`, then expect `Reset()`, `MemberFilter`, `MemberRenamer`, `ITemplateLoader`, `LoopLimit`, or `LimitToString` to enforce a new tenant/user/request boundary. A bug-hunting proof should show a harmless canary crossing that boundary without reading real templates, secrets, or tenant data.
 
@@ -10,6 +10,7 @@ These advisories are durable for operators because the strongest issues are not 
 | --- | --- | --- | --- |
 | [GHSA-5wr9-m6jw-xx44](https://github.com/advisories/GHSA-5wr9-m6jw-xx44) | Scriban / `Scriban.Signed` `< 7.0.0` | `TemplateContext` caches `TypedObjectAccessor` by .NET type after applying the current `MemberFilter` and `MemberRenamer`; later renders on the same context can reuse stale accessors after policy tightening | Test template-as-a-service, CMS, email, report, and workflow-renderer targets for object-exposure policy drift across pooled contexts. |
 | [GHSA-x6m9-38vm-2xhf](https://github.com/advisories/GHSA-x6m9-38vm-2xhf) | Scriban / `Scriban.Signed` `< 7.0.0` | `TemplateContext.Reset()` does not clear `CachedTemplates`, so request-, tenant-, or role-dependent `ITemplateLoader` results can survive into a later render | Test include/import behavior where template names are stable but loader decisions depend on current user, tenant, locale, role, project, or request path. |
+| [GHSA-7jvp-hj45-2f2m](https://github.com/advisories/GHSA-7jvp-hj45-2f2m) | Scriban `TypedObjectAccessor` `<= 7.2.1` | CLR objects pushed into a template context expose public getter properties as writable template members; writes can land on live host objects, including properties with public, private, internal, or `init` setters | Test untrusted-template paths for mass assignment into live domain objects, especially roles, ownership, workflow state, price/credit fields, feature flags, and one-shot state. |
 | Resource-limit cluster | Scriban parser/evaluator, mostly `< 7.0.0` with some incomplete-fix variants | `ExpressionDepthLimit`, `LoopLimit`, and `LimitToString` do not cover every parser recursion, built-in iteration, range, string multiplication, padding, `to_json`, or BigInteger allocation path | Treat runtime safety knobs as incomplete unless the specific expression class is covered. Use tiny, non-crashing canaries and time-boxed local harnesses only. |
 
 ## Operator triage
@@ -21,6 +22,7 @@ Prioritize targets where all of these are true:
 3. A long-lived worker, service container, object pool, or template-rendering service reuses `TemplateContext` instances across renders.
 4. `MemberFilter`, `MemberRenamer`, `ITemplateLoader`, or include paths depend on request, user, tenant, project, role, feature flag, or workflow state.
 5. The same template names, include names, or object types can appear in both privileged and less-privileged render paths.
+6. Template authors can assign to object properties, and the host passes live entities such as users, orders, tasks, tickets, payouts, approvals, or workflow contexts into the template.
 
 Lower priority: systems that render only trusted, static templates; allocate a fresh `TemplateContext` per render; expose only inert dictionaries/DTOs; and never vary loader output by user or tenant.
 
@@ -54,6 +56,19 @@ Use this when `include`, `import`, or template loader paths resolve differently 
 
 Report this as **request-dependent template loader output reused across authorization boundaries**. Include a loader-call log or counter if possible; it proves the second render bypassed authorization logic rather than merely returning similar content.
 
+### Live CLR object mass-assignment harness
+
+Use this when the host gives untrusted Scriban templates direct access to CLR objects instead of read-only DTOs or dictionaries.
+
+- Preconditions: affected Scriban version, disposable app or local harness, a harmless object with one property that should remain immutable or host-controlled, and evidence that template output returns after mutating the same object instance.
+- Render a template that assigns only a fixed canary value to a synthetic property such as `DisplayName`, `WorkflowState`, `IsCanaryApproved`, or an `init`/private-set marker on a lab object.
+- After `Render()` returns, inspect the host object from outside the template. The important evidence is persistence on the live object, not rendered text.
+- Positive evidence: the template changes a property that the application expected to expose read-only or host-only.
+- Negative controls: patched `7.2.2` or later when available, a flattened read-only DTO, a fresh object copy, and host-side rejection of assignment-capable templates.
+- Do not mutate real users, prices, payments, approvals, permissions, workflow state, or production records. Use disposable object instances and fixed canary fields only.
+
+Report this as **template-to-host-object mass assignment**. Strong evidence includes object type, property visibility, template expression, pre-render value, post-render value, and whether the mutation persisted into any later authorization or business-logic step.
+
 ### Resource-limit safety-control harness
 
 The resource-limit advisories are mostly availability-oriented, so do not publish or run crash payloads against production. They still matter as supporting evidence when a vendor claims untrusted templates are safe because `LoopLimit`, `LimitToString`, or `ExpressionDepthLimit` is configured.
@@ -66,7 +81,7 @@ The resource-limit advisories are mostly availability-oriented, so do not publis
 
 ## Reporting notes
 
-- Lead with the boundary crossed: **pooled context to stale member accessor**, **request-dependent loader to stale include**, or **configured safety knob to uncovered expression class**.
+- Lead with the boundary crossed: **pooled context to stale member accessor**, **request-dependent loader to stale include**, **template assignment to live host object**, or **configured safety knob to uncovered expression class**.
 - Include version, render-context lifetime, whether contexts are pooled, template path/name, loader policy inputs, member filter before/after, and fresh-context or fixed-version negative controls.
 - Frame impact conservatively around canary disclosure or policy bypass in the exact render path tested. Do not claim cross-tenant data exposure unless the proof uses two authorized synthetic tenants and shows content from one tenant reaching the other.
 - Keep all artifacts inert: fixed canary strings, disposable object models, synthetic template names, local loader logs, and redacted request metadata.
