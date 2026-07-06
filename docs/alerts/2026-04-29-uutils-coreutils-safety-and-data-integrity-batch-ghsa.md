@@ -31,6 +31,29 @@ Affected package: Rust `coreutils` / uutils. Fixed versions vary; upgrade to the
 
 References: <https://github.com/advisories/GHSA-v762-x3cf-5mfg>, <https://github.com/advisories/GHSA-w8m4-4v35-v6x3>, <https://github.com/advisories/GHSA-9gqx-53gp-c8g3>, <https://github.com/advisories/GHSA-vf87-345h-9qhx>, <https://github.com/advisories/GHSA-x2wv-9p67-mh9w>, <https://github.com/advisories/GHSA-957r-r8gc-vv3h>, <https://github.com/advisories/GHSA-hpfw-mqm3-33jh>, <https://github.com/advisories/GHSA-67hp-f6hq-2h6g>, <https://github.com/advisories/GHSA-m26v-hjq3-x245>, <https://github.com/advisories/GHSA-2m8x-mvfx-gwgj>, <https://github.com/advisories/GHSA-x4mc-mqm7-gg39>, <https://github.com/advisories/GHSA-v24v-f45g-w7jf>, <https://github.com/advisories/GHSA-9gh9-hwpr-rvqq>
 
+## July 6 filesystem, temp-file, and script-parity follow-up
+
+GitHub Advisory Database published another uutils/coreutils wave on **2026-07-06** covering package-level entries for `uu_rm`, `uu_install`, `uu_mktemp`, `uu_chmod`, `uu_id`, `uu_cut`, `uu_ln`, `uu_comm`, and `uu_kill`: [GHSA-7cr3-h577-g38j](https://github.com/advisories/GHSA-7cr3-h577-g38j) / CVE-2026-35349, [GHSA-gwm6-q8ch-hcfr](https://github.com/advisories/GHSA-gwm6-q8ch-hcfr) / CVE-2026-35356, [GHSA-239g-2685-54x3](https://github.com/advisories/GHSA-239g-2685-54x3) / CVE-2026-35355, [GHSA-2w8r-9xj7-69j5](https://github.com/advisories/GHSA-2w8r-9xj7-69j5) / CVE-2026-35342, [GHSA-4x34-chg5-mwjj](https://github.com/advisories/GHSA-4x34-chg5-mwjj) / CVE-2026-35339, [GHSA-xv5w-cw7x-72gj](https://github.com/advisories/GHSA-xv5w-cw7x-72gj) / CVE-2026-35371, [GHSA-wv33-5pxh-r7j7](https://github.com/advisories/GHSA-wv33-5pxh-r7j7) / CVE-2026-35343, [GHSA-jcjr-rh8q-7xqf](https://github.com/advisories/GHSA-jcjr-rh8q-7xqf) / CVE-2026-35373, [GHSA-6gcw-w7cp-94g9](https://github.com/advisories/GHSA-6gcw-w7cp-94g9) / CVE-2026-35346, and [GHSA-p6rv-2qpm-fwvg](https://github.com/advisories/GHSA-p6rv-2qpm-fwvg) / CVE-2026-35369.
+
+Operator value stays the same: replacement utilities become attack surface when privileged shell automation assumes GNU semantics. The July 6 items sharpen these validation patterns:
+
+| Utility | Boundary to validate | Safe proof shape |
+| --- | --- | --- |
+| `rm --preserve-root` | path-string checks can miss a symlink that resolves to `/` | Source review, version evidence, or mocked/container-only syscall traces. Do not run destructive root-deletion proofs. |
+| `install` / `install -D` | directory creation, unlink, and final write can happen through separate path lookups | Disposable lab tree with marker files only; prove whether a writable path component can redirect a write to another lab-owned path. |
+| `mktemp` | empty `TMPDIR` can move temporary files into the current working directory | Run in a throwaway project directory and show only synthetic marker files. |
+| `chmod -R` | recursive failures can be masked by a final successful entry | Lab tree with one intentionally denied path and one succeeding final path; capture exit code and stderr. |
+| `id`, `cut`, `ln`, `comm` | pretty-print identity, newline-delimited filtering, non-UTF-8 filenames, or lossy UTF-8 conversion can drift from GNU behavior | Compare GNU vs uutils with numeric identity controls and byte fixtures; connect drift to a concrete downstream script decision. |
+| `kill` | negative numeric arguments can cross from signal parsing into process-group targeting | Use source references or mocked syscall harnesses. Do not execute mass-signal forms on shared systems. |
+
+### July 6 triage additions
+
+1. Inventory whether target containers, CI workers, embedded appliances, or developer images use uutils instead of GNU coreutils.
+2. Prioritize scripts that run with elevated privileges and consume repository-controlled directories, symlinks, filenames, env vars, or record streams before calling these utilities.
+3. Treat utility version plus script reachability as the finding seed; package presence alone is weak evidence.
+4. Build proofs in disposable containers with marker-only artifacts, dry-run wrappers, byte-level diffs, and patched/GNU negative controls.
+5. Stop before production side effects: no destructive `rm`, no mass-signal `kill`, no high-value path overwrite, and no real secrets in temp-file or byte-diff artifacts.
+
 ## Triage
 1. Identify hosts, containers, CI images, and embedded appliances using uutils coreutils instead of GNU coreutils.
 2. Prioritize privileged scripts that call `rm -R`, `chmod -R`, `chown -R`, `chgrp -R`, `mkfifo`, `mkdir -m`, `cp -p`, `cp -R`, `cp --no-dereference`, `install`, `install -D`, cross-filesystem `mv`, `chroot --userspec`, `cut`, `env`, `tail --follow=name`, `dd`, `sort --files0-from`, `comm`, or `mktemp`.
