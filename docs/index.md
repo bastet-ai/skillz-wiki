@@ -8,7 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
-- [Better Auth, Aider, netfoil, CKAN MCP, and uutils boundary checks](alerts/2026-07-07-better-auth-aider-netfoil-ckan-mcp-boundaries-ghsa.md)
+- [Better Auth identity/OAuth follow-up plus Aider, netfoil, CKAN MCP, and uutils boundary checks](alerts/2026-07-07-better-auth-aider-netfoil-ckan-mcp-boundaries-ghsa.md)
 - [Langflow user-controlled-key auth-bypass KEV follow-up](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-7-langflow-user-controlled-key-auth-bypass-kev-follow-up)
 - [DNS rebinding local-service testing](methodology/dns-rebinding-local-service-testing.md)
 - [Open WebUI image-edit blind SSRF follow-up](alerts/2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md#july-7-image-edit-blind-ssrf-update)
