@@ -1,6 +1,6 @@
 # Open WebUI RAG, redirect-hop SSRF, and knowledge-boundary checks
 
-Sources: GitHub Security Advisories updates on 2026-05-15, with redirect-following details refreshed on 2026-05-28 and Playwright loader coverage added on 2026-06-18.
+Sources: GitHub Security Advisories updates on 2026-05-15, with redirect-following details refreshed on 2026-05-28, Playwright loader coverage added on 2026-06-18, and image-edit blind SSRF coverage added on 2026-07-07.
 
 This Open WebUI-heavy wave is durable because it shows how RAG, file attach, vector-search, web-fetch, image-load, chat-completion image inlining, and social-card image generation features collapse separate trust zones when URL validation, object ownership, and collection routing are not enforced at the final use site. Treat every retrieval object, redirect, vector collection, knowledge-base identifier, and model-message URL as attacker-controlled until the exact worker that dereferences it revalidates ownership and destination.
 
@@ -16,6 +16,7 @@ This Open WebUI-heavy wave is durable because it shows how RAG, file attach, vec
 - **Open WebUI vulnerable to Global Knowledge Base Enumeration via knowledge-bases Meta-Collection** — [GHSA-6c2x-gcp3-gp73](https://github.com/advisories/GHSA-6c2x-gcp3-gp73) / CVE-2026-44557 (medium).
 - **Open WebUI has Knowledge Base Destruction and RAG Poisoning via Unauthorized Collection Overwrite** — [GHSA-7r82-qhg4-6wvj](https://github.com/advisories/GHSA-7r82-qhg4-6wvj) / CVE-2026-44554 (high).
 - **Open WebUI: SSRF Protection Bypass in Playwright Web Loader via HTTP Redirects** — [GHSA-jrfp-m64g-pcwv](https://github.com/advisories/GHSA-jrfp-m64g-pcwv) / CVE-2026-54018 (high).
+- **Open WebUI has Blind Server Side Request Forgery in its Image Edit Functionality** — [GHSA-jgx9-jr5x-mvpv](https://github.com/advisories/GHSA-jgx9-jr5x-mvpv) / CVE-2026-34225 (medium; `open-webui` `<= 0.7.2`, no patched version listed in the advisory at publication time).
 - **nuxt-og-image SSRF — bypass of GHSA-pqhr-mp3f-hrpp / v6.2.5 fix (IPv6 + redirect)** — [GHSA-c2rm-g55x-8hr5](https://github.com/advisories/GHSA-c2rm-g55x-8hr5) / CVE-2026-44589 (low).
 
 ## Operator triage
@@ -55,11 +56,25 @@ Safe validation workflow:
 
 Report this as **Playwright redirect-chain SSRF in RAG URL loader**, not as generic SSRF. The important boundary is that validation occurred before browser navigation rather than on each redirect and subrequest.
 
+## July 7 image-edit blind SSRF update
+
+[GHSA-jgx9-jr5x-mvpv](https://github.com/advisories/GHSA-jgx9-jr5x-mvpv) adds a separate image-edit fetch boundary: `/api/v1/images/edit` accepted a user-supplied `form_data.image` URL, passed it into `load_url_image`, and trusted `http://` / `https://` targets before calling `requests.get`. The advisory describes the result as blind SSRF: the caller does not read the response body, but request success/failure is enough to infer reachable hosts or open ports from the Open WebUI server's network position.
+
+Safe validation workflow:
+
+1. Test only in an owned lab or customer-approved Open WebUI deployment with a low-privilege account and a harmless image-edit prompt.
+2. Use an owned callback listener and a synthetic internal canary service. Positive proof is a GET from the Open WebUI backend to the canary, or a controlled success/failure differential against explicitly authorized canary ports.
+3. Exercise the exact image-edit path, not only generic RAG web-fetch endpoints. Include the Open WebUI version, route, request timestamp, and callback path in evidence.
+4. Avoid broad port sweeps, cloud metadata, Kubernetes service discovery, admin panels, notebooks, model files, API keys, or any service that was not explicitly designated as a canary.
+
+Report this as **image-edit URL-to-backend blind SSRF**. The reusable lesson is that AI media features often fetch user-controlled image inputs from backend workers; each image, avatar, citation, OCR, edit, and generation helper needs destination validation at the final HTTP client, even when the response body is not returned.
+
 ## Durable controls
 
 - SSRF controls must bind validation to the socket destination after redirects, DNS resolution, IP normalization, and protocol upgrades; validating the original string is not enough.
 - Disable automatic redirects or implement a manual redirect loop that validates every `Location` before the next request.
 - For browser-based loaders, install a request/route interceptor and validate every navigation, redirect, and subresource URL before allowing the browser to continue.
+- Treat media helper URLs as SSRF sinks even when they return only image bytes or a boolean success state. Blind success/failure, timing, and content-type differences are enough to prove backend reachability.
 - Object authorization belongs at the dereference point: file IDs, collection names, RAG search results, folder knowledge entries, and attach endpoints must all re-check owner, workspace, and share grants.
 - Vector-store collection names and metadata are security boundaries. Prefix by tenant/user, reject caller-supplied collection targets, and deny destructive operations unless the server resolved the object from an authorized parent.
 - Unauthenticated configuration endpoints should never disclose retrieval providers, internal network targets, embedding settings, or storage layout that make SSRF/RAG attacks easier.
