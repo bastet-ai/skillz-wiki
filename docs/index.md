@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [EGroupware template/mail, XWiki skin, and New API notification-boundary checks](alerts/2026-07-07-egroupware-xwiki-newapi-boundaries-ghsa.md)
 - [Langroid raw tool JSON, eval, and SQL validator follow-up](alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-6-raw-tool-json-tablechatagent-eval-and-sqlchatagent-regex-bypass-follow-up)
 - [Cilium Local Redirect Policy cross-namespace service follow-up](alerts/2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md#july-6-cilium-local-redirect-policy-cross-namespace-service-follow-up)
 - [`decompress` archive extraction boundary follow-up](alerts/2026-05-06-archive-and-file-extraction-boundary-batch-ghsa.md#july-6-decompress-symlink-hardlink-prefix-and-mode-follow-up)
@@ -18,7 +19,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Craft CMS referrer and file-read follow-up](alerts/2026-05-06-craft-pyload-and-wooey-app-authorization-boundary-batch-ghsa.md#july-6-craft-cms-referrer-and-file-read-follow-up)
 - [uutils coreutils filesystem, temp-file, and script-parity follow-up](alerts/2026-04-29-uutils-coreutils-safety-and-data-integrity-batch-ghsa.md#july-6-filesystem-temp-file-and-script-parity-follow-up)
 - [Coder workspace app-proxy, identity, and AI Bridge follow-up](alerts/2026-07-01-agent-repo-registry-boundaries-ghsa.md#july-6-coder-workspace-app-proxy-identity-and-ai-bridge-follow-up)
-- [OpenRemote KNX import and realm-boundary follow-up](alerts/2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md#july-6-openremote-knx-import-and-realm-boundary-follow-up)
 
 ## What lives here
 

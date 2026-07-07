@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [EGroupware template/mail, XWiki skin, and New API notification-boundary checks](2026-07-07-egroupware-xwiki-newapi-boundaries-ghsa.md)
 - [Langroid raw tool JSON, eval, and SQL validator follow-up](2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-6-raw-tool-json-tablechatagent-eval-and-sqlchatagent-regex-bypass-follow-up)
 - [Cilium Local Redirect Policy cross-namespace service follow-up](2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md#july-6-cilium-local-redirect-policy-cross-namespace-service-follow-up)
 - [`decompress` archive extraction boundary follow-up](2026-05-06-archive-and-file-extraction-boundary-batch-ghsa.md#july-6-decompress-symlink-hardlink-prefix-and-mode-follow-up)
