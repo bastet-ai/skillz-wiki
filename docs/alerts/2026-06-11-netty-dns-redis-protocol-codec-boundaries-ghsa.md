@@ -1,6 +1,6 @@
 # Netty protocol codec boundary checks
 
-Source: hourly offensive-security scan, 2026-06-11, with updated-feed follow-up on 2026-06-29. Primary entries: GitHub advisories [GHSA-cm33-6792-r9fm](https://github.com/advisories/GHSA-cm33-6792-r9fm) / CVE-2026-42579 for Netty `codec-dns` input validation bypass, [GHSA-rgrr-p7gp-5xj7](https://github.com/advisories/GHSA-rgrr-p7gp-5xj7) / CVE-2026-42586 for Netty `codec-redis` CRLF injection, and [GHSA-p979-4mfw-53vg](https://github.com/advisories/GHSA-p979-4mfw-53vg) / CVE-2019-16869 for Netty HTTP header whitespace request smuggling.
+Source: hourly offensive-security scan, 2026-06-11, with updated-feed follow-ups on 2026-06-29 and 2026-07-07. Primary entries: GitHub advisories [GHSA-cm33-6792-r9fm](https://github.com/advisories/GHSA-cm33-6792-r9fm) / CVE-2026-42579 for Netty `codec-dns` input validation bypass, [GHSA-rgrr-p7gp-5xj7](https://github.com/advisories/GHSA-rgrr-p7gp-5xj7) / CVE-2026-42586 for Netty `codec-redis` CRLF injection, [GHSA-p979-4mfw-53vg](https://github.com/advisories/GHSA-p979-4mfw-53vg) / CVE-2019-16869 for Netty HTTP header whitespace request smuggling, [GHSA-676x-f7gg-47vc](https://github.com/advisories/GHSA-676x-f7gg-47vc) / CVE-2026-45674 and [GHSA-5pvg-856g-cp85](https://github.com/advisories/GHSA-5pvg-856g-cp85) / CVE-2026-47691 for DNS bailiwick cache-poisoning gaps, [GHSA-h2qv-fj59-j46j](https://github.com/advisories/GHSA-h2qv-fj59-j46j) / CVE-2026-48059 for HAProxy PROXY v2 nested SSL TLV buffer leaks, and [GHSA-6jv9-x5w9-2ccm](https://github.com/advisories/GHSA-6jv9-x5w9-2ccm) / CVE-2026-48006 for Redis aggregate lifecycle leaks.
 
 This is durable for operators because these advisories expose the same reusable test class: **application-controlled protocol tokens cross into a Netty encoder/decoder without enforcing the delimiter, length, or grammar rules that downstream protocol peers rely on**.
 
@@ -88,6 +88,44 @@ Safe validation workflow:
 4. Record whether the front end and Netty origin disagree about the presence or meaning of `Transfer-Encoding`, `Content-Length`, or another hop-sensitive header.
 
 Evidence should show the escaped raw bytes, front-end response, origin/canary observation, and whether the result is limited to rejection/normalization or reaches a real queue, route, cache, or auth-boundary effect. Do not publish weaponized desync payloads, target other users' requests, or use protected production paths as proof.
+
+## July 7 DNS bailiwick and buffer-lifecycle follow-up
+
+The July 7 updated-feed wave adds four adjacent Netty items that belong on this same protocol-boundary page rather than a duplicate alert.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-676x-f7gg-47vc](https://github.com/advisories/GHSA-676x-f7gg-47vc) / CVE-2026-45674 | Netty `DnsResolveContext#buildAliasMap` | CNAME records from DNS answers can be cached without confirming the response origin is authoritative for the queried name | Resolver assessments should test whether attacker-controlled authoritative zones can influence aliases outside their bailiwick in a disposable DNS lab. |
+| [GHSA-5pvg-856g-cp85](https://github.com/advisories/GHSA-5pvg-856g-cp85) / CVE-2026-47691 | Netty `AuthoritativeNameServerList` / `handleWithAdditional` | NS records and additional A records from a subdomain response can be cached under a parent-domain authority key | DNS cache-poisoning validation should prove parent-zone authority confusion only with owned domains and mock resolvers, not public suffixes or shared resolvers. |
+| [GHSA-h2qv-fj59-j46j](https://github.com/advisories/GHSA-h2qv-fj59-j46j) / CVE-2026-48059 | Netty HAProxy PROXY protocol v2 codec | syntactically valid nested `PP2_TYPE_SSL` TLVs can pin pooled buffers on successful parse paths | Edge/proxy reviews should map whether untrusted clients can send PROXY v2 frames directly to a Netty listener that assumes only a trusted load balancer speaks that protocol. |
+| [GHSA-6jv9-x5w9-2ccm](https://github.com/advisories/GHSA-6jv9-x5w9-2ccm) / CVE-2026-48006 | Netty Redis `RedisArrayAggregator` | incomplete RESP arrays retained during connection teardown can leak pooled direct buffers | Redis-proxy reviews should test parser lifecycle cleanup against disposable Redis/mock services when arbitrary peers can open and drop protocol connections. |
+
+### DNS bailiwick cache-boundary harness
+
+Use this only with domains and resolvers you control.
+
+- Preconditions: vulnerable Netty resolver version, an application feature that resolves user-controlled hostnames through Netty DNS, one owned parent zone, one owned delegated child zone, and a disposable recursive/cache harness.
+- Configure an authoritative server for the child zone to return only canary records. Do not target public suffixes, customer parent zones, or third-party resolvers.
+- For CNAME testing, answer a query for a child-zone host with an alias or record set that should be out of bailiwick for that authority. Record whether Netty caches the alias outside the intended authority boundary.
+- For NS/additional testing, answer a child-zone query with a parent-zone NS claim plus additional A canaries. Record whether the parent authority cache key is populated from the child response.
+- Positive evidence: subsequent resolutions in the same lab resolver context use the canary out-of-bailiwick CNAME/NS/additional data.
+- Negative controls: patched Netty build, strict bailiwick rejection, empty cache after the child-zone response, and an in-bailiwick canary that remains accepted.
+- Do not poison shared resolvers, `.co.uk`-style public suffixes, production parent domains, customer DNS, or real service records.
+
+Report this as **authoritative DNS response to Netty resolver cache authority confusion**. Include zone ownership, query name, response authority, cache key observed, TTL, and patched behavior.
+
+### PROXY v2 and Redis parser-lifecycle harness
+
+Use this only on isolated listeners or mock services.
+
+- Preconditions: vulnerable Netty version, a lab listener that enables the HAProxy PROXY v2 decoder or Redis aggregation path, and local metrics/logging for buffer allocation behavior.
+- For PROXY v2, send a syntactically valid header with nested SSL TLV structure only to a listener explicitly configured for the test. Stop at parser acceptance and controlled buffer-retention evidence.
+- For Redis, open a disposable connection to a mock Redis/Netty pipeline, start an aggregate RESP array with canary bulk strings, then close before completion. Observe whether retained buffers are released on channel teardown.
+- Positive evidence: parser-success or teardown paths retain buffers across repeated lab iterations while the application releases normal messages.
+- Negative controls: patched Netty, non-nested PROXY TLV, complete RESP array, and lifecycle hooks that release retained child messages.
+- Do not run high-volume exhaustion, target production load balancers, spoof real client IPs, interact with production Redis, or consume live queues/keys.
+
+Report this as **protocol parser lifecycle cleanup failure**, not generic DoS. Include listener exposure, trusted-proxy assumption, protocol frame class, iteration count, memory metric class, and patch/control comparison.
 
 ## Evidence to capture
 

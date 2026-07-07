@@ -35,6 +35,23 @@ These are different surfaces with the same failure mode: trusted runtimes accept
 - Open build-root files with no-follow semantics and enforce canonical path containment at every file operation.
 - Keep per-request configuration overrides on a strict allowlist with types, ranges, and no command/runtime keys.
 
+## July 7 ArchiveBox AddView config-to-plugin follow-up
+
+The July 7 updated-feed refresh for [GHSA-3h23-7824-pj8r](https://github.com/advisories/GHSA-3h23-7824-pj8r) / CVE-2026-42601 adds enough implementation detail to make the ArchiveBox item a replayable operator workflow. The crossed boundary is:
+
+```text
+untrusted URL submission -> per-job config merge -> process environment -> archiver CLI arguments / binary selector
+```
+
+Prioritize ArchiveBox targets where `/add/` is reachable by unauthenticated users, bookmarklets, shared teams, or semi-trusted contributors; `PUBLIC_ADD_VIEW=True` is enabled; or archive plugins accept extra arguments, post-processing hooks, browser flags, downloader binaries, or external converters.
+
+Safe validation boundaries:
+
+- **Config-key acceptance:** submit an owned benign URL to a disposable ArchiveBox lab, then repeat with harmless `config` keys. Positive evidence is a low-trust request-controlled key appearing in crawl config or plugin environment when it should be server-owned. Negative controls are patched allowlist rejection, type validation, and logs showing only server-derived config.
+- **Tool-argument / binary-selector canary:** only when explicitly authorized in a lab, use an inert wrapper or fixed temp marker to prove request-derived config can influence plugin arguments or selected binaries. Prefer argument-echo wrappers over real command execution.
+
+Do not publish command payloads, reverse shells, environment dumps, archive database paths, browser profile paths, cookies, credentials, or production filesystem paths. Report this as **URL submission config to archive-plugin runtime control**, with route, auth state, config key, merge point, plugin name, job ID, and patched behavior.
+
 ## Operator lesson
 
 If an input can change how a tool builds, crawls, parses, uploads, or shells out, it is not metadata. Treat it as code until proven otherwise.
