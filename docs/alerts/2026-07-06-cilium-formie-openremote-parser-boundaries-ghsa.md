@@ -105,3 +105,19 @@ A later July 6 GitHub Advisory Database entry adds [GHSA-cgfv-jrfp-2r7v](https:/
 - Positive evidence: database parser errors, generated-query logs, or export output prove the parameter entered SQL structure rather than a bound value.
 - Negative controls: patched build, fixed enum/identifier allowlists, parameterized values, and the same export succeeding with only valid dimensions.
 - Do not dump unrelated tables, enumerate tenants, run time-heavy queries, or export production telemetry. Report this as **authenticated export parameter to SQL crosstab construction**.
+
+## July 6 Cilium Local Redirect Policy cross-namespace service follow-up
+
+[GHSA-q6h5-q3q6-f87x](https://github.com/advisories/GHSA-q6h5-q3q6-f87x) / CVE-2026-53935 adds another Cilium boundary: users who can create `CiliumLocalRedirectPolicy` objects can specify arbitrary `addressMatcher` ClusterIPs, which can redirect traffic for Services in other namespaces and break the namespace scoping that `serviceMatcher` normally provides.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-q6h5-q3q6-f87x](https://github.com/advisories/GHSA-q6h5-q3q6-f87x) | Cilium Local Redirect Policy `addressMatcher` | namespace-scoped policy authors can steer service traffic by raw ClusterIP instead of being confined to same-namespace service selectors | Kubernetes reviews should test policy CRDs for object-reference and raw-address equivalence, especially where one selector path has namespace checks and a sibling path does not. |
+
+### Cilium local-redirect service-hijack harness
+
+- Preconditions: disposable Kubernetes cluster, affected Cilium version, two synthetic namespaces, one canary Service in namespace A, a low-trust policy author in namespace B, and no production service traffic.
+- Create a benign canary backend in namespace B and a `CiliumLocalRedirectPolicy` using `addressMatcher` for the namespace A Service ClusterIP. Positive evidence is only canary traffic or Cilium policy state showing namespace B can redirect namespace A's service address.
+- Compare with a `serviceMatcher` policy that should enforce namespace scoping, and with a patched Cilium build that rejects the same cross-namespace address match.
+- Do not redirect production Services, metadata endpoints, kube-system traffic, databases, ingress controllers, or customer workloads. Avoid policy deletion tests that could disrupt service translation outside an isolated lab.
+- Report this as **namespace-scoped CRD author to cross-namespace service traffic steering** with Cilium version, CRD YAML, source/destination namespaces, ClusterIP mapping, canary backend evidence, and fixed-version negative control.

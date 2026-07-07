@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Langroid raw tool JSON, eval, and SQL validator follow-up](2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-6-raw-tool-json-tablechatagent-eval-and-sqlchatagent-regex-bypass-follow-up)
+- [Cilium Local Redirect Policy cross-namespace service follow-up](2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md#july-6-cilium-local-redirect-policy-cross-namespace-service-follow-up)
+- [`decompress` archive extraction boundary follow-up](2026-05-06-archive-and-file-extraction-boundary-batch-ghsa.md#july-6-decompress-symlink-hardlink-prefix-and-mode-follow-up)
 - [flyto-core HTTP MCP execution and SSRF guard-boundary checks](2026-07-06-flyto-mcp-ssrf-boundaries-ghsa.md)
 - [Scriban `TemplateContext`, object mass-assignment, and sandbox-boundary checks](2026-07-06-scriban-template-context-boundaries-ghsa.md)
 - [Cilium Envoy socket, Formie hidden-field SSTI, OpenRemote datapoint, and Open Babel parser-boundary checks](2026-07-06-cilium-formie-openremote-parser-boundaries-ghsa.md)

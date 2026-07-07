@@ -73,3 +73,22 @@ GitHub Advisory Database published [GHSA-2pq5-3q89-j7cc](https://github.com/advi
 - Positive evidence: the agent executes a query class outside the intended read-only graph-question boundary. If a dangerous procedure is enabled in a lab, stop at a fixed canary string or temp marker and document the enabling precondition.
 - Negative controls: strict generated-query allowlist, procedure deny/allow policy, read-only database credentials, patched Langroid behavior, and a same prompt rejected before Neo4j execution.
 - Report this as **untrusted prompt/RAG content to unconstrained Cypher execution**. Never read real graph data, run shell commands, access filesystem paths, or connect to production Neo4j plugins.
+
+## July 6 raw tool JSON, TableChatAgent eval, and SQLChatAgent regex-bypass follow-up
+
+Later July 6 GitHub Advisory Database entries add three adjacent Langroid tool-boundary cases: [GHSA-gjgq-w2m6-wr5q](https://github.com/advisories/GHSA-gjgq-w2m6-wr5q) / CVE-2026-54771 for direct user-supplied tool JSON reaching `handle_message()`, [GHSA-q9p7-wqxg-mrhc](https://github.com/advisories/GHSA-q9p7-wqxg-mrhc) / CVE-2026-54769 for `TableChatAgent` / `VectorStore` `full_eval=True` sandbox escape through implicit Python builtins, and [GHSA-6xc5-4r68-67fc](https://github.com/advisories/GHSA-6xc5-4r68-67fc) / CVE-2026-54760 for `SQLChatAgent` dangerous-function regex bypasses using quoted, commented, or schema-qualified PostgreSQL function names.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-gjgq-w2m6-wr5q](https://github.com/advisories/GHSA-gjgq-w2m6-wr5q) | Langroid `agent_response()` / `handle_message()` tool dispatch | raw user chat content can be parsed as tool JSON even when a tool is configured `use=False, handle=True` | Agent reviews must verify tool-call origin and sender identity, not only whether the LLM is allowed to generate a tool call. |
+| [GHSA-q9p7-wqxg-mrhc](https://github.com/advisories/GHSA-q9p7-wqxg-mrhc) | `TableChatAgent` and `VectorStore` with `full_eval=True` | generated Python evaluation can receive implicit `__builtins__` and escape the intended dataframe/vector expression sandbox | Eval sandboxes need explicit global and builtin removal plus process isolation; empty locals alone is not containment. |
+| [GHSA-6xc5-4r68-67fc](https://github.com/advisories/GHSA-6xc5-4r68-67fc) | `SQLChatAgent` `_validate_query` | blocklist regexes miss equivalent PostgreSQL callable syntax such as quoted identifiers, comments before `(`, or schema-qualified functions | SQL-agent validation must parse and classify final AST/function calls, not rely on raw-text regex matches. |
+
+### Safe validation additions
+
+- Preconditions: isolated Langroid lab, affected versions, no production tools, no real database files, synthetic chat users, disposable dataframe/vector data, and least-privilege scratch PostgreSQL only when testing SQL.
+- For raw tool JSON, register an inert test tool with `use=False, handle=True` that returns only a fixed marker. Send the JSON as a user message and record whether the handler runs despite the sender being `Entity.USER`. Negative control: dispatcher rejects user-originated tool messages unless the tool is explicitly user-callable.
+- For `full_eval=True`, use only a marker expression in a disposable process to prove whether builtins are present. Stop at a fixed string or temp marker; do not run shells, import network clients, read files, or access environment variables.
+- For `SQLChatAgent`, build a decision table of equivalent PostgreSQL function-call spellings against a synthetic file or mocked query logger. Positive evidence can be validator acceptance or generated-query logs; do not read `/etc/passwd`, database config, cloud metadata, logs, or customer data.
+- Negative controls: final tool-call origin checks, explicit `__builtins__={}` plus sandboxed subprocesses where eval remains necessary, AST-based SQL function allowlists, read-only database credentials, and patched Langroid behavior.
+- Report these as **user message to unauthorized tool handler**, **LLM output to Python eval builtins**, or **prompt-shaped SQL to parser-equivalent file function**. Include configuration flags, sender/source, final tool or query input, marker-only result, and fixed-version rejection.
