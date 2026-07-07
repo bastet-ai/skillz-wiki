@@ -1,6 +1,6 @@
 # Langflow, Mailpit, Outerbase, Miniflux, and render-boundary checks
 
-Source: hourly offensive-security scan, 2026-06-19; updated 2026-06-23 for the Langflow monitor API ownership issue. Primary entries: GitHub advisories [GHSA-wwf9-7jrc-rv4q](https://github.com/advisories/GHSA-wwf9-7jrc-rv4q), [GHSA-ccv6-r384-xp75](https://github.com/advisories/GHSA-ccv6-r384-xp75), [GHSA-qrpv-q767-xqq2](https://github.com/advisories/GHSA-qrpv-q767-xqq2), [GHSA-9c59-2mvc-vfr8](https://github.com/advisories/GHSA-9c59-2mvc-vfr8), [GHSA-w4mc-hhc6-xp28](https://github.com/advisories/GHSA-w4mc-hhc6-xp28), [GHSA-m999-j542-5w3r](https://github.com/advisories/GHSA-m999-j542-5w3r), [GHSA-7h5p-637f-jfr7](https://github.com/advisories/GHSA-7h5p-637f-jfr7), and [GHSA-c29q-5xm7-5p62](https://github.com/advisories/GHSA-c29q-5xm7-5p62).
+Source: hourly offensive-security scan, 2026-06-19; updated 2026-06-23 for the Langflow monitor API ownership issue and 2026-07-07 for Langflow [CVE-2026-55255](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) KEV user-controlled-key authorization bypass. Primary entries: GitHub advisories [GHSA-wwf9-7jrc-rv4q](https://github.com/advisories/GHSA-wwf9-7jrc-rv4q), [GHSA-ccv6-r384-xp75](https://github.com/advisories/GHSA-ccv6-r384-xp75), [GHSA-qrpv-q767-xqq2](https://github.com/advisories/GHSA-qrpv-q767-xqq2), [GHSA-9c59-2mvc-vfr8](https://github.com/advisories/GHSA-9c59-2mvc-vfr8), [GHSA-w4mc-hhc6-xp28](https://github.com/advisories/GHSA-w4mc-hhc6-xp28), [GHSA-m999-j542-5w3r](https://github.com/advisories/GHSA-m999-j542-5w3r), [GHSA-7h5p-637f-jfr7](https://github.com/advisories/GHSA-7h5p-637f-jfr7), and [GHSA-c29q-5xm7-5p62](https://github.com/advisories/GHSA-c29q-5xm7-5p62).
 
 This batch is durable because each issue maps to a repeatable web-app or AI-workflow boundary: user-controlled dashboard widgets rendered with application tokens in scope, Langflow node configuration crossing into local file reads and execution-capable flows, response and monitor IDs crossing tenant/user ownership checks, mail-link preview APIs missing address-canonicalization coverage, redirect targets bypassing URL policy, and MediaWiki extension template variables crossing into stored HTML.
 
@@ -63,7 +63,21 @@ This batch is durable because each issue maps to a repeatable web-app or AI-work
 - Include unsupported-service and validation-error paths; many render bugs live in error output rather than normal templates.
 - Do not publish payloads that steal cookies, administrator tokens, or cross-site request tokens; show marker rendering and context instead.
 
+## July 7 Langflow user-controlled-key auth-bypass KEV follow-up
+
+CISA added [CVE-2026-55255](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) to KEV on 2026-07-07 as a Langflow authorization-bypass issue through a user-controlled key. Treat this as an adjacent Langflow API ownership/key-binding workflow rather than a separate generic alert.
+
+Operator validation stays inside the existing two-user Langflow lab:
+
+- Create user A and user B, each with separate flows, sessions, response history, monitor entries, API keys or share keys, and any workspace-scoped objects exposed by the target version.
+- For every endpoint that accepts a caller-supplied key, ID, token, `flow_id`, message ID, session ID, project/workspace ID, or share key, test whether the server derives ownership from trusted session context or from the user-controlled parameter.
+- Safe positive evidence is a synthetic object marker, controlled route-state change, or redacted metadata field from user A becoming visible or mutable to user B.
+- Negative controls should include a patched version, an unrelated random key, a valid key bound to the wrong user, and a valid key with a mismatched flow/workspace ID.
+- Do not collect real prompts, model outputs, uploaded documents, vector-store contents, API keys, environment variables, or tenant data.
+
+Add this boundary name to reports when it applies: **caller-controlled Langflow key to cross-user or cross-workspace authorization context**.
+
 ## Reporting notes
 
-- Name the crossed boundary precisely: **widget content to token-bearing dashboard origin**, **AI file-node parameter to server file read**, **flow response ID to another user's history**, **monitor `flow_id` to another user's transaction/build logs**, **message/session ID to cross-user history mutation**, **IPv6 transition URL to link-check SSRF**, **redirect parser bypass to privileged navigation**, **embed class to stored HTML**, or **provider error text to stored HTML**.
+- Name the crossed boundary precisely: **widget content to token-bearing dashboard origin**, **AI file-node parameter to server file read**, **flow response ID to another user's history**, **monitor `flow_id` to another user's transaction/build logs**, **message/session ID to cross-user history mutation**, **caller-controlled Langflow key to cross-user authorization context**, **IPv6 transition URL to link-check SSRF**, **redirect parser bypass to privileged navigation**, **embed class to stored HTML**, or **provider error text to stored HTML**.
 - Include version, authentication role, workspace/tenant IDs, URL parser normalization, network callback evidence, and negative controls. Keep evidence to synthetic markers and owned infrastructure.
