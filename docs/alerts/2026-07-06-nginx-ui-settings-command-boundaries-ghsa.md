@@ -1,8 +1,8 @@
-# Nginx-UI hidden settings, certificate file-write, and ordered-query boundary checks
+# Nginx-UI hidden settings, certificate file-write, backup-restore, and ordered-query boundary checks
 
-Source: hourly offensive-security scan, 2026-07-06. Primary entries: GitHub Advisory Database [GHSA-xvq9-4vpv-227m](https://github.com/advisories/GHSA-xvq9-4vpv-227m) / CVE-2024-23827, [GHSA-8r25-68wm-jw35](https://github.com/advisories/GHSA-8r25-68wm-jw35) / CVE-2024-22198, [GHSA-pxmr-q2x3-9x9m](https://github.com/advisories/GHSA-pxmr-q2x3-9x9m) / CVE-2024-22197, and [GHSA-h374-mm57-879c](https://github.com/advisories/GHSA-h374-mm57-879c) / CVE-2024-22196.
+Source: hourly offensive-security scan, 2026-07-06. Primary entries: GitHub Advisory Database [GHSA-xvq9-4vpv-227m](https://github.com/advisories/GHSA-xvq9-4vpv-227m) / CVE-2024-23827, [GHSA-8r25-68wm-jw35](https://github.com/advisories/GHSA-8r25-68wm-jw35) / CVE-2024-22198, [GHSA-pxmr-q2x3-9x9m](https://github.com/advisories/GHSA-pxmr-q2x3-9x9m) / CVE-2024-22197, [GHSA-h374-mm57-879c](https://github.com/advisories/GHSA-h374-mm57-879c) / CVE-2024-22196, and 2026-07-07 update [GHSA-fhh2-gg7w-gwpq](https://github.com/advisories/GHSA-fhh2-gg7w-gwpq) / CVE-2026-33026.
 
-These advisories are durable for operators because they expose a reusable management-dashboard pattern: a low-privilege authenticated API can accept filesystem paths, certificate bodies, or configuration keys that the UI constrains or hides, then later file writers, command runners, or database helpers trust those values. Keep proofs to disposable Nginx-UI labs, inert command markers, disposable certificate-path marker files, SQL parser errors or timing-safe canaries, and explicit role/route decision tables only.
+These advisories are durable for operators because they expose a reusable management-dashboard pattern: a low-privilege authenticated API can accept filesystem paths, certificate bodies, backup archives, or configuration keys that the UI constrains or hides, then later restore flows, file writers, command runners, or database helpers trust those values. Keep proofs to disposable Nginx-UI labs, inert command markers, disposable certificate-path marker files, tampered backup marker configs, SQL parser errors or timing-safe canaries, and explicit role/route decision tables only.
 
 ## What changed
 
@@ -12,6 +12,7 @@ These advisories are durable for operators because they expose a reusable manage
 | [GHSA-8r25-68wm-jw35](https://github.com/advisories/GHSA-8r25-68wm-jw35) / CVE-2024-22198 | Nginx-UI settings API, versions before `1.9.10-0.20231219184941-827e76c46e63` | any authenticated user could submit the hidden `start_cmd` setting, then trigger it through the web terminal path | Test management UIs for API-only settings that become shell command templates when a later feature opens a terminal, runner, job, or maintenance action. |
 | [GHSA-pxmr-q2x3-9x9m](https://github.com/advisories/GHSA-pxmr-q2x3-9x9m) / CVE-2024-22197 | Nginx-UI settings API, versions before `1.9.10-0.20231219184941-827e76c46e63` | any authenticated user could submit hidden nginx command settings such as `test_config_cmd`, `reload_cmd`, or `restart_cmd` even though the UI exposed only benign preference fields | Test whether hidden or undocumented configuration fields cross from low-privilege settings APIs into privileged service-control commands. |
 | [GHSA-h374-mm57-879c](https://github.com/advisories/GHSA-h374-mm57-879c) / CVE-2024-22196 | Nginx-UI `OrderAndPaginate`, versions before `1.9.10-0.20231219195202-ec93ab05a3ec` | `sort_by` and `order` query parameters were interpolated into a GORM `Order()` clause | Audit list, table, and search endpoints where user-controlled sort keys become SQL fragments instead of allowlisted column identifiers. |
+| [GHSA-fhh2-gg7w-gwpq](https://github.com/advisories/GHSA-fhh2-gg7w-gwpq) / CVE-2026-33026 | Nginx-UI backup/restore, versions before `1.9.10-0.20260315015203-f61bcec547c0` | backup contents, hashes, and encrypted integrity metadata are all attacker-recomputable when the client-held backup token exposes the AES key/IV; restore may proceed even after integrity warnings | Test backup import/restore features for circular trust: client-held keys plus in-archive integrity metadata that lets a supplied backup rewrite app config or command settings during restore. |
 
 ## Operator triage
 
@@ -19,8 +20,8 @@ Prioritize Nginx-UI or similar dashboard targets where all of these are true:
 
 1. You have an authorized low-privilege account or scoped test token, not just admin access.
 2. The application exposes settings, preferences, certificate import, node, service-control, terminal, or maintenance APIs separate from what the browser UI renders.
-3. API responses or JavaScript bundles reveal configuration keys or path fields that are hidden, disabled, or constrained differently from the visible form.
-4. A later route consumes those settings or import values as shell commands, process arguments, nginx control commands, file paths, or SQL order expressions.
+3. API responses or JavaScript bundles reveal configuration keys, backup tokens, restore paths, or path fields that are hidden, disabled, or constrained differently from the visible form.
+4. A later route consumes those settings, restored files, backup metadata, or import values as shell commands, process arguments, nginx control commands, file paths, or SQL order expressions.
 5. The target controls real infrastructure, reverse proxies, deployment nodes, web terminals, or service reload paths.
 
 Lower priority: single-admin deployments with no role boundary, patched builds with server-side key allowlists, settings saved only in an isolated lab namespace, or sort parameters that are mapped through fixed column enums before reaching the ORM.
@@ -54,6 +55,21 @@ Use this only in a disposable Nginx-UI lab or an explicitly authorized staging t
 
 Report this as **low-privilege settings API to privileged command runner**, not just command injection. Strong evidence includes role, route, hidden field name, before/after settings diff with secrets redacted, trigger route, marker-only execution evidence, and patched/role-negative controls.
 
+### Backup token to restore-time configuration tampering check
+
+Use this only in a disposable Nginx-UI lab or an explicitly authorized restore-test environment. Restoring a backup can replace configuration and application state, so do not run this against production instances.
+
+- Preconditions: affected version, an authorized user that can create and restore backups, a disposable lab instance, and a known-good backup containing only synthetic nginx/app configuration.
+- Generate a backup and record only the presence/location of the backup token; do not publish real key/IV material. Confirm whether the token is delivered to the client through response headers, a sidecar `.key` file, or another export artifact.
+- Offline, decrypt only the synthetic backup copies in a temp directory. Identify whether `hash_info.txt`, `nginx-ui.zip`, and `nginx.zip` are all protected by the same client-held token.
+- Modify a harmless marker value in the restored app configuration, such as a lab-only banner, inert `StartCmd` marker, or disposable nginx comment. Recompute hashes and re-encrypt the archive with the same token.
+- Restore the tampered archive in the lab.
+- Positive evidence: the restore flow accepts the modified archive or proceeds after integrity warnings, and the synthetic marker configuration appears after restore.
+- Negative controls: patched build, server-side restore rejection on hash mismatch, server-held signature/integrity root, restore role denied to the test user, and a tampered archive with intentionally invalid hashes.
+- Do not insert backdoors, web shells, real nginx directives, real command payloads, credentials, or production configuration. Do not publish full decrypt/repack exploit scripts or live backup tokens.
+
+Report this as **client-held backup token to restore-time configuration control**. Strong evidence includes version, restore role, backup artifact layout, which files are covered by self-contained integrity metadata, whether warnings abort restoration, the synthetic config marker before/after restore, and patched-build behavior.
+
 ### Sort parameter to SQL `ORDER BY` fragment check
 
 Use this for authenticated list/table endpoints that accept `sort_by`, `order`, `field`, `column`, or similar parameters.
@@ -69,7 +85,7 @@ Report this as **user-controlled sort key to SQL order fragment**. Include route
 
 ## Reporting notes
 
-- Lead with the crossed boundary: **certificate import path to file write**, **hidden API setting to command runner**, or **sort parameter to ORM order expression**.
-- Include product/version, authentication role, field names, trigger route, and negative controls. Redact tokens, node secrets, JWT secrets, nginx paths, and real command values.
-- Keep proof artifacts synthetic: disposable lab files, fixed marker strings, synthetic table rows, and route/role decision matrices.
-- Avoid production side effects. If a reload/restart path is in scope, stop at configuration acceptance and lab-only marker evidence unless the customer explicitly provides a canary service-control target.
+- Lead with the crossed boundary: **certificate import path to file write**, **hidden API setting to command runner**, **client-held backup token to restore-time configuration control**, or **sort parameter to ORM order expression**.
+- Include product/version, authentication role, field names, backup/restore artifact layout when relevant, trigger route, and negative controls. Redact tokens, backup keys/IVs, node secrets, JWT secrets, nginx paths, and real command values.
+- Keep proof artifacts synthetic: disposable lab files, fixed marker strings, tampered backup marker configs, synthetic table rows, and route/role decision matrices.
+- Avoid production side effects. If a restore, reload, or restart path is in scope, stop at configuration acceptance and lab-only marker evidence unless the customer explicitly provides a canary service-control target.
