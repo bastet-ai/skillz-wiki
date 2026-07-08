@@ -342,6 +342,12 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - goshs advisories/source: https://github.com/patrickhener/goshs/security/advisories and https://github.com/patrickhener/goshs
 - Apache Ignite advisories/source: https://ignite.apache.org/security.html and https://github.com/apache/ignite
 - OnGres SCRAM project: https://github.com/ongres/scram
+- oasdiff advisories/source: https://github.com/oasdiff/oasdiff/security/advisories and https://github.com/oasdiff/oasdiff
+- KEDA advisories/source: https://github.com/kedacore/keda/security/advisories and https://github.com/kedacore/keda
+- Goploy advisories/source: https://github.com/zhenorzz/goploy/security/advisories and https://github.com/zhenorzz/goploy
+- ha-mcp advisories/source: https://github.com/homeassistant-ai/ha-mcp/security/advisories and https://github.com/homeassistant-ai/ha-mcp
+- aiosmtplib advisories/source: https://github.com/cole/aiosmtplib/security/advisories and https://github.com/cole/aiosmtplib
+- Kite advisories/source: https://github.com/zxh326/kite/security/advisories and https://github.com/zxh326/kite
 
 ## Network and service discovery
 
