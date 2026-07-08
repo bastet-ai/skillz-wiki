@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Joomla page-builder upload and ColdFusion traversal KEV boundary checks](alerts/2026-07-08-joomla-page-builder-coldfusion-kev-boundaries.md)
 - [Agent, deploy, SSRF, and identity boundary checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md)
 - [Better Auth identity/OAuth follow-up plus Aider, netfoil, CKAN MCP, and uutils boundary checks](alerts/2026-07-07-better-auth-aider-netfoil-ckan-mcp-boundaries-ghsa.md)
 - [Langflow user-controlled-key auth-bypass KEV follow-up](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-7-langflow-user-controlled-key-auth-bypass-kev-follow-up)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [ArchiveBox AddView config-to-plugin follow-up](alerts/2026-05-04-runtime-package-and-build-execution-boundary-batch-ghsa.md#july-7-archivebox-addview-config-to-plugin-follow-up)
 - [Netty DNS bailiwick and buffer-lifecycle follow-up](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#july-7-dns-bailiwick-and-buffer-lifecycle-follow-up)
 - [EGroupware template/mail, XWiki skin, and New API notification-boundary checks](alerts/2026-07-07-egroupware-xwiki-newapi-boundaries-ghsa.md)
-- [Langroid raw tool JSON, eval, and SQL validator follow-up](alerts/2026-02-07-langroid-waf-bypass-rce-ghsa-x34r-63hx-w57f.md#july-6-raw-tool-json-tablechatagent-eval-and-sqlchatagent-regex-bypass-follow-up)
 
 ## What lives here
 

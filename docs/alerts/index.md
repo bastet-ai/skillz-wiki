@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Joomla page-builder upload and ColdFusion traversal KEV boundary checks](2026-07-08-joomla-page-builder-coldfusion-kev-boundaries.md)
+- [Agent, deploy, SSRF, and identity boundary checks](2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md)
+- [Better Auth identity/OAuth follow-up plus Aider, netfoil, CKAN MCP, and uutils boundary checks](2026-07-07-better-auth-aider-netfoil-ckan-mcp-boundaries-ghsa.md)
 - [ArchiveBox AddView config-to-plugin follow-up](2026-05-04-runtime-package-and-build-execution-boundary-batch-ghsa.md#july-7-archivebox-addview-config-to-plugin-follow-up)
 - [Netty DNS bailiwick and buffer-lifecycle follow-up](2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#july-7-dns-bailiwick-and-buffer-lifecycle-follow-up)
 - [EGroupware template/mail, XWiki skin, and New API notification-boundary checks](2026-07-07-egroupware-xwiki-newapi-boundaries-ghsa.md)
