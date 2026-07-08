@@ -19,6 +19,8 @@ Sources:
 - [GHSA-gvhc-wv3v-7pf8: Kite cluster overview RBAC bypass](https://github.com/advisories/GHSA-gvhc-wv3v-7pf8)
 - [GHSA-m557-wrgg-6rp4: phpseclib X.509 AIA certificate-validation SSRF](https://github.com/advisories/GHSA-m557-wrgg-6rp4)
 - [GHSA-gr75-jv2w-4656: LangChain file-search and loader path traversal](https://github.com/advisories/GHSA-gr75-jv2w-4656)
+- [GHSA-5j6p-jrrm-6x94: Apache Airflow KubernetesExecutor Execution API JWT exposed in worker pod command-line arguments](https://github.com/advisories/GHSA-5j6p-jrrm-6x94)
+- [GHSA-vr7m-c6v4-8cx8: Apache Airflow FAB / Keycloak logout paths leave API JWTs valid until expiry](https://github.com/advisories/GHSA-vr7m-c6v4-8cx8)
 
 !!! warning "Authorized validation only"
     Keep every proof in a lab or customer-approved environment. Use canary URLs, marker files, fake SMTP servers, disposable clusters, and inert project repositories. Do not read secrets, redirect live production integrations, alter real deployment remotes, or approve dangerous MCP actions.
@@ -36,7 +38,8 @@ Use this page when a scope includes:
 - Python mail integrations that pass user-influenced envelope addresses into `sendmail()`-style APIs;
 - multi-cluster Kubernetes dashboards that select a target cluster from headers, query strings, or cookies;
 - certificate-enrollment, SAML, mTLS, webhook-signature, or document-signing flows that parse caller-supplied X.509 certificates server-side;
-- LLM agents, RAG tools, or developer assistants that expose LangChain filesystem search, prompt loaders, or chain/agent config loaders to untrusted prompts, shared repositories, or tenant workspaces.
+- LLM agents, RAG tools, or developer assistants that expose LangChain filesystem search, prompt loaders, or chain/agent config loaders to untrusted prompts, shared repositories, or tenant workspaces;
+- Apache Airflow deployments where the `KubernetesExecutor`, `FabAuthManager`, or `KeycloakAuthManager` joins Kubernetes read permissions, worker pod specs, and Execution API authorization.
 
 ## Recon checklist
 
@@ -52,6 +55,7 @@ Use this page when a scope includes:
 | Cluster dashboards | `x-cluster-name`, query, or cookie target selection before RBAC middleware | Two disposable clusters or mocked clientsets with aggregate-only canaries |
 | Certificate-chain fetching | X.509 AIA `caIssuers` URLs fetched during validation of an untrusted certificate | Owned HTTP callback and an approved synthetic internal canary, never metadata endpoints |
 | Agent file tools | Glob patterns, prompt/config path fields, symlinks, or path-prefix checks that are validated before canonicalization | Temp workspace with in-root and sibling marker files plus symlink canaries |
+| Airflow orchestration tokens | Worker pod command-line args expose Execution API JWTs, or UI logout does not revoke API JWTs for FAB / Keycloak auth managers | Disposable Airflow namespace, fake DAG/Variable markers, and redacted token-prefix evidence |
 
 ## Validation patterns
 
@@ -163,6 +167,29 @@ Treat LangChain file tools as agent sandbox boundaries: prompts, repository file
 
 Do not aim the proof at `/etc/passwd`, cloud credentials, notebooks, model weights, SSH keys, or customer files. The strongest bug-bounty report shows one positive in-root read, one blocked control, and one bypass that returns a disposable marker outside the intended root.
 
+### Apache Airflow KubernetesExecutor and logout token boundaries
+
+These advisories are useful when a target treats Airflow as an internal workflow control plane but also grants users read-only Kubernetes visibility or long-lived browser/API sessions. The bug-hunting question is whether a token minted for one Airflow trust context remains usable from another context.
+
+#### KubernetesExecutor worker pod command-line leakage
+
+1. Confirm the deployment uses Apache Airflow with `KubernetesExecutor` and that the test account has authorized `pods/get` or equivalent read-only access in the Airflow namespace.
+2. Trigger or wait for a disposable DAG task that creates a worker pod. Use a DAG, Variable, Connection, and XCom set created only for the assessment.
+3. Inspect the worker pod spec or `kubectl describe pod` output for an Execution API JWT passed as a command-line argument.
+4. If the program permits active validation, replay only against harmless Execution API operations tied to the disposable DAG, such as reading a synthetic Variable or attempting a marker-only state transition.
+5. Evidence should redact the token to a short prefix/suffix and show the authority boundary: Kubernetes read permission -> token visibility -> Airflow API action.
+
+Do not harvest production task tokens, Connections, Variables, XComs, or DAG outputs. A strong report does not need secret disclosure; it needs a minimal proof that pod-spec read access becomes Airflow API authority.
+
+#### FAB / Keycloak logout residual API token validity
+
+1. Confirm the Airflow auth manager is `FabAuthManager` or `KeycloakAuthManager`; SimpleAuthManager is not the reported affected path.
+2. In a lab or disposable user session, capture a short-lived API JWT through the normal authenticated UI/API flow.
+3. Click logout in the UI and then retry one low-impact authenticated API request with the same JWT before natural expiry.
+4. Compare expected behavior (`401` or revoked token) with actual behavior (token still accepted until expiry).
+
+Frame this as session-boundary drift, not as a request for longer token lifetimes. Keep proof requests read-only or marker-only and avoid clearing real DAG runs or touching production workflow state.
+
 ## Reporting notes
 
 A strong report for this wave should include:
@@ -171,4 +198,5 @@ A strong report for this wave should include:
 - a normalization table for URL, host, cluster, namespace, or connection-string parsing;
 - the minimum role or tenant permission required;
 - marker-only evidence from owned callbacks, fake listeners, temp files, disposable namespaces, mocked clusters, certificate AIA callbacks, or agent-workspace canaries;
+- for Airflow, a role matrix showing Kubernetes namespace read permissions, Airflow role, auth manager/executor mode, redacted token exposure or residual validity, and marker-only API impact;
 - clear negative controls showing the intended blocked path still blocks when the parser variant is not used.

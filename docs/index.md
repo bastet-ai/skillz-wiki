@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Apache Airflow KubernetesExecutor and logout token boundary update](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#apache-airflow-kubernetesexecutor-and-logout-token-boundaries)
 - [Go x/crypto SSH parser and peer-message boundary update](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md#go-ssh-parser-and-peer-message-harness)
 - [DAML controller-mutation testing for authorization gaps](best-practices/mutation-testing-for-the-agentic-era.md#daml-canton-authorization-checks)
 - [Integration, deployment, and MCP boundary checks from July 8 GHSA wave](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Langflow user-controlled-key auth-bypass KEV follow-up](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-7-langflow-user-controlled-key-auth-bypass-kev-follow-up)
 - [DNS rebinding local-service testing](methodology/dns-rebinding-local-service-testing.md)
 - [Open WebUI image-edit blind SSRF follow-up](alerts/2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md#july-7-image-edit-blind-ssrf-update)
-- [Open WebUI chat, citation, markdown, and uploaded-HTML render follow-up](alerts/2026-05-16-open-webui-model-render-cache-and-execution-boundary-batch-ghsa.md#july-7-chat-iframe-citation-markdown-and-uploaded-html-follow-up)
 
 ## What lives here
 
