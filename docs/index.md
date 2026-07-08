@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Go x/crypto SSH parser and peer-message boundary update](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md#go-ssh-parser-and-peer-message-harness)
 - [DAML controller-mutation testing for authorization gaps](best-practices/mutation-testing-for-the-agentic-era.md#daml-canton-authorization-checks)
 - [Integration, deployment, and MCP boundary checks from July 8 GHSA wave](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md)
 - [Joomla page-builder upload and ColdFusion traversal KEV boundary checks](alerts/2026-07-08-joomla-page-builder-coldfusion-kev-boundaries.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [DNS rebinding local-service testing](methodology/dns-rebinding-local-service-testing.md)
 - [Open WebUI image-edit blind SSRF follow-up](alerts/2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md#july-7-image-edit-blind-ssrf-update)
 - [Open WebUI chat, citation, markdown, and uploaded-HTML render follow-up](alerts/2026-05-16-open-webui-model-render-cache-and-execution-boundary-batch-ghsa.md#july-7-chat-iframe-citation-markdown-and-uploaded-html-follow-up)
-- [ArchiveBox AddView config-to-plugin follow-up](alerts/2026-05-04-runtime-package-and-build-execution-boundary-batch-ghsa.md#july-7-archivebox-addview-config-to-plugin-follow-up)
 
 ## What lives here
 
