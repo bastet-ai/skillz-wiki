@@ -1,10 +1,10 @@
 ---
-title: Integration, deployment, and MCP boundary checks from July 8 GHSA wave
+title: Integration, deployment, agent, CMS, and MCP boundary checks from July 8 GHSA wave
 ---
 
-# Integration, deployment, and MCP boundary checks from July 8 GHSA wave
+# Integration, deployment, agent, CMS, and MCP boundary checks from July 8 GHSA wave
 
-This batch turns a July 8 GitHub Advisory wave into replayable validation ideas for authorized pentests and bug-bounty work. The common thread is parser or route state that operators trusted to constrain an integration boundary, but which did not apply on every input path.
+This batch turns a July 8 GitHub Advisory wave into replayable validation ideas for authorized pentests and bug-bounty work. The common thread is parser, browser, route, or filesystem state that operators trusted to constrain an integration boundary, but which did not apply on every input path.
 
 Sources:
 
@@ -21,9 +21,23 @@ Sources:
 - [GHSA-gr75-jv2w-4656: LangChain file-search and loader path traversal](https://github.com/advisories/GHSA-gr75-jv2w-4656)
 - [GHSA-5j6p-jrrm-6x94: Apache Airflow KubernetesExecutor Execution API JWT exposed in worker pod command-line arguments](https://github.com/advisories/GHSA-5j6p-jrrm-6x94)
 - [GHSA-vr7m-c6v4-8cx8: Apache Airflow FAB / Keycloak logout paths leave API JWTs valid until expiry](https://github.com/advisories/GHSA-vr7m-c6v4-8cx8)
+- [GHSA-37h2-6p4f-mp3q: Serena fixed-port unauthenticated Flask dashboard DNS-rebinding to agent memory/RCE](https://github.com/advisories/GHSA-37h2-6p4f-mp3q)
+- [GHSA-xqhv-chqm-fhcc: Joro wildcard-CORS local API plugin upload RCE](https://github.com/advisories/GHSA-xqhv-chqm-fhcc)
+- [GHSA-v5px-423j-pf7p: Nuclio cron trigger headers/body shell-command injection](https://github.com/advisories/GHSA-v5px-423j-pf7p)
+- [GHSA-9x82-rm84-c6x7: DSpace LDN Velocity template RCE chain](https://github.com/advisories/GHSA-9x82-rm84-c6x7)
+- [GHSA-9qm4-rh6w-pq5x: DSpace LDN template path traversal](https://github.com/advisories/GHSA-9qm4-rh6w-pq5x)
+- [GHSA-c827-pw3m-67w7: DSpace ORE resource URI scheme validation gap](https://github.com/advisories/GHSA-c827-pw3m-67w7)
+- [GHSA-v66x-68f2-pxf5: DSpace curation reporter output path traversal](https://github.com/advisories/GHSA-v66x-68f2-pxf5)
+- [GHSA-35rm-7j9c-2f7m: async-tar PAX extension-header desync and entry/content smuggling](https://github.com/advisories/GHSA-35rm-7j9c-2f7m)
+- [GHSA-wf93-45jw-7689: pip entry-point script path traversal](https://github.com/advisories/GHSA-wf93-45jw-7689)
+- [GHSA-rmxx-v9rj-vpvg: Casdoor local filesystem storage provider arbitrary file write](https://github.com/advisories/GHSA-rmxx-v9rj-vpvg)
+- [GHSA-75w3-gmqx-993q: Waku cross-origin CSRF on RSC server action dispatch](https://github.com/advisories/GHSA-75w3-gmqx-993q)
+- [GHSA-6h3c-r723-7fx3: NL Portal task IDOR and tampering](https://github.com/advisories/GHSA-6h3c-r723-7fx3)
+- [GHSA-qpm9-h556-mwxm: NL Portal GraphQL document and decision IDOR](https://github.com/advisories/GHSA-qpm9-h556-mwxm)
+- [GHSA-vmwx-m75v-qvch: Sharp Quick Creation Command missing authorization](https://github.com/advisories/GHSA-vmwx-m75v-qvch)
 
 !!! warning "Authorized validation only"
-    Keep every proof in a lab or customer-approved environment. Use canary URLs, marker files, fake SMTP servers, disposable clusters, and inert project repositories. Do not read secrets, redirect live production integrations, alter real deployment remotes, or approve dangerous MCP actions.
+    Keep every proof in a lab or customer-approved environment. Use canary URLs, marker files, fake SMTP servers, disposable clusters, inert project repositories, throwaway browser profiles, and synthetic portal records. Do not read secrets, redirect live production integrations, alter real deployment remotes, upload executable plugins, poison real agent memories, submit another user's real forms, or approve dangerous MCP actions.
 
 ## Operator use
 
@@ -39,7 +53,11 @@ Use this page when a scope includes:
 - multi-cluster Kubernetes dashboards that select a target cluster from headers, query strings, or cookies;
 - certificate-enrollment, SAML, mTLS, webhook-signature, or document-signing flows that parse caller-supplied X.509 certificates server-side;
 - LLM agents, RAG tools, or developer assistants that expose LangChain filesystem search, prompt loaders, or chain/agent config loaders to untrusted prompts, shared repositories, or tenant workspaces;
-- Apache Airflow deployments where the `KubernetesExecutor`, `FabAuthManager`, or `KeycloakAuthManager` joins Kubernetes read permissions, worker pod specs, and Execution API authorization.
+- Apache Airflow deployments where the `KubernetesExecutor`, `FabAuthManager`, or `KeycloakAuthManager` joins Kubernetes read permissions, worker pod specs, and Execution API authorization;
+- local developer/agent dashboards that listen on predictable loopback ports and trust browser same-origin policy, CORS, Host headers, or DNS stability as their only boundary;
+- serverless or platform controllers where tenant-supplied trigger metadata is rendered into Kubernetes Jobs, CronJobs, shell wrappers, or generated config;
+- repository, archive, package-manager, CMS, or identity platforms that turn user-controlled path names, entry-point names, URI schemes, templates, storage providers, or object IDs into file reads/writes or privileged records;
+- React Server Components / server-action frameworks where cross-origin forms or safelisted content types can reach state-changing server actions.
 
 ## Recon checklist
 
@@ -56,6 +74,12 @@ Use this page when a scope includes:
 | Certificate-chain fetching | X.509 AIA `caIssuers` URLs fetched during validation of an untrusted certificate | Owned HTTP callback and an approved synthetic internal canary, never metadata endpoints |
 | Agent file tools | Glob patterns, prompt/config path fields, symlinks, or path-prefix checks that are validated before canonicalization | Temp workspace with in-root and sibling marker files plus symlink canaries |
 | Airflow orchestration tokens | Worker pod command-line args expose Execution API JWTs, or UI logout does not revoke API JWTs for FAB / Keycloak auth managers | Disposable Airflow namespace, fake DAG/Variable markers, and redacted token-prefix evidence |
+| Browser-to-loopback agent APIs | Fixed local ports, wildcard CORS, missing Host/Origin checks, unauthenticated dashboard routes, memory-write APIs, plugin upload APIs, and restart endpoints | Disposable browser profile plus inert memory/plugin markers; never live shell payloads |
+| Serverless trigger rendering | Cron trigger headers, bodies, environment fields, or labels concatenated into `/bin/sh -c`, `curl`, or generated Kubernetes specs | Lab namespace and marker-only command arguments captured from generated manifests |
+| CMS/repository file boundaries | Template paths, ORE/LDN resource URIs, curation output paths, local storage roots, or package entry-point names escaping intended directories | Synthetic templates, marker files, and disposable package wheels/sdists |
+| Archive parser differentials | PAX, GNU longname/longlink, symlink, or extension headers parsed differently by scanners and extraction libraries | Offline tar fixtures and extraction into temp directories only |
+| Cross-origin server actions | `text/plain` or `multipart/form-data` POSTs reaching state-changing server actions without `Origin` / `Sec-Fetch-Site` checks | Harmless server-action marker and owned attacker page in a lab app |
+| Portal/API object IDs | Task IDs, document IDs, decision IDs, entity IDs, or quick-create command IDs accepted without per-user or per-entity authorization | Two disposable users and synthetic records with unique canary fields |
 
 ## Validation patterns
 
@@ -190,6 +214,85 @@ Do not harvest production task tokens, Connections, Variables, XComs, or DAG out
 
 Frame this as session-boundary drift, not as a request for longer token lifetimes. Keep proof requests read-only or marker-only and avoid clearing real DAG runs or touching production workflow state.
 
+### Serena and Joro browser-to-loopback control planes
+
+Treat loopback agent and developer dashboards as browser-reachable attack surfaces. The reusable bug-hunting pattern is a trusted local API exposed to any page the operator visits.
+
+1. Fingerprint whether the tool starts a local dashboard automatically and whether the port is fixed or predictable. For Serena, the advisory identifies TCP `24282`; for Joro proxy mode, the advisory identifies `127.0.0.1:9090`.
+2. From an owned test page in a disposable browser profile, attempt only low-impact probes first: route existence, `Host` handling, `Origin` handling, CORS policy, and whether safelisted content types avoid preflight.
+3. For memory-write paths, use a harmless marker such as `SKILLZ_CANARY_DO_NOT_EXECUTE` and verify only that the marker appears in the intended lab memory store.
+4. For plugin upload or restart paths, stop at route reachability and request acceptance unless the lab explicitly permits inert plugin loading. If a plugin proof is necessary, use a plugin that writes a temp marker file and performs no network or shell action.
+
+Evidence should show: local service version/mode, browser origin, request content type, CORS/Host/Origin decision, accepted route, and marker-only effect. Do not run shell commands through the agent, modify real project memories, upload production plugins, or rely on secret exfiltration as proof.
+
+### Nuclio cron trigger command construction
+
+This is a controller-to-Kubernetes command-boundary check. The advisory describes tenant-controlled cron trigger `event.headers` keys and `event.body` values entering a generated `/bin/sh -c` `curl` command.
+
+1. Work in a disposable Nuclio namespace with a canary function and no production credentials.
+2. Submit two cron-trigger variants:
+   - a safe control with ordinary headers/body;
+   - a marker variant containing shell metacharacters in a header key or command-substitution-looking text in the body.
+3. Inspect the generated CronJob manifest or controller-rendered args before execution when possible.
+4. If execution is authorized in a lab, make the marker write only to a disposable temp path inside the test container or send only to an owned callback.
+
+Do not publish working destructive command payloads. The useful operator evidence is the string-to-manifest diff showing that untrusted trigger metadata crossed into shell syntax.
+
+### DSpace LDN, ORE, and curation file/template chains
+
+The DSpace advisories are admin- or collection-admin-reachable boundaries, not unauthenticated bugs. They are still useful in assessments where delegated repository administrators can configure harvesting, LDN, or curation features.
+
+1. Create a lab DSpace collection with a disposable Collection/Community/Site Administrator.
+2. For ORE URI scheme checks, configure only a controlled OAI/ORE source that references a synthetic local marker or owned web resource. Do not use `/etc/passwd` or application config.
+3. For LDN template path traversal, use a synthetic template outside the intended `$dspace.dir/config/ldn` directory whose content is a fixed harmless Velocity marker.
+4. For Velocity execution checks, stop at proving that an unintended template is parsed and evaluated with a benign marker expression. Do not run Java reflection payloads in shared systems.
+5. For curation reporter paths, write only to a lab temp directory or static marker path expressly created for the test.
+
+Report the minimum delegated role required, the configured feature path, the intended base directory or URI scheme policy, and the marker-only read/write/render result.
+
+### async-tar parser differential fixtures
+
+Use this when an ingestion pipeline scans tar files with one parser but extracts with Rust `async-tar` or a service built on it.
+
+1. Build an offline fixture corpus with simple tar entries, PAX `x` headers, GNU longname `L` headers, and the reported `x -> L -> file` ordering.
+2. Compare file listings and extracted hashes between the production-equivalent extractor and a reference parser such as GNU tar in isolated temp directories.
+3. Keep payloads inert: text files with unique marker bytes, not scripts, symlinks to real paths, or executables.
+4. Evidence should be a table of parser, visible entry list, extracted path, extracted hash, and whether the validator and extractor disagree.
+
+The finding is strongest when a scanner says one harmless file exists but the actual extractor writes a different marker file or content blob.
+
+### pip and Casdoor filesystem write boundaries
+
+These are path-to-write checks. For pip, the path comes from `console_scripts` / `gui_scripts` entry-point names. For Casdoor, it comes from Local File System storage provider paths available to an authenticated administrator.
+
+1. Use disposable sandboxes only: an isolated virtualenv for pip and a throwaway Casdoor instance with a fake storage provider.
+2. For pip, create a synthetic package whose entry-point name attempts to escape the target script directory and write a marker script path under a temp parent directory.
+3. Install with explicit target/prefix options inside the sandbox and capture the resolved script path. Do not target shell startup files, real PATH directories, or user dotfiles.
+4. For Casdoor, configure a lab local-storage provider and attempt to write only `casdoor-canary.txt` under an approved temp directory outside the nominal storage root.
+5. Record expected root, submitted path, canonical resolved path, and marker presence.
+
+### Waku server-action CSRF
+
+For React Server Components and server-action frameworks, test whether browser-safelisted cross-origin requests can invoke state changes with victim cookies.
+
+1. Build or request a lab route with a harmless `'use server'` action that increments a canary counter or stores a marker string.
+2. From an owned cross-origin page, send `POST` requests with `Content-Type: text/plain` and a plain HTML form using `multipart/form-data`.
+3. Include controls with absent, foreign, and `Origin: null` contexts such as sandboxed iframes when scope permits.
+4. Capture response status and whether the canary action executed.
+
+Do not test against account, payment, admin, or content-destruction server actions in production. The report should tie the impact to whatever action the target app exposes, not to Waku generically.
+
+### NL Portal and Sharp authorization drift
+
+These are object-ownership and entity-permission checks for authenticated low-privilege users.
+
+1. Create two disposable portal users with separate tasks, documents, decisions, or Sharp entity permissions.
+2. Capture each user's authorized object IDs from normal UI/API flows.
+3. Replay only marker updates or read requests by substituting user B's object ID into user A's task, document, decision, or Quick Creation Command request.
+4. Evidence should show expected `403`/empty result versus actual read, form submission, record creation, or returned object fields.
+
+Never use real citizen, customer, or production form data as proof. Seed synthetic records with clear canary values and redact tokens/cookies from screenshots.
+
 ## Reporting notes
 
 A strong report for this wave should include:
@@ -199,4 +302,7 @@ A strong report for this wave should include:
 - the minimum role or tenant permission required;
 - marker-only evidence from owned callbacks, fake listeners, temp files, disposable namespaces, mocked clusters, certificate AIA callbacks, or agent-workspace canaries;
 - for Airflow, a role matrix showing Kubernetes namespace read permissions, Airflow role, auth manager/executor mode, redacted token exposure or residual validity, and marker-only API impact;
+- for browser-to-loopback bugs, the exact browser origin, local port, route, content type, CORS/Host/Origin behavior, and inert marker effect;
+- for package/archive/filesystem bugs, a canonical path or parser-differential table rather than a sensitive file read;
+- for IDOR and authorization drift, a two-user object matrix with synthetic canaries only;
 - clear negative controls showing the intended blocked path still blocks when the parser variant is not used.
