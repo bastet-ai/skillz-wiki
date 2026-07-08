@@ -1,7 +1,7 @@
 # Mutation Testing Beats Coverage Theater
 
 **Date**: 2026-04-02  
-**Source**: Trail of Bits, *Mutation testing for the agentic era*  
+**Source**: Trail of Bits, *Mutation testing for the agentic era*; *Mutation testing comes to DAML*  
 **Status**: Durable guidance
 
 ---
@@ -58,6 +58,49 @@ Trail of Bits’ update is also a reminder that agents can help here if the work
 - review survivors as evidence of weak assertions, not just noisy test failures
 
 The agent’s job is not to make coverage high. It is to expose the places where the test suite lies.
+
+---
+
+## DAML / Canton authorization checks
+
+Trail of Bits' DAML support in Mewt is a useful pattern for smart-contract and ledger application reviews: target authorization semantics directly, not just line or choice coverage.
+
+DAML coverage can report that every template and choice executed while the tests never prove that the right parties must authorize the action. Treat controller mutations as a way to ask: if a required signer was swapped or removed, would the suite fail?
+
+### What to mutate
+
+- `controller` party lists on high-value choices
+- `signatory` / observer assumptions that define who can see or act
+- comparisons and branch conditions inside transfer, release, settlement, cancellation, or admin choices
+- consuming vs non-consuming choice behavior when it changes asset or obligation lifetime
+
+### Minimal campaign pattern
+
+Use this only in a disposable clone or CI job built for authorized review.
+
+```toml
+# mewt.toml
+files = ["daml/**/*.daml"]
+test = "dpm test --show-coverage --coverage-ignore-choice Archive"
+```
+
+```bash
+mewt run
+```
+
+For each surviving mutant, capture the diff and write the missing assertion as an abuse case:
+
+- "seller can release funds without buyer confirmation"
+- "operator can cancel a contract without the counterparty"
+- "admin-only choice still succeeds when the controller is swapped"
+- "coverage stays green after a required party is removed"
+
+### Evidence boundaries
+
+- Use synthetic parties, ledgers, contracts, and amounts.
+- Do not run mutation campaigns against production ledgers or customer data.
+- Do not treat every survivor as a vulnerability; first rule out equivalent mutants and unreachable guarded paths.
+- Report the invariant the suite failed to enforce, not just the mutation score.
 
 ---
 

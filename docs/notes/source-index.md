@@ -9,6 +9,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - GitHub Security Advisories: https://github.com/advisories
 - uutils coreutils advisories/source: https://github.com/uutils/coreutils/security/advisories and https://github.com/uutils/coreutils
 - Trail of Bits Patch the Planet field reports: https://blog.trailofbits.com/2026/07/02/field-reports-from-patch-the-planet/
+- Trail of Bits Mewt mutation-testing DAML support: https://blog.trailofbits.com/2026/07/08/mutation-testing-comes-to-daml/ and https://github.com/trailofbits/mewt
 - Fission advisories/source: https://github.com/fission/fission/security/advisories and https://github.com/fission/fission
 - Cedar Express authorization middleware advisories/source: https://github.com/cedar-policy/authorization-for-expressjs/security/advisories and https://github.com/cedar-policy/authorization-for-expressjs
 - KubeVirt advisories/source: https://github.com/kubevirt/kubevirt/security/advisories and https://github.com/kubevirt/kubevirt
