@@ -17,6 +17,8 @@ Sources:
 - [GHSA-q855-8rh5-jfgq: ha-mcp unauthenticated add-on settings routes](https://github.com/advisories/GHSA-q855-8rh5-jfgq)
 - [GHSA-v3q9-hj7j-63hq: aiosmtplib SMTP CRLF command injection](https://github.com/advisories/GHSA-v3q9-hj7j-63hq)
 - [GHSA-gvhc-wv3v-7pf8: Kite cluster overview RBAC bypass](https://github.com/advisories/GHSA-gvhc-wv3v-7pf8)
+- [GHSA-m557-wrgg-6rp4: phpseclib X.509 AIA certificate-validation SSRF](https://github.com/advisories/GHSA-m557-wrgg-6rp4)
+- [GHSA-gr75-jv2w-4656: LangChain file-search and loader path traversal](https://github.com/advisories/GHSA-gr75-jv2w-4656)
 
 !!! warning "Authorized validation only"
     Keep every proof in a lab or customer-approved environment. Use canary URLs, marker files, fake SMTP servers, disposable clusters, and inert project repositories. Do not read secrets, redirect live production integrations, alter real deployment remotes, or approve dangerous MCP actions.
@@ -32,7 +34,9 @@ Use this page when a scope includes:
 - self-hosted deployment dashboards with project namespaces and remote server inventories;
 - Home Assistant MCP add-ons or other MCP tools exposed through trusted-LAN assumptions;
 - Python mail integrations that pass user-influenced envelope addresses into `sendmail()`-style APIs;
-- multi-cluster Kubernetes dashboards that select a target cluster from headers, query strings, or cookies.
+- multi-cluster Kubernetes dashboards that select a target cluster from headers, query strings, or cookies;
+- certificate-enrollment, SAML, mTLS, webhook-signature, or document-signing flows that parse caller-supplied X.509 certificates server-side;
+- LLM agents, RAG tools, or developer assistants that expose LangChain filesystem search, prompt loaders, or chain/agent config loaders to untrusted prompts, shared repositories, or tenant workspaces.
 
 ## Recon checklist
 
@@ -46,6 +50,8 @@ Use this page when a scope includes:
 | MCP settings routes | Settings, policy, approval, backup, restart, or tool-visibility endpoints mounted both under a secret path and at a bare root path | Route/status matrix and inert policy toggles in a lab add-on |
 | SMTP envelope APIs | Sender/recipient values copied into SMTP commands without rejecting `\r` or `\n` | Local fake SMTP server and a benign marker command sequence |
 | Cluster dashboards | `x-cluster-name`, query, or cookie target selection before RBAC middleware | Two disposable clusters or mocked clientsets with aggregate-only canaries |
+| Certificate-chain fetching | X.509 AIA `caIssuers` URLs fetched during validation of an untrusted certificate | Owned HTTP callback and an approved synthetic internal canary, never metadata endpoints |
+| Agent file tools | Glob patterns, prompt/config path fields, symlinks, or path-prefix checks that are validated before canonicalization | Temp workspace with in-root and sibling marker files plus symlink canaries |
 
 ## Validation patterns
 
@@ -131,6 +137,32 @@ Do not use third-party SMTP servers, real recipients, or authentication commands
 3. Capture whether aggregate node, pod, namespace, service, CPU, or memory data is returned instead of `403`.
 4. Keep evidence aggregate-only; do not request pod names, secret data, kubeconfigs, or bearer tokens.
 
+### phpseclib X.509 AIA certificate-validation SSRF
+
+This is a certificate-content-to-outbound-fetch boundary. The interesting target is not a generic URL input; it is a server path that accepts a certificate and then calls phpseclib `X509::validateSignature()` or equivalent chain validation on that untrusted certificate.
+
+1. Identify certificate ingestion points: SAML metadata/cert upload, mTLS client-certificate enrollment, webhook signing keys, PDF/document-signature validation, package-signing portals, or admin import workflows.
+2. In a lab, generate a disposable certificate whose Authority Information Access `caIssuers` URI points at an owned callback host.
+3. Submit the certificate through the same application path that performs server-side validation.
+4. Capture only callback metadata proving the validator fetched the AIA URI: timestamp, method, path, source network, and a unique assessment token.
+5. If the program explicitly provides an internal canary service, repeat with that canary to show policy bypass. Do not target cloud metadata IPs, loopback admin panels, or arbitrary private addresses.
+
+Useful negative controls: a certificate with no AIA URI, a certificate where the issuer is already trusted locally, and a blocked ordinary URL-fetch feature in the same app. The report should make clear that the outbound request was triggered by certificate validation, not by a user-visible URL field.
+
+### LangChain filesystem-search and loader containment
+
+Treat LangChain file tools as agent sandbox boundaries: prompts, repository files, or retrieved content can influence path selection even when the application intended to expose only one workspace root.
+
+1. Build a disposable workspace with:
+   - `workspace/allowed.txt` as the expected readable file;
+   - `workspace-link -> ../outside-marker.txt` as a symlink canary, when the platform permits symlinks;
+   - `workspace-sibling/outside-marker.txt` to catch string-prefix checks such as `/tmp/work` allowing `/tmp/work-sibling`.
+2. Exercise each exposed path separately: file-search middleware start directory, search pattern/glob, prompt loader path fields, chain/agent configuration loader paths, and any path-prefix authorization helper.
+3. Submit canary patterns that should remain in-root, then patterns or config values that try to resolve through `..`, symlinks, absolute paths, or prefix-sibling names.
+4. Evidence should be a table of requested value, resolved path if observable, expected allow/deny, actual result, and whether only the synthetic marker was returned.
+
+Do not aim the proof at `/etc/passwd`, cloud credentials, notebooks, model weights, SSH keys, or customer files. The strongest bug-bounty report shows one positive in-root read, one blocked control, and one bypass that returns a disposable marker outside the intended root.
+
 ## Reporting notes
 
 A strong report for this wave should include:
@@ -138,5 +170,5 @@ A strong report for this wave should include:
 - the exact input path that bypassed the expected guard, such as git-revision loading versus file loading;
 - a normalization table for URL, host, cluster, namespace, or connection-string parsing;
 - the minimum role or tenant permission required;
-- marker-only evidence from owned callbacks, fake listeners, temp files, disposable namespaces, or mocked clusters;
+- marker-only evidence from owned callbacks, fake listeners, temp files, disposable namespaces, mocked clusters, certificate AIA callbacks, or agent-workspace canaries;
 - clear negative controls showing the intended blocked path still blocks when the parser variant is not used.
