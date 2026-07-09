@@ -19,6 +19,13 @@ Sources:
 - [GHSA-q6qc-xp4q-rjq5 / CVE-2026-10281: Claw Orchestrator component API missing authentication](https://github.com/advisories/GHSA-q6qc-xp4q-rjq5)
 - [GHSA-52vm-mxx8-f227: Phantom MCP tools allow arbitrary output paths when `PHANTOM_OUTPUT_DIR` is unset](https://github.com/advisories/GHSA-52vm-mxx8-f227)
 - [GHSA-q6gh-6v2r-hjv3: Micronaut `DefaultHttpClient` forwards sensitive headers across redirect boundaries](https://github.com/advisories/GHSA-q6gh-6v2r-hjv3)
+- [GHSA-mr9r-h354-966r / CVE-2026-53639: Sylius shop payment-request endpoints miss ownership checks](https://github.com/advisories/GHSA-mr9r-h354-966r)
+- [GHSA-6955-hrm5-c4qp / CVE-2026-53638: Sylius shop-account payment-method update misses channel restrictions](https://github.com/advisories/GHSA-6955-hrm5-c4qp)
+- [GHSA-5597-7rmh-97q5 / CVE-2026-53637: Sylius cart LiveComponent can mutate completed orders](https://github.com/advisories/GHSA-5597-7rmh-97q5)
+- [GHSA-px5m-h76g-p7p8 / CVE-2026-52778: YesWiki Bazar formula calculator reaches `eval()` after regex validation](https://github.com/advisories/GHSA-px5m-h76g-p7p8)
+- [GHSA-9369-69wj-7m2f / CVE-2026-52777: YesWiki Bazar import entries reach `unserialize()`](https://github.com/advisories/GHSA-9369-69wj-7m2f)
+- [GHSA-4pf7-cc4r-g63h / CVE-2026-52775: YesWiki ReactionManager route parameters reach SQL concatenation](https://github.com/advisories/GHSA-4pf7-cc4r-g63h)
+- [GHSA-xc7j-3g8q-9vh4 / CVE-2026-52772: YesWiki Bazar field labels and hints render through `raw('html')`](https://github.com/advisories/GHSA-xc7j-3g8q-9vh4)
 
 !!! warning "Authorized validation only"
     Keep proofs in disposable agent, CMS, renderer, HTTP-client, and note-export labs. Use inert MCP calls, synthetic contributor/profile rows, harmless framework event callbacks, owned redirectors, marker-only SVG/export/output files, fake bearer headers, and route/role decision tables. Do not collect financial data, production prompts, secrets, environment dumps, customer notes, real CMS files, real authorization headers, or run shell payloads.
@@ -35,7 +42,9 @@ Use these checks when a scope includes:
 - note/wiki/export tools that store user-editable slugs and later join them into backup, migration, or archive paths;
 - local orchestration dashboards that expose embedded component APIs on browser- or network-reachable ports;
 - MCP tools that accept caller-selected input/output paths, especially when a default output root is optional or environment-controlled;
-- server-side HTTP clients that follow redirects while carrying `Authorization`, `Cookie`, `Proxy-Authorization`, or integration API-key headers.
+- server-side HTTP clients that follow redirects while carrying `Authorization`, `Cookie`, `Proxy-Authorization`, or integration API-key headers;
+- e-commerce APIs where cart, order, payment, payment-request, or account endpoints expose parallel route families with different ownership, channel, or lifecycle checks;
+- wiki/CMS form builders where administrator-controlled field definitions, import helpers, reaction APIs, or formula calculators cross into template, SQL, deserialization, or code-evaluation sinks.
 
 ## Recon checklist
 
@@ -52,6 +61,8 @@ Use these checks when a scope includes:
 | Embedded component APIs | Component, plugin, or node APIs listening without the same auth as the main dashboard | Route matrix showing unauthenticated 200 vs authenticated control route |
 | MCP file output roots | Tool arguments accept absolute paths, `..`, symlinked output locations, or unset workspace-root environment variables | Temp output root plus a sibling canary path owned by the lab user |
 | Redirected HTTP credentials | Client follows 3xx responses to a different host, scheme, or port while preserving sensitive headers | Owned redirector and callback that records only fake canary header names/values |
+| E-commerce route-family drift | Checkout endpoints enforce order ownership, channel restrictions, or order state while account/payment-request/cart routes skip the same guard | Two disposable customer accounts, one test order, fake payment method IDs, and marker-only redirect paths |
+| Wiki form-builder trust sinks | Form labels, formula fields, CSV/import entries, or reaction IDs flow into template raw output, `eval`, `unserialize`, or SQL string construction | Disposable form IDs, harmless field labels, inert serialized fixtures, and SQL syntax canaries in a local lab |
 
 ## Validation patterns
 
@@ -148,6 +159,33 @@ Micronaut's `DefaultHttpClient` issue is useful for testing integrations that fe
 4. Build a decision table by redirect type: same-origin path, same host different scheme, sibling subdomain, unrelated domain, and different port.
 5. Do not test with live user cookies, production API tokens, OAuth codes, or third-party services. The proof is that header forwarding crosses authority boundaries, not that a real secret was captured.
 
+### Sylius payment, order-state, and route-family drift
+
+The Sylius advisories are a compact e-commerce authorization lesson: the same business object is reachable through checkout, account, payment-request, and LiveComponent routes, but each route must re-check **who owns the object**, **which channel owns the payment method**, and **whether the order is still mutable**.
+
+1. Build a disposable shop lab with two customers, two orders, at least two channels, and fake payment methods that are intentionally enabled for different channels.
+2. Compare route families for the same object:
+   - payment-request `GET` / `PUT` / `POST` endpoints vs the underlying order owner;
+   - checkout payment update vs shop-account payment update;
+   - visible cart LiveComponent actions vs the current server-side order state.
+3. Use marker-only values: fake `target_path` / `after_path` redirect strings, synthetic payment-method IDs, and test SKUs. Do not process live payments or touch customer orders.
+4. Capture a decision table showing expected negative control and drift: customer A vs customer B, in-channel vs out-of-channel method, mutable cart vs completed order.
+5. For cart lifecycle races, keep the proof local: open the cart, complete the test order in a second tab or admin lab action, then attempt quantity/remove/clear operations and record whether the completed order changes.
+
+Strong evidence is the missing invariant check, not financial impact: **known payment-request hash -> no ownership check -> order token exposure or redirect-field mutation**, **account payment route -> channel restriction skipped**, or **stale cart component -> completed order mutated**.
+
+### YesWiki Bazar and reaction trust boundaries
+
+The YesWiki wave is useful for any wiki or CMS that lets privileged users define forms and less-privileged users submit entries. Treat form-builder features as mini programming languages that often bridge into PHP/runtime sinks.
+
+1. Enumerate Bazar-style form surfaces: formula/calculated fields, import/CSV actions, reaction routes, field labels, field hints, and Twig/template renderers.
+2. For formula calculators, prove only parser behavior and safe error/marker outcomes in a disposable lab. Do not publish payloads that execute commands, read files, or stress production regex engines.
+3. For import helpers, use inert serialized fixtures that demonstrate `unserialize()` reachability or class instantiation in a local harness. Avoid gadget chains and secret-bearing objects.
+4. For reaction APIs, prefer syntax and row-scope canaries against a disposable page/form. Evidence should show raw path parameters entering SQL construction; never dump production tables or user data.
+5. For label/hint rendering, use harmless attribute-breakout markers such as a visible `data-canary` or benign event-free HTML marker. Do not store credential-harvesting or cross-user payloads.
+
+Report these as distinct trust-boundary failures: **formula text -> regex sandbox -> `eval`**, **POST import entries -> base64 decode -> `unserialize`**, **route path parameter -> SQL `LIKE` construction**, and **form-builder label/hint -> raw template output**. Each proof should include the required role, form ID, route, sink, marker evidence, and a patched negative control when available.
+
 ## Reporting notes
 
 Lead with the boundary that failed:
@@ -162,6 +200,8 @@ Lead with the boundary that failed:
 - **public list flag -> soft-delete scope bypass**;
 - **embedded component route -> missing dashboard authentication**;
 - **MCP path parameter -> optional/unset output root -> outside-root write**;
-- **redirect-following HTTP client -> cross-authority 3xx -> sensitive header relay**.
+- **redirect-following HTTP client -> cross-authority 3xx -> sensitive header relay**;
+- **e-commerce alternate route family -> missing ownership/channel/state invariant -> order or payment mutation**;
+- **wiki form-builder/import/reaction input -> runtime sink -> template, SQL, deserialization, or evaluation boundary**.
 
 Include version, required role, route/tool name, object ownership, the exact input class, synthetic canary evidence, and a patched or negative control. Avoid generic RCE/SSRF claims unless the approved lab proof reaches that specific sink without relying on sensitive data or production side effects.
