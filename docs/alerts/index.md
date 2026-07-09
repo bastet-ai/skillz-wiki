@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Agent, CMS, renderer, and export boundary checks from July 9 GHSA updates](2026-07-09-agent-cms-render-export-boundaries-ghsa.md)
 - [CarrierWave MIME denylist and OpenStack Ironic image-boundary checks](2026-07-09-upload-and-baremetal-image-boundaries-ghsa.md)
 - [Waku redirect, Skipper OPA body, and lxml namespaced sanitizer follow-up](2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#waku-server-action-csrf-and-redirect-helpers)
 - [Joomla page-builder upload and ColdFusion traversal KEV boundary checks](2026-07-08-joomla-page-builder-coldfusion-kev-boundaries.md)
