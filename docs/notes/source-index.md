@@ -351,6 +351,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - ha-mcp advisories/source: https://github.com/homeassistant-ai/ha-mcp/security/advisories and https://github.com/homeassistant-ai/ha-mcp
 - aiosmtplib advisories/source: https://github.com/cole/aiosmtplib/security/advisories and https://github.com/cole/aiosmtplib
 - Kite advisories/source: https://github.com/zxh326/kite/security/advisories and https://github.com/zxh326/kite
+- Apache Fesod advisories/source: https://github.com/apache/fesod/security/advisories and https://github.com/apache/fesod
 
 ## Network and service discovery
 

@@ -21,6 +21,7 @@ Sources:
 - [GHSA-gr75-jv2w-4656: LangChain file-search and loader path traversal](https://github.com/advisories/GHSA-gr75-jv2w-4656)
 - [GHSA-5j6p-jrrm-6x94: Apache Airflow KubernetesExecutor Execution API JWT exposed in worker pod command-line arguments](https://github.com/advisories/GHSA-5j6p-jrrm-6x94)
 - [GHSA-vr7m-c6v4-8cx8: Apache Airflow FAB / Keycloak logout paths leave API JWTs valid until expiry](https://github.com/advisories/GHSA-vr7m-c6v4-8cx8)
+- [GHSA-vqc2-c9jh-3jjv: Apache Fesod `UrlImageConverter` user-supplied image URL SSRF](https://github.com/advisories/GHSA-vqc2-c9jh-3jjv)
 - [GHSA-37h2-6p4f-mp3q: Serena fixed-port unauthenticated Flask dashboard DNS-rebinding to agent memory/RCE](https://github.com/advisories/GHSA-37h2-6p4f-mp3q)
 - [GHSA-xqhv-chqm-fhcc: Joro wildcard-CORS local API plugin upload RCE](https://github.com/advisories/GHSA-xqhv-chqm-fhcc)
 - [GHSA-v5px-423j-pf7p: Nuclio cron trigger headers/body shell-command injection](https://github.com/advisories/GHSA-v5px-423j-pf7p)
@@ -57,6 +58,7 @@ Use this page when a scope includes:
 - certificate-enrollment, SAML, mTLS, webhook-signature, or document-signing flows that parse caller-supplied X.509 certificates server-side;
 - LLM agents, RAG tools, or developer assistants that expose LangChain filesystem search, prompt loaders, or chain/agent config loaders to untrusted prompts, shared repositories, or tenant workspaces;
 - Apache Airflow deployments where the `KubernetesExecutor`, `FabAuthManager`, or `KeycloakAuthManager` joins Kubernetes read permissions, worker pod specs, and Execution API authorization;
+- spreadsheet, report, document, or workflow importers that fetch remote images through Apache Fesod `fesod-sheet` or equivalent URL-to-image converter components;
 - local developer/agent dashboards that listen on predictable loopback ports and trust browser same-origin policy, CORS, Host headers, or DNS stability as their only boundary;
 - serverless or platform controllers where tenant-supplied trigger metadata is rendered into Kubernetes Jobs, CronJobs, shell wrappers, or generated config;
 - repository, archive, package-manager, CMS, or identity platforms that turn user-controlled path names, entry-point names, URI schemes, templates, storage providers, or object IDs into file reads/writes or privileged records;
@@ -80,6 +82,7 @@ Use this page when a scope includes:
 | Certificate-chain fetching | X.509 AIA `caIssuers` URLs fetched during validation of an untrusted certificate | Owned HTTP callback and an approved synthetic internal canary, never metadata endpoints |
 | Agent file tools | Glob patterns, prompt/config path fields, symlinks, or path-prefix checks that are validated before canonicalization | Temp workspace with in-root and sibling marker files plus symlink canaries |
 | Airflow orchestration tokens | Worker pod command-line args expose Execution API JWTs, or UI logout does not revoke API JWTs for FAB / Keycloak auth managers | Disposable Airflow namespace, fake DAG/Variable markers, and redacted token-prefix evidence |
+| Spreadsheet image URL converters | Cell, template, CSV/Excel, report, or API fields interpreted as remote image URLs by Fesod-style converters | Owned callback image endpoint and, only when approved, a synthetic internal canary URL |
 | Browser-to-loopback agent APIs | Fixed local ports, wildcard CORS, missing Host/Origin checks, unauthenticated dashboard routes, memory-write APIs, plugin upload APIs, and restart endpoints | Disposable browser profile plus inert memory/plugin markers; never live shell payloads |
 | Serverless trigger rendering | Cron trigger headers, bodies, environment fields, or labels concatenated into `/bin/sh -c`, `curl`, or generated Kubernetes specs | Lab namespace and marker-only command arguments captured from generated manifests |
 | CMS/repository file boundaries | Template paths, ORE/LDN resource URIs, curation output paths, local storage roots, or package entry-point names escaping intended directories | Synthetic templates, marker files, and disposable package wheels/sdists |
@@ -222,6 +225,18 @@ Do not harvest production task tokens, Connections, Variables, XComs, or DAG out
 4. Compare expected behavior (`401` or revoked token) with actual behavior (token still accepted until expiry).
 
 Frame this as session-boundary drift, not as a request for longer token lifetimes. Keep proof requests read-only or marker-only and avoid clearing real DAG runs or touching production workflow state.
+
+### Apache Fesod spreadsheet image URL SSRF
+
+This is a document-content-to-outbound-fetch boundary. The interesting path is not a generic URL field; it is a spreadsheet, report, or import workflow where a user-controlled cell/template/API value is passed to Apache Fesod `UrlImageConverter` or a similar converter that resolves remote image URLs server-side.
+
+1. Identify whether the application uses Apache Fesod `fesod-sheet` before `2.0.2-incubating`, or another server-side converter that embeds remote images into generated sheets or reports.
+2. Build a disposable sheet/report input with one normal HTTPS image URL and one unique owned callback URL that serves a tiny benign image.
+3. Submit through the same import/export path the application exposes to tenants or low-privilege users.
+4. Capture callback metadata proving the converter fetched the URL: timestamp, method, path, source network, and a unique assessment token.
+5. If the program explicitly provides an internal canary endpoint, repeat with that canary to show the private-resource boundary. Do not point at cloud metadata services, loopback admin panels, databases, or arbitrary private hosts.
+
+Useful evidence is a comparison table: direct URL-fetch feature blocked or filtered, spreadsheet/report image field accepted, callback fired, and patched version rejected or proxied safely. Keep images synthetic and never embed production secrets in generated documents.
 
 ### Serena and Joro browser-to-loopback control planes
 
