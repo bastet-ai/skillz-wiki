@@ -32,6 +32,9 @@ Sources:
 - [GHSA-wf93-45jw-7689: pip entry-point script path traversal](https://github.com/advisories/GHSA-wf93-45jw-7689)
 - [GHSA-rmxx-v9rj-vpvg: Casdoor local filesystem storage provider arbitrary file write](https://github.com/advisories/GHSA-rmxx-v9rj-vpvg)
 - [GHSA-75w3-gmqx-993q: Waku cross-origin CSRF on RSC server action dispatch](https://github.com/advisories/GHSA-75w3-gmqx-993q)
+- [GHSA-43fc-v873-qw85: Waku `unstable_redirect()` open redirect](https://github.com/advisories/GHSA-43fc-v873-qw85)
+- [GHSA-659f-rgp5-w4wf: Skipper OPA request-body authorization bypass on chunked / HTTP/2 requests](https://github.com/advisories/GHSA-659f-rgp5-w4wf)
+- [GHSA-4jhm-jv67-739f: `lxml_html_clean.Cleaner` namespaced URL attribute sanitizer bypass](https://github.com/advisories/GHSA-4jhm-jv67-739f)
 - [GHSA-6h3c-r723-7fx3: NL Portal task IDOR and tampering](https://github.com/advisories/GHSA-6h3c-r723-7fx3)
 - [GHSA-qpm9-h556-mwxm: NL Portal GraphQL document and decision IDOR](https://github.com/advisories/GHSA-qpm9-h556-mwxm)
 - [GHSA-vmwx-m75v-qvch: Sharp Quick Creation Command missing authorization](https://github.com/advisories/GHSA-vmwx-m75v-qvch)
@@ -58,6 +61,9 @@ Use this page when a scope includes:
 - serverless or platform controllers where tenant-supplied trigger metadata is rendered into Kubernetes Jobs, CronJobs, shell wrappers, or generated config;
 - repository, archive, package-manager, CMS, or identity platforms that turn user-controlled path names, entry-point names, URI schemes, templates, storage providers, or object IDs into file reads/writes or privileged records;
 - React Server Components / server-action frameworks where cross-origin forms or safelisted content types can reach state-changing server actions.
+- Waku apps that pass callback, return, or `next` parameters to `unstable_redirect()` after login, invite, checkout, or OAuth-like flows.
+- Skipper reverse proxies where `opaAuthorizeRequestWithBody` policies are expected to deny or allow requests based on JSON/body fields.
+- HTML sanitization pipelines using `lxml_html_clean.Cleaner` or legacy `lxml.html.clean` with `safe_attrs_only=False` but still relying on JavaScript URL-scheme stripping.
 
 ## Recon checklist
 
@@ -79,6 +85,9 @@ Use this page when a scope includes:
 | CMS/repository file boundaries | Template paths, ORE/LDN resource URIs, curation output paths, local storage roots, or package entry-point names escaping intended directories | Synthetic templates, marker files, and disposable package wheels/sdists |
 | Archive parser differentials | PAX, GNU longname/longlink, symlink, or extension headers parsed differently by scanners and extraction libraries | Offline tar fixtures and extraction into temp directories only |
 | Cross-origin server actions | `text/plain` or `multipart/form-data` POSTs reaching state-changing server actions without `Origin` / `Sec-Fetch-Site` checks | Harmless server-action marker and owned attacker page in a lab app |
+| Redirect helpers | User-controlled return/callback/next values reflected into `Location` headers without path-only enforcement | Owned redirector domain and a same-site benign path control |
+| OPA body gates | Proxy authorization policy reads `input.parsed_body`, but chunked HTTP/1.1 or HTTP/2 requests reach upstream with a body the policy did not parse | Lab Skipper route, mock upstream, and a harmless denied-field canary |
+| Namespaced sanitizer attributes | Sanitizer URL rewriting only visits ordinary `href` / `src` attributes while SVG `xlink:href` or other namespaced URL attributes survive | Offline render fixture with a non-executing marker URL and DOM diff |
 | Portal/API object IDs | Task IDs, document IDs, decision IDs, entity IDs, or quick-create command IDs accepted without per-user or per-entity authorization | Two disposable users and synthetic records with unique canary fields |
 
 ## Validation patterns
@@ -271,16 +280,39 @@ These are path-to-write checks. For pip, the path comes from `console_scripts` /
 4. For Casdoor, configure a lab local-storage provider and attempt to write only `casdoor-canary.txt` under an approved temp directory outside the nominal storage root.
 5. Record expected root, submitted path, canonical resolved path, and marker presence.
 
-### Waku server-action CSRF
+### Waku server-action CSRF and redirect helpers
 
-For React Server Components and server-action frameworks, test whether browser-safelisted cross-origin requests can invoke state changes with victim cookies.
+For React Server Components and server-action frameworks, test whether browser-safelisted cross-origin requests can invoke state changes with victim cookies. Also check whether redirect helpers enforce the documented path-only contract before writing the `Location` header.
 
 1. Build or request a lab route with a harmless `'use server'` action that increments a canary counter or stores a marker string.
 2. From an owned cross-origin page, send `POST` requests with `Content-Type: text/plain` and a plain HTML form using `multipart/form-data`.
 3. Include controls with absent, foreign, and `Origin: null` contexts such as sandboxed iframes when scope permits.
-4. Capture response status and whether the canary action executed.
+4. For redirect paths, identify callback-style parameters passed to `unstable_redirect()`, then compare a same-site path such as `/account/canary`, an absolute external URL, and a scheme-relative URL such as `//owned.example.test/canary`.
+5. Capture response status, whether the canary action executed, and the exact `Location` header for redirect cases.
 
-Do not test against account, payment, admin, or content-destruction server actions in production. The report should tie the impact to whatever action the target app exposes, not to Waku generically.
+Do not test against account, payment, admin, or content-destruction server actions in production. For redirects, use only owned domains and do not collect real OAuth codes, session tokens, or credentials. The report should tie the impact to whatever action or redirect flow the target app exposes, not to Waku generically.
+
+### Skipper OPA request-body authorization bypass
+
+This is a proxy/parser differential: the policy engine may evaluate an empty body while the upstream receives the full chunked or HTTP/2 payload.
+
+1. Confirm the route uses Skipper with `opaAuthorizeRequestWithBody` and a Rego rule that reads `input.parsed_body` or body-derived fields.
+2. Build a mock upstream or lab route that records only synthetic marker fields.
+3. Send three controls: fixed `Content-Length` JSON with an allowed marker, fixed `Content-Length` JSON with a denied marker, and the same denied marker over HTTP/1.1 `Transfer-Encoding: chunked` or HTTP/2 without an explicit content length.
+4. Evidence should show the OPA decision, response status, upstream receipt, protocol/framing variant, and the marker field value.
+
+Keep proofs to lab routes or explicit customer-approved canaries. Do not use this to bypass production business controls, submit real forbidden content, or reach private upstream actions outside the assessment scope.
+
+### `lxml_html_clean` namespaced URL-attribute sanitizer bypass
+
+Use this when a target sanitizes user-controlled rich HTML/SVG and then renders it back as trusted content.
+
+1. Confirm the sanitizer stack: `lxml_html_clean.Cleaner` or legacy `lxml.html.clean`, whether `safe_attrs_only=False` is enabled, and whether SVG or namespaced attributes are preserved.
+2. Build an offline fixture containing a harmless ordinary `href` control and a namespaced URL attribute such as SVG `xlink:href` with a clearly marked non-production URL.
+3. Compare sanitizer output: ordinary JavaScript-style URLs should be stripped or rewritten; the bug is that namespaced URL attributes can survive the same URL-scheme check.
+4. If browser validation is in scope, use a local static page and a non-credentialed disposable browser profile. Stop at DOM/output evidence or a click on an owned marker URL; do not attempt credential theft or persistent payloads.
+
+Report the sanitizer configuration, raw input, sanitized output, and rendering context. This is strongest when the application explicitly promised URL-scheme sanitization while allowing rich SVG or lenient attributes.
 
 ### NL Portal and Sharp authorization drift
 
@@ -303,6 +335,7 @@ A strong report for this wave should include:
 - marker-only evidence from owned callbacks, fake listeners, temp files, disposable namespaces, mocked clusters, certificate AIA callbacks, or agent-workspace canaries;
 - for Airflow, a role matrix showing Kubernetes namespace read permissions, Airflow role, auth manager/executor mode, redacted token exposure or residual validity, and marker-only API impact;
 - for browser-to-loopback bugs, the exact browser origin, local port, route, content type, CORS/Host/Origin behavior, and inert marker effect;
+- for redirect, proxy-body, and sanitizer bypasses, a control-vs-bypass table showing same-site path versus external `Location`, fixed-length versus chunked/HTTP2 body parsing, or ordinary versus namespaced URL attributes;
 - for package/archive/filesystem bugs, a canonical path or parser-differential table rather than a sensitive file read;
 - for IDOR and authorization drift, a two-user object matrix with synthetic canaries only;
 - clear negative controls showing the intended blocked path still blocks when the parser variant is not used.

@@ -36,6 +36,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - vLLM advisories/source: https://github.com/vllm-project/vllm/security/advisories and https://github.com/vllm-project/vllm
 - Strawberry GraphQL advisories/source: https://github.com/strawberry-graphql/strawberry/security/advisories and https://github.com/strawberry-graphql/strawberry
 - lxml advisories/source: https://github.com/lxml/lxml/security/advisories and https://github.com/lxml/lxml
+- Waku advisories/source: https://github.com/wakujs/waku/security/advisories and https://github.com/wakujs/waku
+- Skipper advisories/source: https://github.com/zalando/skipper/security/advisories and https://github.com/zalando/skipper
 - LangChain advisories/source: https://github.com/langchain-ai/langchain/security/advisories and https://github.com/langchain-ai/langchain
 - LangGraph advisories/source: https://github.com/langchain-ai/langgraph/security/advisories and https://github.com/langchain-ai/langgraph
 - go-chi/chi advisories/source: https://github.com/go-chi/chi/security/advisories and https://github.com/go-chi/chi
