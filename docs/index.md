@@ -10,7 +10,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 - [Agentic DAST benchmark fixtures and SSRF sink-validation controls](methodology/agentic-dast-benchmark-validation.md#turn-scanner-misses-into-benchmark-fixtures)
 - [Agent, CMS, renderer, and export boundary checks from July 9 GHSA updates](alerts/2026-07-09-agent-cms-render-export-boundaries-ghsa.md)
-- [CarrierWave MIME denylist and OpenStack Ironic image-boundary checks](alerts/2026-07-09-upload-and-baremetal-image-boundaries-ghsa.md)
+- [CarrierWave/TypiCMS upload and OpenStack Ironic image-boundary checks](alerts/2026-07-09-upload-and-baremetal-image-boundaries-ghsa.md)
 - [Waku redirect, Skipper OPA body, and lxml sanitizer bypass updates](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#waku-server-action-csrf-and-redirect-helpers)
 - [Serena/Joro browser-to-loopback and Nuclio/DSpace package-boundary updates](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#serena-and-joro-browser-to-loopback-control-planes)
 - [Apache Airflow KubernetesExecutor and logout token boundary update](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#apache-airflow-kubernetesexecutor-and-logout-token-boundaries)

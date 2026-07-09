@@ -4,23 +4,25 @@ title: Upload validation and bare-metal image boundary checks from July 9 GHSA u
 
 # Upload validation and bare-metal image boundary checks from July 9 GHSA updates
 
-This update promotes three GHSA records into reusable operator checks for authorized assessments. The common pattern is a caller-controlled artifact that crosses a boundary after the platform has already decided it is safe: an upload `Content-Type` compared through an unsafe denylist regex, a tenant-controlled bare-metal console path reaching host-side tooling, or a deployment image influencing commands executed during image preparation.
+This update promotes GHSA records into reusable operator checks for authorized assessments. The common pattern is a caller-controlled artifact that crosses a boundary after the platform has already decided it is safe: an upload `Content-Type` compared through an unsafe denylist regex, an allowed SVG stored on a browser-executable public disk without content sanitization, a tenant-controlled bare-metal console path reaching host-side tooling, or a deployment image influencing commands executed during image preparation.
 
 Sources:
 
 - [GHSA-7g26-2qgj-chfg: CarrierWave `content_type_denylist` bypass via unescaped regex metacharacters](https://github.com/advisories/GHSA-7g26-2qgj-chfg)
+- [GHSA-xfvg-8v67-j7wp / CVE-2026-27621: TypiCMS SVG upload stored XSS when public storage serves unsanitized SVG content](https://github.com/advisories/GHSA-xfvg-8v67-j7wp)
 - [GHSA-wqpv-c3pp-3m58: OpenStack Ironic functionality from an untrusted control sphere](https://github.com/advisories/GHSA-wqpv-c3pp-3m58)
 - [GHSA-rmxr-45gj-889w: OpenStack Ironic Python Agent chroot `grub-install` execution from deployed image content](https://github.com/advisories/GHSA-rmxr-45gj-889w)
 
 !!! warning "Authorized validation only"
-    Keep proofs in disposable upload apps, lab OpenStack/Ironic environments, and scratch bare-metal nodes or VMs. Use benign marker files, fake content types, inert wrapper commands, and lab images. Do not upload web shells, alter production bare-metal provisioning flows, run payloads on conductor hosts, or target customer images.
+    Keep proofs in disposable upload apps, lab OpenStack/Ironic environments, and scratch bare-metal nodes or VMs. Use benign marker files, fake content types, harmless SVG markers, inert wrapper commands, and lab images. Do not upload web shells, credential-harvesting SVGs, alter production bare-metal provisioning flows, run payloads on conductor hosts, or target customer images.
 
 ## Operator use
 
 Use these checks when a scope includes:
 
 - Ruby/Rails apps using CarrierWave or equivalent upload libraries with MIME denylist controls;
-- upload paths that allow SVG, XML, HTML, archive, office, or polyglot-looking content but claim a denylist blocks dangerous MIME types;
+- upload paths that allow SVG, XML, HTML, archive, office, or polyglot-looking content but claim a denylist or MIME check makes the stored artifact safe;
+- CMS media libraries that store SVGs on a public disk, render previews inline, or let uploaded files inherit the application origin;
 - OpenStack Ironic or bare-metal-as-a-service platforms where tenants can influence image contents, console settings, deployment metadata, or bootloader setup;
 - provisioning agents that mount or chroot into tenant-provided images and then run host tooling from inside that environment.
 
@@ -30,6 +32,7 @@ Use these checks when a scope includes:
 | --- | --- | --- |
 | MIME denylist regexes | String denylist entries interpolated into regexes without escaping metacharacters such as `+`, `.`, `(`, `)`, `[`, `]`, or anchors | Benign file with a controlled `Content-Type`, such as `image/svg+xml`, and non-executing marker content |
 | Upload storage binding | MIME decision separated from extension, final storage path, public serving origin, or downstream processors | Matrix of claimed MIME, detected MIME, extension, storage path, and render/download behavior |
+| SVG content trust | SVG is allowlisted as an image but saved without stripping scriptable elements, event handlers, external references, or dangerous animation/link constructs | Harmless SVG with `viewBox` and a visible text/DOM marker in a lab browser |
 | Bare-metal console helpers | Non-default console interfaces or driver options that cause host-side tools such as `ipmitool` to run using tenant-influenced fields | Lab node with wrapper/logging binary or fake BMC endpoint; no production BMC commands |
 | Image preparation chroots | Deployment agents that chroot into an image and run bootloader, package, hook, or helper commands resolved from the image filesystem | Disposable image containing inert marker wrappers and pre/post deployment logs |
 
@@ -49,6 +52,18 @@ The operator question is whether the application treats a denylist as a reliable
 4. Capture final storage and serving behavior. A strong report shows that the same policy blocks a control MIME but accepts the metacharacter-bearing MIME it intended to deny.
 
 Useful evidence is a compact table: configured denylist entry, regex-equivalent behavior if visible, submitted MIME, expected decision, actual decision, stored filename/path, and fixed-version result.
+
+### CMS SVG upload and public-origin execution boundary
+
+The TypiCMS advisory adds a separate upload lesson: even when the MIME decision is literal and intentional, SVG is active browser content. If the CMS stores the file on a public disk and serves it from the application origin, an attacker with upload rights may be able to turn media-library access into stored client-side execution against editors or administrators.
+
+1. In a disposable CMS lab, identify file-upload validators that allow `svg`, `image/svg+xml`, or extension-based SVG uploads.
+2. Confirm where the uploaded file is stored and how it is served: same application origin, media subdomain, forced download, sanitized preview, or inline render.
+3. Use a harmless SVG canary with a valid `viewBox` and visible marker text. If script execution is explicitly approved for the lab, keep the script to a local marker such as setting `document.body.dataset.svgCanary = "1"`; never collect cookies, tokens, local storage, or page contents.
+4. Compare direct-file access, CMS thumbnail/preview views, admin media-picker views, and any rich-text embed path. Record which contexts execute, download, or sanitize the SVG.
+5. Pair the proof with a patched or hardened negative control: sanitized SVG output, forced attachment download, origin isolation, or rejection/conversion of active SVG content.
+
+Report this as **allowed SVG upload -> unsanitized active content -> same-origin editor/admin render**. Do not overstate it as server-side code execution; the durable operator value is the upload-to-browser trust boundary and the contexts where privileged users view the stored artifact.
 
 ### OpenStack Ironic console/tool execution boundary
 
@@ -77,6 +92,7 @@ Do not place shell payloads, credential readers, network callbacks to internal s
 Lead with the artifact-to-runtime boundary:
 
 - **configured MIME denylist -> regex parser -> accepted upload**;
+- **allowlisted SVG -> unsanitized active content -> same-origin CMS render**;
 - **tenant console metadata -> conductor-side helper invocation**;
 - **tenant image filesystem -> provisioning agent command resolution**.
 
