@@ -89,3 +89,22 @@ This is a reusable **browser-origin trust-boundary** pattern: a server accepts a
 - Keep screenshots and HAR files limited to harmless status/version responses.
 - Never collect notebooks, terminals, tokens, model files, datasets, environment variables, cloud credentials, or user content.
 - Report the root cause as **prefix regex matching used for origin authorization**, not merely generic CORS misconfiguration.
+
+## Jupyter Server sibling-prefix path traversal follow-up
+
+Updated: hourly offensive-security scan, 2026-07-09. GitHub updated [GHSA-gf7q-q4j7-hp7c / CVE-2026-5422](https://github.com/advisories/GHSA-gf7q-q4j7-hp7c) with a clearer root cause and patched version boundary: `jupyter-server` before **2.18.2** can allow authenticated file access outside `root_dir` when `_get_os_path()` checks `path.startswith(root)` without a trailing path separator and `to_os_path()` preserves traversal parts. The operator-useful pattern is the same durable class as the original Jupyter entry: **string-prefix containment is not filesystem containment**.
+
+### Safe validation workflow
+
+1. **Build a disposable lab tree.** Use a throwaway user and temporary directory names that intentionally share a prefix, for example `/tmp/jupyter-root` and `/tmp/jupyter-root-sibling`. Put only a synthetic marker file in the sibling directory.
+2. **Confirm the target shape.** Validate only Jupyter Server deployments where the assessment scope includes authenticated Contents API testing and the package version is below `2.18.2`.
+3. **Probe with canary paths only.** Exercise `/api/contents/` with encoded traversal and sibling-prefix path variants that should remain outside `root_dir`. The proof is access to the synthetic sibling marker or an unexpected write to a disposable sibling path.
+4. **Capture negative controls.** Show that a non-prefix sibling such as `/tmp/other-sibling` is denied, and that the same canary path is denied after upgrading or applying a canonical boundary check.
+5. **Stop at boundary proof.** Do not enumerate directories or read real notebooks, datasets, credentials, terminals, model artifacts, or cloud configuration files.
+
+### Evidence to keep
+
+- `jupyter-server` version, configured `root_dir` shape, and the redacted Contents API route used.
+- The synthetic sibling directory names and marker filename, with contents limited to a harmless canary string.
+- A before/after result table covering vulnerable, patched, prefix-sibling, and non-prefix-sibling cases.
+- Source links: [GitHub advisory](https://github.com/advisories/GHSA-gf7q-q4j7-hp7c), [huntr report](https://huntr.com/bounties/24a36953-6490-466f-8cb2-a90d1ca56e0f), and [upstream fix commit](http://github.com/jupyter-server/jupyter_server/commit/0d829f2c35a481c3b24ecbe1e25a6f79954e88f2).
