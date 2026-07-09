@@ -18,7 +18,7 @@ Agentic testers are useful only when they can move from discovery to a reproduci
 - Can it prove impact with exact evidence, not a plausible-looking narrative?
 - Can the result be reproduced from a clean environment?
 
-ProjectDiscovery's Neo write-up on Argus-style black-box DAST benchmarking is useful because it highlights validation controls that also apply to human-led bug-bounty labs and red-team exploit proving.
+ProjectDiscovery's Neo write-ups on Argus-style black-box DAST benchmarking and its Faraday SSRF finding are useful because they highlight validation controls that also apply to human-led bug-bounty labs and red-team exploit proving: the agent should trace an input to the final sink, interact with the running application, and produce evidence that distinguishes a true boundary crossing from a plausible static-code hypothesis.
 
 ## Inputs
 
@@ -134,6 +134,24 @@ For each failed run, classify the cause:
 
 Only count a challenge as unsolved after harness and state issues are ruled out.
 
+## Turn scanner misses into benchmark fixtures
+
+ProjectDiscovery's follow-up benchmark walkthroughs are useful beyond Neo because they show why agentic and human-assisted testing should be evaluated against stateful application behavior, not only known vulnerable lines. Use each confirmed miss or false positive as a future fixture:
+
+1. **Preserve the vulnerable architecture.** Capture the route, data model, background job, webhook, redirect, cache, or authorization relationship that made the finding possible. A benchmark that keeps only the vulnerable function loses the exploit path.
+2. **Classify the required reasoning.** Mark whether the proof required multi-user state, role switching, cross-request correlation, URL parser behavior, stored object mutation, or server-side callback evidence.
+3. **Keep a scanner comparison log.** Record which tools found the issue, which reported a false positive, and which missed it because they lacked runtime context. This helps future operators choose when to escalate from SAST/DAST to manual or agentic testing.
+4. **Replay on a fresh instance.** Before adding the fixture to a benchmark corpus, replay the exploit manually or with a reference script against a clean build and verify the dynamic proof.
+
+For SSRF-style findings such as ProjectDiscovery's Faraday case study, the fixture should force the tester to prove the final request destination, not just identify a suspicious URL concatenation:
+
+- provide an owned callback endpoint with a run-specific token;
+- include benign controls for normal relative paths, protocol-relative inputs, absolute URLs, redirects, and encoded host material;
+- log the server-side egress request received by the callback;
+- reject reports that stop at "input reaches HTTP client" without showing where the HTTP client actually connected.
+
+Do not reuse live third-party URLs, cloud metadata endpoints, or production integration tokens in these fixtures. Use synthetic services and fake credentials so the benchmark measures boundary validation rather than data capture.
+
 ## Reporting heuristic
 
 When converting benchmark results into an operator report, include:
@@ -158,5 +176,7 @@ This format makes agentic DAST results easier to replay, compare, and defend dur
 ## Sources
 
 - ProjectDiscovery, "Benchmarking Neo's Black-Box DAST Capabilities": https://projectdiscovery.io/blog/neo-black-box-dast-capabilities
+- ProjectDiscovery, "Inside the benchmark: app architectures, walkthroughs of findings, and what each scanner actually caught": https://projectdiscovery.io/blog/inside-the-benchmark-pp-architectures-finding-walkthroughs-and-what-each-scanner-actually-caught
+- ProjectDiscovery, "How Neo found an SSRF vulnerability in Faraday, and why it matters for every team that ships code": https://projectdiscovery.io/blog/how-neo-found-an-ssrf-vulnerability-in-faraday-and-why-it-matters-for-every-team-that-ships-code
 - Pensar AI Argus validation benchmarks: https://github.com/pensarai/argus-validation-benchmarks
 - XBOW validation benchmarks: https://github.com/xbow-engineering/validation-benchmarks

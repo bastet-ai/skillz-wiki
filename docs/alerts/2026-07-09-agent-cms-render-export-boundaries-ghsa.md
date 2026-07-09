@@ -9,6 +9,7 @@ This update promotes July 9 GHSA records into reusable operator checks for autho
 Sources:
 
 - [GHSA-382c-vx95-w3p5: Gittensory profile endpoint and MCP tool miss contributor-scoped access control](https://github.com/advisories/GHSA-382c-vx95-w3p5)
+- [GHSA-hm42-q32m-vj4f: Admidio plugin install, uninstall, and update routes accept CSRFable GET requests](https://github.com/advisories/GHSA-hm42-q32m-vj4f)
 - [GHSA-3c3g-7hwg-9qmr / CVE-2026-10566: MetaGPT argument mapping reaches deserialization](https://github.com/advisories/GHSA-3c3g-7hwg-9qmr)
 - [GHSA-86vw-x4ww-x467: Craft CMS `FieldsController::actionRenderCardPreview` event-handler injection](https://github.com/advisories/GHSA-86vw-x4ww-x467)
 - [GHSA-c43v-4cr8-6mvp: Craft CMS `assets/icon` traversal for local `.svg` reads](https://github.com/advisories/GHSA-c43v-4cr8-6mvp)
@@ -27,6 +28,7 @@ Sources:
 Use these checks when a scope includes:
 
 - MCP servers or agent platforms that expose the same data through REST and tool transports;
+- plugin marketplaces, extension managers, or admin panels where install/update/uninstall routes are reachable through ambient browser sessions;
 - agent frameworks that deserialize or reconstruct typed messages from user, repo, checkpoint, or tool-output data;
 - Craft CMS or Yii2-based admin features that accept nested config arrays, preview payloads, or `on event`-style keys;
 - server-side CSS parsing for email, rich-text, document preview, or HTML-to-email flows, especially Premailer-style `@import` handling;
@@ -40,6 +42,7 @@ Use these checks when a scope includes:
 | Boundary | What to look for | Safe canary |
 | --- | --- | --- |
 | REST vs MCP authorization parity | A REST route returns 403 for cross-tenant or cross-contributor access while the sibling MCP tool returns the object | Two disposable users and a synthetic non-sensitive profile field |
+| Admin extension state changes | Plugin install, update, uninstall, enable, or import actions accept `GET` or tokenless requests with ambient cookies | Disposable plugin ID and a reversible no-op install/update marker in a lab |
 | Agent message reconstruction | `mapping`, checkpoint, tool-output, or instruction fields that are converted into typed objects or deserialized classes | Inert class/type marker and local-only harness logs |
 | CMS config preview | Nested POST/JSON config passed to framework component constructors without cleansing event-handler keys | Harmless callback such as a marker function in a disposable admin lab, not `phpinfo()` on production |
 | Icon/static helper path construction | User-controlled extension or icon name checked for existence before validation | Temp `.svg` marker under a lab-controlled readable directory |
@@ -62,6 +65,17 @@ The Gittensory advisory is useful beyond that package because it shows a common 
 4. Stop at field-presence evidence. Redact values and never collect production financial, wallet, prompt, or profile data.
 
 A strong report includes the specific missing guard, the sibling endpoint that enforces it correctly, and a recommendation to share authorization middleware/service checks across transports.
+
+### Plugin manager CSRF and ambient admin sessions
+
+The Admidio plugin advisory is useful as a general admin-extension boundary check: the browser already holds an admin session, and a tokenless state-changing route lets attacker-controlled HTML steer that session into installing, updating, or removing code-bearing extensions.
+
+1. In a disposable application lab, map extension-manager routes and record method, token, and role requirements for install, update, uninstall, enable, import, and configuration actions.
+2. Build a benign cross-site request harness that targets only a reversible marker action, such as installing a known-safe test plugin, toggling a disposable disabled plugin, or hitting a route that returns a state-change decision without applying it.
+3. Compare direct admin navigation, same-origin POST with a valid CSRF token, tokenless same-origin GET, and cross-site GET or form-submit behavior.
+4. Evidence should show the missing anti-CSRF boundary and the resulting extension-control decision. Do not install untrusted packages, remove production plugins, or publish payloads that bootstrap executable plugin code.
+
+Pair this with existing credential-log or private-key-export checks only when the target is Admidio or a similar SSO-capable admin panel. Keep each proof separate: **admin browser -> extension state change** is a different boundary from **session token -> log sink** or **admin browser -> private-key export**.
 
 ### Agent deserialization and instruction mapping
 
@@ -139,6 +153,7 @@ Micronaut's `DefaultHttpClient` issue is useful for testing integrations that fe
 Lead with the boundary that failed:
 
 - **authorized REST route -> unaudited MCP wrapper -> cross-object data**;
+- **ambient admin browser -> tokenless plugin-manager route -> extension state change**;
 - **agent message mapping -> deserialization/type reconstruction**;
 - **CMS preview config -> framework event-handler registration**;
 - **icon extension -> pre-validation existence check -> local SVG read**;

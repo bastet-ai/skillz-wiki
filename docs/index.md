@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Agentic DAST benchmark fixtures and SSRF sink-validation controls](methodology/agentic-dast-benchmark-validation.md#turn-scanner-misses-into-benchmark-fixtures)
 - [Agent, CMS, renderer, and export boundary checks from July 9 GHSA updates](alerts/2026-07-09-agent-cms-render-export-boundaries-ghsa.md)
 - [CarrierWave MIME denylist and OpenStack Ironic image-boundary checks](alerts/2026-07-09-upload-and-baremetal-image-boundaries-ghsa.md)
 - [Waku redirect, Skipper OPA body, and lxml sanitizer bypass updates](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#waku-server-action-csrf-and-redirect-helpers)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [DAML controller-mutation testing for authorization gaps](best-practices/mutation-testing-for-the-agentic-era.md#daml-canton-authorization-checks)
 - [Integration, deployment, agent, CMS, and MCP boundary checks from July 8 GHSA wave](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md)
 - [Joomla page-builder upload and ColdFusion traversal KEV boundary checks](alerts/2026-07-08-joomla-page-builder-coldfusion-kev-boundaries.md)
-- [Agent, deploy, SSRF, and identity boundary checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md)
 
 ## What lives here
 

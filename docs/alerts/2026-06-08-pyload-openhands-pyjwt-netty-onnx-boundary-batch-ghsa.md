@@ -96,3 +96,16 @@ These are worth folding into the pyLoad page because they are not isolated bugs;
 4. **Negative controls:** sessions are invalidated or permissions are re-checked on every privileged action; unsafe methods and CSRF tokens are enforced for API state changes; local-only checks trust the socket peer address or authenticated reverse-proxy metadata, not raw `Host`/origin headers.
 
 Adjacent [GHSA-8fm5-gg2f-f66q](https://github.com/advisories/GHSA-8fm5-gg2f-f66q) was processed without promotion because the Publify redirect-link XSS requires a publisher-controlled admin click and does not add a stronger workflow beyond existing trusted-admin-render checks.
+
+## July 9 pyLoad IPv6 transition-address SSRF update
+
+GitHub Advisory Database added [GHSA-m5x5-28jr-gpjj](https://github.com/advisories/GHSA-m5x5-28jr-gpjj), which extends the same pyLoad outbound-fetch boundary: an SSRF guard can classify direct private IPs correctly while missing IPv6 transition wrappers such as 6to4 or NAT64 forms that route to the same internal destination.
+
+### Added operator checks
+
+1. **Find every pyLoad feature that fetches caller-supplied URLs.** Include CNL/package URLs, plugin downloaders, link collectors, archive importers, and URL-check helpers.
+2. **Build a canonicalization decision table.** For each candidate URL, record parser output, DNS result if applicable, normalized address family, and final socket destination. Include direct private IPv4, IPv4-mapped IPv6, 6to4, NAT64, bracketed IPv6, decimal/octal IPv4, and redirect-to-transition-address controls.
+3. **Use only owned canaries.** In an approved lab, route transition-address tests to synthetic services you control. If the customer wants an internal-destination proof, use a purpose-built canary service, not metadata endpoints, admin panels, NAS devices, or other production internals.
+4. **Pair with patched negative controls.** A robust guard resolves and normalizes every hop to a concrete address, rejects private/link-local/loopback targets after transition decoding, and repeats the check after redirects.
+
+Evidence should be the parser-vs-socket mismatch and a harmless callback or canary response. Do not turn this into broad internal port scanning or credential collection.
