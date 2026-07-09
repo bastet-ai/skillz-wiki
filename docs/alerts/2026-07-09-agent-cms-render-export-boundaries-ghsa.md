@@ -4,7 +4,7 @@ title: Agent, CMS, renderer, and export boundary checks from July 9 GHSA updates
 
 # Agent, CMS, renderer, and export boundary checks from July 9 GHSA updates
 
-This update promotes July 9 GHSA records into reusable operator checks for authorized assessments. The shared pattern is trusted automation accepting caller-shaped data after the platform has already made an access, sanitization, or locality decision: MCP tools skip the REST route's scope gate, CMS config arrays re-enter framework event binding, CSS imports follow redirects into `file://`, and export jobs turn stored slugs into filesystem paths.
+This update promotes July 9 GHSA records into reusable operator checks for authorized assessments. The shared pattern is trusted automation accepting caller-shaped data after the platform has already made an access, sanitization, locality, or credential-routing decision: MCP tools skip the REST route's scope gate or write outside their workspace, CMS config arrays re-enter framework event binding, CSS imports follow redirects into `file://`, export jobs turn stored slugs into filesystem paths, and HTTP clients forward bearer material across redirect authorities.
 
 Sources:
 
@@ -16,9 +16,11 @@ Sources:
 - [GHSA-rqrh-8wpv-x7hh / CVE-2026-50553: Note Mark export path traversal through unanchored slug validation](https://github.com/advisories/GHSA-rqrh-8wpv-x7hh)
 - [GHSA-588f-fvcv-xhvf / CVE-2026-50554: Note Mark public-book `deleted=true` metadata disclosure](https://github.com/advisories/GHSA-588f-fvcv-xhvf)
 - [GHSA-q6qc-xp4q-rjq5 / CVE-2026-10281: Claw Orchestrator component API missing authentication](https://github.com/advisories/GHSA-q6qc-xp4q-rjq5)
+- [GHSA-52vm-mxx8-f227: Phantom MCP tools allow arbitrary output paths when `PHANTOM_OUTPUT_DIR` is unset](https://github.com/advisories/GHSA-52vm-mxx8-f227)
+- [GHSA-q6gh-6v2r-hjv3: Micronaut `DefaultHttpClient` forwards sensitive headers across redirect boundaries](https://github.com/advisories/GHSA-q6gh-6v2r-hjv3)
 
 !!! warning "Authorized validation only"
-    Keep proofs in disposable agent, CMS, renderer, and note-export labs. Use inert MCP calls, synthetic contributor/profile rows, harmless framework event callbacks, owned redirectors, marker-only SVG and export files, and route/role decision tables. Do not collect financial data, production prompts, secrets, environment dumps, customer notes, real CMS files, or run shell payloads.
+    Keep proofs in disposable agent, CMS, renderer, HTTP-client, and note-export labs. Use inert MCP calls, synthetic contributor/profile rows, harmless framework event callbacks, owned redirectors, marker-only SVG/export/output files, fake bearer headers, and route/role decision tables. Do not collect financial data, production prompts, secrets, environment dumps, customer notes, real CMS files, real authorization headers, or run shell payloads.
 
 ## Operator use
 
@@ -29,7 +31,9 @@ Use these checks when a scope includes:
 - Craft CMS or Yii2-based admin features that accept nested config arrays, preview payloads, or `on event`-style keys;
 - server-side CSS parsing for email, rich-text, document preview, or HTML-to-email flows, especially Premailer-style `@import` handling;
 - note/wiki/export tools that store user-editable slugs and later join them into backup, migration, or archive paths;
-- local orchestration dashboards that expose embedded component APIs on browser- or network-reachable ports.
+- local orchestration dashboards that expose embedded component APIs on browser- or network-reachable ports;
+- MCP tools that accept caller-selected input/output paths, especially when a default output root is optional or environment-controlled;
+- server-side HTTP clients that follow redirects while carrying `Authorization`, `Cookie`, `Proxy-Authorization`, or integration API-key headers.
 
 ## Recon checklist
 
@@ -43,6 +47,8 @@ Use these checks when a scope includes:
 | Export slug-to-path joins | Stored book/note/page slugs validated with unanchored regexes, then used in `path.Join`, `filepath.Join`, archive names, or backup paths | Disposable export root and sibling marker directory under `/tmp` |
 | Soft-delete public filters | Public unauthenticated list endpoints that accept `deleted`, `archived`, or `trash` flags and disable ORM scopes | Public test book/note with synthetic title only |
 | Embedded component APIs | Component, plugin, or node APIs listening without the same auth as the main dashboard | Route matrix showing unauthenticated 200 vs authenticated control route |
+| MCP file output roots | Tool arguments accept absolute paths, `..`, symlinked output locations, or unset workspace-root environment variables | Temp output root plus a sibling canary path owned by the lab user |
+| Redirected HTTP credentials | Client follows 3xx responses to a different host, scheme, or port while preserving sensitive headers | Owned redirector and callback that records only fake canary header names/values |
 
 ## Validation patterns
 
@@ -106,6 +112,28 @@ For Claw Orchestrator-style missing-auth component APIs, prefer route-state evid
 3. Call only read-only or inert marker endpoints. If a component route is action-capable, prove reachability with an OPTIONS/404/405/route-metadata decision table where possible.
 4. Report the exposed authority boundary: unauthenticated component API -> component state/action surface -> expected dashboard authentication.
 
+### MCP tool path confinement
+
+Phantom's advisory is a durable check for any agent-adjacent tool server that lets an LLM, local UI, or remote client supply output paths.
+
+1. Enumerate MCP tools that accept path-like parameters: `output`, `output_path`, `save_as`, `workspace`, `project`, `audio`, `render`, `export`, and cache or artifact paths.
+2. Identify the intended confinement root. Treat an unset root environment variable as a finding candidate only in a disposable lab or developer workstation clone.
+3. Submit marker-only paths that attempt to leave the root: absolute paths under a temp directory, `../sibling-marker`, and symlinks pointing to a lab-owned canary path.
+4. Evidence should show pre/post file existence and the effective process user. Do not target shell startup files, editor/plugin startup hooks, credentials, or production project files.
+5. Pair positive evidence with a patched or configured negative control where the tool resolves symlinks, verifies the final path remains under the root, and creates outputs atomically.
+
+If the same tool decodes compressed media or archives, keep that as a secondary resource-boundary note unless it yields a stronger authorized workflow than availability testing.
+
+### Redirect authority and credential forwarding
+
+Micronaut's `DefaultHttpClient` issue is useful for testing integrations that fetch user-provided or third-party URLs while holding service credentials.
+
+1. Confirm that the application uses a redirect-following HTTP client for webhooks, imports, link previews, OAuth/OIDC discovery, package metadata, or API relay calls.
+2. Seed only fake credentials in the lab request context, for example a synthetic Authorization bearer header, a canary Cookie value, Proxy-Authorization, or a lab-only integration header.
+3. Use an owned first-hop URL that redirects to a different host, scheme, or port you control. Record whether the second-hop request receives any sensitive header.
+4. Build a decision table by redirect type: same-origin path, same host different scheme, sibling subdomain, unrelated domain, and different port.
+5. Do not test with live user cookies, production API tokens, OAuth codes, or third-party services. The proof is that header forwarding crosses authority boundaries, not that a real secret was captured.
+
 ## Reporting notes
 
 Lead with the boundary that failed:
@@ -117,6 +145,8 @@ Lead with the boundary that failed:
 - **CSS `@import` -> recursive redirect -> local file or internal fetch**;
 - **stored slug -> export path join -> outside-root write**;
 - **public list flag -> soft-delete scope bypass**;
-- **embedded component route -> missing dashboard authentication**.
+- **embedded component route -> missing dashboard authentication**;
+- **MCP path parameter -> optional/unset output root -> outside-root write**;
+- **redirect-following HTTP client -> cross-authority 3xx -> sensitive header relay**.
 
 Include version, required role, route/tool name, object ownership, the exact input class, synthetic canary evidence, and a patched or negative control. Avoid generic RCE/SSRF claims unless the approved lab proof reaches that specific sink without relying on sensitive data or production side effects.
