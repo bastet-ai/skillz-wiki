@@ -1,10 +1,10 @@
 ---
-title: HTTP client, package cache, identity, API serializer, and access-log checks from July 10 GHSA updates
+title: HTTP client, package cache, identity, API serializer, access-log, proxy-token, and APK package-integrity checks from July 10 GHSA updates
 ---
 
-# HTTP client, package cache, identity, API serializer, and access-log checks from July 10 GHSA updates
+# HTTP client, package cache, identity, API serializer, access-log, proxy-token, and APK package-integrity checks from July 10 GHSA updates
 
-This update promotes late July 9 / early July 10 GHSA records into reusable operator checks for authorized assessments. The shared pattern is caller-controlled protocol, artifact, package, DNS, URL, identity, serializer-cache, or log-field metadata crossing a trusted boundary after a library or platform has already decided the operation is safe: redirect-following clients forward credentials, multipart builders serialize unescaped header material, package metadata becomes a filesystem path, smart-object filenames drive extraction paths, DNS answers poison reusable resolver caches, reconstructed framework URLs drift away from routed paths, cross-organization tokens are exchanged without rebinding the user to the target application, long-lived API normalizers reuse privileged response shapes, and access-log identity fields can forge request evidence.
+This update promotes late July 9 / early July 10 GHSA records into reusable operator checks for authorized assessments. The shared pattern is caller-controlled protocol, artifact, package, DNS, URL, identity, serializer-cache, log-field, proxy-injected token, or package-index metadata crossing a trusted boundary after a library or platform has already decided the operation is safe: redirect-following clients forward credentials, multipart builders serialize unescaped header material, package metadata becomes a filesystem path, smart-object filenames drive extraction paths, DNS answers poison reusable resolver caches, reconstructed framework URLs drift away from routed paths, cross-organization tokens are exchanged without rebinding the user to the target application, long-lived API normalizers reuse privileged response shapes, access-log identity fields can forge request evidence, reverse proxies leak their own management trust tokens to upstream applications, and APK package clients verify signed control metadata while installing substituted data payloads.
 
 Sources:
 
@@ -25,9 +25,11 @@ Sources:
 - [GHSA-4vj7-5mj6-jm8m / CVE-2026-5078: `morgan` logs Basic-auth `:remote-user` values without neutralizing control characters](https://github.com/advisories/GHSA-4vj7-5mj6-jm8m)
 - [GHSA-48rx-c7pg-q66r / CVE-2026-54171: Excon redirect follower fails to strip additional sensitive headers on redirects](https://github.com/advisories/GHSA-48rx-c7pg-q66r)
 - [GHSA-rqq5-2gf9-4w4q / CVE-2026-54163: `secure_headers` CSP directive injection through `sandbox`, `plugin_types`, and `report_to`](https://github.com/advisories/GHSA-rqq5-2gf9-4w4q)
+- [GHSA-g936-7jqj-mwv8: TSDProxy forwards its internal management auth token to proxied backend services](https://github.com/advisories/GHSA-g936-7jqj-mwv8)
+- [GHSA-fpg8-7664-jc5q / CVE-2026-54174: `melange` / `apko` package verification checked APK control hashes but not installed data hashes](https://github.com/advisories/GHSA-fpg8-7664-jc5q)
 
 !!! warning "Authorized validation only"
-    Keep proofs in disposable HTTP-client harnesses, upload/extraction sandboxes, owned package indexes/channels, lab identity realms, fake signing infrastructure, two-user API Platform labs, and local access-log harnesses. Use fake bearer tokens, owned redirectors, inert multipart fields, marker-only PSD/conda package files, synthetic users and organizations, disposable trust roots, canary-only resource attributes, and fake Basic-auth usernames. Do not capture live credentials, hit internal services, write outside lab-owned temp directories, exchange real user tokens, weaken production supply-chain verification, expose real private API properties, or poison production logs.
+    Keep proofs in disposable HTTP-client harnesses, upload/extraction sandboxes, owned package indexes/channels, lab identity realms, fake signing infrastructure, two-user API Platform labs, local access-log harnesses, lab TSDProxy deployments, and owned APK repositories. Use fake bearer tokens, owned redirectors, inert multipart fields, marker-only PSD/conda/APK package files, synthetic users and organizations, disposable trust roots, canary-only resource attributes, fake Basic-auth usernames, and fake proxy-management tokens. Do not capture live credentials, hit internal services, write outside lab-owned temp directories, exchange real user tokens, weaken production supply-chain verification, expose real private API properties, poison production logs, replay real proxy tokens, or install substituted package payloads on production hosts.
 
 ## Operator use
 
@@ -47,6 +49,8 @@ Use these checks when a scope includes:
 - Express/Node services that use `morgan` built-in formats or custom formats containing `:remote-user`, especially where access logs are used as report evidence, audit trails, rate-limit evidence, or downstream parser input.
 - Ruby services using Excon redirect middleware for server-side fetches, webhook delivery, SSO/OIDC discovery, link previews, API relays, or file-download helpers where caller or tenant data can influence redirects;
 - Rails/Ruby applications that build per-route CSP overrides from request, tenant, content, plugin, report-endpoint, or sandbox values through `secure_headers` `sandbox`, `plugin_types`, or `report_to` directives.
+- TSDProxy or similar identity-injecting reverse proxies where upstream applications receive proxy headers and can reach the proxy's management listener from localhost, host networking, or a shared network namespace;
+- APK-based package build/install pipelines using `melange`, `apko`, mirrors, shared caches, or registry proxies where signed index/control metadata is trusted before package data is materialized.
 
 ## Recon checklist
 
@@ -67,6 +71,8 @@ Use these checks when a scope includes:
 | Access-log line forging | Basic-auth usernames containing CR/LF-like control characters break one-request-per-line assumptions in `morgan` logs | Local Express app, fake username canaries, and disposable log files only |
 | Expanded redirect header relay | Redirect-following clients strip only a narrow sensitive-header list while preserving other credential-bearing or risky headers | Fake `X-Api-Key`, `Cookie`, proxy, or custom auth headers through two owned origins |
 | CSP directive injection | Untrusted directive values insert `;`, CR, or LF before the legitimate `script-src` directive | Local Rails harness and harmless inline-script/report-endpoint canaries only |
+| Proxy management-token relay | Reverse proxy injects an internal management auth token into backend requests; backend can replay it to localhost management APIs with forged identity headers | Lab TSDProxy plus disposable backend that records only fake token presence and route-decision results |
+| APK data-section substitution | Signed package index/control hash verifies, but installed file data is not checked against the expected data hash | Owned APK repository/cache fixture and a harmless marker file diff in a disposable rootfs |
 
 ## Validation patterns
 
@@ -215,6 +221,30 @@ This is useful when an application claims CSP prevents XSS but also lets tenants
 
 Report as **untrusted CSP directive value -> raw policy serialization -> earlier injected `script-src`/report directive -> CSP backstop bypass**. Pair it with a separate reflected/stored content sink before claiming executable XSS.
 
+### TSDProxy identity-header management-token relay
+
+This is a reverse-proxy confused-deputy check: the proxy injects headers that are meant to let trusted internal components assert identity, but an untrusted backend can receive and reuse the same management token.
+
+1. Build a lab TSDProxy deployment with `identityHeaders` enabled and a disposable backend service under your control. Keep the management listener reachable only inside the lab host or network namespace.
+2. Send an unauthenticated and an authenticated request through the proxy to the backend. Record whether `x-tsdproxy-auth-token` or equivalent internal trust headers are forwarded alongside user identity headers.
+3. From the backend's network position, attempt only a harmless management-route decision with a fake `x-tsdproxy-id` value and the received canary token. Do not create users, change proxy config, or invoke state-changing management APIs.
+4. Capture the topology precondition: same host, Docker host-network mode, shared network namespace, or any route from backend to `127.0.0.1:8080` / the management listener.
+5. Add negative controls where identity headers are disabled, the backend cannot route to management localhost, or the proxy strips internal auth headers before upstream forwarding.
+
+Report as **proxy identity middleware -> internal management auth token forwarded to backend -> backend-local replay to management API with forged identity header**. Avoid testing against production Tailscale identities, real management tokens, or customer backends.
+
+### `melange` / `apko` APK data-section integrity substitution
+
+This is a package-index trust-boundary check: a client verifies signed package metadata but fails to bind the installed file payload to the signed digest that represents the data section.
+
+1. Use an owned APK repository or cache fixture with one benign package and a disposable rootfs/install target. Do not insert this into production build images or shared CI caches.
+2. Build two variants with identical control metadata expectations but different installed data for a harmless file such as `/usr/share/skillz-canary.txt` inside the disposable rootfs.
+3. Simulate the attacker capability explicitly: mirror compromise, poisoned shared cache, or package-fetch MITM inside a lab. Keep signatures, package names, and versions synthetic.
+4. Run the vulnerable `apko` / `melange` consumer path and record whether the signed `APKINDEX` / `.PKGINFO` check passes while the installed data file contains the substituted marker.
+5. Compare with a patched verifier that checks the data-section hash before installation, then include a concise table of package digest, expected marker, observed marker, and verifier decision.
+
+Report as **signed package index/control metadata -> incomplete data-section verification -> substituted installed files accepted**. Do not publish malware-like packages, overwrite runner tools, or claim registry-wide compromise without an authorized mirror/cache proof.
+
 ## Reporting notes
 
 Lead with the failed trust boundary:
@@ -233,6 +263,8 @@ Lead with the failed trust boundary:
 - **privileged API request -> long-lived response-shape cache -> lower-privilege JSON:API/HAL structure leak**;
 - **Basic-auth username -> unescaped access-log token -> forged request evidence**.
 - **redirect-following Excon client -> incomplete sensitive-header strip list -> fake credential relay**;
-- **untrusted `secure_headers` directive value -> CSP separator injection -> policy backstop bypass**.
+- **untrusted `secure_headers` directive value -> CSP separator injection -> policy backstop bypass**;
+- **proxy-injected identity headers -> management token leaked to backend -> backend replays trust token locally**;
+- **signed APK control metadata -> unchecked data payload -> substituted installed files**.
 
 Include version, route/tool/library path, required attacker control, lab harness design, synthetic canary evidence, and a negative control. Avoid claiming production token theft, internal SSRF, arbitrary file overwrite, or supply-chain compromise unless the authorized lab evidence reaches that exact sink without sensitive data or irreversible side effects.
