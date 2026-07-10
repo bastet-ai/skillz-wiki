@@ -23,6 +23,8 @@ Sources:
 - [GHSA-wf93-45jw-7689 / CVE-2026-8643: `pip` console/gui script entry-point names can traverse outside the script installation directory](https://github.com/advisories/GHSA-wf93-45jw-7689)
 - [GHSA-pjhx-3c3w-9v23 / CVE-2026-49858: API Platform Core JSON:API and HAL normalizers can leak cross-user attribute structure from a shared component cache](https://github.com/advisories/GHSA-pjhx-3c3w-9v23)
 - [GHSA-4vj7-5mj6-jm8m / CVE-2026-5078: `morgan` logs Basic-auth `:remote-user` values without neutralizing control characters](https://github.com/advisories/GHSA-4vj7-5mj6-jm8m)
+- [GHSA-48rx-c7pg-q66r / CVE-2026-54171: Excon redirect follower fails to strip additional sensitive headers on redirects](https://github.com/advisories/GHSA-48rx-c7pg-q66r)
+- [GHSA-rqq5-2gf9-4w4q / CVE-2026-54163: `secure_headers` CSP directive injection through `sandbox`, `plugin_types`, and `report_to`](https://github.com/advisories/GHSA-rqq5-2gf9-4w4q)
 
 !!! warning "Authorized validation only"
     Keep proofs in disposable HTTP-client harnesses, upload/extraction sandboxes, owned package indexes/channels, lab identity realms, fake signing infrastructure, two-user API Platform labs, and local access-log harnesses. Use fake bearer tokens, owned redirectors, inert multipart fields, marker-only PSD/conda package files, synthetic users and organizations, disposable trust roots, canary-only resource attributes, and fake Basic-auth usernames. Do not capture live credentials, hit internal services, write outside lab-owned temp directories, exchange real user tokens, weaken production supply-chain verification, expose real private API properties, or poison production logs.
@@ -43,6 +45,8 @@ Use these checks when a scope includes:
 - Python package installation paths where repository-controlled wheel metadata can define `console_scripts` or `gui_scripts` entry-point names;
 - API Platform deployments that expose JSON:API or HAL resources with per-user `#[ApiProperty(security: ...)]` predicates under long-running PHP workers such as FrankenPHP, RoadRunner, Swoole, or ReactPHP;
 - Express/Node services that use `morgan` built-in formats or custom formats containing `:remote-user`, especially where access logs are used as report evidence, audit trails, rate-limit evidence, or downstream parser input.
+- Ruby services using Excon redirect middleware for server-side fetches, webhook delivery, SSO/OIDC discovery, link previews, API relays, or file-download helpers where caller or tenant data can influence redirects;
+- Rails/Ruby applications that build per-route CSP overrides from request, tenant, content, plugin, report-endpoint, or sandbox values through `secure_headers` `sandbox`, `plugin_types`, or `report_to` directives.
 
 ## Recon checklist
 
@@ -61,6 +65,8 @@ Use these checks when a scope includes:
 | Entry-point script traversal | Package metadata names become script paths without final containment under the install scripts directory | Disposable virtualenv or install root and a wheel with marker-only entry-point names |
 | API serializer cache reuse | Per-user hidden properties appear in JSON:API or HAL structures after a higher-privilege request warms a long-lived normalizer cache | Two synthetic users, a canary property guarded by `#[ApiProperty(security: ...)]`, and a local long-running PHP worker |
 | Access-log line forging | Basic-auth usernames containing CR/LF-like control characters break one-request-per-line assumptions in `morgan` logs | Local Express app, fake username canaries, and disposable log files only |
+| Expanded redirect header relay | Redirect-following clients strip only a narrow sensitive-header list while preserving other credential-bearing or risky headers | Fake `X-Api-Key`, `Cookie`, proxy, or custom auth headers through two owned origins |
+| CSP directive injection | Untrusted directive values insert `;`, CR, or LF before the legitimate `script-src` directive | Local Rails harness and harmless inline-script/report-endpoint canaries only |
 
 ## Validation patterns
 
@@ -186,6 +192,29 @@ Log-forging findings are strongest when the program relies on access logs as an 
 
 Report as **Basic-auth username -> `:remote-user` log token -> unneutralized control characters -> forged access-log line**. If the target only stores logs for debugging and no downstream decision consumes them, document the lower impact rather than overstating exploitability.
 
+### Excon redirect follower sensitive-header relay
+
+The Excon advisory is the same operator pattern as the Tesla redirect issue, but with a broader lesson: do not test only `Authorization`. Many internal clients carry API keys, cookies, proxy credentials, service tokens, or vendor-specific auth headers that should not cross an authority change.
+
+1. Build two owned HTTPS origins. The first origin receives the initial request and redirects to the second origin across host, scheme, or port.
+2. Drive the application path that uses Excon `RedirectFollower` with only fake headers: `Authorization`, `Cookie`, `X-Api-Key`, `Proxy-Authorization`, and any app-specific credential header names in scope.
+3. Capture which fake headers arrive at the second origin for same-host, cross-host, cross-scheme, and cross-port redirects.
+4. Compare with Excon 1.5.0 or a custom strip-list middleware that removes all sensitive header names on authority change.
+
+Report as **server-side Excon request -> redirect authority changes -> non-redacted sensitive header reaches attacker-controlled origin**. Do not test with production tokens or redirect real integrations to your listener.
+
+### `secure_headers` CSP directive injection
+
+This is useful when an application claims CSP prevents XSS but also lets tenants, plugins, markdown/frontmatter, report collectors, or route parameters influence CSP directive values.
+
+1. Confirm the app uses `secure_headers` and appends or overrides `sandbox`, `plugin_types`, or `report_to` from non-static input.
+2. In a local or authorized lab route, inject harmless directive separators such as `; script-src 'unsafe-inline' https://canary.invalid` into only those directive values.
+3. Capture the raw `Content-Security-Policy` header and browser interpretation. The key evidence is whether the injected directive appears before the legitimate `script-src` and wins under first-occurrence parsing.
+4. If report endpoints are in scope, point only to an owned callback and collect synthetic CSP violation reports from a lab page. Do not harvest victim-internal URLs or source snippets.
+5. Add a negative control using `secure_headers` 7.3.0 or a builder that rejects `;`, CR, and LF in every directive value.
+
+Report as **untrusted CSP directive value -> raw policy serialization -> earlier injected `script-src`/report directive -> CSP backstop bypass**. Pair it with a separate reflected/stored content sink before claiming executable XSS.
+
 ## Reporting notes
 
 Lead with the failed trust boundary:
@@ -203,5 +232,7 @@ Lead with the failed trust boundary:
 - **wheel entry-point metadata -> script path join -> outside-install-root write**;
 - **privileged API request -> long-lived response-shape cache -> lower-privilege JSON:API/HAL structure leak**;
 - **Basic-auth username -> unescaped access-log token -> forged request evidence**.
+- **redirect-following Excon client -> incomplete sensitive-header strip list -> fake credential relay**;
+- **untrusted `secure_headers` directive value -> CSP separator injection -> policy backstop bypass**.
 
 Include version, route/tool/library path, required attacker control, lab harness design, synthetic canary evidence, and a negative control. Avoid claiming production token theft, internal SSRF, arbitrary file overwrite, or supply-chain compromise unless the authorized lab evidence reaches that exact sink without sensitive data or irreversible side effects.
