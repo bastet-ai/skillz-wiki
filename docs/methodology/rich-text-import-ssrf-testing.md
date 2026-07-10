@@ -17,12 +17,15 @@ GitHub advisory [GHSA-983w-rhvv-gwmv / CVE-2025-68616](https://github.com/adviso
 
 GitHub advisory [GHSA-jhhc-3hcp-qhm5 / CVE-2026-49452](https://github.com/advisories/GHSA-jhhc-3hcp-qhm5) added another WeasyPrint renderer seam: when applications enable `presentational_hints=True`, unescaped HTML presentational attributes can be embedded into CSS and parsed as stylesheet declarations. For operators, the reusable pattern is **HTML attribute value to CSS `url()` fetch**, not generic styling injection. Prove it only with owned callback URLs or explicitly approved internal canaries.
 
+GitHub advisory [GHSA-pj8j-p4g4-4vw8 / CVE-2026-49865](https://github.com/advisories/GHSA-pj8j-p4g4-4vw8) showed the same server-side fetch boundary in Kimai invoice PDF rendering: user-controlled invoice Markdown, such as customer invoice text, was converted to HTML and handed to mPDF, which fetched Markdown image URLs from the application server during PDF preview or generation. Treat invoice notes, quote terms, customer messages, receipt templates, and billing comments as renderer input whenever they are later embedded in a generated PDF.
+
 That is more useful than a one-off product advisory because the same pattern appears in many CMS/editor features:
 
 - paste-from-URL and paste-from-Word/HTML import;
 - page-builder widget validation or preview APIs;
 - avatar, OpenGraph, favicon, media-library, and attachment import helpers;
 - Markdown/HTML-to-PDF previewers that rewrite or embed images, CSS, fonts, and linked resources;
+- invoice, quote, receipt, timesheet, and billing PDF generators that render Markdown or rich-text customer-controlled fields;
 - HTML-to-PDF renderers that enable legacy presentational hints and convert attributes such as `background` into CSS;
 - migration tools that ingest remote HTML and localize assets.
 
@@ -84,6 +87,12 @@ Submit HTML that references the image:
 <p>proof</p><img src="https://callback.example/proof-<run-id>.png">
 ```
 
+For Markdown-to-PDF renderers, use image syntax in the lowest-privilege field that reaches the rendered document, such as invoice notes, customer text, quote terms, or a document comment:
+
+```markdown
+![proof](https://callback.example/proof-<run-id>.png)
+```
+
 If the importer supports a separate base URL, test both absolute and relative forms:
 
 ```json
@@ -101,6 +110,8 @@ Record proof only when your callback logs a server-side request that cannot be e
 - put the image URL only inside the API payload, not in rendered page HTML;
 - compare callback `User-Agent`, source IP/ASN, and timing to the submitted request;
 - repeat with a new random path and confirm the request follows the server action.
+
+For billing or invoice renderers, trigger both preview and final generation if they are in scope. Capture which action caused the callback, the source field, the generated document type, and whether the renderer user-agent or source IP differs from the browser session. Do not test with real customer records, live payment data, or production invoice content.
 
 ## Redirect revalidation harness
 

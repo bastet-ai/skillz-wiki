@@ -9,6 +9,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 ## Recent entries
 
 - [HTTP client, package cache, identity, API serializer, and access-log boundary checks from July 10 GHSA updates](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md)
+- [Rich-text import SSRF testing: Kimai-style Markdown invoice PDF renderer update](methodology/rich-text-import-ssrf-testing.md#why-this-matters)
 - [Jupyter Server sibling-prefix path traversal validation update](alerts/2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md#jupyter-server-sibling-prefix-path-traversal-follow-up)
 - [Sylius route-family drift and YesWiki form-builder sink checks](alerts/2026-07-09-agent-cms-render-export-boundaries-ghsa.md#sylius-payment-order-state-and-route-family-drift)
 - [Agentic DAST benchmark fixtures and SSRF sink-validation controls](methodology/agentic-dast-benchmark-validation.md#turn-scanner-misses-into-benchmark-fixtures)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Serena/Joro browser-to-loopback and Nuclio/DSpace package-boundary updates](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#serena-and-joro-browser-to-loopback-control-planes)
 - [Apache Airflow KubernetesExecutor and logout token boundary update](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#apache-airflow-kubernetesexecutor-and-logout-token-boundaries)
 - [Go x/crypto SSH parser and peer-message boundary update](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md#go-ssh-parser-and-peer-message-harness)
-- [DAML controller-mutation testing for authorization gaps](best-practices/mutation-testing-for-the-agentic-era.md#daml-canton-authorization-checks)
 
 ## What lives here
 
