@@ -4,7 +4,7 @@ title: HTTP client, package cache, and identity-boundary checks from July 10 GHS
 
 # HTTP client, package cache, and identity-boundary checks from July 10 GHSA updates
 
-This update promotes late July 9 / early July 10 GHSA records into reusable operator checks for authorized assessments. The shared pattern is caller-controlled protocol, artifact, package, or identity metadata crossing a trusted boundary after a library or platform has already decided the operation is safe: redirect-following clients forward credentials, multipart builders serialize unescaped header material, package metadata becomes a filesystem path, smart-object filenames drive extraction paths, and cross-organization tokens are exchanged without rebinding the user to the target application.
+This update promotes late July 9 / early July 10 GHSA records into reusable operator checks for authorized assessments. The shared pattern is caller-controlled protocol, artifact, package, DNS, URL, or identity metadata crossing a trusted boundary after a library or platform has already decided the operation is safe: redirect-following clients forward credentials, multipart builders serialize unescaped header material, package metadata becomes a filesystem path, smart-object filenames drive extraction paths, DNS answers poison reusable resolver caches, reconstructed framework URLs drift away from routed paths, and cross-organization tokens are exchanged without rebinding the user to the target application.
 
 Sources:
 
@@ -17,6 +17,10 @@ Sources:
 - [GHSA-h5g6-xmh4-hc37 / CVE-2026-55252: OpenRun redirect validation bypass with network-path references](https://github.com/advisories/GHSA-h5g6-xmh4-hc37)
 - [GHSA-c9w5-qp6m-m395 / CVE-2026-9094: Casdoor token exchange misses cross-organization binding](https://github.com/advisories/GHSA-c9w5-qp6m-m395)
 - [GHSA-9vcr-p3rj-q5q6 / CVE-2026-49834: `sigstore-go` multi-log threshold counted witnesses instead of log authorities](https://github.com/advisories/GHSA-9vcr-p3rj-q5q6)
+- [GHSA-676x-f7gg-47vc / CVE-2026-45674: Netty DNS resolver caches out-of-bailiwick CNAME records](https://github.com/advisories/GHSA-676x-f7gg-47vc)
+- [GHSA-5pvg-856g-cp85 / CVE-2026-47691: Netty DNS resolver accepts out-of-bailiwick NS records for parent domains](https://github.com/advisories/GHSA-5pvg-856g-cp85)
+- [GHSA-86qp-5c8j-p5mr / CVE-2026-48710: Starlette malformed `Host` reconstruction can desynchronize `request.url.path` from the routed path](https://github.com/advisories/GHSA-86qp-5c8j-p5mr)
+- [GHSA-wf93-45jw-7689 / CVE-2026-8643: `pip` console/gui script entry-point names can traverse outside the script installation directory](https://github.com/advisories/GHSA-wf93-45jw-7689)
 
 !!! warning "Authorized validation only"
     Keep proofs in disposable HTTP-client harnesses, upload/extraction sandboxes, owned package indexes/channels, lab identity realms, and fake signing infrastructure. Use fake bearer tokens, owned redirectors, inert multipart fields, marker-only PSD/conda package files, synthetic users and organizations, and disposable trust roots. Do not capture live credentials, hit internal services, write outside lab-owned temp directories, exchange real user tokens, or weaken production supply-chain verification.
@@ -31,7 +35,10 @@ Use these checks when a scope includes:
 - conda-compatible package managers, private channels, build caches, or CI workers that consume repository-controlled `repodata`;
 - login, invite, callback, or referrer flows that validate a redirect as same-origin but then redirect to the path component alone;
 - Casdoor or similar multi-organization identity brokers that exchange JWTs for application tokens;
-- signature-verification harnesses where a policy claims multiple independent transparency logs are required.
+- signature-verification harnesses where a policy claims multiple independent transparency logs are required;
+- Java services using Netty's async DNS resolver for outbound service discovery, webhook delivery, proxying, API clients, or cacheable resolver pools;
+- Starlette/FastAPI middleware, dependency hooks, or route guards that make security decisions from `request.url` or `request.url.path` instead of the raw ASGI `scope` path;
+- Python package installation paths where repository-controlled wheel metadata can define `console_scripts` or `gui_scripts` entry-point names.
 
 ## Recon checklist
 
@@ -45,6 +52,9 @@ Use these checks when a scope includes:
 | Network-path redirects | Validation checks full same-origin URL, then redirects only to a path that may begin with `//host` or encoded equivalents | Owned redirect target and a browser/client decision table |
 | Token exchange tenant binding | JWT signature is valid, but user organization/tenant is not checked against the target application/client | Two synthetic organizations, disposable users, and fake app tokens |
 | Multi-log threshold semantics | Verification policy counts entries, paths, or SCTs rather than distinct log authorities | Local fake log authorities and unsigned/inert test artifacts only |
+| DNS bailiwick drift | Resolver accepts CNAME, NS, or additional-section data from a zone that is not authoritative for the cached name | Lab-only authoritative DNS server for an owned subdomain and canary records under owned domains |
+| Host-to-URL parser split | Raw routing path and framework-reconstructed `request.url.path` diverge after malformed `Host` parsing | Local Starlette harness with harmless allow/deny path canaries |
+| Entry-point script traversal | Package metadata names become script paths without final containment under the install scripts directory | Disposable virtualenv or install root and a wheel with marker-only entry-point names |
 
 ## Validation patterns
 
@@ -113,6 +123,40 @@ Use this only for lab verification policy reviews where the program owner explic
 
 The operator lesson is **policy says multiple independent logs -> verifier counts same authority multiple times -> threshold bypass**.
 
+### Netty DNS resolver bailiwick cache poisoning
+
+Treat DNS resolver cache entries as authority-bound data, not just parser output. These Netty updates are useful when a Java service performs attacker-influenced outbound lookups and reuses an in-process DNS cache across tenants, requests, callbacks, webhooks, or service-discovery decisions.
+
+1. Build a lab resolver setup with an owned parent test zone and an owned delegated subdomain. Do not test against production recursive resolvers or unrelated public domains.
+2. Trigger the application or a small Netty harness to resolve a name below the attacker-controlled subdomain.
+3. From the authoritative lab server, return CNAME or NS/additional-section records that try to cache authority or address data for a parent/sibling canary name.
+4. Query the canary name through the same resolver instance and record whether the cached answer came from the out-of-bailiwick response.
+5. Keep evidence to packet captures, Netty resolver debug logs, cache-key decisions, and canary domains you own.
+
+Report the boundary as **authoritative subdomain response -> resolver accepts out-of-bailiwick CNAME/NS data -> shared DNS cache steers later lookups**. Do not probe random resolvers, poison shared infrastructure, or route traffic to third-party services.
+
+### Starlette `Host` reconstruction vs routed path
+
+The Starlette advisory is a framework parser-differential check: the router uses the raw request path, while application code may make authorization decisions from a URL object reconstructed with an attacker-supplied `Host` value.
+
+1. Identify middleware, dependencies, decorators, or endpoint code that checks `request.url`, `request.url.path`, `startswith()` path prefixes, admin route names, callback paths, or tenant paths.
+2. In a local or authorized lab deployment, send a request where the raw path targets a protected route but `Host` contains path/query/fragment delimiters such as `/`, `?`, or `#`.
+3. Capture a decision table with: raw request target, `Host`, routed endpoint, observed `scope["path"]`, observed `request.url.path`, and whether the guard allowed the request.
+4. Repeat through any front-end proxy in scope only if the program owner approves proxy-level header tests; many proxies reject or normalize malformed `Host` values before the app sees them.
+
+The safe proof is **malformed `Host` -> URL reconstruction boundary shift -> guard sees benign path while router dispatches protected path**. Do not combine this with credential theft or cross-user actions; use inert endpoints and route markers.
+
+### `pip` entry-point name to script path traversal
+
+The `pip` entry-point issue is a package metadata to filesystem boundary: a wheel's `console_scripts` or `gui_scripts` name is expected to be a filename, but vulnerable installers may treat it as a path.
+
+1. Create a disposable virtualenv or install root with an empty, lab-owned scripts directory.
+2. Build a minimal wheel from a scratch package where the entry-point name includes traversal or path-separator canaries. Keep the target path inside a temporary lab directory you control.
+3. Install from a local file or owned package index and record the computed script path, actual written file path, and a negative control using a patched installer.
+4. Scope CI testing to dry-run or throwaway runners; do not overwrite shell startup files, repository hooks, credentials, shared tool shims, or production runner paths.
+
+Report as **repository-controlled package metadata -> entry-point script writer -> outside-script-dir marker file**. The finding is stronger when the vulnerable install path is reachable from lockfiles, internal indexes, plugin systems, or dependency-update automation.
+
 ## Reporting notes
 
 Lead with the failed trust boundary:
@@ -124,6 +168,9 @@ Lead with the failed trust boundary:
 - **conda package metadata -> cache key/path -> outside-cache write**;
 - **same-origin URL validation -> path-only `Location` -> network-path external redirect**;
 - **signed JWT -> token exchange -> missing organization binding**;
-- **multi-log policy -> per-entry counting -> single-authority threshold satisfaction**.
+- **multi-log policy -> per-entry counting -> single-authority threshold satisfaction**;
+- **attacker-controlled authoritative DNS answer -> missing bailiwick enforcement -> poisoned shared resolver cache**;
+- **malformed `Host` header -> reconstructed URL path drift -> path guard bypass**;
+- **wheel entry-point metadata -> script path join -> outside-install-root write**.
 
 Include version, route/tool/library path, required attacker control, lab harness design, synthetic canary evidence, and a negative control. Avoid claiming production token theft, internal SSRF, arbitrary file overwrite, or supply-chain compromise unless the authorized lab evidence reaches that exact sink without sensitive data or irreversible side effects.
