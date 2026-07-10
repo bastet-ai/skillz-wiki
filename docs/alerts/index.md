@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [MCP Atlassian, SafeInstall, BabelDOC, MLflow, Windmill, and NotrinosERP boundary checks](2026-07-10-mcp-agent-package-workflow-boundaries-ghsa.md)
+- [File Browser hook-auth and SiYuan attribute-view renderer follow-ups](2026-07-10-filebrowser-siyuan-authorizer-pimcore-boundaries-ghsa.md#file-browser-hook-auth-command-construction)
 - [Jupyter Server sibling-prefix path traversal validation update](2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md#jupyter-server-sibling-prefix-path-traversal-follow-up)
 - [Agent, CMS, renderer, and export boundary checks from July 9 GHSA updates](2026-07-09-agent-cms-render-export-boundaries-ghsa.md)
 - [CarrierWave/TypiCMS upload and OpenStack Ironic image-boundary checks](2026-07-09-upload-and-baremetal-image-boundaries-ghsa.md)
