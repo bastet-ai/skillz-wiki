@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [File Browser proxy-auth, SiYuan local-app, Authorizer OAuth, and Pimcore CMS boundary checks](alerts/2026-07-10-filebrowser-siyuan-authorizer-pimcore-boundaries-ghsa.md)
 - [MCP Atlassian DNS-rebinding TOCTOU SSRF guard bypass checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md#mcp-atlassian-dns-rebinding-toctou-checks)
 - [Joomla form/event upload KEV follow-up for Balbooa Forms and iCagenda](alerts/2026-07-08-joomla-page-builder-coldfusion-kev-boundaries.md#joomla-form-and-event-upload-follow-up)
 - [DesktopCommanderMCP file-reader SSRF and MCP regex resource checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md#mcp-file-reader-ssrf-and-regex-resource-checks)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Sylius route-family drift and YesWiki form-builder sink checks](alerts/2026-07-09-agent-cms-render-export-boundaries-ghsa.md#sylius-payment-order-state-and-route-family-drift)
 - [Agentic DAST benchmark fixtures and SSRF sink-validation controls](methodology/agentic-dast-benchmark-validation.md#turn-scanner-misses-into-benchmark-fixtures)
 - [Agent, CMS, renderer, and export boundary checks from July 9 GHSA updates](alerts/2026-07-09-agent-cms-render-export-boundaries-ghsa.md)
-- [Waku redirect, Skipper OPA body, and lxml sanitizer bypass updates](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#waku-server-action-csrf-and-redirect-helpers)
 
 ## What lives here
 
