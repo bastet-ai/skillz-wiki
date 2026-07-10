@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [MCP Atlassian DNS-rebinding TOCTOU SSRF guard bypass checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md#mcp-atlassian-dns-rebinding-toctou-checks)
 - [Joomla form/event upload KEV follow-up for Balbooa Forms and iCagenda](alerts/2026-07-08-joomla-page-builder-coldfusion-kev-boundaries.md#joomla-form-and-event-upload-follow-up)
 - [DesktopCommanderMCP file-reader SSRF and MCP regex resource checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md#mcp-file-reader-ssrf-and-regex-resource-checks)
 - [HTTP client, package cache, identity, API serializer, and access-log boundary checks from July 10 GHSA updates](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Agentic DAST benchmark fixtures and SSRF sink-validation controls](methodology/agentic-dast-benchmark-validation.md#turn-scanner-misses-into-benchmark-fixtures)
 - [Agent, CMS, renderer, and export boundary checks from July 9 GHSA updates](alerts/2026-07-09-agent-cms-render-export-boundaries-ghsa.md)
 - [Waku redirect, Skipper OPA body, and lxml sanitizer bypass updates](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#waku-server-action-csrf-and-redirect-helpers)
-- [Serena/Joro browser-to-loopback and Nuclio/DSpace package-boundary updates](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#serena-and-joro-browser-to-loopback-control-planes)
 
 ## What lives here
 

@@ -291,6 +291,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Bandit advisories: https://github.com/mtrudel/bandit/security/advisories
 - Cowboy advisories: https://github.com/ninenines/cowboy/security/advisories
 - MCP Gateway advisories: https://github.com/IBM/mcp-context-forge/security/advisories
+- MCP Atlassian advisories/source: https://github.com/sooperset/mcp-atlassian/security/advisories and https://github.com/sooperset/mcp-atlassian
 - SQLFluff advisories: https://github.com/sqlfluff/sqlfluff/security/advisories
 - libp2p JavaScript advisories: https://github.com/libp2p/js-libp2p/security/advisories
 - Kopia advisories: https://github.com/kopia/kopia/security/advisories
