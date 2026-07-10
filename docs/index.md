@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Joomla form/event upload KEV follow-up for Balbooa Forms and iCagenda](alerts/2026-07-08-joomla-page-builder-coldfusion-kev-boundaries.md#joomla-form-and-event-upload-follow-up)
+- [DesktopCommanderMCP file-reader SSRF and MCP regex resource checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md#mcp-file-reader-ssrf-and-regex-resource-checks)
 - [HTTP client, package cache, identity, API serializer, and access-log boundary checks from July 10 GHSA updates](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md)
 - [Rich-text import SSRF testing: Kimai-style Markdown invoice PDF renderer update](methodology/rich-text-import-ssrf-testing.md#why-this-matters)
 - [Jupyter Server sibling-prefix path traversal validation update](alerts/2026-05-05-jupyter-vm2-and-token-type-boundary-batch-ghsa.md#jupyter-server-sibling-prefix-path-traversal-follow-up)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Agent, CMS, renderer, and export boundary checks from July 9 GHSA updates](alerts/2026-07-09-agent-cms-render-export-boundaries-ghsa.md)
 - [Waku redirect, Skipper OPA body, and lxml sanitizer bypass updates](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#waku-server-action-csrf-and-redirect-helpers)
 - [Serena/Joro browser-to-loopback and Nuclio/DSpace package-boundary updates](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#serena-and-joro-browser-to-loopback-control-planes)
-- [Apache Airflow KubernetesExecutor and logout token boundary update](alerts/2026-07-08-integration-deploy-mcp-boundaries-ghsa.md#apache-airflow-kubernetesexecutor-and-logout-token-boundaries)
-- [Go x/crypto SSH parser and peer-message boundary update](alerts/2026-06-25-agent-proxy-appliance-boundaries-ghsa-kev.md#go-ssh-parser-and-peer-message-harness)
 
 ## What lives here
 
