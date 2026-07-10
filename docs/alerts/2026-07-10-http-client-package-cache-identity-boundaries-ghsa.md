@@ -1,10 +1,10 @@
 ---
-title: HTTP client, package cache, and identity-boundary checks from July 10 GHSA updates
+title: HTTP client, package cache, identity, API serializer, and access-log checks from July 10 GHSA updates
 ---
 
-# HTTP client, package cache, and identity-boundary checks from July 10 GHSA updates
+# HTTP client, package cache, identity, API serializer, and access-log checks from July 10 GHSA updates
 
-This update promotes late July 9 / early July 10 GHSA records into reusable operator checks for authorized assessments. The shared pattern is caller-controlled protocol, artifact, package, DNS, URL, or identity metadata crossing a trusted boundary after a library or platform has already decided the operation is safe: redirect-following clients forward credentials, multipart builders serialize unescaped header material, package metadata becomes a filesystem path, smart-object filenames drive extraction paths, DNS answers poison reusable resolver caches, reconstructed framework URLs drift away from routed paths, and cross-organization tokens are exchanged without rebinding the user to the target application.
+This update promotes late July 9 / early July 10 GHSA records into reusable operator checks for authorized assessments. The shared pattern is caller-controlled protocol, artifact, package, DNS, URL, identity, serializer-cache, or log-field metadata crossing a trusted boundary after a library or platform has already decided the operation is safe: redirect-following clients forward credentials, multipart builders serialize unescaped header material, package metadata becomes a filesystem path, smart-object filenames drive extraction paths, DNS answers poison reusable resolver caches, reconstructed framework URLs drift away from routed paths, cross-organization tokens are exchanged without rebinding the user to the target application, long-lived API normalizers reuse privileged response shapes, and access-log identity fields can forge request evidence.
 
 Sources:
 
@@ -21,9 +21,11 @@ Sources:
 - [GHSA-5pvg-856g-cp85 / CVE-2026-47691: Netty DNS resolver accepts out-of-bailiwick NS records for parent domains](https://github.com/advisories/GHSA-5pvg-856g-cp85)
 - [GHSA-86qp-5c8j-p5mr / CVE-2026-48710: Starlette malformed `Host` reconstruction can desynchronize `request.url.path` from the routed path](https://github.com/advisories/GHSA-86qp-5c8j-p5mr)
 - [GHSA-wf93-45jw-7689 / CVE-2026-8643: `pip` console/gui script entry-point names can traverse outside the script installation directory](https://github.com/advisories/GHSA-wf93-45jw-7689)
+- [GHSA-pjhx-3c3w-9v23 / CVE-2026-49858: API Platform Core JSON:API and HAL normalizers can leak cross-user attribute structure from a shared component cache](https://github.com/advisories/GHSA-pjhx-3c3w-9v23)
+- [GHSA-4vj7-5mj6-jm8m / CVE-2026-5078: `morgan` logs Basic-auth `:remote-user` values without neutralizing control characters](https://github.com/advisories/GHSA-4vj7-5mj6-jm8m)
 
 !!! warning "Authorized validation only"
-    Keep proofs in disposable HTTP-client harnesses, upload/extraction sandboxes, owned package indexes/channels, lab identity realms, and fake signing infrastructure. Use fake bearer tokens, owned redirectors, inert multipart fields, marker-only PSD/conda package files, synthetic users and organizations, and disposable trust roots. Do not capture live credentials, hit internal services, write outside lab-owned temp directories, exchange real user tokens, or weaken production supply-chain verification.
+    Keep proofs in disposable HTTP-client harnesses, upload/extraction sandboxes, owned package indexes/channels, lab identity realms, fake signing infrastructure, two-user API Platform labs, and local access-log harnesses. Use fake bearer tokens, owned redirectors, inert multipart fields, marker-only PSD/conda package files, synthetic users and organizations, disposable trust roots, canary-only resource attributes, and fake Basic-auth usernames. Do not capture live credentials, hit internal services, write outside lab-owned temp directories, exchange real user tokens, weaken production supply-chain verification, expose real private API properties, or poison production logs.
 
 ## Operator use
 
@@ -38,7 +40,9 @@ Use these checks when a scope includes:
 - signature-verification harnesses where a policy claims multiple independent transparency logs are required;
 - Java services using Netty's async DNS resolver for outbound service discovery, webhook delivery, proxying, API clients, or cacheable resolver pools;
 - Starlette/FastAPI middleware, dependency hooks, or route guards that make security decisions from `request.url` or `request.url.path` instead of the raw ASGI `scope` path;
-- Python package installation paths where repository-controlled wheel metadata can define `console_scripts` or `gui_scripts` entry-point names.
+- Python package installation paths where repository-controlled wheel metadata can define `console_scripts` or `gui_scripts` entry-point names;
+- API Platform deployments that expose JSON:API or HAL resources with per-user `#[ApiProperty(security: ...)]` predicates under long-running PHP workers such as FrankenPHP, RoadRunner, Swoole, or ReactPHP;
+- Express/Node services that use `morgan` built-in formats or custom formats containing `:remote-user`, especially where access logs are used as report evidence, audit trails, rate-limit evidence, or downstream parser input.
 
 ## Recon checklist
 
@@ -55,6 +59,8 @@ Use these checks when a scope includes:
 | DNS bailiwick drift | Resolver accepts CNAME, NS, or additional-section data from a zone that is not authoritative for the cached name | Lab-only authoritative DNS server for an owned subdomain and canary records under owned domains |
 | Host-to-URL parser split | Raw routing path and framework-reconstructed `request.url.path` diverge after malformed `Host` parsing | Local Starlette harness with harmless allow/deny path canaries |
 | Entry-point script traversal | Package metadata names become script paths without final containment under the install scripts directory | Disposable virtualenv or install root and a wheel with marker-only entry-point names |
+| API serializer cache reuse | Per-user hidden properties appear in JSON:API or HAL structures after a higher-privilege request warms a long-lived normalizer cache | Two synthetic users, a canary property guarded by `#[ApiProperty(security: ...)]`, and a local long-running PHP worker |
+| Access-log line forging | Basic-auth usernames containing CR/LF-like control characters break one-request-per-line assumptions in `morgan` logs | Local Express app, fake username canaries, and disposable log files only |
 
 ## Validation patterns
 
@@ -157,6 +163,29 @@ The `pip` entry-point issue is a package metadata to filesystem boundary: a whee
 
 Report as **repository-controlled package metadata -> entry-point script writer -> outside-script-dir marker file**. The finding is stronger when the vulnerable install path is reachable from lockfiles, internal indexes, plugin systems, or dependency-update automation.
 
+### API Platform JSON:API/HAL per-user serializer-cache leak
+
+This API Platform issue is useful beyond one framework: it is a repeatable way to test whether response-shape caches include every security-relevant input in their key. The vulnerable paths compute JSON:API/HAL component structures for one request and can reuse them for a later request whose `#[ApiProperty(security: ...)]` predicate should hide a property.
+
+1. Build or request an authorized two-user lab with one resource exposed through JSON:API or HAL. Add a harmless canary property guarded by a per-user `#[ApiProperty(security: ...)]` predicate, for example visible to `user_high` and hidden from `user_low`.
+2. Run the app under a long-lived PHP runtime that keeps normalizer instances alive across requests, such as FrankenPHP worker mode, RoadRunner, Swoole, or ReactPHP. Treat classic per-request `php-fpm` behavior as a weak or negative control unless the same worker can serve both requests.
+3. Warm the cache with the higher-privilege user, then request the same resource and format as the lower-privilege user through the same worker process.
+4. Evidence should be a compact matrix: format (`application/vnd.api+json` or HAL), worker/runtime, warm-up user, follow-up user, expected canary-property visibility, and observed property/relationship/link structure. Use only synthetic resource fields.
+5. Repeat in the opposite order and on a patched version or runtime that does not persist the normalizer cache to prove the leak is stateful, not a static authorization mistake.
+
+Report this as **higher-privilege request -> long-lived serializer component cache -> lower-privilege JSON:API/HAL response shape includes hidden canary property**. Do not use real sensitive properties, customer records, or production worker pinning tricks.
+
+### `morgan` `:remote-user` access-log forging
+
+Log-forging findings are strongest when the program relies on access logs as an investigation, billing, abuse, or rate-limit evidence source. Keep the proof to log integrity, not credential capture.
+
+1. Confirm the target code path uses `morgan` `combined`, `common`, `default`, `short`, or a custom format containing `:remote-user`.
+2. In a local or explicitly authorized lab, send Basic-auth usernames with harmless control-character canaries that attempt to terminate the current log line and start a fake one. Use fake passwords and no real user credentials.
+3. Capture the raw request, the emitted raw log bytes, and the parsed line count from the same disposable log file.
+4. Show whether downstream parsers, dashboards, import jobs, or evidence exports treat the forged line as a separate request or trusted actor. Avoid writing forged entries to production SIEM, audit, billing, or abuse-response systems.
+
+Report as **Basic-auth username -> `:remote-user` log token -> unneutralized control characters -> forged access-log line**. If the target only stores logs for debugging and no downstream decision consumes them, document the lower impact rather than overstating exploitability.
+
 ## Reporting notes
 
 Lead with the failed trust boundary:
@@ -171,6 +200,8 @@ Lead with the failed trust boundary:
 - **multi-log policy -> per-entry counting -> single-authority threshold satisfaction**;
 - **attacker-controlled authoritative DNS answer -> missing bailiwick enforcement -> poisoned shared resolver cache**;
 - **malformed `Host` header -> reconstructed URL path drift -> path guard bypass**;
-- **wheel entry-point metadata -> script path join -> outside-install-root write**.
+- **wheel entry-point metadata -> script path join -> outside-install-root write**;
+- **privileged API request -> long-lived response-shape cache -> lower-privilege JSON:API/HAL structure leak**;
+- **Basic-auth username -> unescaped access-log token -> forged request evidence**.
 
 Include version, route/tool/library path, required attacker control, lab harness design, synthetic canary evidence, and a negative control. Avoid claiming production token theft, internal SSRF, arbitrary file overwrite, or supply-chain compromise unless the authorized lab evidence reaches that exact sink without sensitive data or irreversible side effects.
