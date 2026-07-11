@@ -16,6 +16,8 @@ PortSwigger Research published several durable 2025 workflows that are worth car
 
 The reusable lesson: rank first, replay second, classify only after you can explain the parser or state boundary that produced the anomaly.
 
+GitHub Advisory updates in July 2026 added a concrete parser-differential example for ASGI/WebSocket stacks: [Daphne before 4.2.2 reconstructed a raw handshake request from Twisted-parsed headers and passed it to Autobahn, where Python `splitlines()` treated non-standard bytes such as `\x0b`, `\x0c`, `\x1c`, `\x1d`, `\x1e`, and `\x85` as line separators](https://github.com/advisories/GHSA-xh68-hfp5-5x5m). The operator value is not the specific bytes alone; it is the workflow of testing whether the HTTP server, framework adapter, WebSocket handshake library, and ASGI application agree on where one header ends and the next begins.
+
 ## When to use this
 
 - Intruder, Turbo Intruder, ffuf, httpx, nuclei, or custom fuzzing generated hundreds or thousands of responses.
@@ -64,6 +66,26 @@ For every candidate anomaly, keep enough context to replay it exactly:
 6. **Test race candidates intentionally.** If the app acknowledges frame order, send paired canary operations concurrently against disposable resources and record ordering. Avoid high-volume race floods unless the rules of engagement permit it.
 7. **Preserve frame evidence.** Reports should include the upgrade request, sanitized frame pair, expected authorization decision, observed decision, and a REST or UI negative control if one exists.
 
+## Workflow: WebSocket handshake parser differentials
+
+Use this when the target is a Python/ASGI, Node, Java, or reverse-proxied WebSocket service where one component parses the HTTP upgrade and another component rebuilds or reinterprets it before application code sees the connection.
+
+1. **Fingerprint the handshake path.** Record the edge proxy, application server, framework adapter, WebSocket library, and app-visible ASGI/WSGI/request-scope headers when disclosed by headers, errors, docs, or lab instrumentation.
+2. **Build a harmless upgrade baseline.** Use an owned account and a WebSocket route that only echoes, subscribes to a canary room, or returns a synthetic server marker. Save the exact raw `GET` upgrade request.
+3. **Mutate header values, not just header names.** Test safe canary values containing unusual line-boundary bytes, encoded separators, obs-fold-like whitespace, duplicate header names, mixed casing, and delimiter-adjacent markers. Keep one mutation per request.
+4. **Compare app-visible scope.** The signal is an injected or rewritten header, subprotocol, origin, host, authorization marker, tenant marker, or client IP value visible to the application after a successful or rejected handshake.
+5. **Prove a security boundary.** Tie the differential to something the app trusts: `Origin`, `Host`, `X-Forwarded-*`, auth-bearing cookies/headers, selected subprotocol, tenant/room routing, or feature flags. A parser mismatch with no trusted sink is a hardening bug, not an exploit path.
+6. **Add negative controls.** Show normal headers, adjacent safe bytes, patched versions, or direct-to-origin requests do not create the same app-visible header set.
+7. **Keep denial-of-service out of scope unless approved.** Some adjacent WebSocket advisories involve unlimited frame/message sizes. For normal bug-hunting reports, document configured limits or a tiny capped rejection test; do not send large frames to shared services.
+
+Evidence table template:
+
+| Test | Raw header marker | App-visible value | Expected decision | Observed decision |
+| --- | --- | --- | --- | --- |
+| Baseline | `X-Canary: ws-baseline` | `ws-baseline` | One header only | One header only |
+| Differential candidate | `X-Canary: a<separator>b` | `a` plus injected canary header, or rejection | Reject or preserve value as one header | Record exact result |
+| Negative control | Adjacent encoded/escaped marker | Preserved as one value, or rejection | No injected header | Record exact result |
+
 ## Request smuggling sanity check
 
 Before claiming request smuggling, distinguish it from ordinary connection reuse:
@@ -73,6 +95,7 @@ Before claiming request smuggling, distinguish it from ordinary connection reuse
 - Show a front-end/back-end parser disagreement or a harmless cross-request effect, not just delayed responses.
 - Keep canaries single-user and single-connection; never target other users or shared production traffic.
 - Include a control request that demonstrates normal HTTP pipelining or keep-alive behavior does **not** explain the result.
+- For WebSocket upgrade desync claims, prove where the disagreement occurs: edge proxy, HTTP server, handshake library, framework adapter, or application-visible scope. A successful `101` alone is not evidence of header smuggling.
 
 ## Safe boundaries
 
@@ -81,6 +104,7 @@ Before claiming request smuggling, distinguish it from ordinary connection reuse
 - Do not exfiltrate real messages, documents, tokens, or private tenant data through WebSocket tests.
 - Do not run volumetric race or timing tests on shared production systems without explicit approval.
 - For desync work, stop at harmless canary effects and raw-byte evidence.
+- For handshake parser tests, avoid injecting real credentials, cookies, bearer tokens, internal hostnames, or production tenant IDs. Use canary headers and disposable rooms/accounts.
 
 ## Reporting notes
 
@@ -97,3 +121,5 @@ Include the original ranked result, exact replay request/frame, affected role, c
 - [PortSwigger Research: Introducing HTTP Anomaly Rank](https://portswigger.net/research/introducing-http-anomaly-rank)
 - [PortSwigger Research: WebSocket Turbo Intruder: Unearthing the WebSocket Goldmine](https://portswigger.net/research/websocket-turbo-intruder-unearthing-the-websocket-goldmine)
 - [PortSwigger Research: Beware the false false-positive: how to distinguish HTTP pipelining from request smuggling](https://portswigger.net/research/how-to-distinguish-http-pipelining-from-request-smuggling)
+- [GitHub Advisory: Daphne WebSocket handshake header smuggling through Autobahn `splitlines()` handling](https://github.com/advisories/GHSA-xh68-hfp5-5x5m)
+- [GitHub Advisory: Daphne unlimited WebSocket frame/message sizes](https://github.com/advisories/GHSA-rrc9-mx66-ffcm)
