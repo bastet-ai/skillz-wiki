@@ -14,7 +14,9 @@ Craft CMS [GHSA-fvwq-45qv-xvhv / CVE-2026-31859](https://github.com/advisories/G
 
 CakePHP Authentication [GHSA-hhpq-7wg4-36jm / CVE-2026-55590](https://github.com/advisories/GHSA-hhpq-7wg4-36jm) adds the adjacent open-redirect pattern: post-login redirect helpers that try to allow only local targets can still be bypassed with backslash-normalization quirks if they validate before converting `\` into URL path separators.
 
-Gogs [GHSA-xxhq-69mf-w8cr / CVE-2026-52802](https://github.com/advisories/GHSA-xxhq-69mf-w8cr) is the same bug class in a Git forge: `redirect_to` values such as `/a/../\example.com` passed a leading-slash same-site check, then browser normalization turned the destination into a protocol-relative off-origin URL.
+Gogs [GHSA-xxhq-69mf-w8cr / CVE-2026-52802](https://github.com/advisories/GHSA-xxhq-69mf-w8cr) is the same bug class in a Git forge: `redirect_to` values such as `/a/../\\example.com` passed a leading-slash same-site check, then browser normalization turned the destination into a protocol-relative off-origin URL.
+
+Apache Shiro Jakarta EE [GHSA-7pq2-fhx9-x464 / CVE-2026-48589](https://github.com/advisories/GHSA-7pq2-fhx9-x464) adds a header-sourced variant: post-login redirects can trust the client-controlled `Referer` header when no explicit saved request is present. Treat `Referer` as another return-target input, not as browser-authenticated state.
 
 The reusable lesson is broader than any one framework: URL sinks need URL parsing, canonicalization, and origin decisions made in the same representation the browser or redirect client will follow.
 
@@ -53,6 +55,7 @@ Prioritize flows that store the value across a session boundary:
 - login required → unauthenticated request supplies return target → post-login link or redirect uses it
 - forced reauthentication → original destination stored in session → “continue” link renders it
 - logout/session-expired pages → `returnUrl` controls a visible anchor
+- login handlers that fall back to the client-controlled `Referer` header when there is no saved request
 - control-panel/admin CMS paths where XSS impact includes privileged actions
 
 ## Safe probe set
@@ -97,6 +100,13 @@ Do not send payloads that steal cookies, make privileged changes, or call extern
 - Seed the login flow with a harmless owned destination such as `/sky/login?redirect_uri=/%252Fexample.invalid/\` and complete login in your own browser session.
 - Positive evidence is the final `Location` or browser navigation resolving to the off-origin canary host after authentication, while a normal local `redirect_uri` remains on the Concourse origin.
 - Capture the raw parameter, server response chain, browser-normalized destination, Concourse version, and patched negative control. Do not claim credential theft: the advisory notes the redirect happens after login completes and no credentials are leaked by the redirect alone.
+
+### Shiro Jakarta EE `Referer` fallback redirect update
+
+- Test only lab accounts and routes using `org.apache.shiro:shiro-jakarta-ee`; this pattern does not apply to every Shiro integration.
+- Start from a login-required route without a pre-seeded saved request, then submit the login with a harmless `Referer` value such as `https://example.invalid/shiro-marker` or a same-origin negative control.
+- Positive evidence is the post-login `Location` or browser navigation following the client-controlled `Referer` rather than a server-owned saved destination.
+- Capture the module/version, raw `Referer`, login response chain, browser-normalized destination, and patched negative control. Do not send crafted login links to other users or collect credentials.
 
 ## What to report
 
@@ -154,3 +164,4 @@ https://allowed.example.invalid@evil.example/
 - [GitHub Advisory Database: CakePHP Authentication GHSA-hhpq-7wg4-36jm / CVE-2026-55590](https://github.com/advisories/GHSA-hhpq-7wg4-36jm)
 - [GitHub Advisory Database: Gogs GHSA-xxhq-69mf-w8cr / CVE-2026-52802](https://github.com/advisories/GHSA-xxhq-69mf-w8cr)
 - [GitHub Advisory Database: Concourse GHSA-8w27-c4vc-88q9 / CVE-2026-49826](https://github.com/advisories/GHSA-8w27-c4vc-88q9)
+- [GitHub Advisory Database: Apache Shiro Jakarta EE GHSA-7pq2-fhx9-x464 / CVE-2026-48589](https://github.com/advisories/GHSA-7pq2-fhx9-x464)
