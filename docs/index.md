@@ -8,9 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
-- [NukeViet forwarded-host CMS and DIRAC eval-boundary checks](alerts/2026-07-13-nukeviet-dirac-boundaries-ghsa.md)
+- [NukeViet forwarded-host CMS plus DIRAC eval, SQL, and pilot-bootstrap checks](alerts/2026-07-13-nukeviet-dirac-boundaries-ghsa.md)
 - [Rust security testing workflow for audit targets](methodology/rust-security-testing-workflow.md)
-- [Decidim tenant-boundary, Apollo config, and GeoNode trusted-render checks](alerts/2026-07-13-decidim-apollo-geonode-boundaries-ghsa.md)
+- [Decidim tenant-boundary, Apollo config auth, and GeoNode trusted-render checks](alerts/2026-07-13-decidim-apollo-geonode-boundaries-ghsa.md)
 - [TSDProxy management-token relay and melange/apko APK data-integrity checks](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md#tsdproxy-identity-header-management-token-relay)
 - [Clauster dashboard and PrestaShop faceted-search cache boundary checks](alerts/2026-07-10-clauster-prestashop-dashboard-cache-boundaries-ghsa.md)
 - [Excon redirect header relay and secure_headers CSP directive injection updates](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md#excon-redirect-follower-sensitive-header-relay)

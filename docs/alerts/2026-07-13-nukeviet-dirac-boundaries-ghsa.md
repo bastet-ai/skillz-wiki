@@ -1,11 +1,11 @@
 # NukeViet forwarded-host CMS and DIRAC eval-boundary checks
 
-Source: hourly offensive-security scan, 2026-07-13 GitHub advisory wave. Primary entries: [GHSA-4chg-4752-w88r](https://github.com/advisories/GHSA-4chg-4752-w88r) / CVE-2026-55372, [GHSA-c9xg-64p9-f2jj](https://github.com/advisories/GHSA-c9xg-64p9-f2jj) / CVE-2026-54065, [GHSA-465g-4q99-5x86](https://github.com/advisories/GHSA-465g-4q99-5x86) / CVE-2026-54064, [GHSA-w2w5-w2pw-r929](https://github.com/advisories/GHSA-w2w5-w2pw-r929) / CVE-2026-49259, [GHSA-mxpf-qgg6-v3ff](https://github.com/advisories/GHSA-mxpf-qgg6-v3ff) / CVE-2026-48118, and [GHSA-9jpv-c7p4-997x](https://github.com/advisories/GHSA-9jpv-c7p4-997x) / CVE-2026-45579.
+Source: hourly offensive-security scan, 2026-07-13 GitHub advisory wave. Primary entries: [GHSA-4chg-4752-w88r](https://github.com/advisories/GHSA-4chg-4752-w88r) / CVE-2026-55372, [GHSA-c9xg-64p9-f2jj](https://github.com/advisories/GHSA-c9xg-64p9-f2jj) / CVE-2026-54065, [GHSA-465g-4q99-5x86](https://github.com/advisories/GHSA-465g-4q99-5x86) / CVE-2026-54064, [GHSA-w2w5-w2pw-r929](https://github.com/advisories/GHSA-w2w5-w2pw-r929) / CVE-2026-49259, [GHSA-mxpf-qgg6-v3ff](https://github.com/advisories/GHSA-mxpf-qgg6-v3ff) / CVE-2026-48118, [GHSA-9jpv-c7p4-997x](https://github.com/advisories/GHSA-9jpv-c7p4-997x) / CVE-2026-45579, [GHSA-m4m7-4cw8-62j6](https://github.com/advisories/GHSA-m4m7-4cw8-62j6), [GHSA-7xw9-549r-8jrc](https://github.com/advisories/GHSA-7xw9-549r-8jrc), and [GHSA-vg99-gr89-qhw9](https://github.com/advisories/GHSA-vg99-gr89-qhw9).
 
-This batch is durable because each item maps to a reusable operator boundary: forwarded proxy headers becoming a pre-auth outbound fetch target, CMS upload/comment metadata escaping its intended storage root during later cleanup, encoded or context-mismatched CMS content reaching trusted browser execution, and an authenticated grid/computing service parameter crossing into Python `eval()`.
+This batch is durable because each item maps to a reusable operator boundary: forwarded proxy headers becoming a pre-auth outbound fetch target, CMS upload/comment metadata escaping its intended storage root during later cleanup, encoded or context-mismatched CMS content reaching trusted browser execution, authenticated grid/computing service parameters crossing into SQL or Python `eval()`, and pilot bootstrap code trusting an unverified transport channel before execution.
 
 !!! warning "Authorized validation only"
-    Keep proofs to disposable NukeViet and DIRAC labs. Use owned callback endpoints, synthetic comments/articles/users, harmless browser markers, inert RequestManager canaries, and temp files created only for the test. Do not probe internal networks, delete production files, steal sessions, collect credentials, execute shell payloads, read `dirac.cfg`, dump tokens/proxies, or target real visitors.
+    Keep proofs to disposable NukeViet and DIRAC labs. Use owned callback endpoints, synthetic comments/articles/users, harmless browser markers, inert RequestManager/FileCatalog/PilotManager canaries, fake pilot archives, and temp files created only for the test. Do not probe internal networks, delete production files, steal sessions, collect credentials, execute shell payloads, read `dirac.cfg`, dump tokens/proxies, tamper with production pilot distribution, or target real visitors.
 
 ## What changed
 
@@ -17,6 +17,9 @@ This batch is durable because each item maps to a reusable operator boundary: fo
 | [GHSA-w2w5-w2pw-r929](https://github.com/advisories/GHSA-w2w5-w2pw-r929) | NukeViet comment reply template | Profile display-name data is HTML-entity encoded but inserted into an inline JavaScript string | Test every profile/comment variable in its final output context: HTML text, attribute, URL, and JavaScript string are different sinks. |
 | [GHSA-mxpf-qgg6-v3ff](https://github.com/advisories/GHSA-mxpf-qgg6-v3ff) | NukeViet comment status loader | Base64-like status parameter is filtered before decode and paired with a site-wide reusable `checkss` token | Check encoded-message flows where validation happens before decoding and anti-forgery tokens are not bound to user/session state. |
 | [GHSA-9jpv-c7p4-997x](https://github.com/advisories/GHSA-9jpv-c7p4-997x) | DIRAC RequestManager counters | Authenticated `groupingAttribute` reaches RequestDB dynamic evaluation when it misses an expected allowlist | Add API-parameter-to-dynamic-evaluation checks to scientific/grid/control-plane services that expose reporting or counter endpoints. |
+| [GHSA-m4m7-4cw8-62j6](https://github.com/advisories/GHSA-m4m7-4cw8-62j6) | DIRAC FileCatalog DatasetManager | Authenticated dataset input reaches SQL construction, the query result is passed into `eval()`, and the attacker can shape the evaluated value | Chain source-to-sink checks across database result materialization and later dynamic evaluation instead of stopping at the SQLi primitive. |
+| [GHSA-7xw9-549r-8jrc](https://github.com/advisories/GHSA-7xw9-549r-8jrc) | DIRAC PilotManager service | Pilot status/accounting parameters pass to the database layer without escaping and selected service methods also miss access-control checks | Add authenticated scientific-control-plane tests for both SQL grammar boundaries and method-level role gates. |
+| [GHSA-vg99-gr89-qhw9](https://github.com/advisories/GHSA-vg99-gr89-qhw9) | DIRAC pilot bootstrap | The first-stage wrapper downloads `pilot.tar` and its checksum over an HTTPS path with certificate validation disabled, then executes the fetched pilot code | Treat job bootstrap/update channels as code-execution supply-chain boundaries; prove with lab-only fake pilot artifacts and TLS-decision evidence. |
 
 ## Replayable validation boundaries
 
@@ -59,9 +62,39 @@ Report these as **CMS user-controlled field -> context mismatch or decode-order 
 
 Report this as **authenticated reporting parameter -> missing allowlist -> Python dynamic evaluation in service context**. The strongest safe evidence is a source-to-sink trace plus patched negative control, not command output.
 
+### DIRAC FileCatalog SQL-to-`eval()` chain
+
+1. Use a DIRAC FileCatalog lab with disposable datasets and a non-production database containing only synthetic marker rows.
+2. Trace the `checkDataset` / DatasetManager path from authenticated dataset parameters into the backend query builder, then into the value later consumed by Python `eval()`.
+3. Send a harmless dataset-name canary that demonstrates whether the SQL grammar can alter only the returned marker value. Do not extract schema data, credentials, user proxies, job metadata, or science data.
+4. If dynamic evaluation must be proven, run the proof in an offline harness or instrumented lab where the evaluated value can only set an inert variable or write a disposable marker under `/tmp`.
+5. Include controls for a normal dataset, an escaped/quoted dataset value, a user lacking FileCatalog permissions, and a patched build that rejects or parameterizes the dataset value before evaluation.
+
+Report this as **authenticated dataset parameter -> SQL result shaping -> Python `eval()` sink**. Keep evidence to source links, query-shape notes, inert marker values, and patched negative controls.
+
+### DIRAC PilotManager SQL and method-authorization check
+
+1. Stand up a DIRAC WorkloadManagement lab with fake pilots, fake sites, and no real worker nodes or grid credentials.
+2. From a disposable authenticated role, call a documented PilotManager read/update method with normal parameters to establish expected access and database behavior.
+3. Exercise the same method family with a grammar canary in fields such as pilot reference, status, or accounting selectors to determine whether parameters are concatenated into SQL rather than bound.
+4. Record whether pilot-update permission is verified before any database write path is reached.
+5. Record only status codes, role decisions, and synthetic row markers. Do not modify production pilot status, enumerate real pilots, or attempt stacked statements or destructive SQL.
+
+Report this as **authenticated PilotManager parameter -> unescaped SQL layer and/or missing method gate -> synthetic pilot-state impact**. Separate the injection evidence from the access-control evidence.
+
+### DIRAC pilot bootstrap transport-integrity check
+
+1. Recreate the pilot bootstrap flow in an isolated lab runner that fetches a fake `pilot.tar` from an owned endpoint. Never intercept or alter production pilot distribution.
+2. Present a test HTTPS endpoint with a deliberately untrusted certificate and a fake checksum file served over the same endpoint.
+3. Observe whether the wrapper accepts the connection, fetches both the pilot archive and checksum, and reaches the execution decision for the fake archive.
+4. Keep the archive inert: a marker file or log-only script is enough. Do not ship shells, credential readers, persistence, or code that contacts external infrastructure beyond the owned lab callback.
+5. Compare with a patched wrapper where certificate validation is enforced and checksums are anchored to a trusted channel or signed metadata.
+
+Report this as **pilot bootstrap URL -> TLS validation disabled -> checksum and code fetched from same untrusted channel -> execution decision**. The strongest evidence is a TLS decision table plus fake-artifact logs, not post-exploitation output.
+
 ## Reporting notes
 
-- Lead with preconditions: NukeViet version, proxy-header trust path, update trigger reachability, comment/news/profile permissions, and DIRAC authenticated role.
+- Lead with preconditions: NukeViet version, proxy-header trust path, update trigger reachability, comment/news/profile permissions, DIRAC authenticated role, enabled FileCatalog/PilotManager services, and pilot bootstrap source.
 - Prefer decision tables: input field, storage/transformation step, sink, expected boundary, observed canary, patched control.
 - Redact callback tokens, account IDs, `checkss` values, session cookies, filesystem paths tied to real deployments, and DIRAC job/user identifiers.
-- Skip generic XSS/DoS phrasing. The durable lessons are forwarded-host trust, edit-to-cleanup filesystem effects, browser/server parser differentials, decode-before-sanitize order, token binding, and dynamic-evaluation allowlists.
+- Skip generic XSS/DoS phrasing. The durable lessons are forwarded-host trust, edit-to-cleanup filesystem effects, browser/server parser differentials, decode-before-sanitize order, token binding, dynamic-evaluation allowlists, SQL-result-to-code chains, service method authorization, and bootstrap transport integrity.
