@@ -1,11 +1,11 @@
 # Decidim tenant-boundary, Apollo config, and GeoNode trusted-render checks
 
-Source: hourly offensive-security scan, 2026-07-13 GitHub advisory wave. Primary entries: [GHSA-r3v7-5x4c-c69q](https://github.com/advisories/GHSA-r3v7-5x4c-c69q) / CVE-2026-45414, [GHSA-3mvf-82qp-8qh5](https://github.com/advisories/GHSA-3mvf-82qp-8qh5) / CVE-2026-45378, [GHSA-767h-63j4-5226](https://github.com/advisories/GHSA-767h-63j4-5226) / CVE-2026-45377, [GHSA-jvqq-cvh4-xm37](https://github.com/advisories/GHSA-jvqq-cvh4-xm37) / CVE-2026-45376, [GHSA-86fh-w43w-338c](https://github.com/advisories/GHSA-86fh-w43w-338c) / CVE-2026-45330, [GHSA-vq6j-hj8w-7v39](https://github.com/advisories/GHSA-vq6j-hj8w-7v39) / CVE-2026-45086, [GHSA-jxpj-9j24-w337](https://github.com/advisories/GHSA-jxpj-9j24-w337) / CVE-2025-32781, and [GHSA-rwcv-whm8-fmxm](https://github.com/advisories/GHSA-rwcv-whm8-fmxm) / CVE-2024-27091.
+Source: hourly offensive-security scan, 2026-07-13 GitHub advisory wave. Primary entries: [GHSA-r3v7-5x4c-c69q](https://github.com/advisories/GHSA-r3v7-5x4c-c69q) / CVE-2026-45414, [GHSA-3mvf-82qp-8qh5](https://github.com/advisories/GHSA-3mvf-82qp-8qh5) / CVE-2026-45378, [GHSA-767h-63j4-5226](https://github.com/advisories/GHSA-767h-63j4-5226) / CVE-2026-45377, [GHSA-jvqq-cvh4-xm37](https://github.com/advisories/GHSA-jvqq-cvh4-xm37) / CVE-2026-45376, [GHSA-86fh-w43w-338c](https://github.com/advisories/GHSA-86fh-w43w-338c) / CVE-2026-45330, [GHSA-vq6j-hj8w-7v39](https://github.com/advisories/GHSA-vq6j-hj8w-7v39) / CVE-2026-45086, [GHSA-q79h-67vx-m9xg](https://github.com/advisories/GHSA-q79h-67vx-m9xg) / CVE-2026-45415, [GHSA-2g9c-vf8h-prxx](https://github.com/advisories/GHSA-2g9c-vf8h-prxx) / CVE-2026-45573, [GHSA-533c-2vh9-4r86](https://github.com/advisories/GHSA-533c-2vh9-4r86) / CVE-2026-45572, [GHSA-jxpj-9j24-w337](https://github.com/advisories/GHSA-jxpj-9j24-w337) / CVE-2025-32781, and [GHSA-rwcv-whm8-fmxm](https://github.com/advisories/GHSA-rwcv-whm8-fmxm) / CVE-2024-27091.
 
-This batch is durable because each item maps to a repeatable operator boundary: host-selected tenants trusting JWTs issued for a different organization, protected download wrappers redirecting to reusable Active Storage bearer URLs, tenant-scoped admin IDs loaded globally, admin-only route families reachable by participant accounts, user-controlled search terms reaching raw `ORDER BY` SQL expressions, config release IDs bypassing application/namespace permissions, and rich-text map/CMS content rendering inside a trusted same-origin admin session.
+This batch is durable because each item maps to a repeatable operator boundary: host-selected tenants trusting JWTs issued for a different organization, protected download wrappers redirecting to reusable Active Storage bearer URLs, tenant-scoped admin IDs loaded globally, admin-only route families reachable by participant/participant-manager accounts, user-controlled search terms reaching raw `ORDER BY` SQL expressions, stored push endpoints becoming outbound request sinks, admin-editable HTML content becoming trusted browser execution, config release IDs bypassing application/namespace permissions, and rich-text map/CMS content rendering inside a trusted same-origin admin session.
 
 !!! warning "Authorized validation only"
-    Keep proofs to disposable Decidim, Apollo Portal, and GeoNode labs. Use synthetic organizations, users, exports, verification records, release IDs, config values, and harmless DOM markers. Do not collect identity documents, participant personal data, production exports, real config secrets, account tokens, or live tenant data. Do not run destructive SQL, perform production account takeover, or use stored script payloads against real users.
+    Keep proofs to disposable Decidim, Apollo Portal, and GeoNode labs. Use synthetic organizations, users, exports, verification records, CSV census rows, push endpoints, release IDs, config values, and harmless DOM markers. Do not collect identity documents, participant personal data, production exports, real config secrets, account tokens, notification payloads, or live tenant data. Do not run destructive SQL, perform production account takeover, point SSRF probes at internal services, or use stored script payloads against real users.
 
 ## What changed
 
@@ -16,6 +16,9 @@ This batch is durable because each item maps to a repeatable operator boundary: 
 | [GHSA-767h-63j4-5226](https://github.com/advisories/GHSA-767h-63j4-5226) | Decidim private data exports | Owner-scoped export download routes redirect to reusable Active Storage blob URLs not bound to the user session | Add redirect-chain bearer URL replay checks to private export/download flows. |
 | [GHSA-86fh-w43w-338c](https://github.com/advisories/GHSA-86fh-w43w-338c) | Decidim verification admin records | `pending_authorization_id` records are loaded globally instead of through `current_organization` | Test numeric/object-ID route families for cross-organization read and state-change drift. |
 | [GHSA-vq6j-hj8w-7v39](https://github.com/advisories/GHSA-vq6j-hj8w-7v39) | Decidim demographics questions | A participant account can directly load the `/admin/demographics/questions` editor surface | Add direct-route checks for admin UI pages that expose live update form actions even when sibling admin pages deny access. |
+| [GHSA-q79h-67vx-m9xg](https://github.com/advisories/GHSA-q79h-67vx-m9xg) | Decidim CSV census admin records | Participant-manager sessions can open and mutate `/admin/csv_census/census_logs` records | Add role-drift tests for verification/admin record forms where partial administrative roles should not manage authorization data. |
+| [GHSA-2g9c-vf8h-prxx](https://github.com/advisories/GHSA-2g9c-vf8h-prxx) | Decidim push notification subscriptions | User-supplied push endpoint is stored and later passed to `WebPush.payload_send` when VAPID delivery runs | Add stored-SSRF checks to notification/webhook subscription features that defer outbound delivery until a later server-side event. |
+| [GHSA-533c-2vh9-4r86](https://github.com/advisories/GHSA-533c-2vh9-4r86) | Decidim HTML content blocks | Admin-editable landing-page HTML renders through `html_safe` without a sanitization boundary | Treat delegated CMS/admin content blocks as trusted-origin browser sinks even when exploitation requires an editor role. |
 | [GHSA-jvqq-cvh4-xm37](https://github.com/advisories/GHSA-jvqq-cvh4-xm37) | Decidim admin organization user search | `params[:term]` is interpolated into raw PostgreSQL similarity sort expressions | Add `ORDER BY` SQLi timing checks to admin autocomplete/search endpoints that use ranking helpers. |
 | [GHSA-jxpj-9j24-w337](https://github.com/advisories/GHSA-jxpj-9j24-w337) | Apollo Portal config releases | `GET /envs/{env}/releases/{releaseId}` returns release data by ID without enforcing application/namespace visibility | Test IDOR across config-center applications/namespaces using synthetic release IDs and marker values. |
 | [GHSA-rwcv-whm8-fmxm](https://github.com/advisories/GHSA-rwcv-whm8-fmxm) | GeoNode rich-text editor | Stored rich text can execute in the trusted GeoNode origin and perform same-origin CSRF-tokened actions | Treat geospatial/CMS metadata renderers as account-control surfaces; prove with harmless DOM and request canaries only. |
@@ -52,6 +55,36 @@ Report this as **authenticated protected route -> signed storage URL in client-v
 
 Report the exact drift: **global authorization ID -> cross-org verification read/state change** or **participant session -> admin questionnaire route -> editor/update surface**. Do not display identity images or collect participant answers.
 
+### Decidim CSV census role drift
+
+1. Enable the CSV census verification method in a Decidim lab and seed only synthetic census rows such as `CSV-CENSUS-CANARY`.
+2. Create a participant-manager role that should manage participants but should not administer verification census records.
+3. Request the `/admin/csv_census/census_logs` route family directly, including the new-record and edit/update/delete paths, from that participant-manager session.
+4. Record whether forms render and whether disposable rows can be created, changed, or removed despite normal admin-only expectations.
+5. Include controls for a full admin, a normal participant, disabled CSV census, and a patched build where census record routes enforce the intended admin policy.
+
+Report this as **partial admin role -> direct CSV census admin route -> verification data mutation**. Use marker rows only and do not enumerate or export real voter/participant records.
+
+### Decidim stored push-endpoint SSRF
+
+1. Use a lab where VAPID push delivery is enabled and create a disposable authenticated user.
+2. Register a notification subscription whose endpoint points to an owned HTTPS callback endpoint. Do not target internal IPs, metadata services, or third-party push endpoints you do not control.
+3. Trigger a benign notification event for the disposable user and capture whether the app server later sends an outbound WebPush request to the stored endpoint.
+4. Verify persistence by inspecting only the lab user's notification settings or by using application logs; do not capture notification contents from real users.
+5. Include controls for an approved push-service endpoint, an invalid scheme/host, disabled VAPID delivery, and patched builds that constrain endpoints to expected push providers.
+
+Report this as **user subscription endpoint -> stored notification setting -> deferred server-side WebPush request**. Evidence should be callback metadata and route/state controls, not internal-network reachability.
+
+### Decidim HTML content-block trusted rendering
+
+1. Create a landing page or content block in a disposable Decidim organization with an editor/admin role that is intentionally allowed to manage that page.
+2. Store a harmless DOM marker in an HTML content block and load the public page as a separate lab visitor account.
+3. Confirm whether the content renders through a trusted same-origin execution context rather than a sanitized rich-text subset.
+4. If proving state-change impact, use only a synthetic same-origin request against a lab-only setting or route that cannot affect real participants.
+5. Compare with patched behavior where the HTML block is sanitized or restricted before render.
+
+Report this as **delegated page editor -> raw HTML content block -> trusted-origin browser execution**. Make the role prerequisite explicit and avoid presenting this as participant-controlled XSS unless that path is independently proven.
+
 ### Decidim admin search `ORDER BY` SQLi
 
 1. Use an authenticated organization-admin lab account and seed one disposable user whose name/email/nickname matches a harmless probe string.
@@ -84,7 +117,7 @@ Report this as **stored rich-text metadata -> trusted GeoNode origin execution -
 
 ## Reporting notes
 
-- Lead with preconditions: Decidim multi-organization host routing and JWT/API-user setup; identity-document or private-download modules; Org admin or participant role; Apollo `configView.memberOnly.envs`; GeoNode rich-text rendering path and victim role.
-- Prefer decision tables: route, tenant/application, role, object ID, expected authorization boundary, observed status, canary returned, patched/negative control.
-- Redact JWTs, signed Active Storage tokens, release IDs tied to real deployments, verification IDs, participant data, config keys/values, CSRF tokens, and browser history/proxy logs.
+- Lead with preconditions: Decidim multi-organization host routing and JWT/API-user setup; identity-document or private-download modules; Org admin, participant, participant-manager, push-notification, or page-editor role; Apollo `configView.memberOnly.envs`; GeoNode rich-text rendering path and victim role.
+- Prefer decision tables: route, tenant/application, role, object ID, stored endpoint/content block, expected authorization boundary, observed status, canary returned, patched/negative control.
+- Redact JWTs, signed Active Storage tokens, release IDs tied to real deployments, verification IDs, participant data, push subscription keys, notification payloads, config keys/values, CSRF tokens, and browser history/proxy logs.
 - Skip nearby advisories that only restate generic data exposure unless the route/object/tenant boundary is specific enough to replay safely in an authorized lab.

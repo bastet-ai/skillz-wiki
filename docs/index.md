@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [NukeViet forwarded-host CMS and DIRAC eval-boundary checks](alerts/2026-07-13-nukeviet-dirac-boundaries-ghsa.md)
+- [Rust security testing workflow for audit targets](methodology/rust-security-testing-workflow.md)
 - [Decidim tenant-boundary, Apollo config, and GeoNode trusted-render checks](alerts/2026-07-13-decidim-apollo-geonode-boundaries-ghsa.md)
 - [TSDProxy management-token relay and melange/apko APK data-integrity checks](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md#tsdproxy-identity-header-management-token-relay)
 - [Clauster dashboard and PrestaShop faceted-search cache boundary checks](alerts/2026-07-10-clauster-prestashop-dashboard-cache-boundaries-ghsa.md)
@@ -16,8 +18,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [File Browser proxy-auth, SiYuan local-app, Authorizer OAuth, and Pimcore CMS boundary checks](alerts/2026-07-10-filebrowser-siyuan-authorizer-pimcore-boundaries-ghsa.md)
 - [MCP Atlassian DNS-rebinding TOCTOU SSRF guard bypass checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md#mcp-atlassian-dns-rebinding-toctou-checks)
 - [Joomla form/event upload KEV follow-up for Balbooa Forms and iCagenda](alerts/2026-07-08-joomla-page-builder-coldfusion-kev-boundaries.md#joomla-form-and-event-upload-follow-up)
-- [DesktopCommanderMCP file-reader SSRF and MCP regex resource checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md#mcp-file-reader-ssrf-and-regex-resource-checks)
-- [HTTP client, package cache, identity, API serializer, and access-log boundary checks from July 10 GHSA updates](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md)
+
 
 ## What lives here
 
