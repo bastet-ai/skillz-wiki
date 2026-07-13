@@ -1,6 +1,6 @@
 # NASA AIT, Gradio, Diffusers, Fickling, and identity boundary batch
 
-Source: GitHub Security Advisories REST API, published/updated 2026-06-05.
+Source: GitHub Security Advisories REST API, published/updated 2026-06-05. Updated 2026-07-13 with an adjacent Diffusers time-of-check/time-of-use custom-code gate bypass.
 
 This batch is durable because the advisories map to reusable offensive testing patterns: **unauthenticated telemetry capture APIs writing outside a log root**, **ML/web UI file-boundary and token-leak checks**, **model-loader `trust_remote_code` gate bypasses**, **pickle scanner bypass canaries**, **telco service-token scope confusion**, and **ASGI header canonicalization mismatches**. Use these workflows only in authorized labs or explicitly scoped assessments.
 
@@ -8,7 +8,7 @@ This batch is durable because the advisories map to reusable offensive testing p
 
 - **NASA AMMOS AIT-Core Binary Stream Capture path traversal / arbitrary append** — [GHSA-p462-prxw-mjx4](https://github.com/advisories/GHSA-p462-prxw-mjx4) / CVE-2026-47731: `ait-bsc` exposes an unauthenticated HTTP API for creating capture handlers. Path-related form fields can escape the configured log root and append attacker-controlled bytes as the `ait-bsc` process. The advisory also documents browser-to-local-network triggering when a victim on the network opens attacker-controlled JavaScript.
 - **Gradio file-boundary and mocked-OAuth token leaks** — [GHSA-rhm9-gp5p-5248](https://github.com/advisories/GHSA-rhm9-gp5p-5248) / CVE-2024-51751, [GHSA-j2jg-fq62-7c3h](https://github.com/advisories/GHSA-j2jg-fq62-7c3h) / CVE-2025-23042, [GHSA-8jw3-6x8j-v96g](https://github.com/advisories/GHSA-8jw3-6x8j-v96g) / CVE-2025-48889, and [GHSA-h3h8-3v2v-rg7m](https://github.com/advisories/GHSA-h3h8-3v2v-rg7m) / CVE-2026-27167: File/UploadButton and flagging flows have allowed caller-controlled path handling, case-insensitive `blocked_paths` bypass on Windows/macOS, server-side file copies into flagged directories, and mocked OAuth routes that can place the server owner's Hugging Face token in a visitor session when OAuth components are used outside Spaces.
-- **Hugging Face Diffusers `trust_remote_code` bypass** — [GHSA-j7w6-vpvq-j3gm](https://github.com/advisories/GHSA-j7w6-vpvq-j3gm) / CVE-2026-44827 and [GHSA-98h9-4798-4q5v](https://github.com/advisories/GHSA-98h9-4798-4q5v) / CVE-2026-44513: `DiffusionPipeline.from_pretrained()` could execute custom pipeline or component Python code despite `trust_remote_code=False` when code loading occurred through cross-repo `custom_pipeline`, local snapshots, cached paths, or custom component references in `model_index.json`.
+- **Hugging Face Diffusers `trust_remote_code` bypasses** — [GHSA-j7w6-vpvq-j3gm](https://github.com/advisories/GHSA-j7w6-vpvq-j3gm) / CVE-2026-44827, [GHSA-98h9-4798-4q5v](https://github.com/advisories/GHSA-98h9-4798-4q5v) / CVE-2026-44513, and [GHSA-7wx4-6vff-v64p](https://github.com/advisories/GHSA-7wx4-6vff-v64p) / CVE-2026-45804: `DiffusionPipeline.from_pretrained()` could execute custom pipeline or component Python code despite `trust_remote_code=False` or without any explicit `trust_remote_code` / `custom_pipeline` kwargs when code loading occurred through cross-repo `custom_pipeline`, local snapshots, cached paths, custom component references in `model_index.json`, or a time-of-check/time-of-use race between the first `model_index.json` fetch and the later full snapshot download.
 - **Trail of Bits Fickling pickle-analysis bypass** — [GHSA-r7v6-mfhq-g3m2](https://github.com/advisories/GHSA-r7v6-mfhq-g3m2) / CVE-2025-67748: crafted pickle payloads using `pty.spawn()` and stack-shape tricks could be classified as `LIKELY_SAFE`, making this useful as a scanner-coverage canary for model/artifact ingestion pipelines that rely on Fickling output.
 - **free5GC NRF targetNF scope-validation bypass** — [GHSA-q7c8-gfjh-8v4p](https://github.com/advisories/GHSA-q7c8-gfjh-8v4p) / CVE-2025-66719: a crafted `targetNF` value can bypass access-token scope validation and obtain arbitrary scopes in affected Network Repository Function deployments.
 - **JupyterHub LTI13 JWT signature validation gap** — [GHSA-mcgx-2gcr-p3hp](https://github.com/advisories/GHSA-mcgx-2gcr-p3hp) / CVE-2023-25574: `jupyterhub-ltiauthenticator` 1.3.0 `LTI13Authenticator` did not validate JWT signatures, enabling forged LTI launch requests in deployments using that authenticator.
@@ -18,7 +18,7 @@ This batch is durable because the advisories map to reusable offensive testing p
 
 1. Search for AIT-Core / `ait-bsc` deployments in mission, telemetry, lab, or test networks. Prioritize unauthenticated BSC ports, default Bottle service exposure, and hosts where the process can write into project, script, or service directories.
 2. Search for public or partner-accessible Gradio apps, especially ML demos with File/UploadButton inputs, flagging enabled, custom `blocked_paths`, OAuth UI components, or host-level `HF_TOKEN` / `huggingface-cli login` credentials.
-3. Search Python ML pipelines for `diffusers<0.38.0` and any `DiffusionPipeline.from_pretrained()` call that accepts user-selected repos, local snapshots, cached model paths, `custom_pipeline=`, or unreviewed `model_index.json` component declarations.
+3. Search Python ML pipelines for `diffusers<0.38.0` and any `DiffusionPipeline.from_pretrained()` call that accepts user-selected repos, unpinned Hub branches, local snapshots, cached model paths, `custom_pipeline=`, or unreviewed `model_index.json` component declarations.
 4. Search artifact-ingestion services for Fickling-based pickle triage. Prioritize systems that treat `LIKELY_SAFE` as an allow decision before unpickling, model conversion, or batch analysis.
 5. In telecom labs, search for free5GC NRF 1.4.0 or `github.com/free5gc/nrf<1.4.1`, then identify who can send access-token requests and whether target NF values are attacker-controlled.
 6. Search learning-platform JupyterHub deployments for `jupyterhub-ltiauthenticator==1.3.0` and `LTI13Authenticator` configuration.
@@ -56,6 +56,15 @@ Use local inert modules that write only a marker under a temp directory.
 2. Call `DiffusionPipeline.from_pretrained()` with `trust_remote_code=False` or omitted across the relevant branches: cross-repo `custom_pipeline`, local snapshot plus remote `custom_pipeline`, cached snapshot, and custom component references in `model_index.json`.
 3. Vulnerable result: the marker side effect runs even though the call should have rejected remote/custom code.
 4. Capture exact package version, call shape, local-vs-Hub branch, marker evidence, and exception/no-exception behavior. Do not load untrusted public model code during assessment.
+
+For the TOCTOU variant, keep the proof in an owned Hugging Face test repository or a mocked Hub-compatible fixture:
+
+1. Pin a clean commit A where `model_index.json` names a built-in class and contains no custom Python file.
+2. Start an unpinned `DiffusionPipeline.from_pretrained("owned/repo")` call with no `trust_remote_code` or `custom_pipeline` kwargs and instrument only the gap between the initial `hf_hub_download()` config fetch and the later `snapshot_download()`.
+3. During that controlled gap, advance the same branch to commit B where `model_index.json` references a custom pipeline list and the added Python module writes only a temp-directory marker on import.
+4. Vulnerable result: the call passes the initial trust check on commit A, downloads commit B, imports the custom module, and produces the marker while returning a functional pipeline.
+5. Negative controls: repeat with `revision` pinned to commit A or B, repeat from a fully cached snapshot, and repeat on a patched version. The pinned and patched paths should not cross commits or silently import custom code.
+6. Evidence should be commit hashes, package versions, sanitized call shape, marker path, and cache state. Do not race or toggle popular public model repositories, and do not import third-party model code in production.
 
 ### Fickling pickle scanner-coverage canary
 
@@ -95,7 +104,7 @@ Run only in a telecom lab or explicitly scoped private 5G environment.
 
 - Frame AIT findings as **unauthenticated handler-creation crossing a log-root boundary**. Strong evidence is a normal capture inside the root versus a marker append outside the root.
 - Frame Gradio findings by trust boundary: user-selected file metadata, case-insensitive ACL bypass, flagging copy sink, or mocked OAuth server-token disclosure. Redacted fake tokens and marker files are enough.
-- Frame Diffusers findings as **code-load chokepoint bypass**, not merely vulnerable dependency presence. Show that `trust_remote_code=False` failed on the specific branch the target uses.
+- Frame Diffusers findings as **code-load chokepoint bypass**, not merely vulnerable dependency presence. Show that `trust_remote_code=False` failed on the specific branch the target uses, or that an unpinned branch crossed from a clean config commit to a custom-code snapshot between Hub fetches.
 - Frame Fickling findings as **scanner coverage failure before unsafe deserialization**, especially when `LIKELY_SAFE` becomes a deployment or ingestion allow decision.
 - Frame free5GC and JupyterHub findings as **token/identity assertion validation failures**. Include denied baseline and accepted forged/scope-expanded path.
 - Frame Django findings as **header canonicalization disagreement**. Show which layer saw which header and why the mismatch affects a security decision.
@@ -109,6 +118,7 @@ Run only in a telecom lab or explicitly scoped private 5G environment.
 - GitHub Advisory Database: [GHSA-h3h8-3v2v-rg7m / CVE-2026-27167](https://github.com/advisories/GHSA-h3h8-3v2v-rg7m)
 - GitHub Advisory Database: [GHSA-j7w6-vpvq-j3gm / CVE-2026-44827](https://github.com/advisories/GHSA-j7w6-vpvq-j3gm)
 - GitHub Advisory Database: [GHSA-98h9-4798-4q5v / CVE-2026-44513](https://github.com/advisories/GHSA-98h9-4798-4q5v)
+- GitHub Advisory Database: [GHSA-7wx4-6vff-v64p / CVE-2026-45804](https://github.com/advisories/GHSA-7wx4-6vff-v64p)
 - GitHub Advisory Database: [GHSA-r7v6-mfhq-g3m2 / CVE-2025-67748](https://github.com/advisories/GHSA-r7v6-mfhq-g3m2)
 - GitHub Advisory Database: [GHSA-q7c8-gfjh-8v4p / CVE-2025-66719](https://github.com/advisories/GHSA-q7c8-gfjh-8v4p)
 - GitHub Advisory Database: [GHSA-mcgx-2gcr-p3hp / CVE-2023-25574](https://github.com/advisories/GHSA-mcgx-2gcr-p3hp)
