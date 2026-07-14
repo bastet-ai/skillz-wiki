@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [n8n-MCP backup, Woodpecker agent identity, and Anyquery server-mode file-write checks](alerts/2026-07-14-workflow-ci-query-boundaries-ghsa.md)
 - [Kimai, FacturaScripts, OpenCost, and App Store trust-boundary checks](alerts/2026-07-14-kimai-facturascripts-auth-boundaries-ghsa.md)
 - [NukeViet forwarded-host CMS plus DIRAC eval, SQL, and pilot-bootstrap checks](alerts/2026-07-13-nukeviet-dirac-boundaries-ghsa.md)
 - [Rust security testing workflow for audit targets](methodology/rust-security-testing-workflow.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Excon redirect header relay and secure_headers CSP directive injection updates](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md#excon-redirect-follower-sensitive-header-relay)
 - [MCP Atlassian, SafeInstall, BabelDOC, MLflow, Windmill, and NotrinosERP boundary checks](alerts/2026-07-10-mcp-agent-package-workflow-boundaries-ghsa.md)
 - [File Browser proxy-auth, SiYuan local-app, Authorizer OAuth, and Pimcore CMS boundary checks](alerts/2026-07-10-filebrowser-siyuan-authorizer-pimcore-boundaries-ghsa.md)
-- [MCP Atlassian DNS-rebinding TOCTOU SSRF guard bypass checks](alerts/2026-07-07-agent-deploy-ssrf-identity-boundaries-ghsa.md#mcp-atlassian-dns-rebinding-toctou-checks)
 
 
 ## What lives here
