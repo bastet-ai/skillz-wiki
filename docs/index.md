@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Anyquery SSRF, yutu MCP file-write, TidGi import RCE, TsDProxy IP spoofing, Auth0 query-token, and SonicWall SMA1000 checks](alerts/2026-07-14-agent-desktop-proxy-appliance-boundaries-ghsa-kev.md)
 - [n8n-MCP backup, Woodpecker agent identity, and Anyquery server-mode file-write checks](alerts/2026-07-14-workflow-ci-query-boundaries-ghsa.md)
 - [Kimai, FacturaScripts, OpenCost, and App Store trust-boundary checks](alerts/2026-07-14-kimai-facturascripts-auth-boundaries-ghsa.md)
 - [NukeViet forwarded-host CMS plus DIRAC eval, SQL, and pilot-bootstrap checks](alerts/2026-07-13-nukeviet-dirac-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Clauster dashboard and PrestaShop faceted-search cache boundary checks](alerts/2026-07-10-clauster-prestashop-dashboard-cache-boundaries-ghsa.md)
 - [Excon redirect header relay and secure_headers CSP directive injection updates](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md#excon-redirect-follower-sensitive-header-relay)
 - [MCP Atlassian, SafeInstall, BabelDOC, MLflow, Windmill, and NotrinosERP boundary checks](alerts/2026-07-10-mcp-agent-package-workflow-boundaries-ghsa.md)
-- [File Browser proxy-auth, SiYuan local-app, Authorizer OAuth, and Pimcore CMS boundary checks](alerts/2026-07-10-filebrowser-siyuan-authorizer-pimcore-boundaries-ghsa.md)
 
 
 ## What lives here

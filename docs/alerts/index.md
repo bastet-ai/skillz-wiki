@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Anyquery SSRF, yutu MCP file-write, TidGi import RCE, TsDProxy IP spoofing, Auth0 query-token, and SonicWall SMA1000 checks](2026-07-14-agent-desktop-proxy-appliance-boundaries-ghsa-kev.md)
 - [Fedify SSRF canonicalization and K3s snapshot archive-boundary checks](2026-07-14-fedify-k3s-url-archive-boundaries-ghsa.md)
 - [Kimai business-object auth, FacturaScripts file/API boundaries, App Store signed-data, and OpenCost service-key checks](2026-07-14-kimai-facturascripts-auth-boundaries-ghsa.md)
 - [NukeViet forwarded-host CMS plus DIRAC eval, SQL, and pilot-bootstrap checks](2026-07-13-nukeviet-dirac-boundaries-ghsa.md)
