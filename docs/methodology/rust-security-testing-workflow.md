@@ -1,6 +1,6 @@
 # Rust security testing workflow for audit targets
 
-Source: [Trail of Bits: Rust-proof your code with our new Testing Handbook chapter](https://blog.trailofbits.com/2026/07/13/rust-proof-your-code-with-our-new-testing-handbook-chapter/) and its linked Testing Handbook update, published 2026-07-13.
+Source: [Trail of Bits: Rust-proof your code with our new Testing Handbook chapter](https://blog.trailofbits.com/2026/07/13/rust-proof-your-code-with-our-new-testing-handbook-chapter/) and its linked Testing Handbook update, published 2026-07-13. The article also references Trail of Bits' [`rust-review` Claude Code plugin](https://github.com/trailofbits/skills/tree/main/plugins/rust-review) as an automated review assistant for Rust-specific bug classes.
 
 Use this page when an authorized assessment includes Rust crates, services, parsers, CLIs, wallets, cryptographic helpers, or infrastructure components where source-assisted validation is in scope. The durable operator value is not a single CVE: it is a repeatable testing ladder that turns Rust-specific assumptions into evidence using unit tests, dynamic analysis, property tests, coverage, mutation testing, model checking, and dependency review.
 
@@ -17,6 +17,7 @@ Use this page when an authorized assessment includes Rust crates, services, pars
 | Coverage measurement | Harnesses reach the parser/state-machine/security checks you care about | Avoid false confidence from fuzzers or tests that never hit the sink. |
 | Mutation testing | Tests fail when security-relevant checks are removed or inverted | Prove that authorization, bounds, validation, and error-handling assertions are meaningful. |
 | Model checking with Kani-style proofs | Small concurrent/stateful/unsafe invariants hold under bounded exploration | Use for compact components where exhaustive path exploration beats random search. |
+| Static review and Clippy-style linting | Language footguns are surfaced before dynamic checks are written | Prioritize arithmetic, precedence, panic/unwind behavior, nondeterminism, cancellation, and FFI assumptions. |
 | Supply-chain review | Dependency and build-script trust assumptions are explicit | Catch risky crates, vulnerable versions, feature flags, and build-time execution paths. |
 
 ## Replayable workflow
@@ -29,8 +30,9 @@ Use this page when an authorized assessment includes Rust crates, services, pars
 6. **Measure reachability.** Confirm the harness executes the exact module/function that enforces the boundary. If coverage misses the sink, redesign the fixture before reporting a negative result.
 7. **Mutate the guard.** In a local branch, temporarily invert or remove the suspected validation check. The test should fail. If it still passes, the evidence is weak.
 8. **Escalate to Miri or model checking where appropriate.** Use these for `unsafe` code, compact state machines, arithmetic invariants, and FFI-adjacent memory assumptions.
-9. **Review dependencies and features.** Record risky build scripts, optional parser/crypto features, stale advisories, and dependency paths that activate only under production features.
-10. **Package proof safely.** Submit the smallest reproducer, expected vs observed behavior, toolchain details, and patched negative control. Avoid full corpora dumps unless the program requests them.
+9. **Run static review as a hypothesis generator.** Use Clippy configuration, manual gotcha checklists, or an approved local agent/plugin such as `rust-review` to flag precedence errors, unchecked arithmetic, panic paths, async cancellation, FFI, and secret-lifetime assumptions. Treat findings as leads until a test reaches the boundary.
+10. **Review dependencies and features.** Record risky build scripts, optional parser/crypto features, stale advisories, and dependency paths that activate only under production features.
+11. **Package proof safely.** Submit the smallest reproducer, expected vs observed behavior, toolchain details, and patched negative control. Avoid full corpora dumps unless the program requests them.
 
 ## Evidence to capture
 
@@ -40,6 +42,7 @@ Use this page when an authorized assessment includes Rust crates, services, pars
 - Coverage or trace evidence that the target boundary was reached.
 - For mutation testing, the local diff that should break the check and the failing test output.
 - For crashes, a minimized input and stack trace with secrets, proprietary corpus data, and local paths redacted.
+- For agent-assisted review, the prompt/config, plugin version or commit, reviewed file set, and a human-verified test or diff proving the finding is reachable.
 
 ## Report framing
 
@@ -49,5 +52,6 @@ Lead with the violated invariant, not with the tool:
 - **Repository-controlled manifest -> build-time script/dependency feature -> execution or trust expansion.**
 - **Tenant/user ID in serialized state -> missing ownership check -> cross-scope action.**
 - **Signature/key material -> insufficient verification invariant -> forged acceptance in a bounded harness.**
+- **Async/FFI boundary -> cancellation, unwind, or lifetime assumption -> resource leak, stale state, or unsafe use in a bounded harness.**
 
 Mark speculation clearly. A Miri finding, coverage gap, or mutation-surviving test is a strong audit lead, but it becomes a vulnerability report only when tied to a reachable security boundary and a concrete impact in the authorized target.
