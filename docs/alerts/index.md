@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Fedify SSRF canonicalization and K3s snapshot archive-boundary checks](2026-07-14-fedify-k3s-url-archive-boundaries-ghsa.md)
+- [Kimai business-object auth, FacturaScripts file/API boundaries, App Store signed-data, and OpenCost service-key checks](2026-07-14-kimai-facturascripts-auth-boundaries-ghsa.md)
 - [NukeViet forwarded-host CMS plus DIRAC eval, SQL, and pilot-bootstrap checks](2026-07-13-nukeviet-dirac-boundaries-ghsa.md)
 - [Decidim tenant-boundary, Apollo config auth, and GeoNode trusted-render checks](2026-07-13-decidim-apollo-geonode-boundaries-ghsa.md)
 - [MCP Atlassian, SafeInstall, BabelDOC, MLflow, Windmill, and NotrinosERP boundary checks](2026-07-10-mcp-agent-package-workflow-boundaries-ghsa.md)
