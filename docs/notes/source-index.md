@@ -353,6 +353,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - aiosmtplib advisories/source: https://github.com/cole/aiosmtplib/security/advisories and https://github.com/cole/aiosmtplib
 - Kite advisories/source: https://github.com/zxh326/kite/security/advisories and https://github.com/zxh326/kite
 - Apache Fesod advisories/source: https://github.com/apache/fesod/security/advisories and https://github.com/apache/fesod
+- Kimai advisories/source: https://github.com/kimai/kimai/security/advisories and https://github.com/kimai/kimai
 
 ## Network and service discovery
 
