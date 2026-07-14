@@ -8,7 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
-- [Kimai business-object auth, FacturaScripts TOTP, and App Store signed-data checks](alerts/2026-07-14-kimai-facturascripts-auth-boundaries-ghsa.md)
+- [Kimai, FacturaScripts, OpenCost, and App Store trust-boundary checks](alerts/2026-07-14-kimai-facturascripts-auth-boundaries-ghsa.md)
 - [NukeViet forwarded-host CMS plus DIRAC eval, SQL, and pilot-bootstrap checks](alerts/2026-07-13-nukeviet-dirac-boundaries-ghsa.md)
 - [Rust security testing workflow for audit targets](methodology/rust-security-testing-workflow.md)
 - [Decidim tenant-boundary, Apollo config auth, and GeoNode trusted-render checks](alerts/2026-07-13-decidim-apollo-geonode-boundaries-ghsa.md)
