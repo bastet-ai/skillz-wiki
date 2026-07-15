@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Keycloak backchannel logout SSRF and UMA CORS origin checks](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-15-keycloak-backchannel-logout-ssrf-and-uma-cors-follow-up)
 - [Koel Subsonic SSRF and MantisBT SOAP/configuration boundary checks](2026-07-15-koel-mantisbt-boundaries-ghsa.md)
 - [NetLicensing MCP and nebula-mesh control-plane boundary checks](2026-07-14-mcp-mesh-control-plane-boundaries-ghsa.md)
 - [n8n-MCP backup, Woodpecker agent/Kubernetes identity, and Anyquery server-mode file-write checks](2026-07-14-workflow-ci-query-boundaries-ghsa.md)

@@ -8,6 +8,8 @@ June 30 Keycloak UMA update: GitHub advisories [GHSA-c739-f6xw-6pv2](https://git
 
 July 1 Keycloak update: GitHub advisories [GHSA-rr5q-3xwr-f323](https://github.com/advisories/GHSA-rr5q-3xwr-f323) / CVE-2026-9704, [GHSA-wcvj-vpvw-9rr5](https://github.com/advisories/GHSA-wcvj-vpvw-9rr5) / CVE-2026-9689, [GHSA-33j3-g875-37rp](https://github.com/advisories/GHSA-33j3-g875-37rp) / CVE-2026-9792, [GHSA-32h4-44jj-c5vx](https://github.com/advisories/GHSA-32h4-44jj-c5vx) / CVE-2026-9795, [GHSA-4q93-v92x-p89f](https://github.com/advisories/GHSA-4q93-v92x-p89f) / CVE-2026-9791, [GHSA-q6h7-xxp7-7429](https://github.com/advisories/GHSA-q6h7-xxp7-7429) / CVE-2026-9798, [GHSA-p3v8-fm5p-v84h](https://github.com/advisories/GHSA-p3v8-fm5p-v84h) / CVE-2026-9793, and [GHSA-pq65-77rc-7r8c](https://github.com/advisories/GHSA-pq65-77rc-7r8c) / CVE-2026-9796.
 
+July 15 Keycloak update: GitHub advisories [GHSA-22rm-wp4x-v5cx](https://github.com/advisories/GHSA-22rm-wp4x-v5cx) / CVE-2026-4874 and [GHSA-5v8v-xvjv-57x7](https://github.com/advisories/GHSA-5v8v-xvjv-57x7) / CVE-2026-37977.
+
 This batch is durable because each advisory exposes a reusable operator pattern: server-side URL fetches that reflect remote responses, string-prefix filesystem confinement, identity-provider proof scoping, low-privilege AI-workflow object control, and accidentally public Go `pprof` debug surfaces.
 
 ## What changed
@@ -28,6 +30,8 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 - **Keycloak CIBA brute-force lock bypass** — a user account temporarily locked by repeated login failures could still receive Client-Initiated Backchannel Authentication flow attempts and token issuance when the attacker has valid client credentials.
 - **Keycloak encrypted request-object signature bypass** — an OIDC request object supplied as JWE could be decrypted as raw JSON and processed without the configured request-object signature guarantee.
 - **Keycloak name-based admin role TOCTOU** — a `manage-clients` administrator could exploit time-of-check/time-of-use drift in name-based admin role checks to create a persistent `realm-admin` composite role relationship.
+- **Keycloak backchannel logout URL SSRF** — when a client is configured with a `backchannel.logout.url` that uses the `application.session.host` placeholder, an authenticated refresh-token request can manipulate `client_session_host` and cause Keycloak to issue server-side logout requests from the realm host's network context.
+- **Keycloak UMA CORS origin reflection before JWT validation** — the UMA token endpoint could reflect an attacker-controlled JWT `azp` value into `Access-Control-Allow-Origin` before validating the JWT signature when the target client also allowed wildcard web origins. Treat this as a low-sensitivity origin-isolation check, not token theft unless a lab proves stronger readable data.
 - **Flowise OpenAI Assistants vector-store permission gap** — Flowise `<= 3.1.1` exposed vector-store CRUD/upload routes without per-operation permission checks. Any authenticated user with API access could create, modify, delete, or upload files to OpenAI Assistants vector stores outside their intended role.
 - **Arc public Go `pprof` debug endpoints** — Arc builds before `v26.06.1` registered `net/http/pprof` handlers under `/debug/pprof/*` and added that path to public prefixes, allowing unauthenticated heap/goroutine/profile/trace access. Treat the useful signal as debug surface exposure and runtime-state leakage; CPU-burn is secondary and should not be stress-tested in production.
 
@@ -38,8 +42,9 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 3. **For Hapi, inventory sibling names:** exploitation depends on a sibling directory whose absolute path begins with the served directory path. Look for `static` next to `static-private`, `public` next to `public-backup`, or `assets` next to `assets-secrets`.
 4. **For Keycloak, separate IdP alias from upstream subject:** the finding requires external identity-provider account linking and more than one upstream account under the same IdP alias. Plain local-login account takeover is not implied without that broker workflow.
 5. **For Keycloak, test server-side policy gates, not UI state:** WebAuthn registration, token introspection, and disabled Account API routes all need direct HTTP/API validation because the expected control may live in browser code, route discovery, or one policy layer but not the server-side endpoint that makes the decision.
-6. **For Flowise, enumerate vector-store roles:** collect the lowest role/API token that can reach `/api/v1/openai-assistants-vector-store` and compare permitted UI actions with direct API actions.
-7. **For Arc, test metadata reads only:** request cheap endpoints such as `/debug/pprof/` or a bounded goroutine listing in an isolated or approved environment. Avoid long `profile?seconds=` or `trace` requests on shared systems.
+6. **For Keycloak OIDC clients, inspect callback placeholders:** `application.session.host` and similar session-derived placeholders are high-signal whenever a request parameter can later steer a server-side backchannel action. Keep tests to owned callback hosts and synthetic clients.
+7. **For Flowise, enumerate vector-store roles:** collect the lowest role/API token that can reach `/api/v1/openai-assistants-vector-store` and compare permitted UI actions with direct API actions.
+8. **For Arc, test metadata reads only:** request cheap endpoints such as `/debug/pprof/` or a bounded goroutine listing in an isolated or approved environment. Avoid long `profile?seconds=` or `trace` requests on shared systems.
 
 ## Replayable validation boundaries
 
@@ -103,6 +108,13 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 - **Admin role TOCTOU:** give a disposable admin only `manage-clients`-style permissions. Attempt the documented name/race flow against synthetic realm roles and clients, then check whether a `realm-admin`-equivalent composite relationship persists after permission removal. Keep the role names clearly synthetic and avoid built-in production roles unless the lab requires a canary clone.
 - Frame these as **alternate identity flow to lockout policy**, **encrypted request object to signature requirement**, and **client-admin name check to persistent realm-admin role projection**. Redact every token and session identifier; report decision tables, route names, client labels, and fixed-version denial instead of live credentials.
 
+### July 15 Keycloak backchannel logout SSRF and UMA CORS follow-up
+
+- Preconditions: lab realm, disposable users, one synthetic OIDC client, owned callback infrastructure, no production IdP/client secrets, and explicit authorization before any private-network canary is used.
+- **Backchannel logout SSRF:** configure only the lab client with a `backchannel.logout.url` containing the `application.session.host` placeholder. Mint a synthetic refresh token, send paired refresh requests with a normal `client_session_host` and then an owned callback hostname, and record whether Keycloak initiates a server-side request to the supplied host during backchannel logout/session handling. If internal reachability is in scope, use only a customer-provided canary service; never target cloud metadata, admin panels, Kubernetes APIs, databases, or unauthenticated intranet services.
+- **UMA CORS `azp` reflection:** configure a disposable client with the misconfigured wildcard web-origin condition described by the advisory. Send paired UMA token endpoint requests with a deliberately invalid JWT: one ordinary `azp`, one attacker-origin canary in `azp`. Positive evidence is limited to the error response's `Access-Control-Allow-Origin` decision before JWT validation. Do not collect real tokens or claim account takeover when only low-sensitivity error metadata is exposed.
+- Frame these as **request parameter -> server-side backchannel URL authority** and **unvalidated token claim -> browser origin decision**. Evidence should be client configuration class, request route, canary callback hit or CORS header table, expected denial, patched behavior, and redacted token labels.
+
 ### Flowise vector-store authorization
 
 - Use a low-privilege test user and an isolated workspace/vector store with disposable files.
@@ -118,7 +130,7 @@ This batch is durable because each advisory exposes a reusable operator pattern:
 
 ## Reporting heuristics
 
-- Lead with the crossed boundary: unauthenticated user to server-side fetch and reflected body, static route to sibling filesystem tree, verified upstream identity to different upstream account link, WebAuthn policy to accepted credential parameters, revocation timestamp to introspection state, disabled feature flag to versioned Account API route, same-realm UMA client to another Resource Server's resource, UMA-owning user to unrelated account profile lookup, low-privilege Flowise user to vector-store CRUD, or anonymous HTTP client to debug runtime state.
+- Lead with the crossed boundary: unauthenticated user to server-side fetch and reflected body, static route to sibling filesystem tree, verified upstream identity to different upstream account link, WebAuthn policy to accepted credential parameters, revocation timestamp to introspection state, disabled feature flag to versioned Account API route, same-realm UMA client to another Resource Server's resource, UMA-owning user to unrelated account profile lookup, refresh-token/session host parameter to Keycloak backchannel HTTP request, unvalidated JWT `azp` to CORS origin decision, low-privilege Flowise user to vector-store CRUD, or anonymous HTTP client to debug runtime state.
 - Include exact versions and route shapes. These advisories are highly preconditioned; versionless reports will be weak.
 - Use canaries instead of secrets. The wiki proof standard is controlled callback/marker evidence, not extraction of internal service data, filesystem secrets, vector-store documents, or heap tokens.
 - Where an item is mainly availability-oriented, keep it secondary unless paired with a confidentiality or authorization boundary.
