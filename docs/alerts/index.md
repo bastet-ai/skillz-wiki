@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Koel Subsonic SSRF and MantisBT SOAP/configuration boundary checks](2026-07-15-koel-mantisbt-boundaries-ghsa.md)
 - [NetLicensing MCP and nebula-mesh control-plane boundary checks](2026-07-14-mcp-mesh-control-plane-boundaries-ghsa.md)
 - [n8n-MCP backup, Woodpecker agent/Kubernetes identity, and Anyquery server-mode file-write checks](2026-07-14-workflow-ci-query-boundaries-ghsa.md)
 - [Kimai business-object auth, FacturaScripts file/API/write boundaries, App Store signed-data, and OpenCost service-key checks](2026-07-14-kimai-facturascripts-auth-boundaries-ghsa.md)
