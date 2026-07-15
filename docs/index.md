@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [LangBot MCP STDIO command boundary checks](alerts/2026-07-15-langbot-mcp-stdio-command-boundary-ghsa.md)
 - [Koel Subsonic SSRF and MantisBT SOAP/configuration boundary checks](alerts/2026-07-15-koel-mantisbt-boundaries-ghsa.md)
 - [NetLicensing MCP and nebula-mesh control-plane boundary checks](alerts/2026-07-14-mcp-mesh-control-plane-boundaries-ghsa.md)
 - [n8n-MCP backup, Woodpecker agent/Kubernetes identity, and Anyquery server-mode file-write checks](alerts/2026-07-14-workflow-ci-query-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Rust security testing workflow for audit targets](methodology/rust-security-testing-workflow.md)
 - [Decidim tenant-boundary, Apollo config auth, and GeoNode trusted-render checks](alerts/2026-07-13-decidim-apollo-geonode-boundaries-ghsa.md)
 - [TSDProxy management-token relay and melange/apko APK data-integrity checks](alerts/2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md#tsdproxy-identity-header-management-token-relay)
-- [Clauster dashboard and PrestaShop faceted-search cache boundary checks](alerts/2026-07-10-clauster-prestashop-dashboard-cache-boundaries-ghsa.md)
 
 
 ## What lives here

@@ -110,6 +110,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Ouroboros advisories: https://github.com/Q00/ouroboros/security/advisories
 - Stigmem advisories: https://github.com/eidetic-labs/stigmem/security/advisories
 - Koel advisories: https://github.com/koel/koel/security/advisories
+- LangBot advisories/source: https://github.com/RockChinQ/LangBot/security/advisories and https://github.com/RockChinQ/LangBot
 - Summarize advisories: https://github.com/steipete/summarize/security/advisories and https://www.vulncheck.com/advisories/
 - Amazon Redshift Python driver advisories: https://github.com/aws/amazon-redshift-python-driver/security/advisories
 - uv advisories: https://github.com/astral-sh/uv/security/advisories

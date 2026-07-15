@@ -1,6 +1,6 @@
 # Koel Subsonic SSRF and MantisBT SOAP/configuration boundary checks
 
-Source: hourly offensive-security scan, 2026-07-15 GitHub advisory wave. Primary entries: [GHSA-6p96-cfg5-4vhp](https://github.com/advisories/GHSA-6p96-cfg5-4vhp), [GHSA-w79m-f3jx-779v](https://github.com/advisories/GHSA-w79m-f3jx-779v), [GHSA-c2xg-qjqw-2v98](https://github.com/advisories/GHSA-c2xg-qjqw-2v98), [GHSA-v84x-qvhg-f36r](https://github.com/advisories/GHSA-v84x-qvhg-f36r), [GHSA-mw6p-33vw-46cc](https://github.com/advisories/GHSA-mw6p-33vw-46cc), and [GHSA-m7ph-9558-mrx3](https://github.com/advisories/GHSA-m7ph-9558-mrx3).
+Source: hourly offensive-security scan, 2026-07-15 GitHub advisory wave. Primary entries: [GHSA-6qvr-wjmv-v8mm](https://github.com/advisories/GHSA-6qvr-wjmv-v8mm) / CVE-2026-54491, [GHSA-8q6q-m837-fv64](https://github.com/advisories/GHSA-8q6q-m837-fv64), [GHSA-6p96-cfg5-4vhp](https://github.com/advisories/GHSA-6p96-cfg5-4vhp), [GHSA-w79m-f3jx-779v](https://github.com/advisories/GHSA-w79m-f3jx-779v), [GHSA-c2xg-qjqw-2v98](https://github.com/advisories/GHSA-c2xg-qjqw-2v98), [GHSA-v84x-qvhg-f36r](https://github.com/advisories/GHSA-v84x-qvhg-f36r), [GHSA-mw6p-33vw-46cc](https://github.com/advisories/GHSA-mw6p-33vw-46cc), and [GHSA-m7ph-9558-mrx3](https://github.com/advisories/GHSA-m7ph-9558-mrx3).
 
 This batch is durable because the advisories expose reusable operator boundaries: compatibility API routes that create the same media objects as the primary API but omit SSRF validation, SOAP authentication that trusts a caller-supplied username plus a reusable cookie string, administrator configuration paths that cross into PHP `eval()` or SQL `ORDER BY` construction, and REST/SOAP issue-update routes that apply a broader update permission than the workflow status-change permission.
 
@@ -11,6 +11,8 @@ This batch is durable because the advisories expose reusable operator boundaries
 
 | Advisory | Component | Boundary | Operator value |
 | --- | --- | --- | --- |
+| [GHSA-6qvr-wjmv-v8mm](https://github.com/advisories/GHSA-6qvr-wjmv-v8mm) / CVE-2026-54491 | Koel podcast/radio server-side fetchers through native and Subsonic APIs | The earlier `SafeUrl` fix applied redirect-hop validation to one episode-playable path, while sibling fetchers still perform only point-in-time host checks or no check; HTTP redirects and DNS rebinding can move a public-looking URL to private targets | Treat SSRF fixes as call-site coverage problems: enumerate every fetcher, redirect policy, and DNS-resolution boundary rather than retesting only the patched path. |
+| [GHSA-8q6q-m837-fv64](https://github.com/advisories/GHSA-8q6q-m837-fv64) | Koel Subsonic `createPodcastChannel.view` and podcast stream helper | Feed URLs are fetched before the safe URL checks that later cover episode enclosures; stream helpers validate the original URL but accept followed redirect targets | Add direct-feed and redirect-target checks to Subsonic compatibility-route SSRF testing. |
 | [GHSA-6p96-cfg5-4vhp](https://github.com/advisories/GHSA-6p96-cfg5-4vhp) | Koel Subsonic `createInternetRadioStation.view` / `updateInternetRadioStation.view` | Subsonic radio routes accept `streamUrl` without the `SafeUrl` and content-type validation used by the primary radio API, then playback returns the fetched upstream body | Add compatibility-route parity checks to media SSRF testing and distinguish full-read SSRF from blind callbacks. |
 | [GHSA-w79m-f3jx-779v](https://github.com/advisories/GHSA-w79m-f3jx-779v) | Koel Subsonic `createPodcastChannel.view` | Subsonic podcast creation accepts a URL with only generic URL validation and immediately passes it to the podcast parser | Test server-side fetch guards on alternate client/protocol APIs, not only the web UI or main REST API. |
 | [GHSA-c2xg-qjqw-2v98](https://github.com/advisories/GHSA-c2xg-qjqw-2v98) | MantisBT SOAP API `mci_check_login()` | SOAP login accepts a valid `cookie_string` while trusting a caller-supplied username, enabling user impersonation through SOAP even when Web UI/REST derive identity server-side | Add identity-binding tests for legacy SOAP/XML-RPC APIs next to modern REST routes. |
@@ -30,6 +32,17 @@ This batch is durable because the advisories expose reusable operator boundaries
 6. Add controls for unauthenticated access, a patched build, public-only URLs, invalid schemes, redirects from public to private URLs, DNS rebinding if explicitly in scope, and content-type handling for the radio stream.
 
 Report this as **alternate Subsonic route -> missing primary API SSRF validator -> server-side fetch / full-read stream**. Evidence should be route, authenticated role, target class, callback or returned marker body, and primary-API negative control. Do not probe metadata endpoints, Kubernetes APIs, Redis/admin panels, or third-party hosts.
+
+### Koel incomplete SSRF-fix coverage checks
+
+1. Build a Koel lab at an affected version such as `<= 9.7.0` plus, if possible, a patched `9.7.1` negative-control target.
+2. Inventory every server-side fetcher reachable by an authenticated user: podcast add/refresh, podcast stream resolution, podcast-obsolete checks, radio content-type validation, native API routes, and Subsonic compatibility routes.
+3. For each fetcher, run three owned canary classes: direct public URL, public URL that returns a single 302 to a loopback/RFC1918 canary you control, and an in-scope DNS-rebinding hostname if the assessment explicitly permits rebinding tests.
+4. Compare sibling call sites against the path that has per-redirect-hop validation. The operator finding is strongest when one call site blocks the redirect while another follows it under the same target class.
+5. Record whether validation happens before the request, after following redirects, on each redirect hop, or not at all. Include whether the response is blind callback-only, reflected as a parsed feed/stream URL, or returned as a full-read media body.
+6. Add controls for unauthenticated users, disabled Subsonic API, patched redirect callbacks, manual redirect-follow disabled, IPv6/private-range hostnames, and content-type gates.
+
+Report this as **incomplete SSRF remediation -> sibling fetcher lacks redirect-hop/DNS pinning guard -> authenticated user can steer Koel server-side requests**. Evidence should be a call-site matrix, target class, redirect chain or DNS decision table, canary hit, and patched-path negative control. Never use cloud metadata, production internal services, or third-party redirectors as proof targets.
 
 ### MantisBT SOAP identity-binding bypass
 
