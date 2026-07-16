@@ -28,6 +28,17 @@ Operator validation boundaries:
 - Negative controls: fixed version, strict `Origin` and `Host` checks before SSE initialization, no wildcard CORS on authenticated transports, and rejection after DNS answer changes.
 - Do not run write-capable database tools, query real schemas, capture real MCP tokens, or expose Toolbox to the public internet for testing.
 
+## July 16 Ansible Galaxy role dependency update
+
+[GHSA-w8p5-mx5w-cpqj](https://github.com/advisories/GHSA-w8p5-mx5w-cpqj) extends the package-control pattern to `ansible-galaxy role install`. The advisory says `ansible-core` processed dependency specifications from a role's `meta/requirements.yml` and failed to neutralize argument delimiters in `src`, allowing a malicious role author to inject Git configuration flags during role dependency installation. Treat Ansible role metadata as a repository-controlled command-argument boundary: installing a role can cause its declared dependencies to reach `git` before playbook execution starts.
+
+Operator validation boundaries:
+
+- Use only disposable Ansible workspaces, owned throwaway roles, fake credentials, and local or owned Git remotes. Never run probes from an operator workstation profile that contains production inventory, SSH agents, vault files, cloud credentials, or private collections.
+- Model `meta/requirements.yml` as untrusted dependency metadata. Exercise normal role sources, option-shaped sources, config-flag-shaped values, and owned callback remotes while capturing the argument vector, resolver log, or marker-only callback.
+- Positive evidence is that a dependency `src` value is parsed as a Git option or configuration flag rather than as data naming a repository. Stop at parser/control-plane confusion; do not fetch hooks that execute real commands, expose credential helpers, or clone sensitive repositories.
+- Negative controls: patched `ansible-core` versions, dependency source values passed after `--`, strict source validation, and installations from roles whose dependency metadata cannot influence Git options.
+
 ## What changed
 
 | Advisory | Component | Boundary | Operator value |
@@ -53,6 +64,7 @@ Operator validation boundaries:
 | GHSA-wcmj-x466-56mm | OpenTofu provider installer | root-module-controlled `.terraform/providers` symlinks could redirect provider package writes outside the working tree during `tofu init` | Test untrusted IaC checkouts for cache symlink following with disposable outside directories and inert provider packages; never target home directories, credentials, or shared plugin caches. |
 | GHSA-cw25-2p92-7f75 / CVE-2026-3515 | Prefect `GitHubRepository` block | repository `reference` value crossed into `git clone` option parsing after shell-string construction and `shlex.split()` | Test orchestration Git integrations with branch/tag/reference option canaries, dry-run clone logging, and owned callback remotes; never expose real workflow tokens, SSH keys, deployment secrets, or production work pools. |
 | [GHSA-7pf3-8xx7-rvhf](https://github.com/advisories/GHSA-7pf3-8xx7-rvhf) / CVE-2026-9739 | MCP Toolbox for Databases SSE transport | wildcard CORS on SSE initialization could allow DNS-rebinding access despite intended host/origin policy | Test MCP HTTP/SSE transports with browser-origin, Host, DNS-rebinding, and harmless tool-list canaries before trusting local-only deployment assumptions. |
+| [GHSA-w8p5-mx5w-cpqj](https://github.com/advisories/GHSA-w8p5-mx5w-cpqj) | `ansible-core` / `ansible-galaxy role install` | role dependency `src` metadata could inject Git configuration flags during dependency install | Test untrusted Ansible roles as package-manager inputs where metadata reaches Git arguments before playbook code runs. |
 
 ## Operator triage
 
@@ -104,7 +116,7 @@ Operator validation boundaries:
 
 - Extract only into disposable temp directories with a pre-created outside canary directory one level up.
 - Include archive entries that create symlinks first and later write through them; record resolved path before and after extraction.
-- For package-manager CLIs, test workspace names and paths containing shell metacharacters with commands such as `printf marker` redirected to temp files in a disposable repo.
+- For package-manager CLIs, test workspace names, paths, and dependency source fields containing option-shaped or shell-shaped canaries in a disposable repo.
 - Never target shell startup files, SSH keys, package caches, project secrets, or production build agents.
 
 ### IaC provider-cache symlink boundaries
@@ -120,6 +132,14 @@ Operator validation boundaries:
 - Seed only owned throwaway repositories and fake credentials. Configure the reference field with normal branches/tags first, then option-shaped canaries such as values beginning with `-c`, `--config`, `--upload-pack`, `--reference`, or path-like values that should be rejected as references rather than parsed as git options.
 - Positive evidence is the argument vector, dry-run log, owned callback hit, or inert marker effect showing the reference was interpreted as a git option instead of a branch/tag/SHA. Stop at proof of parser/control-plane confusion; do not run remote commands, fetch attacker-controlled hooks, read credential helpers, or clone sensitive repositories.
 - Negative controls: references are passed as structured arguments after `--`, constrained to valid ref syntax, or resolved through API lookups before clone/fetch; option-prefixed refs fail closed and GitLab/Bitbucket-style list-based command construction remains unaffected.
+
+### Ansible Galaxy role dependency argument boundaries
+
+- Use a disposable Ansible install and a throwaway role whose `meta/requirements.yml` declares only owned dependencies. Do not run against production automation repositories, real inventories, CI runners, SSH agents, or directories containing vault files.
+- First install a benign dependency role from an owned Git remote and record the expected `ansible-galaxy role install` resolver behavior.
+- Then replace the dependency `src` with option-shaped Git canaries, configuration-flag canaries, and owned callback remotes that should be rejected or treated as literal repository data.
+- Positive evidence is an argument vector, resolver trace, owned callback, or inert marker showing dependency metadata changed Git invocation semantics. Avoid payloads that execute hooks, alter global Git config, read credential helpers, or run arbitrary commands on a real workstation.
+- Negative controls: patched `ansible-core` release candidates or fixed branches reject delimiter/option injection, normalize dependency sources before Git invocation, and preserve legitimate `git+https`, SSH, and Galaxy dependency forms.
 
 ### Agent code-interpreter package installers
 
@@ -138,5 +158,5 @@ Operator validation boundaries:
 
 ## Reporting notes
 
-- Name the crossed boundary precisely: **digest-auth replay default**, **cookie-scope confusion**, **unkeyed signature helper**, **substring host allowlist**, **Ingress auth-secret fail-open**, **report artifact to trusted browser**, **report path to outside file**, **cassette YAML to code execution**, **MCP context to OAuth token**, **archive symlink to outside write**, **editor message/rich-text to trusted CMS UI**, **Host header to generated JavaScript/SSRF**, **migration label to codegen execution**, **namespace CR field to cluster-admin behavior**, **mutable package tag to verified install**, **workspace argument to shell**, **agent package argument to pip flag/index/file exposure**, **IaC provider-cache symlink to outside write**, **workflow Git reference to clone option**, or **DNSSEC validation cache to sibling decision**.
+- Name the crossed boundary precisely: **digest-auth replay default**, **cookie-scope confusion**, **unkeyed signature helper**, **substring host allowlist**, **Ingress auth-secret fail-open**, **report artifact to trusted browser**, **report path to outside file**, **cassette YAML to code execution**, **MCP context to OAuth token**, **archive symlink to outside write**, **editor message/rich-text to trusted CMS UI**, **Host header to generated JavaScript/SSRF**, **migration label to codegen execution**, **namespace CR field to cluster-admin behavior**, **mutable package tag to verified install**, **workspace argument to shell**, **agent package argument to pip flag/index/file exposure**, **IaC provider-cache symlink to outside write**, **workflow Git reference to clone option**, **Ansible role dependency source to Git option**, or **DNSSEC validation cache to sibling decision**.
 - Include exact versions, default configuration, negative controls, and the disposable canary values used. The useful artifact is the trust-boundary decision table, not sensitive data exposure.

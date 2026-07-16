@@ -1,6 +1,6 @@
 # ArcadeDB, Nuclio, and Pheditor control-boundary checks
 
-Sources: hourly offensive-security scan, 2026-07-16 GitHub Security Advisory updates. Primary entries: [GHSA-x9f9-r4m8-9xc2](https://github.com/advisories/GHSA-x9f9-r4m8-9xc2), [GHSA-48qw-824m-86pr](https://github.com/advisories/GHSA-48qw-824m-86pr), [GHSA-vg6x-6pg9-6qwg](https://github.com/advisories/GHSA-vg6x-6pg9-6qwg), [GHSA-8w86-m9h8-hvqg](https://github.com/advisories/GHSA-8w86-m9h8-hvqg), [GHSA-3v79-m2cg-89ww](https://github.com/advisories/GHSA-3v79-m2cg-89ww), [GHSA-wpcj-rmv4-86qg](https://github.com/advisories/GHSA-wpcj-rmv4-86qg), [GHSA-p4h7-p9rj-2pq2](https://github.com/advisories/GHSA-p4h7-p9rj-2pq2), [GHSA-9643-6xjp-vx57](https://github.com/advisories/GHSA-9643-6xjp-vx57), and [GHSA-wg4w-wr5q-6vjc](https://github.com/advisories/GHSA-wg4w-wr5q-6vjc).
+Sources: hourly offensive-security scan, 2026-07-16 GitHub Security Advisory updates. Primary entries: [GHSA-x9f9-r4m8-9xc2](https://github.com/advisories/GHSA-x9f9-r4m8-9xc2), [GHSA-48qw-824m-86pr](https://github.com/advisories/GHSA-48qw-824m-86pr), [GHSA-vwjc-v7x7-cm6g](https://github.com/advisories/GHSA-vwjc-v7x7-cm6g), [GHSA-x8mg-6r4p-87pf](https://github.com/advisories/GHSA-x8mg-6r4p-87pf), [GHSA-vg6x-6pg9-6qwg](https://github.com/advisories/GHSA-vg6x-6pg9-6qwg), [GHSA-8w86-m9h8-hvqg](https://github.com/advisories/GHSA-8w86-m9h8-hvqg), [GHSA-3v79-m2cg-89ww](https://github.com/advisories/GHSA-3v79-m2cg-89ww), [GHSA-wpcj-rmv4-86qg](https://github.com/advisories/GHSA-wpcj-rmv4-86qg), [GHSA-p4h7-p9rj-2pq2](https://github.com/advisories/GHSA-p4h7-p9rj-2pq2), [GHSA-9643-6xjp-vx57](https://github.com/advisories/GHSA-9643-6xjp-vx57), and [GHSA-wg4w-wr5q-6vjc](https://github.com/advisories/GHSA-wg4w-wr5q-6vjc).
 
 This batch is durable for operators because it exposes reusable boundaries across database scripting/import surfaces, serverless build control planes, and web-based file editors: low-privilege roles reaching host-aware interpreters, import sources crossing into SSRF or local files, unauthenticated function-build APIs writing outside their workspace, template-rendered build configuration becoming executable code, and prefix-based terminal allowlists reaching a shell.
 
@@ -13,6 +13,8 @@ This batch is durable for operators because it exposes reusable boundaries acros
 | --- | --- | --- | --- |
 | [GHSA-x9f9-r4m8-9xc2](https://github.com/advisories/GHSA-x9f9-r4m8-9xc2) | ArcadeDB engine before `26.7.2` | Trigger scripting allowed broad Java host interop for users with schema-update rights | Validate whether database-admin-but-not-security-admin roles can cross from trigger definitions into host command execution in a lab. |
 | [GHSA-48qw-824m-86pr](https://github.com/advisories/GHSA-48qw-824m-86pr) | ArcadeDB server before `26.7.1` | Read-only database users could reach JavaScript command execution and host file reads | Test script-language command paths as role-boundary checks, proving only with synthetic canary files. |
+| [GHSA-vwjc-v7x7-cm6g](https://github.com/advisories/GHSA-vwjc-v7x7-cm6g) | ArcadeDB engine before `26.7.2` | SQL `DEFINE FUNCTION ... LANGUAGE js` bypassed the polyglot scripting permission gate | Test whether SQL function-library paths still let read-only or low-privilege users reach JavaScript execution after direct polyglot routes are blocked. |
+| [GHSA-x8mg-6r4p-87pf](https://github.com/advisories/GHSA-x8mg-6r4p-87pf) | ArcadeDB server before `26.7.2` | Time-series, batch, Prometheus, and Grafana handlers resolved `{database}` without the normal per-database access check | Add cross-database IDOR probes where one authorized database token attempts read/write through alternate handler families against a second database. |
 | [GHSA-vg6x-6pg9-6qwg](https://github.com/advisories/GHSA-vg6x-6pg9-6qwg) | ArcadeDB engine before `26.6.1` | Read-only users could mutate schema through unchecked DDL methods | Add schema-integrity probes to low-privilege database tokens without touching production data models. |
 | [GHSA-8w86-m9h8-hvqg](https://github.com/advisories/GHSA-8w86-m9h8-hvqg) | ArcadeDB engine before `26.6.1` | `IMPORT DATABASE` accepted HTTP(S) and local-file sources without sufficient admin gating | Reuse SSRF and local-file canary workflows through database import endpoints, not through generic web inputs. |
 | [GHSA-3v79-m2cg-89ww](https://github.com/advisories/GHSA-3v79-m2cg-89ww) | Nuclio before `1.16.5` | Dashboard function build attributes were rendered into `build.gradle` without code-context safety | Validate serverless build pipelines where user-supplied repository metadata becomes executable build configuration. |
@@ -26,13 +28,14 @@ This batch is durable for operators because it exposes reusable boundaries acros
 
 1. Build a disposable ArcadeDB instance with a synthetic database, a low-privilege `reader` user, and a separate schema-update user. Use fake data only.
 2. Enumerate which HTTP command/query or MCP-adjacent database analysis paths are exposed in the target deployment. Record whether each path requires authentication and which database role is bound to the token.
-3. For script-language checks, avoid host secret reads and process-control payloads. Use a synthetic file placed by the tester under a temp directory and prove only that the vulnerable role can or cannot read that canary.
+3. For script-language checks, avoid host secret reads and process-control payloads. Use a synthetic file placed by the tester under a temp directory and prove only that the vulnerable role can or cannot read that canary. Include both direct polyglot command routes and SQL function-library routes such as user-defined JavaScript functions, because fixes may gate only one interpreter entry point.
 4. For trigger checks, use an inert command marker such as writing a nonce to a disposable temp path in a lab. Do not place payloads in production triggers or fire triggers against customer records.
 5. For schema mutation checks, create a throwaway type/property and attempt harmless rename or property-flag changes with the low-privilege token. Immediately drop the disposable object in the lab.
 6. For `IMPORT DATABASE`, use an owned callback endpoint and a synthetic local file under an allowlisted temp directory. Do not target cloud metadata, loopback admin panels, configuration directories, keys, or unrelated filesystem paths.
-7. Repeat every probe against a patched version and an admin-only positive control so the report shows role drift rather than generic database reachability.
+7. For cross-database handler checks, create two disposable databases (`a` and `b`), authorize the test user only for `a`, and compare the expected `403` from canonical command/query routes with alternate time-series, batch, Prometheus, or Grafana routes that name `b`. Positive evidence should be limited to marker rows, marker series, or route-status differences.
+8. Repeat every probe against a patched version and an admin-only positive control so the report shows role drift rather than generic database reachability.
 
-Report ArcadeDB findings as **database role -> script/import/schema feature -> host, network, or schema side effect outside documented permission boundary**. Evidence should include role names, endpoint family, version, canary-only outputs, and negative controls.
+Report ArcadeDB findings as **database role -> script/import/schema feature -> host, network, or schema side effect outside documented permission boundary**, or **database-scoped token -> alternate handler family -> second database read/write without authorization**. Evidence should include role names, endpoint family, version, canary-only outputs, and negative controls.
 
 ### Nuclio dashboard build-control checks
 
@@ -58,7 +61,7 @@ Report Pheditor findings as **default or authorized login -> web editor terminal
 
 ## Operator checklist
 
-- [ ] Which identity or role crosses the boundary: read-only database user, schema admin, unauthenticated dashboard caller, default web-editor user, or terminal-enabled account?
+- [ ] Which identity or role crosses the boundary: read-only database user, single-database user, schema admin, unauthenticated dashboard caller, default web-editor user, or terminal-enabled account?
 - [ ] Is the proof reduced to a canary file, owned callback, marker command, synthetic schema object, or build log nonce?
 - [ ] Does a patched negative control block the same request shape?
 - [ ] Are dangerous locations explicitly avoided: service-account tokens, cloud metadata, production config, web roots, cron paths, customer records, and live function artifacts?
