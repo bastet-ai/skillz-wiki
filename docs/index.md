@@ -9,7 +9,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 ## Recent entries
 
 - [Node host-inventory, Rails component, search deserialization, and operator boundary checks](alerts/2026-07-15-node-rails-search-operator-boundaries-ghsa.md)
-- [TensorZero, local app CORS, vault traversal, and SSRF guard boundary checks](alerts/2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md)
+- [TensorZero, ToolHive, local app, vault, and MCP documentation boundary checks](alerts/2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md)
 - [LangBot MCP STDIO command boundary checks](alerts/2026-07-15-langbot-mcp-stdio-command-boundary-ghsa.md)
 - [Keycloak backchannel logout SSRF and UMA CORS origin checks](alerts/2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-15-keycloak-backchannel-logout-ssrf-and-uma-cors-follow-up)
 - [Koel Subsonic SSRF and MantisBT SOAP/configuration boundary checks](alerts/2026-07-15-koel-mantisbt-boundaries-ghsa.md)
