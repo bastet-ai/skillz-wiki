@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Apple container pf rule-injection boundary checks](2026-07-16-apple-container-pf-rule-injection-ghsa.md)
 - [TensorZero, local app CORS, vault traversal, and SSRF guard boundary checks](2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md)
 - [Keycloak backchannel logout SSRF and UMA CORS origin checks](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-15-keycloak-backchannel-logout-ssrf-and-uma-cors-follow-up)
 - [Koel Subsonic SSRF and MantisBT SOAP/configuration boundary checks](2026-07-15-koel-mantisbt-boundaries-ghsa.md)

@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Apple container pf rule-injection boundary checks](alerts/2026-07-16-apple-container-pf-rule-injection-ghsa.md)
 - [Node host-inventory, Rails component, search deserialization, and operator boundary checks](alerts/2026-07-15-node-rails-search-operator-boundaries-ghsa.md)
 - [TensorZero, ToolHive, local app, vault, and MCP documentation boundary checks](alerts/2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md)
 - [LangBot MCP STDIO command boundary checks](alerts/2026-07-15-langbot-mcp-stdio-command-boundary-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [n8n-MCP backup, Woodpecker agent/Kubernetes identity, and Anyquery server-mode file-write checks](alerts/2026-07-14-workflow-ci-query-boundaries-ghsa.md)
 - [Kimai, FacturaScripts, OpenCost, and App Store trust-boundary checks](alerts/2026-07-14-kimai-facturascripts-auth-boundaries-ghsa.md)
 - [Anyquery SSRF, yutu MCP file-write, TidGi import RCE, TsDProxy IP spoofing, Auth0 query-token, and SonicWall SMA1000 checks](alerts/2026-07-14-agent-desktop-proxy-appliance-boundaries-ghsa-kev.md)
-- [NukeViet forwarded-host CMS plus DIRAC eval, SQL, and pilot-bootstrap checks](alerts/2026-07-13-nukeviet-dirac-boundaries-ghsa.md)
 
 ## What lives here
 
