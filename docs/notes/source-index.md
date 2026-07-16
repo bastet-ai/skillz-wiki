@@ -83,6 +83,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Doorkeeper OpenID Connect advisories: https://github.com/doorkeeper-gem/doorkeeper-openid_connect/security/advisories
 - WebOb advisories: https://github.com/Pylons/webob/security/advisories
 - Axios advisories: https://github.com/axios/axios/security/advisories
+- Envoy Gateway advisories/source: https://github.com/envoyproxy/gateway/security/advisories and https://github.com/envoyproxy/gateway
+- Kuma advisories/source: https://github.com/kumahq/kuma/security/advisories and https://github.com/kumahq/kuma
+- MCP Python SDK advisories/source: https://github.com/modelcontextprotocol/python-sdk/security/advisories and https://github.com/modelcontextprotocol/python-sdk
 - Mirasvit Cache Warmer changelog: https://mirasvit.com/package/changelog/?package=mirasvit/module-cache-warmer
 - Sansec Mirasvit Cache Warmer object-injection research: https://sansec.io/research/mirasvit-cache-warmer-object-injection
 - ruby-jwt advisories: https://github.com/jwt/ruby-jwt/security/advisories
