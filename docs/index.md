@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [FortiSandbox command-wrapper boundary checks](alerts/2026-07-16-fortisandbox-command-wrapper-boundary-kev.md)
 - [Diffusers custom-pipeline model-loading boundary checks](alerts/2026-07-16-diffusers-custom-pipeline-model-loading-ghsa.md)
 - [Apple container pf rule-injection boundary checks](alerts/2026-07-16-apple-container-pf-rule-injection-ghsa.md)
 - [Node host-inventory, Rails component, search deserialization, and operator boundary checks](alerts/2026-07-15-node-rails-search-operator-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Koel Subsonic SSRF and MantisBT SOAP/configuration boundary checks](alerts/2026-07-15-koel-mantisbt-boundaries-ghsa.md)
 - [NetLicensing MCP and nebula-mesh control-plane boundary checks](alerts/2026-07-14-mcp-mesh-control-plane-boundaries-ghsa.md)
 - [n8n-MCP backup, Woodpecker agent/Kubernetes identity, and Anyquery server-mode file-write checks](alerts/2026-07-14-workflow-ci-query-boundaries-ghsa.md)
-- [Kimai, FacturaScripts, OpenCost, and App Store trust-boundary checks](alerts/2026-07-14-kimai-facturascripts-auth-boundaries-ghsa.md)
 
 ## What lives here
 

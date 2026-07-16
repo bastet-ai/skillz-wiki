@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [FortiSandbox command-wrapper boundary checks](2026-07-16-fortisandbox-command-wrapper-boundary-kev.md)
 - [Apple container pf rule-injection boundary checks](2026-07-16-apple-container-pf-rule-injection-ghsa.md)
 - [TensorZero, local app CORS, vault traversal, and SSRF guard boundary checks](2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md)
 - [Keycloak backchannel logout SSRF and UMA CORS origin checks](2026-06-11-kolibri-hapi-keycloak-flowise-arc-boundary-batch-ghsa.md#july-15-keycloak-backchannel-logout-ssrf-and-uma-cors-follow-up)
