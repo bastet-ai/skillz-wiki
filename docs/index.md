@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [MCP token, codegen, and map-import SSRF checks](alerts/2026-07-17-mcp-codegen-ssrf-boundaries-ghsa.md)
+- [vLLM media/batch SSRF and remote-code trust follow-ups](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md#vllm-media-and-batch-ssrf-checks)
+- [Gitea Composer package source-link checks](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md#july-17-gitea-composer-package-source-link-follow-up)
 - [Axios proxy, SSH constraint, and vLLM runtime-channel checks](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md)
 - [JWT algorithm-confusion testing](methodology/jwt-algorithm-confusion-testing.md)
 - [NLTK encoded resource traversal checks](alerts/2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md#nltk-nltkdataload-encoded-traversal-checks)
@@ -15,9 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Ansible Galaxy role dependency argument checks](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#july-16-ansible-galaxy-role-dependency-update)
 - [Gateway, service-mesh, and local MCP boundary checks](alerts/2026-07-16-gateway-mesh-mcp-boundary-ghsa.md)
 - [FortiSandbox command-wrapper boundary checks](alerts/2026-07-16-fortisandbox-command-wrapper-boundary-kev.md)
-- [Diffusers custom-pipeline model-loading boundary checks](alerts/2026-07-16-diffusers-custom-pipeline-model-loading-ghsa.md)
-- [Apple container pf rule-injection boundary checks](alerts/2026-07-16-apple-container-pf-rule-injection-ghsa.md)
-- [Node host-inventory, Rails component, search deserialization, and operator boundary checks](alerts/2026-07-15-node-rails-search-operator-boundaries-ghsa.md)
 
 ## What lives here
 

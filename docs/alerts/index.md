@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [MCP token, codegen, and map-import SSRF boundary checks](2026-07-17-mcp-codegen-ssrf-boundaries-ghsa.md)
+- [vLLM media/batch SSRF and remote-code trust follow-ups](2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md#vllm-media-and-batch-ssrf-checks)
+- [Gitea Composer package source-link follow-up](2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md#july-17-gitea-composer-package-source-link-follow-up)
 - [Axios proxy, SSH constraint, and vLLM runtime-channel boundary checks](2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md)
 - [FortiSandbox command-wrapper boundary checks](2026-07-16-fortisandbox-command-wrapper-boundary-kev.md)
 - [Apple container pf rule-injection boundary checks](2026-07-16-apple-container-pf-rule-injection-ghsa.md)

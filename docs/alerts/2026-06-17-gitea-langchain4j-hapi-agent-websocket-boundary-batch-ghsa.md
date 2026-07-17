@@ -4,6 +4,18 @@ Source: hourly offensive-security scan, 2026-06-17. Primary entries: GitHub advi
 
 This batch is durable because each item exposes a reusable operator boundary: API-only authorization checks that diverge from UI controls, public-only token flags that are not enforced on self-route families, repository file previewers that turn file metadata into trusted DOM, vector-store metadata filters that concatenate SQL identifiers and literals, XML transform helpers that bypass a project's hardened factory, admin UI association writes that skip attach-policy checks, template loaders that trust user-controlled template names, agent WebFetch allowlists that bless attacker-controlled paths under a pre-approved host, Socket.IO document ids that normalize after authorization checks, tenant WebSocket joins keyed by client-supplied organization ids, and dev-server WebSocket proxies that accidentally forward privileged browser headers to user proxies.
 
+## July 17 Gitea Composer package source-link follow-up
+
+[GHSA-8qw8-rq86-9pc2](https://github.com/advisories/GHSA-8qw8-rq86-9pc2) / CVE-2026-27771 extends the self-hosted Git-forge authorization-drift pattern to Gitea's Composer package registry. The advisory says package source links could be returned without sufficient permission checks, exposing private or internal package source information. Treat package registries as repository metadata disclosure surfaces: Composer, npm, Maven, container, and generic package endpoints often have route families that are separate from repository browse permissions.
+
+Operator validation boundaries:
+
+- Build two disposable users and private repositories/packages with synthetic source URLs or commit markers only.
+- Compare repository browse/API permissions with package-registry source-link endpoints for the same artifact.
+- Positive proof is a low-privileged or unauthorized package consumer seeing a source link or internal repository marker that canonical repo routes deny.
+- Negative controls: patched Gitea, package endpoints that re-check repository read permission, private package visibility restrictions, and public package/source-link combinations that are intentionally visible.
+- Do not expose real package source URLs, private repository names, CI tokens, deploy keys, or customer dependency graphs.
+
 ## What changed
 
 | Advisory | Component | Boundary | Operator value |

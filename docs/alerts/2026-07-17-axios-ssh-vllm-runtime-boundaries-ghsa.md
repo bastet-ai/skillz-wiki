@@ -4,7 +4,7 @@ Sources: hourly offensive-security scan, 2026-07-17 GitHub Security Advisory fee
 
 This batch is durable for operators because the advisories expose reusable boundary classes: URL canonicalization before proxy/no-proxy routing, SSH certificate and agent constraints dropped across multi-step authentication or key forwarding, AI inference runtime channels that deserialize or broadcast data on unintended network interfaces, ASGI `Host` header parsing drift before API-key checks, audio/image preprocessing differentials where human-reviewed media is not the signal an AI model receives, model artifact revision pins that decay across side artifacts, assert-stripped model configuration checks, and GPU tensor conversion paths that can expose stale multi-tenant state.
 
-July 17 follow-up vLLM updates added [GHSA-8jr5-v98p-w75m](https://github.com/advisories/GHSA-8jr5-v98p-w75m), [GHSA-3ww4-5jv9-j5gm](https://github.com/advisories/GHSA-3ww4-5jv9-j5gm), [GHSA-q8gq-377p-jq3r](https://github.com/advisories/GHSA-q8gq-377p-jq3r), and [GHSA-5jv2-g5wq-cmr4](https://github.com/advisories/GHSA-5jv2-g5wq-cmr4). Adjacent resource-exhaustion-only vLLM entries ([GHSA-7h4p-rffg-7823](https://github.com/advisories/GHSA-7h4p-rffg-7823), [GHSA-6pr9-rp53-2pmc](https://github.com/advisories/GHSA-6pr9-rp53-2pmc), [GHSA-3mwp-wvh9-7528](https://github.com/advisories/GHSA-3mwp-wvh9-7528), [GHSA-hpv8-x276-m59f](https://github.com/advisories/GHSA-hpv8-x276-m59f), and the earlier upload/regex/token DoS advisories) are tracked here only as limit-check context unless they are paired with an approved lab resilience exercise.
+July 17 follow-up vLLM updates added [GHSA-8jr5-v98p-w75m](https://github.com/advisories/GHSA-8jr5-v98p-w75m), [GHSA-3ww4-5jv9-j5gm](https://github.com/advisories/GHSA-3ww4-5jv9-j5gm), [GHSA-q8gq-377p-jq3r](https://github.com/advisories/GHSA-q8gq-377p-jq3r), [GHSA-5jv2-g5wq-cmr4](https://github.com/advisories/GHSA-5jv2-g5wq-cmr4), [GHSA-qh4c-xf7m-gxfc](https://github.com/advisories/GHSA-qh4c-xf7m-gxfc), [GHSA-v359-jj2v-j536](https://github.com/advisories/GHSA-v359-jj2v-j536), [GHSA-pf3h-qjgv-vcpr](https://github.com/advisories/GHSA-pf3h-qjgv-vcpr), [GHSA-2pc9-4j83-qjmr](https://github.com/advisories/GHSA-2pc9-4j83-qjmr), [GHSA-8fr4-5q9j-m8gm](https://github.com/advisories/GHSA-8fr4-5q9j-m8gm), and [GHSA-7972-pg2x-xr59](https://github.com/advisories/GHSA-7972-pg2x-xr59). Adjacent resource-exhaustion-only vLLM entries ([GHSA-7h4p-rffg-7823](https://github.com/advisories/GHSA-7h4p-rffg-7823), [GHSA-6pr9-rp53-2pmc](https://github.com/advisories/GHSA-6pr9-rp53-2pmc), [GHSA-3mwp-wvh9-7528](https://github.com/advisories/GHSA-3mwp-wvh9-7528), [GHSA-hpv8-x276-m59f](https://github.com/advisories/GHSA-hpv8-x276-m59f), [GHSA-vrq3-r879-7m65](https://github.com/advisories/GHSA-vrq3-r879-7m65), [GHSA-wr9h-g72x-mwhm](https://github.com/advisories/GHSA-wr9h-g72x-mwhm), and the earlier upload/regex/token DoS advisories) are tracked here only as limit-check context unless they are paired with an approved lab resilience exercise.
 
 !!! warning "Authorized validation only"
     Keep proofs to fake proxy logs, disposable SSH certificates and agents, lab vLLM clusters, synthetic prompt embeddings, marker-only callbacks, non-sensitive runtime state, malformed `Host` header decision tables, and short synthetic audio canaries. Do not query cloud metadata, capture real bastion keys, forward production agents, deserialize hostile payloads against production inference workers, bypass production model APIs, collect prompts or transcripts, or publish weaponized tensors/pickle payloads.
@@ -28,6 +28,12 @@ July 17 follow-up vLLM updates added [GHSA-8jr5-v98p-w75m](https://github.com/ad
 | [GHSA-3ww4-5jv9-j5gm](https://github.com/advisories/GHSA-3ww4-5jv9-j5gm) | vLLM `<0.22.0` model artifact loading | `--revision` / `--code-revision` pins may not propagate to dynamic modules, GGUF direct files, image processors, or same-repository side weights/configs | Treat pinned model serving as a supply-chain boundary; prove every loaded code/config/weight artifact resolves under the reviewed revision or an explicit separate pin. |
 | [GHSA-q8gq-377p-jq3r](https://github.com/advisories/GHSA-q8gq-377p-jq3r) | vLLM `<0.22.0` activation function loading when Python optimized mode is enabled | an `assert` gate restricts activation function imports; `python -O` / `PYTHONOPTIMIZE=1` strips it and lets model config steer `resolve_obj_by_qualname()` imports | Check AI worker launch flags and model-config import surfaces with inert local modules only; do not load untrusted public models on production workers. |
 | [GHSA-5jv2-g5wq-cmr4](https://github.com/advisories/GHSA-5jv2-g5wq-cmr4) | vLLM `>=0.5.5,<0.24.0` GGUF CUDA dequantize kernels | large tensor dimensions can truncate to 32-bit counts, leaving `torch::empty` output regions uninitialized with stale GPU memory | In multi-tenant GPU labs, test only synthetic prior-request markers and GGUF fixtures; never attempt to recover real tenant prompts, embeddings, or model state. |
+| [GHSA-qh4c-xf7m-gxfc](https://github.com/advisories/GHSA-qh4c-xf7m-gxfc) / CVE-2026-24779 | vLLM multimodal `MediaConnector` URL loading | user-supplied media URLs crossed into server-side fetches, with URL parser differences around backslashes undermining host restrictions | Test multimodal media loaders as SSRF boundaries with owned callbacks and parser decision tables. |
+| [GHSA-v359-jj2v-j536](https://github.com/advisories/GHSA-v359-jj2v-j536) / CVE-2026-25960 | vLLM `load_from_url_async` SSRF guard | validation used `urllib3.parse_url()` while the fetch path used `aiohttp`/`yarl`, creating host confusion for inputs such as backslash/userinfo forms | Include validator-vs-client parser differentials in every AI media URL allowlist check. |
+| [GHSA-pf3h-qjgv-vcpr](https://github.com/advisories/GHSA-pf3h-qjgv-vcpr) / CVE-2026-34753 | vLLM OpenAI batch runner `download_bytes_from_url` | batch input JSON could make the server download arbitrary HTTP/HTTPS URLs without domain or IP restrictions | Validate batch/offline runners as network-capable ingestion surfaces, not just the online API server. |
+| [GHSA-2pc9-4j83-qjmr](https://github.com/advisories/GHSA-2pc9-4j83-qjmr) / CVE-2026-22807 | vLLM model initialization | Hugging Face `auto_map` dynamic modules could load during model resolution without honoring `trust_remote_code` | Treat model repo/path selection as a startup-time code-execution boundary even before any inference request reaches the worker. |
+| [GHSA-8fr4-5q9j-m8gm](https://github.com/advisories/GHSA-8fr4-5q9j-m8gm) / CVE-2025-66448 | vLLM `transformers_utils.get_config` / `Nemotron_Nano_VL_Config` | config `auto_map` entries could resolve and instantiate dynamic classes despite `trust_remote_code=False`, including references to a separate backend repo | Prove trust flags across nested config classes and cross-repository `auto_map` references with inert local repositories. |
+| [GHSA-7972-pg2x-xr59](https://github.com/advisories/GHSA-7972-pg2x-xr59) / CVE-2026-27893 | vLLM model implementation files | selected model paths hardcoded `trust_remote_code=True`, overriding an operator's explicit remote-code opt-out for subcomponents | Audit model-specific loader code paths, not only global CLI flags, when reviewing AI worker supply-chain controls. |
 
 ## Replayable validation boundaries
 
@@ -136,6 +142,26 @@ Report this as **model configuration string -> assert-stripped security check ->
 
 Report this as **GGUF tensor dimensions -> 32-bit kernel count truncation -> uninitialized GPU output reveals prior synthetic marker**. Include GPU model, vLLM version, fixture dimensions, marker-only evidence, and reset/patched controls.
 
+### vLLM media and batch SSRF checks
+
+1. Scope testing to owned vLLM labs or explicitly approved customer AI gateways. Never target metadata endpoints or internal production services.
+2. Inventory every URL-bearing ingestion path separately: multimodal chat media, `MediaConnector.load_from_url(_async)`, OpenAI batch JSON, and any wrapper that fetches images, audio, or documents before inference.
+3. Use owned callbacks, synthetic local HTTP services, and redirectors. Exercise ordinary URLs, backslash/userinfo host-confusion forms, encoded separators, redirects, and patched controls.
+4. Compare the validator's parsed host with the HTTP client's final destination. Evidence should be request logs and parser decision tables only.
+5. For batch runners, prove that batch JSON can trigger a fetch from the worker context with a harmless marker response; do not read files, metadata, service banners, or internal application pages.
+
+Report this as **AI media/batch URL -> validator/client parser mismatch or missing IP guard -> server-side fetch from worker network**. Include the exact ingestion path, parser outputs, callback log, final destination, and negative controls.
+
+### vLLM model remote-code trust checks
+
+1. Use disposable local or private Hugging Face-style repositories with inert marker modules only. Do not load public untrusted model code on production workers.
+2. Create fixtures for top-level `auto_map`, nested config-class `auto_map`, cross-repository `auto_map`, and model-specific subcomponent loaders that may pass their own `trust_remote_code` value.
+3. Launch workers with `trust_remote_code=False` and record import traces, resolved repository revisions, and whether any marker module is imported or instantiated.
+4. Repeat with patched versions and with explicit trust enabled as a positive control so the report separates intended remote-code trust from bypass.
+5. Evidence should be local import traces and marker files, never shell commands, network callbacks, credential reads, or destructive code.
+
+Report this as **model config/repository metadata -> remote dynamic module loader -> trust flag not enforced on startup or subcomponent path**. Include the config field, loader path, CLI flags, resolved commit/cache path, and fixed behavior.
+
 ## Operator checklist
 
 - [ ] Did the proof use owned canary infrastructure rather than metadata/internal production hosts?
@@ -148,10 +174,12 @@ Report this as **GGUF tensor dimensions -> 32-bit kernel count truncation -> uni
 - [ ] For revision-pin checks, did every loaded side artifact have a resolved commit/cache path, not just the primary model?
 - [ ] For model-config import checks, did the proof show Python optimized mode and use inert local modules only?
 - [ ] For GPU stale-memory checks, did the evidence stop at synthetic marker recovery in an isolated lab?
+- [ ] For media/batch SSRF checks, did the proof stop at owned callbacks or synthetic local services and include final-destination parser evidence?
+- [ ] For remote-code trust checks, did every imported module come from an inert local/private fixture and prove `trust_remote_code=False` was actually set?
 - [ ] Are all payloads inert, non-sensitive, and reproducible in a lab?
 
 ## Reporting notes
 
-- Lead with the trust boundary that failed: URL canonicalization, SSH restriction propagation, AI runtime-channel isolation, ASGI path reconstruction before API-key enforcement, media preprocessing before model trust, model artifact pin propagation, model-config import authorization, or GPU tensor initialization.
+- Lead with the trust boundary that failed: URL canonicalization, SSH restriction propagation, AI runtime-channel isolation, ASGI path reconstruction before API-key enforcement, media preprocessing before model trust, model artifact pin propagation, model-config import authorization, AI media/batch SSRF destination control, model remote-code trust flags, or GPU tensor initialization.
 - Separate reachability from code execution. For vLLM, a high-quality report first proves the unintended channel is exposed, then uses lab-only markers to show the parser or broadcast effect.
 - Redact proxy credentials, SSH key material, tokens, model names, cluster hostnames, and any customer topology that is not necessary to reproduce the decision boundary.
