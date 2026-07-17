@@ -2,7 +2,9 @@
 
 Sources: hourly offensive-security scan, 2026-07-17 GitHub Security Advisory feeds. Primary entries: [GHSA-pjwm-pj3p-43mv](https://github.com/advisories/GHSA-pjwm-pj3p-43mv), [GHSA-45gg-vh54-h5m9](https://github.com/advisories/GHSA-45gg-vh54-h5m9), [GHSA-f5wc-c3c7-36mc](https://github.com/advisories/GHSA-f5wc-c3c7-36mc), [GHSA-5cgq-3rg8-m6cv](https://github.com/advisories/GHSA-5cgq-3rg8-m6cv), [GHSA-x527-x647-q7gg](https://github.com/advisories/GHSA-x527-x647-q7gg), [GHSA-hjq4-87xh-g4fv](https://github.com/advisories/GHSA-hjq4-87xh-g4fv), [GHSA-9pcc-gvx5-r5wm](https://github.com/advisories/GHSA-9pcc-gvx5-r5wm), [GHSA-9f8f-2vmf-885j](https://github.com/advisories/GHSA-9f8f-2vmf-885j), [GHSA-mrw7-hf4f-83pf](https://github.com/advisories/GHSA-mrw7-hf4f-83pf), [GHSA-94f4-hr76-p5j6](https://github.com/advisories/GHSA-94f4-hr76-p5j6), and [GHSA-6c4r-fmh3-7rh8](https://github.com/advisories/GHSA-6c4r-fmh3-7rh8). Nearby vLLM DoS-only entries ([GHSA-v82g-2437-67m2](https://github.com/advisories/GHSA-v82g-2437-67m2), [GHSA-rwxx-mrjm-wc2m](https://github.com/advisories/GHSA-rwxx-mrjm-wc2m), and [GHSA-8wr5-jm2h-8r4f](https://github.com/advisories/GHSA-8wr5-jm2h-8r4f)) are tracked here only as scope context, not standalone exploit-path guidance.
 
-This batch is durable for operators because the advisories expose reusable boundary classes: URL canonicalization before proxy/no-proxy routing, SSH certificate and agent constraints dropped across multi-step authentication or key forwarding, AI inference runtime channels that deserialize or broadcast data on unintended network interfaces, ASGI `Host` header parsing drift before API-key checks, and audio preprocessing differentials where the content humans hear is not the signal an AI model receives.
+This batch is durable for operators because the advisories expose reusable boundary classes: URL canonicalization before proxy/no-proxy routing, SSH certificate and agent constraints dropped across multi-step authentication or key forwarding, AI inference runtime channels that deserialize or broadcast data on unintended network interfaces, ASGI `Host` header parsing drift before API-key checks, audio/image preprocessing differentials where human-reviewed media is not the signal an AI model receives, model artifact revision pins that decay across side artifacts, assert-stripped model configuration checks, and GPU tensor conversion paths that can expose stale multi-tenant state.
+
+July 17 follow-up vLLM updates added [GHSA-8jr5-v98p-w75m](https://github.com/advisories/GHSA-8jr5-v98p-w75m), [GHSA-3ww4-5jv9-j5gm](https://github.com/advisories/GHSA-3ww4-5jv9-j5gm), [GHSA-q8gq-377p-jq3r](https://github.com/advisories/GHSA-q8gq-377p-jq3r), and [GHSA-5jv2-g5wq-cmr4](https://github.com/advisories/GHSA-5jv2-g5wq-cmr4). Adjacent resource-exhaustion-only vLLM entries ([GHSA-7h4p-rffg-7823](https://github.com/advisories/GHSA-7h4p-rffg-7823), [GHSA-6pr9-rp53-2pmc](https://github.com/advisories/GHSA-6pr9-rp53-2pmc), [GHSA-3mwp-wvh9-7528](https://github.com/advisories/GHSA-3mwp-wvh9-7528), [GHSA-hpv8-x276-m59f](https://github.com/advisories/GHSA-hpv8-x276-m59f), and the earlier upload/regex/token DoS advisories) are tracked here only as limit-check context unless they are paired with an approved lab resilience exercise.
 
 !!! warning "Authorized validation only"
     Keep proofs to fake proxy logs, disposable SSH certificates and agents, lab vLLM clusters, synthetic prompt embeddings, marker-only callbacks, non-sensitive runtime state, malformed `Host` header decision tables, and short synthetic audio canaries. Do not query cloud metadata, capture real bastion keys, forward production agents, deserialize hostile payloads against production inference workers, bypass production model APIs, collect prompts or transcripts, or publish weaponized tensors/pickle payloads.
@@ -22,6 +24,10 @@ This batch is durable for operators because the advisories expose reusable bound
 | [GHSA-mrw7-hf4f-83pf](https://github.com/advisories/GHSA-mrw7-hf4f-83pf) | vLLM `>=0.10.2,<0.11.1` Completions API with user-supplied prompt embeddings | Sparse tensor deserialization through `torch.load(..., weights_only=True)` can cross into memory-corruption behavior | Treat prompt-embedding upload as a binary parser boundary and validate only in isolated harnesses. |
 | [GHSA-94f4-hr76-p5j6](https://github.com/advisories/GHSA-94f4-hr76-p5j6) | vLLM `>=0.3.0,<0.22.0` OpenAI-compatible API when directly exposed by ASGI/uvicorn-style servers | API-key middleware derives `url_path` from Starlette URL reconstruction, while routing uses the raw HTTP path; special characters in `Host` can make the middleware see a non-`/v1` path while the router still reaches `/v1` | Test direct vLLM API exposure for `Host` parser differentials with fake API keys and harmless model-list routes. |
 | [GHSA-6c4r-fmh3-7rh8](https://github.com/advisories/GHSA-6c4r-fmh3-7rh8) | vLLM `>=0.5.5,<0.18.0` audio-model preprocessing via Librosa-style mono downmixing | Multi-channel audio can be averaged differently than human playback expectations, letting LFE/extra channels affect model input while normal front channels sound benign | Validate moderation, transcription, or voice-auth assumptions with owned synthetic audio fixtures and compare human-playback, reference downmix, and model transcript/effect. |
+| [GHSA-8jr5-v98p-w75m](https://github.com/advisories/GHSA-8jr5-v98p-w75m) | vLLM `>=0.11.0,<0.24.0` multimodal image loading | EXIF orientation, PNG `tRNS` transparency, and APNG/GIF first-frame handling can make model-visible pixels differ from reviewer-visible pixels | Add synthetic image fixture tests where orientation, hidden transparent markers, and animation frames are compared across human preview, normalized reference, and model input. |
+| [GHSA-3ww4-5jv9-j5gm](https://github.com/advisories/GHSA-3ww4-5jv9-j5gm) | vLLM `<0.22.0` model artifact loading | `--revision` / `--code-revision` pins may not propagate to dynamic modules, GGUF direct files, image processors, or same-repository side weights/configs | Treat pinned model serving as a supply-chain boundary; prove every loaded code/config/weight artifact resolves under the reviewed revision or an explicit separate pin. |
+| [GHSA-q8gq-377p-jq3r](https://github.com/advisories/GHSA-q8gq-377p-jq3r) | vLLM `<0.22.0` activation function loading when Python optimized mode is enabled | an `assert` gate restricts activation function imports; `python -O` / `PYTHONOPTIMIZE=1` strips it and lets model config steer `resolve_obj_by_qualname()` imports | Check AI worker launch flags and model-config import surfaces with inert local modules only; do not load untrusted public models on production workers. |
+| [GHSA-5jv2-g5wq-cmr4](https://github.com/advisories/GHSA-5jv2-g5wq-cmr4) | vLLM `>=0.5.5,<0.24.0` GGUF CUDA dequantize kernels | large tensor dimensions can truncate to 32-bit counts, leaving `torch::empty` output regions uninitialized with stale GPU memory | In multi-tenant GPU labs, test only synthetic prior-request markers and GGUF fixtures; never attempt to recover real tenant prompts, embeddings, or model state. |
 
 ## Replayable validation boundaries
 
@@ -89,6 +95,47 @@ Report this as **ASGI Host header URL reconstruction -> API-key middleware path 
 
 Report this as **multi-channel audio fixture -> downmix/preprocessing differential -> model-visible content differs from human-visible content**. Include the audio channel layout, fixture hash, preprocessing library/path, transcript/label decision table, and stereo/patched/reference controls.
 
+### vLLM image preprocessing differential checks
+
+1. Scope this to owned multimodal vLLM labs or explicitly approved model-safety test tenants. Use synthetic images only.
+2. Build a small fixture set that covers:
+   - JPEG or TIFF EXIF orientation where the stored pixels and human-preview orientation differ;
+   - PNG `P`, `L`, or `RGB + tRNS` files where transparent marker pixels become visible or change color after naive `convert("RGB")`;
+   - APNG/GIF files where later frames contain a harmless marker while the first frame is benign.
+3. Capture three outputs for each fixture: browser/image-viewer preview, a reference-normalized image using explicit EXIF transpose plus transparency compositing, and the tensor/image bytes passed into the vLLM model path.
+4. Use harmless labels, shapes, or short marker text. Do not hide abusive prompts, credentials, biometric material, or policy-evading content.
+5. A strong proof shows the model acts on pixels that the review or moderation path did not display, or misses pixels a human reviewer did see.
+
+Report this as **image container metadata -> preprocessing normalization gap -> model-visible pixels differ from human-visible pixels**. Include fixture hashes, mode/metadata, reference-normalization code, model-input capture, and patched controls.
+
+### vLLM artifact pin propagation checks
+
+1. Start from a disposable vLLM worker and a private or local Hugging Face-style repository containing only inert config, weights, processor files, and dynamic-module canaries.
+2. Pin the primary model with `--revision` and, where relevant, `--code-revision`; then make side artifacts differ between the pinned commit and default branch.
+3. Exercise artifact families called out by the advisories: external `auto_map` dynamic modules, direct-file GGUF loads, image processors, retrieval side weights, and same-repository subfolder configs/weights.
+4. Evidence should be resolved commit SHAs, cache paths, and inert marker values showing whether each artifact came from the reviewed pin or a floating revision.
+5. Negative controls should include patched vLLM, explicit side-artifact pins if supported, and network/cache isolation that prevents fallback to unreviewed artifacts.
+
+Report this as **operator-supplied model revision pin -> side artifact resolver omits pin -> unreviewed code/config/weights loaded into serving worker**. Do not use malicious model code or public attacker-controlled models in customer environments.
+
+### vLLM model-config import guard checks
+
+1. Only test in a disposable worker launched with known Python flags. Record whether `PYTHONOPTIMIZE` or `python -O` is active.
+2. Create a local model/config fixture whose activation function fields point first to an allowed `torch.nn.modules.*` class, then to an inert local module/class that would only write a marker if imported or instantiated.
+3. Compare normal Python mode, optimized mode, and patched vLLM. The expected vulnerable pattern is rejection in normal mode but import/instantiation reachability in optimized mode because `assert` statements were stripped.
+4. Keep canaries local and inert. Do not publish configs that import shells, network clients, credential readers, or destructive modules.
+
+Report this as **model configuration string -> assert-stripped security check -> unrestricted Python import/constructor path in optimized worker**. Include launch flags, config fields, import trace, and negative controls.
+
+### vLLM GGUF GPU stale-memory checks
+
+1. Restrict this to isolated multi-tenant GPU labs with no real user traffic and a worker you can reset after testing.
+2. Seed GPU memory with a synthetic prior-request marker tensor, then load a crafted GGUF fixture whose dimensions exercise the 32-bit element-count truncation boundary in the dequantize path.
+3. Capture only whether the output contains the synthetic marker or uninitialized nonzero regions. Never attempt to recover prompts, embeddings, logits, KV cache, or another tenant's model data.
+4. Repeat after a worker restart and against patched kernels or bounded dimension checks to prove the signal is stale-memory exposure, not deterministic fixture content.
+
+Report this as **GGUF tensor dimensions -> 32-bit kernel count truncation -> uninitialized GPU output reveals prior synthetic marker**. Include GPU model, vLLM version, fixture dimensions, marker-only evidence, and reset/patched controls.
+
 ## Operator checklist
 
 - [ ] Did the proof use owned canary infrastructure rather than metadata/internal production hosts?
@@ -97,10 +144,14 @@ Report this as **multi-channel audio fixture -> downmix/preprocessing differenti
 - [ ] Is the vLLM deployment actually using the affected engine/channel/API path, rather than only a vulnerable package version?
 - [ ] For vLLM API-key checks, is the deployment directly exposed to the ASGI server path, or is a standards-compliant reverse proxy normalizing `Host` first?
 - [ ] For audio checks, did the report compare human playback, reference downmix, and model-visible transcript/decision using synthetic fixtures only?
+- [ ] For image checks, did the report compare human preview, reference-normalized pixels, and model-visible pixels with synthetic fixtures only?
+- [ ] For revision-pin checks, did every loaded side artifact have a resolved commit/cache path, not just the primary model?
+- [ ] For model-config import checks, did the proof show Python optimized mode and use inert local modules only?
+- [ ] For GPU stale-memory checks, did the evidence stop at synthetic marker recovery in an isolated lab?
 - [ ] Are all payloads inert, non-sensitive, and reproducible in a lab?
 
 ## Reporting notes
 
-- Lead with the trust boundary that failed: URL canonicalization, SSH restriction propagation, AI runtime-channel isolation, ASGI path reconstruction before API-key enforcement, or audio channel preprocessing before model trust.
+- Lead with the trust boundary that failed: URL canonicalization, SSH restriction propagation, AI runtime-channel isolation, ASGI path reconstruction before API-key enforcement, media preprocessing before model trust, model artifact pin propagation, model-config import authorization, or GPU tensor initialization.
 - Separate reachability from code execution. For vLLM, a high-quality report first proves the unintended channel is exposed, then uses lab-only markers to show the parser or broadcast effect.
 - Redact proxy credentials, SSH key material, tokens, model names, cluster hostnames, and any customer topology that is not necessary to reproduce the decision boundary.
