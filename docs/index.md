@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Axios proxy, SSH constraint, and vLLM runtime-channel checks](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md)
 - [JWT algorithm-confusion testing](methodology/jwt-algorithm-confusion-testing.md)
 - [NLTK encoded resource traversal checks](alerts/2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md#nltk-nltkdataload-encoded-traversal-checks)
 - [ArcadeDB, Nuclio, and Pheditor control-boundary checks](alerts/2026-07-16-arcadedb-nuclio-pheditor-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Diffusers custom-pipeline model-loading boundary checks](alerts/2026-07-16-diffusers-custom-pipeline-model-loading-ghsa.md)
 - [Apple container pf rule-injection boundary checks](alerts/2026-07-16-apple-container-pf-rule-injection-ghsa.md)
 - [Node host-inventory, Rails component, search deserialization, and operator boundary checks](alerts/2026-07-15-node-rails-search-operator-boundaries-ghsa.md)
-- [TensorZero, ToolHive, local app, vault, NLP, and MCP documentation boundary checks](alerts/2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md)
 
 ## What lives here
 

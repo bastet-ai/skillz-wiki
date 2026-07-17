@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Axios proxy, SSH constraint, and vLLM runtime-channel boundary checks](2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md)
 - [FortiSandbox command-wrapper boundary checks](2026-07-16-fortisandbox-command-wrapper-boundary-kev.md)
 - [Apple container pf rule-injection boundary checks](2026-07-16-apple-container-pf-rule-injection-ghsa.md)
 - [TensorZero, local app CORS, vault traversal, and SSRF guard boundary checks](2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md)
