@@ -1,11 +1,11 @@
-# Prompt loader, MCP memory, and upload filename boundary checks
+# Prompt loader, MCP memory, upload filename, and rootfs copy boundary checks
 
-Sources: hourly offensive-security scan, 2026-07-17 GitHub Security Advisory updates. Primary entries: [GHSA-c4gh-rv8h-q9vw](https://github.com/advisories/GHSA-c4gh-rv8h-q9vw), [GHSA-wxhm-2mq7-7697](https://github.com/advisories/GHSA-wxhm-2mq7-7697), [GHSA-f7wf-v2vw-mpcx](https://github.com/advisories/GHSA-f7wf-v2vw-mpcx), and [GHSA-937x-gpqr-72gg](https://github.com/advisories/GHSA-937x-gpqr-72gg).
+Sources: hourly offensive-security scan, 2026-07-17 GitHub Security Advisory updates. Primary entries: [GHSA-c4gh-rv8h-q9vw](https://github.com/advisories/GHSA-c4gh-rv8h-q9vw), [GHSA-wxhm-2mq7-7697](https://github.com/advisories/GHSA-wxhm-2mq7-7697), [GHSA-f7wf-v2vw-mpcx](https://github.com/advisories/GHSA-f7wf-v2vw-mpcx), [GHSA-937x-gpqr-72gg](https://github.com/advisories/GHSA-937x-gpqr-72gg), and [GHSA-mfr4-mq8w-vmg6](https://github.com/advisories/GHSA-mfr4-mq8w-vmg6).
 
-This batch is durable for operators because each advisory turns a familiar feature into an assessment pattern: prompt bundles parsed as code or file-read instructions, MCP memory import tools reading host files on behalf of a connected client, and upload helpers that validate one filename casing path but save another.
+This batch is durable for operators because each advisory turns a familiar feature into an assessment pattern: prompt bundles parsed as code or file-read instructions, MCP memory import tools reading host files on behalf of a connected client, upload helpers that validate one filename casing path but save another, and container-copy helpers that let a guest-path string escape back into host storage.
 
 !!! warning "Authorized validation only"
-    Use disposable prompt bundles, lab MCP servers, fake memory exports, temp upload roots, and harmless marker files. Never read production secrets, real user memory sessions, notebooks, SSH keys, `.env` files, service-account JSON, customer uploads, or web-executable shells.
+    Use disposable prompt bundles, lab MCP servers, fake memory exports, temp upload roots, temp rootfs fixtures, and harmless marker files. Never read production secrets, real user memory sessions, notebooks, SSH keys, `.env` files, service-account JSON, customer uploads, shell startup files, or web-executable shells.
 
 ## What changed
 
@@ -15,6 +15,7 @@ This batch is durable for operators because each advisory turns a familiar featu
 | [GHSA-wxhm-2mq7-7697](https://github.com/advisories/GHSA-wxhm-2mq7-7697) / CVE-2026-53598 | Prompty loaders across PyPI, npm, crates.io, and NuGet | `${file:...}` frontmatter expansion accepted traversal, absolute paths, and symlink escapes instead of confining reads to the prompt bundle or explicit allow roots | Test AI prompt loaders for local-file disclosure when users can upload, select, or import prompt packages. |
 | [GHSA-f7wf-v2vw-mpcx](https://github.com/advisories/GHSA-f7wf-v2vw-mpcx) / CVE-2026-54561 | `mcp-memory-keeper` `context_import` | Caller-controlled `filePath` reached `fs.readFileSync`; valid JSON could be imported and retrieved, while invalid JSON leaked leading bytes in parse errors | Validate MCP tools that bridge LLM/tool arguments to developer-workstation filesystems. |
 | [GHSA-937x-gpqr-72gg](https://github.com/advisories/GHSA-937x-gpqr-72gg) / CVE-2026-54567 | Flask-Reuploaded `UploadSet.save()` name override | The default path lowercased extensions before denylist checks, but the caller-supplied `name` override revalidated a case-preserving extension, leaving a denylist bypass variant after CVE-2026-27641 | Probe upload helper APIs for validator/storage asymmetry, especially when applications override saved filenames. |
+| [GHSA-mfr4-mq8w-vmg6](https://github.com/advisories/GHSA-mfr4-mq8w-vmg6) | Termux `proot-distro copy` before 5.1.0 | Host-side copy logic accepted container-qualified source or destination paths that traversed outside the distro rootfs | Assess scripts, plugins, and automation that pass untrusted copy paths into container/sandbox helpers as confused deputies for host file reads or writes. |
 
 ## Replayable validation boundaries
 
@@ -58,10 +59,21 @@ Report this as **MCP tool argument -> host filesystem read -> memory/session dis
 
 Report this as **upload filename/name override -> inconsistent extension normalization -> dangerous-type allow decision**. Do not publish web shells or attempt production execution; the evidence is the stored inert marker and decision table.
 
+### Container copy rootfs-escape checks
+
+1. Build a disposable Termux or equivalent lab profile with a throwaway `proot-distro` install, a synthetic host-side canary directory, and no real SSH keys, tokens, notebooks, or project secrets in scope.
+2. Exercise both directions of the copy bridge: host-to-container and container-to-host. For each direction, compare a normal in-root guest path with traversal-heavy guest paths that should remain confined after canonicalization.
+3. Use only marker content such as `HOST_CANARY_READ` and `HOST_CANARY_WRITE`. Do not target shell startup files, package-manager hooks, credential files, app config, or real home-directory documents.
+4. Positive read evidence is a synthetic host canary copied out through a guest-qualified source path. Positive write evidence is a synthetic host canary overwritten or created through a guest-qualified destination path.
+5. Negative controls should show the fixed helper resolving source and destination paths to canonical paths, rejecting any result outside the distro rootfs, and producing a clear denial before any filesystem side effect.
+
+Report this as **untrusted guest path -> host-side copy helper -> canonical path escape outside rootfs**. The useful operator finding is the confused-deputy boundary: a benign automation wrapper, community script, or plugin may trust `proot-distro copy` to enforce the sandbox even when its path arguments are attacker-influenced.
+
 ## Operator checklist
 
-- [ ] Did the proof use only disposable prompt bundles, fake memory files, and temp upload roots?
+- [ ] Did the proof use only disposable prompt bundles, fake memory files, temp upload roots, and rootfs canaries?
 - [ ] Were prompt loaders tested before any model/tool execution so parser-side impact is clear?
 - [ ] Did file-read proofs use synthetic canaries instead of real secrets or system files?
 - [ ] Did MCP evidence show both caller argument flow and retrieval/error-leak behavior?
 - [ ] Did upload evidence compare validator input, storage name, final extension, and fixed behavior?
+- [ ] Did rootfs-copy evidence avoid shell startup files and show canonical-path confinement for both source and destination?
