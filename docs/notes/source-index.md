@@ -7,6 +7,9 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Andromeda bytecode C2 research framework: https://github.com/vyrus001/andromeda
 - badkeys weak-key checker and web service: https://github.com/badkeys/badkeys and https://badkeys.info/
 - GitHub Security Advisories: https://github.com/advisories
+- Prompty advisories/source: https://github.com/microsoft/prompty/security/advisories and https://github.com/microsoft/prompty
+- mcp-memory-keeper advisories/source: https://github.com/mkreyman/mcp-memory-keeper/security/advisories and https://github.com/mkreyman/mcp-memory-keeper
+- Flask-Reuploaded advisories/source: https://github.com/advisories?query=Flask-Reuploaded and https://github.com/jugmac00/flask-reuploaded
 - uutils coreutils advisories/source: https://github.com/uutils/coreutils/security/advisories and https://github.com/uutils/coreutils
 - Trail of Bits Patch the Planet field reports: https://blog.trailofbits.com/2026/07/02/field-reports-from-patch-the-planet/
 - Trail of Bits Mewt mutation-testing DAML support: https://blog.trailofbits.com/2026/07/08/mutation-testing-comes-to-daml/ and https://github.com/trailofbits/mewt
