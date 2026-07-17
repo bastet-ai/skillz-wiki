@@ -42,6 +42,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - lxml advisories/source: https://github.com/lxml/lxml/security/advisories and https://github.com/lxml/lxml
 - Waku advisories/source: https://github.com/wakujs/waku/security/advisories and https://github.com/wakujs/waku
 - Skipper advisories/source: https://github.com/zalando/skipper/security/advisories and https://github.com/zalando/skipper
+- CloudTAK advisories/source: https://github.com/dfpc-coe/CloudTAK/security/advisories and https://github.com/dfpc-coe/CloudTAK
+- AngleSharp advisories/source: https://github.com/AngleSharp/AngleSharp/security/advisories and https://github.com/AngleSharp/AngleSharp
 - LangChain advisories/source: https://github.com/langchain-ai/langchain/security/advisories and https://github.com/langchain-ai/langchain
 - LangGraph advisories/source: https://github.com/langchain-ai/langgraph/security/advisories and https://github.com/langchain-ai/langgraph
 - go-chi/chi advisories/source: https://github.com/go-chi/chi/security/advisories and https://github.com/go-chi/chi

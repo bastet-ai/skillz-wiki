@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Skipper, CloudTAK, and AngleSharp boundary checks](2026-07-17-skipper-cloudtak-anglesharp-boundaries-ghsa.md)
 - [Prompt loader, MCP memory, and upload filename boundary checks](2026-07-17-prompt-memory-upload-file-boundaries-ghsa.md)
 - [MCP token, codegen, and map-import SSRF boundary checks](2026-07-17-mcp-codegen-ssrf-boundaries-ghsa.md)
 - [vLLM media/batch SSRF and remote-code trust follow-ups](2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md#vllm-media-and-batch-ssrf-checks)
