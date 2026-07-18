@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [VMware Avi, PicoClaw, and Halo boundary checks](alerts/2026-07-18-avi-picoclaw-halo-boundaries-ghsa.md)
 - [Skipper, CloudTAK, and AngleSharp boundary checks](alerts/2026-07-17-skipper-cloudtak-anglesharp-boundaries-ghsa.md)
 - [Prompt loader, MCP memory, upload filename, and rootfs-copy checks](alerts/2026-07-17-prompt-memory-upload-file-boundaries-ghsa.md)
 - [MCP token, codegen, and map-import SSRF checks](alerts/2026-07-17-mcp-codegen-ssrf-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [JWT algorithm-confusion testing](methodology/jwt-algorithm-confusion-testing.md)
 - [NLTK encoded resource traversal checks](alerts/2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md#nltk-nltkdataload-encoded-traversal-checks)
 - [ArcadeDB, Nuclio, and Pheditor control-boundary checks](alerts/2026-07-16-arcadedb-nuclio-pheditor-boundaries-ghsa.md)
-- [Ansible Galaxy role dependency argument checks](alerts/2026-06-19-framework-report-iac-mcp-cms-package-boundaries-ghsa.md#july-16-ansible-galaxy-role-dependency-update)
 
 ## What lives here
 
