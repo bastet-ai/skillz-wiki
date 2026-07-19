@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [NestJS and Astro route, render, and image-fetch boundary checks](alerts/2026-07-18-nest-astro-route-render-fetch-boundaries-ghsa.md)
 - [VMware Avi, PicoClaw, and Halo boundary checks](alerts/2026-07-18-avi-picoclaw-halo-boundaries-ghsa.md)
 - [Skipper, CloudTAK, and AngleSharp boundary checks](alerts/2026-07-17-skipper-cloudtak-anglesharp-boundaries-ghsa.md)
 - [Prompt loader, MCP memory, upload filename, and rootfs-copy checks](alerts/2026-07-17-prompt-memory-upload-file-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Axios proxy, SSH constraint, and vLLM runtime-channel checks](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md)
 - [JWT algorithm-confusion testing](methodology/jwt-algorithm-confusion-testing.md)
 - [NLTK encoded resource traversal checks](alerts/2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md#nltk-nltkdataload-encoded-traversal-checks)
-- [ArcadeDB, Nuclio, and Pheditor control-boundary checks](alerts/2026-07-16-arcadedb-nuclio-pheditor-boundaries-ghsa.md)
 
 ## What lives here
 
