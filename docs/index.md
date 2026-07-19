@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Building replayable target environments](methodology/target-environment-harness-design.md)
 - [NestJS and Astro route, render, and image-fetch boundary checks](alerts/2026-07-18-nest-astro-route-render-fetch-boundaries-ghsa.md)
 - [VMware Avi, PicoClaw, and Halo boundary checks](alerts/2026-07-18-avi-picoclaw-halo-boundaries-ghsa.md)
 - [Skipper, CloudTAK, and AngleSharp boundary checks](alerts/2026-07-17-skipper-cloudtak-anglesharp-boundaries-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Gitea Composer package source-link checks](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md#july-17-gitea-composer-package-source-link-follow-up)
 - [Axios proxy, SSH constraint, and vLLM runtime-channel checks](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md)
 - [JWT algorithm-confusion testing](methodology/jwt-algorithm-confusion-testing.md)
-- [NLTK encoded resource traversal checks](alerts/2026-07-15-local-ai-app-ssrf-file-boundaries-ghsa.md#nltk-nltkdataload-encoded-traversal-checks)
 
 ## What lives here
 
