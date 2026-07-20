@@ -57,6 +57,20 @@ Report this as **framework allowlist -> adapter regex translation -> deployment 
 - [ ] Did image testing compare source matcher, generated deployment config, live CDN decision, and callback logs?
 - [ ] Did every proof remain inside disposable apps and owned origins?
 
+## July 20 follow-up: View Transition values crossing CSS and HTML contexts
+
+[GHSA-4g3v-8h47-v7g6](https://github.com/advisories/GHSA-4g3v-8h47-v7g6) adds a separate Astro rendering boundary. In affected Astro releases before `7.1.0`, server-generated View Transition styles can place string animation properties into a raw `<style>` element without making them safe for both CSS serialization and the HTML raw-text context. An application is not exposed merely because it uses View Transitions: attacker-controlled data must reach a property such as `duration`, `easing`, `direction`, `delay`, `fillMode`, or `name` in an SSR/on-demand render path.
+
+### Replayable transition-style check
+
+1. Find `transition:animate` use and trace every animation property back through URL parameters, CMS fields, API objects, database values, and frontmatter. Record whether the page is server-rendered, hybrid, or prerendered.
+2. In a disposable Astro app, pass an ordinary canary string through one property and capture the raw response. Confirm which generated style declaration contains it before testing context boundaries.
+3. Use a non-executable delimiter canary containing a closing-style sequence followed only by a harmless custom element or `data-*` marker. Compare the response bytes with the browser-parsed DOM; do not use script, event handlers, cookie access, or credential forms.
+4. Hold route and template constant while testing numeric values, normal CSS time strings, delimiter canaries, and the same inputs on Astro `7.1.0` or later.
+5. Positive evidence is attacker-controlled data terminating the generated style element and creating the inert sibling marker. A value merely appearing inside a valid CSS declaration is not enough.
+
+Report this as **untrusted animation property -> CSS builder -> raw HTML style element -> browser parser context break**. Keep it distinct from the earlier spread-key issue: one controls object keys serialized as HTML attributes; this one controls animation values serialized through CSS into an HTML raw-text element.
+
 ## Not promoted from the same updated wave
 
 [GHSA-c43c-rf7g-5xpg](https://github.com/advisories/GHSA-c43c-rf7g-5xpg) (Katello cross-product content-existence disclosure) and [GHSA-j4h6-gcj7-7v9v](https://github.com/advisories/GHSA-j4h6-gcj7-7v9v) (an older Decidim meeting-embed XSS record) were marked processed without standalone guidance. The available details did not add a stronger reusable workflow beyond existing object-authorization and trusted-render boundary pages.

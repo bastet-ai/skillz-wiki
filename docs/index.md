@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Cloudreve OAuth/remote-download and Pillow path/image boundary checks](alerts/2026-07-20-cloudreve-pillow-token-image-boundaries-ghsa.md)
+- [Astro View Transition CSS/HTML context follow-up](alerts/2026-07-18-nest-astro-route-render-fetch-boundaries-ghsa.md#july-20-follow-up-view-transition-values-crossing-css-and-html-contexts)
+- [Better Auth SSO provider creation role-drift follow-up](alerts/2026-07-07-better-auth-aider-netfoil-ckan-mcp-boundaries-ghsa.md#july-20-follow-up-sso-provider-creation-role-drift)
 - [Apollo ConfigService AccessKey parser and collation follow-up](alerts/2026-07-13-decidim-apollo-geonode-boundaries-ghsa.md#apollo-configservice-accesskey-parser-differentials)
 - [Composer repository metadata and package-install boundary checks](alerts/2026-07-20-composer-repository-package-boundaries-ghsa.md)
 - [Axios inherited Basic-auth subfield boundary follow-up](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md#axios-inherited-basic-auth-subfield-checks)
@@ -15,9 +18,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Langflow public-playground and knowledge-base boundary follow-up](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-20-public-playground-and-knowledge-base-follow-up)
 - [Building replayable target environments](methodology/target-environment-harness-design.md)
 - [NestJS and Astro route, render, and image-fetch boundary checks](alerts/2026-07-18-nest-astro-route-render-fetch-boundaries-ghsa.md)
-- [VMware Avi, PicoClaw, and Halo boundary checks](alerts/2026-07-18-avi-picoclaw-halo-boundaries-ghsa.md)
-- [Skipper, CloudTAK, and AngleSharp boundary checks](alerts/2026-07-17-skipper-cloudtak-anglesharp-boundaries-ghsa.md)
-- [Prompt loader, MCP memory, upload filename, and rootfs-copy checks](alerts/2026-07-17-prompt-memory-upload-file-boundaries-ghsa.md)
+
 
 ## What lives here
 

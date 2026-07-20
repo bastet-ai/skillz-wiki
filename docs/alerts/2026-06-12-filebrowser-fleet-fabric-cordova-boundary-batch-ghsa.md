@@ -76,6 +76,17 @@ This batch is durable because each item exposes a reusable operator boundary: co
 - Stop at synthetic marker reads/writes. Do not follow links toward `/etc`, home directories, database files, cloud credentials, or other live secrets.
 - Evidence: File Browser version, configured user scope, symlink path and target, API route, marker content before/after, public-share behavior if tested, and fixed-version symlink containment failure.
 
+### July 20 follow-up: File Browser dangling-create and cleanup-delete symlink gaps
+
+[GHSA-8wc8-hf36-mjh9](https://github.com/advisories/GHSA-8wc8-hf36-mjh9) / CVE-2026-55668 and [GHSA-fmm7-x4gx-8jhr](https://github.com/advisories/GHSA-fmm7-x4gx-8jhr) / CVE-2026-55667 show two incomplete-fix variants after the original scoped-root symlink work. Treat them as different primitives:
+
+- **Dangling final symlink on create:** a user with Create and Modify can write through an in-scope symlink whose out-of-scope target does not exist. The fallback validates the symlink's lexical parent, then `O_CREATE` follows the link and creates the external file. Existing targets remain blocked.
+- **Symlinked ancestor on upload cleanup:** a Create-only user can submit a path below an escaping directory symlink. The guarded write fails, but failure cleanup calls an unguarded recursive remove, potentially deleting the external canary despite the HTTP denial and without Delete permission.
+
+Use a disposable filesystem with `/scope` and `/outside`, and have the lab administrator plant the symlinks; File Browser does not provide the attacker with a symlink-creation API. For the create case, point a final link at one nonexistent marker under `/outside` and upload a short canary with override enabled. For the cleanup case, point an in-scope directory link at `/outside`, seed one expendable marker, and submit an upload to that marker path as a Create-only user. Capture the HTTP status and before/after inode/hash state. The cleanup variant is especially important because a denied response can coincide with deletion.
+
+Positive proof is limited to **pre-existing in-scope symlink -> create/cleanup sink follows outside scope -> one disposable external marker created or removed**. Include controls for an existing final target, no Modify permission, no Create permission, Delete permission disabled, and File Browser `2.63.16` or later. Never point at another tenant, application database, startup file, service configuration, home directory, or recursively populated directory.
+
 ### Fleet cursor-sort oracle validation
 
 - Validate only in a test Fleet deployment with disposable hosts and deliberately seeded canary enrollment values.

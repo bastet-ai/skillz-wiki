@@ -99,3 +99,17 @@ Additional Better Auth advisories published later in the same GitHub advisory wa
 - Lead with the precise crossed boundary: **provider ID to ownerless SCIM control**, **deleted user to cached session**, **single-use OAuth credential to duplicate mint**, **self-service SSO endpoint to server fetch**, **discovery metadata to unsafe algorithm**, **client redirect URI to consent-page script sink**, **unverified email to OAuth/organization identity**, or **token endpoint resource to unauthorized audience**.
 - Strong evidence includes plugin enablement, Better Auth package/version, route, client type, role, exact grant or endpoint, race timing, synthetic token/session identifiers, before/after ownership or role state, and negative controls.
 - Keep artifacts synthetic: disposable users, owned domains, fake IdPs/JWKS, canary OAuth clients, test orgs, harmless browser markers, and redacted token prefixes only.
+
+## July 20 follow-up: SSO provider creation role drift
+
+[GHSA-gv74-j8m3-fg5f](https://github.com/advisories/GHSA-gv74-j8m3-fg5f) / CVE-2026-53515 extends the Better Auth organization/SSO checks with a create-versus-manage authorization differential. In affected `@better-auth/sso` versions `>=1.2.10,<1.6.11`, `POST /sso/register` can accept any organization member when SSO and organization plugins are enabled, while companion read, update, and delete paths require an owner or admin. A regular member can therefore attach an attacker-controlled OIDC or SAML provider to an organization; downstream SSO provisioning determines whether this stops at unauthorized configuration, adds members, or reaches a configured admin role.
+
+### Two-role provider lifecycle matrix
+
+1. Create a disposable organization with one owner and one ordinary member. Enable the same `providersLimit`, domain-verification, and organization-provisioning settings as the target fixture.
+2. Host a minimal fake OIDC or SAML provider on an owned origin. Use only synthetic subject, email, and group claims.
+3. As the member, attempt create, list, get, update, and delete operations for an organization-linked provider. Record route, role, organization ID, status, and whether a provider row changed.
+4. If registration succeeds, perform one callback with a disposable identity and record only the resulting synthetic membership and role. Do not reuse a real IdP, domain, assertion, or employee identity.
+5. Repeat as owner/admin, on `@better-auth/sso@1.6.11` or later, and with `providersLimit: 0` as negative controls.
+
+Strong evidence shows **ordinary organization membership -> SSO provider create succeeds -> companion lifecycle operations remain admin-gated -> synthetic callback provisions a canary identity**. State the configured default/get-role behavior; do not claim admin creation when the lab only demonstrates member provisioning.
