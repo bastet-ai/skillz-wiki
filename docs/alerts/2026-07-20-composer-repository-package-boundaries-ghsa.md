@@ -166,3 +166,16 @@ A strong proof is a decision table:
 - Do not claim that Packagist.org or Private Packagist can supply the invalid-name metadata described by GHSA-499r-g7pc-vmp9.
 - Do not call the issues remotely exploitable against Composer itself. They execute during a user or automation-initiated install/update under specific supply-chain or project-trust preconditions.
 - Redact repository credentials, bearer tokens, private package names, cache paths, developer usernames, and CI topology.
+
+## July 20 follow-up: package `bin` permissions and verbose URL credentials
+
+Two adjacent advisories extend the same package-metadata workflow:
+
+- [GHSA-gjfg-22fp-rrxx](https://github.com/advisories/GHSA-gjfg-22fp-rrxx) shows that a dependency `bin` entry containing a `..` segment can make the normal binary installer apply `chmod` outside that package directory. This changes permissions only; it does not write, read, or execute the target and must not be reported as RCE. The path is reachable from transitive packages even with plugins and scripts disabled.
+- [GHSA-g6xq-892h-64w3](https://github.com/advisories/GHSA-g6xq-892h-64w3) shows that `-vvv` output can expose a credential placed in the username slot of a repository/package URL. The practical pattern is a token-shaped username in `https://TOKEN@host/...`; ordinary passwords in `username:password@host` were already masked.
+
+For the `bin` check, add one synthetic package whose declared executable resolves only to an existing, non-sensitive marker file under `LAB_ROOT/outside-vendor`. Record mode bits before and after an affected install, then repeat with Composer `2.10.2` or `2.2.29`. Stop at a permission-only change: never target keys, `.env`, cloud credentials, shell profiles, or a shared host. Strong evidence is **transitive package `bin` metadata -> normalized outside-package path -> marker mode changes despite `--no-scripts --no-plugins`**.
+
+For verbose-log testing, use a fake token value and an owned loopback repository. Run the same failing metadata request at normal verbosity and `-vvv`, then compare affected and fixed output. Preserve only a redacted token fingerprint and the line location. Review captured CI artifacts separately, but never place a live token in a reproduction. Report this as **URL username credential -> Composer debug formatter -> retained log**, not as remote disclosure: impact requires someone else to be able to read the verbose output.
+
+The fixed releases are Composer `2.10.2` and `2.2.29`; Composer 1.x remains unpatched. The earlier static-review list already flags package `bin` paths and source/dist URLs, so these follow-ups turn those flags into two bounded validation cases rather than a separate workflow.

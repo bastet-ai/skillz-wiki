@@ -74,3 +74,16 @@ Report this as **untrusted animation property -> CSS builder -> raw HTML style e
 ## Not promoted from the same updated wave
 
 [GHSA-c43c-rf7g-5xpg](https://github.com/advisories/GHSA-c43c-rf7g-5xpg) (Katello cross-product content-existence disclosure) and [GHSA-j4h6-gcj7-7v9v](https://github.com/advisories/GHSA-j4h6-gcj7-7v9v) (an older Decidim meeting-embed XSS record) were marked processed without standalone guidance. The available details did not add a stronger reusable workflow beyond existing object-authorization and trusted-render boundary pages.
+
+## July 20 follow-up: decode-depth authorization mismatch
+
+[GHSA-vj59-8hwv-xxmv](https://github.com/advisories/GHSA-vj59-8hwv-xxmv) adds a second Astro route representation bug, narrowly affecting `astro >=6.4.7,<6.4.8`. An iterative path decoder stops after ten passes and returns a partially decoded pathname to middleware; a later rewrite/router decode can still resolve that value to the protected canonical route. The exploitable application pattern is path-based authorization followed by `next(context.url)` or an equivalent rewrite path—not every Astro deployment.
+
+Add an encoding-depth matrix to the route workflow:
+
+1. Use a disposable protected route and make middleware emit the pathname it authorized plus a harmless decision nonce.
+2. Generate nested percent-encoding depths around one character in that route, from zero through at least one step beyond the framework cap. Generate these locally rather than copying a production path.
+3. For each request, record the raw request target, middleware pathname, final matched route, auth decision, and response canary. Hold identity, method, query, and body constant.
+4. Include direct canonical, malformed-escape, no-rewrite, and Astro `6.4.8+` controls. Stop once the middleware and router disagree; do not retrieve protected data.
+
+Positive evidence is **raw nested encoding -> middleware sees a partially decoded non-protected path -> later rewrite performs another decode -> the protected canary handler runs**. Distinguish this decode-depth issue from the trailing-slash NestJS case and from ordinary proxy normalization. Capture every representation at each hop so the report identifies where the extra decode occurs.

@@ -87,6 +87,12 @@ Use a disposable filesystem with `/scope` and `/outside`, and have the lab admin
 
 Positive proof is limited to **pre-existing in-scope symlink -> create/cleanup sink follows outside scope -> one disposable external marker created or removed**. Include controls for an existing final target, no Modify permission, no Create permission, Delete permission disabled, and File Browser `2.63.16` or later. Never point at another tenant, application database, startup file, service configuration, home directory, or recursively populated directory.
 
+### July 20 follow-up: archive builder manufactures traversal separators
+
+[GHSA-83xp-526h-j3ww](https://github.com/advisories/GHSA-83xp-526h-j3ww) is an incomplete-fix variant affecting File Browser `>=2.63.6,<=2.63.16`. The archive builder explicitly rewrites backslashes to `/`. On POSIX, a backslash is valid filename data, so a single stored filename containing backslash-delimited `..` text becomes a slash-delimited traversal entry in zip, tar, and related output. This differs from the original Windows-extractor-only case: the builder itself manufactures the portable separator sequence.
+
+Reuse the archive lab, but compare three artifacts without extracting onto a real workstation: the stored POSIX filename, the archive entry emitted by the affected version, and the entry emitted by File Browser `2.63.17+`. Use only a marker name inside a disposable folder and inspect with `zipinfo`/`tar -tf` plus a containment-checking extractor in an isolated temp root if extraction evidence is required. Positive proof is **one in-scope POSIX filename -> archive-time backslash rewrite -> normalized entry contains parent segments**. Do not target startup folders, executable paths, user documents, or a victim workstation.
+
 ### Fleet cursor-sort oracle validation
 
 - Validate only in a test Fleet deployment with disposable hosts and deliberately seeded canary enrollment values.

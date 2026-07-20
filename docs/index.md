@@ -8,16 +8,16 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Parser, dev-server, HTTP-client, CMS-cache, and RAG boundary checks](alerts/2026-07-20-parser-devserver-http-client-rag-boundaries-ghsa.md)
+- [File Browser archive-rewrite follow-up](alerts/2026-06-12-filebrowser-fleet-fabric-cordova-boundary-batch-ghsa.md#july-20-follow-up-archive-builder-manufactures-traversal-separators)
+- [Astro decode-depth authorization follow-up](alerts/2026-07-18-nest-astro-route-render-fetch-boundaries-ghsa.md#july-20-follow-up-decode-depth-authorization-mismatch)
+- [Composer `bin` permissions and verbose URL credential follow-up](alerts/2026-07-20-composer-repository-package-boundaries-ghsa.md#july-20-follow-up-package-bin-permissions-and-verbose-url-credentials)
 - [Cloudreve OAuth/remote-download and Pillow path/image boundary checks](alerts/2026-07-20-cloudreve-pillow-token-image-boundaries-ghsa.md)
 - [Astro View Transition CSS/HTML context follow-up](alerts/2026-07-18-nest-astro-route-render-fetch-boundaries-ghsa.md#july-20-follow-up-view-transition-values-crossing-css-and-html-contexts)
 - [Better Auth SSO provider creation role-drift follow-up](alerts/2026-07-07-better-auth-aider-netfoil-ckan-mcp-boundaries-ghsa.md#july-20-follow-up-sso-provider-creation-role-drift)
 - [Apollo ConfigService AccessKey parser and collation follow-up](alerts/2026-07-13-decidim-apollo-geonode-boundaries-ghsa.md#apollo-configservice-accesskey-parser-differentials)
 - [Composer repository metadata and package-install boundary checks](alerts/2026-07-20-composer-repository-package-boundaries-ghsa.md)
 - [Axios inherited Basic-auth subfield boundary follow-up](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md#axios-inherited-basic-auth-subfield-checks)
-- [n8n webhook, sandbox, repository, and database boundary follow-up](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-20-n8n-webhook-sandbox-repository-and-database-follow-up)
-- [Langflow public-playground and knowledge-base boundary follow-up](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-20-public-playground-and-knowledge-base-follow-up)
-- [Building replayable target environments](methodology/target-environment-harness-design.md)
-- [NestJS and Astro route, render, and image-fetch boundary checks](alerts/2026-07-18-nest-astro-route-render-fetch-boundaries-ghsa.md)
 
 
 ## What lives here
