@@ -6,14 +6,17 @@ This batch is durable for operators because the advisories expose reusable bound
 
 July 17 follow-up vLLM updates added [GHSA-8jr5-v98p-w75m](https://github.com/advisories/GHSA-8jr5-v98p-w75m), [GHSA-3ww4-5jv9-j5gm](https://github.com/advisories/GHSA-3ww4-5jv9-j5gm), [GHSA-q8gq-377p-jq3r](https://github.com/advisories/GHSA-q8gq-377p-jq3r), [GHSA-5jv2-g5wq-cmr4](https://github.com/advisories/GHSA-5jv2-g5wq-cmr4), [GHSA-qh4c-xf7m-gxfc](https://github.com/advisories/GHSA-qh4c-xf7m-gxfc), [GHSA-v359-jj2v-j536](https://github.com/advisories/GHSA-v359-jj2v-j536), [GHSA-pf3h-qjgv-vcpr](https://github.com/advisories/GHSA-pf3h-qjgv-vcpr), [GHSA-2pc9-4j83-qjmr](https://github.com/advisories/GHSA-2pc9-4j83-qjmr), [GHSA-8fr4-5q9j-m8gm](https://github.com/advisories/GHSA-8fr4-5q9j-m8gm), and [GHSA-7972-pg2x-xr59](https://github.com/advisories/GHSA-7972-pg2x-xr59). Adjacent resource-exhaustion-only vLLM entries ([GHSA-7h4p-rffg-7823](https://github.com/advisories/GHSA-7h4p-rffg-7823), [GHSA-6pr9-rp53-2pmc](https://github.com/advisories/GHSA-6pr9-rp53-2pmc), [GHSA-3mwp-wvh9-7528](https://github.com/advisories/GHSA-3mwp-wvh9-7528), [GHSA-hpv8-x276-m59f](https://github.com/advisories/GHSA-hpv8-x276-m59f), [GHSA-vrq3-r879-7m65](https://github.com/advisories/GHSA-vrq3-r879-7m65), [GHSA-wr9h-g72x-mwhm](https://github.com/advisories/GHSA-wr9h-g72x-mwhm), and the earlier upload/regex/token DoS advisories) are tracked here only as limit-check context unless they are paired with an approved lab resilience exercise.
 
+The July 20 Axios follow-up adds [GHSA-xj6q-8x83-jv6g](https://github.com/advisories/GHSA-xj6q-8x83-jv6g): Axios `>=1.15.2,<1.18.0` can read inherited `username` or `password` values from an empty or partial own `auth` object after another bug has polluted `Object.prototype`. The adjacent `formToJSON` recursion entries, [GHSA-42h9-826w-cgv3](https://github.com/advisories/GHSA-42h9-826w-cgv3) and [GHSA-pmv8-rq9r-6j72](https://github.com/advisories/GHSA-pmv8-rq9r-6j72), are tracked only as availability context.
+
 !!! warning "Authorized validation only"
-    Keep proofs to fake proxy logs, disposable SSH certificates and agents, lab vLLM clusters, synthetic prompt embeddings, marker-only callbacks, non-sensitive runtime state, malformed `Host` header decision tables, and short synthetic audio canaries. Do not query cloud metadata, capture real bastion keys, forward production agents, deserialize hostile payloads against production inference workers, bypass production model APIs, collect prompts or transcripts, or publish weaponized tensors/pickle payloads.
+    Keep proofs to fake proxy logs, disposable SSH certificates and agents, fake Basic-auth values, local HTTP capture servers, lab vLLM clusters, synthetic prompt embeddings, marker-only callbacks, non-sensitive runtime state, malformed `Host` header decision tables, and short synthetic audio canaries. Do not query cloud metadata, capture real credentials or bastion keys, forward production agents, deserialize hostile payloads against production inference workers, bypass production model APIs, collect prompts or transcripts, or publish weaponized tensors/pickle payloads.
 
 ## What changed
 
 | Advisory | Component | Boundary | Operator value |
 | --- | --- | --- | --- |
 | [GHSA-pjwm-pj3p-43mv](https://github.com/advisories/GHSA-pjwm-pj3p-43mv) | Axios `<=0.31.1` and `>=1.15.0,<1.16.0` | `NO_PROXY` entries such as `127.0.0.1` or `169.254.169.254` are compared before IPv4-mapped IPv6 canonicalization | Test SSRF/client-proxy controls where internal IPv4 destinations can be expressed as `[::ffff:...]` and routed through a proxy unexpectedly. |
+| [GHSA-xj6q-8x83-jv6g](https://github.com/advisories/GHSA-xj6q-8x83-jv6g) | Axios `>=1.15.2,<1.18.0` | An own but empty/partial `auth` object reads inherited `username` or `password` after a separate host-process prototype-pollution primitive | Trace prototype pollution into outbound Basic-auth construction without overstating Axios as the pollution source or claiming automatic credential theft. |
 | [GHSA-45gg-vh54-h5m9](https://github.com/advisories/GHSA-45gg-vh54-h5m9) | `golang.org/x/crypto/ssh` before `0.52.0` | `PartialSuccessError` with permissions could discard certificate restrictions after a second factor | Validate SSH servers that combine certificate auth with keyboard-interactive or other second-factor callbacks. |
 | [GHSA-f5wc-c3c7-36mc](https://github.com/advisories/GHSA-f5wc-c3c7-36mc) | `golang.org/x/crypto/ssh/agent` before `0.52.0` | Remote-agent constraint extensions such as destination restrictions were not serialized when keys were forwarded | Test whether forwarded canary keys lose intended `restrict-destination` semantics. |
 | [GHSA-5cgq-3rg8-m6cv](https://github.com/advisories/GHSA-5cgq-3rg8-m6cv) | `golang.org/x/crypto/ssh` before `0.52.0` | Revoked CA signature keys were not enforced consistently | Add negative controls for `@revoked` CA/signature-key material when certificate trust anchors are tested. |
@@ -49,6 +52,21 @@ July 17 follow-up vLLM updates added [GHSA-8jr5-v98p-w75m](https://github.com/ad
 5. Do not use cloud metadata or internal production admin hosts as proof targets. If a customer wants metadata validation, use a metadata-simulator endpoint under their written scope.
 
 Report this as **URL host canonicalization mismatch -> `NO_PROXY` decision -> proxy-mediated access to an internal IPv4 destination**. Include Axios version, proxy environment variables, parsed host forms, and proxy/canary logs.
+
+### Axios inherited Basic-auth subfield checks
+
+1. Confirm both preconditions before testing: the host application has a separate, in-scope prototype-pollution primitive, and its Axios wrapper passes an own empty or partial object such as `auth: {}` or `auth: opts.auth || {}`. Merely installing Axios is not enough.
+2. Use an affected Axios release (`>=1.15.2,<1.18.0`) in a disposable Node.js harness. Point requests only at a loopback HTTP capture server and use unmistakably fake username/password canaries.
+3. Pollute only `Object.prototype.username` and/or `Object.prototype.password` inside the harness, then compare:
+   - no own `auth` object;
+   - an own empty `auth: {}` object;
+   - a partial own object with only one real canary subfield;
+   - a complete own object;
+   - Axios `1.18.0` or later as the patched control.
+4. Capture the outbound `Authorization` header locally, decode it offline, and verify which values were own properties versus inherited values. Clean the prototype in a `finally` block and terminate the disposable process after each case so state cannot leak between tests.
+5. If the wrapper sets a pre-existing `Authorization` header, add a fake bearer-marker control and record whether Axios replaces it when `auth` is materialized. Do not use real tokens or send the request to an external collector.
+
+Report this as **separate host-process prototype pollution -> inherited Axios `auth` subfield read -> attacker-chosen Basic-auth request tampering**. Do not describe Axios as the pollution source, and do not claim credential disclosure unless an independent application-specific path proves that a real missing auth field reaches an attacker-observable destination.
 
 ### Go SSH certificate and agent-constraint checks
 
@@ -165,6 +183,7 @@ Report this as **model config/repository metadata -> remote dynamic module loade
 ## Operator checklist
 
 - [ ] Did the proof use owned canary infrastructure rather than metadata/internal production hosts?
+- [ ] For Axios Basic-auth checks, are the separate pollution primitive and own empty/partial `auth` object both proven, with fake credentials and a patched control?
 - [ ] Are URL host forms, proxy decisions, and destination equivalence shown side by side?
 - [ ] Are SSH certificate restrictions and agent constraints represented as explicit allow/deny decision tables?
 - [ ] Is the vLLM deployment actually using the affected engine/channel/API path, rather than only a vulnerable package version?
@@ -180,6 +199,6 @@ Report this as **model config/repository metadata -> remote dynamic module loade
 
 ## Reporting notes
 
-- Lead with the trust boundary that failed: URL canonicalization, SSH restriction propagation, AI runtime-channel isolation, ASGI path reconstruction before API-key enforcement, media preprocessing before model trust, model artifact pin propagation, model-config import authorization, AI media/batch SSRF destination control, model remote-code trust flags, or GPU tensor initialization.
+- Lead with the trust boundary that failed: URL canonicalization, inherited Axios auth subfields after separate prototype pollution, SSH restriction propagation, AI runtime-channel isolation, ASGI path reconstruction before API-key enforcement, media preprocessing before model trust, model artifact pin propagation, model-config import authorization, AI media/batch SSRF destination control, model remote-code trust flags, or GPU tensor initialization.
 - Separate reachability from code execution. For vLLM, a high-quality report first proves the unintended channel is exposed, then uses lab-only markers to show the parser or broadcast effect.
 - Redact proxy credentials, SSH key material, tokens, model names, cluster hostnames, and any customer topology that is not necessary to reproduce the decision boundary.

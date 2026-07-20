@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Axios inherited Basic-auth subfield boundary follow-up](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md#axios-inherited-basic-auth-subfield-checks)
 - [n8n webhook, sandbox, repository, and database boundary follow-up](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-20-n8n-webhook-sandbox-repository-and-database-follow-up)
 - [Langflow public-playground and knowledge-base boundary follow-up](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-20-public-playground-and-knowledge-base-follow-up)
 - [Building replayable target environments](methodology/target-environment-harness-design.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Prompt loader, MCP memory, upload filename, and rootfs-copy checks](alerts/2026-07-17-prompt-memory-upload-file-boundaries-ghsa.md)
 - [MCP token, codegen, and map-import SSRF checks](alerts/2026-07-17-mcp-codegen-ssrf-boundaries-ghsa.md)
 - [vLLM media/batch SSRF and remote-code trust follow-ups](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md#vllm-media-and-batch-ssrf-checks)
-- [Gitea Composer package source-link checks](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md#july-17-gitea-composer-package-source-link-follow-up)
 
 ## What lives here
 
