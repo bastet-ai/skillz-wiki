@@ -1,8 +1,8 @@
 # Cloudreve OAuth/remote-download and Pillow path/image boundary checks
 
-Sources: hourly offensive-security scan, 2026-07-20 GitHub Security Advisory feed. Primary entries: Cloudreve [GHSA-vgj4-345g-jcf8](https://github.com/advisories/GHSA-vgj4-345g-jcf8) / CVE-2026-54560 and [GHSA-x756-g4x3-c64m](https://github.com/advisories/GHSA-x756-g4x3-c64m) / CVE-2026-54562, Pillow [GHSA-4x4j-2g7c-83w6](https://github.com/advisories/GHSA-4x4j-2g7c-83w6) / CVE-2026-55798, and Pillow [GHSA-62p4-gmf7-7g93](https://github.com/advisories/GHSA-62p4-gmf7-7g93) / CVE-2026-54058.
+Sources: hourly offensive-security scan, 2026-07-20 GitHub Security Advisory feed. Primary entries: Cloudreve [GHSA-vgj4-345g-jcf8](https://github.com/advisories/GHSA-vgj4-345g-jcf8) / CVE-2026-54560 and [GHSA-x756-g4x3-c64m](https://github.com/advisories/GHSA-x756-g4x3-c64m) / CVE-2026-54562, Pillow [GHSA-4x4j-2g7c-83w6](https://github.com/advisories/GHSA-4x4j-2g7c-83w6) / CVE-2026-55798, [GHSA-62p4-gmf7-7g93](https://github.com/advisories/GHSA-62p4-gmf7-7g93) / CVE-2026-54058, and [GHSA-fj7v-r99m-22gq](https://github.com/advisories/GHSA-fj7v-r99m-22gq) / CVE-2026-59198.
 
-These advisories expose four reusable operator boundaries: OAuth metadata deciding whether scope checks run at all, remote-download URLs reaching a final server-side destination, a filename crossing into a Windows shell command, and image-header geometry crossing into a memory-mapped row layout that may later be returned as decoded pixels. The common workflow is to prove the exact source-to-sink transition with synthetic identities, URLs, paths, and media rather than treating a package version as proof.
+These advisories expose five reusable operator boundaries: OAuth metadata deciding whether scope checks run at all, remote-download URLs reaching a final server-side destination, a filename crossing into a Windows shell command, image-header geometry crossing into a memory-mapped row layout that may later be returned as decoded pixels, and packed image rows crossing into a TGA RLE output disclosure. The common workflow is to prove the exact source-to-sink transition with synthetic identities, URLs, paths, and media rather than treating a package version as proof.
 
 !!! warning "Authorized validation only"
     Use disposable Cloudreve users/clients, redacted canary tokens, a Windows VM with marker-only paths, and an isolated Pillow worker with synthetic media. Never use a real user's OAuth grant, execute a production command, collect process memory, upload malformed files to shared services, or preserve leaked bytes in wiki/report evidence.
@@ -15,6 +15,7 @@ These advisories expose four reusable operator boundaries: OAuth metadata decidi
 | [GHSA-x756-g4x3-c64m](https://github.com/advisories/GHSA-x756-g4x3-c64m) / CVE-2026-54562 | Cloudreve user URL -> remote-download worker -> imported file readback | Authenticated non-admin belongs to a group with remote download enabled; this is not enabled for default ordinary users | Test whether initial, redirect, IPv4/IPv6, and hostname forms preserve an owned external-only policy through the final downloader request. |
 | [GHSA-4x4j-2g7c-83w6](https://github.com/advisories/GHSA-4x4j-2g7c-83w6) / CVE-2026-55798 | Pillow `WindowsViewer` file path -> `cmd.exe` command built for `shell=True` | Windows; an application invokes the image-show path with an attacker-influenced existing filename | Add shell-metacharacter filenames to local viewer/helper reviews and distinguish command construction from reachability. |
 | [GHSA-62p4-gmf7-7g93](https://github.com/advisories/GHSA-62p4-gmf7-7g93) / CVE-2026-54058 | McIdas AREA header dimensions/stride -> Pillow mmap row pointers -> pixel read/re-encode | Image opened from a filesystem path, default plugin available, and decoded pixels subsequently read, converted, saved, or returned | Test parser geometry as a data-disclosure boundary when the application returns transformed pixels, not only as a crash condition. |
+| [GHSA-fj7v-r99m-22gq](https://github.com/advisories/GHSA-fj7v-r99m-22gq) / CVE-2026-59198 | mode `1` packed row -> TGA RLE encoder treats pixels as bytes -> adjacent heap bytes serialized into output | Application accepts or constructs a mode `1` image and returns/saves TGA with RLE enabled | Test output-file disclosure with a tiny synthetic heap canary and bounded widths; do not collect arbitrary process memory. |
 
 Pillow `12.3.0` contains the fixes identified by both Pillow advisories. Confirm Cloudreve's fixed release from its advisory/release record at test time; do not infer deployment state from a UI footer or container tag alone.
 
@@ -80,6 +81,16 @@ This issue has a useful application-level distinction: malformed geometry may cr
 
 Report this as **attacker-controlled AREA geometry -> filename-backed mmap row layout -> downstream pixel consumer -> synthetic adjacent canary returned**. A parser exception or worker crash proves availability impact only; a disclosure claim requires controlled canary bytes in transformed output.
 
+## Pillow TGA RLE output-disclosure check
+
+1. Use an affected Pillow build and `12.3.0+` in isolated one-shot workers with no credentials, network, unrelated files, or prior user data.
+2. Confirm the application reaches TGA output with RLE enabled (`compression="tga_rle"`, or the older equivalent) and a mode `1` image. Merely decoding an uploaded TGA is not this path.
+3. Start with a two-pixel-wide synthetic image and an instrumented/ASAN build to prove the row-buffer over-read. Increase width only enough to recover a researcher-seeded adjacent marker; do not use the maximum width or search arbitrary heap content.
+4. Capture the returned TGA, parse packet payload offsets offline, and preserve only canary-match offsets, output hashes, and lengths. Discard all non-canary out-of-bounds bytes.
+5. Repeat with non-RLE output, an 8-bit mode, a normal width control, a fresh worker without the seeded marker, and Pillow `12.3.0+`.
+
+Report this as **mode `1` packed row -> TGA RLE byte-per-pixel mismatch -> synthetic adjacent heap marker serialized into generated image**. Do not call a crash or ASAN read a disclosure unless canary bytes are present in the application-returned artifact.
+
 ## Evidence and reporting checklist
 
 - [ ] Exact package/application versions and vulnerable-versus-fixed controls
@@ -92,4 +103,4 @@ Report this as **attacker-controlled AREA geometry -> filename-backed mmap row l
 
 ## Not promoted from the same wave
 
-[GHSA-phj9-mv4w-65pm](https://github.com/advisories/GHSA-phj9-mv4w-65pm), [GHSA-45hq-cxwh-f6vc](https://github.com/advisories/GHSA-45hq-cxwh-f6vc), [GHSA-5x94-69rx-g8h2](https://github.com/advisories/GHSA-5x94-69rx-g8h2), and [GHSA-8v84-f9pq-wr9x](https://github.com/advisories/GHSA-8v84-f9pq-wr9x) are Pillow decompression/resource-limit bypasses. [GHSA-3jxr-9vmj-r5cp](https://github.com/advisories/GHSA-3jxr-9vmj-r5cp) is an exponential-time brace-expansion issue. They were marked processed without standalone offensive guidance because this wave did not add a stronger non-availability exploit-path workflow for them.
+[GHSA-phj9-mv4w-65pm](https://github.com/advisories/GHSA-phj9-mv4w-65pm), [GHSA-45hq-cxwh-f6vc](https://github.com/advisories/GHSA-45hq-cxwh-f6vc), [GHSA-5x94-69rx-g8h2](https://github.com/advisories/GHSA-5x94-69rx-g8h2), [GHSA-8v84-f9pq-wr9x](https://github.com/advisories/GHSA-8v84-f9pq-wr9x), [GHSA-pg7v-jwj7-p798](https://github.com/advisories/GHSA-pg7v-jwj7-p798), and [GHSA-jjj6-mw9f-p565](https://github.com/advisories/GHSA-jjj6-mw9f-p565) are Pillow decompression/parser resource issues. [GHSA-3jxr-9vmj-r5cp](https://github.com/advisories/GHSA-3jxr-9vmj-r5cp) is an exponential-time brace-expansion issue. [GHSA-6r8x-57c9-28j4](https://github.com/advisories/GHSA-6r8x-57c9-28j4) and [GHSA-xj96-63gp-2gmr](https://github.com/advisories/GHSA-xj96-63gp-2gmr) expose public-API native writes but did not add a bounded application exploit path beyond isolated memory-safety harnessing. They were marked processed without standalone offensive guidance.

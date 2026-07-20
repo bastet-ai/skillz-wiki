@@ -93,6 +93,12 @@ Positive proof is limited to **pre-existing in-scope symlink -> create/cleanup s
 
 Reuse the archive lab, but compare three artifacts without extracting onto a real workstation: the stored POSIX filename, the archive entry emitted by the affected version, and the entry emitted by File Browser `2.63.17+`. Use only a marker name inside a disposable folder and inspect with `zipinfo`/`tar -tf` plus a containment-checking extractor in an isolated temp root if extraction evidence is required. Positive proof is **one in-scope POSIX filename -> archive-time backslash rewrite -> normalized entry contains parent segments**. Do not target startup folders, executable paths, user documents, or a victim workstation.
 
+### July 20 follow-up: username-to-home collisions and share-secret serialization
+
+[GHSA-7rc3-g7h6-22m7](https://github.com/advisories/GHSA-7rc3-g7h6-22m7) adds a many-to-one identity/filesystem boundary when self-registration and automatic user-directory creation are both enabled. Raw usernames can be unique while `cleanUsername()` maps them to the same home path. In a two-user lab, register one ordinary name and one syntactically different colliding name, seed one marker in the first home, and compare the resulting scopes/inodes. Positive proof is **distinct account identities -> identical normalized home directory -> second user reads or rewrites the first user's marker**. Stop at synthetic files and include a non-colliding username plus fixed release as controls.
+
+[GHSA-833g-cqhp-h72j](https://github.com/advisories/GHSA-833g-cqhp-h72j) shows that password-protected share API responses serialized both the password hash and direct bypass token. Use only a disposable user's own share and a fake password; record field presence and whether the returned canary token bypasses the lab password prompt. If administrative scope is explicitly approved, compare an admin list response using only shares created by the tester. Do not crack hashes, enumerate other users' shares, or preserve reusable tokens. Report **share record -> unfiltered API serialization -> password verifier/bypass capability returned to a caller whose role should not receive it**.
+
 ### Fleet cursor-sort oracle validation
 
 - Validate only in a test Fleet deployment with disposable hosts and deliberately seeded canary enrollment values.

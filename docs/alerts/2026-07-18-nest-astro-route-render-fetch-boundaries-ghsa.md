@@ -87,3 +87,20 @@ Add an encoding-depth matrix to the route workflow:
 4. Include direct canonical, malformed-escape, no-rewrite, and Astro `6.4.8+` controls. Stop once the middleware and router disagree; do not retrieve protected data.
 
 Positive evidence is **raw nested encoding -> middleware sees a partially decoded non-protected path -> later rewrite performs another decode -> the protected canary handler runs**. Distinguish this decode-depth issue from the trailing-slash NestJS case and from ordinary proxy normalization. Capture every representation at each hop so the report identifies where the extra decode occurs.
+
+## July 20 late follow-up: adapter regex, path, spread-key, RSS, and transition contexts
+
+Six newly published Astro records extend the same representation-first workflow:
+
+| Advisory | Boundary to add |
+| --- | --- |
+| [GHSA-hp3v-mfqw-h74c](https://github.com/advisories/GHSA-hp3v-mfqw-h74c) | `@astrojs/netlify` failed to escape pathname regex metacharacters while generating the Netlify Image CDN allowlist. Add owned paths containing literal regex-significant characters and compare source matcher, generated config, and live fetch. |
+| [GHSA-r557-wffq-wvrc](https://github.com/advisories/GHSA-r557-wffq-wvrc) | `@astrojs/node` trailing-slash redirect logic did not classify backslash-prefixed paths like the final router. Add raw slash/backslash and encoded-separator variants to redirect-before-middleware/auth decision tables. |
+| [GHSA-f48w-9m4c-m7f5](https://github.com/advisories/GHSA-f48w-9m4c-m7f5) | `renderHTMLElement` retained an unescaped spread-attribute-name path after the earlier Astro fix. Exercise framework/component rendering paths separately; a patched helper elsewhere is not a negative control for this sink. |
+| [GHSA-8j5q-mfj2-5q9q](https://github.com/advisories/GHSA-8j5q-mfj2-5q9q) | `@astrojs/rss` fields crossed into generated XML without context-safe escaping. Compare source value, raw feed bytes, strict XML parse tree, and consuming browser/feed-reader DOM with inert elements only. |
+| [GHSA-7pw4-f3q4-r2p2](https://github.com/advisories/GHSA-7pw4-f3q4-r2p2) | `transition:*` directive values on hydrated islands crossed into generated HTML attributes. Keep this separate from raw `<style>` transition properties and prove only an inert parsed-DOM marker. |
+| [GHSA-8mv7-9c27-98vc](https://github.com/advisories/GHSA-8mv7-9c27-98vc) | A composable `astro/hono` pipeline could omit or misorder middleware that enforces `security.checkOrigin`. Compare state-changing canary routes with middleware present, absent, and ordered around the handler. |
+
+For the Node adapter case, use a lab route where redirect and authorization behavior are visible through nonces; test the raw request target through the same proxy topology as the deployment. Stop when a backslash representation makes the redirect layer and router disagree—do not retrieve protected content. For RSS, use a disposable feed and harmless namespaced/custom-element markers; XML text appearing verbatim is not impact unless it changes the parsed tree or the actual consumer's DOM. For both spread-key variants, trace attacker control of the **key**, not merely the value.
+
+Report each sink precisely: **source path pattern -> generated CDN regex**, **raw separator form -> adapter redirect/auth order -> router**, **object key -> specific renderer -> HTML attribute grammar**, **feed field -> XML grammar -> consumer DOM**, **transition directive value -> island attribute -> browser DOM**, or **pipeline composition/order -> origin-check middleware absent -> inert state change accepted**. For the Hono integration, use fake sessions and a marker-only state transition from an owned foreign origin; distinguish browser request delivery from response readability. Do not merge these into a generic Astro XSS/auth-bypass claim.
