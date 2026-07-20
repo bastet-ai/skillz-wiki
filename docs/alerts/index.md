@@ -10,6 +10,8 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [n8n webhook, sandbox, repository, and database boundary follow-up](2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-20-n8n-webhook-sandbox-repository-and-database-follow-up)
+- [Langflow public-playground and knowledge-base boundary follow-up](2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-20-public-playground-and-knowledge-base-follow-up)
 - [Skipper, CloudTAK, and AngleSharp boundary checks](2026-07-17-skipper-cloudtak-anglesharp-boundaries-ghsa.md)
 - [Prompt loader, MCP memory, and upload filename boundary checks](2026-07-17-prompt-memory-upload-file-boundaries-ghsa.md)
 - [MCP token, codegen, and map-import SSRF boundary checks](2026-07-17-mcp-codegen-ssrf-boundaries-ghsa.md)

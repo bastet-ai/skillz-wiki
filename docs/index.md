@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [n8n webhook, sandbox, repository, and database boundary follow-up](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-20-n8n-webhook-sandbox-repository-and-database-follow-up)
+- [Langflow public-playground and knowledge-base boundary follow-up](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-20-public-playground-and-knowledge-base-follow-up)
 - [Building replayable target environments](methodology/target-environment-harness-design.md)
 - [NestJS and Astro route, render, and image-fetch boundary checks](alerts/2026-07-18-nest-astro-route-render-fetch-boundaries-ghsa.md)
 - [VMware Avi, PicoClaw, and Halo boundary checks](alerts/2026-07-18-avi-picoclaw-halo-boundaries-ghsa.md)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [MCP token, codegen, and map-import SSRF checks](alerts/2026-07-17-mcp-codegen-ssrf-boundaries-ghsa.md)
 - [vLLM media/batch SSRF and remote-code trust follow-ups](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md#vllm-media-and-batch-ssrf-checks)
 - [Gitea Composer package source-link checks](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md#july-17-gitea-composer-package-source-link-follow-up)
-- [Axios proxy, SSH constraint, and vLLM runtime-channel checks](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md)
-- [JWT algorithm-confusion testing](methodology/jwt-algorithm-confusion-testing.md)
 
 ## What lives here
 

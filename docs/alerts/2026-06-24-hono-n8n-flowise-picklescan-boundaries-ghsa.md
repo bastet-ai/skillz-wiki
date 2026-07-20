@@ -1,6 +1,6 @@
 # Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks
 
-Source: hourly offensive-security scan, 2026-06-24, with a 2026-07-08 n8n follow-up. Primary entries: GitHub Advisory Database [GHSA-458j-xx4x-4375](https://github.com/advisories/GHSA-458j-xx4x-4375), [GHSA-q4fm-pjq6-m63g](https://github.com/advisories/GHSA-q4fm-pjq6-m63g), [GHSA-f3f2-mcxc-pwjx](https://github.com/advisories/GHSA-f3f2-mcxc-pwjx), [GHSA-pmqw-72cg-wx85](https://github.com/advisories/GHSA-pmqw-72cg-wx85), [GHSA-6pcv-j4jx-m4vx](https://github.com/advisories/GHSA-6pcv-j4jx-m4vx), [GHSA-m7mq-85xj-9x33](https://github.com/advisories/GHSA-m7mq-85xj-9x33), [GHSA-9c4c-g95m-c8cp](https://github.com/advisories/GHSA-9c4c-g95m-c8cp), [GHSA-8r4j-24qv-fmq9](https://github.com/advisories/GHSA-8r4j-24qv-fmq9), and [GHSA-3vg9-h568-4w9m](https://github.com/advisories/GHSA-3vg9-h568-4w9m).
+Source: hourly offensive-security scan, 2026-06-24, with n8n follow-ups on 2026-07-08 and 2026-07-20. Primary entries: GitHub Advisory Database [GHSA-458j-xx4x-4375](https://github.com/advisories/GHSA-458j-xx4x-4375), [GHSA-q4fm-pjq6-m63g](https://github.com/advisories/GHSA-q4fm-pjq6-m63g), [GHSA-f3f2-mcxc-pwjx](https://github.com/advisories/GHSA-f3f2-mcxc-pwjx), [GHSA-pmqw-72cg-wx85](https://github.com/advisories/GHSA-pmqw-72cg-wx85), [GHSA-6pcv-j4jx-m4vx](https://github.com/advisories/GHSA-6pcv-j4jx-m4vx), [GHSA-m7mq-85xj-9x33](https://github.com/advisories/GHSA-m7mq-85xj-9x33), [GHSA-9c4c-g95m-c8cp](https://github.com/advisories/GHSA-9c4c-g95m-c8cp), [GHSA-8r4j-24qv-fmq9](https://github.com/advisories/GHSA-8r4j-24qv-fmq9), and [GHSA-3vg9-h568-4w9m](https://github.com/advisories/GHSA-3vg9-h568-4w9m).
 
 These items are durable for operators because each one exposes a repeatable boundary that shows up across modern app and AI stacks: object keys crossing into SSR HTML attribute names, low-code workflow metadata crossing into browser or SQL sinks, unauthenticated org selectors returning identity-provider secrets, weak default token material enabling tenant metadata tampering, import files crossing into SQL/path construction, and scanner allowlists missing Python pickle gadget surfaces.
 
@@ -64,6 +64,34 @@ These items are durable for operators because each one exposes a repeatable boun
 - Build a regression corpus around inert callables that only print a marker or write to a temporary file in the test VM. Include `idlelib.calltip.Calltip.fetch_tip` and `idlelib.debugobj.ObjectTreeItem.SetText` variants without destructive commands.
 - Run the scanner first, record whether each file is flagged, then load only inside the isolated VM if the test requires execution confirmation.
 - Evidence should be a scanner decision matrix and marker-only execution proof. Never publish payloads that read files, environment variables, cloud credentials, notebooks, or model weights.
+
+## July 20 n8n webhook, sandbox, repository, and database follow-up
+
+The updated feed added eight n8n advisories that fit the same workflow-authority model:
+
+| Advisory | Boundary worth testing |
+| --- | --- |
+| [GHSA-2vff-hj5x-8gq7](https://github.com/advisories/GHSA-2vff-hj5x-8gq7) / CVE-2026-54306 | A public webhook body could prototype-pollute copied workflow data, then make credentialed downstream nodes act on attacker-supplied fields as a confused deputy. |
+| [GHSA-v733-mwr6-fgcm](https://github.com/advisories/GHSA-v733-mwr6-fgcm) / CVE-2026-54301 | A workflow editor could return binary content with an attacker-selected `Content-Type` while bypassing the central CSP sandbox header, creating active same-origin content for authenticated visitors. |
+| [GHSA-jvc7-762p-3743](https://github.com/advisories/GHSA-jvc7-762p-3743) / CVE-2026-54308 | Microsoft Agent 365 and Stripe trigger routes accepted forged events when the webhook URL was known because the expected inbound token or signature was not validated. |
+| [GHSA-5xp3-2w67-427v](https://github.com/advisories/GHSA-5xp3-2w67-427v) / CVE-2026-49465 | Git clone and push operations accepted local repository paths outside `N8N_RESTRICT_FILE_ACCESS_TO`, letting an editor relay repository contents into an allowed location. |
+| [GHSA-9pq8-m8gp-4p53](https://github.com/advisories/GHSA-9pq8-m8gp-4p53) / CVE-2026-49444 | A Python Code node could escape the Python Task Runner sandbox when that optional runner was enabled. |
+| [GHSA-9c38-2mcm-q7f7](https://github.com/advisories/GHSA-9c38-2mcm-q7f7) / CVE-2026-54311 | The Merge node's cached SQL sandbox allowed one workflow author's prototype changes to persist into another project or user's later execution. |
+| [GHSA-jpq7-226w-6cxx](https://github.com/advisories/GHSA-jpq7-226w-6cxx) / CVE-2026-54313 | MongoDB Find And Replace treated an editor-controlled value as a query filter, allowing operator-shaped input to match and overwrite unintended scratch documents. |
+| [GHSA-c37g-w77q-m4vp](https://github.com/advisories/GHSA-c37g-w77q-m4vp) / CVE-2026-54310 | TimescaleDB and legacy PostgreSQL v1 node parameters crossed into SQL structure instead of remaining bound values. |
+
+### Replayable n8n lab workflow
+
+1. Use a disposable multi-user n8n instance with no production credentials. Create separate author A, author B, and visitor accounts, an owned callback service, a scratch Git repository, and scratch MongoDB/PostgreSQL databases.
+2. **Public webhook confused deputy:** build a test webhook that copies request data into a downstream HTTP action. Send a normal marker and a dangerous-key marker such as a nested `__proto__` field. A safe positive proof is the owned callback receiving an unintended marker field; do not target third-party records or use real connector credentials.
+3. **Trigger authenticity:** capture a legitimate synthetic Stripe or Microsoft Agent 365 event shape, remove or alter its signature/token, and replay it only to the lab trigger URL. Record whether the workflow runs, whether the event is rejected, and the patched negative control.
+4. **Webhook response origin:** configure `Respond to Webhook` to return inert binary content with an HTML-like content type. Compare CSP and browser rendering between normal and binary response paths. Stop at a harmless DOM marker; never read cookies, tokens, or authenticated page data.
+5. **Git file sandbox:** place a marker-only Git repository just outside the configured allowed root. Test clone-from-local and push-to-local paths, then verify only whether the marker repository becomes reachable inside the allowed scratch directory. Do not target source trees, home directories, credentials, or production repositories.
+6. **Python runner:** execute a marker-only sandbox regression in a throwaway task-runner container. Evidence should be a temp-file marker inside that disposable container and the runner configuration/version; do not open a shell, access the host, or make outbound requests.
+7. **Cross-project Merge state:** have author A submit an inert prototype marker through Merge SQL mode, then execute author B's workflow with a unique synthetic row. The finding is persistence or observation of the marker across execution contexts, not collection of another tenant's real workflow data.
+8. **Database nodes:** use seeded scratch rows and compare scalar values, identifier fields, limits, and operator-shaped filter objects. Record generated-query effects through marker rows and expected-vs-actual match sets. Never point the workflow at production databases.
+
+For reports, name the exact authority jump: **unauthenticated webhook body to credentialed action**, **workflow editor to same-origin visitor**, **unsigned provider event to workflow execution**, **local Git path to sandboxed file view**, **code-node author to task-runner execution**, **cached sandbox state to another project**, or **node parameter to database query structure**. Include the node version, caller role, route or operation, canary, and patched negative control.
 
 ## Reporting notes
 

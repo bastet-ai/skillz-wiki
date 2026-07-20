@@ -1,6 +1,6 @@
 # Langflow, Mailpit, Outerbase, Miniflux, and render-boundary checks
 
-Source: hourly offensive-security scan, 2026-06-19; updated 2026-06-23 for the Langflow monitor API ownership issue and 2026-07-07 for Langflow [CVE-2026-55255](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) KEV user-controlled-key authorization bypass. Primary entries: GitHub advisories [GHSA-wwf9-7jrc-rv4q](https://github.com/advisories/GHSA-wwf9-7jrc-rv4q), [GHSA-ccv6-r384-xp75](https://github.com/advisories/GHSA-ccv6-r384-xp75), [GHSA-qrpv-q767-xqq2](https://github.com/advisories/GHSA-qrpv-q767-xqq2), [GHSA-9c59-2mvc-vfr8](https://github.com/advisories/GHSA-9c59-2mvc-vfr8), [GHSA-w4mc-hhc6-xp28](https://github.com/advisories/GHSA-w4mc-hhc6-xp28), [GHSA-m999-j542-5w3r](https://github.com/advisories/GHSA-m999-j542-5w3r), [GHSA-7h5p-637f-jfr7](https://github.com/advisories/GHSA-7h5p-637f-jfr7), and [GHSA-c29q-5xm7-5p62](https://github.com/advisories/GHSA-c29q-5xm7-5p62).
+Source: hourly offensive-security scan, 2026-06-19; updated 2026-06-23 for the Langflow monitor API ownership issue, 2026-07-07 for Langflow [CVE-2026-55255](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) KEV user-controlled-key authorization bypass, and 2026-07-20 for public-playground and knowledge-base boundaries. Primary entries: GitHub advisories [GHSA-wwf9-7jrc-rv4q](https://github.com/advisories/GHSA-wwf9-7jrc-rv4q), [GHSA-ccv6-r384-xp75](https://github.com/advisories/GHSA-ccv6-r384-xp75), [GHSA-qrpv-q767-xqq2](https://github.com/advisories/GHSA-qrpv-q767-xqq2), [GHSA-9c59-2mvc-vfr8](https://github.com/advisories/GHSA-9c59-2mvc-vfr8), [GHSA-w4mc-hhc6-xp28](https://github.com/advisories/GHSA-w4mc-hhc6-xp28), [GHSA-m999-j542-5w3r](https://github.com/advisories/GHSA-m999-j542-5w3r), [GHSA-7h5p-637f-jfr7](https://github.com/advisories/GHSA-7h5p-637f-jfr7), and [GHSA-c29q-5xm7-5p62](https://github.com/advisories/GHSA-c29q-5xm7-5p62).
 
 This batch is durable because each issue maps to a repeatable web-app or AI-workflow boundary: user-controlled dashboard widgets rendered with application tokens in scope, Langflow node configuration crossing into local file reads and execution-capable flows, response and monitor IDs crossing tenant/user ownership checks, mail-link preview APIs missing address-canonicalization coverage, redirect targets bypassing URL policy, and MediaWiki extension template variables crossing into stored HTML.
 
@@ -76,6 +76,32 @@ Operator validation stays inside the existing two-user Langflow lab:
 - Do not collect real prompts, model outputs, uploaded documents, vector-store contents, API keys, environment variables, or tenant data.
 
 Add this boundary name to reports when it applies: **caller-controlled Langflow key to cross-user or cross-workspace authorization context**.
+
+## July 20 public-playground and knowledge-base follow-up
+
+Three updated Langflow advisories add a useful distinction between a flow being intentionally public and every execution-time field being trusted:
+
+- [GHSA-v5ff-9q35-q26f](https://github.com/advisories/GHSA-v5ff-9q35-q26f) / CVE-2026-48519: the unauthenticated `/api/v1/build_public_tmp` path accepted attacker-supplied custom component code in the public execution graph. A shared flow therefore crossed from **public invocation** to **caller-controlled server-side code**.
+- [GHSA-rcjh-r59h-gq37](https://github.com/advisories/GHSA-rcjh-r59h-gq37) / CVE-2026-48520: the same public execution request accepted a `files` list that could name local or configured S3 objects and feed their bytes into the model path. Exposure depended on the flow and model configuration, so prove the complete return path rather than claiming universal file disclosure.
+- [GHSA-79ph-745m-6wxq](https://github.com/advisories/GHSA-79ph-745m-6wxq) / CVE-2026-42867: authenticated knowledge-base creation used the caller-controlled `name` in filesystem paths, allowing traversal or absolute paths to place Langflow-generated metadata outside the caller's knowledge-base root.
+
+### Shareable-playground differential
+
+1. Create a disposable Langflow lab, a minimal public flow, and a unique public flow ID. Keep the instance isolated from production networks and credentials.
+2. Capture one normal `/api/v1/build_public_tmp/<flow-id>/flow` request from the shareable playground. Preserve it as the positive control rather than reconstructing undocumented request fields from memory.
+3. For graph integrity, alter only a custom-component code field in the submitted graph so it returns a fixed marker or raises a recognizable exception. Do not run shell commands, import process/network helpers, or access environment data.
+4. For file handling, create a synthetic local image/text canary and, if S3 storage is part of scope, a disposable canary object. Change only the request's `files` entry and observe whether the marker reaches the model input or returned flow output.
+5. Record three separate facts: whether the path was accepted, whether the file was opened, and whether bytes were returned to the unauthenticated caller. Do not infer disclosure from a successful request alone.
+6. Negative controls: a non-public flow ID, an unrelated random ID, a patched release, an out-of-root path that should be denied, and a public request whose submitted graph differs from the stored graph.
+
+### Knowledge-base path containment
+
+1. Use two disposable Langflow users and a temporary storage root. Seed each user's knowledge-base directory with distinct non-sensitive markers.
+2. Submit normal, `../` traversal, sibling-prefix, encoded-separator, and absolute-path `name` values to `POST /api/v1/knowledge_bases`. Target only a disposable canary directory outside the expected knowledge-base root.
+3. Check whether directories, `embedding_metadata.json`, or `schema.json` appear at the canary target. Capture path resolution and before/after directory listings; do not overwrite an existing knowledge base or application file.
+4. Compare the affected behavior with a patched version that performs component-aware containment, not string-prefix matching.
+
+Report these as **public invocation to caller-supplied execution graph**, **public file selector to model-mediated file return**, or **knowledge-base name to outside-root metadata write**. Include the exact route, public/authenticated state, storage backend, flow composition, marker-only evidence, and negative controls. Never read real local files, buckets, prompts, API keys, model credentials, or another tenant's knowledge-base data.
 
 ## Reporting notes
 
