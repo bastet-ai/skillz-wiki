@@ -218,6 +218,40 @@ For Jackson, use a minimal local REST/deserialization harness with marker-only f
 
 The adjacent Apache Thrift resource-allocation entry and Dosage stored output-handler XSS were processed without promotion: one is availability-only, while the other does not add a stronger bounded workflow than the render-context checks above.
 
+## Final July 21 URL, schema-generation, sanitizer, and authorization boundaries
+
+The next reviewed-advisory wave adds durable parser-to-consumer, schema-to-generated-code, sanitizer-to-browser, and policy-to-runtime checks:
+
+| Advisory | Component | Confirmed boundary |
+| --- | --- | --- |
+| [GHSA-v2hh-gcrm-f6hx](https://github.com/advisories/GHSA-v2hh-gcrm-f6hx) / CVE-2026-16221 | `fast-uri` 2.3.1–2.4.2, 3.0.0–3.1.3, and 4.0.0–4.1.0 | A literal backslash in an HTTP-family authority is treated as userinfo/path text by one parser and as a slash delimiter by Node's WHATWG URL/network stack, so the policy host and dialed host can differ. |
+| [GHSA-rwj8-pgh3-r573](https://github.com/advisories/GHSA-rwj8-pgh3-r573) | GitPython through 3.1.51 | `Repo.clone_from()` expands `$NAME`, `${NAME}`, and on Windows `%NAME%` inside an untrusted clone URL before invoking Git, placing process-environment values into the request sent to the URL's host. |
+| [GHSA-2rp8-mm9q-fp49](https://github.com/advisories/GHSA-2rp8-mm9q-fp49) | TypeORM before 0.3.31 and the 1.0.x line before 1.1.0 | `migration:generate` places introspected comments, defaults, checks, and view definitions into JavaScript/TypeScript template literals without escaping `${...}`; loading the generated migration evaluates the interpolation. |
+| [GHSA-5qhf-9phg-95m2](https://github.com/advisories/GHSA-5qhf-9phg-95m2) | Loofah 2.25.0–2.25.1 | Direct callers of `allowed_uri?` can approve a disallowed browser scheme split by semicolonless numeric character references. Loofah's normal `sanitize()` parser path is not affected. |
+| [GHSA-9wjq-cp2p-hrgf](https://github.com/advisories/GHSA-9wjq-cp2p-hrgf), [GHSA-cj75-f6xr-r4g7](https://github.com/advisories/GHSA-cj75-f6xr-r4g7) | Loofah before 2.25.2; `rails-html-sanitizer` 1.0.3–1.7.0 when custom SVG reference tags are allowed | Local-reference checks cover `xlink:href` but miss SVG 2's plain `href`, allowing `<use>` or `<feImage>` to reference another same-origin document or image. Rails defaults do not allow these SVG tags. |
+| [GHSA-5gvw-p9qm-jgwh](https://github.com/advisories/GHSA-5gvw-p9qm-jgwh) / CVE-2026-59889 | affected Jackson Databind 2.18, 2.21, 2.22, 3.0, and 3.2 lines | During deserialization, a container property combining restricted `@JsonView` with `@JsonUnwrapped` can be populated under a less-privileged active view because the regular unwrapped-property path omits the container visibility gate. |
+| [GHSA-hrxh-6v49-42gf](https://github.com/advisories/GHSA-hrxh-6v49-42gf) | gRPC-Go before 1.82.1 | xDS RBAC translation silently drops unsupported `Metadata` or `RequestedServerName` matchers, changing `AND`/`OR`/`NOT` policy logic and potentially failing open. The same advisory includes HTTP/2 and malformed-policy availability issues, which are not promoted here. |
+
+### Backslash authority and clone-environment decision matrices
+
+For `fast-uri`, extend the IDN matrix above with ordinary allowed and denied owned hosts, then the advisory's literal-backslash authority form. Record raw input, `fast-uri` host/userinfo/path, WHATWG `URL` host/path, allowlist or proxy decision, and the destination seen by an owned listener. Compare 2.4.3, 3.1.4, or 4.1.1. Report **string policy parser approves host A -> network parser normalizes backslash -> owned host B receives the canary**. Never substitute metadata, loopback administration, or a production internal host.
+
+For GitPython, use a disposable process containing only a fake environment marker and an owned HTTP listener. Submit a clone URL containing the marker variable's *name*, not its value, through the application's real repository-import path and capture the sanitized request path at the owned listener. Add an unset variable, literal percent/dollar text, direct `git clone`, and GitPython 3.1.52 controls. Do not put real tokens in the process, log full URLs in shared CI, or clone from third-party hosts. Report **untrusted clone URL -> wrapper expands process variable -> fake marker appears in an outbound request**.
+
+### Generated migration and sanitizer/browser harnesses
+
+For TypeORM, seed a disposable Postgres/MySQL-compatible schema with one ordinary comment and one `${...}` canary whose only possible effect is setting an in-process marker when the generated migration is imported. Run `migration:generate`, inspect the generated source before execution, and load it only in a no-credential sandbox. Preserve database role, metadata write authority, generated source diff, import path, and marker result. Compare patched TypeORM, escaped `${`, and a generated migration that is reviewed but not loaded. Report **schema metadata controlled by role A -> migration generator emits live template interpolation -> developer/CI process B evaluates an inert marker**. Never write shell files, access environment secrets, or run the fixture against production migrations.
+
+For semicolonless numeric references, extend the earlier Loofah helper matrix with `&#58`, `&#9`, and semicolon-terminated controls. Record helper decision, parsed DOM property, and browser-normalized scheme using only a visible marker. For SVG references, enable `<use>`/`<feImage>` only in a disposable sanitizer configuration and reference an owned same-origin SVG/image that contains a harmless render marker. Compare plain `href`, `xlink:href`, cross-origin, default Rails allowlists, and patched versions. Keep claims separate: helper-level URI approval, same-origin SVG content inclusion, tracking fetch, and script execution are different outcomes.
+
+### Jackson and xDS policy-binding harnesses
+
+For Jackson, add a minimal bean whose *container* property is both `@JsonView(AdminView.class)` and `@JsonUnwrapped`, with inert `role`/`approved` fields beneath it. Deserialize paired JSON under public and admin readers, comparing an ordinary nested restricted property, an unwrapped restricted container, fixed versions 2.18.9/2.21.5/2.22.1/3.1.5/3.2.1, and `DEFAULT_VIEW_INCLUSION` settings. Report **public active view -> unchecked unwrapped container replay -> restricted marker fields populated**; do not turn the marker into a real account or billing change.
+
+For gRPC-Go, run a disposable xDS management server, one marker-only protected RPC, and two synthetic client identities. Apply policies that vary one matcher at a time: supported identity, unsupported `Metadata`, unsupported `RequestedServerName`, and those fields nested under `AND`, `OR`, and `NOT`. Record delivered policy, translated matcher tree or logs, client identity, and RPC decision on vulnerable and 1.82.1 builds. A positive finding is **policy requires unsupported matcher -> translator drops it -> unauthorized canary RPC succeeds**. Do not deliver malformed policies or rapid-reset traffic to shared services.
+
+The adjacent Sharp/libvips bundle, repeated-DOCTYPE expansion-limit reset, Hono aborted-WebSocket leak, and Jackson chunked-number limit bypass were processed without publication because their disclosed value is memory safety or availability rather than a bounded cross-privilege operator workflow.
+
 ## Reporting checklist
 
 - [ ] Did the report prove the caller can reach the exact PKI, MCP, proxy, updater, daemon, cryptographic, or provisioning path?
@@ -230,3 +264,4 @@ The adjacent Apache Thrift resource-allocation entry and Dosage stored output-ha
 - [ ] For JDBC and TOML follow-ups, are the negotiated SASL mechanism and parsed type/policy decision captured separately with fixed-version controls?
 - [ ] For package-build and URI follow-ups, are Unicode forms, archive entries, generated command context, parser hosts, URI authority, and final owned destination captured independently?
 - [ ] For the late Git/pipeline/render wave, are wrapper argv, credential-host selection, provider-command file effects, sanitizer hook/plugin decisions, and Jackson field/view binding shown separately with fixed controls?
+- [ ] For the final URL/schema/sanitizer/policy wave, are raw and normalized hosts, expanded fake variables, generated source, browser DOM properties, active views, and translated xDS matchers captured independently?

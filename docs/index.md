@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Final July 21 URL, schema-generation, sanitizer, Jackson, and xDS checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#final-july-21-url-schema-generation-sanitizer-and-authorization-boundaries)
+- [Final July 21 Gitea authentication, visibility, and lifecycle wave](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#final-july-21-gitea-authentication-visibility-and-lifecycle-wave)
 - [Gitea outbound-fetch, token, Actions/LFS, and attachment boundary wave](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#late-july-21-gitea-forge-control-boundary-wave)
 - [GitPython, Sigstore OCI, Vitest, SVG/DOM, and Jackson policy checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-git-pipeline-and-render-policy-boundaries)
 - [Gitea migration redirect, stale approval, and revocation-residue checks](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#july-21-gitea-migration-revocation-and-branch-policy-follow-up)
@@ -17,7 +19,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Hono repeated-header and Windows encoded-backslash adapter checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-21-hono-adapter-parser-differential-follow-up)
 - [Late JDBC channel-binding and TOML parser checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-jdbc-and-toml-parser-boundaries)
 - [Late .NET container-build, Negotiate/LDAP role, and WPF XAML boundary checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-net-build-authentication-and-xaml-boundaries)
-- [WordPress REST batch-route and `WP_Query` SQL boundary chain](alerts/2026-07-21-wordpress-rest-batch-query-chain-kev.md)
 
 
 
