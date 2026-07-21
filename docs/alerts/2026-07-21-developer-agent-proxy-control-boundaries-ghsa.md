@@ -132,6 +132,27 @@ Start with reachability rather than a code-execution payload. Inventory only app
 
 The public advisory confirms crafted-XAML code injection but does not identify a universal remote ingestion path or public reproducer. Keep conclusions narrow: **attacker-controlled XAML reaches the affected WPF parser under a more privileged process and the fixed runtime changes the marker decision**. Do not invent gadget chains, open untrusted samples on a workstation, spawn processes, or touch user/system files. Compare fixed desktop runtimes 8.0.29, 9.0.18, or 10.0.10 and an application path that never parses external XAML.
 
+## Late July 21 JDBC and TOML parser boundaries
+
+Two updated-feed entries add reusable client and configuration-parser checks: [GHSA-j92g-9f8w-j867](https://github.com/advisories/GHSA-j92g-9f8w-j867) and [GHSA-m34p-749j-x6m6](https://github.com/advisories/GHSA-m34p-749j-x6m6). The adjacent Excon redirect-header update is already covered on the [July 10 HTTP client boundary page](2026-07-10-http-client-package-cache-identity-boundaries-ghsa.md#excon-redirect-follower-sensitive-header-relay).
+
+| Advisory | Component | Confirmed boundary |
+| --- | --- | --- |
+| GHSA-j92g-9f8w-j867 / CVE-2026-54291 | PostgreSQL JDBC Driver 42.7.4 through 42.7.11 | `channelBinding=require` can silently negotiate plain `SCRAM-SHA-256` when the TLS certificate uses an unsupported channel-binding hash algorithm, including Ed25519 or Ed448. The required `-PLUS` mechanism is not enforced after negotiation. |
+| GHSA-m34p-749j-x6m6 / CVE-2026-50029 | `js-toml` through 1.1.1 | A falsy scalar followed by a same-name table, dotted table, or array-of-tables bypasses duplicate-key rejection and turns the scalar into a truthy structured value. This is per-object type confusion, not global prototype pollution. |
+
+### pgJDBC channel-binding downgrade matrix
+
+Use a disposable PostgreSQL service, a throwaway database role, a lab CA, and an intercepting TLS endpoint that you own. Configure the client explicitly with `channelBinding=require`; the default `prefer` behavior permits fallback and is not a positive control. Present otherwise valid lab certificates using a conventional supported signature algorithm, Ed25519, and—only if the harness supports it—another algorithm for which `tls-server-end-point` cannot be derived. Record the server's advertised SASL mechanisms, certificate signature algorithm, extracted binding-data length, negotiated SCRAM mechanism, connection result, and driver version.
+
+Positive evidence is **required channel binding + unsupported certificate algorithm -> successful connection using non-PLUS `SCRAM-SHA-256`** on 42.7.4–42.7.11 while 42.7.12 fails closed. Add `channelBinding=prefer` as an expected-fallback control, a direct connection, and `sslmode=verify-full` with the lab CA as an independent certificate-verification control. Do not intercept production database traffic, capture real credentials, weaken a deployed truststore, or describe ordinary `prefer` fallback as a bypass.
+
+### TOML falsy-scalar structural confusion
+
+Feed a minimal, synthetic TOML document through the application's real `js-toml` ingestion path. For each security-relevant candidate key, establish its expected schema and sink before testing. Compare `false`, `0`, and an empty string followed by a same-name standard table, dotted-key child, or array-of-tables. Add truthy-scalar duplicates, ordinary unique keys, another TOML parser, and `js-toml` 1.1.2 as controls. Capture the source text, parsed value type, own-key structure, schema-validation result, and final marker-only policy decision.
+
+A safe fixture is a disabled synthetic feature becoming an object that reaches only an inert test branch. Report **falsy scalar -> duplicate table accepted -> parsed type changes from scalar to truthy object -> marker policy branch changes**. Do not claim prototype pollution, administrator access, or code execution unless a separate reachable application sink proves it. Never feed the fixture to production deployment, package-manager, CI, or infrastructure configuration.
+
 ## Reporting checklist
 
 - [ ] Did the report prove the caller can reach the exact PKI, MCP, proxy, updater, daemon, cryptographic, or provisioning path?
@@ -141,3 +162,4 @@ The public advisory confirms crafted-XAML code injection but does not identify a
 - [ ] Are configuration-dependent preconditions explicit, especially ACME challenge type, reverse-proxy/skip-auth settings, signing-key control, `/tmp` fallback, algorithm path, and Grafana role/permission state?
 - [ ] For late follow-ups, are helper-vs-browser parsing, SQL binding, DSA parameter validity, namespace ID/name binding, localhost HTTP transport, and auth-header passthrough shown separately?
 - [ ] For .NET follow-ups, is the exact shared build path, Negotiate-to-LDAP role lookup, or attacker-reachable XAML parser proven before claiming impact?
+- [ ] For JDBC and TOML follow-ups, are the negotiated SASL mechanism and parsed type/policy decision captured separately with fixed-version controls?

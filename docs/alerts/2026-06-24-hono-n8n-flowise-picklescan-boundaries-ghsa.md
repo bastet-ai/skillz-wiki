@@ -1,6 +1,6 @@
 # Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks
 
-Source: hourly offensive-security scan, 2026-06-24, with n8n follow-ups on 2026-07-08 and 2026-07-20. Primary entries: GitHub Advisory Database [GHSA-458j-xx4x-4375](https://github.com/advisories/GHSA-458j-xx4x-4375), [GHSA-q4fm-pjq6-m63g](https://github.com/advisories/GHSA-q4fm-pjq6-m63g), [GHSA-f3f2-mcxc-pwjx](https://github.com/advisories/GHSA-f3f2-mcxc-pwjx), [GHSA-pmqw-72cg-wx85](https://github.com/advisories/GHSA-pmqw-72cg-wx85), [GHSA-6pcv-j4jx-m4vx](https://github.com/advisories/GHSA-6pcv-j4jx-m4vx), [GHSA-m7mq-85xj-9x33](https://github.com/advisories/GHSA-m7mq-85xj-9x33), [GHSA-9c4c-g95m-c8cp](https://github.com/advisories/GHSA-9c4c-g95m-c8cp), [GHSA-8r4j-24qv-fmq9](https://github.com/advisories/GHSA-8r4j-24qv-fmq9), and [GHSA-3vg9-h568-4w9m](https://github.com/advisories/GHSA-3vg9-h568-4w9m).
+Source: hourly offensive-security scan, 2026-06-24, with n8n follow-ups on 2026-07-08 and 2026-07-20 and Hono adapter follow-ups on 2026-07-21. Primary entries: GitHub Advisory Database [GHSA-458j-xx4x-4375](https://github.com/advisories/GHSA-458j-xx4x-4375), [GHSA-q4fm-pjq6-m63g](https://github.com/advisories/GHSA-q4fm-pjq6-m63g), [GHSA-f3f2-mcxc-pwjx](https://github.com/advisories/GHSA-f3f2-mcxc-pwjx), [GHSA-pmqw-72cg-wx85](https://github.com/advisories/GHSA-pmqw-72cg-wx85), [GHSA-6pcv-j4jx-m4vx](https://github.com/advisories/GHSA-6pcv-j4jx-m4vx), [GHSA-m7mq-85xj-9x33](https://github.com/advisories/GHSA-m7mq-85xj-9x33), [GHSA-9c4c-g95m-c8cp](https://github.com/advisories/GHSA-9c4c-g95m-c8cp), [GHSA-8r4j-24qv-fmq9](https://github.com/advisories/GHSA-8r4j-24qv-fmq9), [GHSA-3vg9-h568-4w9m](https://github.com/advisories/GHSA-3vg9-h568-4w9m), [GHSA-xgm2-5f3f-mvvc](https://github.com/advisories/GHSA-xgm2-5f3f-mvvc), and [GHSA-frvp-7c67-39w9](https://github.com/advisories/GHSA-frvp-7c67-39w9).
 
 These items are durable for operators because each one exposes a repeatable boundary that shows up across modern app and AI stacks: object keys crossing into SSR HTML attribute names, low-code workflow metadata crossing into browser or SQL sinks, unauthenticated org selectors returning identity-provider secrets, weak default token material enabling tenant metadata tampering, import files crossing into SQL/path construction, and scanner allowlists missing Python pickle gadget surfaces.
 
@@ -93,9 +93,30 @@ The updated feed added eight n8n advisories that fit the same workflow-authority
 
 For reports, name the exact authority jump: **unauthenticated webhook body to credentialed action**, **workflow editor to same-origin visitor**, **unsigned provider event to workflow execution**, **local Git path to sandboxed file view**, **code-node author to task-runner execution**, **cached sandbox state to another project**, or **node parameter to database query structure**. Include the node version, caller role, route or operation, canary, and patched negative control.
 
+## July 21 Hono adapter parser-differential follow-up
+
+The late feed adds two adapter-specific checks that complement the JSX render boundary:
+
+| Advisory | Affected path | Durable operator boundary |
+| --- | --- | --- |
+| [GHSA-xgm2-5f3f-mvvc](https://github.com/advisories/GHSA-xgm2-5f3f-mvvc) / CVE-2026-59897 | Hono 4.3.3 through 4.12.26 on AWS API Gateway v1 or VPC Lattice adapters | Repeated request-header values are de-duplicated with substring matching, so one distinct value can disappear before IP-chain, routing, rate-limit, or audit logic sees it. |
+| [GHSA-frvp-7c67-39w9](https://github.com/advisories/GHSA-frvp-7c67-39w9) | `@hono/node-server` before 2.0.5 on Windows; same root pattern as core Hono [GHSA-wwfh-h76j-fc44](https://github.com/advisories/GHSA-wwfh-h76j-fc44) | `%5C` remains one URL-router segment but becomes a filesystem separator after decoding, allowing a static request to enter a prefix-protected subtree without running its middleware. The read remains inside the configured static root. |
+
+### Repeated-header loss matrix
+
+Use a deployed adapter fixture rather than a Node-only Hono server: the vulnerable conversion occurs in API Gateway v1 or VPC Lattice request adaptation. Send the same harmless header name multiple times with distinct values where one is a substring of another, for example synthetic address markers ending in `.1` and `.10`. Capture the raw edge event, `multiValueHeaders`, adapter-produced Hono request headers, application-visible ordered values, and final marker-only decision. Compare reversed value order, non-overlapping values, API Gateway v2 or direct Node handling, Hono 4.12.26, and 4.12.27.
+
+Report **edge receives two distinct repeated values -> substring de-duplication drops one -> application policy sees an incomplete chain**. Do not spoof real client addresses, evade a production allowlist/rate limit, or poison audit evidence. A package version alone is insufficient: prove the API Gateway v1 or VPC Lattice adapter and a security-relevant consumer of the complete list.
+
+### Windows encoded-backslash route/filesystem split
+
+In a disposable Windows fixture, create a static root with `public.txt` and a nested `admin/secret-canary.txt`. Mount harmless deny or authentication middleware on `/admin/*`, then request normal slash, literal backslash, `%5C`, `%255C`, and mixed-case encoding variants through the actual Node adapter. Record raw target, router segments, middleware marker, decoded filesystem path, response status, and returned canary. Repeat on the patched adapter, another OS, and a route that uses `/admin/secret-canary.txt` normally.
+
+Positive evidence is **`/admin%5Csecret-canary.txt` treated as one route segment -> `/admin/*` middleware does not run -> Windows resolves the decoded backslash into the nested static file**. Do not claim root escape, arbitrary host-file read, or universal traversal: `..` remains blocked and the confirmed boundary stays inside the configured static root. Use only a synthetic marker file; never read application config, source, credentials, or user files.
+
 ## Reporting notes
 
-- Lead with the crossed boundary: **object key to SSR attribute name**, **workflow editor to public form visitor**, **workflow metadata to SQL identifier**, **shared workflow editor to another user's credential reference**, **unauthenticated org selector to OAuth secret**, **default token key to tenant metadata**, **import JSON to SQL/path sink**, or **scanner verdict to unsafe pickle load**.
+- Lead with the crossed boundary: **object key to SSR attribute name**, **workflow editor to public form visitor**, **workflow metadata to SQL identifier**, **shared workflow editor to another user's credential reference**, **unauthenticated org selector to OAuth secret**, **default token key to tenant metadata**, **import JSON to SQL/path sink**, **scanner verdict to unsafe pickle load**, **repeated edge header to incomplete application-visible list**, or **URL segment to Windows filesystem separator**.
 - Include exact package, version, route/node/API, user role, and the canary value used. These are preconditioned findings; versionless or roleless reports will be weak.
 - Keep proof artifacts disposable and redacted: lab forms, scratch schemas, synthetic OAuth providers, fake tenant IDs, imported canary flows, and offline pickle files.
 - Adjacent updated-feed items for ImageMagick memory/resource issues and Flowise password-salt weakness were tracked but not promoted because they were availability/resource-hardening or did not add a stronger offensive validation workflow than the Flowise token and secret-boundary items above.
