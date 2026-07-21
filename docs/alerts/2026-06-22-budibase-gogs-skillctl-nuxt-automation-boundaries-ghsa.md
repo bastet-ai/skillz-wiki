@@ -143,3 +143,24 @@ Safe validation boundaries:
 3. Negative controls: query templates bind values as literals, operator keys are rejected or escaped, notebook URI schemes are allowlisted after final rendering, and sanitizer routes require the same repository/auth context as previews.
 
 Adjacent [GHSA-p6qx-ghxm-389h](https://github.com/advisories/GHSA-p6qx-ghxm-389h) remains tracked but not promoted here because the OctoPrint suppressed-command notification XSS pattern is narrower unless paired with printer-admin workflow scope and benign UI markers.
+
+## July 21 Gitea migration, revocation, and branch-policy follow-up
+
+Four Gitea advisories extend the Git-forge workflow beyond the analogous Gogs checks above:
+
+| Advisory | Affected path | Durable operator boundary |
+| --- | --- | --- |
+| [GHSA-82f7-87hm-852x](https://github.com/advisories/GHSA-82f7-87hm-852x) / CVE-2026-57894 | Gitea before 1.27.0; web/API repository migration and pull-mirror fetch | Gitea validates the submitted migration URL, but Git's default `http.followRedirects=initial` can move clone/fetch traffic to a blocked final host and keep using it for object requests. |
+| [GHSA-w5pg-649r-p6gg](https://github.com/advisories/GHSA-w5pg-649r-p6gg) / CVE-2026-58439 | Gitea before 1.27.0; pull-request target changes | An approval recorded as `official` on an unprotected target remains official after retargeting to a protected branch, so merge policy trusts stale branch-relative state. |
+| [GHSA-qf2f-qh6p-7v89](https://github.com/advisories/GHSA-qf2f-qh6p-7v89) / CVE-2026-59766 | Gitea before 1.27.0; `/api/v1/user/starred` and `/api/v1/user/times` | Revoking repository access does not filter relationship-backed API output, leaving private repository metadata and synthetic issue titles visible to the former collaborator. |
+| [GHSA-66m4-5jjr-2rg5](https://github.com/advisories/GHSA-66m4-5jjr-2rg5) / CVE-2026-58440 | Gitea before 1.27.0; collaborator-created repository webhooks | A webhook can remain active after its creator loses repository access, so later private repository events continue to reach the creator's callback. |
+
+### Replayable Gitea lab matrix
+
+1. Use Gitea 1.25.4 or another affected build and 1.27.0 as the fixed control. Create one private scratch repository, public and synthetic-local Git HTTP services, an owned redirector/callback, protected and unprotected branches, and disposable owner/writer/former-collaborator accounts.
+2. **Migration redirect:** submit the owned public Git URL and redirect it only to the synthetic-local Git service. Capture the submitted URL, DNS/redirect chain, Git request paths, imported marker commit, and whether a pull mirror repeats the fetch. Compare `git -c http.followRedirects=false`, a direct blocked URL, and 1.27.0. Never point the redirect at metadata, loopback administration, or real internal repositories.
+3. **PR retargeting:** require one approval from a designated reviewer on the protected branch. Obtain a harmless approval from a non-designated lab reviewer while the PR targets the unprotected branch, retarget it, and record the review's `official`, `dismissed`, and `stale` fields plus the marker-only merge decision. Do not merge executable code or touch a production branch.
+4. **Revocation residue:** while the collaborator is authorized, star the private repo, log time on an issue whose title is a synthetic sentinel, and create a marker-only webhook. Revoke access, establish that direct repository access fails, then query only the two relationship endpoints and trigger one post-revocation canary issue event. Record field presence and callback receipt; do not include source, comments, credentials, or real issue bodies.
+5. Report the boundaries separately: **validated migration URL -> Git follows an unvalidated final destination**, **approval state computed for branch A -> retarget to protected branch B -> stale approval satisfies B**, **access revoked -> relationship API still returns synthetic private metadata**, or **webhook creator revoked -> future canary event still delivered**.
+
+The relationship-endpoint issue is metadata-only; do not describe it as repository-content access. The webhook result requires that the former collaborator created the hook while authorized. Package presence alone is not proof: preserve the route, role history, branch policy, callback ownership, and fixed-version decisions.

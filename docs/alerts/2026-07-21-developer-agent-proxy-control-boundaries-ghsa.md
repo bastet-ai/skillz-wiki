@@ -184,6 +184,40 @@ For PSR-7, construct disposable URI objects through `new Uri()`, `withHost()`, r
 
 Report the narrow transition: **untrusted host text -> parser representation differs from authority/wire target -> canary allowlist, cookie, proxy, or routing decision changes**. Use fake cookies and proxies, owned hosts, and no real credentials.
 
+## Late July 21 Git, pipeline, and render-policy boundaries
+
+The next reviewed-advisory wave adds seven reusable checks across repository wrappers, CI attestations, browser test runners, SVG/HTML sanitizers, and Java request binding:
+
+| Advisory | Component | Confirmed boundary |
+| --- | --- | --- |
+| [GHSA-956x-8gvw-wg5v](https://github.com/advisories/GHSA-956x-8gvw-wg5v), [GHSA-2f96-g7mh-g2hx](https://github.com/advisories/GHSA-2f96-g7mh-g2hx), [GHSA-v396-v7q4-x2qj](https://github.com/advisories/GHSA-v396-v7q4-x2qj) | GitPython through 3.1.50; fixed in 3.1.51 | `Repo.archive()`/dynamic `ls_remote()` omit unsafe-option guards, `iter_commits()`/`blame()` accept option-like revisions, and guarded clone/network paths miss Git's abbreviated long options or joined short options. Caller-controlled kwargs, revisions, or `multi_options` can therefore reach command helpers or file-clobber options. |
+| [GHSA-pf56-329r-95rw](https://github.com/advisories/GHSA-pf56-329r-95rw) / CVE-2026-59891 | `@sigstore/oci` before 0.7.1 | Docker credentials are selected with substring matching, so an untrusted destination registry whose host is contained in a configured auth key can receive the wrong registry's credential. This includes attest actions only when an untrusted source controls `subject-name` and registry push is enabled. |
+| [GHSA-p63j-vcc4-9vmv](https://github.com/advisories/GHSA-p63j-vcc4-9vmv) | `@vitest/browser` before 3.2.7, 4.1.10, or 5.0.0-beta.6 | Browser-provider commands such as upload, screenshot, and trace handling bypass `allowWrite` or project-root confinement and can read, create, overwrite, or delete process-accessible files when the Browser Mode API is reachable. |
+| [GHSA-2p49-hgcm-8545](https://github.com/advisories/GHSA-2p49-hgcm-8545) | SVGO `removeScripts`/`removeScriptElement`; fixed in 2.8.3, 3.3.4, and 4.0.2 | Namespace-prefixed executable SVG elements and case variants of script URIs survive the optional plugin. SVGO is an optimizer, not a general sanitizer, and the plugin is disabled by default. |
+| [GHSA-c2j3-45gr-mqc4](https://github.com/advisories/GHSA-c2j3-45gr-mqc4) | DOMPurify through 3.4.11; fixed in 3.4.12 | Elements admitted by `CUSTOM_ELEMENT_HANDLING.tagNameCheck` can skip `afterSanitizeElements`; an application hook may remove a canary attribute from normal elements but leave it on an allowed custom element. This is not direct DOMPurify XSS without a later custom-element sink. |
+| [GHSA-3pjw-73gf-8qr5](https://github.com/advisories/GHSA-3pjw-73gf-8qr5) / CVE-2026-59888 | `jackson-databind` affected 2.x/3.x lines before 2.18.8, 2.21.4, or 3.1.4 | A Java Record component renamed by `PropertyNamingStrategy` can escape the stale original-name `@JsonIgnore` set and be populated from its renamed wire key. |
+| [GHSA-mhm7-754m-9p8w](https://github.com/advisories/GHSA-mhm7-754m-9p8w) | `jackson-databind` 2.18.0–2.18.8 and 2.21.0–2.21.4; fixed in 2.18.9 and 2.21.5 | A creator property combining restricted `@JsonView` with `@JsonTypeInfo(include=As.EXTERNAL_PROPERTY)` misses the active-view check and can accept a restricted synthetic subtype/value. |
+
+### Git wrapper and registry-credential harnesses
+
+For GitPython, start from an application source-to-sink map: prove which untrusted field reaches `archive` kwargs, dynamic Git kwargs, a revision argument, or clone `multi_options`. In a temporary repository with no remotes or credentials, use a fake helper that writes one marker inside the temp tree and an option-like revision aimed only at a disposable marker. Compare exact blocked options with an unambiguous long-option prefix, a joined `-uVALUE`, ordinary refs/options, and 3.1.51. Record the final argv and guard decision. Report **caller option/revision -> wrapper guard/parser mismatch -> inert helper execution or temp-file clobber**. Never target hooks, startup files, lockfiles, SSH material, developer homes, or network repositories.
+
+For `@sigstore/oci`, create a temporary Docker config containing one fake credential for an owned registry and two owned mock registries whose hostnames have the advisory's substring relationship. Invoke only the affected credential-selection/authentication path with a synthetic image/attestation; capture selected config key, canonical target host, and a redacted fixed-token marker received by the mocks. Compare 0.7.1, exact-host, no-match, Docker Hub alias, and `push-to-registry: false` controls. Never place live registry tokens in the fixture or push an artifact to a real registry.
+
+### Browser-runner filesystem matrix
+
+Expose a no-secret Vitest Browser Mode fixture only on loopback or an isolated lab network. Set `allowWrite: false`, create in-root and adjacent synthetic files, and invoke one provider command per operation class: upload/attachment read, screenshot/trace write, and deletion. Prove only whether the adjacent marker is read, changed, or removed; restore it between cases. Compare a direct trusted test, an unreachable API, project-root paths, and a fixed release. Do not read environment files, source, browser profiles, keys, or user data.
+
+### SVG, custom-element, and Jackson policy harnesses
+
+For SVGO, pass inert SVG fixtures through the exact enabled plugin and then parse the output in a disposable browser origin. Compare ordinary and namespace-prefixed script-element names plus lower/mixed-case URI schemes, but replace executable bodies with harmless DOM marker assignments and disable outbound requests. Record input namespace, plugin name, optimized XML, parsed namespace/local name, and marker result. Package use or optimization alone is not enough: prove untrusted SVG is served in a script-capable context and the application relied on this plugin as sanitization.
+
+For DOMPurify, register an `afterSanitizeElements` hook that removes only a synthetic `data-policy` attribute. Sanitize an ordinary allowed element and a custom element admitted through both regex and function `tagNameCheck`, then record hook calls and retained attributes on 3.4.11 and 3.4.12. If the application has a custom-element implementation, make its downstream sink render only a visible marker. Report **custom-element allow path -> hook skipped -> inert policy attribute retained**; do not call it XSS without independently proving executable reinsertion.
+
+For Jackson, use a minimal local REST/deserialization harness with marker-only fields. One fixture should combine a Record, `@JsonIgnore`, and a naming strategy; the other should combine a property-based creator, restricted `@JsonView`, and external type ID. Compare original and renamed keys, normal properties, public/admin views, external vs ordinary type inclusion, and fixed releases. Positive evidence is a restricted synthetic role/flag/object being populated under the public reader. Do not bind the canary to a real administrator action, polymorphic gadget, filesystem operation, or production API.
+
+The adjacent Apache Thrift resource-allocation entry and Dosage stored output-handler XSS were processed without promotion: one is availability-only, while the other does not add a stronger bounded workflow than the render-context checks above.
+
 ## Reporting checklist
 
 - [ ] Did the report prove the caller can reach the exact PKI, MCP, proxy, updater, daemon, cryptographic, or provisioning path?
@@ -195,3 +229,4 @@ Report the narrow transition: **untrusted host text -> parser representation dif
 - [ ] For .NET follow-ups, is the exact shared build path, Negotiate-to-LDAP role lookup, or attacker-reachable XAML parser proven before claiming impact?
 - [ ] For JDBC and TOML follow-ups, are the negotiated SASL mechanism and parsed type/policy decision captured separately with fixed-version controls?
 - [ ] For package-build and URI follow-ups, are Unicode forms, archive entries, generated command context, parser hosts, URI authority, and final owned destination captured independently?
+- [ ] For the late Git/pipeline/render wave, are wrapper argv, credential-host selection, provider-command file effects, sanitizer hook/plugin decisions, and Jackson field/view binding shown separately with fixed controls?

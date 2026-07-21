@@ -366,6 +366,11 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Kite advisories/source: https://github.com/zxh326/kite/security/advisories and https://github.com/zxh326/kite
 - Apache Fesod advisories/source: https://github.com/apache/fesod/security/advisories and https://github.com/apache/fesod
 - Kimai advisories/source: https://github.com/kimai/kimai/security/advisories and https://github.com/kimai/kimai
+- Gitea advisories/source: https://github.com/go-gitea/gitea/security/advisories and https://github.com/go-gitea/gitea
+- GitPython advisories/source: https://github.com/gitpython-developers/GitPython/security/advisories and https://github.com/gitpython-developers/GitPython
+- SVGO advisories/source: https://github.com/svg/svgo/security/advisories and https://github.com/svg/svgo
+- Jackson Databind advisories/source: https://github.com/FasterXML/jackson-databind/security/advisories and https://github.com/FasterXML/jackson-databind
+- SharpCompress advisories/source: https://github.com/adamhathcock/sharpcompress/security/advisories and https://github.com/adamhathcock/sharpcompress
 
 ## Network and service discovery
 
