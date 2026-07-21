@@ -153,6 +153,37 @@ Feed a minimal, synthetic TOML document through the application's real `js-toml`
 
 A safe fixture is a disabled synthetic feature becoming an object that reaches only an inert test branch. Report **falsy scalar -> duplicate table accepted -> parsed type changes from scalar to truthy object -> marker policy branch changes**. Do not claim prototype pollution, administrator access, or code execution unless a separate reachable application sink proves it. Never feed the fixture to production deployment, package-manager, CI, or infrastructure configuration.
 
+## Late July 21 package-build and URI authority boundaries
+
+Four reviewed advisories add reusable repository-to-build and string-parser-to-network checks: [GHSA-h35f-9h28-mq5c](https://github.com/advisories/GHSA-h35f-9h28-mq5c), [GHSA-vcrf-j523-4mrf](https://github.com/advisories/GHSA-vcrf-j523-4mrf), [GHSA-4c8g-83qw-93j6](https://github.com/advisories/GHSA-4c8g-83qw-93j6), and [GHSA-c2w2-prh8-qm98](https://github.com/advisories/GHSA-c2w2-prh8-qm98).
+
+| Advisory | Component | Confirmed boundary |
+| --- | --- | --- |
+| GHSA-h35f-9h28-mq5c / CVE-2026-59890 | `setuptools` before 83.0.0 | On normalization-preserving macOS filesystems, an NFD filename does not byte-match the visually identical NFC `MANIFEST.in` exclusion, so the excluded file enters the source distribution. |
+| GHSA-vcrf-j523-4mrf / CVE-2026-13760 | `aws-cdk-lib` before 2.260.0 | A dependency version string for a module named in `NodejsFunction.nodeModules` is interpolated into a Docker-bundling shell command; the container has read/write host bind mounts. |
+| GHSA-4c8g-83qw-93j6 / CVE-2026-13676 | `fast-uri` 2.3.1 through 2.4.1, 3.x before 3.1.3, and 4.0.0 | Failed IDN conversion leaves Unicode host text in the policy parser while Node `URL` or `fetch()` canonicalizes the same text to a different destination. |
+| GHSA-c2w2-prh8-qm98 / CVE-2026-59882 | `guzzlehttp/psr7` before 2.12.3 | Delimiters, embedded ports, and malformed IPv6 brackets can make `Uri::getHost()` disagree with the URI authority or downstream connection target. |
+
+### Source-distribution normalization collision
+
+Use a disposable Python package on macOS APFS/HFS+ with two synthetic non-ASCII files whose names are written in NFD. Add an NFC `global-exclude`, `recursive-exclude`, or `prune` rule for one marker and an ASCII exclusion as a control. Build only a local sdist, list the archive without installing or uploading it, and record filename code points/UTF-8 bytes, filesystem form, manifest rule bytes, `SOURCES.txt`, and archive entries. Compare setuptools 82.0.1 or another affected release with 83.0.0.
+
+Positive evidence is **visually identical NFC rule and NFD path -> byte-level manifest mismatch -> synthetic excluded marker present in the sdist**, while the ASCII control is absent and the fixed build excludes both. Never place secrets in the fixture or upload the test artifact to PyPI. This is a packaging disclosure boundary, not proof that every non-ASCII file is included.
+
+### CDK dependency metadata to bundling command
+
+Create a scratch CDK app, a local throwaway npm package, a synthetic `NodejsFunction`, and Docker-based bundling with that package named in `nodeModules`. Use the upstream regression shape with a version-string metacharacter canary that can only create a marker inside the disposable bind-mounted output tree. Capture `package.json`, installed package metadata, generated bundling argv/shell text, container mounts, process identity, and marker path. Compare local bundling, Docker bundling without `nodeModules`, a normal version string, and `aws-cdk-lib` 2.260.0.
+
+Report **repository/package-controlled dependency version -> `OsCommand` shell interpolation -> inert write through the bundling container's host mount**. Do not run `cdk deploy`, use cloud credentials, mount a real source/home directory, invoke a network callback, or substitute a shell payload that reads environment variables. Package presence alone is insufficient: the exact dependency must enter the Docker `nodeModules` path.
+
+### IDN and PSR-7 authority decision matrices
+
+For `fast-uri`, use owned loopback listeners with no sensitive routes. Feed the same URL strings to `fast-uri.parse()`/`normalize()`/`equal()`, Node's WHATWG `URL`, and an instrumented `fetch()` that records only the owned destination. Include ordinary DNS names, an ASCII loopback control, the advisory's ideographic-full-stop form `127。0。0。1`, other IDN separator forms, parse-error state, and fixed versions 2.4.2, 3.1.3, or 4.0.1. Report **policy parser retains Unicode host -> network consumer canonicalizes it -> host rule and final owned destination disagree**. Do not probe metadata or internal services.
+
+For PSR-7, construct disposable URI objects through `new Uri()`, `withHost()`, raw absolute-form `Message::parseRequest()`, and synthetic `ServerRequest::fromGlobals()` values. Test one authority delimiter at a time, an embedded port, balanced and unbalanced IPv6 brackets, and 2.12.3. Record input, `getHost()`, `getAuthority()`, serialized request target/`Host`, cookie-domain decision, `no_proxy` decision if reached, and the mock transport's selected host. A strong finding proves the application's attacker-controlled source reaches both a security decision and a downstream serializer/transport; do not infer standard Guzzle client exploitation from a malformed `Uri` object alone.
+
+Report the narrow transition: **untrusted host text -> parser representation differs from authority/wire target -> canary allowlist, cookie, proxy, or routing decision changes**. Use fake cookies and proxies, owned hosts, and no real credentials.
+
 ## Reporting checklist
 
 - [ ] Did the report prove the caller can reach the exact PKI, MCP, proxy, updater, daemon, cryptographic, or provisioning path?
@@ -163,3 +194,4 @@ A safe fixture is a disabled synthetic feature becoming an object that reaches o
 - [ ] For late follow-ups, are helper-vs-browser parsing, SQL binding, DSA parameter validity, namespace ID/name binding, localhost HTTP transport, and auth-header passthrough shown separately?
 - [ ] For .NET follow-ups, is the exact shared build path, Negotiate-to-LDAP role lookup, or attacker-reachable XAML parser proven before claiming impact?
 - [ ] For JDBC and TOML follow-ups, are the negotiated SASL mechanism and parsed type/policy decision captured separately with fixed-version controls?
+- [ ] For package-build and URI follow-ups, are Unicode forms, archive entries, generated command context, parser hosts, URI authority, and final owned destination captured independently?

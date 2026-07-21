@@ -1,6 +1,6 @@
 # Hono JSX, n8n workflow, Flowise token, and Picklescan scanner-boundary checks
 
-Source: hourly offensive-security scan, 2026-06-24, with n8n follow-ups on 2026-07-08 and 2026-07-20 and Hono adapter follow-ups on 2026-07-21. Primary entries: GitHub Advisory Database [GHSA-458j-xx4x-4375](https://github.com/advisories/GHSA-458j-xx4x-4375), [GHSA-q4fm-pjq6-m63g](https://github.com/advisories/GHSA-q4fm-pjq6-m63g), [GHSA-f3f2-mcxc-pwjx](https://github.com/advisories/GHSA-f3f2-mcxc-pwjx), [GHSA-pmqw-72cg-wx85](https://github.com/advisories/GHSA-pmqw-72cg-wx85), [GHSA-6pcv-j4jx-m4vx](https://github.com/advisories/GHSA-6pcv-j4jx-m4vx), [GHSA-m7mq-85xj-9x33](https://github.com/advisories/GHSA-m7mq-85xj-9x33), [GHSA-9c4c-g95m-c8cp](https://github.com/advisories/GHSA-9c4c-g95m-c8cp), [GHSA-8r4j-24qv-fmq9](https://github.com/advisories/GHSA-8r4j-24qv-fmq9), [GHSA-3vg9-h568-4w9m](https://github.com/advisories/GHSA-3vg9-h568-4w9m), [GHSA-xgm2-5f3f-mvvc](https://github.com/advisories/GHSA-xgm2-5f3f-mvvc), and [GHSA-frvp-7c67-39w9](https://github.com/advisories/GHSA-frvp-7c67-39w9).
+Source: hourly offensive-security scan, 2026-06-24, with n8n follow-ups on 2026-07-08 and 2026-07-20 and Hono follow-ups on 2026-07-21. Primary entries: GitHub Advisory Database [GHSA-458j-xx4x-4375](https://github.com/advisories/GHSA-458j-xx4x-4375), [GHSA-q4fm-pjq6-m63g](https://github.com/advisories/GHSA-q4fm-pjq6-m63g), [GHSA-f3f2-mcxc-pwjx](https://github.com/advisories/GHSA-f3f2-mcxc-pwjx), [GHSA-pmqw-72cg-wx85](https://github.com/advisories/GHSA-pmqw-72cg-wx85), [GHSA-6pcv-j4jx-m4vx](https://github.com/advisories/GHSA-6pcv-j4jx-m4vx), [GHSA-m7mq-85xj-9x33](https://github.com/advisories/GHSA-m7mq-85xj-9x33), [GHSA-9c4c-g95m-c8cp](https://github.com/advisories/GHSA-9c4c-g95m-c8cp), [GHSA-8r4j-24qv-fmq9](https://github.com/advisories/GHSA-8r4j-24qv-fmq9), [GHSA-3vg9-h568-4w9m](https://github.com/advisories/GHSA-3vg9-h568-4w9m), [GHSA-xgm2-5f3f-mvvc](https://github.com/advisories/GHSA-xgm2-5f3f-mvvc), [GHSA-frvp-7c67-39w9](https://github.com/advisories/GHSA-frvp-7c67-39w9), [GHSA-hvrm-45r6-mjfj](https://github.com/advisories/GHSA-hvrm-45r6-mjfj), and [GHSA-w62v-xxxg-mg59](https://github.com/advisories/GHSA-w62v-xxxg-mg59).
 
 These items are durable for operators because each one exposes a repeatable boundary that shows up across modern app and AI stacks: object keys crossing into SSR HTML attribute names, low-code workflow metadata crossing into browser or SQL sinks, unauthenticated org selectors returning identity-provider secrets, weak default token material enabling tenant metadata tampering, import files crossing into SQL/path construction, and scanner allowlists missing Python pickle gadget surfaces.
 
@@ -114,9 +114,30 @@ In a disposable Windows fixture, create a static root with `public.txt` and a ne
 
 Positive evidence is **`/admin%5Csecret-canary.txt` treated as one route segment -> `/admin/*` middleware does not run -> Windows resolves the decoded backslash into the nested static file**. Do not claim root escape, arbitrary host-file read, or universal traversal: `..` remains blocked and the confirmed boundary stays inside the configured static root. Use only a synthetic marker file; never read application config, source, credentials, or user files.
 
+## July 21 Hono request-context and `cx()` SSR follow-up
+
+Two Hono 4.12.27 fixes add distinct server-rendering boundaries:
+
+| Advisory | Affected path | Durable operator boundary |
+| --- | --- | --- |
+| [GHSA-hvrm-45r6-mjfj](https://github.com/advisories/GHSA-hvrm-45r6-mjfj) / CVE-2026-59896 | Hono 4.11.8 through 4.12.26; async SSR components using `createContext()`/`useContext()` or `jsxRenderer`/`useRequestContext()` | Process-wide context state can cross between concurrent renders when context is read after an `await`, mixing request identity, rendered data, or authorization state. |
+| [GHSA-w62v-xxxg-mg59](https://github.com/advisories/GHSA-w62v-xxxg-mg59) / CVE-2026-59895 | Hono 4.0.0 through 4.12.26; server-side JSX where untrusted text enters `hono/css` `cx()` | `cx()` marks composed class text as already escaped without escaping it, so a quote can leave the `class` attribute and alter SSR markup. |
+
+### Deterministic concurrent-context harness
+
+Build a two-user lab route whose provider stores only a synthetic request ID, role marker, and output canary. Inside one async component, wait on a controllable barrier and call `useContext()` or `useRequestContext()` only after the barrier. Start request A, pause it after provider entry, run request B into the same point, then resume them in both orders. Capture request IDs at ingress, provider values, pre- and post-await context reads, response canaries, authorization-marker decisions, timing, and Hono version.
+
+Positive evidence is **request A provider -> await suspension -> request B changes shared context -> A resumes with B's synthetic marker**. Add synchronous rendering, context read before `await`, sequential requests, one-request concurrency, and Hono 4.12.27 as controls. Use no real sessions, profile data, prompts, or tenant content. Do not rely on probabilistic load alone when barriers can produce a replayable schedule.
+
+### `cx()` class-value escaping matrix
+
+Trace an actual request-controlled value into `cx(baseClass, untrustedClass)` and then into a server-rendered JSX `class` attribute. Compare a normal class token, whitespace, a quote/tag-boundary canary that creates only an inert `data-*` marker, direct JSX interpolation without `cx()`, client-side DOM rendering, and Hono 4.12.27. Save the input bytes, `cx()` return type/escape flag, raw rendered HTML, parsed DOM attributes, and browser marker result.
+
+Report **untrusted class text -> `cx()` labels the composition pre-escaped -> SSR skips attribute escaping -> inert DOM structure changes**. The application must actually allow user input to reach `cx()`; package version or use of Hono CSS alone is not enough. Never collect cookies, trigger authenticated actions, persist a payload for real users, or use an external script source.
+
 ## Reporting notes
 
-- Lead with the crossed boundary: **object key to SSR attribute name**, **workflow editor to public form visitor**, **workflow metadata to SQL identifier**, **shared workflow editor to another user's credential reference**, **unauthenticated org selector to OAuth secret**, **default token key to tenant metadata**, **import JSON to SQL/path sink**, **scanner verdict to unsafe pickle load**, **repeated edge header to incomplete application-visible list**, or **URL segment to Windows filesystem separator**.
+- Lead with the crossed boundary: **object key to SSR attribute name**, **workflow editor to public form visitor**, **workflow metadata to SQL identifier**, **shared workflow editor to another user's credential reference**, **unauthenticated org selector to OAuth secret**, **default token key to tenant metadata**, **import JSON to SQL/path sink**, **scanner verdict to unsafe pickle load**, **repeated edge header to incomplete application-visible list**, **URL segment to Windows filesystem separator**, **one request's async JSX context to another response**, or **untrusted class text to pre-escaped SSR markup**.
 - Include exact package, version, route/node/API, user role, and the canary value used. These are preconditioned findings; versionless or roleless reports will be weak.
 - Keep proof artifacts disposable and redacted: lab forms, scratch schemas, synthetic OAuth providers, fake tenant IDs, imported canary flows, and offline pickle files.
 - Adjacent updated-feed items for ImageMagick memory/resource issues and Flowise password-salt weakness were tracked but not promoted because they were availability/resource-hardening or did not add a stronger offensive validation workflow than the Flowise token and secret-boundary items above.

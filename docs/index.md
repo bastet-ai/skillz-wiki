@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Package-build normalization/command and URI authority checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-package-build-and-uri-authority-boundaries)
+- [Hono concurrent request-context and `cx()` SSR escaping checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-21-hono-request-context-and-cx-ssr-follow-up)
 - [Hono repeated-header and Windows encoded-backslash adapter checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-21-hono-adapter-parser-differential-follow-up)
 - [Late JDBC channel-binding and TOML parser checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-jdbc-and-toml-parser-boundaries)
 - [Late .NET container-build, Negotiate/LDAP role, and WPF XAML boundary checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-net-build-authentication-and-xaml-boundaries)
@@ -16,8 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Langflow unauthenticated `exec_globals` KEV follow-up](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-21-unauthenticated-exec_globals-validation-route-kev-follow-up)
 - [PKI, MCP, proxy-auth, updater, and cryptographic boundary checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md)
 - [rclone Remote Control and inline-remote boundary checks](alerts/2026-07-21-rclone-remote-control-boundaries-ghsa.md)
-- [Picklescan `idlelib` scanner/loader differential follow-up](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#picklescan-scanner-bypass-regression)
-- [LightGlue nested model-loader trust follow-up](alerts/2026-07-16-diffusers-custom-pipeline-model-loading-ghsa.md#july-21-lightglue-nested-loader-follow-up)
 
 
 
