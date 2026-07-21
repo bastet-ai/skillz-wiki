@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [ProjectDiscovery internal network scanning](skills/projectdiscovery-internal-network-scanning.md)
 - [Final July 21 URL, schema-generation, sanitizer, Jackson, and xDS checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#final-july-21-url-schema-generation-sanitizer-and-authorization-boundaries)
 - [Final July 21 Gitea authentication, visibility, and lifecycle wave](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#final-july-21-gitea-authentication-visibility-and-lifecycle-wave)
 - [Gitea outbound-fetch, token, Actions/LFS, and attachment boundary wave](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#late-july-21-gitea-forge-control-boundary-wave)
@@ -17,14 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Package-build normalization/command and URI authority checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-package-build-and-uri-authority-boundaries)
 - [Hono concurrent request-context and `cx()` SSR escaping checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-21-hono-request-context-and-cx-ssr-follow-up)
 - [Hono repeated-header and Windows encoded-backslash adapter checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-21-hono-adapter-parser-differential-follow-up)
-- [Late JDBC channel-binding and TOML parser checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-jdbc-and-toml-parser-boundaries)
-- [Late .NET container-build, Negotiate/LDAP role, and WPF XAML boundary checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-net-build-authentication-and-xaml-boundaries)
-
-
-
-
-
-
 
 ## What lives here
 

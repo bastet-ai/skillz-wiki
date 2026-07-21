@@ -69,6 +69,7 @@ nav:
   - Skills:
       - Overview: skills/index.md
       - Andromeda Bytecode C2 Lab Workflow: skills/andromeda-bytecode-c2.md
+      - ProjectDiscovery Internal Network Scanning: skills/projectdiscovery-internal-network-scanning.md
       - HTTP Probing with httpx: skills/httpx.md
       - DNS Enumeration: skills/dns-enumeration.md
       - Nmap Scanning: skills/nmap-scanning.md

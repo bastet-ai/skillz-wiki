@@ -16,6 +16,7 @@ Every skill should answer the same questions:
 ## Current skills
 
 - [Andromeda Bytecode C2 Lab Workflow](andromeda-bytecode-c2.md)
+- [ProjectDiscovery Internal Network Scanning](projectdiscovery-internal-network-scanning.md)
 - [HTTP Probing with httpx](httpx.md)
 - [DNS Enumeration](dns-enumeration.md)
 - [Nmap Scanning](nmap-scanning.md)
