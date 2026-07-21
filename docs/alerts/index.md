@@ -10,6 +10,9 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [WordPress REST batch-route and `WP_Query` SQL boundary chain](2026-07-21-wordpress-rest-batch-query-chain-kev.md)
+- [Late parser, tenant, MCP, and token follow-up](2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-parser-tenant-mcp-and-token-follow-up)
+- [Langflow unauthenticated `exec_globals` KEV follow-up](2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-21-unauthenticated-exec_globals-validation-route-kev-follow-up)
 - [PKI, MCP, proxy-auth, updater, and cryptographic boundary checks](2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md)
 - [n8n webhook, sandbox, repository, and database boundary follow-up](2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-20-n8n-webhook-sandbox-repository-and-database-follow-up)
 - [Langflow public-playground and knowledge-base boundary follow-up](2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-20-public-playground-and-knowledge-base-follow-up)

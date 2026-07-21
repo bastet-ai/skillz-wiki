@@ -70,6 +70,39 @@ Report either **malformed integer domain -> verifier accepts a signature the fix
 
 Report **Editor provisioning API access -> protected field write check omitted -> synthetic notification destination changes**. Restore/delete the disposable receiver and never redirect production alerts or capture real alert payloads.
 
+## Late July 21 parser, tenant, MCP, and token follow-up
+
+The updated advisory feed added six adjacent developer-control boundaries: [GHSA-8whx-365g-h9vv](https://github.com/advisories/GHSA-8whx-365g-h9vv), [GHSA-339r-cjv9-x78g](https://github.com/advisories/GHSA-339r-cjv9-x78g), [GHSA-wvqx-v3f6-w8rh](https://github.com/advisories/GHSA-wvqx-v3f6-w8rh), [GHSA-xpg8-3hhp-p7w8](https://github.com/advisories/GHSA-xpg8-3hhp-p7w8), [GHSA-xw59-hvm2-8pj6](https://github.com/advisories/GHSA-xw59-hvm2-8pj6), and [GHSA-72gw-fmmr-c4r4](https://github.com/advisories/GHSA-72gw-fmmr-c4r4).
+
+| Advisory | Component | Boundary worth testing |
+| --- | --- | --- |
+| GHSA-8whx-365g-h9vv | Loofah `allowed_uri?`, 2.25.0 through 2.25.1 | String-level entity decoding and browser URL parsing disagree for named `&Tab;` and `&NewLine;` references inside a scheme. Loofah's normal `sanitize()` parser path is not affected. |
+| GHSA-339r-cjv9-x78g / CVE-2024-11958 | LlamaIndex DuckDB retriever before 0.4.0 | Retriever input reaches SQL construction without prepared statements; DuckDB extension capabilities can turn a query boundary into a larger runtime boundary. |
+| GHSA-wvqx-v3f6-w8rh / CVE-2026-4600 | `jsrsasign` before 11.1.1 | Caller-supplied DSA domain parameters such as degenerate `g` and `y` values can make the verification equation accept a forged signature or certificate. |
+| GHSA-xpg8-3hhp-p7w8 / CVE-2026-5199 | Temporal Server before 1.29.5, or 1.30 prereleases before 1.30.3 | A batch activity validates a namespace ID but trusts a caller-controlled namespace name, letting a namespace writer borrow an internal worker's cross-namespace authority in affected deployments. |
+| GHSA-xw59-hvm2-8pj6 / CVE-2026-34742 | MCP Go SDK before 1.4.0 | Local unauthenticated `StreamableHTTPHandler` or `SSEHandler` servers lack default DNS-rebinding protection; stdio transport is not affected. |
+| GHSA-72gw-fmmr-c4r4 / CVE-2026-4525 | Vault through 1.19.15, 1.20.9, or 1.21.4 | When an auth mount passes through `Authorization`, the Vault token used on the outer request can reach the auth plugin backend. |
+
+### Canonicalization and query-construction harnesses
+
+For Loofah, call the public `allowed_uri?` helper directly with a matrix containing a normal HTTPS URL, a literal disallowed scheme, numeric whitespace references, named `&Tab;`/`&NewLine;` references, and a non-stripped named reference such as `&nbsp;`. Render only inert URI markers in a disposable browser page and record helper decision, parsed DOM attribute, and browser-normalized scheme. Keep the claim narrow: **string helper approves an encoded value that the browser interprets as a disallowed scheme**. Do not report Loofah's default `sanitize()` path unless the same differential is independently reproduced there.
+
+For LlamaIndex, seed a disposable DuckDB database with a public row and a distinct canary row. Capture the SQL or bound-parameter trace produced by ordinary retriever input, a quote canary, a boolean differential, and a patched 0.4.0 control. Stop once the synthetic row boundary or query structure changes. Do not install extensions, invoke shell-capable DuckDB features, read host files, or connect the harness to a production database. Report **retriever input -> unparameterized SQL structure -> synthetic result-set change**; RCE is a separate claim requiring an explicitly approved isolated lab.
+
+### DSA domain-parameter validation
+
+Extend the disposable `jsrsasign` harness above with malformed DSA public-domain fixtures. Compare a valid throwaway certificate/signature, an ordinary invalid signature, and the upstream degenerate-domain reproducer on a vulnerable release and 11.1.1 or later. Record `p`, `q`, `g`, and `y` validity checks plus only the final accept/reject decision; never use a forged certificate outside the harness. Report **unvalidated DSA domain parameters -> verifier accepts a synthetic signature or X.509 certificate rejected by the fixed build**.
+
+### Temporal namespace ID/name binding
+
+Use two disposable namespaces on one lab cluster, a writer identity in namespace A, synthetic workflow IDs in each namespace, and marker-only workflows. First establish that A cannot directly signal, reset, or delete B's marker. Then submit only a harmless batch signal while varying namespace ID and namespace name independently. Capture the caller role, worker-bound namespace, supplied ID/name pair, internal identity, and resulting marker state. The vulnerable configuration requires internal components with cross-namespace authorization; show that precondition rather than generalizing to every Temporal deployment. Do not delete real workflows or brute-force IDs.
+
+### Local MCP browser-origin and Vault plugin token relays
+
+For the MCP Go SDK, run one no-auth loopback server exposing a canary read-only tool and no secrets. From an owned browser origin, test direct cross-origin requests, rebinding between two owned addresses, `Host`/`Origin` mismatches, patched 1.4.0, and stdio as a non-HTTP control. Positive evidence is one inert tool invocation or synthetic resource read. Never expose command, file, credential, or network tools for this test.
+
+For Vault, create a disposable auth mount and a mock auth plugin that records header names and a redacted fixed token marker. Compare plugin passthrough disabled, a non-`Authorization` header, `Authorization` used for Vault authentication, and fixed releases 1.19.16, 1.20.10, 1.21.5, or 2.0.0. Report **outer Vault bearer token -> configured auth-header passthrough -> plugin receives the marker**. Never log or replay a live Vault token.
+
 ## Reporting checklist
 
 - [ ] Did the report prove the caller can reach the exact PKI, MCP, proxy, updater, daemon, cryptographic, or provisioning path?
@@ -77,3 +110,4 @@ Report **Editor provisioning API access -> protected field write check omitted -
 - [ ] Are keys disposable, callbacks owned, credentials fake, payloads inert, and files synthetic?
 - [ ] Does each finding include a patched or policy-negative control?
 - [ ] Are configuration-dependent preconditions explicit, especially ACME challenge type, reverse-proxy/skip-auth settings, signing-key control, `/tmp` fallback, algorithm path, and Grafana role/permission state?
+- [ ] For late follow-ups, are helper-vs-browser parsing, SQL binding, DSA parameter validity, namespace ID/name binding, localhost HTTP transport, and auth-header passthrough shown separately?

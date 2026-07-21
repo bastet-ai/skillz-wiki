@@ -103,7 +103,21 @@ Three updated Langflow advisories add a useful distinction between a flow being 
 
 Report these as **public invocation to caller-supplied execution graph**, **public file selector to model-mediated file return**, or **knowledge-base name to outside-root metadata write**. Include the exact route, public/authenticated state, storage backend, flow composition, marker-only evidence, and negative controls. Never read real local files, buckets, prompts, API keys, model credentials, or another tenant's knowledge-base data.
 
+## July 21 unauthenticated `exec_globals` validation-route KEV follow-up
+
+CISA added [CVE-2026-0770](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) to KEV on 2026-07-21. The primary [ZDI advisory](https://www.zerodayinitiative.com/advisories/ZDI-26-036/) identifies an unauthenticated Langflow validation endpoint whose `exec_globals` parameter can include attacker-controlled functionality and execute in the server context. Langflow 1.9.0 is the vendor release referenced by CISA.
+
+Keep validation marker-only because this route is unauthenticated and exploitation has been observed:
+
+1. Use an isolated Langflow lab with no production credentials, mounted secrets, cloud role, sensitive flows, or unrestricted egress.
+2. Capture the normal request schema for the affected validation route from the exact lab version. Confirm authentication state with no cookie/header, a malformed credential, and a disposable authenticated user.
+3. Change only `exec_globals` so the validation result exposes a fixed in-memory marker or benign type/value. Do not import process, filesystem, socket, package-loader, or environment helpers and do not run a shell command.
+4. Record whether the field is accepted, whether the marker becomes available to evaluated code, and which service identity handles the request. A validation error alone does not prove execution.
+5. Compare Langflow 1.9.0 or later and a control that strips the field or binds globals server-side.
+
+Report **unauthenticated validation input -> caller-controlled `exec_globals` -> inert server-side evaluation marker**. Do not publish executable payloads, read environment variables, or test an internet-facing production instance.
+
 ## Reporting notes
 
-- Name the crossed boundary precisely: **widget content to token-bearing dashboard origin**, **AI file-node parameter to server file read**, **flow response ID to another user's history**, **monitor `flow_id` to another user's transaction/build logs**, **message/session ID to cross-user history mutation**, **caller-controlled Langflow key to cross-user authorization context**, **IPv6 transition URL to link-check SSRF**, **redirect parser bypass to privileged navigation**, **embed class to stored HTML**, or **provider error text to stored HTML**.
+- Name the crossed boundary precisely: **widget content to token-bearing dashboard origin**, **AI file-node parameter to server file read**, **flow response ID to another user's history**, **monitor `flow_id` to another user's transaction/build logs**, **message/session ID to cross-user history mutation**, **caller-controlled Langflow key to cross-user authorization context**, **unauthenticated `exec_globals` to server-side validation context**, **IPv6 transition URL to link-check SSRF**, **redirect parser bypass to privileged navigation**, **embed class to stored HTML**, or **provider error text to stored HTML**.
 - Include version, authentication role, workspace/tenant IDs, URL parser normalization, network callback evidence, and negative controls. Keep evidence to synthetic markers and owned infrastructure.
