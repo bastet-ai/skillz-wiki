@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Late .NET container-build, Negotiate/LDAP role, and WPF XAML boundary checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-net-build-authentication-and-xaml-boundaries)
 - [WordPress REST batch-route and `WP_Query` SQL boundary chain](alerts/2026-07-21-wordpress-rest-batch-query-chain-kev.md)
 - [Late parser, tenant, MCP, and token follow-up](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-parser-tenant-mcp-and-token-follow-up)
 - [Langflow unauthenticated `exec_globals` KEV follow-up](alerts/2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-21-unauthenticated-exec_globals-validation-route-kev-follow-up)
@@ -17,7 +18,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [LightGlue nested model-loader trust follow-up](alerts/2026-07-16-diffusers-custom-pipeline-model-loading-ghsa.md#july-21-lightglue-nested-loader-follow-up)
 - [Gogs reverse-proxy identity-header follow-up](alerts/2026-06-22-gogs-opencti-motioneye-paymenter-boundaries-ghsa.md#reverse-proxy-authentication-header-harness)
 - [Astro late adapter-regex, path, render, RSS, and transition follow-ups](alerts/2026-07-18-nest-astro-route-render-fetch-boundaries-ghsa.md#july-20-late-follow-up-adapter-regex-path-spread-key-rss-and-transition-contexts)
-- [Pillow TGA RLE output-disclosure follow-up](alerts/2026-07-20-cloudreve-pillow-token-image-boundaries-ghsa.md#pillow-tga-rle-output-disclosure-check)
+
 
 
 

@@ -103,6 +103,35 @@ For the MCP Go SDK, run one no-auth loopback server exposing a canary read-only 
 
 For Vault, create a disposable auth mount and a mock auth plugin that records header names and a redacted fixed token marker. Compare plugin passthrough disabled, a non-`Authorization` header, `Authorization` used for Vault authentication, and fixed releases 1.19.16, 1.20.10, 1.21.5, or 2.0.0. Report **outer Vault bearer token -> configured auth-header passthrough -> plugin receives the marker**. Never log or replay a live Vault token.
 
+## Late July 21 .NET build, authentication, and XAML boundaries
+
+The next reviewed-advisory batch added three durable operator surfaces: [GHSA-55jh-fwmh-39m4](https://github.com/advisories/GHSA-55jh-fwmh-39m4), [GHSA-8prm-248r-h957](https://github.com/advisories/GHSA-8prm-248r-h957), [GHSA-2p3q-h3hg-jcqq](https://github.com/advisories/GHSA-2p3q-h3hg-jcqq), and [GHSA-2969-4q4w-w5h3](https://github.com/advisories/GHSA-2969-4q4w-w5h3). The adjacent SignalR stateful-reconnect and encrypted-XML entries are availability-only and are intentionally not promoted into operator guidance.
+
+| Advisory | Component | Confirmed boundary |
+| --- | --- | --- |
+| GHSA-55jh-fwmh-39m4 / CVE-2026-50526 | `Microsoft.NET.Build.Containers` | A low-privilege local user can exploit link following to inject resources into container images built by another user on the same host. Affected package lines are 8.0.0–8.0.28, 9.0.0–9.0.17, and 10.0.0–10.0.9. |
+| GHSA-8prm-248r-h957 / CVE-2026-47300 | ASP.NET Core Negotiate authentication | Improper validation can elevate an authenticated remote user when Negotiate authentication uses LDAP to retrieve role information. |
+| GHSA-2p3q-h3hg-jcqq / CVE-2026-47303 | ASP.NET Core Negotiate authentication | Improper parsing, including an LDAP-query injection boundary, can alter authorization. The affected package lines match CVE-2026-47300. |
+| GHSA-2969-4q4w-w5h3 / CVE-2026-50650 | WPF XAML parser | Specially crafted XAML can cross into local code execution/elevation on Windows when an application parses attacker-reachable XAML. Affected desktop-runtime lines are 8.0.0–8.0.28, 9.0.0–9.0.17, and 10.0.0–10.0.9. |
+
+### Cross-user container-build injection
+
+Use a disposable multi-user build host, an unprivileged attacker account, a separate builder account, a synthetic .NET project, and an isolated local OCI output. First record every shared temporary/cache/staging path touched by `Microsoft.NET.Build.Containers`; package presence alone does not prove a cross-user path is reachable. In the vulnerable build only, place an inert marker through the upstream link-following regression fixture or a semantically equivalent symlink fixture inside the disposable shared tree. Build as the second user and inspect the resulting OCI manifest/layer **without running the image**.
+
+Positive evidence is **attacker-writable shared build path -> link resolution by another user's container build -> inert marker incorporated into that user's image**. Compare the fixed 8.0.29, 9.0.18, or 10.0.10 package, a private per-user staging root, a regular-file control, and a symlink whose destination is not readable by the builder. Capture path ownership, link targets, build-user identity, and layer diff. Never target a real build agent, shared registry, source tree, credential path, or production image.
+
+### Negotiate-to-LDAP role binding
+
+Build a lab realm/directory with two disposable users and two harmless roles, then run the same minimal ASP.NET Core app on an affected and fixed package. Confirm the application actually enables Negotiate and LDAP role retrieval. Record the authenticated principal emitted by Negotiate, the exact escaped LDAP filter shape, matched synthetic directory objects, resulting role claims, and access to one marker-only role route.
+
+Exercise ordinary usernames, directory metacharacter canaries, alternate name forms/aliases, duplicated synthetic attributes, and the vendor regression fixture if Microsoft publishes one. Vary one field at a time; do not spray LDAP syntax or enumerate a real directory. Report CVE-2026-47300 only when a validated authenticated identity receives a role it was not assigned. Report CVE-2026-47303 only when attacker-influenced principal text changes LDAP query interpretation or selected synthetic entries. A strong result is **authenticated canary principal -> validation/parsing drift in LDAP role lookup -> unauthorized synthetic role claim -> marker route reached**, with fixed 8.0.29, 9.0.18, or 10.0.10 rejecting the same transition.
+
+### Attacker-reachable WPF XAML sinks
+
+Start with reachability rather than a code-execution payload. Inventory only applications that import, preview, deserialize, or otherwise parse XAML from files, plugins, IPC, downloads, or user-controlled fields. In a disposable Windows VM, trace the exact parser API and process token using benign XAML that creates only expected UI objects and writes no files. Then use Microsoft's regression test if it becomes public, substituting an inert in-process marker for any dangerous action.
+
+The public advisory confirms crafted-XAML code injection but does not identify a universal remote ingestion path or public reproducer. Keep conclusions narrow: **attacker-controlled XAML reaches the affected WPF parser under a more privileged process and the fixed runtime changes the marker decision**. Do not invent gadget chains, open untrusted samples on a workstation, spawn processes, or touch user/system files. Compare fixed desktop runtimes 8.0.29, 9.0.18, or 10.0.10 and an application path that never parses external XAML.
+
 ## Reporting checklist
 
 - [ ] Did the report prove the caller can reach the exact PKI, MCP, proxy, updater, daemon, cryptographic, or provisioning path?
@@ -111,3 +140,4 @@ For Vault, create a disposable auth mount and a mock auth plugin that records he
 - [ ] Does each finding include a patched or policy-negative control?
 - [ ] Are configuration-dependent preconditions explicit, especially ACME challenge type, reverse-proxy/skip-auth settings, signing-key control, `/tmp` fallback, algorithm path, and Grafana role/permission state?
 - [ ] For late follow-ups, are helper-vs-browser parsing, SQL binding, DSA parameter validity, namespace ID/name binding, localhost HTTP transport, and auth-header passthrough shown separately?
+- [ ] For .NET follow-ups, is the exact shared build path, Negotiate-to-LDAP role lookup, or attacker-reachable XAML parser proven before claiming impact?
