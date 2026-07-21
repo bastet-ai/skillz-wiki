@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [PKI, MCP, proxy-auth, updater, and cryptographic boundary checks](2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md)
 - [n8n webhook, sandbox, repository, and database boundary follow-up](2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-20-n8n-webhook-sandbox-repository-and-database-follow-up)
 - [Langflow public-playground and knowledge-base boundary follow-up](2026-06-19-langflow-mailpit-outerbase-miniflux-render-boundaries-ghsa.md#july-20-public-playground-and-knowledge-base-follow-up)
 - [Skipper, CloudTAK, and AngleSharp boundary checks](2026-07-17-skipper-cloudtak-anglesharp-boundaries-ghsa.md)

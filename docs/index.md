@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [PKI, MCP, proxy-auth, updater, and cryptographic boundary checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md)
 - [rclone Remote Control and inline-remote boundary checks](alerts/2026-07-21-rclone-remote-control-boundaries-ghsa.md)
 - [Picklescan `idlelib` scanner/loader differential follow-up](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#picklescan-scanner-bypass-regression)
 - [LightGlue nested model-loader trust follow-up](alerts/2026-07-16-diffusers-custom-pipeline-model-loading-ghsa.md#july-21-lightglue-nested-loader-follow-up)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Axios proxy, serializer, and body-construction follow-ups](alerts/2026-07-17-axios-ssh-vllm-runtime-boundaries-ghsa.md#axios-inherited-basic-auth-subfield-checks)
 - [File Browser username-home and share-secret follow-ups](alerts/2026-06-12-filebrowser-fleet-fabric-cordova-boundary-batch-ghsa.md#july-20-follow-up-username-to-home-collisions-and-share-secret-serialization)
 - [Parser, dev-server, HTTP-client, CMS-cache, and RAG boundary checks](alerts/2026-07-20-parser-devserver-http-client-rag-boundaries-ghsa.md)
-- [File Browser archive-rewrite follow-up](alerts/2026-06-12-filebrowser-fleet-fabric-cordova-boundary-batch-ghsa.md#july-20-follow-up-archive-builder-manufactures-traversal-separators)
 
 
 
