@@ -29,6 +29,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - NLTK advisories/source: https://github.com/nltk/nltk/security/advisories and https://github.com/nltk/nltk
 - NiceGUI advisories/source: https://github.com/zauberzeug/nicegui/security/advisories and https://github.com/zauberzeug/nicegui
 - Picklescan advisories/source: https://github.com/mmaitre314/picklescan/security/advisories and https://github.com/mmaitre314/picklescan
+- rclone advisories/source: https://github.com/rclone/rclone/security/advisories and https://github.com/rclone/rclone
+- Hugging Face Transformers advisories/source: https://github.com/huggingface/transformers/security/advisories and https://github.com/huggingface/transformers
 - ONNX source/issues: https://github.com/onnx/onnx and https://github.com/onnx/onnx/issues
 - Budibase advisories/source: https://github.com/Budibase/budibase/security/advisories and https://github.com/Budibase/budibase
 - Yii 2 advisories/source: https://github.com/yiisoft/yii2/security/advisories and https://github.com/yiisoft/yii2

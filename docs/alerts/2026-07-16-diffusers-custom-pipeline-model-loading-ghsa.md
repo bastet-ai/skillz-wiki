@@ -1,6 +1,6 @@
 # Diffusers custom-pipeline model-loading boundary checks
 
-Source: hourly offensive-security scan, 2026-07-16 GitHub advisory update. Primary entry: [GHSA-j7w6-vpvq-j3gm](https://github.com/advisories/GHSA-j7w6-vpvq-j3gm) / CVE-2026-44827.
+Source: hourly offensive-security scan, 2026-07-16 GitHub advisory update, with a LightGlue model-loader follow-up on 2026-07-21. Primary entries: [GHSA-j7w6-vpvq-j3gm](https://github.com/advisories/GHSA-j7w6-vpvq-j3gm) / CVE-2026-44827 and [GHSA-fgcw-684q-jj6r](https://github.com/advisories/GHSA-fgcw-684q-jj6r) / CVE-2026-5241.
 
 This advisory is durable for operators because it exposes a reusable AI supply-chain boundary: a model repository that appears to load through a default `DiffusionPipeline.from_pretrained("repo")` call can still cross into Python dynamic-module execution. The bug comes from the `custom_pipeline=None` default being formatted as the filename `None.py` during the second pipeline-class resolution step, after the earlier `trust_remote_code` gate has already decided no custom pipeline was requested.
 
@@ -12,6 +12,7 @@ This advisory is durable for operators because it exposes a reusable AI supply-c
 | Advisory | Component | Boundary | Operator value |
 | --- | --- | --- | --- |
 | [GHSA-j7w6-vpvq-j3gm](https://github.com/advisories/GHSA-j7w6-vpvq-j3gm) / CVE-2026-44827 | Hugging Face Diffusers `DiffusionPipeline.from_pretrained()` before `0.38.0` | Default `custom_pipeline=None` is converted into `None.py`; a repository containing that file can be downloaded and dynamically loaded even when the caller did not pass `custom_pipeline=` or `trust_remote_code=True` | Treat AI model loading as code loading. Validate the actual dynamic-module chokepoints, cached snapshots, and repository file inventory instead of relying only on call-site arguments or benign-looking `model_index.json` class names. |
+| [GHSA-fgcw-684q-jj6r](https://github.com/advisories/GHSA-fgcw-684q-jj6r) / CVE-2026-5241 | Transformers LightGlue loading path before `5.5.0` | repository-controlled `config.json` can override `trust_remote_code` in `LightGlueConfig` and propagate the untrusted value into nested `AutoConfig.from_pretrained()` calls | Extend remote-code trust tests to third-party wrappers: trace every nested `from_pretrained()` and dynamic-module resolver rather than trusting the outer flag or the model card. |
 
 The operator-relevant distinction is that no suspicious call-site option is required. A target review that only searches for `trust_remote_code=True`, `custom_pipeline=`, or config-declared custom classes can miss the path when an otherwise normal model snapshot contains a root-level `None.py` that shadows a legitimate pipeline class.
 
@@ -52,6 +53,18 @@ Use this checklist when reviewing AI inference code paths, CI jobs, notebooks, o
 | Patch control | Re-run the same fixture on Diffusers `0.38.0+` | The fix moves the gate to the dynamic-module load chokepoint, which is the control to prove. |
 
 Keep static evidence to repository metadata, filenames, hashes, and inert local fixtures. Do not download or execute suspicious public models during an assessment unless the engagement explicitly authorizes sandboxed malware-style handling.
+
+## July 21 LightGlue nested-loader follow-up
+
+LightGlue adds a second reusable failure mode: a library wrapper can pass model metadata into Transformers dynamic-module resolution even when the caller believes remote code is disabled. Test it with the same disposable-repository discipline as Diffusers, but capture the complete nested call chain.
+
+1. Create an offline or private LightGlue-compatible model fixture containing ordinary inert model metadata and one local Python module whose only effect is writing a marker under a temporary directory.
+2. Call the application's actual LightGlue loading path with `trust_remote_code=False` at every public call site that exposes the option.
+3. Trace repository resolution, `LightGlueConfig` parsing, nested `AutoConfig.from_pretrained()` calls, `auto_map` or equivalent class metadata, dynamic-module cache writes, and Python imports. A global CLI or wrapper flag is not sufficient evidence unless it reaches the final resolver.
+4. Compare a fixture without dynamic-module metadata, the inert module fixture, and Transformers `5.5.0` or newer. Keep the process offline after the fixture is staged.
+5. Record whether the marker module was downloaded, cached, imported, or instantiated; distinguish each stage instead of claiming execution from file presence alone.
+
+Report this as **model repository metadata -> nested third-party loader -> dynamic Python module resolution despite remote-code opt-out**. Include the outer and inner loader calls, flag values, resolved repository revision, module/cache path, import trace, and patched negative control. Do not use public malicious models, real hub tokens, production inference workers, shell commands, network callbacks, or credential-reading canaries.
 
 ## Reporting notes
 

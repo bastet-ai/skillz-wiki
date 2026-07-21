@@ -16,7 +16,7 @@ These items are durable for operators because each one exposes a repeatable boun
 | [GHSA-m7mq-85xj-9x33](https://github.com/advisories/GHSA-m7mq-85xj-9x33) / CVE-2026-56269 | Flowise temp-token crypto | `TOKEN_HASH_SECRET` fell back to a hardcoded default used to derive encryption keys for user/workspace metadata in JWT-like temp tokens | Check SaaS/self-hosted agent platforms for default token secrets and tenant metadata that can be decrypted, modified, and re-signed in labs. |
 | [GHSA-9c4c-g95m-c8cp](https://github.com/advisories/GHSA-9c4c-g95m-c8cp) / CVE-2025-71332 | Flowise import APIs | imported chatflow/tool/variable JSON let authenticated users influence IDs that reached SQL construction and path-like canvas routes | Add import/export bundles to workflow-platform boundary tests; use disposable IDs and SQL/path markers only. |
 | [GHSA-8r4j-24qv-fmq9](https://github.com/advisories/GHSA-8r4j-24qv-fmq9) / CVE-2025-71361 | Picklescan | `idlelib.calltip.Calltip.fetch_tip` could be used as a pickle `__reduce__` callable that older scanner rules did not flag | Extend ML model-scanner coverage tests with inert built-in callable gadgets, not just obvious `os.system` imports. |
-| [GHSA-3vg9-h568-4w9m](https://github.com/advisories/GHSA-3vg9-h568-4w9m) / CVE-2025-71354 | Picklescan | `idlelib.debugobj.ObjectTreeItem.SetText` gave another scanner-missed callable surface for pickle execution | Maintain scanner-bypass regression corpora for Python stdlib gadget variants before trusting model or checkpoint ingestion gates. |
+| [GHSA-3vg9-h568-4w9m](https://github.com/advisories/GHSA-3vg9-h568-4w9m) / CVE-2025-71354 | Picklescan `< 0.0.29` | `idlelib.debugobj.ObjectTreeItem.SetText` gave another scanner-missed callable surface for pickle execution | Maintain scanner-bypass regression corpora for Python stdlib gadget variants before trusting model or checkpoint ingestion gates; include `0.0.29+` as the patched control. |
 
 ## Operator triage
 
@@ -62,7 +62,7 @@ These items are durable for operators because each one exposes a repeatable boun
 
 - Preconditions: offline test VM, disposable pickle/model files, affected and patched scanner versions, and no production model-loading workers.
 - Build a regression corpus around inert callables that only print a marker or write to a temporary file in the test VM. Include `idlelib.calltip.Calltip.fetch_tip` and `idlelib.debugobj.ObjectTreeItem.SetText` variants without destructive commands.
-- Run the scanner first, record whether each file is flagged, then load only inside the isolated VM if the test requires execution confirmation.
+- Run the scanner first, record whether each file is flagged, then load only inside the isolated VM if the test requires execution confirmation. Compare the affected release with Picklescan `0.0.29` or newer for the `ObjectTreeItem.SetText` case.
 - Evidence should be a scanner decision matrix and marker-only execution proof. Never publish payloads that read files, environment variables, cloud credentials, notebooks, or model weights.
 
 ## July 20 n8n webhook, sandbox, repository, and database follow-up

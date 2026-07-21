@@ -8,7 +8,7 @@ This batch is durable because the advisories share repeatable operator workflows
 
 | Advisory | Component | Boundary | Operator value |
 | --- | --- | --- | --- |
-| [GHSA-w6j9-vw59-27wv](https://github.com/advisories/GHSA-w6j9-vw59-27wv) / CVE-2026-25119 | Gogs reverse-proxy authentication | client-controlled `X-WEBAUTH-USER`-style headers were trusted when reverse-proxy auth was enabled, without proving the request came from a trusted proxy | Test self-hosted Git forges by sending spoofed identity headers directly to the app listener and through each edge route; positive evidence is limited to a disposable canary user/session. |
+| [GHSA-w6j9-vw59-27wv](https://github.com/advisories/GHSA-w6j9-vw59-27wv) / CVE-2026-25119 | Gogs `<= 0.14.2` reverse-proxy authentication | client-controlled `X-WEBAUTH-USER`-style headers were trusted when reverse-proxy auth was enabled, without proving the request came from a trusted proxy | Test self-hosted Git forges by sending spoofed identity headers directly to the app listener and through each edge route; positive evidence is limited to a disposable canary user/session, with `0.14.3+` as the patched control. |
 | [GHSA-ffm6-vvph-g5f5](https://github.com/advisories/GHSA-ffm6-vvph-g5f5) / CVE-2026-21887 | OpenCTI data ingestion | user-supplied external URLs reached Axios with absolute URL handling enabled | Treat threat-intel ingestion, connector, enrichment, and import URLs as SSRF surfaces; prove only with owned callbacks and synthetic internal canary services. |
 | [GHSA-4mvw-j8r9-xcgc](https://github.com/advisories/GHSA-4mvw-j8r9-xcgc) / CVE-2024-37155 | OpenCTI GraphQL introspection restriction | regex-based introspection blocking could be bypassed by query formatting changes | GraphQL hardening claims need compacted, aliased, multiline, and fragment-based negative controls; evidence is schema metadata for a lab tenant only. |
 | [GHSA-g9fx-5r4h-pcw3](https://github.com/advisories/GHSA-g9fx-5r4h-pcw3) / CVE-2026-31978 | motionEye picture/movie preview endpoints | encoded traversal in preview filename paths reached filesystem reads as the motionEye process user | Media preview and thumbnail routes need the same path-containment tests as download routes; prove with synthetic files owned by the lab service account, not real secrets. |
@@ -43,7 +43,7 @@ Adjacent [GHSA-3qq3-668m-v9mj](https://github.com/advisories/GHSA-3qq3-668m-v9mj
 - Send a baseline unauthenticated request to a harmless authenticated route, then repeat with the configured proxy-auth header set to the disposable username.
 - Test both paths separately: through the public reverse proxy and, if in scope, directly to the backend listener or service port.
 - Positive evidence is an authenticated response, user auto-creation, or session state for the disposable account when the request did not traverse a trusted identity proxy.
-- Negative controls: backend listener not externally reachable, edge strips identity headers from clients, app validates source proxy, and auto-registration is disabled or scoped.
+- Negative controls: Gogs `0.14.3+`, backend listener not externally reachable, edge strips identity headers from clients, app validates source proxy, and auto-registration is disabled or scoped.
 
 ### OpenCTI ingestion SSRF and GraphQL introspection harness
 
