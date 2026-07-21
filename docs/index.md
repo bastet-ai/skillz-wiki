@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Gitea outbound-fetch, token, Actions/LFS, and attachment boundary wave](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#late-july-21-gitea-forge-control-boundary-wave)
 - [GitPython, Sigstore OCI, Vitest, SVG/DOM, and Jackson policy checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-git-pipeline-and-render-policy-boundaries)
 - [Gitea migration redirect, stale approval, and revocation-residue checks](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#july-21-gitea-migration-revocation-and-branch-policy-follow-up)
 - [Flowise upload-file fallback traversal check](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-21-flowise-upload-file-fallback-traversal-follow-up)
@@ -17,7 +18,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Late JDBC channel-binding and TOML parser checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-jdbc-and-toml-parser-boundaries)
 - [Late .NET container-build, Negotiate/LDAP role, and WPF XAML boundary checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-net-build-authentication-and-xaml-boundaries)
 - [WordPress REST batch-route and `WP_Query` SQL boundary chain](alerts/2026-07-21-wordpress-rest-batch-query-chain-kev.md)
-- [Late parser, tenant, MCP, and token follow-up](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-parser-tenant-mcp-and-token-follow-up)
+
 
 
 
