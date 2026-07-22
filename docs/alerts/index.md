@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Wagtail `TableBlock` class-attribute render boundary](2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#july-22-wagtail-tableblock-attribute-rendering-follow-up)
 - [Late .NET cross-user container-build, Negotiate/LDAP role, and WPF XAML boundary checks](2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-net-build-authentication-and-xaml-boundaries)
 - [WordPress REST batch-route and `WP_Query` SQL boundary chain](2026-07-21-wordpress-rest-batch-query-chain-kev.md)
 - [Late parser, tenant, MCP, and token follow-up](2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-parser-tenant-mcp-and-token-follow-up)

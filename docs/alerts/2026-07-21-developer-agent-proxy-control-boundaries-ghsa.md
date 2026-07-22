@@ -252,6 +252,22 @@ For gRPC-Go, run a disposable xDS management server, one marker-only protected R
 
 The adjacent Sharp/libvips bundle, repeated-DOCTYPE expansion-limit reset, Hono aborted-WebSocket leak, and Jackson chunked-number limit bypass were processed without publication because their disclosed value is memory safety or availability rather than a bounded cross-privilege operator workflow.
 
+## July 22 Wagtail TableBlock attribute-rendering follow-up
+
+[GHSA-p5cm-246w-84jm](https://github.com/advisories/GHSA-p5cm-246w-84jm) adds a focused CMS author-to-viewer render boundary. In affected Wagtail releases, a user who can create or edit a page containing a `TableBlock` inside a `StreamField` can persist a specially crafted table `class` attribute that is emitted into the rendered page as executable browser content. This is not an unauthenticated visitor finding: the site must use `TableBlock`, the tester needs page-authoring authority, and impact beyond the author's own session requires a higher-privileged user to view the affected page.
+
+Affected lines are Wagtail before 6.3.8; 6.4rc1 and later before 7.0.6; 7.1rc1 and later before 7.2.3; and 7.3rc1 and later before 7.3.1. The corresponding fixed releases are 6.3.8, 7.0.6, 7.2.3, and 7.3.1.
+
+### TableBlock class-attribute render matrix
+
+1. Use a disposable Wagtail site with one low-privilege page author, one separate viewer account, and a page type whose `StreamField` explicitly contains `TableBlock`. Confirm that an ordinary visitor without authoring access cannot set the table configuration.
+2. Create a baseline table with an ordinary CSS class and capture the saved block value, rendered HTML attribute, and browser DOM property.
+3. Through the same authoring path, use a harmless class-attribute breakout canary whose only effect is setting an unmistakable in-page marker. Disable outbound requests and do not read cookies, storage, page content, or CSRF material.
+4. Compare four states: author preview, a separate viewer opening the published page, the same fixture on a fixed Wagtail release, and a custom `TableBlock(template=...)` that does not emit the configurable class attributes.
+5. Preserve the Wagtail version, page/block definition, author role, stored block fragment, rendered HTML, DOM event/marker result, and fixed-version decision. Remove the page and test users when the lab is complete.
+
+Report **page-author-controlled TableBlock class metadata -> trusted Wagtail page rendering -> harmless script marker executes in a separate viewer origin**. Do not claim visitor-to-admin XSS, account takeover, or arbitrary site-wide impact unless the target's actual authoring roles, publication workflow, and viewer path prove those transitions. Never exfiltrate a real session or induce a production administrator to open the canary.
+
 ## Reporting checklist
 
 - [ ] Did the report prove the caller can reach the exact PKI, MCP, proxy, updater, daemon, cryptographic, or provisioning path?
@@ -265,3 +281,4 @@ The adjacent Sharp/libvips bundle, repeated-DOCTYPE expansion-limit reset, Hono 
 - [ ] For package-build and URI follow-ups, are Unicode forms, archive entries, generated command context, parser hosts, URI authority, and final owned destination captured independently?
 - [ ] For the late Git/pipeline/render wave, are wrapper argv, credential-host selection, provider-command file effects, sanitizer hook/plugin decisions, and Jackson field/view binding shown separately with fixed controls?
 - [ ] For the final URL/schema/sanitizer/policy wave, are raw and normalized hosts, expanded fake variables, generated source, browser DOM properties, active views, and translated xDS matchers captured independently?
+- [ ] For Wagtail, is `TableBlock` actually present, is authoring permission proven, and does the evidence stop at a harmless marker in a separate disposable viewer session?
