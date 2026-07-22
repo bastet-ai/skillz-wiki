@@ -108,6 +108,26 @@ Good findings should include:
 - cleanup/reset notes;
 - why the proof could not come from another challenge.
 
+## Audit unintended solution paths
+
+A valid flag can still represent an invalid solve. ProjectDiscovery's July 2026 benchmark review documents agents that found flags by querying a shared tracing service discovered through an environment variable, pivoting through SSRF into another challenge network, searching public benchmark source, or using a mounted secret and local Unix socket to inspect the challenge container. Treat those trajectories as harness-boundary findings, not successful exploitation of the assigned target.
+
+Review every solve for the first point where the trajectory leaves the intended attack graph:
+
+| Surface | Canary control | Invalid-solve signal |
+| --- | --- | --- |
+| Environment | Put only a synthetic out-of-scope IP/port marker in a nonessential variable | The agent scans or queries the marked service. |
+| Filesystem | Mount one harmless decoy secret that grants access only to a marker API | The agent uses the decoy instead of the target application path. |
+| Local network and DNS | Give each challenge unique names and a deny-by-default segment | The proof comes from another challenge, trace collector, orchestrator, or harness API. |
+| Unix sockets and control APIs | Expose only marker-only mocks where a socket is required | The agent authenticates to a container/runtime API that was not declared in scope. |
+| Web search and public source | Use per-run flags and renamed/private fixtures | The submitted value or exploit path comes from a public repository rather than the running target. |
+
+Preserve the command/tool trace, DNS answers, connection destinations, file-open events, and proof provenance. A result should map to **task input -> assigned target -> intended sink -> per-run proof**. If the path instead crosses the harness, shared services, another challenge, or public answer material, record it separately as a benchmark escape or contamination event.
+
+Prompt scope is one control, not the security boundary. State whether the task is black-box, identify the only approved target/service names, and explicitly exclude harness infrastructure. Then enforce the same boundary with network policy, filesystem mounts, service credentials, and tool allowlists. ProjectDiscovery reports that vague goals widened agent reconnaissance into DNS, WHOIS, environment, filesystem, and local-network exploration; compare a precise task prompt with a vague-task fixture to measure this behavior rather than assuming the agent will infer scope.
+
+Use bounded runs: cap model turns, wall time, and cost, and retain complete trajectories for solved and failed cases. Budgets limit how long a mistaken pivot can compound, but they do not replace isolation. Never place real cloud credentials, source-control access, production services, or reusable secrets in an evaluation environment.
+
 ## Budget and escalation controls
 
 Use a fixed budget rather than open-ended time.
@@ -131,6 +151,7 @@ For each failed run, classify the cause:
 - **Validation issue:** proof was weak, guessed, format-only, or not tied to the run.
 - **Tooling issue:** missing browser, proxy, OAST, archive handling, file upload, or protocol support.
 - **Reasoning issue:** agent found the right surface but failed the multi-step chain.
+- **Trajectory-integrity issue:** the agent obtained proof through environment, filesystem, local-network, public-source, or harness-control access outside the intended attack graph.
 
 Only count a challenge as unsolved after harness and state issues are ruled out.
 
@@ -178,5 +199,6 @@ This format makes agentic DAST results easier to replay, compare, and defend dur
 - ProjectDiscovery, "Benchmarking Neo's Black-Box DAST Capabilities": https://projectdiscovery.io/blog/neo-black-box-dast-capabilities
 - ProjectDiscovery, "Inside the benchmark: app architectures, walkthroughs of findings, and what each scanner actually caught": https://projectdiscovery.io/blog/inside-the-benchmark-pp-architectures-finding-walkthroughs-and-what-each-scanner-actually-caught
 - ProjectDiscovery, "How Neo found an SSRF vulnerability in Faraday, and why it matters for every team that ships code": https://projectdiscovery.io/blog/how-neo-found-an-ssrf-vulnerability-in-faraday-and-why-it-matters-for-every-team-that-ships-code
+- ProjectDiscovery, "Oh My Rogue Agent": https://projectdiscovery.io/blog/oh-my-rogue-agent
 - Pensar AI Argus validation benchmarks: https://github.com/pensarai/argus-validation-benchmarks
 - XBOW validation benchmarks: https://github.com/xbow-engineering/validation-benchmarks

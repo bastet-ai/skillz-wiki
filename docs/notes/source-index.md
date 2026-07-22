@@ -5,6 +5,8 @@ Maintain this as the seed list of official or primary sources for the tool famil
 ## Application security research
 
 - ProjectDiscovery internal network scanning launch and agent workflow: https://projectdiscovery.io/blog/introducing-internal-network-scanning-see-your-network-the-way-an-attacker-inside-it-would
+- ProjectDiscovery rogue-agent benchmark trajectory case studies: https://projectdiscovery.io/blog/oh-my-rogue-agent
+- Dompdf advisories/source: https://github.com/dompdf/dompdf/security/advisories and https://github.com/dompdf/dompdf
 - Andromeda bytecode C2 research framework: https://github.com/vyrus001/andromeda
 - badkeys weak-key checker and web service: https://github.com/badkeys/badkeys and https://badkeys.info/
 - GitHub Security Advisories: https://github.com/advisories
