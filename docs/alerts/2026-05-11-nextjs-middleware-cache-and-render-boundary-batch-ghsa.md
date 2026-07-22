@@ -34,3 +34,22 @@ This batch is durable because it shows one framework lesson from several angles:
 - Shared caches must partition on representation and identity, not just URL.
 - Server-side WebSocket upgrade paths need the same SSRF canonicalization as normal HTTP fetch/proxy paths.
 - Script, CSP nonce, and server-component serialization must escape untrusted values before any cacheable HTML or component payload is produced.
+
+## July 22 Server Action, rewrite, cache, and middleware follow-up
+
+The next wave fixes in Next.js 15.5.21 and 16.2.11 add six operator-relevant boundaries. The affected ranges and prerequisites differ, so prove the named feature and deployment mode rather than reporting a version alone.
+
+| Advisory | Required path | Durable test |
+| --- | --- | --- |
+| [GHSA-89xv-2m56-2m9x](https://github.com/advisories/GHSA-89xv-2m56-2m9x) / CVE-2026-64649 | Server Actions on a custom server or deployment where clients control the host identity received by Next.js | Compare `Host` and `X-Forwarded-Host` variants during a harmless Server Action redirect/forward and observe the final owned callback destination. |
+| [GHSA-p9j2-gv94-2wf4](https://github.com/advisories/GHSA-p9j2-gv94-2wf4) / CVE-2026-64645 | `rewrites()` or `redirects()` interpolates a request capture into an external destination hostname | Prove whether hostname metacharacters escape an intended suffix by routing only to an owned callback. |
+| [GHSA-68g3-v927-f742](https://github.com/advisories/GHSA-68g3-v927-f742) / CVE-2026-64648 | App Router server-side `fetch(new Request(init), differentInit)` with request bodies | Two synthetic body values to one URL receive the wrong cached response marker. |
+| [GHSA-4633-3j49-mh5q](https://github.com/advisories/GHSA-4633-3j49-mh5q) / CVE-2026-64647 | App Router server-side fetch accepts non-UTF-8 bodies | Distinct byte sequences that normalize or collide receive another request's synthetic response marker. |
+| [GHSA-955p-x3mx-jcvp](https://github.com/advisories/GHSA-955p-x3mx-jcvp) / CVE-2026-64643 | App Router uses Server Actions or `use cache` | Public client artifacts disclose internal Server Function identifiers even when the page UI is authenticated. Treat this as recon unless a separate function lacks its own authorization. |
+| [GHSA-6gpp-xcg3-4w24](https://github.com/advisories/GHSA-6gpp-xcg3-4w24) / CVE-2026-64642 | Next.js 16 App Router, Turbopack build, and exactly one configured i18n locale | Crafted route variants bypass middleware/proxy while the final handler remains reachable. |
+
+Build an owned fixture with an external rewrite, one Server Action, two marker-only POST responses, one protected App Router page, and an owned callback. Log raw target, host-associated headers, selected destination, body hash/charset, cache key, middleware marker, handler marker, and response marker. Permit egress only to the owned callback and a synthetic loopback service; never request cloud metadata, internal production services, or customer endpoints.
+
+For cache confusion, use two disposable users and non-sensitive response strings. Compare same URL/different body, same body/different user, equal versus differing `Request` init, UTF-8 versus alternate charset, sequential versus concurrent requests, and Pages Router as a negative control. For Server Function discovery, save only action identifiers and the client artifact exposing them; invoke at most a harmless function returning a fixed marker. For middleware bypass, compare normal, locale-prefixed, encoded, data, RSC, and prefetch forms and prove only that middleware is absent while a marker handler runs.
+
+Keep claims distinct: host steering and dynamic-host rewrites are outbound-routing bugs; body collisions are cross-request response confusion; action-ID exposure is a recon primitive; and the single-locale Turbopack issue is a routing-to-authorization differential. Adjacent unbounded-payload, Server Action, and SVG image issues were tracked but not promoted because they add availability-only workflows.

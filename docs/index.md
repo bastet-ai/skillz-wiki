@@ -8,16 +8,16 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Eclipse Jetty path, authority, trailer-state, and Digest-auth checks](alerts/2026-07-22-jetty-http-parser-auth-boundaries-ghsa.md)
+- [Next.js Server Action, rewrite, cache, and middleware follow-up](alerts/2026-05-11-nextjs-middleware-cache-and-render-boundary-batch-ghsa.md#july-22-server-action-rewrite-cache-and-middleware-follow-up)
+- [JupyterLab image and extension-policy checks](alerts/2026-06-19-jupyterlab-stanza-containerd-parse-symfony-archive-boundaries-ghsa.md#july-22-jupyterlab-image-and-extension-policy-follow-up)
+- [LiteLLM guardrail, MCP, OIDC-file, and Skills checks](alerts/2026-06-08-litellm-authlib-dash-vitest-boundary-batch.md#july-22-litellm-guardrail-mcp-oidc-file-and-skills-follow-up)
+- [n8n MCP, GraphQL, computer-use, and LLM credential checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#final-july-22-n8n-mcp-graphql-computer-use-and-llm-credential-follow-up)
+- [Dompdf nested-SVG local-path existence oracle](alerts/2026-07-22-dompdf-local-file-boundaries-ghsa.md#data-uri-svg-nested-resource-validation)
 - [n8n identity, credential, node, and filesystem boundary wave](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#late-july-22-n8n-identity-credential-node-and-filesystem-boundary-wave)
 - [Netty HTTP bridge, text-protocol, CORS, XML, and OCSP checks](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#july-22-http-bridge-text-protocol-cors-xml-and-ocsp-follow-up)
-- [Dompdf data-URI SVG nested-resource validation](alerts/2026-07-22-dompdf-local-file-boundaries-ghsa.md#data-uri-svg-nested-resource-validation)
 - [Agentic DAST unintended-solution-path auditing](methodology/agentic-dast-benchmark-validation.md#audit-unintended-solution-paths)
-- [Dompdf local-file confinement and existence-oracle checks](alerts/2026-07-22-dompdf-local-file-boundaries-ghsa.md)
 - [Check Point SmartConsole application-token authentication boundary](alerts/2026-07-22-check-point-smartconsole-application-token-auth-boundary.md)
-- [n8n agent, Git TOCTOU, browser, and JWT credential-artifact checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-22-n8n-agent-git-browser-and-credential-artifact-follow-up)
-- [Wagtail `TableBlock` class-attribute render boundary](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#july-22-wagtail-tableblock-attribute-rendering-follow-up)
-- [ProjectDiscovery internal network scanning](skills/projectdiscovery-internal-network-scanning.md)
-- [Final July 21 URL, schema-generation, sanitizer, Jackson, and xDS checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#final-july-21-url-schema-generation-sanitizer-and-authorization-boundaries)
 
 
 

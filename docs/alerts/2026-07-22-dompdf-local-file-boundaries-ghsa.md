@@ -1,6 +1,6 @@
 # Dompdf local-file confinement and existence-oracle checks
 
-Sources: [GHSA-wvh6-f5jh-8gw4 / CVE-2026-55554](https://github.com/advisories/GHSA-wvh6-f5jh-8gw4), [GHSA-7x2p-4jvh-6384 / CVE-2026-55555](https://github.com/advisories/GHSA-7x2p-4jvh-6384), and [GHSA-cx96-42px-69fm / CVE-2026-56722](https://github.com/advisories/GHSA-cx96-42px-69fm), published July 22, 2026. All affect `dompdf/dompdf` before 3.1.6.
+Sources: [GHSA-wvh6-f5jh-8gw4 / CVE-2026-55554](https://github.com/advisories/GHSA-wvh6-f5jh-8gw4), [GHSA-7x2p-4jvh-6384 / CVE-2026-55555](https://github.com/advisories/GHSA-7x2p-4jvh-6384), [GHSA-cx96-42px-69fm / CVE-2026-56722](https://github.com/advisories/GHSA-cx96-42px-69fm), and [GHSA-j8qw-6jw8-r297 / CVE-2026-59943](https://github.com/advisories/GHSA-j8qw-6jw8-r297), published July 22, 2026. All affect `dompdf/dompdf` before 3.1.6.
 
 These advisories expose three reusable PDF-renderer testing boundaries: canonical paths checked as raw string prefixes, local resource existence inferred from renderer resource consumption, and nested SVG resources resolved by a second parser without Dompdf's chroot policy. They matter only when attacker-controlled or insufficiently sanitized HTML/CSS reaches Dompdf. Package presence alone is not proof of exploitability.
 
@@ -85,3 +85,5 @@ Use a disposable renderer with one distinctive image canary outside the configur
 Positive evidence is **outer data URI passes Dompdf validation -> nested SVG image is resolved by a second library without the chroot policy -> synthetic outside-root image appears in the PDF**. Do not probe text files, credentials, application config, user uploads, or arbitrary server paths. Keep the claim to image-readable local resources unless another file type is independently proven in the authorized lab.
 
 Report the three paths separately: **raw-path prefix confinement**, **resource-existence side channel**, and **nested-parser policy loss**. They have different prerequisites and evidence.
+
+The later [GHSA-j8qw-6jw8-r297](https://github.com/advisories/GHSA-j8qw-6jw8-r297) entry adds an explicit nested-SVG existence oracle. Reuse the same disposable renderer but compare only a synthetic file, synthetic directory, and definitely absent sibling under one temporary tree. Capture warning class, render status, elapsed time, and output hash; do not use sensitive example paths. Existing-path differences prove an oracle, not readable content, and must not be upgraded to arbitrary file disclosure without separate canary-content evidence.

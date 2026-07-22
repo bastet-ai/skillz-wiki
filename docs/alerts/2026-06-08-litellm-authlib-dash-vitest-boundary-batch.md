@@ -86,3 +86,20 @@ Operator validation: in an owned LiteLLM lab, create disposable users for each r
 - Prometheus remote-read snappy payload DoS (GHSA-8rm2-7qqf-34qm) remains processed without publication because it is availability/resource-exhaustion-only for this wiki's offensive operator focus.
 - The ProjectDiscovery blog RSS endpoint checked during the scan returned HTTP 404; the main ProjectDiscovery RSS remained available and unchanged.
 - PortSwigger Research, Trail of Bits, GitHub Security Blog, and Disclosed had no separate new promotable deltas beyond items already represented in the wiki or not aligned to durable operator workflows.
+
+## July 22 LiteLLM guardrail, MCP, OIDC-file, and Skills follow-up
+
+Four advisories add concrete AI-gateway boundaries. Fixed versions differ: Custom Code Guardrails require 1.82.0, Skills extraction 1.83.7, request-supplied OIDC file references 1.83.10, and MCP OAuth2 passthrough 1.84.0. Confirm the route, role, and feature before validation.
+
+| Advisory | Boundary to validate |
+| --- | --- |
+| [GHSA-72m8-9m7m-h278](https://github.com/advisories/GHSA-72m8-9m7m-h278) / CVE-2026-59821 | Production `POST /guardrails` and `PUT /guardrails/{id}` did not apply the custom-Python checks used by the test endpoint; an unset master key could also widen who was treated as proxy admin. |
+| [GHSA-7488-6r32-c95q](https://github.com/advisories/GHSA-7488-6r32-c95q) / CVE-2026-59822 | MCP Streamable HTTP OAuth2 passthrough could replace failed LiteLLM-key validation with an empty auth object, allowing an arbitrary bearer value to establish a tool-capable session. |
+| [GHSA-4g5m-c9r5-49xf](https://github.com/advisories/GHSA-4g5m-c9r5-49xf) / CVE-2026-59819 | A privileged `/health/test_connection` caller could place an `oidc/file/` reference in `litellm_params` and make the proxy resolve a local file. This is a privileged feature boundary, not an unauthenticated read. |
+| [GHSA-5jmr-gcrj-2c9q](https://github.com/advisories/GHSA-5jmr-gcrj-2c9q) / CVE-2026-59820 | A user/key allowed to call Skills or broad LLM routes could upload ZIP entries that escape the skill staging directory during extraction. |
+
+Run a disposable proxy with fake provider keys, a synthetic MCP tool that returns a constant, one canary file under a temporary directory, and a Skills staging root plus adjacent outside-canary directory. Test with and without a master key and with separate proxy-admin, internal-user, and route-limited keys.
+
+For guardrails, submit only Python that writes a fixed marker in the disposable container; compare the test endpoint with production create/update. For MCP, compare no header, malformed/random bearer, valid LiteLLM key, and valid upstream OAuth token; invoke only one inert tool. For OIDC references, point only to the synthetic canary and capture redacted field presence or a canary hash. For Skills, prove only that one marker lands in the adjacent disposable directory and compare slash, backslash, absolute, dot-segment, and symlink entries where supported. Never inspect environment variables, connect production MCP servers, or target startup files, credentials, package paths, or host services.
+
+Name **test-only code validation to production guardrail execution**, **failed LiteLLM auth to authenticated MCP session**, **connection-test parameter to local canary file**, or **skill archive member to outside-stage write**. A marker-only file or tool response is sufficient; do not turn proof into secret collection or persistence.
