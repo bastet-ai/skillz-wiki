@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [n8n agent, Git TOCTOU, browser, and JWT credential-artifact checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-22-n8n-agent-git-browser-and-credential-artifact-follow-up)
 - [Wagtail `TableBlock` class-attribute render boundary](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#july-22-wagtail-tableblock-attribute-rendering-follow-up)
 - [ProjectDiscovery internal network scanning](skills/projectdiscovery-internal-network-scanning.md)
 - [Final July 21 URL, schema-generation, sanitizer, Jackson, and xDS checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#final-july-21-url-schema-generation-sanitizer-and-authorization-boundaries)
@@ -17,7 +18,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Gitea migration redirect, stale approval, and revocation-residue checks](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#july-21-gitea-migration-revocation-and-branch-policy-follow-up)
 - [Flowise upload-file fallback traversal check](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-21-flowise-upload-file-fallback-traversal-follow-up)
 - [Package-build normalization/command and URI authority checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-package-build-and-uri-authority-boundaries)
-- [Hono concurrent request-context and `cx()` SSR escaping checks](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-21-hono-request-context-and-cx-ssr-follow-up)
+
 
 
 ## What lives here
