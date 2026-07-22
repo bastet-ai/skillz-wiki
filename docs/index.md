@@ -8,6 +8,9 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [n8n identity, credential, node, and filesystem boundary wave](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#late-july-22-n8n-identity-credential-node-and-filesystem-boundary-wave)
+- [Netty HTTP bridge, text-protocol, CORS, XML, and OCSP checks](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#july-22-http-bridge-text-protocol-cors-xml-and-ocsp-follow-up)
+- [Dompdf data-URI SVG nested-resource validation](alerts/2026-07-22-dompdf-local-file-boundaries-ghsa.md#data-uri-svg-nested-resource-validation)
 - [Agentic DAST unintended-solution-path auditing](methodology/agentic-dast-benchmark-validation.md#audit-unintended-solution-paths)
 - [Dompdf local-file confinement and existence-oracle checks](alerts/2026-07-22-dompdf-local-file-boundaries-ghsa.md)
 - [Check Point SmartConsole application-token authentication boundary](alerts/2026-07-22-check-point-smartconsole-application-token-auth-boundary.md)
@@ -15,9 +18,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Wagtail `TableBlock` class-attribute render boundary](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#july-22-wagtail-tableblock-attribute-rendering-follow-up)
 - [ProjectDiscovery internal network scanning](skills/projectdiscovery-internal-network-scanning.md)
 - [Final July 21 URL, schema-generation, sanitizer, Jackson, and xDS checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#final-july-21-url-schema-generation-sanitizer-and-authorization-boundaries)
-- [Final July 21 Gitea authentication, visibility, and lifecycle wave](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#final-july-21-gitea-authentication-visibility-and-lifecycle-wave)
-- [Gitea outbound-fetch, token, Actions/LFS, and attachment boundary wave](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md#late-july-21-gitea-forge-control-boundary-wave)
-- [GitPython, Sigstore OCI, Vitest, SVG/DOM, and Jackson policy checks](alerts/2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-git-pipeline-and-render-policy-boundaries)
+
 
 
 

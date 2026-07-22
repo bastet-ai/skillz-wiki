@@ -185,3 +185,47 @@ Report **credential object -> JWT constructor -> secret bytes in base64url heade
 - Include exact package, version, route/node/API, user role, and the canary value used. These are preconditioned findings; versionless or roleless reports will be weak.
 - Keep proof artifacts disposable and redacted: lab forms, scratch schemas, synthetic OAuth providers, fake tenant IDs, imported canary flows, and offline pickle files.
 - Adjacent updated-feed items for ImageMagick memory/resource issues and Flowise password-salt weakness were tracked but not promoted because they were availability/resource-hardening or did not add a stronger offensive validation workflow than the Flowise token and secret-boundary items above.
+
+## Late July 22 n8n identity, credential, node, and filesystem boundary wave
+
+The next n8n advisory wave broadens the same workflow-authority model. Do not test from version presence alone: first prove the named feature, node, caller role, and configuration. Fixed-version lines vary across the wave; use each linked advisory, with common fixed releases including `1.123.64` or `1.123.67`, `2.29.8`, `2.30.1`, `2.31.5`, and `2.32.1`.
+
+### Identity and API authority
+
+| Advisory | Boundary to validate |
+| --- | --- |
+| [GHSA-mq3m-f8x3-579w](https://github.com/advisories/GHSA-mq3m-f8x3-579w) / CVE-2026-59208 | Multiple trusted token issuers were collapsed onto a local account by `sub` alone instead of the `(iss, sub)` pair. |
+| [GHSA-8342-988q-86cr](https://github.com/advisories/GHSA-8342-988q-86cr) | Embed login accepted an email claim without requiring verified-email semantics or enforcing the trusted key's role ceiling. |
+| [GHSA-35q8-9mj6-wjmf](https://github.com/advisories/GHSA-35q8-9mj6-wjmf) / CVE-2026-65016 | Enterprise SSO instance-role provisioning could map an IdP-controlled claim to `global:owner` when the optional provisioning flag was enabled. |
+| [GHSA-777w-rpr6-c52h](https://github.com/advisories/GHSA-777w-rpr6-c52h) / CVE-2026-65595 | Token-exchange JWTs received all Public API scopes rather than scopes bounded by the acting user's role. |
+| [GHSA-75qm-gp28-rcq9](https://github.com/advisories/GHSA-75qm-gp28-rcq9) / CVE-2026-59206 | Dangerous workflow credential keys could alter object behavior and expose unauthenticated user/project enumeration responses. |
+
+Build an identity matrix with two synthetic issuers that deliberately reuse one subject, verified and unverified canary emails, low/high role claims, and a disposable local account per expected identity. Exercise only harmless profile/status and marker-only Public API routes. Capture issuer, subject, email-verification state, trusted-key role ceiling, provisioned local identity, resulting API scopes, and fixed-version result. Never impersonate real users, create production admins, install packages, delete users, or reuse live tokens.
+
+### Shared credentials and destination policy
+
+| Advisory | Boundary to validate |
+| --- | --- |
+| [GHSA-q3j5-8vrg-4p9q](https://github.com/advisories/GHSA-q3j5-8vrg-4p9q) / CVE-2026-59209 | HTTP Request pagination expressions could steer later requests and carry a shared credential header to an unintended owned destination. |
+| [GHSA-h44j-f5r5-ph73](https://github.com/advisories/GHSA-h44j-f5r5-ph73) / CVE-2026-59207 and [GHSA-64xh-79j6-r5v8](https://github.com/advisories/GHSA-64xh-79j6-r5v8) | AI Agent MCP connectors and several AI/LLM nodes did not enforce a shared credential's allowed-domain restriction against user-selected endpoints. |
+| [GHSA-6qc9-mqvw-jg7x](https://github.com/advisories/GHSA-6qc9-mqvw-jg7x) | An expression in HTTP Request `genericAuthType` was checked before resolution, skipping ownership validation for a known credential ID. |
+| [GHSA-cj9h-qx8g-pq2g](https://github.com/advisories/GHSA-cj9h-qx8g-pq2g) | Inline JSON in Execute Sub-workflow hid nested credential references from top-level save-time and runtime checks. |
+
+Use two disposable editors, a shared fake credential containing a unique inert header, and two owned callback origins. Compare direct HTTP Request, pagination, AI/LLM endpoint override, MCP connector, resolved versus expression-backed `genericAuthType`, and inline versus referenced sub-workflows. A positive proof is the fake header arriving at the wrong owned origin or an unauthorized reference being accepted. Do not recover the credential value from storage, target third-party APIs, or use production secrets.
+
+### Execution, outbound-fetch, and file boundaries
+
+| Advisory | Boundary to validate |
+| --- | --- |
+| [GHSA-pm35-fqvh-cq5g](https://github.com/advisories/GHSA-pm35-fqvh-cq5g) / CVE-2026-65591 and [GHSA-gv7g-jm28-cr3m](https://github.com/advisories/GHSA-gv7g-jm28-cr3m) | Legacy computed-member and VM arrow-function expression paths crossed their intended expression sandboxes. |
+| [GHSA-9w78-79q7-r4fp](https://github.com/advisories/GHSA-9w78-79q7-r4fp) / CVE-2026-65593 | Any authenticated user could reach dynamic-node-parameter routes and replace a declared base URL with an absolute URL. |
+| [GHSA-vhf8-cg2h-cg3p](https://github.com/advisories/GHSA-vhf8-cg2h-cg3p) | MCP Client requests bypassed enabled SSRF filtering and address pinning. |
+| [GHSA-gf29-4f56-r2jf](https://github.com/advisories/GHSA-gf29-4f56-r2jf) | Git fetch, pull, and push-tags accepted local repositories outside `N8N_RESTRICT_FILE_ACCESS_TO`. |
+| [GHSA-rcv6-pvrj-4xcg](https://github.com/advisories/GHSA-rcv6-pvrj-4xcg) | A staged local repository could make the Git node execute repository hooks under default Git behavior. |
+| [GHSA-2x35-3fw4-9jr4](https://github.com/advisories/GHSA-2x35-3fw4-9jr4) | A webhook-derived non-string Send Email body became a Nodemailer content object and selected a local path or URL. |
+| [GHSA-xmc9-4f2h-jf9c](https://github.com/advisories/GHSA-xmc9-4f2h-jf9c) | Edit Image passed an unvalidated output format into the image backend, allowing a write outside its working directory. |
+| [GHSA-pf2q-pxhf-hgmw](https://github.com/advisories/GHSA-pf2q-pxhf-hgmw) | `@n8n/computer-use` `search_files` patterns expanded beyond the configured base directory. |
+
+For expressions and Git hooks, use an inert temp-file marker in an isolated n8n container; host-shell access or persistence is unnecessary. For URL paths, use an owned callback and a synthetic loopback service created for the test—never metadata or real internal services. For Git and file checks, place unique marker repositories/files immediately outside disposable roots and prove only the path crossing. For Send Email, use fake SMTP plus synthetic local/URL content; for Edit Image, write only a disposable marker; for `search_files`, return only a known adjacent canary file.
+
+The strongest report names the exact transition: **external identity to wrong local account**, **low role to global API scopes**, **shared credential to disallowed origin**, **nested or unresolved node metadata to another user's credential**, **workflow expression to process marker**, **declared service base URL to owned callback**, **allowed Git workspace to adjacent repository or hook**, **non-string message field to local/URL content**, **image format to output path**, or **search pattern to outside-base canary**. Availability-only prototype-pollution advisories in the same wave were tracked but not promoted as standalone workflows.

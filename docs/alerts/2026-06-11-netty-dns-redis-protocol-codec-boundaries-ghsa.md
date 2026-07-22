@@ -152,3 +152,44 @@ Keep packet captures and Redis transcripts scoped to canaries. Redact hostnames,
 ## Notes on skipped adjacent items
 
 The same scan rechecked Disclosed, PortSwigger, Trail of Bits, ProjectDiscovery, CISA KEV, and GitHub advisory feeds. No new non-GitHub source item produced separate durable operator guidance this hour. Previously processed axios, Keycloak, Undertow, and availability-only updated-feed entries remained represented by existing wiki coverage or did not justify a new offensive workflow page.
+
+## July 22 HTTP bridge, text-protocol, CORS, XML, and OCSP follow-up
+
+The late wave affects common Netty release lines before `4.1.136.Final` and `4.2.16.Final`; verify the exact module and range in each advisory. It adds five durable protocol-boundary families:
+
+| Advisory | Boundary worth testing |
+| --- | --- |
+| [GHSA-c69g-56f8-xwqj](https://github.com/advisories/GHSA-c69g-56f8-xwqj) / CVE-2026-59900 | HTTP/2 `:authority` plus a literal `host` becomes two HTTP/1 `Host` fields after `Http2StreamFrameToHttpObjectCodec` or `InboundHttp2ToHttpAdapter` translation. |
+| [GHSA-4mp9-239f-g9hg](https://github.com/advisories/GHSA-4mp9-239f-g9hg) / CVE-2026-59898 | WebSocket V07/V08 handshakers accept a version-7 upgrade without the HTTP `Connection: Upgrade` and `Upgrade: websocket` signals a front end expects. |
+| [GHSA-gcjf-9mgh-3p7g](https://github.com/advisories/GHSA-gcjf-9mgh-3p7g) / CVE-2026-59921 | Multipart field names or filenames containing CRLF become additional MIME headers or body-part boundaries in `HttpPostRequestEncoder`. |
+| [GHSA-3g8r-4pfx-jmfh](https://github.com/advisories/GHSA-3g8r-4pfx-jmfh) / CVE-2026-59920 | Raw newlines in STOMP `CONNECT`/`CONNECTED` header values become additional protocol headers because compatibility disables escaping without adding rejection. |
+| [GHSA-wh89-7897-x99h](https://github.com/advisories/GHSA-wh89-7897-x99h) / CVE-2026-59919 | CRLF in an AF_UNIX address becomes a second line in HAProxy PROXY v1 output; IPv4/IPv6 format checks do not cover this address family. |
+| [GHSA-6cqp-g7gg-8hr5](https://github.com/advisories/GHSA-6cqp-g7gg-8hr5) / CVE-2026-56746 | `Origin: null` selects a CORS config object even when null origin is not allowed, defeating `CorsHandler.shortCircuit()` before backend processing. |
+| [GHSA-4qhr-g3c6-fcfx](https://github.com/advisories/GHSA-4qhr-g3c6-fcfx) / CVE-2026-56817 | `XmlDecoder` creates an XML factory without disabling DTD/entity handling; external resolution remains conditional on the actual Aalto async parser path. |
+| [GHSA-272m-gcwp-mpwg](https://github.com/advisories/GHSA-272m-gcwp-mpwg), [GHSA-g7hg-vrcf-mvmr](https://github.com/advisories/GHSA-g7hg-vrcf-mvmr), and [GHSA-wc96-39fc-566f](https://github.com/advisories/GHSA-wc96-39fc-566f) | OCSP validation can accept a signed `GOOD` response for another certificate, accept stale status, or notify downstream handlers that TLS is ready before asynchronous revocation validation finishes. |
+
+### HTTP/2 and WebSocket bridge matrix
+
+Use a disposable front end plus Netty origin and a canary virtual host. For HTTP/2 translation, vary `:authority`, literal `host`, equality/order, and single-header controls; record the HTTP/2 frame, translated HTTP/1 object, every Host value, selected route, and patched result. A useful proof is **one H2 request -> two conflicting Host values -> a harmless routing/auth/cache decision uses a different authority than the edge**.
+
+For WebSocket, compare versions 7, 8, and 13 with complete, missing, and malformed `Connection`/`Upgrade` headers. Capture the front-end interpretation, Netty handshaker choice, `101` response, and only a marker frame. The claim is **front end sees ordinary HTTP -> origin switches protocols**, not request smuggling unless a separate single-connection canary demonstrates a parser-boundary effect. Never target another user's connection or a shared production pool.
+
+### Encoder delimiter matrix
+
+Test encoders offline with `EmbeddedChannel` and a mock receiver. Supply a normal token, CR, LF, CRLF, quote, colon, and boundary-like marker to exactly one field at a time: multipart field name/filename, STOMP CONNECT header value, or HAProxy v1 AF_UNIX source/destination. Save escaped input bytes, serialized wire bytes, parsed field/header count, and fixed-version rejection.
+
+Positive evidence is one application value becoming two wire-level fields or lines. Use inert names and marker headers only. Do not forge auth material, spoof real client IPs, upload executable browser content, or send malformed PROXY/STOMP traffic to production brokers and edges.
+
+### CORS and XML controls
+
+For CORS, place a marker-only backend handler behind `CorsHandler.shortCircuit()`, explicitly disallow null origin, and compare absent, allowed, disallowed HTTPS, and literal `Origin: null`. Record both response headers and whether the backend marker ran; CORS response-header behavior alone does not prove the short-circuit bypass.
+
+For XML, first prove an attacker-controlled channel reaches `XmlDecoder`. Use an owned loopback entity endpoint and inert entity text, then compare DTD disabled/enabled, no-DOCTYPE, patched Netty, and the exact Aalto parser version. Report only confirmed callback or expansion behavior; an unconfigured factory is a risky sink, not automatic XXE on every runtime. Never reference local files or internal services.
+
+### OCSP decision table
+
+Build a local CA, mock OCSP responder, and Netty client whose first post-handshake action sends only a fixed canary to a local TLS server. Test: matching fresh `GOOD`, matching revoked, stale `GOOD`, `GOOD` for another certificate from the same CA, delayed revoked response, and patched versions. Record requested and returned CertificateID hashes/serials, `thisUpdate`/`nextUpdate`, validation event order, channel-close order, and whether the canary was sent before final status.
+
+Keep keys and certificates disposable. Never intercept production OCSP, replay public certificate status, or send credentials as the post-handshake marker. Separate the findings as **response identity mismatch**, **freshness failure**, and **handshake/validation event-order TOCTOU**.
+
+Availability-only Bzip2, HTTP/1 pipelining, HTTP/3, SPDY, and HAProxy decoder exhaustion items from the wave were tracked without standalone offensive guidance.
