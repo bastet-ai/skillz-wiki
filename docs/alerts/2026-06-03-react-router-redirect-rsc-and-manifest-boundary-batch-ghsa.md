@@ -101,6 +101,95 @@ The manifest issue is useful for exposure mapping, but resource-exhaustion proof
 
 Do not run repeated or high-cardinality manifest probes against production.
 
+## July 23 navigation, RSC, and hydration follow-up
+
+GitHub's July 23 wave adds four adjacent checks: [GHSA-wrjc-x8rr-h8h6 / CVE-2026-53669](https://github.com/advisories/GHSA-wrjc-x8rr-h8h6), [GHSA-jjmj-jmhj-qwj2 / CVE-2026-53668](https://github.com/advisories/GHSA-jjmj-jmhj-qwj2), [GHSA-h8fp-f39c-q6mh / CVE-2026-53667](https://github.com/advisories/GHSA-h8fp-f39c-q6mh), and [GHSA-337j-9hxr-rhxg / CVE-2026-53666](https://github.com/advisories/GHSA-337j-9hxr-rhxg).
+
+They extend the original boundary map:
+
+| Boundary | Required reachability | Positive signal | Negative control |
+| --- | --- | --- | --- |
+| mixed separators | attacker-controlled string reaches `<Link>`, `useNavigate()`, or a redirect location | router and browser disagree whether `\\`, `/\\`, or `\\/` begins an external URL | local `/marker` stays in-origin; React Router `7.18.0+` normalizes mixed separators consistently |
+| colon-bearing route | application places attacker-controlled destination into navigation and an open-redirect condition is present | a value intended as a route path gains URL-scheme semantics at the browser sink | ordinary `foo:bar` remains an in-origin path on the fixed build |
+| RSC error redirect | unstable RSC APIs are enabled and attacker influence reaches a redirect thrown through the RSC error/render path | unsupported scheme survives into `window.location`, `Location`, or a meta-refresh target | ordinary local and HTTPS redirects still work; `7.18.0+` rejects the unsupported scheme |
+| hydration constructor | Framework Mode or Data Mode manual SSR/hydration plus application code lets attacker input overwrite serialized error type metadata | hydration invokes a browser-global constructor selected by serialized `__subType` | Declarative Mode is unaffected; fixed builds reconstruct only supported built-in error types |
+
+### Affected configurations
+
+- **Mixed-separator bypass:** `react-router >= 6.0.0, < 7.18.0`.
+- **Colon/open-redirect path:** `react-router-dom 6.30.2-6.30.4` and `react-router 7.9.6-7.12.0`; the advisory identifies `react-router 7.13.0` as the first patched v7 release. Validate the exact maintained line rather than assuming every 6.x build has an available patched package.
+- **RSC error redirect:** `react-router >= 7.11.0, < 7.18.0`, only when unstable RSC APIs are used.
+- **Hydration constructor:** `react-router >= 6.4.0, < 7.18.0`, only Framework Mode or Data Mode applications doing manual SSR/hydration. Declarative Mode is not affected by the advisory.
+
+### Navigation representation matrix
+
+Search application code for untrusted values flowing into `<Link to={value}>`, `navigate(value)`, `useNavigate()(value)`, `redirect(value)`, or `throw redirect(value)`. Also find wrappers such as `safeRedirect()`, login `next` parameters, CMS navigation fields, and server-provided action results. Record where decoding, slash replacement, route resolution, origin checks, and browser assignment occur.
+
+Use a local target route and an owned second origin. Exercise each sink independently:
+
+| Input class | Example fixture value | Decision to record |
+| --- | --- | --- |
+| local baseline | `/bastet-local` | remains on the application origin |
+| double forward slash | `//owned.invalid/bastet` | consistently treated as external or rejected according to application policy |
+| double backslash | `\\\\owned.invalid\\bastet` | not classified as local before browser normalization |
+| mixed separators A | `/\\owned.invalid/bastet` | same decision before and after normalization |
+| mixed separators B | `\\/owned.invalid/bastet` | same decision before and after normalization |
+| relative colon | `bastet:marker` | remains a route path or is rejected; it must not gain scheme semantics after validation |
+| dotted colon | `./bastet:marker` | same representation at policy and navigation sinks |
+| parent colon | `../bastet:marker` | same representation at policy and navigation sinks |
+
+For each row, capture the raw input, value passed to React Router, router-resolved pathname or absolute URL, final browser URL, and whether the owned second origin received a request. A vulnerable result is a decision mismatch, not merely the presence of unusual separators.
+
+If the authorized lab requires executable-scheme confirmation, use only a visible local marker such as `javascript:document.body.dataset.bastet='1'`. Stop after the dataset change and do not access cookies, storage, DOM content, or network APIs. Do not call the colon case XSS unless script execution is independently observed in the application's actual sink.
+
+The mixed-separator fix centralizes `//host`, `\\host`, `/\\host`, and `\\/host` as protocol-relative candidates, then replaces backslashes before URL parsing or collapses repeated slash/backslash runs for route paths. The colon-path fix makes relative strings such as `foo:bar`, `./foo:bar`, and `../foo:bar` resolve as pathnames instead of preserving them as absolute URLs. Re-run the same matrix on `7.18.0+`.
+
+### Unstable RSC error-redirect replay
+
+This check does not apply to applications that do not use unstable RSC APIs.
+
+In a disposable RSC fixture:
+
+1. create one route that throws a local redirect, one that throws an HTTPS redirect to an owned origin, and one that throws an unsupported-scheme marker such as `about:blank#bastet`;
+2. exercise direct render, suspended/lazy render, and client-side RSC error handling separately;
+3. capture the response `Location`, generated meta-refresh element, and client navigation event; and
+4. repeat on `react-router 7.18.0+`.
+
+Expected secure behavior is that local and policy-approved HTTPS redirects preserve their intended behavior while the unsupported scheme is rejected or omitted from browser navigation. The fix adds protocol validation at the RSC error handler and server render/streaming branches, so testing only a normal loader redirect is not enough.
+
+### Manual SSR hydration constructor replay
+
+All of these preconditions must be demonstrated:
+
+1. the application uses Framework Mode or Data Mode with manual SSR/hydration;
+2. serialized route errors reach browser hydration state;
+3. application code lets attacker-controlled input overwrite error type fields, rather than only the message; and
+4. the affected client bundle invokes React Router's error deserialization path.
+
+The advisory describes the application-layer overwrite requirement as specific and unlikely. Do not infer remote reachability from package presence or from an attacker-controlled error message alone.
+
+In a disposable browser fixture, register a harmless test constructor on `window` that increments a counter and returns an `Error`. Seed the application's normal hydration object with a synthetic route error whose `__type` is `Error` and whose `__subType` names that constructor. Hydrate through the same API and state path used by the application.
+
+| Case | Error metadata | Expected result |
+| --- | --- | --- |
+| baseline | built-in `TypeError` | normal supported error reconstruction |
+| negative | message controlled, subtype server-owned | no attacker-selected constructor |
+| reachability test | synthetic subtype reaches hydration | marker counter changes only on affected build |
+| fixed control | same state on `7.18.0+` | plain/supported error; marker counter unchanged |
+| mode control | Declarative Mode | affected deserializer not reached |
+
+Do not use constructors that fetch URLs, import code, read browser state, or mutate anything beyond the counter. The finding is **attacker-controlled serialized subtype -> `window[subtype]` lookup -> unexpected constructor invocation during hydration**. Outbound traffic is possible according to the advisory, but a counter proves constructor reachability without creating network effects.
+
+The patch removes the undocumented custom Framework Mode error-deserialization path and restricts remaining Data Mode reconstruction to a fixed set of built-in error types. Confirm behavior through the deployed application path rather than by editing a global hydration object the target never exposes to attacker influence.
+
+### Follow-up sources
+
+- [React Router mixed-separator fix PR #15176](https://github.com/remix-run/react-router/pull/15176)
+- [React Router colon-path fix PR #14718](https://github.com/remix-run/react-router/pull/14718)
+- [React Router RSC protocol-validation fix PR #15177](https://github.com/remix-run/react-router/pull/15177)
+- [React Router hydration-error fix PR #15175](https://github.com/remix-run/react-router/pull/15175)
+- [React Router 7.18.0 release](https://github.com/remix-run/react-router/releases/tag/react-router%407.18.0)
+
 ## Reporting heuristic
 
 Frame reports around the violated boundary, not just the CVE:

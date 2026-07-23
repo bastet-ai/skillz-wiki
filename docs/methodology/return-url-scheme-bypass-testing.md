@@ -18,6 +18,8 @@ Gogs [GHSA-xxhq-69mf-w8cr / CVE-2026-52802](https://github.com/advisories/GHSA-x
 
 Apache Shiro Jakarta EE [GHSA-7pq2-fhx9-x464 / CVE-2026-48589](https://github.com/advisories/GHSA-7pq2-fhx9-x464) adds a header-sourced variant: post-login redirects can trust the client-controlled `Referer` header when no explicit saved request is present. Treat `Referer` as another return-target input, not as browser-authenticated state.
 
+React Router [GHSA-wrjc-x8rr-h8h6 / CVE-2026-53669](https://github.com/advisories/GHSA-wrjc-x8rr-h8h6) and [GHSA-jjmj-jmhj-qwj2 / CVE-2026-53668](https://github.com/advisories/GHSA-jjmj-jmhj-qwj2) extend the same method to client-side navigation: mixed leading slash/backslash forms and relative colon-bearing paths can cross from route interpretation into browser URL interpretation. Test `<Link>`, `useNavigate()`, and redirect results independently; the full [React Router navigation and hydration workflow](../alerts/2026-06-03-react-router-redirect-rsc-and-manifest-boundary-batch-ghsa.md#july-23-navigation-rsc-and-hydration-follow-up) also covers RSC protocol checks and manual SSR error deserialization.
+
 The reusable lesson is broader than any one framework: URL sinks need URL parsing, canonicalization, and origin decisions made in the same representation the browser or redirect client will follow.
 
 ## Preconditions
@@ -165,3 +167,5 @@ https://allowed.example.invalid@evil.example/
 - [GitHub Advisory Database: Gogs GHSA-xxhq-69mf-w8cr / CVE-2026-52802](https://github.com/advisories/GHSA-xxhq-69mf-w8cr)
 - [GitHub Advisory Database: Concourse GHSA-8w27-c4vc-88q9 / CVE-2026-49826](https://github.com/advisories/GHSA-8w27-c4vc-88q9)
 - [GitHub Advisory Database: Apache Shiro Jakarta EE GHSA-7pq2-fhx9-x464 / CVE-2026-48589](https://github.com/advisories/GHSA-7pq2-fhx9-x464)
+- [GitHub Advisory Database: React Router GHSA-wrjc-x8rr-h8h6 / CVE-2026-53669](https://github.com/advisories/GHSA-wrjc-x8rr-h8h6)
+- [GitHub Advisory Database: React Router GHSA-jjmj-jmhj-qwj2 / CVE-2026-53668](https://github.com/advisories/GHSA-jjmj-jmhj-qwj2)
