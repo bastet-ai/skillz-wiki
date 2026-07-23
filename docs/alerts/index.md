@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [DOMPurify state, policy, and reparse boundary checks](2026-07-23-dompurify-state-context-boundaries-ghsa.md)
 - [n8n agent, Git TOCTOU, browser, and JWT credential-artifact checks](2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#july-22-n8n-agent-git-browser-and-credential-artifact-follow-up)
 - [Wagtail `TableBlock` class-attribute render boundary](2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#july-22-wagtail-tableblock-attribute-rendering-follow-up)
 - [Late .NET cross-user container-build, Negotiate/LDAP role, and WPF XAML boundary checks](2026-07-21-developer-agent-proxy-control-boundaries-ghsa.md#late-july-21-net-build-authentication-and-xaml-boundaries)

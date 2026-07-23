@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [DOMPurify state, policy, and reparse boundary checks](alerts/2026-07-23-dompurify-state-context-boundaries-ghsa.md)
 - [Eclipse Jetty path, authority, trailer-state, and Digest-auth checks](alerts/2026-07-22-jetty-http-parser-auth-boundaries-ghsa.md)
 - [Next.js Server Action, rewrite, cache, and middleware follow-up](alerts/2026-05-11-nextjs-middleware-cache-and-render-boundary-batch-ghsa.md#july-22-server-action-rewrite-cache-and-middleware-follow-up)
 - [JupyterLab image and extension-policy checks](alerts/2026-06-19-jupyterlab-stanza-containerd-parse-symfony-archive-boundaries-ghsa.md#july-22-jupyterlab-image-and-extension-policy-follow-up)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [n8n identity, credential, node, and filesystem boundary wave](alerts/2026-06-24-hono-n8n-flowise-picklescan-boundaries-ghsa.md#late-july-22-n8n-identity-credential-node-and-filesystem-boundary-wave)
 - [Netty HTTP bridge, text-protocol, CORS, XML, and OCSP checks](alerts/2026-06-11-netty-dns-redis-protocol-codec-boundaries-ghsa.md#july-22-http-bridge-text-protocol-cors-xml-and-ocsp-follow-up)
 - [Agentic DAST unintended-solution-path auditing](methodology/agentic-dast-benchmark-validation.md#audit-unintended-solution-paths)
-- [Check Point SmartConsole application-token authentication boundary](alerts/2026-07-22-check-point-smartconsole-application-token-auth-boundary.md)
 
 
 
