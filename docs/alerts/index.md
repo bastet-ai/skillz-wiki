@@ -10,6 +10,7 @@ High-signal incident notes, malware waves, CVE writeups, and active defensive re
 
 ## Recent highlights
 
+- [Fleet follow-up: observer-class target-search field-masking differential leaks team enroll secrets and credential-bearing agent options (GHSA-88p2-jj8w-j8qg / CVE-2026-48786)](2026-05-14-fleet-mdm-identity-and-rate-limit-boundary-batch-ghsa.md#september-7-follow-up-observer-class-field-masking-differential-on-target-search-ghsa-88p2-jj8w-j8qg-cve-2026-48786)
 - [AVideo notify file-write, socket-callback, and rate-limit boundary batch: unauth file write via replayed notify ciphertext, view-stats hash-param user-record leak, bot-UA rate-limit bypass, YPTSocket callback dispatch XSS, weak `rand()` external-login passwords (5 GHSAs)](2026-09-05-avideo-notify-filewrite-socket-callback-rate-limit-ghsa.md)
 - [Agent/LLM + dev-console unauth wave: AutoAgent unauth TCP root RCE, Cua env-gated auth skip, SQL Chat unauth API-to-DB SQL relay, Coolify OAuth email-collision session mint, Axolotl `trust_remote_code` model-load RCE, MindsDB/Webstudio/Rowboat/Sim URL-relay SSRF (9 GHSAs)](2026-09-05-agent-ai-devconsole-unauth-rce-sql-relay-and-oauth-session-mint-ghsa.md)
 - [Unauth RCE/admin KEV wave: Kestra suffix-match auth bypass → workflow RCE (CVE-2026-49869), Artifactory default-config unauth admin (CVE-2026-82329), and Sangoma Switchvox `/pa` PhoneIP SQLi → RCE (CVE-2026-9586)](2026-09-05-kestra-artifactory-switchvox-unauth-rce-admin-kev-ghsa.md)
