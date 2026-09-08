@@ -283,6 +283,36 @@ connect    -> owned private/loopback peer B that the resolver actually returns
 
 Record the validator verdict, the resolver answer (family, address, classification), and the final connected peer. A bounded positive is **validation passes -> resolver returns a destination the validator did not classify as blocked -> fetch reaches the owned private peer**. Never reach cloud metadata, loopback admin routes, or production private services.
 
+## September 8 NLTK follow-up: four file-boundary bypass paths past `pathsec` and the downloader gate (4 GHSAs)
+
+Four reviewed NLTK records (patched in `3.9.3`/`3.10.0`) add concrete bypass paths to the same `pathsec`/corpus-escape theme documented above. The durable operator lesson is sharper than any single one: **a lexical sandbox guard that compares a path to itself, opens via `builtins.open`, resolves symlinks only lexically, or downloads before verifying is a file-boundary that fails at a different step every time.** In any target that loads NLTK data or corpora, inventory which of the four failure classes the running build exhibits — not just whether `ENFORCE` is on.
+
+### 1. `StreamBackedCorpusView._open()` bypasses `pathsec` even with `ENFORCE=True` ([GHSA-x5ph-mj9p-rfr8](https://github.com/advisories/GHSA-x5ph-mj9p-rfr8))
+
+`nltk.pathsec.open` is the documented enforcement point: it calls `validate_path(file)` before `builtins.open`. `StreamBackedCorpusView._open()` in `nltk/corpus/reader/util.py` does **not** route through it — for string `fileid` values it calls `builtins.open()` directly on the raw string. The effect: with `pathsec.ENFORCE = True` (the setting the earlier `ENFORCE=False` default-off item says you must confirm is set), any corpus view that reaches `StreamBackedCorpusView` — including `XMLCorpusView` and any subclass that passes a raw string `fileid` — still reads arbitrary local files.
+
+Reproducible check in a disposable install: set `ENFORCE=True`, point a `StreamBackedCorpusView`/`XMLCorpusView` at a root, and pass a `fileid` that is an absolute path to an **inert canary file** outside the data directories. A positive is the canary content returned while `pathsec.validate_path` would have raised for the same path via `pathsec.open`. The report is the bypass call site (`_open` → `builtins.open`), not "file read". Never use the bypass to read credentials, keys, or other tenants' data in an authorized target; prove the gap against your own canary only.
+
+### 2. `FileSystemPathPointer.open()` sandbox guard is dead code — `normpath` compared to itself ([GHSA-72r2-7mfr-5xr9](https://github.com/advisories/GHSA-72r2-7mfr-5xr9))
+
+`nltk/data.py` carries a "SECURITY PATCH ENFORCING SANDBOX" comment in `FileSystemPathPointer.open()`, but the guard condition is `os.path.isabs(path) and path != os.path.normpath(self._path)` where `path` was *just assigned* `os.path.normpath(self._path)` — the comparison is always `False`, so the branch can never fire. The result: **any file the process can read is reachable by passing a `file://` URL to `nltk.data.load()`**, because the "direct absolute access" check does not execute at all.
+
+Reproducible check: in a disposable install, `nltk.data.load("file:///absolute/path/to/canary.txt")` where the canary sits outside the NLTK data root. A positive is the canary bytes returned despite the guard's comment claiming it blocks raw absolute reads. The report is the tautological guard expression itself — a "security patch" that structurally cannot trigger — plus the call chain from `nltk.data.load` to `open()`.
+
+### 3. `CorpusReader` symlink escape: lexical boundary check does not resolve symlinks ([GHSA-r6gq-whwq-mvg9](https://github.com/advisories/GHSA-r6gq-whwq-mvg9))
+
+`CorpusReader.open()` blocks absolute paths and `..` traversal, then opens `self._root.join(file)`. The check is **lexical**: it never resolves the final path, so a symlink placed *inside* the corpus root points outside it and the reader follows it. Combined with items 1 and 2, this is the third distinct failure class for the same boundary: absolute path, `..`, and symlink resolution are three separate gates, and each of the four records in this section shows a different one being absent or inert.
+
+Reproducible check: in a disposable corpus root (one you own and created), place a symlink whose target is an **inert canary file** just outside the root. Load it through `CorpusReader.open()`. A positive is the canary content read through the symlink. Never point symlinks at credentials, config, or other tenants' data; the proof is "symlink outside root was followed", recorded with the link path and target path only.
+
+### 4. Downloader: no post-download integrity check before extraction ([GHSA-5wp5-5229-5g6q](https://github.com/advisories/GHSA-5wp5-5229-5g6q))
+
+`nltk/downloader.py` downloads a package archive to a temp path over HTTP, moves it to the final location with `os.replace`, and then extracts it. The SHA-256 verification logic exists in `_pkg_status()` but is only used **before** download ("is this package already installed and up-to-date?") — it is never applied to the file that was actually received. The attack surface is classic supply-chain: MITM on an `http://` mirror, a compromised mirror, or a local race between the move and the extraction. This extends the archive-extraction theme already tracked in this taxonomy: the boundary is *where the integrity check sits relative to extraction*, and here it sits on the wrong side of it.
+
+Reproducible check: stand up a disposable local mirror serving a **canary package archive** whose contents you control, point a patched-vs-unpatched NLTK build at it, and record (a) whether the unpatched build extracts without any post-download verification, and (b) that the patched `3.9.3`/`3.10.0` build verifies before extraction. Use inert files only; do not plant executable payloads in an extraction path that a real application would run, and do not test against a production mirror or a shared corpus cache.
+
+**Cross-cutting lesson for NLTK targets.** For each of the four, the failing control is a *different* step in the same pipeline: enforcement routing (item 1), guard logic (item 2), path resolution (item 3), and check ordering (item 4). When auditing any corpus/data-loading library, test each step separately — a green "ENFORCE is on" does not cover any of them.
+
 ## Evidence and reporting
 
 For every workflow, preserve:
