@@ -132,6 +132,20 @@ Reusable checks, extending the late-wave row-filter findings:
 
 All proofs are marker-only in a disposable kernel: a synthetic hidden database holding one marker row + one marker key definition, requested through both endpoints with a publish reader token; the positive is the marker value/schema returned. No real note content, no real database dump, no production mutation.
 
+## September 8 follow-up: attacker-writable clipboard MIME skips sanitization into the Node-enabled desktop renderer (1 GHSA)
+
+A later SiYuan desktop advisory published 2026-09-08 extends the kernel audit axis into the **client-side clipboard/paste trust boundary** in the Node-enabled desktop renderer:
+
+- **[GHSA-358r-j9r9-9hv6](https://github.com/advisories/GHSA-358r-j9r9-9hv6) / CVE-2026-86712 (high 8.8, CWE-79)** — SiYuan before `3.8.2` trusts the attacker-writable `text/siyuan` clipboard MIME type and **skips sanitization in the paste handler**. An attacker crafts a malicious web page that writes `text/siyuan` content to the clipboard; when the victim pastes into SiYuan, the injected script executes with **full Node.js access through the Electron main process** (desktop renderer only — the web/browser build is not the affected surface).
+
+This is the desktop-client analogue of the kernel's "untrusted input reaches a privileged sink" axis, but the input channel is the OS clipboard rather than an HTTP route. Durable operator value:
+
+1. **Clipboard MIME type is untrusted input, not a format guarantee.** A MIME label (`text/siyuan`) written by *any* web page the user visited is attacker-controlled. Any paste/import/autofill handler that branches on a client-writable MIME/content-type and *skips the sanitizer on that branch* is the vulnerable pattern — the same "short-circuit branch bypasses the containment check" lesson from the `/export/temp/` finding above, applied to the paste path.
+2. **Desktop (Electron + Node) vs. web (browser) is a separate trust tier.** Code execution here requires the Node-enabled desktop renderer; the web build does not grant `process` access. When reporting, name the affected build (desktop vs. web) and the renderer's Node access level, because the impact tier is set by the *host*, not the payload.
+3. **The reusable check is a differential: same payload, sanitized-on-plain-paste vs. unsanitized-on-`text/siyuan`-paste.** Prove the sanitizer skip with a harmless event marker that survives only on the MIME-branch path; do not escalate to real Node code execution or exfiltration.
+
+Replayable validation (marker-only): in a disposable SiYuan **desktop** build, write a `text/siyuan` clipboard payload containing a harmless event marker (no executed script), paste into a synthetic notebook, and confirm the marker reaches the renderer un-sanitized while an identical payload pasted as plain text is sanitized. Positive evidence is the MIME-branch differential. Do not run a live Node payload, do not read clipboard contents of a real user, and do not target the web build.
+
 ## Safety
 
 - **Disposable kernel only.** Synthetic notebooks, synthetic template/snippet files, one synthetic block/document ID, a lab `AccessAuthCode`, and denied SQLite/file sinks.

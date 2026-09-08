@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [hawtio-operator OpenShift operator trust-boundary cluster: Service-CA private-key cert minting with attacker-controlled CN → arbitrary in-cluster service identity, tenant-controlled OAuth redirect on an auto-grant public client → consentless token theft, and ClusterRole all-namespace Secret read → operator-pod = cluster-secret-dump (3 GHSAs)](alerts/2026-09-08-hawtio-operator-openshift-service-ca-oauth-and-secrets-boundaries-ghsa.md)
 - [knowns agent-server trust boundaries + Lara Dashboard admin-privilege breaks: unauth management API with public-tunnel republish, MCP tool-argument filesystem traversal, `code.replace` writing shell startup/SSH files, read-only-classification auth bypass, repo-config LSP binary exec, unauth import/template file write+read, embedding-model-test SSRF oracle; non-Superadmin marketplace module install RCE, `settings.edit` core-upgrade zip over live source, unauthorized post-builder media upload (11 GHSAs)](alerts/2026-09-08-knowns-mcp-file-boundaries-and-lara-dashboard-admin-breaks-ghsa.md)
 - [389 Directory Server auth-boundary cluster, plus JetBrains, LibreNMS, and MISP trust boundaries: SASL PLAIN stale-identity crossbind to Directory Manager, Cockpit DN→shell RCE, SELFDN empty-DN ACI match, SASL I/O underflow; YouTrack Helpdesk self-asserted email ATO, Hub unauth trusted-service superuser, cross-tenant token cache; LibreNMS numeric-token type-coercion bypass + graph_title argument injection; MISP feed-redirect SSRF with credential forwarding (12 GHSAs)](alerts/2026-09-07-389-directory-server-auth-bypasses-and-jetbrains-librenms-trust-boundaries-ghsa.md)
 - [AVideo notify file-write, socket-callback, and rate-limit boundary batch: unauth file write via replayed notify ciphertext, view-stats hash-param user-record leak, bot-UA rate-limit bypass, YPTSocket callback dispatch XSS, weak `rand()` external-login passwords (5 GHSAs)](alerts/2026-09-05-avideo-notify-filewrite-socket-callback-rate-limit-ghsa.md)
@@ -17,7 +18,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [AI/ML ingestion boundaries: URL-partitioning SSRF, SSRF redirect bypass, checkpoint deserialization, and non-superuser LLM-config overwrite (5 GHSAs)](alerts/2026-09-04-ai-ml-ingestion-ssrf-deserialization-and-config-authorization-ghsa.md)
 - [SiYuan kernel: publish-access tiers, localhost-trust admin bypass, and attribute-view SQL/SSTI boundaries (30 GHSAs)](alerts/2026-09-04-siyuan-kernel-publish-tiers-localhost-admin-and-attribute-view-sql-ghsa.md)
 - [OpenChoreo: unauth workflow trigger, cross-project command execution, and data-plane access boundaries (5 GHSAs)](alerts/2026-09-04-openchoreo-unauth-trigger-cross-project-command-and-data-plane-ghsa.md)
-- [Omnigent: guardrail-policy bypass, agent-bundle overwrite, and runner execution boundaries (4 GHSAs)](alerts/2026-09-04-omnigent-guardrail-bypass-agent-bundle-overwrite-and-runner-ghsa.md)
 
 
 

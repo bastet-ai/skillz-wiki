@@ -66,3 +66,17 @@ Additional hunts:
 - Widget directories or cached extension bundles modified shortly before a suspicious session.
 - Secrets that were only present in process environment variables on hosts where renderer compromise is plausible.
 
+## September 8 expansion — unvalidated Electron IPC handler exposes 40+ main-process functions (1 GHSA)
+
+The 2026-09-08 hourly scan added one more electerm advisory under the same terminal-client trust boundary, but on the **Electron IPC boundary** rather than a file/transfer path:
+
+- **[GHSA-hxxx-8rvv-qg5m](https://github.com/advisories/GHSA-hxxx-8rvv-qg5m) / CVE-2026-86711 (high 7.4, CWE-749)** — `electerm` before `5.3.15` exposes **40+ main-process functions through an unvalidated Electron IPC handler with no function-name allowlist or sender validation**. Renderer-side script execution can invoke `openFileWithEditor` and other main-process functions with arbitrary arguments to **execute system commands in the main process**.
+
+This is the renderer→main IPC sibling of the terminal-link and remote-filename command-injection findings above: any renderer compromise (XSS, injected terminal output, malicious file) becomes main-process command execution because the IPC surface accepts arbitrary function names and arguments with no allowlist. Durable operator value:
+
+1. **IPC handler without a function-name allowlist = the whole main process is reachable from the renderer.** The check is: does the `ipcMain`/handler accept a caller-supplied function name, or does it dispatch on a fixed allowlist? A positive is a handler that routes on the renderer-provided name.
+2. **Sender validation is the second control.** Even with an allowlist, `event.senderFrame` / origin checks must gate *which renderer* may call privileged functions. Absent both, renderer compromise trivially reaches main-process exec sinks.
+3. **Pair it with the existing renderer-exec legs.** The terminal-link, remote-filename, and `window.pre.env` findings give the renderer-execution preconditions; this finding gives the renderer→main escalation. Assess them as one chain: *how does the renderer get script execution, and what can that script invoke in the main process?*
+
+Replayable validation (marker-only): in a disposable workstation/VM running an affected `electerm` build, inject a benign marker script into a synthetic renderer context and invoke a main-process function via the IPC handler to write a temp marker (e.g., `/tmp/skillz-electerm-ipc-canary`). Positive evidence is the marker created by a main-process function reached through the unvalidated IPC path. Do not run a live system command, do not read real user home/SSH keys/credentials, do not target a real terminal session, and stop at the marker.
+
