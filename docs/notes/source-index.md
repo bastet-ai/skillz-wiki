@@ -528,6 +528,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Apache Fesod advisories/source: https://github.com/apache/fesod/security/advisories and https://github.com/apache/fesod
 - Kimai advisories/source: https://github.com/kimai/kimai/security/advisories and https://github.com/kimai/kimai
 - Gitea advisories/source: https://github.com/go-gitea/gitea/security/advisories and https://github.com/go-gitea/gitea
+- September 9 hourly KEV follow-up: Adobe Commerce/Magento template-engine RCE (CVE-2026-75650 / GHSA-fj37-xm58-mf28, KEV 2026-09-08, APSB26-146 hotfix) and the same-day Windows LPE tracked entries CVE-2026-85880 / CVE-2026-81963: https://helpx.adobe.com/security/products/magento/apsb26-146.html, https://github.com/advisories/GHSA-fj37-xm58-mf28, https://nvd.nist.gov/vuln/detail/CVE-2026-75650, https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-75650
 - GitPython advisories/source: https://github.com/gitpython-developers/GitPython/security/advisories and https://github.com/gitpython-developers/GitPython
 - SVGO advisories/source: https://github.com/svg/svgo/security/advisories and https://github.com/svg/svgo
 - Jackson Databind advisories/source: https://github.com/FasterXML/jackson-databind/security/advisories and https://github.com/FasterXML/jackson-databind
