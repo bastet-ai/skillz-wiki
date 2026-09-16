@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Identity-provider authority boundaries: ZITADEL OAuth2 token-exchange provenance/scope-containment break (CVSS 8.1), Keycloak first-broker-login link-proof never revoked after link or unlink, Nezha Host-header redirect_uri regression on empty dashboard_host default (3 GHSAs)](alerts/2026-09-16-zitadel-keycloak-nezha-identity-provider-authority-boundaries-ghsa.md)
 - [KEV wave 2026-09-09→14: NetScaler alternate-path auth bypass, MikroTik RouterOS pre-auth username-syntax privesc + btest memory leak, Cisco Secure Email Gateway email-parsing SQLi→root RCE, JFrog Artifactory scope/issuance drift, GitLab unauth commits-API file read, ScreenConnect client session gate (11 KEV entries, operator sweep angles)](alerts/2026-09-15-kev-wave-netscaler-cisco-routeros-jfrog-gitlab-screenconnect.md)
 - [AI/agent local-surface week: MCP DNS-rebinding on local tool listeners, header-steered token-attaching SSRF, alternate-auth-path parity breaks, expression-sandbox grammar escapes, wildcard OAuth subjects, SAML tenant-from-asserted-email (44 GHSAs)](alerts/2026-09-15-mcp-dns-rebinding-alternate-auth-path-and-sandbox-boundaries-ghsa.md)
 - [Http4s Ember + Traefik parser/header/route authority boundaries: CL.TE/TE.CL/TE.TE framing divergences, rootless opaque request-target, trailer-sourced trusted-header smuggling, header alias collapse (19 GHSAs)](alerts/2026-09-15-http4s-ember-traefik-parser-header-route-boundaries-ghsa.md)
@@ -17,8 +18,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Okta Access Gateway / Hyperdrive trust-boundary cluster (17 GHSAs): generated-config injection into OAG nginx/PHP/OS-command/eval writers, client-header pass-through identity source, SAML→LDAP/SQL injection, protected-rule bypass, assertion/secret leakage into logs and MSI properties, and agent-side verdict/integrity gaps](alerts/2026-09-09-okta-oag-hyperdrive-config-injection-and-identity-boundaries-ghsa.md)
 - [XenForo before 2.3.13 trust-boundary cluster: OAuth2/PKCE token-lifecycle breaks, PayPal REST webhook unverified-external trust, passkey MFA bypass, and Windows backslash style-archive traversal (14 GHSAs)](alerts/2026-09-08-xenforo-oauth-pkce-webhook-mfa-and-traversal-boundaries-ghsa.md)
 - [Ivanti Neurons for ITSM before 2026.2: five deserialization sinks (three unauthenticated) and three missing-authorization code-execution routes — the two-axis ITSM/CMDB appliance RCE audit (8 GHSAs)](alerts/2026-09-08-ivanti-neurons-itsm-deserialization-and-missing-authz-ghsa.md)
-- [hawtio-operator OpenShift operator trust-boundary cluster: Service-CA private-key cert minting with attacker-controlled CN, tenant-controlled OAuth redirect on an auto-grant public client, and ClusterRole all-namespace Secret read (3 GHSAs)](alerts/2026-09-08-hawtio-operator-openshift-service-ca-oauth-and-secrets-boundaries-ghsa.md)
-- [knowns agent-server trust boundaries + Lara Dashboard admin-privilege breaks: unauth management API with public-tunnel republish, MCP tool-argument filesystem traversal, `code.replace` writing shell startup/SSH files, repo-config LSP binary exec; marketplace module install RCE, core-upgrade zip over live source (11 GHSAs)](alerts/2026-09-08-knowns-mcp-file-boundaries-and-lara-dashboard-admin-breaks-ghsa.md)
+
 
 
 

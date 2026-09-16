@@ -959,6 +959,24 @@ For WebToffee-style image selectors, use a disposable upload root with marker fi
 
 For PPWP-style object injection, record the exact parameter, codec, and authenticated role floor, and patch the unserializer with a recorder that captures the incoming object graph shape and denies instantiation of any class. A bounded positive is **Contributor request -> recorder observes an attacker-shaped object at the deserialization sink**. State POP-chain availability as a separate untested precondition; never instantiate a gadget chain.
 
+## September 16 follow-up: treat a delegated import/export capability as untrusted input at every final sink
+
+A September 16 unreviewed wave around **WP Import Export Lite** before 3.9.33/3.9.34 is the cleanest illustration yet that an admin-delegated import/export capability is a full execution surface, because the plugin lets the capability holder steer *which code runs and where files land*:
+
+- arbitrary PHP function applied to exported field values -> RCE: [GHSA-v7v7-79q5-j8cf / CVE-2026-76551](https://github.com/advisories/GHSA-v7v7-79q5-j8cf);
+- user-supplied export output path writes arbitrary filenames to arbitrary locations -> RCE: [GHSA-g78q-54w3-px42 / CVE-2026-76550](https://github.com/advisories/GHSA-g78q-54w3-px42);
+- unvalidated stored path fed to a recursive directory delete, reaching outside the web root: [GHSA-j4q7-794x-44pp](https://github.com/advisories/GHSA-j4q7-794x-44pp);
+- files retrieved from a user-supplied URL during import with no type/extension/content validation, storing executable files: [GHSA-mq5q-9p83-hr98 / CVE-2026-76552](https://github.com/advisories/GHSA-mq5q-9p83-hr98);
+- import-time URL requests to internal hosts with responses readable by the requester, explicitly an **incomplete fix for CVE-2026-11397**: [GHSA-49j8-gcx6-2f92](https://github.com/advisories/GHSA-49j8-gcx6-2f92); and
+- export filter values interpolated into SQL: [GHSA-fxvp-m8p8-32p6 / CVE-2026-76556](https://github.com/advisories/GHSA-fxvp-m8p8-32p6).
+
+Two durable lessons:
+
+1. **Enumerate delegated-capability surfaces as first-class RCE candidates.** On any site where an administrator can grant a plugin's import/export permission to a lower role, inventory the five sink classes the capability reaches — callback/function name, output path, delete path, fetched URL, and query fragment — with a recorder-patched lab install. A bounded positive is e.g. **export-capable low-role request with a callback-name field -> patched function-invocation recorder receives a denied marker name**, or **output-path parameter -> denied write recorder observes an out-of-root canonical path**. Never invoke a real dangerous function, never write or delete outside a disposable root, and never target internal services (use an owned no-content peer).
+2. **Re-test vendor fixes on the same route.** The import-URL record is an incomplete fix of an earlier CVE. When a plugin has a security history for one route, diff the fix and re-run the original SSRF/upload matrix against the same handler — scheme allowlists that miss redirect-following, DNS-rebinding, and protocol wrappers are the usual residual gaps (see the existing SSRF canonicalization workflow).
+
+Adjacent records from the same wave, processed without publication: Subscriptions for WooCommerce shared-secret validation gap exposing subscriptions to unauthenticated callers [GHSA-mp62-wj23-fc7f](https://github.com/advisories/GHSA-mp62-wj23-fc7f) (secret-comparison hygiene, axis already on commerce-proof pages); Ni WooCommerce Sales Report unauthenticated SQLi and unauthenticated order/customer lookup in report-printing [GHSA-32fm-vvf7-rmhw](https://github.com/advisories/GHSA-32fm-vvf7-rmhw) / [GHSA-4p9c-cw99-phxx](https://github.com/advisories/GHSA-4p9c-cw99-phxx) (unauthenticated report routes, axis already covered); and the routine missing-capability/nonce WooCommerce plugin singles (Rox Appointment Booking, WPBot, FluentBoards, LearnPress, kboard, MultiVendorX, Schema & Structured Data, Visualizer, Newsletter redirect, Seraphinite Accelerator, Subscriptions CSRF, WP Import Export Lite XSS singles).
+
 ## Reporting checklist
 
 Include:
