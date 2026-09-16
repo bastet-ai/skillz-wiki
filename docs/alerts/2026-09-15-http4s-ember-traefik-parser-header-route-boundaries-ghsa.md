@@ -53,3 +53,13 @@ Adjacent (tracked, no operator page): [GHSA-5hq8-qhww-jm7q](https://github.com/a
 3. **Static-route decode check.** Request `/%2F..%2F..%2F<canary>` and `%5C` variants against static handlers; prove only with synthetic classpath/resource canaries outside the configured base — never config files or key material.
 4. **Client-side cookie jar audit** (for Scala services acting as SSRF-capable fetchers): verify domain-match anchoring with two owned hosts (`owned-a.example` vs `xowned-a.example`) and a server that answers `Set-Cookie: ...; Domain=owned-b.example`.
 5. Report only framing/decision mismatch evidence with raw-byte captures; stop at the boundary.
+
+## September 16 follow-up: Traefik HTTP/3 silently drops response timeouts (GHSA-7ghq-v6jf-g56c)
+
+`respondingTimeouts.readTimeout` (default 60s, documented as bounding the time to read the full request including body) is **not applied to HTTP/3 entry points**. The deadline is enforced on the TCP connection, which cannot reach a QUIC stream, and Traefik's HTTP/3 server was constructed with no timeout at all. An unauthenticated client trickling a request body at negligible cost holds one request — and one upstream connection per request — open indefinitely; backends with bounded connection pools are the pressure point. Regression window: v2.8.2 onward (a quic-go API change removed the embedded `http.Server` that carried the timeouts); affected lines v2.8.2–v2.10.x and v3.0–v3.6 are unpatched on-line, fixes land in v2.11.56 / v3.7.12.
+
+Operator value:
+
+1. **Timeout-config parity across transports is a testable invariant.** On any proxy in scope, send one slow-drip body canary on HTTP/1.1, HTTP/2, and HTTP/3 to an owned no-op route and compare when the proxy gives up. A timeout configured and echoed in config but unenforced on one protocol is the finding — the same "validated on one path, enforced on none" axis as the header/framing items above.
+2. **Version fingerprinting beats config assumptions**: v2.8.2+ through the fix releases all silently ignore the documented behavior, and most maintained lines carried it for years. Capture protocol negotiation, config excerpt, and both transports' deadline behavior in the evidence set.
+3. Keep any slow-body check to a single self-contained connection against an owned route; the DoS class is real but the durable report is the enforcement gap, not resource exhaustion on a shared front-end.
