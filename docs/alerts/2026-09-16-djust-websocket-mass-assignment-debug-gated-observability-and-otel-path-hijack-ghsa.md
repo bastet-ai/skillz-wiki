@@ -12,8 +12,12 @@ A September 16 late GitHub wave (published 2026-09-16T13:48–13:55Z) adds three
 
 Sept 16 late-afternoon follow-ups (published 2026-09-16T15:32–15:45Z) add two more djust fail-opens on the same live-transport axis: **multi-tenant isolation enforced only on the HTTP path** (the WebSocket/SSE path leaked every tenant's rows) and **CSRF-free SSE transport** (cross-origin pages could drive a victim-cookie-authenticated LiveView session).
 
+The late-night completion of the family (published 21:50–22:09Z) lands the strongest primitive: the **mount path imports a client-supplied dotted module path before any authentication or type check**, behind a module allowlist that is **fail-open when unset** — unauthenticated arbitrary-module import with import-time code execution (CVE-2026-61599). The remaining siblings (authorization bypass on the WS/SSE mount path, client-chosen SSE `session_id` as sole authority, unsigned state snapshot restored as trusted view state, Host omitted from reconstructed WS requests breaking subdomain tenant resolution, missing sensitive-field denylist in model serialization, IDOR, and `javascript:` URLs in built-in component template tags — CVE-2026-61594/61592/61591/61589/61588/61596/61597) confirm the same shape across every handler and are covered by the operator checks below.
+
 Sources:
 
+- djust mount-path arbitrary module import: [GHSA-7prp-2623-8g45 / CVE-2026-61599](https://github.com/advisories/GHSA-7prp-2623-8g45) (pip `djust < 1.0.7`)
+- djust late-night sibling set (mount authz bypass, SSE session binding, state-snapshot trust, Host omission, serialization denylist, IDOR, `javascript:` template URLs): [GHSA-xhhm-f6hp-2qwj](https://github.com/advisories/GHSA-xhhm-f6hp-2qwj), [GHSA-f795-p5jw-j6g2](https://github.com/advisories/GHSA-f795-p5jw-j6g2), [GHSA-c67v-vqrp-m5wj](https://github.com/advisories/GHSA-c67v-vqrp-m5wj), [GHSA-v9rj-xjfv-xj9r](https://github.com/advisories/GHSA-v9rj-xjfv-xj9r), [GHSA-pvg3-6q9j-mj3x](https://github.com/advisories/GHSA-pvg3-6q9j-mj3x), [GHSA-c7c5-5j6r-q957](https://github.com/advisories/GHSA-c7c5-5j6r-q957), [GHSA-4mf4-73j6-mvrw](https://github.com/advisories/GHSA-4mf4-73j6-mvrw)
 - djust mass-assignment: [GHSA-cc7c-9jff-58wj / CVE-2026-61598](https://github.com/advisories/GHSA-cc7c-9jff-58wj) (pip `djust < 1.0.7`)
 - djust observability exposure: [GHSA-8g2f-g3gq-5rjv / CVE-2026-61590](https://github.com/advisories/GHSA-8g2f-g3gq-5rjv)
 - djust multi-tenant fail-open on WS/SSE: [GHSA-3492-cvg7-9mr2 / CVE-2026-61595](https://github.com/advisories/GHSA-3492-cvg7-9mr2)
@@ -37,6 +41,19 @@ Operator checks for any LiveView/Livewire/StimulusReflex-class realtime framewor
 2. For each handler that names a server-side object by client input, build a decision table: bound-in-template field (expected allow) vs. unbound public attribute (should deny). Set an `is_admin`-shaped canary that was never bound and confirm the reject.
 3. Check allowlist defaults in the deployed version — read the shipped source for `= None` / `= []` defaults on any authorization-adjacent config.
 4. Downstream handlers that act on view state **without re-authorizing** are where state tampering becomes IDOR/authz break; trace one settable attribute to a mutation sink before claiming impact.
+
+## djust mount path: client-supplied module import before auth is unauthenticated code-execution-by-proxy
+
+The strongest primitive in the family (published 22:09Z, [GHSA-7prp-2623-8g45 / CVE-2026-61599](https://github.com/advisories/GHSA-7prp-2623-8g45)): the live transport resolves the view to mount from a **client-supplied dotted path** via `__import__(module_path, ...)`, and the import — which runs the module's **top-level code** — happens **before** the resolved object is checked to be a LiveView subclass and before any per-view authentication. The WS handshake itself requires no auth. The `LIVEVIEW_ALLOWED_MODULES` guard is fail-open (`if allowed_modules:` skips enforcement when unset — the framework default) and pre-patch matching was loose `startswith`.
+
+The maintainer's own threat-model entry had previously understated this as LiveView-class probing; the real primitive is arbitrary importable-module import with import-time side effects, independent of whether the target is a LiveView. Lesson for advisory triage: **when a framework doc admits a default-open guard on a dynamic-resolution sink, re-derive the impact yourself — the "just a probe" framing may hide code execution.**
+
+Operator checks that generalize to any framework resolving classes/modules/plugins from client input (plugin loaders, RPC method dispatch, dynamic routers):
+
+1. Send a mount/redirect frame with `view = "<stdlib-or-sitepkg.module>.AnyName"` for an importable non-LiveView module against an authorized lab target; a "not a LiveView subclass" error **after** the frame means the import already executed — the reject is post-import, so it is not a control.
+2. Distinguish the three outcomes as an enumeration oracle: module-not-found vs. attribute-not-found vs. not-a-subclass tells you what is importable; importable-name enumeration is recon even without side effects.
+3. Check whether the resolution gate runs **before** import and whether it is fail-closed (fixed shape: resolve only if already in `sys.modules`, or explicit allowlist match on a module-segment boundary — not `startswith`).
+4. Impact framing for reports: import-time side effects of any importable module (import bombs, dependency-tree DoS, side-effectful `__init__.py` files), not "class probing"; cite the pre-check import order as the root cause.
 
 ## djust observability: a control in an uninstallable middleware is not a control
 
