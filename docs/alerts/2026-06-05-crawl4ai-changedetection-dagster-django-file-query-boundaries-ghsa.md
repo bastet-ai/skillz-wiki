@@ -109,3 +109,11 @@ Prefer source review plus a tiny canary harness over blind production payloads.
 - GitHub Advisory Database: [GHSA-6426-9fv3-65x8 / CVE-2026-1312](https://github.com/advisories/GHSA-6426-9fv3-65x8)
 - GitHub Advisory Database: [GHSA-mwm9-4648-f68q / CVE-2026-1207](https://github.com/advisories/GHSA-mwm9-4648-f68q)
 - Django security release archive: <https://docs.djangoproject.com/en/dev/releases/security/>
+
+## September 16 follow-up: Crawl4AI Docker API hardcoded default JWT signing key (GHSA-8qrg-7j2f-rf2h / CVE-2026-56265)
+
+`crawl4ai` before 0.8.7 ships a **hardcoded default JWT signing key** in the Docker API server: anyone who knows the published default can forge valid tokens for any user and reach every protected endpoint. This completes the Crawl4AI Docker-API story on this page — the same exposure class as the `file://` LFI and `hooks` RCE entries, but the auth gate itself was forgeable, so "it's behind the JWT gate" was never a mitigation on affected images.
+
+Operator check: when you find an exposed Crawl4AI API server, test the auth layer before treating it as authenticated-only — attempt one request signed with the documented default key (or run unauthenticated first and compare 401 vs 200 surfaces), and record whether any key-configuration banner differs from the default. Positive: a forged-token request reaches a protected route. Proof stays marker-only (list/read a harmless endpoint); the forged token itself is the finding — never crawl real targets or read host files as evidence of auth bypass. Frame as **default-signing-key auth bypass** distinct from missing-auth findings; note that pre-0.8.0 images additionally carry the `file://`/hooks legs above.
+
+- GitHub Advisory Database: [GHSA-8qrg-7j2f-rf2h / CVE-2026-56265](https://github.com/advisories/GHSA-8qrg-7j2f-rf2h)
