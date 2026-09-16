@@ -1,0 +1,88 @@
+# AI/agent local-surface week: MCP DNS-rebinding, OAuth-subject wildcards, expression-sandbox escapes, and tenant-binding drift (44 GHSAs)
+
+Source: hourly offensive-security scan of GitHub Security Advisories on 2026-09-15 (waves published 2026-09-09T23:43Z–2026-09-15T21:33Z).
+
+A dense week across the agent/MCP/LLM-tooling surface, with three reusable axes:
+
+1. **Local MCP/dashboard listeners are browser-reachable.** Three advisories show the same shape — a tool server bound locally or on `0.0.0.0` with no Host/Origin validation, so DNS rebinding preserves an attacker-controlled `Host`/`Origin` while routing browser requests to the victim's localhost listener (`@zereight/mcp-gitlab`, `mysql-mcp-server` SSE, Mockoon admin API with wildcard CORS).
+2. **An alternate authentication path skips the checks the primary path enforces.** Open WebUI's OAuth token-exchange endpoint skipped the domain allowlist and role management the normal callback runs; n8n's disabled-OIDC endpoints kept issuing sessions; n8n's model-search route skipped the credential's allowed-domains check the main request path applies; Open WebUI's SQLite subject lookup turned provider subjects into wildcard matches.
+3. **Code-generation and template stages that resolve globals at generation time can be poisoned.** n8n's expression sandbox fell twice to same-theme escapes: a dynamically-scoped sanitizer resolvable through a class field (`__sanitize` rebinding), and code printers calling global `JSON.stringify` at generation time (replace the global → alter the executed source).
+
+## Cluster A — MCP and local tool servers (fixes available)
+
+| GHSA | CVE | Sev. | Boundary |
+| --- | --- | --- | --- |
+| [GHSA-vmp7-252j-cwp7](https://github.com/advisories/GHSA-vmp7-252j-cwp7) | CVE-2026-61568 | critical | `@zereight/mcp-gitlab` < 2.1.30: Streamable HTTP MCP endpoint with no effective Host/Origin allowlist → DNS rebinding reaches the local MCP transport (CWE-350) |
+| [GHSA-2h44-8472-frjj](https://github.com/advisories/GHSA-2h44-8472-frjj) | CVE-2026-61559 | critical | `@zereight/mcp-gitlab` < 2.1.27: with `ENABLE_DYNAMIC_API_URL=true`, the `X-GitLab-API-URL` request header selects the outbound API base URL (well-formedness check only) and the operator's `Private-Token` is attached to the redirected fetch — header-steered credential-bearing SSRF |
+| [GHSA-5648-rgj9-v224](https://github.com/advisories/GHSA-5648-rgj9-v224) | — | high | `@zereight/mcp-gitlab` < 2.1.30: `execute_graphql` defeats BOTH read-only mode and `GITLAB_ALLOWED_PROJECT_IDS`; unauthenticated `/mcp` under cookie-jar/device-flow credentials; unauthenticated SSE; unauthenticated session/transport enumeration |
+| [GHSA-rqfv-2mw9-78g2](https://github.com/advisories/GHSA-rqfv-2mw9-78g2) | CVE-2026-59971 | critical | `mysql-mcp-server` < 0.4.2 in `MCP_TRANSPORT=sse`: MCP Python SDK DNS-rebinding protection not enabled, no TrustedHost/CORS middleware, binds `0.0.0.0`, no auth → unauthenticated `execute_sql` (full dump; `FILE` privileges → file read/write) |
+| [GHSA-65h7-9wrw-629c](https://github.com/advisories/GHSA-65h7-9wrw-629c) | CVE-2026-59973 | high | FrontMCP / `mcp-from-openapi` 2.3.0: **latest-version bypass of the prior external-`$ref` SSRF fix** — hostname denylist misses loopback reached via name resolution, redirects, and IPv4-mapped IPv6 |
+| [GHSA-rqx4-3f6q-3x2v](https://github.com/advisories/GHSA-rqx4-3f6q-3x2v) | CVE-2026-59148 | high | `@mockoon/commons-server` < 9.7.0: unauthenticated admin API on the same listener as mock routes, `Access-Control-Allow-Origin: *` with all methods, reads every `MOCKOON_*` env var and hijacks mock state |
+| [GHSA-8wqc-v2q8-vff2](https://github.com/advisories/GHSA-8wqc-v2q8-vff2) | CVE-2026-59149 | medium | Mockoon `FILE` response with templated `filePath` confined by `startsWith(staticBaseDir)` with no separator boundary — sibling-prefix escape reads outside the served directory |
+| [GHSA-hf57-cqmx-p4gr](https://github.com/advisories/GHSA-hf57-cqmx-p4gr) | CVE-2026-88062 | critical | OmniRoute ≤ 3.8.50: `POST /api/acp/agents` accepts attacker-controlled `binary` and `versionCommand`; the only validation checks the first token of `versionCommand` equals `binary` — also attacker-controlled → `execFileSync` of arbitrary Node.js |
+| [GHSA-wfgq-w7cq-qj7j](https://github.com/advisories/GHSA-wfgq-w7cq-qj7j) | — | high | mistral.rs ≤ 0.8.17 media loader: unauthenticated `image_url`/`audio_url` fetched with no host/IP validation, and bare existing paths opened as local files → SSRF + arbitrary local file read |
+| [GHSA-rrxg-g2pf-6hh4](https://github.com/advisories/GHSA-rrxg-g2pf-6hh4) | CVE-2026-59178 | critical | ESPHome Device Builder < 1.0.12: auth env vars renamed (`USERNAME`/`PASSWORD` → `ESPHOME_*`) **with no fallback** → dashboards protected under the old guide silently start unauthenticated on upgrade |
+| [GHSA-vv4j-m4vr-f3g6](https://github.com/advisories/GHSA-vv4j-m4vr-f3g6) | CVE-2026-59177 | high | ESPHome HA add-on ingress dashboard bound to all interfaces without auth |
+
+## Cluster B — Open WebUI session/fetch/authorization boundaries (fixed 0.11.1)
+
+| GHSA | CVE | Sev. | Boundary |
+| --- | --- | --- | --- |
+| [GHSA-wpmr-8h3q-fwj7](https://github.com/advisories/GHSA-wpmr-8h3q-fwj7) | CVE-2026-87016 | high | SQLite subject lookup does a substring match → a subject containing SQL wildcards (`%`) matches other accounts (admin first) — OAuth/SCIM identity binding via wildcard subjects |
+| [GHSA-4qg5-cxx4-g927](https://github.com/advisories/GHSA-4qg5-cxx4-g927) / [GHSA-wvm9-9g5j-623f](https://github.com/advisories/GHSA-wvm9-9g5j-623f) | CVE-2026-88005 / 88006 | medium | OAuth **token-exchange** endpoint skips the email-domain allowlist and role management the normal login callback enforces → denied/demoted users retain sessions |
+| [GHSA-jmc6-2wr8-h3wj](https://github.com/advisories/GHSA-jmc6-2wr8-h3wj) | CVE-2026-87995 | high | Port-preview iframe hardcodes `allow-same-origin` + `allow-scripts` on an app-origin path → same-origin XSS → session-token theft/account takeover |
+| [GHSA-34r3-9m95-vq73](https://github.com/advisories/GHSA-34r3-9m95-vq73) | CVE-2026-87999 | high | SSRF external-destination screen used Python "globally routable" → reserved internal classes answer yes, including `168.63.129.16` (Azure platform channel reachable from every Azure VM); any authenticated user reads responses back |
+| [GHSA-2724-6cpj-gf3v](https://github.com/advisories/GHSA-2724-6cpj-gf3v) | CVE-2026-87998 | high | Non-admin knowledge-base deletion destroys admin-owned external knowledge connections |
+| [GHSA-pcvc-8vrv-8q6w](https://github.com/advisories/GHSA-pcvc-8vrv-8q6w) | CVE-2026-87017 | medium | Built-in knowledge tool exposes inaccessible knowledge bases on most vector backends |
+| [GHSA-wjwr-xfp9-r66p](https://github.com/advisories/GHSA-wjwr-xfp9-r66p) | CVE-2026-87014 | medium | SSO-demoted admin keeps cached socket role → continued all-users notes read/write over already-open Socket.IO connections |
+| [GHSA-p78m-89r6-pgf7](https://github.com/advisories/GHSA-p78m-89r6-pgf7) | CVE-2026-87015 | medium | User session cookies leak to external tool servers configured for bearer auth (cookie jar read late, last-connection wins) |
+| [GHSA-3g9q-v48f-hh9w](https://github.com/advisories/GHSA-3g9q-v48f-hh9w) | CVE-2026-87011 | high | Unauthenticated OIDC back-channel logout endpoint fetches provider discovery/JWKS uncached per request, blocking call in the event loop → trivial unauth stall (availability; included for the fetch-on-unauth-token pattern) |
+| [GHSA-fmqh-xp37-5hr8](https://github.com/advisories/GHSA-fmqh-xp37-5hr8) / [GHSA-3pf7-q2g3-wj28](https://github.com/advisories/GHSA-3pf7-q2g3-wj28) | CVE-2026-87994 / 87997 | medium | Chat-completions endpoint lets channel members overwrite others' messages / inject chats into other users' folders — endpoint-level object-binding drift |
+
+## Cluster C — n8n workflow-platform boundaries (fixed 1.123.76 / 2.37.7 / 2.38.2)
+
+| GHSA | CVE | Sev. | Boundary |
+| --- | --- | --- | --- |
+| [GHSA-hw8v-xxg5-vvvx](https://github.com/advisories/GHSA-hw8v-xxg5-vvvx) | CVE-2026-86076 | high | Expression sanitizer resolved through dynamically-scoped `this`; a class field named `__sanitize` rebinds it → `Function` constructor, code execution in the n8n process and editor-preview XSS |
+| [GHSA-6xcw-7xm6-48c6](https://github.com/advisories/GHSA-6xcw-7xm6-48c6) | CVE-2026-86083 | high | Code-generation stages call global `JSON.stringify` at generation time; expression that replaces the global alters subsequently generated executed source (legacy engine) |
+| [GHSA-35jj-42hp-8gmq](https://github.com/advisories/GHSA-35jj-42hp-8gmq) | CVE-2026-86077 | medium | `/chat` WebSocket resumed any paused execution from an anonymous form `resumeToken` without checking node type → anonymous release of approval-gated actions |
+| [GHSA-cw9w-vv67-hf73](https://github.com/advisories/GHSA-cw9w-vv67-hf73) | CVE-2026-86073 | medium | OAuth refresh tokens not bound to the consented resource → refresh into a token for a different, unapproved workflow |
+| [GHSA-qgpw-8g46-w95v](https://github.com/advisories/GHSA-qgpw-8g46-w95v) | CVE-2026-86995 | medium | Git node `setUpstream` wrote unvalidated `branch.<name>.remote` into repo config; later fetch resolved the remote from config → read any local repository the process can access |
+| [GHSA-34ff-336r-5q23](https://github.com/advisories/GHSA-34ff-336r-5q23) | CVE-2026-86082 | high | OpenAI Chat Model node checked custom base URL against allowed-domains only on the main path; the model-search endpoint sent `options.baseURL` to arbitrary hosts **with the credential attached** |
+| [GHSA-pf83-w3f9-8m37](https://github.com/advisories/GHSA-pf83-w3f9-8m37) | CVE-2026-86084 | medium | Disabled OIDC endpoints still ran the full flow and issued sessions |
+| [GHSA-5m98-cgcr-xx3q](https://github.com/advisories/GHSA-5m98-cgcr-xx3q) | CVE-2026-86080 | medium | GitHub Trigger 422 reuse path adopted an existing webhook but dropped the signing secret → signature verification fail-open, deliveries accepted from anyone |
+| [GHSA-pq6c-vh67-xpm3](https://github.com/advisories/GHSA-pq6c-vh67-xpm3) | CVE-2026-86993 | medium | Log-streaming destinations decrypted any named generic-auth credential without ownership check → cross-project secret to an attacker endpoint |
+| [GHSA-cqr2-h44g-v75v](https://github.com/advisories/GHSA-cqr2-h44g-v75v) | CVE-2026-86085 | medium | Role-assignment endpoints checked role-type permission but not project scope → cross-tenant member PII |
+| [GHSA-hh89-3r9w-qj3j](https://github.com/advisories/GHSA-hh89-3r9w-qj3j) / [GHSA-j535-v25q-vx3q](https://github.com/advisories/GHSA-j535-v25q-vx3q) | CVE-2026-86075 / 86081 | high | Unauth unbounded persistent writes via OAuth DCR fields; ReDoS in default blocked-file pattern (availability siblings — tracked) |
+
+## Cluster D — identity/tenant and misc boundaries
+
+| GHSA | CVE | Sev. | Boundary |
+| --- | --- | --- | --- |
+| [GHSA-h8m9-jgf8-vwvp](https://github.com/advisories/GHSA-h8m9-jgf8-vwvp) | CVE-2026-59151 | critical | Prowler < 5.30.3: SAML tenant binding derived from the **asserted email domain** instead of the validated SAML configuration → a malicious tenant with its own IdP mints tokens for another tenant (cross-tenant ATO) |
+| [GHSA-vrh8-c9cm-wh8v](https://github.com/advisories/GHSA-vrh8-c9cm-wh8v) | CVE-2026-56668 | high | ZITADEL < 4.15.3: OAuth2 token-exchange never validated that the submitted token belongs to the exchanging client, and no scope-subset enforcement → low-privilege token exchanged into another application's elevated token |
+| [GHSA-v77h-2w3m-94hx](https://github.com/advisories/GHSA-v77h-2w3m-94hx) | — | medium | ZITADEL JWT IdP provider: `exp` not validated (replayable IdP assertion) — adjacent tracked |
+| [GHSA-243p-f3cv-c5wh](https://github.com/advisories/GHSA-243p-f3cv-c5wh) + [GHSA-j328-xmgp-j4q3](https://github.com/advisories/GHSA-j328-xmgp-j4q3), [GHSA-g3f9-g5vj-p62f](https://github.com/advisories/GHSA-g3f9-g5vj-p62f), [GHSA-2cg9-97gq-9mqp](https://github.com/advisories/GHSA-2cg9-97gq-9mqp) | CVE-2026-56827/56828/56829/56825 | high | Shopper < 2.9.2: Filament/Livewire admin components expose bulk actions, stock mutation, and privilege paths missing per-role authorization — the Livewire component-level authz-audit pattern |
+| [GHSA-4x45-gxvp-6283](https://github.com/advisories/GHSA-4x45-gxvp-6283) | CVE-2026-59960 | high | `@argos-ci/core`: CI branch name interpolated into shell command → OS command injection from repository-controlled branch names (repo-text-to-shell axis) |
+| [GHSA-x8vr-98rv-c92v](https://github.com/advisories/GHSA-x8vr-98rv-c92v) | CVE-2026-10144 | high | Rsbuild < 2.0.9 macOS `server.open`: `encodeURI()` does not encode `$`, `(`, `)`, `;` → shell metacharacters in a crafted URL reach `child_process.exec` |
+
+Processed without publication this run (sparse/product-specific or availability-only): the Sept 15 Chrome 153 GHSA mirror wave (memory-safety, no public exploit path), Microsoft `.NET/VS` wave, Arista EOS IS-IS/VRRP/DHCP protocol DoS set, Netcore NR255/NR268 firmware bundle set (single-product CGI bugs; command-construction axis already covered by existing appliance pages), mySCADA/myPRO Manager unauth command API and hardcoded-key records (OT appliance, tracked in KEV-style notes only), Velocloud Edge input-validation/update-signature records (vendor embargo), October CMS safe-mode/session-store trio, Cotonti `unserialize()`, yayson prototype pollution, EspoCRM weak `rand()` tokens, Excelize allocation, GIMP file-psd, Podman `podman load` tar, adm-zip decompression limits, libp2p-quic panic, emp3r0r polling DoS, GeoNetwork SLD SSRF, Nuxt Ollama key exposure, turbo-graph `/api/run`, Joker project-local config exec, functype-mcp pnpm alias RCE, openhop flow-ID traversal, Identrail installation_id IDOR, docx-editor-react font-family CSS injection, QloApps back-office XSS, Devolutions log disclosure, ZITADEL role-revocation/email-verification items, Shopper minor siblings.
+
+## Why this is worth an operator page
+
+- **DNS rebinding vs local MCP/dashboard listeners is now the default attack path for developer workstations.** Three separate ecosystems (GitLab MCP, MySQL MCP, Mockoon) proved the same missing control — Host/Origin validation at the HTTP boundary — in one week. If a local tool speaks HTTP, treat the browser as a remote attacker.
+- **Header-steered, token-attaching fetches** (`X-GitLab-API-URL` + `Private-Token`) are the cleanest recent example of a "convenience" env flag turning a credential store into an SSRF payload delivery mechanism.
+- **The alternate-path bypass axis generalizes**: token-exchange vs login callback, model-search vs main request, disabled-but-live OIDC, 422-reuse vs fresh-registration webhook paths. Enumerate *every* route family that reaches the same authority decision.
+- **SAML-derived-tenant from asserted email domain** and **token-exchange missing token-ownership check** are both immediately testable in any multi-tenant IdP-backed app.
+
+## Validation workflow (authorized scope only)
+
+!!! warning "Disposable servers and fake credentials only"
+    Run all proofs against disposable MCP/dashboard/mock instances you own with fake database credentials, synthetic workflows/projects, and throwaway tenants. Use rebinding only against your own lab hosts. Never invoke `execute_sql`-class tools against real databases, never attach real GitLab/cloud tokens to redirect proofs, never touch other tenants' data.
+
+1. **Local-listener rebinding matrix.** For each locally-bound tool server: enumerate binds (`127.0.0.1` vs `0.0.0.0`), Host/Origin validation, auth requirements per transport (stdio vs SSE vs Streamable HTTP). Rebind an owned domain at 301s TTL to the lab listener; record whether init/tool-list succeeds from the browser context.
+2. **Header/url-selector grep.** In any agent server that lets config enable dynamic endpoints, grep for request headers or tool arguments reaching `fetch`/axios base-URL and check whether a stored credential is attached to that final URL. Prove with an owned no-content listener and a fake token; expect the fake token in the request log.
+3. **Alternate-path parity test.** For any auth/authz control, script a positive/negative decision table across every entry route (primary callback, token exchange, disabled provider, admin alternate routes). Divergence is the finding.
+4. **Wildcard-subject check** (owned IdP + owned accounts only): assert subjects containing `%`/`_` and confirm lookup semantics; SQLite vs Postgres path differences matter.
+5. **Reserved-IP SSRF class list.** When testing URL screens, include the reserved-but-not-private classes (e.g. `168.63.129.16` on Azure VMs, cloud metadata equivalents you are explicitly authorized to probe); stop at response-disclosure evidence.
+6. **Sandbox-escape grammar inventory** (n8n-class platforms): document which globals the codegen path resolves at runtime (`JSON.stringify`, sanitizer names, `this`-scoped lookups) in the deployed version before theorizing escapes; treat the two published themes as grammar seeds, not payloads.
