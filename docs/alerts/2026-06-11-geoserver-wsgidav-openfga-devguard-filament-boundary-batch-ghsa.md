@@ -99,6 +99,12 @@ Replayable validation:
 - Trigger only the documented wrapper-mediated path needed to show execution under another RDS user's permissions. Confirm the patched wrapper release no longer reaches the canary function under elevated context.
 - Evidence should include wrapper version, database engine, low-privilege role, search path, canary function name/body redacted to marker behavior, caller/effective role observation, and cleanup.
 
+## September 16 follow-up: OpenFGA `ListUsers` exclusion miss under wildcard-intersected intersections
+
+[GHSA-g3pg-frfm-pr2m](https://github.com/advisories/GHSA-g3pg-frfm-pr2m) / CVE-2026-61709 (OpenFGA `<= 1.18.0`, fixed 1.18.1) is a second **authorization-decision divergence** on the same engine family as the cache-collision item above, this time in the `ListUsers` rewrite rather than the cache. Preconditions: a relation defined as an intersection where one operand is an exclusion (`rel1: (public_user but not blocked) and rel2`), the exclusion's base granted via a type-bound wildcard (`user:*`), and the excluded user also granted a concrete tuple through the other intersection operand. `ListUsers` then returns the deliberately-excluded user.
+
+Operator framing: this is a differential-oracle opportunity, not just a bug. On any OpenFGA-backed app that uses `ListUsers` for enumeration or enforcement, build a two-user synthetic model (wildcard grant + `but not` exclusion + concrete grant via sibling operand) and diff `Check` vs `ListUsers` vs `ListObjects` for the same (user, relation) pair. A subject visible through one API and invisible through another means the app's authorization answer depends on which API the developer happened to call — trace which API guards the sensitive action before claiming impact. Prove with synthetic tuples in an isolated store only; the same three-API differential applies to any relationship-based engine (ReBAC) evaluation.
+
 ## Reporting heuristics
 
 - Lead with the crossed boundary: datastore admin to server-side JNDI lookup, WebDAV share user to sibling filesystem path, one authorization request to another cached result, cross-org authenticated user to public-asset writes, UI-scoped relation picker to unscoped server-side attach, unauthenticated component to temporary upload storage, or low-privilege DB user to wrapper-mediated elevated execution.
