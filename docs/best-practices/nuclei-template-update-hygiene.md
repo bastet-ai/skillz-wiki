@@ -31,9 +31,22 @@ This is durable because template libraries are security tooling supply chains: s
 - [ ] New positives are triaged with raw evidence before ticket fan-out.
 - [ ] Old suppressions expire after significant template matcher fixes or product-version changes.
 
+## September 16 follow-up: signature-verification cache trusts mtime, not content (CVE-2026-92718)
+
+[GHSA-77rj-h8wx-6cgq](https://github.com/advisories/GHSA-77rj-h8wx-6cgq) / CVE-2026-92718: **Nuclei < 3.11.1 caches template signature verification based on file modification time only — no content checksum.** Replacing a verified template with unsigned malicious content and restoring the original mtime (`touch -r`) passes the signature check, yielding OS command execution on the scanner host when the operator next runs the scan.
+
+Operator impact on template hygiene:
+
+- Signature "verified" status on any runner pinned below 3.11.1 is **not** an integrity signal — anyone with write access to the templates directory (shared runners, forked/mirrored template repos, sync jobs) can persist payloads invisibly.
+- Upgrade to ≥ 3.11.1 and additionally hash-pin the template tree yourself (record a manifest hash of the template directory per run and diff it); treat unexpected template-directory write access on a scanner host as host compromise, not config drift.
+- This strengthens rule 4 above: scrubbed environments and isolated runners matter *more* when the template set itself can be silently substituted.
+
+Full validation workflow: [Scanner, C2, and SOAR control-plane trust boundaries](../alerts/2026-09-16-nuclei-signature-cache-covenant-hub-token-mint-shuffle-tenant-key-reset-ghsa.md).
+
 ## Source
 
 - ProjectDiscovery, "Nuclei Templates - April 2026" (2026-05-12): <https://projectdiscovery.io/blog/nuclei-templates-april-2026>
+- GitHub Advisory Database: [GHSA-77rj-h8wx-6cgq / CVE-2026-92718](https://github.com/advisories/GHSA-77rj-h8wx-6cgq) (Nuclei < 3.11.1 signature-cache mtime bypass)
 
 ## Related
 
