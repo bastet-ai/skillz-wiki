@@ -12,6 +12,16 @@ This batch is durable because it gives operators reusable checks for cross-user 
 - **SageMaker cleartext HMAC signing key exposure** — [GHSA-7hh5-prp2-mfh5](https://github.com/advisories/GHSA-7hh5-prp2-mfh5) / CVE-2026-8596: affected ModelBuilder/Serve flows store `SAGEMAKER_SERVE_SECRET_KEY` as a model container environment variable, and SageMaker describe APIs can return it in plaintext. A principal with describe API permissions plus S3 write access can forge valid artifact integrity signatures and pivot to inference-container execution.
 - **LMDeploy unconditional `trust_remote_code=True`** — [GHSA-m549-qq94-fvhg](https://github.com/advisories/GHSA-m549-qq94-fvhg) / CVE-2026-46432: vulnerable `lmdeploy <0.13.0` hardcodes `trust_remote_code=True` in Hugging Face model initialization paths. If an attacker can control the model path through deployment config, CI/CD, Kubernetes, or a managed model-submission surface, model startup can execute remote repository Python code as the LMDeploy serving process.
 
+## Sept 16 follow-up: LMDeploy ZMQ RPC is a network-exposed pickle deserialization RCE
+
+- **LMDeploy `AsyncRPCServer` pickle RCE** — [GHSA-5h8j-6crg-7rmw / CVE-2025-59953](https://github.com/advisories/GHSA-5h8j-6crg-7rmw): `lmdeploy >=0.9.1,<0.10.2` `zmq_rpc.call_and_response()` runs `pickle.loads()` directly on received ZMQ messages with no sanitization and no connecting-IP validation, and the RPC server bound to `tcp://*` on a randomized port. Any network peer that port-scans to the RPC port gets arbitrary code execution via a crafted pickle payload (the shipped client only connects to localhost — the trust assumption lives in the client, not the server). 0.10.2 restricted the binding to localhost; pickle remains the wire format, so the loopback endpoint must stay away from untrusted local processes.
+
+Operator pattern for AI-inference infrastructure recon:
+
+1. Serving frameworks (LMDeploy, vLLM-class stacks) commonly spawn **internal ZMQ/IPC RPC ports** that assume the network path is trusted because the official client only dials localhost. Enumerate listening sockets on authorized AI hosts/containers beyond the advertised serving port and fingerprint ZMQ frames.
+2. Where the binding is `tcp://*`, a randomized port is not a control — include these ports in port-scan ranges during authorized engagements.
+3. Keep proofs lab-bounded: prove with a benign marker executed in a disposable lab instance (for example an `id > canary` payload against your own server), never reverse shells and never on shared serving fleets. Version-evidence plus a bind-address check (`ss -tlnp`) is often sufficient reporting proof without triggering any deserialization sink.
+
 ## Operator triage
 
 1. Search dependency inventories for `@sveltejs/kit` versions `2.38.0` through `2.60.0`, `md-fileserver <1.10.3`, `sagemaker` in the affected 2.x/3.x ranges, and `lmdeploy <0.13.0`.

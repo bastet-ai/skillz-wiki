@@ -10,10 +10,14 @@ A September 16 late GitHub wave (published 2026-09-16T13:48–13:55Z) adds three
 - **djust observability endpoints**: the localhost gate for endpoints exposing live view/session state and a remote method-invocation surface (`eval_handler`) was an **opt-in middleware that the documented setup omits**; the views themselves enforced only `DEBUG` — in the documented configuration a non-localhost client could read live state and invoke handlers remotely (CVSS 7.4, CVE-2026-61590, fixed 1.0.7).
 - **OpenTelemetry.Resources.Host** (.NET): the macOS `host.id` detector launched `sh` and `ioreg` by **bare name instead of absolute path**, so a less-privileged local user who can influence `PATH` (or write a `PATH` directory ahead of system dirs) gets code execution in the application's security context (CVSS 7.0, CVE-2026-81192, fixed 1.16.0-beta.2; the Go SDK has the sibling [GHSA-9h8m-3fm2-qjrq](https://github.com/open-telemetry/opentelemetry-go/security/advisories/GHSA-9h8m-3fm2-qjrq)).
 
+Sept 16 late-afternoon follow-ups (published 2026-09-16T15:32–15:45Z) add two more djust fail-opens on the same live-transport axis: **multi-tenant isolation enforced only on the HTTP path** (the WebSocket/SSE path leaked every tenant's rows) and **CSRF-free SSE transport** (cross-origin pages could drive a victim-cookie-authenticated LiveView session).
+
 Sources:
 
 - djust mass-assignment: [GHSA-cc7c-9jff-58wj / CVE-2026-61598](https://github.com/advisories/GHSA-cc7c-9jff-58wj) (pip `djust < 1.0.7`)
 - djust observability exposure: [GHSA-8g2f-g3gq-5rjv / CVE-2026-61590](https://github.com/advisories/GHSA-8g2f-g3gq-5rjv)
+- djust multi-tenant fail-open on WS/SSE: [GHSA-3492-cvg7-9mr2 / CVE-2026-61595](https://github.com/advisories/GHSA-3492-cvg7-9mr2)
+- djust SSE transport CSRF: [GHSA-pg97-jvmf-qfvc / CVE-2026-61593](https://github.com/advisories/GHSA-pg97-jvmf-qfvc)
 - OpenTelemetry.Resources.Host PATH hijack: [GHSA-v8pv-4842-x354 / CVE-2026-81192](https://github.com/advisories/GHSA-v8pv-4842-x354) (NuGet `< 1.16.0-beta.2`, macOS only), fix PR [dotnet-contrib #4760](https://github.com/open-telemetry/opentelemetry-dotnet-contrib/pull/4760)
 
 !!! warning "Authorized validation only"
@@ -41,6 +45,20 @@ The durable generalization: **an access restriction implemented as separate, opt
 1. On authorized targets, enumerate observability/debug route families (`/djust/`-style, dashboard, inspector, eval endpoints) from a non-localhost perspective with the app in its documented default config.
 2. Treat `DEBUG=True`-gated endpoints as unauthenticated for recon triage — but validate the actual response; a non-disclosing 404/403 from the fixed in-view check is the negative control.
 3. Audit rule for code review engagements: grep enforcement — is the restriction checked **in-view** (fixed shape) or only in optional middleware (broken shape)? Remote-invocation surfaces (`eval_handler` classes) need the strictest gate.
+
+## djust late-wave follow-ups: tenant isolation and CSRF checks that exist only on the HTTP path
+
+Two same-day follow-up advisories (published 15:32–15:45Z, both fixed in 1.0.7) complete the picture: the framework's *other* two security controls were also enforced exclusively on the classic HTTP request path while the live transports bypassed them.
+
+1. **Multi-tenant fail-open on WebSocket/SSE** ([GHSA-3492-cvg7-9mr2 / CVE-2026-61595](https://github.com/advisories/GHSA-3492-cvg7-9mr2)): current-tenant state lived in `threading.local()` set only by an HTTP-only middleware, so on the WS/SSE path the tenant was always `None` — and the tenant-aware manager **failed open** (returned the unfiltered queryset, ignoring `STRICT_MODE`), disclosing every tenant's rows to whoever held the socket. `threading.local` was additionally shared across connections on the `sync_to_async` executor thread. The fix moved tenancy to a `contextvars.ContextVar`, bound it around mount and every dispatch, and made the managers fail closed (`.none()`).
+2. **SSE transport CSRF** ([GHSA-pg97-jvmf-qfvc / CVE-2026-61593](https://github.com/advisories/GHSA-pg97-jvmf-qfvc)): the SSE POST endpoints were `@csrf_exempt`, the GET stream endpoint had no Origin check, and the URL `session_id` was client-chosen (UUID-format-validated only), so a cross-origin page could GET the stream (mounting a LiveView **as the victim**) and POST state-changing events with `credentials: include`. A JSON body sent as `text/plain` is a CORS *simple request* — no preflight, no blocking. Fix: Origin validation against `ALLOWED_HOSTS` on all three endpoints plus `Content-Type: application/json` requirement (415 otherwise).
+
+Operator checks these generalize to:
+
+1. **Dual-path enforcement audit.** For any framework with both HTTP and live (WS/SSE) entry points into the same handlers, verify authn, authz, tenancy, and CSRF controls on **both** paths. Enumerate which middlewares are HTTP-only (`Middleware` classes registered in `MIDDLEWARE` never run for ASGI WebSocket/SSE routes). Test with a second-tenant socket, not a second-tenant cookie jar.
+2. **Fail-open vs fail-closed on missing context.** When the tenant/user context is absent, does the query layer return everything (fail open) or nothing (fail closed)? A `None` context silently widening scope is the cross-tenant disclosure; probe with a canary row from another tenant and confirm the socket stream never yields it.
+3. **Live-transport CSRF shape.** A `session_id` that is client-chosen and merely format-validated is not a CSRF token. Cross-origin GET that *creates server-side state* (mounting a view/session) plus `csrf_exempt` POSTs with `credentials: include` is a full cross-site request forgery chain even with zero CORS. Test from an owned cross-origin page: does the stream mount, do event POSTs fire handlers in the victim's authenticated context?
+4. **`text/plain` simple-request awareness.** Any JSON endpoint that `json.loads` a raw body without checking `Content-Type` is reachable cross-origin without preflight. The negative control is a 415 on non-JSON content types.
 
 ## OpenTelemetry host detectors: telemetry shelling out to bare-name binaries is a local LPE surface
 
