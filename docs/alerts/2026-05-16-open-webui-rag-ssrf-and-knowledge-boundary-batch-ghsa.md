@@ -134,3 +134,16 @@ Seed two users, two knowledge bases, one directory and one indexed marker file p
 | sync cleanup | caller-writable knowledge base A | file in B | deny before vector/association recorder |
 
 Capture principal, request-scoped versus saved model provenance, native/legacy tool mode, selected file ID, authorized knowledge-base ID, resolved child parent, and first sink reached. Strong positives stop at **foreign file marker reaches the read recorder** or **A-authorized request carries B child ID to a no-op cleanup sink**. Never retrieve another user's real file content, delete a directory, or drop vector collections. Keep UUID knowledge as an explicit precondition; these records do not establish ID enumeration.
+
+## September 16 follow-up: the Playwright loader re-resolves DNS on its own (GHSA-4v28-j6q3-5m4r / CVE-2026-87996)
+
+The August 4 DNS-binding fixture finally produced the confirmed browser-loader break. With `WEB_LOADER_ENGINE=playwright`, Open WebUI validated the address behind the submitted URL, then handed the same URL to the browser — and the browser resolved it a second time, unchecked. An attacker owning the zone with short-TTL alternating answers makes the check see a public address and the browser connect to an internal one. No timing race is required: the two lookups are separate queries the attacker answers differently, and connection-layer IP pinning cannot apply because the request runs inside the browser, not Open WebUI's own HTTP clients.
+
+Preconditions to confirm first: Playwright engine enabled (not default), reachable local or `PLAYWRIGHT_WS_URL` browser, any authenticated non-admin user able to submit a URL or trigger web search, and browser-process network routes to internal space. Impact is a read primitive with response relay: the intercepted page becomes the ingestion/search result, IMDSv1 IAM credentials are reachable on cloud hosts, and because method and headers are forwarded, an attacker page can drive header-gated or non-GET metadata endpoints.
+
+Operator notes:
+
+1. This is the exact fixture the August 4 section specified — owned authoritative zone, alternating public/private answers, owned internal canary listener — now with a confirmed same-product positive. Record the per-query DNS log plus the final peer the browser recorded.
+2. Distinguish engines in every report: default-loader deployments pin the validated IP and are unaffected; only the Playwright path breaks pinning by delegating fetch to the browser.
+3. Fixed in 0.11.1. On a corrected build, re-run the alternating-answer fixture and confirm every browser request is intercepted/validated or the resolved address is pinned at browser transport level.
+4. Scope to the deployment's own route map: if the browser container has no internal routes, report the precondition honestly; never probe unrelated internal services to find one.

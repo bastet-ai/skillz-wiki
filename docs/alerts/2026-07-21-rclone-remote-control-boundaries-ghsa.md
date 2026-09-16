@@ -238,3 +238,31 @@ Affected-versus-fixed result:
 Deployment-specific preconditions:
 Strongest supported claim and excluded effects:
 ```
+
+
+## September 16 follow-up: the `--auth-proxy` auth chain and RC per-server config drift (9 GHSAs)
+
+A nine-advisory rclone wave published 2026-09-10 lands on the same remote-control/serve trust surface and promotes two durable operator patterns: **documentation-blessed authentication configurations that authenticate nobody**, and **request-supplied per-server options checked against process-global state**. All proofs stay in disposable rclone processes with empty temp configs and fake credentials.
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-xwwr-4h3p-r22c](https://github.com/advisories/GHSA-xwwr-4h3p-r22c) / CVE-2026-88018 (critical, 9.8) | `rclone serve s3 --auth-proxy` | The middleware registers the client-chosen access key from the request's own `Authorization` header into the signature store with `s3Secret` defaulting to `""` when `--auth-key` is unset; SigV4 then verifies the client's signature against the empty key the client already knows. The proxy script never receives a real secret for S3 (unlike webdav/ftp/sftp), so no proxy script can distinguish a key holder from an attacker who picked the same string | Full SigV4 bypass in the exact standalone configuration the docs and reference `bin/test_proxy.py` present. For any auth-proxy deployment, fingerprint serve mode + presence of `--auth-key` first; a self-signed SigV4 request with a client-picked key is the bounded proof. |
+| [GHSA-p569-5gjg-9cmj](https://github.com/advisories/GHSA-p569-5gjg-9cmj) / CVE-2026-88044 (critical, 9.1) | RC `serve/start` FTP/S3 adapters | Per-server `proxyOpt` from the RC request is parsed but constructors gate proxy auth on the **process-global** `proxy.Opt.AuthProxy`; with only request-local config the supplied auth proxy is silently ignored — FTP falls back to `anonymous`/any-password read-write-delete, S3 to the fixed RC filesystem behind the bare `auth_key` | Request-supplied security config validated against global state = silently unenforced. For any RC listener that can start servers, diff request-local vs global option resolution; prove with an `anonymous` login against a lab FTP fallback and a synthetic backend marker. |
+| [GHSA-c476-6w5q-jw77](https://github.com/advisories/GHSA-c476-6w5q-jw77) / CVE-2026-88017 (high) | rclone FTP auth-proxy | Cross-session backend confusion in the proxy-backed FTP path | Treat proxy-session→backend binding as per-connection state; multi-session decision tables in a lab. |
+| [GHSA-2p48-j3qc-rx9f](https://github.com/advisories/GHSA-2p48-j3qc-rx9f) / CVE-2026-88045 (high) | rclone S3 server | Multipart declared-length memory exhaustion | Declared-length trust on multipart uploads; lab-only resource canaries, skip on shared targets. |
+| [GHSA-38xv-hf3p-h7mq](https://github.com/advisories/GHSA-38xv-hf3p-h7mq) / CVE-2026-88046 (medium) | rclone upload paths | Source object names escape the configured root on upload | Same generated-filename/root-containment class as the archive page; sibling-canary proof only. |
+| [GHSA-66hp-wgxq-6f5q](https://github.com/advisories/GHSA-66hp-wgxq-6f5q) / CVE-2026-88014 (medium) | `rclone archive`/zip | Zip Slip via unsanitized entry names escaping the archive namespace | Fold under the existing archive-extraction methodology; listing-level proof. |
+| [GHSA-f8g7-2xjc-7mfh](https://github.com/advisories/GHSA-f8g7-2xjc-7mfh) / CVE-2026-88016 (medium) | `rclone local --links` | chmod/chown/chtimes applied through a planted symlink outside the tree | Symlinked metadata side channel; temp-dir marker proof. |
+| [GHSA-p6m2-r3w9-mpxw](https://github.com/advisories/GHSA-p6m2-r3w9-mpxw) / CVE-2026-88015 (medium) | `rclone local` | Crafted `Range` request against a translated symlink panics | Availability-only; tracked, not standalone guidance. |
+| [GHSA-486v-q2wf-fp2r](https://github.com/advisories/GHSA-486v-q2wf-fp2r) / CVE-2026-88013 (low) | rclone http backend | Custom/auth headers forwarded to a different host on redirect | Header-leak-on-redirect fixture for every backend that follows redirects. |
+
+First patched release for the wave: rclone 1.75.1 (per-server proxy bypass affects 1.70.0–1.75.0).
+
+Durable heuristics:
+
+1. **Fingerprint the auth mode, not the auth intent.** For any serve-with-proxy deployment (rclone, gateways, sidecars), determine the *exact flag/env combination* before trusting the auth story; docs-blessed "auth proxy alone" configurations can be no-auth by construction.
+2. **Global-vs-request config resolution audit.** Any control plane that starts protocol servers from request-supplied option objects must be diffed for options that are parsed but gated on global state; the divergence is the finding.
+3. **Client-known HMAC keys.** If the server-side HMAC key is derived from or defaulted to anything the client controls or knows (including `""`), signature verification is a formality; test with a self-computed signature using a client-chosen key.
+
+!!! warning "Authorized validation only"
+    Same boundaries as above: disposable rclone processes, temp configs, fake keys, lab backends. Never exercise auth-proxy bypasses against customer storage endpoints or read real buckets.
