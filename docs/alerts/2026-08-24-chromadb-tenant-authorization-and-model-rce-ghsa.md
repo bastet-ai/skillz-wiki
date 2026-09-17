@@ -61,3 +61,9 @@ All four advisories affect the `chromadb` Python package in roughly `>= 0.4.17, 
 
 - The vendor advisory also lists **CVE-2026-45829** (a pre-auth `config()` model-loading path already covered by the [2026-05-29 batch](2026-05-29-chromadb-ngrok-tar-capi-boundary-batch-ghsa.md)); not re-promoted.
 - No KEV entry and no active-exploitation status attached to this wave at scan time; treat as a patch/patched-by-configuration priority, not active-exploitation.
+
+## September 16 follow-up: Chroma tenant/database segments unvalidated in collection resolution
+
+[GHSA-j8fq-8cc8-m22c](https://github.com/advisories/GHSA-j8fq-8cc8-m22c) / CVE-2026-92782: Chroma through 1.5.9 does not validate the **tenant and database segments** when resolving collections — an authenticated caller issuing requests under its own tenant path but naming a foreign collection identifier can read, modify, and update records in other tenants' collections. Same UUID-keyed-resolution root cause as the Aug 24 wave on this page; treat it as confirmation that the tenant segment remained decorative in the resolver through 1.5.x.
+
+Operator replay unchanged: two-tenant lab, synthetic canary docs, one operation at a time (peek/add/update under tenant A against tenant B's collection UUID), decision table per V1/V2 route. Add the `1.5.9` boundary to the version-evidence matrix; any engagement checklist item that said "patched past 0.6.x" must be re-run on current releases.

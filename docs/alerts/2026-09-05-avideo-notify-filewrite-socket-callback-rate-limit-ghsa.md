@@ -40,6 +40,28 @@ All checks use a disposable AVideo install in a lab, synthetic accounts, marker 
 4. **Socket callback dispatch.** With YPTSocket enabled in the lab, connect a synthetic socket client and emit a message whose callback name targets a marker global (a harmless `window.__marker` function you define in the lab page that records the arguments). A positive is the marker firing with attacker-supplied arguments. Do not target real `innerHTML` sinks with script payloads; argument capture at the marker is the proof.
 5. **Password key space.** Identify the external-login password generator and hash in the source (lab build). Record the bit length and hash type as the finding; optionally recover the *lab* password offline to confirm crackability. No cracking of production dumps.
 
+## September 17 AVideo wave: hash-as-password auth bypass, CSRF-allowlist basename collisions, and CloneSite command injection
+
+A second large AVideo batch landed in the September 17 wave (through 29.0, several confirmed at master HEAD with **no patched version**). The high-value members:
+
+| Advisory | Boundary |
+| --- | --- |
+| [GHSA-c9w6-444r-27pj](https://github.com/advisories/GHSA-c9w6-444r-27pj) / CVE-2026-92580 | CloneSite plugin stores an SSH password then runs `sshpass -p '{password}' rsync ...` with plain `str_replace` and no escaping — a single quote in the password breaks out into arbitrary shell. The password is planted through an admin-only endpoint whose CSRF defense is a **no-op when the request source appears to be loopback** (same-host TLS-terminating reverse proxy with `$global['trustedProxies']` unset, or a co-hosted attacker app), and on HTTPS the session cookie is `SameSite=None`, so a cross-site POST carries it. The plugin's documented crontab then executes the injected command **as the crontab owner (commonly root)** with no further admin action. Residual sink of CVE-2026-41304 — an incomplete-fix follow-up. |
+| [GHSA-hxf8-887x-mx5m](https://github.com/advisories/GHSA-hxf8-887x-mx5m) / CVE-2026-92578 | Password-hash pass-the-hash: `loginFromRequest()` and `encryptPasswordVerify()` each accept the **stored users.password hash itself** as valid credentials through two independent code paths — anyone holding a dumped/leaked hash authenticates without cracking it. |
+| [GHSA-4687-wm68-8h9w](https://github.com/advisories/GHSA-4687-wm68-8h9w) / CVE-2026-92579 | `autoCSRFGuard()` exempts a hardcoded allowlist of **basenames tested without directory context** — a plugin file named `login.json.php` inherits the core exemption and unconditionally logs authenticated users out on cross-site POST before credential validation. |
+| [GHSA-52g5-jg96-428j](https://github.com/advisories/GHSA-52g5-jg96-428j) / CVE-2026-92583 | `enforceRateLimit()` race: the counter read/write is non-atomic, so concurrent requests defeat the limiter (brute-force channel; sibling of the Sept 5 bot-UA limiter bypass on this page). |
+| [GHSA-q24m-x4jf-vhrw](https://github.com/advisories/GHSA-q24m-x4jf-vhrw) / CVE-2026-92577 | API `get_api_video` broken access control exposing video records. Siblings GHSA-2vmx-78wc-x2hc/GHSA-hgf3-hf6h-jm9r (video access-control verification gaps), GHSA-ghch-wqgj-8mcj (stored XSS), GHSA-x968-qj2r-r49p (CSRF), GHSA-rwxh-c5h7-gxqp (`Like::__construct()` counter arithmetic on raw request values before validation) round out the batch. |
+
+Operator checks this batch adds:
+
+1. **Loopback-blind CSRF defenses on proxied appliances.** `isUntrustedRequest()`-style checks that classify "remote addr == 127.0.0.1" as trusted are defeated by any same-host TLS terminator or co-hosted app. On any PHP app behind a proxy, test admin endpoints with a cross-site `SameSite=None`-carrying POST from a co-hosted origin; the trustedProxies-equivalent being unset is the enabling default.
+2. **Crontab-executed stored payloads.** Any admin-settable field that later feeds a *scheduled* command line (rsync/ssh/backup plugins) converts a one-time CSRF plant into persistent code execution at crontab privilege. Enumerate plugin fields → crontab entries; the injection point is the quoting of the stored value, not the endpoint auth.
+3. **Pass-the-hash on login endpoints.** Where a leak yields `users.password` hashes (view-stats hash-param leak on this page is one source), test submitting the **hash itself** as the password field before spending GPU time cracking — AVideo accepted it via two independent paths.
+4. **Basename-scoped allowlists.** Any security exemption keyed on filename-only (`login.json.php`, `admin.php`) is inheritable by plugins. Enumerate plugin directories for basename collisions with exempted core files.
+5. **Fix-history re-checks.** CVE-2026-92580 is explicitly a residual sink of CVE-2026-41304 — re-run the original command-injection matrix on *sibling* fields after any vendor fix, per the recurring incomplete-fix pattern.
+
+All proofs stay in a disposable lab: synthetic admin session via owned co-hosted origin, marker shell payloads that only touch lab files, fake user rows for pass-the-hash, and concurrent-request instrumentation for the limiter race. No live-instance testing.
+
 ## Safety
 
 - Disposable lab AVideo instance only; synthetic users, marker files, lab tokens, owned no-content peers, denied real file/process/network sinks outside the lab.

@@ -49,6 +49,12 @@ These records were unreviewed when scanned and do not all identify affected or c
 
 ## 1. Separate Feast network exposure, object authorization, and deserialization
 
+### September 16 follow-up: Feast JWT signature never verified before identity
+
+[GHSA-4rxv-8f9g-9h5w](https://github.com/advisories/GHSA-4rxv-8f9g-9h5w) / CVE-2026-92787: Feast through 0.66.0 **establishes user identity from an unverified JWT** — the signature is never checked — so any caller presenting a token with the right hardcoded claim obtains trusted internal identity and unchecked read/write over all entities, feature views, data sources, and permission policies. This is the strongest identity edge on this page: it subsumes every authorization matrix above, because the gateway's RBAC now gates only callers who bother to be honest.
+
+Operator check on any Feast (or gateway-fronted feature store) deployment with auth supposedly enabled: decode a valid cluster token, copy the payload, re-encode with an **invalid signature** (flip the sig bytes), and call one read-only registry endpoint. Positive: 200 with privileged identity. The forged-token-accepted result is the whole finding; capture the claim set, not tenant data. This is the same "parse-before-verify" identity class as the Sept 16 ZITADEL/Keycloak page and the earlier JWT alg-confusion entries — add it to any IdP-adjacent audit list.
+
 Do not begin with an executable UDF. Build a local Feast deployment containing two projects or tenants, each with random feature-view names and no sensitive source data. Instrument authentication middleware, registry writes, UDF reconstruction, materialization planning, and feature reads independently.
 
 Run this decision matrix against each enabled service:

@@ -89,3 +89,13 @@ OpenAM 16.1.2 fixes three adjacent paths:
 4. Register a disposable OAuth client, authenticate a lab user, and send paired authorization requests where only `display=wap` and a harmless request-derived DOM marker vary. Capture rendered HTML and marker execution in an isolated browser profile; do not read cookies or invoke account actions.
 
 Report these separately as **unauthenticated XML class name -> constructor**, **allowed serialization root -> unrestricted nested object**, and **alternate consent renderer -> OpenAM-origin DOM execution**. The WebAuthn path still requires a compatible classpath object graph; do not label a deployment exploitable from package presence alone.
+
+## September 16 follow-up: ComfyUI dataset-save folder_name arbitrary write to initializer RCE
+
+[GHSA-xhvx-vf8p-rh4x](https://github.com/advisories/GHSA-xhvx-vf8p-rh4x) / CVE-2026-92816: ComfyUI before 0.30.0 does not sanitize the `folder_name` input on **dataset save nodes**, letting a crafted workflow write attacker-controlled content to arbitrary paths outside the output directory — the advisory's stated escalation is modifying startup files or package initializers (`__init__.py`) for code execution on next load.
+
+Operator checks this adds to the ComfyUI section:
+
+1. **Workflow = config authority.** Any node whose save-path is a workflow string is a containment question. Enumerate every save/export node (dataset save, image save, model save) and diff its path handling; a fixed sibling node does not imply the guard covers all writers.
+2. **Lab proof stays inert:** in a disposable ComfyUI, set `folder_name` to a temp relative path that lands next to (not inside) the output dir with a unique marker filename, confirm the write location, then stop. Do **not** write real startup files, site-packages, or shell init on any shared host; the resolved-path table is the finding, not the executed payload.
+3. Exposure triage unchanged from this page: instances run with `--listen 0.0.0.0` or behind a proxy without the System User Protection gate put workflow loading — and therefore this sink — within reach of low-trust users.

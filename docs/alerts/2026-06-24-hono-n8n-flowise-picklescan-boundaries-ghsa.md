@@ -276,3 +276,18 @@ Operator patterns to replay on any low-code/workflow platform:
 4. **Listing endpoint + push-channel parity.** Audit both the REST listing and the websocket/push subscription for missing tenancy filters. Two disposable users in separate projects: user B should observe nothing about user A's active workflow IDs on either channel. Report **member identity to instance-wide workflow inventory** and **cross-user push-event leakage** as a recon primitive (workflow IDs, versions, and error detail feed targeted attacks), not as authorization bypass.
 
 Record the release line in every report: several of these fixes landed first on 2.37.x/2.38.x with an 1.123.x LTS backport, so a version banner alone can be misleading.
+
+## September 17 n8n Git node sandbox escape and source-control push destruction follow-up
+
+Two more n8n advisories (same fixed lines: 1.123.76, 2.37.7, 2.38.2) extend the file-access sandbox and project-tenancy axes on this page:
+
+| Advisory | Boundary worth testing |
+| --- | --- |
+| [GHSA-f9wr-qmqc-cpw3](https://github.com/advisories/GHSA-f9wr-qmqc-cpw3) / CVE-2026-92587 | The Git node validated a **relative** remote URL against the configured `repositoryPath`, then invoked git with that path as working directory — git walked **up to the enclosing repository top level** and resolved the identical relative URL from there. A member who nested a repo one level below the configured path passed the file-access check with an identical URL string while git resolved it outside `N8N_RESTRICT_FILE_ACCESS_TO`; a subsequent fetch/pull merged another repository's objects into the user's own repo, readable back through the node. Fix resolves the remote reference from the directory git actually operates in **before** the sandbox check. Workaround: `NODES_EXCLUDE` the `n8n-nodes-base.git` node. |
+| [GHSA-cr47-hhfm-v884](https://github.com/advisories/GHSA-cr47-hhfm-v884) / CVE-2026-92588 | The source-control **push** endpoint derived the file set to push from **client-supplied paths and statuses** instead of the server-side computed status for the requesting user — a project-scoped admin could reference other projects' files and push a *deletion* of their workflows and credentials (cross-project data destruction; requires the licensed Environments feature connected to a remote). |
+
+Reusable operator checks:
+
+1. **Path-resolution context differential.** Any sandbox check that validates a path/URL string *relative to config* before handing it to a tool that resolves it *relative to its own cwd/top-level discovery* is broken by construction — git's repo-root walk-up is the canonical case. Replay pattern in a lab: nest a scratch git repo one level below the configured path, configure a relative remote pointing at a second scratch repo, and confirm the fetch merges the outside repo's marker object. Evidence is the resolved path in the git invocation vs the validated string; never touch real repositories.
+2. **Client-supplied mutation inventory.** For push/sync/export endpoints, diff the server-computed state against the request-payload state. If the endpoint trusts payload-declared paths/statuses to decide what changes, every object in the instance is in scope regardless of the caller's project grants. Prove with two disposable projects and a marker workflow only in project B; the finding is project A's push request touching project B's export set.
+3. Same reporting discipline as the credential-probe and REST-path items above: state the validated string, the actually-resolved target, and the caller role — control of the resolved destination is the claim, not "sandbox bypass" in the abstract.

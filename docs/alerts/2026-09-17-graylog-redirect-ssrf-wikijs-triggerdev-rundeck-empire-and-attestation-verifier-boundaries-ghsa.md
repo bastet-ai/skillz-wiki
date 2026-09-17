@@ -1,0 +1,62 @@
+# Fetch-after-redirect SSRF, integration-identity squatting, and control-plane upload boundaries
+
+Source: GitHub Security Advisory `unreviewed` wave published 2026-09-16T21:32Z, cross-checked against vendor advisories. Related same-wave items were folded into existing product pages: [June 5 Crawl4AI/changedetection page](2026-06-05-crawl4ai-changedetection-dagster-django-file-query-boundaries-ghsa.md#september-16-follow-up-changedetectionio-browser-step-goto-ssrf-and-browserless-file-protocol-non-enforcement), [June 22 ComfyUI page](2026-06-22-container-openam-xwiki-comfyui-boundaries-ghsa.md#september-16-follow-up-comfyui-dataset-save-folder_name-arbitrary-write-to-initializer-rce), [Aug 10 Feast page](2026-08-10-ai-feature-control-plane-tenant-boundaries-ghsa.md#september-16-follow-up-feast-jwt-signature-never-verified-before-identity), and [Aug 24 Chroma page](2026-08-24-chromadb-tenant-authorization-and-model-rce-ghsa.md).
+
+This batch is durable because every entry names a reusable boundary that generalizes past its product: **validate-then-redirect fetchers**, **attestation/identity decisions made from attacker-supplied input**, **integration-object claims without control proof**, and **import/upload surfaces that rewrite execution configuration**.
+
+## What changed
+
+| Advisory | Component | Boundary | Operator value |
+| --- | --- | --- | --- |
+| [GHSA-pgwr-3c66-c473](https://github.com/advisories/GHSA-pgwr-3c66-c473) / CVE-2026-92789 | Graylog ≤ 7.1.4 | Lookup tables / event-notification outbound URLs are allow-list validated **before** the request but **not re-validated after following redirects** → an allowlisted endpoint that 302s to an internal service makes the server fetch and return internal responses (needs lookup-table or notification permission) | The canonical validate-then-redirect SSRF: any allow-list guard that checks only the initial URL is bypassed with one attacker-or-owner-controlled redirect on an allowlisted host |
+| [GHSA-7mqp-q79v-g27v](https://github.com/advisories/GHSA-7mqp-q79v-g27v) / CVE-2026-92775 | Wiki.js ≤ 2.5.314 | Image Prefetch renderer fetches arbitrary URLs with **no protocol, host, or address validation**; any page-editing user injects `img` elements with the `prefetch-candidate` class → server-side requests to internal services and cloud metadata with **responses returned to the attacker** | Low-privilege CMS editor → full-read SSRF. Editors on shared wikis are common footholds; treat every "optimize/preload/proxy image" feature as a fetch sink |
+| [GHSA-69p6-97m5-6vpp](https://github.com/advisories/GHSA-69p6-97m5-6vpp) / CVE-2026-92774 | Wiki.js ≤ 2.5.314 | Multiple GraphQL resolvers omit **page tags** from authorization checks — tag-scoped page restrictions are enforced on one entry point and skipped on others | Resolver-generation drift: test every GraphQL field that reaches the same model, not just the UI-used one |
+| [GHSA-mxgr-89mh-cjg6](https://github.com/advisories/GHSA-mxgr-89mh-cjg6) / CVE-2026-92776 | Wiki.js ≤ 2.5.314 | START/END page-rule path matching does not require path separators, so rule `/private` matches path `/privatepage` | Prefix rule matching without a separator boundary is an authorization allowlist bypass class — same shape as the sibling-prefix file containment bugs; always test the no-separator sibling name |
+| [GHSA-48fw-mh64-g6wf](https://github.com/advisories/GHSA-48fw-mh64-g6wf) / CVE-2026-92773 | Trigger.dev < 4.6.0 | GitHub App **installation binding** never verifies the authenticated user controls the installation: replay the OAuth state cookie and supply sequential installation IDs → bind a victim's GitHub App installation to your org → access to the victim's repositories | Integration-object squatting: any "connect app/repo/webhook by numeric ID" flow that trusts the ID without a control proof (ownership check or nonce-bound callback) lets attackers enumerate and claim neighbors' installations |
+| [GHSA-9cq6-jmp6-5vf7](https://github.com/advisories/GHSA-9cq6-jmp6-5vf7) / CVE-2026-92763 | Rundeck ≤ 6.2.1 | Project archive import authorizes only the `importProject` **action**, not the archive **contents**: `importConfig`/`importNodesSources` let a project-import-only role replace node executors and SSH key paths — security-relevant settings that govern how jobs execute | Import endpoints that treat "can import" as "can import anything": the archive payload is config authority. On Rundeck this is a short path from scoped project role to job-execution control |
+| [GHSA-6h6w-7p6f-xrh3](https://github.com/advisories/GHSA-6h6w-7p6f-xrh3) / CVE-2026-92748 | BC Security Empire < 6.7.1 | Multipart `filename` on C2 upload endpoints is unvalidated → path traversal writes files to arbitrary C2-server locations for code execution (authenticated operator) | C2-side upload surfaces share the same bug class as every app upload sink: server-side storage paths built from client-controlled filenames. Relevant both when assessing C2 infrastructure in authorized red-team engagements and when auditing your own upload handlers |
+| [GHSA-mc6j-cg9w-v46r](https://github.com/advisories/GHSA-mc6j-cg9w-v46r) / CVE-2026-92795 | Coze Studio ≤ 0.5.1 | Plugin-tool registration accepts an unrestricted **server URL** — an authenticated user points the backend at internal services and cloud metadata and reads the responses. Sibling [GHSA-77xw-26q5-6wjg](https://github.com/advisories/GHSA-77xw-26q5-6wjg) / CVE-2026-92788: workflow SQL customization nodes pass table names into SQL without validation | AI-platform plugin registries are SSRF farms: "register your own tool endpoint" features fetch attacker-chosen URLs from the backend network on every invocation. Table-name passthrough in low-code SQL nodes is the SQLi analog |
+| [GHSA-fjm6-6gxh-mvf2](https://github.com/advisories/GHSA-fjm6-6gxh-mvf2) / CVE-2026-92812 | decap-server | Local proxy containment guard is a **plain string prefix comparison without path-separator validation** → sibling directories whose names start with the repository directory name are fully readable/writable/deletable outside the intended root | One more instance of the sibling-prefix containment class: `startsWith(repoRoot)` without a trailing separator admits `repoRoot-secret`. Test `../<rootname>-canary` on every prefix-based path guard |
+| [GHSA-wj5x-jrhc-mqcx](https://github.com/advisories/GHSA-wj5x-jrhc-mqcx) / CVE-2026-92792 | OpenNHP ≤ 1.0.2 | The trusted-execution **attestation verifier is selected from attacker-supplied evidence**: include a `test_purpose` key → `FallbackVerifier` runs unconditionally; pair enrolled measure/serial values from the allowlist → attestation bypass | Test-mode hooks and fallback verifiers selected by the very evidence they should verify — check every attestation/TEE gateway for a caller-visible verifier discriminator |
+
+## Operator validation patterns
+
+### 1. Validate-then-redirect SSRF sweep (Graylog, Coze Studio, Wiki.js)
+
+1. Identify every server-side URL sink: lookup tables, webhook/notification URLs, image prefetch/proxy endpoints, plugin/connector registration URLs.
+2. Build the two-tier test: (a) direct submission of an internal canary URL — does the *validator* reject it; (b) an owned public redirector (on an allowlisted host where an allowlist exists) 302-ing to the same internal canary — does the *fetcher* follow it.
+3. Record a decision table per sink: validator verdict vs delivered request, with the final destination captured on an owned listener (`httpbin`-style on your own host). Evidence is the final-peer hit, never a scan of live internal services.
+4. Check protocol scope on the same sink: does the redirect path also accept `file:` or scheme-casing variants (compare the Crawl4AI `file://` proofs on the June 5 page).
+5. Wiki.js specifics: proof is an `img class="prefetch-candidate"` in a lab page you own, prefetch hitting an owned callback; cloud-metadata framing requires a lab instance inside the target cloud with an approved canary role — do not chase real metadata endpoints on engagements without explicit scope.
+
+### 2. Integration-object squatting (Trigger.dev)
+
+- The reusable check on any "bind by numeric ID + OAuth callback" flow: does the callback verify the completing user controls the object being bound? Replay pattern in a lab: two disposable GitHub accounts, one GitHub App installation; account B replays its own state token with account A's installation ID and confirms the binding lands.
+- Report as **missing control proof at claim time** (ID enumeration + state replay), separate from the OAuth state handling itself.
+
+### 3. Archive-import config authority (Rundeck)
+
+- On any platform with archive/bundle import (CI/CD, job schedulers, workflow engines): enumerate which config keys an archive can overwrite versus which action permission gates the import. If a project-scoped import can replace execution-related config (executors, key paths, plugin descriptors), that permission is effectively execution authority.
+- Prove in a lab project only: import an archive that sets a marker config value and a fake SSH key path; capture the before/after config diff. Never import archives against shared Rundeck instances.
+
+### 4. Sibling-prefix guard differential (decap-server, Wiki.js path rules)
+
+- Same harness as the model-checkpoint and Jupyter prefix-guard checks: create the allowed root `foo/`, plus sibling canaries `foo-secret/` and `foopage`, then test the guard's own entry point against the no-separator sibling name. Record raw-guard verdict vs normalized-path verdict; the divergence is the finding.
+
+### 5. Attester-selected verifier (OpenNHP)
+
+- On any attestation gateway: does the evidence payload contain a field that influences *which verifier* parses it? Send evidence naming test/fallback modes and confirm whether the fallback accepts self-described values. Proofs stay with lab-enrolled synthetic measures/serials.
+
+## Reporting heuristics
+
+- Lead each finding with the boundary sentence: "the allow-list checked URL A, the fetcher delivered URL B", "the numeric ID was claimed without a control proof", "the import action gated the action, not the contents", "the caller's evidence selected its own verifier."
+- Separate permission preconditions honestly (Graylog needs lookup/notification permission; Coze needs an authenticated workspace user; Empire needs an operator session; Wiki.js SSRF needs page-edit). A low-privilege precondition is still a boundary break on multi-user instances — say which tier breaks.
+- Keep evidence to owned callbacks, marker config diffs, and decision tables; never capture real cloud-credential responses, victim repo contents, or C2-server files.
+
+## Tracked without publication
+
+- Wiki.js and Cisco adjacency (76450/76447 ISE OCSP/related hygiene rows), Metabase `0.0.0.0` host validation (92813), PrestaShop blockwishlist/psgdpr (92810/92809), phpList mass-action CSRF (92806), Manticore statement-permission drift (92796), UVdesk unauthenticated installer skeleton (92805), Docs websocket revocation (92800), Nango connection-config validation (92804), cc-connect card-action allowlist (92801), LibreTranslate missing `access_check` route (92803), Higress cookie-segment panic (92790), GoAdmin unanchored logout pattern (92793), Uber Kraken tag param (92791), Angel Kryo deserialization (92785 — no reachable-service detail published), LightGBM text-model parser bounds (92786), refinedev inferencer field-name interpolation XSS (92784), Builder.io Gen2 prototype pollution pair (92779/92781), KnowStreaming REST RBAC (92780), CMAK CSRF filter + feature-toggle drift (92751/92778), ArcherySec org ownership (92765), OpenCVE token scoping (92764), Pelican Panel startup write perms (92762), Harbor scanner `q` filter (92770), Leantime HTMX plugin-install authz (92772), Twenty groupBy-with-records field/row perms (92771), Shlink Mercure key-role drift (92760), metasfresh attachment/comment endpoint checks (92752), WebVirtCloud UserInstance flags (92761), SecObserve disclosure (92759), PatrowlManager events/user access control (92753/92754), Cisco BroadWorks CommPilot (76438), changedetection.io unescaped notification title (92814). No reusable operator workflow beyond patterns already published.
+
+---
+
+*Source: hourly offensive-security scan, 2026-09-17 (Sept 16 21:32Z unreviewed wave). Tracked in the [source index](../notes/source-index.md).*
