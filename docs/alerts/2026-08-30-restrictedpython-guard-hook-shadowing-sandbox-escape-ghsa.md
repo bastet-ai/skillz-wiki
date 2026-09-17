@@ -61,6 +61,10 @@ Stop at "guard hook was shadowed and the policy callback was bypassed." Do not a
 - Synthetic sandboxed code and synthetic policy hooks only. No real user data, no network access, no file access outside the test directory.
 - Stop at the hook-shadowing proof. Do not chain into pickle deserialization, file I/O, or shell execution.
 
+## Follow-up: second escape axis — `string.Formatter` internal traversal (2026-09-17)
+
+[GHSA-hp3v-5vw7-fx9w](https://github.com/advisories/GHSA-hp3v-5vw7-fx9w) (published 2026-09-17T16:30Z) is a **distinct escape mechanism** in the same product: when the embedding policy exposes the stdlib `string` module or a `Formatter` instance, `string.Formatter.get_field` performs attribute/item traversal **internally**, returning live object references without ever routing through `safer_getattr`. Shadowing the guard hook is unnecessary — the traversal never enters the guard. Full write-up, harness, and the Zope AccessControl `str.format`/`format_map` + str-subclass sibling: [Sept 17 policy-sandbox traversal page](2026-09-17-python-policy-sandbox-traversal-umbraco-reference-expansion-and-mariadb-local-infile-ghsa.md). Combined audit rule: test both **name-shadowing of the guard** and **stdlib functions that traverse without calling the guard**.
+
 ## Sources
 
 - [GitHub Advisory Database: RestrictedPython GHSA-ffg3-p8fm-mjx2 / CVE-2026-55830](https://github.com/advisories/GHSA-ffg3-p8fm-mjx2)

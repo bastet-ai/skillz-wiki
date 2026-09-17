@@ -221,6 +221,12 @@ This is the "create-then-dereference" composition already covered above, instant
 
 Replayable validation: a disposable aqua root, a random sibling canary directory outside the extraction root, and a patched/denied `symlink`/`open`/`rename` sink. Build a local archive fixture with an inert marker file plus an out-of-root symlink followed by a same-path regular member. The bounded positive is **symlink entry passes containment → final `OpenFile` destination is the synthetic sibling canary → denied filesystem sink records the outside-root write**. Do not overwrite an existing file, target startup/configuration paths, plant a persistent outside-pointing link, or infer package-install code execution without proving a separate consumer.
 
+## Junrar `LocalFolderExtractor` intermediate-mkdir escape (GHSA-89m4-43j5-vhhx)
+
+[GHSA-89m4-43j5-vhhx](https://github.com/advisories/GHSA-89m4-43j5-vhhx) (published 2026-09-17T16:30Z) is the containment-check-granularity variant of the same family: `createFile()` validates only the **final canonical file path**, while `makeFile()` walks the entry's path segments calling `dir.mkdir()` for each intermediate directory **with no containment check**. A crafted RAR entry makes the final file resolve inside the destination while intermediate `mkdir()` calls create attacker-chosen directories outside the extraction root. Default impact is outside-root **directory creation**, not arbitrary content write.
+
+Reusable check: extraction containment must cover **every filesystem side effect** — intermediate directory creation, symlink/hardlink creation, permission changes — not only the final file's canonical path. Audit any extractor by listing which operations validate containment versus which just execute; test with a lab RAR/zip fixture whose member path implies a sibling marker directory, and prove only that the outside-root directory creation attempt is recorded by a denied sink.
+
 ## References
 
 - aqua `mholt/archives` symlink-follow write: https://github.com/advisories/GHSA-mf5c-hw34-4hpp

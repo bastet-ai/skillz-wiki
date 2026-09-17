@@ -58,6 +58,12 @@ Report this as **authenticated map-helper URL -> server-side fetch -> full respo
 
 Report this as **server-side parser DOM -> sanitizer decision -> serialized HTML -> browser reparse mismatch**. Include sanitized inputs/outputs, DOM diff tables, library versions, and a fixed-version negative control.
 
+## September 17 follow-up: the `truncated_body` mitigation itself fails open on oversized chunked/HTTP/2 (GHSA-5gpm-rgj3-9q76)
+
+[GHSA-5gpm-rgj3-9q76](https://github.com/advisories/GHSA-5gpm-rgj3-9q76) (published 2026-09-17T17:05Z) is the **third still-open variant** of the fix chain CVE-2026-50197 → GHSA-8qqm-fp2q-v734 → this. The documented remediation tells policy authors to guard on `input.truncated_body == false`, but the OPA envoy plugin computes `truncated_body` **only when a `Content-Length` header is present**. A `Transfer-Encoding: chunked` or HTTP/2 request (no `Content-Length`) leaves the flag `false` even when Skipper truncated the body, so the *mitigated* policy allows the request while the full un-inspected oversized payload streams to upstream (`bufferedBodyReader` forwards the buffered prefix, then drains the rest). The fix's positive-control test only exercised *small* chunked bodies — never oversized ones — which is exactly how the transport class of the original CVE survived its own patch.
+
+Operator value: extend the body-truncation battery above with a fourth control — **oversized body without `Content-Length` (chunked or HTTP/2)** against a policy using the vendor-recommended `truncated_body` guard. Evidence: allow + upstream receipt of a denied marker beyond the truncation offset. General audit rule: for any "deny on truncation" mitigation, re-derive how the truncation flag is *computed* per transport; a flag that defaults false when its input signal is absent is a fail-open.
+
 ## Operator checklist
 
 - [ ] Did the proof use synthetic bodies, routes, services, and HTML markers only?
