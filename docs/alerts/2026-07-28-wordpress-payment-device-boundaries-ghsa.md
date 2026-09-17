@@ -1042,6 +1042,23 @@ Payment-integrity axis (already covered by the Persian Elementor/Paid Membership
 
 Tracked, not published: **Canva Desktop before v1.125.0** deeplink handler double-decoding URL encoding to load arbitrary same-origin content under the user session [GHSA-h8gp-q3m8-2gvr / CVE-2026-92839](https://github.com/advisories/GHSA-h8gp-q3m8-2gvr) (desktop deeplink decode-count check — worth promoting only if a concrete same-origin capability sink surfaces); the Qualcomm/aptx memory-safety and Wi-Fi transient-DoS block (~15 GHSAs, CVE-2026-240xx/252xx — no operator workflow without an authorized device-lab path); Acer NitroSense Agent Service pairs (CVE-2026-50603/50604); GeoVision GV-Remote DLL hijacking (CVE-2026-92838); Affinity by Canva stack overflow (CVE-2026-81546, update).
 
+## September 17 09:33Z follow-up: standalone plugin PHP entry points skip the whole WordPress auth layer
+
+Two records from the 09:33Z wave extend the wp-admin public-namespace lesson to its logical conclusion: **a plugin file that never loads WordPress never gets WordPress authentication.**
+
+- **To Do List Member 1.4–1.6** [GHSA-347f-487h-46gq / CVE-2026-86801](https://github.com/advisories/GHSA-347f-487h-46gq): the plugin ships a file upload endpoint that **does not load WordPress at all**, so no auth, capability, or nonce check of any kind applies — it validates only the uploaded file's *name*, not its content. Unauthenticated attackers store active content served from the site's own origin, and companion endpoints list and delete the staged files.
+- **Yo through 1.3.1** [GHSA-vfmj-6hfh-5m4v / CVE-2026-87963](https://github.com/advisories/GHSA-vfmj-6hfh-5m4v): unauthenticated SQL injection in the `username` parameter because the handler **reads the request before WordPress applies its request escaping** — the pre-bootstrap code path is outside core's normalization guarantees, so the usual "WP escapes input" assumption is void.
+
+The audit rule generalizes the `is_admin()` triad into a bootstrap check. The `admin-ajax.php`/`admin-post.php`/`admin_init` pattern still runs inside WordPress, so `current_user_can()` and `wp_verify_nonce()` are at least *available* to a careless handler. A standalone entry point (e.g. `wp-content/plugins/<slug>/upload.php` reachable directly) has no core context at all: no nonces exist, no user object exists, and any escaping magic attached to `$wpdb` or request processing may not have fired. Recon inventory on a target:
+
+1. Enumerate executable PHP files under `wp-content/plugins/` and `wp-content/themes/` that are reachable directly (fuzz candidate names from the plugin file listing when available, or common names like `upload.php`, `handler.php`, `gateway.php`, `callback.php`, `ipn.php`, `api.php` for known plugins). For each hit, the question order is: does it `require` `wp-load.php`/`wp-blog-header.php` at all? If yes, does it call `current_user_can()` before the first state-changing sink? If no, every "authenticated" feature behind it is actually anonymous.
+2. For upload endpoints found either way, re-apply the validator/reassembled-file split from the Gravity Forms chunked-upload record: validate content, not just name, and treat same-origin active content as stored delivery even without claimed RCE.
+3. For SQL-adjacent handlers reached through alternate entry files, prove injection only against a lab install's disposable tables with a canary row; parameter-read-before-escaping is reportable even if the vendor's fix is "add `wpdb::prepare()`", because it confirms the handler was written outside core's assumptions.
+
+Bounded positives: **anonymous request to plugin-bundled upload path -> inert marker file served from site origin** (write/list/delete recorded separately), or **synthetic quote payload -> canary-row disclosure differential on a disposable table**. Never store executable content on a real site, never enumerate or delete real staged files, and never read real tables.
+
+Adjacent single from the same wave, processed without publication: **Checkout Field Manager for WooCommerce before 7.9.7** arbitrary attachment delete by any authenticated customer (missing per-object ownership check — object-scope axis already covered). Mitsubishi Electric GX Works3 in-memory block-password tampering (CVE-2026-15688) is a local engineering-station attack with no remote operator workflow — tracked, not published.
+
 ## Reporting checklist
 
 Include:

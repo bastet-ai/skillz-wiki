@@ -136,3 +136,18 @@ Safe validation boundaries:
 4. Negative controls: local settings ignored until trust is granted, task include files gated by the same trust checks as config files, Tera `exec()` unavailable in untrusted task metadata, and token helpers restricted to user/global config.
 
 Reporting heuristic: title findings by the exact trigger, for example **local `credential_command` to shell before trust** or **untrusted task include Tera field to shell on task listing**. Include mise version, repository layout, command used, temp marker path, and patched rejection behavior.
+
+## September 17 flatpak-builder Git-hook build-host update
+
+GitHub Advisory Database added [GHSA-rvpr-5p35-6vf8](https://github.com/advisories/GHSA-rvpr-5p35-6vf8) / [CVE-2026-86320](https://nvd.nist.gov/vuln/detail/CVE-2026-86320): when flatpak-builder applies patch sources with `use-git-am: true`, it runs Git without disabling hooks, so a malicious source containing a Git `post-applypatch` hook executes on the **host** as the user running flatpak-builder during the build.
+
+Operator value: this is the repository-trust family again, reached through a build wrapper rather than a dotfile parser. The generalizable audit rule: **any tool that shells out to Git over attacker-supplied content** — `git am`, `git apply`, `git checkout`, `git merge`, archive-to-repo materializers, CI checkout actions, package patchers — executes repository-internal `.git/hooks/*` unless the caller passes `-c core.hooksPath=/dev/null`, `--no-verify`, or an equivalent. Repository content that is nominally "data" (a patch source in a manifest) becomes host code execution because the hook lives *inside* the delivered object, not in a config file the tool parses.
+
+Safe validation boundaries:
+
+1. Disposable checkout only: a tester-controlled source repo or module directory containing a `post-applypatch` (and `pre-applypatch`/`post-checkout` variants) hook that writes a marker under a temp directory. Run flatpak-builder with `use-git-am: true` against a minimal manifest in a throwaway build directory.
+2. Evidence is hook invocation and marker creation outside the sandbox; do not run network or persistence payloads.
+3. Negative controls: fixed flatpak-builder refusing to trigger the marker, plus confirming hooks do not fire when `core.hooksPath` is redirected — this distinguishes "hooks disabled by the wrapper" from "hook never reached".
+4. Sweep adjacent tooling with the same harness mindset (authorized CI runners, devcontainers): grep the tool source for `git am`/`git checkout` invocations lacking hook suppression flags before probing.
+
+Reporting heuristic: title as **flatpak-builder `use-git-am` patch source `post-applypatch` hook to host execution**; include flatpak-builder version, manifest fragment, hook name, marker path, and patched behavior. Related waves with the same shape: mise `.mise.toml`/`credential_command` self-trust above, and repository-controlled `.pdm-plugins` pre-parse execution.
