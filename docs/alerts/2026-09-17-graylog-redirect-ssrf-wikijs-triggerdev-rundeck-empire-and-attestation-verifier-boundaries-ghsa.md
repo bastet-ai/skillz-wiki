@@ -47,6 +47,14 @@ This batch is durable because every entry names a reusable boundary that general
 
 - On any attestation gateway: does the evidence payload contain a field that influences *which verifier* parses it? Send evidence naming test/fallback modes and confirm whether the fallback accepts self-described values. Proofs stay with lab-enrolled synthetic measures/serials.
 
+### 6. September 17 18:01Z follow-up: signature verified, identity not bound (libp2p PeerStore, GHSA-vrf4-mx87-p53w / CVE-2026-86039, CVSS 8.2)
+
+[GHSA-vrf4-mx87-p53w](https://github.com/advisories/GHSA-vrf4-mx87-p53w) / CVE-2026-86039: `@libp2p/peer-store`'s `consumePeerRecord` verifies the **RecordEnvelope signature** but never checks that the envelope signer equals the `PeerRecord.peerId` claimed inside the payload. An attacker seals a record with their **own** key while the wrapped payload names a **victim** peer ID; the store then persists attacker-chosen multiaddrs as **certified** addresses under the victim's identity. The gossipsub Peer Exchange path doesn't save you — `expectedPeer` is compared against the wire `pi.peerID`, which the attacker also controls. Result: peers in the mesh dial the attacker believing they hold victim-certified addresses (address-book poisoning / on-path position, 0.17.x line). The library's own `protocol-identify` utils already contain the missing invariant (`peerRecord.peerId.equals(envelopePeer)`) — the store path just never ran it.
+
+- Reusable check — **signature-verified ≠ identity-bound**: on any system that ingests signed envelopes (P2P peer records, OIDC/JWT delegation chains, signed service registries, artifact attestations, SAML envelopes), ask whether the code verifies *who signed* AND that the signer equals the identity asserted *inside* the payload. The `expectedPeer` pattern is itself a trap: if the expected value is also derived from attacker-controlled wire data, the "check" proves nothing.
+- The sibling-code clue is a free audit oracle: when one module in a codebase performs a binding check (here `protocol-identify/utils.ts`) and a sibling ingestion path omits it, test the omitted path first — same alternate-entry-point-drop-the-check family as the OpenNHP fallback verifier and the Wiki.js tagless resolvers on this page.
+- Validation stays lab-only: two disposable libp2p peers plus your own local store — forge a victim-named envelope with an attacker key, confirm the store accepts it and marks addresses certified. Never inject forged records into public/mainnet meshes.
+
 ## Reporting heuristics
 
 - Lead each finding with the boundary sentence: "the allow-list checked URL A, the fetcher delivered URL B", "the numeric ID was claimed without a control proof", "the import action gated the action, not the contents", "the caller's evidence selected its own verifier."
