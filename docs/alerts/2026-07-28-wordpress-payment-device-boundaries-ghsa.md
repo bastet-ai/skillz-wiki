@@ -987,6 +987,25 @@ Three September 16 unreviewed records extend axes already on this page:
 
 Adjacent records from the same wave processed without publication: Royal Elementor Addons pre-1.7.1067 sanitize/escape gap (routine stored-XSS hygiene, axis already covered), and the routine Linux-kernel/Unbound/appliance singles handled on the Pepperl+Fuchs/Arista page this run.
 
+## September 17 follow-up: `admin_init` is not an authentication boundary, and stored Basic-credential options are credential vaults
+
+[All-in-One WP Migration and Backup through 7.110 GHSA-w3hh-7qrr-242f / CVE-2026-89064](https://github.com/advisories/GHSA-w3hh-7qrr-242f) adds a credential-capture primitive with two independent abuse directions. Its `Ai1wm_Main_Controller::init()` is registered on `admin_init` — a hook that fires **unauthenticated** on `admin-ajax.php` and `admin-post.php` requests — and reads `$_SERVER['PHP_AUTH_USER']` and `$_SERVER['PHP_AUTH_PW']` from any incoming request, writing them to the `ai1wm_auth_header` option as a **reversible base64** string. There is no capability check, nonce check, `is_user_logged_in()` check, and — decisively — no confirmation that HTTP Basic authentication actually succeeded. PHP populates `PHP_AUTH_*` from the `Authorization` header regardless of whether any verifier accepted it, so an anonymous request carrying a crafted header controls both stored values.
+
+Two operator-relevant axes follow:
+
+1. **Capture requires a reader.** The advisory's headline impact is silently harvesting any WordPress Application Password or HTTP Basic credential that a legitimate integration presents to `/wp-admin/` (Application Passwords travel as HTTP Basic to `/wp-admin/` on REST and third-party integration flows). Retrieval needs a separate option-read primitive — which is exactly the Eazy Plugin Manager arbitrary-`get_option()` handler earlier on this page, or any low-role option-disclosure bug. When you hold a low-privilege option-read on a site running affected Ai1wm, treat `ai1wm_auth_header` as a live credential vault: any integration credential presented after the plugin activated is stored reversibly. The reverse direction — anonymous **overwrite** of the stored value with an attacker-chosen credential — desynchronizes whatever component the plugin expects to authenticate and is testable with no read access at all.
+2. **Generalize to every `admin_init` handler.** Many plugin authors treat `admin_init` as "only admins reach this." It does not: `admin-ajax.php`, `admin-post.php`, and other unauthenticated wp-admin loads fire it for logged-out visitors. Audit inventory on a target: for each plugin hook on `admin_init` (source review when you have the package, plugin-by-plugin route probing when you do not), check for state writes that assume an authenticated admin context — option writes from request material, `$_SERVER` credential reads, or settings mutations. Pair any anonymous write-to-option finding with your existing low-role read primitive before reporting impact; report the write and the capture-without-reader case separately.
+
+### Marker-only harness (disposable site only)
+
+1. Install affected Ai1wm on a disposable site. Create no real integration credentials; configure at most one fake Application Password for a synthetic non-admin user, and record whether any legitimate client actually presents it to `/wp-admin/` (without it, capture has no victim material — the overwrite direction still tests).
+2. From an anonymous session, POST to `/wp-admin/admin-ajax.php` carrying `Authorization: Basic base64("marker-user:marker-pass-canary")`. No cookie, no nonce.
+3. As the lab administrator, read the `ai1wm_auth_header` option and confirm it equals the reversible base64 of the marker pair. Decode only in the lab; never store the decoded canary in reports — keep a hash.
+4. Repeat with an omitted header (baseline/empty state), a header on a normal frontend path (should not write), a malformed header, and the fixed build. Then test the overwrite direction: seed the option with one synthetic value, overwrite it with a second canary via an anonymous request, and confirm the change without any authenticated action.
+5. If a low-role option-read primitive is available on the same install, reproduce retrieval through that primitive with the canary option only. Never capture, retain, or replay a real Application Password or Basic credential; never point this at a production integration.
+
+The bounded positive is **anonymous request with crafted `Authorization` header -> `admin_init` handler runs -> `ai1wm_auth_header` stores reversible base64 of attacker-supplied values** (write), optionally **+ foreign reader retrieves it** (capture). Do not claim REST API access, account takeover, or integration compromise without independently showing the harvested credential is accepted by the target service — and do that only against your own synthetic credential.
+
 ## Reporting checklist
 
 Include:
