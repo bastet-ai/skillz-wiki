@@ -151,3 +151,17 @@ Safe validation boundaries:
 4. Sweep adjacent tooling with the same harness mindset (authorized CI runners, devcontainers): grep the tool source for `git am`/`git checkout` invocations lacking hook suppression flags before probing.
 
 Reporting heuristic: title as **flatpak-builder `use-git-am` patch source `post-applypatch` hook to host execution**; include flatpak-builder version, manifest fragment, hook name, marker path, and patched behavior. Related waves with the same shape: mise `.mise.toml`/`credential_command` self-trust above, and repository-controlled `.pdm-plugins` pre-parse execution.
+
+## September 17 follow-up: Snowflake CLI repo-config values interpolated into multi-statement SQL
+
+GitHub Advisory Database added [GHSA-p2xq-qfx5-xp6q](https://github.com/advisories/GHSA-p2xq-qfx5-xp6q) / [CVE-2026-92903](https://nvd.nist.gov/vuln/detail/CVE-2026-92903) (high): in Snowflake CLI prior to **3.27.0**, unsanitized user-controlled values are interpolated into SQL strings that execute as **multi-statement queries**. An attacker with write or pull-request access to a project repository whose CI/CD pipeline runs Snowflake CLI under an **elevated service-account role** — or who can supply input to CLI-wrapping automation — gets attacker-controlled SQL executed in the victim's Snowflake session and active role. Impact is bounded only by the configured role's privileges; the fix landed in 3.27.0 and **requires a manual user upgrade**, so pinned CI images lag the advisory.
+
+Operator value: this is the repository-trust family crossing from *shell* into *query structure*. The generalizable audit rule: **for every CLI that reads project-local configuration (`.snowflake/` config, connection/project files, CLI args from repo scripts), check whether config-derived values are bound as parameters or concatenated into SQL, and whether the executor enables multi-statement mode** — multi-statement execution turns one injected fragment from a subverted statement into arbitrary follow-on statements (GRANT, data exfil, object drop) under the CI role. On bug-bounty/authorized-CI engagements: a PR you can author is the write-access precondition the advisory itself names; treat any repo that runs a DB CLI in CI as a SQL-structure injection surface and diff "value bound" vs "value interpolated" in the generated query log before executing anything.
+
+Safe validation boundaries:
+
+1. Disposable project repo + throwaway Snowflake account or a mocked/recorded request sink: plant a config value containing a statement separator and a second inert marker statement; trigger the CLI path in a temp directory. Evidence is the generated/recorded query text containing both statements, not execution against real data.
+2. CI-context proof uses a dedicated low-impact test role; record role name and whether the injected follow-on statement was accepted (multi-statement mode on/off is the decision to capture).
+3. Negative controls: fixed CLI 3.27.0 rejecting or parameterizing the same value, and confirming the vulnerable path is the repo-supplied config (not your own command line) by removing the file and re-running.
+
+Reporting heuristic: title as **Snowflake CLI repo-controlled config value to multi-statement SQL under CI role**; include CLI version, config key, generated query fragment (redacted), execution role, and patched parameterization behavior. Same shape as the mise `credential_command` and flatpak-builder hook items above — repository content executing in whoever's context runs the tool.
