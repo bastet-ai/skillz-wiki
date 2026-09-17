@@ -36,3 +36,11 @@ Look for:
 
 ## Operator note
 Treat TSIG bypasses as **authorization failures**, not just protocol bugs. DNS zone data often provides high-value recon for lateral movement, and dynamic DNS updates can become an infrastructure manipulation primitive.
+
+## September 17 follow-up: opcode policy is per-transport too — unsigned UPDATEs relayed over DoH/DoH3/DoQ/gRPC (GHSA-9gm5-9rfh-m6vx / CVE-2026-86003)
+
+[GHSA-9gm5-9rfh-m6vx](https://github.com/advisories/GHSA-9gm5-9rfh-m6vx) / CVE-2026-86003 (published 2026-09-17T20:33Z, CVSS 7.5) is the transport-parity sibling of the TSIG item above: the UDP/TCP servers reject RFC 2136 **UPDATE** opcodes via `dns.DefaultMsgAcceptFunc` (allows only QUERY/NOTIFY), but the DoH, DoH3, DoQ, and gRPC listeners call `dns.Msg.Unpack` with **no opcode check**, and `forward`/`proxy` relays the UPDATE unchanged to the upstream. If the update-capable upstream trusts CoreDNS's source address or authenticated connection instead of end-to-end TSIG, an **unauthenticated** client can add, replace, or delete DNS records through the resolver — dynamic-DNS takeover without any credential.
+
+- Operator pattern: **when a security policy exists on one transport of a multi-transport server, test every transport for the same policy — request-policy checks (opcode allowlists, header validation, TSIG verification per the April item) are per-listener code paths and drift individually.** For any CoreDNS-style resolver in scope, build a transport × policy decision table: for each of UDP/TCP/DoT/DoH/DoH3/DoQ/gRPC, record whether UPDATE, AXFR/IXFR, and bad-TSIG are rejected *before plugin dispatch*.
+- Validation boundary: reproduce only against a lab CoreDNS forwarding to a loopback synthetic upstream (the advisory PoC does exactly this with a stdlib DNS listener on `127.0.0.1`); never relay UPDATEs at a real authoritative server or a customer resolver. Positive = the synthetic upstream receives the UPDATE record over each transport where UDP/TCP rejects it.
+- Same family as this run's Grav front-controller item: fast/alternate listeners added later skip the security checks the original path performs — enumerate the transports, then diff their pre-dispatch gates.
