@@ -63,6 +63,14 @@ High. MISP's feed retrieval follows redirects **without validating the redirect 
 
 Durable pattern: **credentials travel with redirects until you explicitly strip them.** For any product that does server-side outbound fetches with configured auth (feeds, webhooks, integrations), the audit questions are: what happens to auth headers on a cross-host redirect? Is DNS re-resolved after validation (TOCTOU)? Reusable probe: an owned HTTP peer returning a 302 to a second owned peer; observe which headers arrive at the second hop. Also note the sibling MISP finding (CVE-2026-86452, unauth pre-auth reset-path persistence with no bounds/rate-limit) — tracked, lower operator value.
 
+## September 17 follow-up: Overmind statistics legend innerHTML stored XSS (GHSA-rfmv-f8jw-7mhw)
+
+MISP's Overmind theme statistics views built donut-chart legend labels by concatenating user-controllable object names / category keys directly into an `innerHTML` string in `event_general.ctp` and `preview_general.ctp` — no HTML-encoding. Any authenticated user able to create or rename an object (attribute names, event names, server/feed identifiers) plants markup that fires as live HTML/JS in every viewer's browser on the dashboard (session hijack, actions-as-victim). Deterministic, no race.
+
+Durable pattern extension of the same page's dashboard-render class: **aggregate/legend/chart label renderers are the most-missed escaping sink in admin UIs** — the data path is "name field → label string → innerHTML" and it rarely appears in XSS audits that focus on detail views. Audit sweep: grep dashboard/statistics templates for string concatenation into `innerHTML`/`dangerouslySetInnerHTML` fed from rename-able entities, and prove with a renamed object carrying a harmless marker (`<svg onload=...>` on your own lab account), never against shared instances.
+
+New page companion for the same Sept 17 MISP wave: the events/contact → CakePHP `argv` path-switch + `phar://` unauthenticated RCE is covered on the [Sept 17 argv/phar boundary page](2026-09-17-misp-cakephp-argv-phar-rce-sap-cds-mtxs-tenant-credentials-and-android-exported-activity-file-write-ghsa.md).
+
 ## Durable operator value
 
 1. **State that outlives its scope is the unifying bug class of this wave.** Stale SASL identity, cross-tenant token cache, and blank-secret fail-open all share one root: an identity/credential/context object persists past the lifetime that should bound it. Audit question: *what state survives a bind/session/tenant boundary, and who can reach it next?*
