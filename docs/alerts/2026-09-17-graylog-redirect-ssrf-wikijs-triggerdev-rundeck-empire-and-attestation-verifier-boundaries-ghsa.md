@@ -69,6 +69,13 @@ Ed25519 peer IDs inline their public key, so the check runs. **RSA peer IDs pars
 - Cross-key-type differential: when a signature scheme supports multiple identity encodings (inline-key vs hash-of-key), test each type separately. A fix verified on Ed25519 proves nothing about RSA-style IDs; the same differential applies to JWT `kid`/JWKS resolution, SSH host-key pinning, and certificate-pinning bypasses where the pin is only checked when a public key is locally available.
 - The advisory's own PoC is a reusable harness shape: generate attacker Ed25519 + victim RSA keys locally, build a `RPC.Message` with `from` = victim multihash, sign with the attacker key, embed the attacker key in `msg.key`, and record whether the validator returns `valid` with `from == victim`. Two local keypairs, zero network.
 
+### 8. September 18 follow-up: state-changing route gated on the read permission (Apache Airflow, GHSA-gmw9-258q-r8gm / CVE-2026-75157)
+
+[GHSA-gmw9-258q-r8gm](https://github.com/advisories/GHSA-gmw9-258q-r8gm) / CVE-2026-75157: Airflow's asset queued-events **DELETE** endpoints checked the caller's Dag-axis permission with `READ` instead of `EDIT`. Any user who could *read* a Dag could delete that Dag's queued asset events — silently suppressing asset-triggered scheduling. No special configuration is required: Dag read granted more widely than Dag edit is the *normal* RBAC arrangement, so the default deployment shape is the precondition. Fixed in 3.3.2.
+
+- Reusable check — **verb-permission mismatch sweep**: for every state-changing endpoint (DELETE/POST/PATCH), confirm the authorization check demands a *write-class* permission and, where the platform has a resource axis, the same axis the mutation actually touches. Read-gated mutations hide exactly where read access is broad (viewers, auditors, analysts) — the target population is large by design.
+- Audit triage on any RBAC platform with fine-grained DAG/pipeline/workflow models: enumerate DELETE routes whose gate name contains `can_read`/`GET`/`VIEW`, and in a two-role lab (reader canary vs editor canary) confirm the reader can perform the destructive action. Proof = a synthetic queued event on your own test Dag deleted by the reader canary; never touch live scheduling state.
+
 ## Reporting heuristics
 
 - Lead each finding with the boundary sentence: "the allow-list checked URL A, the fetcher delivered URL B", "the numeric ID was claimed without a control proof", "the import action gated the action, not the contents", "the caller's evidence selected its own verifier."
