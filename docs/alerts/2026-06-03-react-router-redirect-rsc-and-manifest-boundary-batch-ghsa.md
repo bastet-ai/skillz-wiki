@@ -213,3 +213,26 @@ Frame reports around the violated boundary, not just the CVE:
 Use a disposable RSC application with one action that increments a synthetic counter and no external effects. Send a same-origin valid control, a cross-origin form request, and malformed RSC action variants through the actual deployed adapter. For every case capture `Origin`, content type, RSC/action headers, response status, counter before/after, and server trace ordering. Repeat on 8.3.0.
 
 A vulnerable result is **cross-site or invalid request -> action counter changes -> framework emits 400 only after action execution**. Do not test account, payment, email, token, or destructive actions. Confirm unstable RSC reachability and the exact application action before reporting; ordinary React Router modes are outside this advisory.
+
+## September 18 follow-up: unsigned session cookie as a file-path sink
+
+[GHSA-9583-h5hc-x8cw / CVE-2025-61686](https://github.com/advisories/GHSA-9583-h5hc-x8cw) (CVSS 9.1, critical) re-surfaced in the September 18 updated feed. It covers `@react-router/node >= 7.0.0, <= 7.9.3` (patched 7.9.4) and `@remix-run/node` / `@remix-run/deno <= 2.17.1` (patched 2.17.2) in Remix v2.
+
+The boundary is different from the navigation/RSC family above and generalizes well: **`createFileSessionStorage()` used with an unsigned cookie makes the cookie contents attacker-controlled input that is used as a file-path component.** Without a `secret`, the session cookie is not a signed opaque token — the attacker controls the values read out of it, including the id used to locate the session file, so `../` sequences steer reads and writes outside the configured session directory, bounded only by the web-server process's filesystem permissions.
+
+Why an operator should care even on "old" Remix v2 apps:
+
+- Unsigned framework cookies are a silent, low-effort misconfiguration. Grep for `createFileSessionStorage` and check whether the cookie was created with a `secret` option; absence converts an auth-adjacent cookie into a path-traversal input channel.
+- The read primitive is **format-gated**: the target file must parse as a valid session file, and the contents land in the server-side session, not the response. This is not a direct read oracle. It becomes disclosure only when application logic renders specific session values back — trace which session keys are reflected before claiming read impact.
+- The write path (session destroy/rewrite into the traversed path) is the more concrete integrity axis: writes land wherever the server process can write.
+
+### Validation workflow
+
+1. Fingerprint reachability in authorized scope: `grep -R "createFileSessionStorage" app server 2>/dev/null`, then confirm the cookie creation call omits `secret` (compare against the [signing docs](https://reactrouter.com/explanation/sessions-and-cookies#signing-cookies)). Version-fingerprint via lockfile plus observed cookie structure — an unsigned cookie's payload is readable, which itself confirms the missing signature.
+2. In a disposable local app only, configure `createFileSessionStorage({ dest: './.sessions' })` without a secret, then submit a session cookie carrying traversal canaries (`../../tmp/rr-sess-canary` style markers) and record: server errors, path-disclosure side channels in error text, and where session files land (`find` outside the intended dir).
+3. Decision table per case: baseline valid cookie inside `dest`; traversal read of a non-session file (must fail on format); traversal read of a format-matching synthetic file placed by you (does it load into session? is any key reflected?); destroy/rewrite timing (does the file land outside `dest`?). A vulnerable result is a file operation observed outside the session directory, not merely a 500 response.
+4. Never point traversal sinks at real config, key, or another user's session files; use your own synthetic format-matching files and temp canary paths.
+
+### Reporting heuristic
+
+Frame the violated boundary as: **cookie-derived material must never compose filesystem paths without canonicalization and containment**, and a missing signature converts the cookie into fully attacker-controlled path input. Report read impact only to the level actually proven (format-gated load + reflection trace); describe write-dest outside `dir` as the demonstrated integrity effect. Patched controls: `@react-router/node 7.9.4`, `@remix-run/* 2.17.2`; signing the cookie with `secret` also removes the attacker-controlled channel.
