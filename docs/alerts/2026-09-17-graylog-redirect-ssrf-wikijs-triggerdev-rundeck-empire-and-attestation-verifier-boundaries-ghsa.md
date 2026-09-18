@@ -55,6 +55,20 @@ This batch is durable because every entry names a reusable boundary that general
 - The sibling-code clue is a free audit oracle: when one module in a codebase performs a binding check (here `protocol-identify/utils.ts`) and a sibling ingestion path omits it, test the omitted path first — same alternate-entry-point-drop-the-check family as the OpenNHP fallback verifier and the Wiki.js tagless resolvers on this page.
 - Validation stays lab-only: two disposable libp2p peers plus your own local store — forge a victim-named envelope with an attacker key, confirm the store accepts it and marks addresses certified. Never inject forged records into public/mainnet meshes.
 
+### 7. September 18 follow-up: the same invariant skipped inside gossipsub itself (StrictSign RSA author spoof, GHSA-c3gv-825q-fvmp / CVE-2026-86038, CVSS 7.5)
+
+[GHSA-c3gv-825q-fvmp](https://github.com/advisories/GHSA-c3gv-825q-fvmp) / CVE-2026-86038: the second instance of this pattern landed in the same library's message validator. `@libp2p/gossipsub` `validateToRawMessage` under the **default** `StrictSign` policy binds the embedded `msg.key` to the claimed `from` peer ID only *conditionally*:
+
+```ts
+if (fromPeerId.publicKey !== undefined && !publicKey.equals(fromPeerId.publicKey)) { ... }
+```
+
+Ed25519 peer IDs inline their public key, so the check runs. **RSA peer IDs parsed from the wire multihash have `publicKey === undefined`, so the entire binding check is silently skipped** — the validator then verifies the signature against the attacker-supplied `msg.key` and accepts the message as signed *by the victim RSA peer ID*. Forged messages pass topic validation and gossip onward, poisoning anything that trusts `message.from` (validators, ACLs, reputation, accounting, audit logs). Fixed in gossipsub 16.0.5 by adding the missing `peerIdFromPublicKey(publicKey).equals(fromPeerId)` derivation.
+
+- Reusable check — **conditional guards on optional fields are fail-open**: any check shaped like `if (optionalField !== undefined && !check(...))` rejects nothing when the field is absent. Enumerate which identity/key representations leave the field empty (RSA and other non-inlined key IDs, keyless schemes, unsigned transports) and target those first — the guard you're probing *looks* present in code review.
+- Cross-key-type differential: when a signature scheme supports multiple identity encodings (inline-key vs hash-of-key), test each type separately. A fix verified on Ed25519 proves nothing about RSA-style IDs; the same differential applies to JWT `kid`/JWKS resolution, SSH host-key pinning, and certificate-pinning bypasses where the pin is only checked when a public key is locally available.
+- The advisory's own PoC is a reusable harness shape: generate attacker Ed25519 + victim RSA keys locally, build a `RPC.Message` with `from` = victim multihash, sign with the attacker key, embed the attacker key in `msg.key`, and record whether the validator returns `valid` with `from == victim`. Two local keypairs, zero network.
+
 ## Reporting heuristics
 
 - Lead each finding with the boundary sentence: "the allow-list checked URL A, the fetcher delivered URL B", "the numeric ID was claimed without a control proof", "the import action gated the action, not the contents", "the caller's evidence selected its own verifier."
