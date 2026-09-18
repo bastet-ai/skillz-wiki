@@ -1059,6 +1059,15 @@ Bounded positives: **anonymous request to plugin-bundled upload path -> inert ma
 
 Adjacent single from the same wave, processed without publication: **Checkout Field Manager for WooCommerce before 7.9.7** arbitrary attachment delete by any authenticated customer (missing per-object ownership check — object-scope axis already covered). Mitsubishi Electric GX Works3 in-memory block-password tampering (CVE-2026-15688) is a local engineering-station attack with no remote operator workflow — tracked, not published.
 
+## September 18 follow-up: plugin object collections as shadow credential stores, and status-state disclosure
+
+Two records from the Sept 17 21:31Z / Sept 18 00:31Z waves extend the plugin-authority axis on the main page:
+
+- **Amelia (Premium) through 2.4.4** [GHSA-g24p-55f9-p54c / CVE-2026-14311](https://github.com/advisories/GHSA-g24p-55f9-p54c): `/users/customers/<id>` performs **no ownership verification**, so any `wpamelia-provider` user can read and modify arbitrary customers — including triggering password reset. Because WordPress users who ever made a booking become Amelia customers, the plugin-side mutation reaches back into **core WordPress account authority** (takeover of users up to Editor). Recon heuristic: for any SaaS-style plugin, enumerate its internal object collections (`/users/customers/<id>`-style routes) and test cross-object reads/writes from the *lowest authenticated plugin role*, then check whether any plugin-side mutation (password reset, email change) affects the core session. Treat plugin object stores as shadow credential vaults.
+- **Motors – Car Dealership & Classified Listings through 1.4.120** [GHSA-v742-3q56-7wc3 / CVE-2026-16750](https://github.com/advisories/GHSA-v742-3q56-7wc3): `mvl_ajax_dealer_load_cars()` has no authorization check, so **unauthenticated** callers retrieve other users' `draft`, `pending`, `private`, and `future` listings. When inventorying `admin-ajax.php` actions, explicitly request non-public status values (`post_status`/`status`/`state` parameters) — publish-only fuzzing misses this disclosure class. Prove with a seeded lab listing in `draft` status and a logged-in control; presence-only evidence (post ID + status), never bulk extraction.
+
+Full validation workflow lives on the [Sept 18 extraction-before-verification page](2026-09-18-grafana-extract-before-verify-sogo-origin-reset-and-client-supplied-proofs-ghsa.md).
+
 ## Reporting checklist
 
 Include:
