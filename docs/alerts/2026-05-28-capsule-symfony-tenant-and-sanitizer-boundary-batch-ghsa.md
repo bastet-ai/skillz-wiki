@@ -10,6 +10,16 @@ Promoted items:
 
 Use this only in authorized tests. Keep proofs minimal: create harmless marker objects in lab or scoped test tenants, use tester-owned callback URLs, and stop before cross-tenant data access, webhook disruption, credential access, or production cluster changes.
 
+## Capsule tenant admission-bypass trio (Sept 18 follow-up)
+
+A September 18 Capsule wave (v0.13.5) adds three reusable **admission-webhook bypass** axes for multi-tenant Kubernetes recon from a tenant-owner position:
+
+- **Forbidden-metadata denylist miss via sort/search mismatch** — [GHSA-gjw4-3v3v-rqxg / CVE-2026-61672](https://github.com/advisories/GHSA-gjw4-3v3v-rqxg) (CVSS 7.1): `ForbiddenListSpec.ExactMatch` sorts the denied-key list **case-insensitively** (`strings.ToLower` comparator) then binary-searches with `sort.SearchStrings`, which assumes **byte order**. Any denylist mixing capitalised and lowercase keys (ASCII uppercase 0x41–0x5A sorts before lowercase 0x61–0x7A by byte, interleaved by `ToLower`) makes the search land on the wrong index and return **false for a key literally present in the list**. A tenant owner can then set forbidden labels/annotations (PSA labels, `kubernetes.io/metadata.name`, LB/scheduler/vendor annotations) on their own namespaces/Services. Operator rule: when probing any exact-match denylist (labels, annotations, WAF headers, filename blocks), **vary key case** — a denylist containing both `Foo` and `bar` is the classic trigger; test the mixed-case entry, not just the lowercase one.
+- **OnUpdate handler validating the OLD object** — [GHSA-f94q-w3w8-cj67 / CVE-2026-61795](https://github.com/advisories/GHSA-f94q-w3w8-cj67): a swapped parameter declaration makes `hostnameRegexHandler.OnUpdate` compile the tenant's *previous* `AllowedHostnames.Regex` and allow the malformed new one into etcd (then every Ingress in the tenant is rejected because `regexp.MatchString` errors are silently swallowed). Validation heuristic for any update path on any platform: **pair a valid old value with an invalid new value** and diff whether the rejection follows the new bytes; also try the reverse pair to prove which object each branch reads.
+- **Wrong-field compile in a validation loop** — [GHSA-gxjc-74v5-3vx3 / CVE-2026-61794](https://github.com/advisories/GHSA-gxjc-74v5-3vx3): the annotations-regex webhook loop compiles the *labels* regex for both iterations, so a malformed `ForbiddenAnnotations.Regex` persists whenever labels regex is valid. Same sweep rule as the sibling `dynamicDataField` lesson: when a fix/validation covers sibling fields A and B, always test **A-valid + B-invalid**, never assume the loop body reads the loop variable.
+
+Keep proofs tenant-scoped in a lab cluster: submit mixed-case forbidden-label canaries and malformed-regex Tenant updates against your own test tenants, capture the admission allow/deny decision table, and restore Tenant objects immediately (a persisted malformed regex bricks Ingress admission for that tenant — recoverable, but do it only where authorized).
+
 ## Operator checklist
 
 ### 1. Capsule `TenantResource.rawItems` cluster-scope privilege boundary
