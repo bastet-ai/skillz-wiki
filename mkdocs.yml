@@ -92,6 +92,7 @@ nav:
       - Agentic DAST Benchmark Validation: methodology/agentic-dast-benchmark-validation.md
       - Replayable Target Environment Design: methodology/target-environment-harness-design.md
       - Agent-guided Fuzzing Campaigns: methodology/agent-guided-fuzzing-campaigns.md
+      - Agent-built Audit Tooling for Custom VMs: methodology/agent-built-audit-tooling-custom-vm.md
       - PyPI Account-Compromise Supply-Chain Testing: methodology/pypi-account-compromise-supply-chain-testing.md
       - Syslog RFC 5424 Frame-Forging Testing: methodology/syslog-rfc5424-frame-forging-testing.md
   - Exploit Paths:
