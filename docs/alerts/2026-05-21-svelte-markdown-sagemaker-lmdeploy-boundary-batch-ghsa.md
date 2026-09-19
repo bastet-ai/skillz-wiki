@@ -30,6 +30,14 @@ Operator pattern for AI-inference infrastructure recon:
 
 Validation stays lab-bounded and mirrors the Sept 16 pattern: prove the p2p leg with your own disposable ZMQ listener capturing the engine's outbound connect (no pickle needed for reachability proof), prove the eval leg with an inert marker model config in a disposable venv, and prove the SSRF leg against owned loopback callbacks only.
 
+## Sept 19 follow-up: LightLLM `/pd_register` accepts unauthenticated node registrations (CVE-2026-93839 / GHSA-644q-7756-5g89, CVSS 9.8)
+
+LightLLM through 1.2.0 exposes the PD-disaggregation WebSocket register endpoint `/pd_register` with **no peer-address validation and no authentication** — an unauthenticated attacker supplies crafted JSON registering an arbitrary node. Consequences per the advisory: register a fake decode/worker node and the router ships **full user prompts routed to that socket** (prompt disclosure), replace legitimate nodes (DoS / routing control), or steer the **PD Master into issuing requests to internal network addresses** (SSRF leg).
+
+This is the third instance on this page of the same operator rule — LMDeploy DistServe `p2p_connect` (Sept 18), and now LightLLM registration: **inference-cluster internal coordination channels (node registration, peer connect, heartbeat, scheduler control) are unauthenticated control planes by default. Before theorizing a model-side attack on any PD/P2P-disaggregation serving stack, enumerate and probe register/join/connect endpoints — one WebSocket message can put you inside the routing path or make the cluster fetch on your behalf.** Validation in a lab: register a disposable listener as a node on your own LightLLM PD deployment and record whether the router opens a socket to you and what it sends; prove the SSRF leg only against owned callbacks. Fix: not yet released per advisory (≤1.2.0 affected); treat exposure of `/pd_register` (and DistServe `/distserve/p2p_connect`) as a recon fingerprint.
+
+Tracked from the same Sept 18/19 AI-serving wave without publication: vLLM `allowed_token_ids` validated against tokenizer length instead of model output (CVE-2026-93840) and Triton `_bincount_kernel` memory corruption (CVE-2026-93841); SGLang unbounded memory allocation (CVE-2026-93838) and unvalidated `bootstrap_room` KV-transfer OOM (CVE-2026-93688) — availability/tokenizer-boundary class, no replayable operator workflow beyond the existing AI-runtime sweep.
+
 ## Operator triage
 
 1. Search dependency inventories for `@sveltejs/kit` versions `2.38.0` through `2.60.0`, `md-fileserver <1.10.3`, `sagemaker` in the affected 2.x/3.x ranges, and `lmdeploy <0.13.0`.

@@ -82,3 +82,18 @@ Extend the directive matrix with the following raw forms, changing only whitespa
 | mixed case and horizontal tabs | grammar-equivalent controls |
 
 For each form, record the raw bytes, normalized directive name, normalized field-name list, shared-store decision, excluded stored headers, and the later A-to-B hit result. The positive remains end to end: **qualified directive with legal optional whitespace -> parser representation loses or corrupts the qualification -> caller A's synthetic authenticated canary enters shared storage -> caller B receives it without an upstream request**. A parse mismatch without a cross-caller hit is not enough.
+
+## September 18 follow-up: `Vary` wildcard byte-comparison and `max-stale` over security-zeroed entries (http-cache-semantics, 2 GHSAs)
+
+[GHSA-f27v-pv5m-c5g6 / CVE-2026-93750](https://github.com/advisories/GHSA-f27v-pv5m-c5g6): `http-cache-semantics` through 4.2.0 validates `Vary` matching with **byte-for-byte string comparison in `_varyMatches()` instead of honoring wildcard forms**, so a stored entry whose `Vary` policy should exclude the second caller's key still matches → caller B receives a cached response intended for a different client.
+
+[GHSA-ch52-4w7c-c8xp / CVE-2026-93748](https://github.com/advisories/GHSA-ch52-4w7c-c8xp) (same package, 7.5): entries deliberately **security-zeroed** (body/credentials discarded after use) are re-servable when the request carries a client-controlled **`max-stale`** value — `max-stale=86400` on the same URL retrieves another user's zeroed entry, including surviving `Set-Cookie` session material.
+
+Two rows for the matrix above, library-level and end-to-end:
+
+| Probe | Expectation on a correct implementation | Finding shape |
+| --- | --- | --- |
+| Wildcard `Vary` (e.g. `Vary: Accept, *`-family / named-field mismatch forms) stored for caller A, replayed by caller B with a non-matching field | No shared hit — wildcard/exclusion semantics honored, not exact-string equality | B receives A's canary body without an upstream request |
+| Entry security-zeroed after A's use; B requests the same URL with `max-stale: 86400` | Stale-serving refused for security-zeroed entries | B receives the zeroed entry's residual headers (synthetic fake `Set-Cookie`) |
+
+Same rule as the whitespace family: **the policy state (excluded by `Vary`, zeroed for security) must be re-derived from the canonical representation at every hit path — exact string equality and freshness-only checks are both bypassable by header shapes the caller controls.** Fix versions: >4.2.0 per advisories; replay the battery on both affected and corrected releases.
