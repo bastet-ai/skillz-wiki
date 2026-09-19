@@ -117,6 +117,18 @@ The secure controller should derive the namespace from the originating object or
 
 For DSP run creation, repeat the pattern with service accounts. Patch pod creation, then vary omitted, own, foreign, privileged-looking-but-synthetic, nonexistent, and deleted ServiceAccount selectors. Record route generation, authenticated user, run namespace, requested account, account actually inserted into the pod, authorization decision, and denied create call. A reportable result is the unexpected pod spec, not a running pod or token read.
 
+### September 19 follow-up: unauthenticated devfile endpoint family keeps console-pod fetch authority
+
+[GHSA-hm52-6738-r26p](https://github.com/advisories/GHSA-hm52-6738-r26p) / CVE-2026-75885 (critical 9.3, scope changed): the OpenShift console exposes `/api/devfile/` and `/api/devfile/samples/` **without authentication**, and crafted devfile payloads make the **console pod issue requests to internal services and reflect partial responses back to the caller**. This is the same final-destination authority as the webhook-helper SSRF from the August 11 follow-up — the durable lesson is that the console grew a *second* unauthenticated fetch-bearing route family after that one was addressed.
+
+Reusable operator checks on any OpenShift/OKD console (or web console generally):
+
+1. **Enumerate fetch-bearing routes by feature family, not by patched CVE.** Devfile support implies server-side registry/sample fetching; grep the console's proxied path table and probe every family (`/api/devfile/`, `/api/devfile/samples/`, plus any proxy/catalog/update-check sibling) *unauthenticated*, before checking whether the authenticated helper route is fixed. A fixed webhook helper says nothing about the devfile family — alternate-transport authorization parity applied to SSRF.
+2. **Partial response reflection is still an oracle.** Reflecting "partial responses" yields a target-liveness and content-prefix oracle against cluster-internal Services reachable from the console pod. Prove with a synthetic no-content cluster-local Service and a unique marker body; record whether marker bytes (or byte-count/status differentials when truncated) appear in the API response. Never probe metadata endpoints, live Services, or the actual Kubernetes API.
+3. **The DoS sibling** (repeated large requests without content-length → unbounded console-pod memory growth) **is tracked, not published** — availability-only, no new operator axis; note it as a paired observation when reporting the SSRF from an authorized scope.
+
+Proof discipline unchanged: disposable console, owned callbacks, synthetic internal canaries, denied relay; do not target production internal services or capture real service tokens.
+
 ## 4. Trace structured database options to protocol capability
 
 The DSPO record is valuable beyond MySQL: an operator may validate the database host and credential but append tenant-controlled query options that alter the driver's file, TLS, authentication, or local-protocol behavior.
