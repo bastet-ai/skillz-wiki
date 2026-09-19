@@ -1,0 +1,52 @@
+---
+title: "JS sandbox validator misses constructor chains via computed access; async JSX paths skip escaping"
+---
+
+# JS sandbox validator misses constructor chains via computed access; async JSX paths skip escaping
+
+Source: hourly offensive-security scan of GitHub Security Advisories, 2026-09-19 (wave published 2026-09-19T12:32Z).
+
+One theme ties both records: **the guard models one syntax shape, and the language has another that reaches the same power.** OpenPanel's webhook-template validator inspected member access but not *computed* member access, so `["constructor"]` walked straight into the `Function` constructor. hono/jsx escapes the string paths it knows about, but every async composition path stringifies its input and treats the result as already-escaped markup.
+
+## Advisory table
+
+| Product | GHSA | Sev. | Boundary |
+| --- | --- | --- | --- |
+| OpenPanel js-runtime | [GHSA-rqpr-2wvr-29pf](https://github.com/advisories/GHSA-rqpr-2wvr-29pf) / [CVE-2026-93985](https://nvd.nist.gov/vuln/detail/CVE-2026-93985) | 9.9 | The JavaScript **webhook template validator** fails to block **computed member access to constructor chains**. With project write access, a webhook template using computed-property notation reaches the `Function` constructor and executes arbitrary code **in the worker process** — template-authoring privilege becomes worker RCE. |
+| OpenPanel | [GHSA-fxfp-52cf-vm9r](https://github.com/advisories/GHSA-fxfp-52cf-vm9r) | 5.0 | Analytics filter **property keys are not escaped** before interpolation into ClickHouse SQL — the *value* side is parameterized, the *key* side is not. Crafted filter names inject boolean SQL terms → **project-isolation bypass**, read other projects' metrics. Same key-position class as the Vendure `filterOperator` and Marten dictionary-filter items on the Sept 17 page. |
+| OpenPanel tracking API | [GHSA-2m8f-94rg-j65x](https://github.com/advisories/GHSA-2m8f-94rg-j65x) | 5.3 | Client **secret hash is never verified** before authorizing revenue events / bot filtering: possession of the *public* client ID + any dummy secret lets an attacker forge revenue metrics and defeat bot filters. An "auth" parameter whose value is never checked is a presence check, not a secret check. |
+| OpenPanel | [GHSA-xvpp-2hfw-c93c](https://github.com/advisories/GHSA-xvpp-2hfw-c93c) | 3.3 | MCP auth tokens accepted **from URL query parameters** are written to plaintext stdout/logs unredacted → anyone with log access replays MCP requests. Credential-in-query + unredacted-log is a collection axis, not a direct exploit. |
+| hono/jsx | [GHSA-6623-4q32-82v8](https://github.com/advisories/GHSA-6623-4q32-82v8) | 4.7 (`< 4.13.7`) | Plain strings rendered by hono/jsx are HTML-escaped — **except** as a child/fallback of `Suspense`, as a string child of `ErrorBoundary` alongside an async sibling, as the single child of `Context.Provider`, and as the root value to `renderToString()`/`renderToReadableStream()` from `hono/jsx/dom/server`. Those paths **stringify and treat the result as already-escaped markup** → SSR script injection under the app's origin whenever an attacker controls such a string. |
+
+## Why this is worth an operator page
+
+- **Constructor-chain escape is still the default answer to "template/validator sandbox".** The OpenPanel fix shape (block dangerous member access) failed because the checker matched static-dot syntax or a name list, while `x["constructor"]["constructor"]("code")()` reaches the identical primitive through computed access. This is the JavaScript twin of the Sept 17 Python lesson (guards that wrap the doors they know about — `Formatter.get_field`, `str` subclasses): **after any sandbox/validator fix, enumerate every language alias that reaches the same power** — computed member access, `constructor`/`Function`/`eval`/`globalThis` chains, string-to-function conversions, and bracket-notation spellings of every blocked name. For any platform with a webhook/template/expression authoring feature (low-code builders, workflow engines, CMS template editors, report generators), the authoring field is an RCE candidate until a *deny-by-default grammar* (allowlist of node types) is proven — blocklists of names/tokens are the finding.
+- **Worker-process context is the impact multiplier.** The payload runs in the js-runtime **worker**, which typically holds project data and internal service credentials. When you prove the escape in an authorized lab, capture what the worker can reach (env presence, sockets, internal DNS) as inert listings — the escalation from "template injection" to "worker foothold" is the report's payload.
+- **Escaping is a property of the render *path*, not the framework.** A framework that "escapes by default" can still have async/streaming composition paths that take a shortcut around the escaper, because the implementer assumed children of `Suspense`/`ErrorBoundary`/`Context.Provider` were already-rendered markup. Audit/validation rule for any SSR JSX/templating framework you assess: build a harness that renders attacker-controlled strings through **every composition wrapper and every server entry point** (`renderToString`, `renderToReadableStream`, streaming variants) and diff raw bytes vs escaped bytes. A payload that survives on one wrapper and is escaped on its sync sibling is the finding; the framework's escape-by-default claim is not a negative control.
+- **Key-vs-value parameterization split.** On any filter/search API that accepts caller-named fields (analytics filters, dictionary/EAV queries, ORM filter maps), test the **name/key position** separately from the value position — value binding tells you nothing about key interpolation. Canaries: a filter name with a quote/boolean term, then diff server response shape (error text, row-set differences between two synthetic tenant projects).
+- **Presence-checked "secrets" in public tracking/ingestion APIs.** Analytics/tracking endpoints that take a client ID + secret pair often verify only the ID. If you can enroll or find a public client ID, send events with a dummy secret; acceptance = forgeable metrics/abused bot filters. Frame impact honestly (data integrity / filter defeat) unless a paid-quota or billing sink exists.
+
+## Validation workflow (authorized scope only)
+
+!!! warning "Lab-only, inert proofs"
+    Use disposable OpenPanel/hono installs you own or are authorized to test, synthetic projects and tenants, and non-executing canaries (`Function('return globalThis.marker')()` returning a marker string, never reverse shells or file writes outside a disposable root). Never test key-position SQLi with destructive statements; read-only boolean canaries only.
+
+1. **Template-validator alias sweep (OpenPanel class):** with a lab project-write account, submit webhook templates probing, one per template: static dot access, bracket access, `["constructor"]` chain to `Function`, `globalThis`, and one spelling of each blocked name per normalization (case, unicode escapes). Record the validator verdict per alias; a single accepted alias that returns a computed marker proves the guard-model gap. Evidence: alias × verdict table + the minimal working chain.
+2. **SSR composition-path escape (hono class):** render `{userString}` through: plain child, `Suspense` child, `Suspense` fallback, `ErrorBoundary` with async sibling, single `Context.Provider` child, and `renderToReadableStream` root. Payload = inert `<img src=x>` structural marker. Evidence: escaped-vs-raw byte diff per path; report only paths where the raw payload reaches output.
+3. **Filter-key injection probe:** two synthetic tenant projects with distinguishable canary metrics; inject boolean terms through the **filter name** field; record whether cross-project canaries appear. Keep to `OR 1=1`-class read primitives against your own fixtures.
+4. **Dummy-secret ingestion test:** register/own one client ID; POST a revenue/bot-filter event with secret=`0000`; acceptance = presence-only auth. Use your own tracking property only.
+5. **Log-hygiene observation:** if your own MCP token is accepted in a query parameter, check your *own* app's stdout for it; never enumerate or collect another tenant's log stream.
+
+## Tracked without publication
+
+- rclone `serve docker` volume-plugin path traversal (`newVolume()` joins the attacker-supplied volume name into the mountpoint without containment; a `VolumeDriver.Create` request makes the privileged plugin mkdir + mount an attacker-named remote at an arbitrary host path; `Volume.restoreState()` shares the bug; CVE-2026-93987/GHSA-jg5v-4p8w-hwm3, fixed 1.75.1) and rclone listing-name confinement (CVE-2026-93986/GHSA-9g4r-fhf6-vc4c) — the lexical-vs-canonical `filepath.Join` split is already the archive-extraction page's axis, and the socket preconditions (Docker daemon / multi-tenant orchestrator access) keep these lab-orchestration items tracked; revisit if a reachable-socket operator workflow emerges.
+- Remaining sparse singles from the 12:32Z wave: nothing else carried a new boundary.
+
+## Reporting heuristics
+
+- For validator/sandbox bypasses, report the alias taxonomy probed (dot vs computed vs per-normalization spelling), the validator verdict per alias, and the minimal chain; claim worker-context code execution only with a demonstrated in-worker marker.
+- For SSR escaping gaps, include the wrapper × escaped/raw byte table and pin the fixed version (hono 4.13.7); label as XSS under the app's origin, not "RCE".
+- For key-position SQLi, state that values were parameterized and the finding is key interpolation; show the tenant-canary decision table, never production rows.
+- For presence-only auth, state exactly what was accepted with what invalid value; do not claim identity of the client-ID owner.
+
+Related pages: the [Sept 17 policy-guard bypass axis page](2026-09-17-python-policy-sandbox-traversal-umbraco-reference-expansion-and-mariadb-local-infile-ghsa.md) (Python twin: guards miss stdlib traversal and subclasses), the [Sept 17 request-derived-identity/Vendure page](2026-09-17-request-derived-identity-vendure-guard-composition-and-blind-ssrf-oracle-ghsa.md) (filter-key/operator position class), and the [Sept 16 sanitizer-gaps page](2026-09-16-rmcp-oauth-resource-spoofing-mdc-sanitizer-gaps-and-vllm-route-guard-parity-ghsa.md) (sanitizers that miss renderer-built markup — same "guard sees only one construction path" family).
