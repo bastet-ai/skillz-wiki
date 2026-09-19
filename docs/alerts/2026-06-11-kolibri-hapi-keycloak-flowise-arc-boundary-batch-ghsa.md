@@ -210,6 +210,34 @@ For FGAP V2, create groups `/public`, `/restricted`, and `/restricted-child`. Gi
 
 Report the exact lifecycle phase, omitted/present fields, canonical final client or group object, policy/FGAP decision, recorder event, and fixed-build denial. Do not collapse these into unauthenticated access; all four records require configured policies or delegated permissions.
 
+## September 19 Keycloak delegated-administration and lifecycle-state follow-up (3 GHSAs)
+
+Three unreviewed Keycloak records published 2026-09-19 extend the same reusable axis as the July 31 and August 2 follow-ups: an Admin REST or token-refresh decision that reads a *proximate* signal (action verb, stored client list, group name) instead of the *canonical authority* (fine-grained permission, current client-enabled state, privilege class of the target group).
+
+| GHSA / CVE | Boundary | Drift |
+| --- | --- | --- |
+| [GHSA-p353-3p63-7h28](https://github.com/advisories/GHSA-p353-3p63-7h28) / CVE-2026-94001 | Admin REST credential-deletion endpoint | Endpoint does not check the fine-grained **reset-password** permission; a delegated administrator restricted from resetting passwords can still **delete** a user's password credentials (availability impact on the victim's login, not the deleter's) |
+| [GHSA-82wc-7jr6-wxgm](https://github.com/advisories/GHSA-82wc-7jr6-wxgm) / CVE-2026-93999 | OIDC token refresh audience restoration | Refresh restores requested audiences from **stored** client IDs without re-checking that the target audience client is still **enabled**; an app holding a refresh token keeps minting valid access tokens for a disabled client — decisive against resource servers doing offline JWT validation |
+| [GHSA-3g7j-6fqv-v2q4](https://github.com/advisories/GHSA-3g7j-6fqv-v2q4) / CVE-2026-94000 | Admin REST group-membership endpoints | Membership write does not check whether the target group **grants administrative privileges**; a delegated administrator with limited permissions can add themselves to a high-privilege group → realm-wide control |
+
+### Why this is one axis
+
+- **Verb-level permission gaps.** The delete-credentials endpoint gates on some admin capability but not the specific fine-grained `reset-password` permission. This is the sibling of the Azkaban `fetchSchedule` sibling-action gap (Sept 18 ORM/authz-target page): for any protected action, enumerate the **verb family** on the same object (get/update/delete/reset/impersonate) and diff the permission each verb actually checks. A denial on one verb says nothing about the sibling verbs.
+- **Lifecycle-state staleness.** Refresh-time audience restoration trusts the *stored* grant and skips current *enabled-state*. Sweep every mint/refresh/exchange path with a **disabled, consent-revoked, or scope-reduced** target client and ask: does the token endpoint re-read current client state, or replay stored metadata? Same "evaluate against canonical server state at the decision point" rule as the Aug 2 create-vs-update differential — here the phase that drifted is client *deactivation*.
+- **Privilege-class gate on membership writes.** Adding a member should be gated not just on "can manage this group" but on whether the group **grants admin** — i.e., the check must inspect the *privileges conferred by the target object*, mirroring the Aug 2 FGAP group-membership-authority rule. As an authorized tester with a minimal delegated admin, attempt self-addition only to a synthetic group carrying a marker realm-management permission (never a built-in admin group), and treat a persisted membership as the whole finding.
+
+### Bounded validation (lab realms only)
+
+1. Provision a disposable realm with FGAP enabled, a delegated-admin principal holding only the minimum described permission, synthetic users, a synthetic high-privilege group mapped to a marker permission, and a synthetic disabled confidential client.
+2. **Credential-delete:** as the restricted delegate, call the credential-deletion endpoint against a synthetic user that also has an alternate credential (so the account survives); positive = credentials removed despite the missing reset-password permission. Restore the account afterward; capture only user ID + endpoint decision, never password material.
+3. **Disabled-audience refresh:** with a client holding refresh tokens scoped to audience client B, disable B, then refresh; decode the new access token (redact bytes) and record only whether the `aud` still contains B and whether the endpoint 200s. The fixed behavior must reject or drop the disabled audience.
+4. **Group self-add:** as the minimal delegate, self-add to the marker-privilege group; positive = persisted membership reaching the marker recorder. Immediately remove and diff against a patched build.
+5. Negative controls: non-delegate principal rejected, built-in admin-group path untouched, enabled-client refresh succeeds.
+
+### Reporting heuristic
+
+These are configured-delegation preconditions, not unauthenticated breaks — say so. The durable claim shapes are "**verb sibling skips the fine-grained permission**", "**refresh replays stored audience without enabled-state recheck**", and "**membership write skips the target group's privilege class**". A realm-wide takeover claim from the group-membership item is only warranted after the marker permission actually confers usable admin action in your lab.
+
 ## Reporting heuristics
 
 - Lead with the crossed boundary: unauthenticated user to server-side fetch and reflected body, static route to sibling filesystem tree, verified upstream identity to different upstream account link, WebAuthn policy to accepted credential parameters, revocation timestamp to introspection state, disabled feature flag to versioned Account API route, same-realm UMA client to another Resource Server's resource, UMA-owning user to unrelated account profile lookup, refresh-token/session host parameter to Keycloak backchannel HTTP request, unvalidated JWT `azp` to CORS origin decision, low-privilege Flowise user to vector-store CRUD, or anonymous HTTP client to debug runtime state.
