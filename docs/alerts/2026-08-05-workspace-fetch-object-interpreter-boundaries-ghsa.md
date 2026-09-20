@@ -90,6 +90,10 @@ Capture this chain for every request:
 
 Test loopback, private, link-local, IPv4-mapped IPv6, alternate numeric forms, redirects, and rebinding only against owned fixtures. Preserve the final peer IP rather than reporting a hostname string as SSRF. For MLflow, patch the outbound request and response serializer; never request metadata credentials even in a cloud lab.
 
+### Mealie follow-up: the recipe-action trigger is a third outbound-fetch leg (Sept 20)
+
+Mealie reappeared (CVE-2026-94028, [GHSA-2g3w-vrh2-xg2p](https://github.com/advisories/GHSA-2g3w-vrh2-xg2p), fixed 3.26.0): the household **recipe action trigger** (`controller_group_recipe_actions.py`) passes a stored/request-supplied `url` into an outbound fetch, adding a third outbound-fetch leg beyond the earlier recipe-scrape/image and DNS-rebinding items. Operator rule this reinforces: on any product with a documented SSRF fix, enumerate **every** feature that performs an outbound fetch (webhooks, action triggers, importers, preview/scrape, feed readers) and test each against the same validation-to-connect matrix — one patched loader says nothing about its siblings. Prove with owned listeners and canary presence only, same harness as the table above.
+
 ## 3. Separate destination editing from stored-credential use
 
 Paperless-ngx provides a reusable confused-deputy test for every “test connection” or “verify credentials” endpoint. Seed a mail account with fake credentials such as `IMAP-PASS-<uuid>`, then expose the test action to a low-role user with only the documented object-level change permission.
