@@ -1,0 +1,78 @@
+---
+title: Auth-method precedence, HTTP-verb allowlists, and ACL tie-break drift (Sept 21 15:31Z wave)
+---
+
+# Authentication-method precedence, HTTP-verb allowlist bypass, and ACL tie-break drift
+
+A September 21 15:31–15:47Z GitHub advisory wave produced two clusters with durable operator axes — an **Apache Airflow credential-precedence trio** and a **MISP authorization-drift octet** — plus a lookup-ordering authz bug (Dogtag pki-core), an OAuth-state sentinel bug (Hatchet), and one fix-branch integrity lesson (Apache MINA). The reusable invariant across all of them: *the security control is a comparison or a lookup, and both comparisons and lookups have ordering, coverage, sentinel-value, and tie-breaking edges that ship untested.*
+
+## 0. Two one-liners worth their own sweep
+
+- **Dogtag pki-core ACL tie-break (CVE-2026-80110 / [GHSA-c24q-2g88-pp57](https://github.com/advisories/GHSA-c24q-2g88-pp57), 8.1):** the v2 REST ACL filter resolves a colliding literal-vs-wildcard ACL key by **lexicographic string comparison instead of specificity**, so a wildcard-mapped permission overrides a more specific literal one — `POST /v2/profiles/raw` (meant to need Administrator `profiles.create`) is authorized under the default Certificate Manager Agents group's `profiles.approve`. Sweep rule: on any rule-matching engine (ACLs, WAF rules, route matching, CAPAs), construct a deliberately colliding specific-general pair and see which wins the tie. Specificity should never be decided by alphabetical order.
+- **Hatchet OAuth state sentinel collision (CVE-2026-61687 / [GHSA-phg3-3g28-wq9v](https://github.com/advisories/GHSA-phg3-3g28-wq9v), 7.1):** the OAuth callback **clears** session `oauth_state_<integration>` to `""` instead of deleting the key, and the later equality check accepts an empty `?state=` — an unauthenticated attacker binds an already-authenticated victim session to an attacker-chosen OAuth identity (login-CSRF → account fixation). Sweep rule: treat empty string, `null`, and sentinel defaults as equality-check operands — after completing one legit OAuth flow, replay the callback with `?state=` empty on any OAuth-enabled deployment.
+
+## 1. Airflow: bearer-vs-cookie precedence inversion, logout that revokes nothing, tenant-blind asset events (3 GHSAs, 3.3.0–3.3.1, fixed 3.3.2)
+
+| Advisory | Behavior |
+| --- | --- |
+| [CVE-2026-82355 / GHSA-9x6g-jfj6-r3jg](https://github.com/advisories/GHSA-9x6g-jfj6-r3jg) | A request carrying **both** a session cookie and an explicit `Authorization: Bearer` token is resolved — and **audit-logged** — as the *cookie's* principal. Bearer-over-cookie precedence is inverted by a cookie-derived-user cache path. |
+| [CVE-2026-86473 / GHSA-9cmm-29p3-73gr](https://github.com/advisories/GHSA-9cmm-29p3-73gr) | The logout endpoint revokes **only** the token presented as the `_token` cookie. A bearer-header client gets a normal 200 logout response while its token stays valid for the full lifetime (default 24 h). |
+| [CVE-2026-75158 / GHSA-pfr9-65p3-w9r9](https://github.com/advisories/GHSA-pfr9-65p3-w9r9) | `/assets/events` returns asset events for **every Dag**, no per-Dag authorization filter; the filter was also missing from the count query, so `total_entries` + pagination disclose hidden Dag existence even without reading rows. |
+
+Operator axes:
+
+1. **Credential-precedence table.** On any API with ≥2 auth channels (cookie, bearer, API key, mTLS), send a request carrying *two different principals simultaneously* and ask: which identity executes the action, and which identity lands in the audit log? A mismatch is principal confusion + misattributed audit records. Airflow's precondition chain is reusable: plant your own valid cookie in the victim's client via sibling-subdomain cookie tossing, shared-parent-domain XSS, or a shared workstation, then watch their bearer-authenticated calls execute as *you*.
+2. **Logout is a state transition — verify it happened.** After logout, replay the captured bearer token against one harmless endpoint. A 200 after "logout" means the control only handled one presentation form of the credential. Sweep every credential-presenting transport (cookie, `Authorization`, query param, custom header) against logout/revoke/revoke-all-sessions endpoints; each is a separate revocation leg.
+3. **Count-query oracle.** When list endpoints hide rows but the aggregate query skips the same filter, `total_entries` becomes an existence oracle for tenant-blind objects. Compare row count vs reported total with a two-team lab deployment — the delta is the finding even when you can't read a single row.
+4. Airflow deployments already have pages on this wiki ([June 30 boundary page](2026-06-30-ai-artifact-airflow-boundaries-ghsa.md), Sept 17/18 verb-permission folds): the recurring Airflow class is **per-Dag/per-team scoping applied to the row path but not the count, cache, or lifecycle path**.
+
+## 2. MISP <2.5.47: octet of authorization drift (8 GHSAs)
+
+| Advisory | Boundary |
+| --- | --- |
+| [CVE-2026-94379 / GHSA-3q8c-466v-vgx3](https://github.com/advisories/GHSA-3q8c-466v-vgx3) | `login()` enforced bruteforce blocking, email-OTP 2FA, and failure logging **only for POST/PUT**. Any other HTTP method skips all three simultaneously: unlimited credential guessing, 2FA bypass, no audit trail. |
+| [CVE-2026-94381 / GHSA-mw89-3hh7-vfpg](https://github.com/advisories/GHSA-mw89-3hh7-vfpg) | A **read-only API key** session: one request to a specific function restores the underlying account's full permissions (write/delete/admin). API-key restriction ≠ session permission. |
+| [CVE-2026-94374 / GHSA-qg5m-5m7w-mf5x](https://github.com/advisories/GHSA-qg5m-5m7w-mf5x) | Module-results processing loops over client-supplied `EventReport` entries and calls `save()` **without unsetting `id`** (the adjacent attribute/object loops do unset it) — an existing row is **updated**, letting you reparent another event's report into yours: read, overwrite, re-own. |
+| [CVE-2026-94393 / GHSA-rq8q-gvp5-cmqp](https://github.com/advisories/GHSA-rq8q-gvp5-cmqp) | UUID-keyed report identification inside event edit has no same-event ownership check → cross-event report reparenting via known/guessed UUID. |
+| [CVE-2026-94394 / GHSA-cj24-5f9w-vhx6](https://github.com/advisories/GHSA-cj24-5f9w-vhx6) | Adding a reference checks access to the **event** but not to the individual attribute/object → sharing-group-restricted data readable through container-level permission. |
+| [CVE-2026-94401 / GHSA-2jvm-986q-589g](https://github.com/advisories/GHSA-2jvm-986q-589g) | XML import accepts non-XML content containing a local path or URL → local file read and SSRF to internal services (user content is parsed **as** XML without validating it **is** XML). |
+| [CVE-2026-94404 / GHSA-g7f8-8jj3-3vcp](https://github.com/advisories/GHSA-g7f8-8jj3-3vcp) | Attribute edit path missing CSRF enforcement → drive-by modification of attribute value/type/category/distribution through a logged-in analyst's browser. |
+| [CVE-2026-94277 / GHSA-8mcv-mp35-55rc](https://github.com/advisories/GHSA-8mcv-mp35-55rc) | Galaxy matrix statistics view renders galaxy **name** via `sprintf()` with no encoding → `perm_galaxy_editor` gets stored XSS against every user opening the stats page. |
+
+Reusable sweep order for any CakePHP/ORM-backed platform:
+
+1. **Verb matrix on security-critical endpoints.** For login, MFA enrollment, password change, and logout: replay the identical request under `GET`, `PUT`, `PATCH`, `DELETE`, `OPTIONS`, `HEAD`, `TRACE`, and casing/whitespace variants. The MISP pattern is an *allowlist* check (`in_array($method, ['POST','PUT'])`) gating the security controls — every method outside the list silently skips them. The gate-control itself is the target: verify the control **runs** (rate limit trips, OTP challenge appears) rather than only verifying the action result.
+2. **Key-scope gap on identifier writes.** Sweep every create/update flow that accepts `id` or UUID fields: does the code unset/reject caller-supplied primary keys before `save()`/`update()`? The MISP tell is the **adjacent loop that gets it right** — differential-read the sibling code paths around the vulnerable sink; the correct loop is the attack map for which entry point forgot.
+3. **Delegation-axis drift.** Enumerate the axes along which the platform restricts access — API key vs session, event vs attribute, read-only vs read-write — and test requests that straddle two axes: read-only key + permission-restoring call; event access + restricted-attribute reference.
+4. **Media-adjacent importers.** Validate-input-type-before-parse is routinely skipped on XML import endpoints: upload a file whose *name* says `.xml` but whose *content* is a path or URL payload.
+5. **Low-role editors as XSS carriers.** Statistics/admin aggregate pages that render names of user-editable catalog objects (galaxies here) are stored-XSS collection points even though the editor role feels data-scoped.
+
+MISP context note: this platform is threat-intelligence infrastructure — on authorized engagements, prove with synthetic events/reports/galaxies in a disposable instance; never touch production intel data, and treat any real session/credential material as out of scope.
+
+## 3. Apache MINA: "fixed" version never got the fix (CVE-2026-94301 / GHSA-h355-27x9-rr7r, 9.8)
+
+The `resolveProxyClass()` override closing the CVE-2026-47065 `java.lang.reflect.Proxy` acceptMatchers deserialization bypass was committed to the **2.2.X branch only**. The 2.0.29 / 2.1.13 artifacts *listed as fixed* — and everything after them (2.0.30, 2.1.14) — remain vulnerable, with the advisory publicly saying so.
+
+Operator rules:
+
+- **Version-fingerprint from the artifact, not the advisory table.** Confirm the fix's actual code (`resolveProxyClass` override in the class the fix touched — readable from the shipped jar) before trusting a "fixed in" row. Maintenance-branch lines are where fix-commit skew lives.
+- **The public advisory is the exploit map.** A 9.8 advisory that describes the exact bypass the fix missed, with affected artifact coordinates published, is a ready-made target list — enumerate apps embedding `mina-core` 2.0.x/2.1.x deserialization endpoints.
+
+## Evidence and reporting checklist
+
+- [ ] Airflow proofs use two lab principals (cookie-attacker + bearer-victim), synthetic tokens, and record *which identity the audit log shows* as the primary evidence.
+- [ ] Post-logout replay proofs state token TTL and use only synthetic tokens; never retain real session material.
+- [ ] Verb-matrix tests run against a disposable instance with security controls observable (rate-limit counters, challenge presence), never against shared/production MISP.
+- [ ] IDOR/reparenting proofs use two lab events + synthetic report rows; report the exact field (`id` vs `uuid`) reaching `save()`.
+- [ ] SSRF/file-read proofs use owned callbacks and lab marker files.
+- [ ] MINA claims cite the artifact coordinate **and** the decompiled presence/absence of the override.
+
+## Tracked from the same wave without publication
+
+- fetchmail NTLM stack overflow (CVE-2026-94184), libX11/libXrender malicious-X-server overflows (CVE-2026-88806/88807), Corosync totempg heap overflow (CVE-2026-94381-adjacent vj89), Netty compression pair — client/library memory-safety class per parser precedent.
+- UVdesk privilege/XSS trio, Ditty stored XSS, Aureus ERP chat XSS, Leantime, iDirect WebServer, ST/iDirect singles — sparse product-specific items without new axes.
+- Thinkst Canary Redis-service DoS (CVE-2026-85220, 3.7) — DoS-only; noted because it targets a *honeypot* service, no operator workflow.
+- Linux kernel wave (l2tp, nfsd family, ksmbd, zram pair) + Oracle Hyperion/VirtualBox sync items — kernel/desktop class, tracked.
+- openshift/oc-mirror PGP signature-verification bypass (CVE-2026-75939, 7.4): signature-error check runs **before the signed body is fully processed** → valid Red Hat key ID + forged signature accepted; requires MITM of the signature endpoint to poison a disconnected registry mirror. Adjacent to the extraction-before-verification family (Grafana plugins) — revisit if a replayable mirror-poisoning workflow with a disposable registry lands.
+- Apache NiFi Registry NAR-coordinate path manipulation (CVE-2026-87976, unnormalized path-containment check), NiFi Process-Group migration authorized on Connector alone (CVE-2026-86089), and Connector config missing Asset/Secret authorization (CVE-2026-81866) re-surfaced from the Sept 16 wave with detail enrichment; sibling of the delegated-authorization and unnormalized-path families already covered — no new page, tracked here as processed.
+- Tuleap Enterprise OS command injection (CVE-2026-84285, 8.8) — sparse description, no reachable-sink detail; revisit when technical detail lands.
