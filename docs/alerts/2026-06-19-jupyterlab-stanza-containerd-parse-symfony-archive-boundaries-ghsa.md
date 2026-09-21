@@ -114,3 +114,15 @@ Operator axes (extending the Kubernetes checkpoint-restore section above):
 - **Feature-flagged ≠ vulnerable — but enumeration is cheap.** Checkpoint/restore must be explicitly enabled; on authorized node/cluster assessments, probe whether the runtime advertises checkpoint/restore capability before building the chain, and record enablement state as a precondition in the report.
 - **Who can trigger restore is the privilege floor.** The finding is reachable by "a user with sufficient privileges" — i.e., whoever can create/restore workloads with an attacker-supplied archive. In multi-tenant or CI-on-cluster scopes, that is often a much lower bar than it sounds; map which service accounts or namespaces can supply checkpoint content.
 - Validation boundary: disposable single-node lab only; synthetic checkpoint archives with inert outside-canary files as restore targets; never restore untrusted bundles on shared or production nodes.
+
+## September 21 second follow-up: restored processes keep checkpoint security state, ignoring the destination Pod spec
+
+[CVE-2026-92574 / GHSA-mhq8-392f-7m6m](https://github.com/advisories/GHSA-mhq8-392f-7m6m) (CVSS 8.8): a user who can create a pod from a **malicious checkpointed container** can make the restored process **retain credentials, Linux capabilities, `no_new_privs`, and seccomp state from the checkpoint** instead of enforcing the destination Kubernetes security context — execution with elevated privileges across the container security boundary. Affected upstream CRI-O 1.34+; downstream Red Hat OCP 4.17+; fixes applied to supported branches but unreleased at advisory time.
+
+This is the *state-retention* sibling of the same-day CVE-2026-15801 host-filesystem finding: the checkpoint archive does not only smuggle paths, it smuggles **process privilege state**.
+
+Added operator axes:
+
+- **The destination `securityContext` is a request, not an enforcement point.** In checkpoint-restore reviews, diff *requested* privileges (Pod spec: capabilities, seccomp, `allowPrivilegeEscalation`, runAs*) against *effective* state inside the restored container (`capsh --print`-equivalent, `/proc/self/status` NoNewPrivs/Seccomp fields) — a hardened spec on top of a permissive checkpoint is a false negative for the platform and a privilege for you.
+- **Credential retention is a separate sink class from capability retention**: restored processes may keep ambient credentials materialized in the checkpoint image. Prove with an in-checkpoint synthetic canary credential, never real service material.
+- **Unreleased-fix windows matter for report urgency**: as of this advisory the fix exists only on supported branches — version-fingerprint the runtime (`cri-o --version`, OCP console version) and record the disclosure state rather than assuming patched == protected.
