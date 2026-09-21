@@ -48,3 +48,21 @@ Workflow control planes are high-trust systems because they mint pods, mount sec
 ## Operator lesson
 
 For orchestration platforms, trace from user-controlled YAML or HTTP to the Kubernetes object or secret-bearing client. If any merge, log, or provider write skips the final authorization/redaction step, assume tenants can turn it into lateral movement or credential theft.
+
+## September 21 follow-up: the Strict/Secure allow-list fix was depth-one only — `ArtifactGC.PodSpecPatch` reaches the same pod-patch sink
+
+[GHSA-48p8-g2fx-3wwm](https://github.com/advisories/GHSA-48p8-g2fx-3wwm) / [CVE-2026-54526](https://nvd.nist.gov/vuln/detail/CVE-2026-54526) (High; fixed **v4 4.0.6**, **v3.7.15**; re-surfaced on the updated feed 2026-09-21): the allow-list that fixed CVE-2026-31892 / GHSA-3775-99mw-8rp4 (the Strict/Secure template-reference bypass above) validates `WorkflowSpec` user overrides with **reflection over top-level fields only**. `ArtifactGC` is allow-listed wholesale (admins legitimately let users configure artifact garbage collection), and the struct behind it (`WorkflowLevelArtifactGC`) carries a `PodSpecPatch` string that flows **unmodified** into `util.ApplyPodSpecPatch` on the artifact-GC pod — the exact strategic-merge-patch primitive the original fix closed for `WorkflowSpec.PodSpecPatch`. Under `templateReferencing: Strict` or `Secure`, any referenced template with an **output artifact** (the common case) plus submitter-supplied `spec.artifactGC.strategy: OnWorkflowCompletion` gets an arbitrary pod spec patch onto the GC pod: attacker image + command, `privileged: true`, `hostPath: /` volume, `hostNetwork: true`, and the GC pod runs with `AutomountServiceAccountToken: true`, so the pod holds a service-account token by default. No validation sits between sanitize and sink; the fix's own regression test file covers only the top-level `PodSpecPatch` field.
+
+### Durable axes
+
+- **Depth-one allow-lists enforce nothing.** When a field is allow-listed "wholesale" by a reflection-based validator, every allow-listed field is really a *subschema* — enumerate its sub-fields and ask which ones are themselves patch/exec/file inputs. The bypass did not touch a single line of the patched code path; it re-entered the patched sink through an allow-listed neighbor.
+- **Partial-fix differential hunting:** after any allow-list/sanitizer fix, list every *other* consumer of the same primitive (here `ApplyPodSpecPatch` has a second caller in `workflow/controller/artifact_gc.go`). The advisory itself proves the grep pattern: search the codebase for every call site of the patched sink helper, not just the patched field.
+- **Test coverage is an attack map:** the fix's regression test (`merge_test.go`) exercised only `WorkflowSpec.PodSpecPatch`; untested sibling fields are the first places to probe.
+- **Validation harness without a cluster:** the advisory ships self-contained Go unit tests against the shipped `workflow/util` package (`ValidateUserOverrides` + `SanitizeUserWorkflowSpec` + `ApplyPodSpecPatch` against a baseline pod built like the controller's) — replayable gate-1/gate-2 evidence (`require.NoError(ValidateUserOverrides(...))` passing on a hostile spec is itself the finding) with zero live infrastructure.
+
+### Authorized validation notes
+
+- Fingerprint the controller: `kubectl get deploy workflow-controller -o yaml | grep -i templateReferencing`, then version-fingerprint the server (`argo version`). Only 4.0.0–4.0.5 / 3.x < 3.7.15 with Strict/Secure restrictions configured are in scope.
+- In an approved lab cluster only, submit the shape above with an **inert** patch (e.g. an image pointing at your owned registry with `command: [sleep, "3600"]` and a marker env var) and inspect the created artifact-GC pod spec — never hostPath mounts, hostNetwork, or privileged flags on shared infrastructure.
+- Evidence chain: submitted Workflow YAML → accepted-by-server confirmation → generated artifact-GC pod spec diffed against the hardened baseline. Pod-spec diff is the whole proof; no token capture or node access needed.
+- Same audit question for any platform with a "user patch" or "user override" allow-list (Tekton, KubeVela, Argo CD app-of-apps, CI template engines): for each allow-listed override field, does any sub-field land on a pod-patch/exec sink, and does the validator walk it?
