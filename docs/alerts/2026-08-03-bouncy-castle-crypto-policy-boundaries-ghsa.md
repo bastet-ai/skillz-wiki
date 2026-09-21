@@ -132,8 +132,21 @@ The bounded positive is **intermediate constrained to exact host A -> leaf wildc
 
 Report the resource issue only when an authorized application accepts attacker-controlled chain material and performs the expensive path build. Certificate parsing in an isolated library benchmark proves the algorithmic differential, not remote availability impact.
 
+## September 21 follow-up: capability inference from absent subpackets — sequoia-openpgp back-signature bypass
+
+[GHSA-g33h-rrj9-75qv / CVE-2026-42784](https://github.com/advisories/GHSA-g33h-rrj9-75qv) (sequoia-openpgp, enriched in the September 21 update wave): when an older OpenPGP certificate has **no Key Flags subpacket**, the library *infers* capabilities from the algorithm and public-key packet rather than defaulting to none. The inferred view disagrees with verifiers that require explicit flags, letting an attacker bind an arbitrary subkey to their own certificate and **defeat the back-signature check** — the primary-key signature that proves the subkey-holder actually owns the parent key — so a forged subkey binding verifies and signatures forge.
+
+The reusable axis extends this page's rule ("a crypto API returning success must bind the result to every intended input") to a *default-inference* variant: **capability, policy, or permission fields that are inferred when absent are a differential between two conforming implementations.** Testing workflow:
+
+1. Generate two OpenPGP certs in a disposable harness (test CA-less, generated keys only): one modern cert with an explicit Key Flags subpacket denying certification/signing on a canary subkey, and one constructed legacy cert with the Key Flags subpacket **removed** and the same subkey.
+2. Run the same verify/bind operation through affected and patched builds, and — when an application consumes the library — through the application's own policy check. A bounded positive is **the affected path treats the flagless cert's subkey as cert-capable and accepts the missing back-signature while the explicit-flags control rejects**.
+3. Generalize the sweep to any format with optional capability subpackets/attributes (X.509 KeyUsage, SAML `AuthnContext`, OIDC `scope` defaults, macOS code-signing entitlements): enumerate every consumer's absent-field default and diff them. Two parsers answering "what may this key do?" differently on identical bytes is the finding; report the byte-level absence, the inferred answer, and the downstream authorization that consumed it.
+
+Keep proofs to generated keys and synthetic bindings; no production keys, mail, or real signatures.
+
 ## Evidence and reporting checklist
 
+- [ ] Absent-field inference findings record the exact packet/subpacket omitted and each verifier's inferred vs explicit answer.
 - [ ] Exact Bouncy Castle artifact coordinates, provider order, and affected/patched versions are recorded.
 - [ ] Every fixture uses generated keys, certificates, names, content, and directory entries.
 - [ ] One trust binding changes per test, with valid, invalid, empty, and patched controls.
