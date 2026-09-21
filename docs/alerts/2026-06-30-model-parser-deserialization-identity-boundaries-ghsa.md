@@ -152,6 +152,26 @@ A bounded positive is **untrusted checkpoint index -> `weight_map` entry -> cano
 
 Do not point manifests at host configuration, model caches, notebooks, datasets, credentials, devices, sockets, or another tenant's model. Report path selection, readable-file reachability, FIFO handling, deserialization, and any later model execution as separate effects.
 
+## September 21 follow-up: ML library loaders still pickle-load by default, and "fixed" narratives lie
+
+Three records in the 2026-09-21 00:30Z GitHub advisory wave are low-severity VulDB-style entries, but their advisories carry a durable verification lesson for AI/ML platform assessments: the default-unsafe pickle model loader is a **per-function, per-package property that can regress**, and public fix narratives routinely overstate coverage.
+
+- [GHSA-rh54-3493-vqgc / CVE-2026-94093](https://github.com/advisories/GHSA-rh54-3493-vqgc) — DLR-RM stable-baselines3 through 2.9.0: `PPO.load`, `load_replay_buffer`, and `VecNormalize.load` (`save_util.py`) unpickle attacker-supplied model/replay/normalizer artifacts with no safe mode. The advisory states the timeline explicitly: a `weights_only=True` hardening **landed in v2.9.0's tensor load path and was then reverted on master** (PR #1913, "Hotfix: revert loading with weights_only=True") for PyTorch 1.13 compatibility, and the earlier "fix" (PR #41) only gated the Hugging Face Hub loader in the *separate* `huggingface_sb3` package — the core `stable_baselines3` load APIs remained exploitable.
+- [GHSA-9h85-xr59-9fh8 / CVE-2026-94091](https://github.com/advisories/GHSA-9h85-xr59-9fh8) — gensim through 4.4.0: `SaveLoad.load` (`gensim/utils.py`) still calls unsafe `pickle.load`; the upstream issue was closed the same day with no comment, PR, or fix, and repo HEAD predates the report — the unsafe default survives at develop HEAD.
+- [GHSA-jf58-7v68-wxqh / CVE-2026-94092](https://github.com/advisories/GHSA-jf58-7v68-wxqh) — dmlc dgl through 2.1.0: `load_info`/`_read_torch_data` (`utils.py`) deserialize attacker-supplied graph/data artifacts; project unresponsive, no gate.
+
+The reusable axes:
+
+1. **Fingerprint the installed loader call, not the changelog.** A library version advertised as hardened may have reverted the hardening on master (compat reverts are common in the PyTorch ecosystem), and one guarded entry point does not cover sibling load APIs. Patch/read the actual `torch.load` / `pickle.load` call sites in the *installed* package (grep for `weights_only`, `RestrictedUnpickler`, `safe_load`) rather than trusting the release note.
+2. **A CVE fix in package A says nothing about package B.** The stable-baselines3 case gated only the `huggingface_sb3` hub loader while core `load()` APIs stayed unsafe; duplicate-closed issues can hide "fix lives elsewhere" scope reductions. When re-testing a previously reported deserialization finding, enumerate every load function on the artifact surface (`load`, `load_replay_buffer`, normalizer/statistics loaders, graph/dataset loaders), not just the originally reported one.
+3. **Stagnant ML repos keep default-unsafe defaults.** gensim and dgl both have published exploits with no fix path. For any ML stack in a target, treat `.pkl`/`.pt`/`.zip` model, replay-buffer, normalizer, and graph artifacts as code-execution channels from untrusted storage or upload endpoints.
+
+### Bounded validation
+
+Use an offline disposable process with the installed package version. Replace `pickle.Unpickler.find_class`, `torch.load`, and process/file APIs with recorders; craft a benign pickle whose `__reduce__` targets a recording canary (in-memory flag or temp-file marker). Invoke each sibling loader (`PPO.load`, `load_replay_buffer`, `VecNormalize.load`, `SaveLoad.load`, DGL `load_info`) against a downloaded-from-lab-storage artifact and record loader selected, `weights_only`/restricted flag value, and whether the canary resolves. A bounded positive is **untrusted artifact -> default-unsafe loader -> canary reaches the denied sink**. Do not run real gadgets, do not execute on shared hosts, and do not pull third-party model hubs into the harness. Pair every positive with the installed version string and the relevant upstream issue/PR state (open, reverted, closed-unfixed) in the report — the upstream disposition is part of the finding.
+
+Adjacent records in the same wave were processed without promotion: Netcore NBR200V2 router CGI/traceroute/LAN-config command injection trio (CVE-2026-94097/94096/94095, familiar unauthenticated-arg-to-shell router class with public PoCs), OpenClaw canvas-host whole-file-buffer DoS (CVE-2026-94094), and a Manalyze PE-debug integer-underflow parser fix (CVE-2026-94090).
+
 ## Reporting notes
 
 - Lead with the exact boundary crossed: **untrusted molecule input to native parser**, **deserialization policy to reduce/global lookup**, **model-name substring to remote code loader**, **unset ambient safe mode to pickle/bytecode reconstruction**, **model/archive metadata to canonical filesystem destination**, **checkpoint manifest to secondary shard path**, **HDF5 metadata to a secondary file resolver**, **model metadata name to sidecar-file destination**, or **certificate subject string to authenticated username**.
