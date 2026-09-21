@@ -238,6 +238,37 @@ Three unreviewed Keycloak records published 2026-09-19 extend the same reusable 
 
 These are configured-delegation preconditions, not unauthenticated breaks — say so. The durable claim shapes are "**verb sibling skips the fine-grained permission**", "**refresh replays stored audience without enabled-state recheck**", and "**membership write skips the target group's privilege class**". A realm-wide takeover claim from the group-membership item is only warranted after the marker permission actually confers usable admin action in your lab.
 
+## September 21 Keycloak follow-up: cache scope, debug-endpoint authz, name-keyed merge, and session-restart marker wipe (4 GHSAs)
+
+Four more Keycloak records published 2026-09-21 extend the same "decision reads a proximate signal, not the canonical authority" axis, each via a different proximate signal: a cache key, an endpoint category, a resource *name*, and a session state marker.
+
+| GHSA / CVE | Boundary | Drift |
+| --- | --- | --- |
+| [GHSA-v5q7-f26g-qxgh](https://github.com/advisories/GHSA-v5q7-f26g-qxgh) / CVE-2026-94215 | Admin REST client resolution via per-request in-memory cache | Clients are resolved by UUID from the cache **without verifying the client belongs to the realm in the request path**; a low-scope realm administrator can read/modify **master-realm** client configuration through a realm they control → client-credential exposure and admin-login redirect poisoning |
+| [GHSA-7238-mjjf-8jj4](https://github.com/advisories/GHSA-7238-mjjf-8jj4) / CVE-2026-94213 | Authorization Services policy-evaluation endpoint | The admin "test how policies apply" endpoint has **missing authorization checks**; a delegated administrator with view-only privileges reads the full profile and role list of any realm user |
+| [GHSA-2cpw-3v2x-mh42](https://github.com/advisories/GHSA-2cpw-3v2x-mh42) / CVE-2026-94217 | UMA authorization token endpoint, permission tickets | Permission tickets from **two different users' resources that share the same name** are merged when either requests an authorization token → attacker gains scopes on the victim's same-named resource that were never shared |
+| [GHSA-rm49-qjx7-5qm5](https://github.com/advisories/GHSA-rm49-qjx7-5qm5) / CVE-2026-94218 | Client-policy-enforced authentication flow (e.g., mandatory 2FA setup) | Manually visiting a **session-restart web link mid-login** clears the internal required-action markers → password-only login satisfies a policy that mandated 2FA setup |
+
+### Why this is one axis
+
+- **Cache key missing the scope dimension.** The Admin REST route carries `/realms/{realm}/` but the cache lookup is keyed on client ID alone. This is the Keycloak instance of cache-key-vs-policy-scope confusion (OpenFGA cache-key collision precedent): for any ID-keyed cache behind a scoped route, replay the sibling scope's object ID through your own scope's path. Two disposable realms; as realm-A administrator request a master-realm client UUID via `/admin/realms/A/clients/<uuid>` (GET then benign PATCH of a comment/redirect field). Positive = 200 + persisted cross-realm read/write. Verdict table: caller realm × target client realm × verb.
+- **Debug/dry-run endpoints skip the prod endpoint's authorization.** The policy-evaluation endpoint exists to *test* access decisions yet enforces none of the user-profile authorization itself. Sweep every `test`/`evaluate`/`preview`/`simulate`-category route family with the lowest-privilege admin principal — these endpoints are routinely written as internal tooling and missed in the permission model.
+- **Name-keyed aggregation across owners.** UMA permission evaluation merges by resource *name* rather than owner-qualified resource ID. Operator rule: wherever a server aggregates or looks up artifacts by user-chosen name (resources, scopes, labels, buckets), create the name collision with a second lab user and diff the granted scopes. Two users, one identical resource name, disjoint intended scopes → merged decision is the finding.
+- **State-reset links wipe security-step markers.** The restart link is an ordinary navigation affordance, but it discards required-action tracking. On any multi-step authentication flow with a policy-forced extra step, enumerate and visit every restart/cancel/back/resume link reachable *during* the flow (from the URL space, not just visible buttons) with an owned test account, and record whether the subsequent session still carries the required action.
+
+### Bounded validation (lab realms only)
+
+1. Provision two disposable realms plus FGAP-style restricted delegate principals; no production realm, no real client secrets.
+2. Cache-scope: execute the realm-path × client-UUID cross-read/patch matrix; capture only decision results and a synthetic marker field value, never live credentials.
+3. Policy-evaluation: as view-only delegate, call the evaluation endpoint against a synthetic user and record whether profile/roles appear; compare against the normal user-read endpoint's denial as the control.
+4. UMA merge: two lab users register same-named resources with different scopes; each requests a token for the other's permission ticket; evidence is a scope-decision table only.
+5. Session-restart: with a client policy mandating 2FA setup, drive the login to the required-action state, fetch the restart link, complete password-only login; stop at the login verdict — never enroll real authenticators.
+6. Negative controls: fixed builds reject each path; same-realm same-owner operations still succeed.
+
+### Reporting heuristic
+
+Three of the four require an authenticated (but under-scoped) principal and one requires being mid-login with an owned account — say so. Durable claim shapes: "**route-scoped lookup backed by unscoped cache key**", "**dry-run endpoint enforces nothing**", "**name-keyed permission aggregation crosses owners**", "**flow-restart affordance clears required-action state**".
+
 ## Reporting heuristics
 
 - Lead with the crossed boundary: unauthenticated user to server-side fetch and reflected body, static route to sibling filesystem tree, verified upstream identity to different upstream account link, WebAuthn policy to accepted credential parameters, revocation timestamp to introspection state, disabled feature flag to versioned Account API route, same-realm UMA client to another Resource Server's resource, UMA-owning user to unrelated account profile lookup, refresh-token/session host parameter to Keycloak backchannel HTTP request, unvalidated JWT `azp` to CORS origin decision, low-privilege Flowise user to vector-store CRUD, or anonymous HTTP client to debug runtime state.

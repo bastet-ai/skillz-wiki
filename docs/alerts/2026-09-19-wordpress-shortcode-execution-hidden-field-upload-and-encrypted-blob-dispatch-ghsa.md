@@ -50,3 +50,10 @@ Tracked, axes already covered or detail-light: Tutor LMS `student_id` IDOR email
 - for shortcode execution: source field (comment content / action param), approval-gate state, executing render context, and the output channel where canary text surfaced (JSON-LD field, page region);
 - for header spoof: header name, stored field written, principal matched, and the short-circuited authorization functions named;
 - bounded impact language: shortcode execution ≠ code execution unless a registered shortcode with a dangerous sink is demonstrated; encrypted-blob callable invocation ≠ API-key disclosure until the key actually reflects in lab output.
+
+## September 21 tracked siblings
+
+- Canva HarmonyOS app ([GHSA-mxw2-g58m-hfwm](https://github.com/advisories/GHSA-mxw2-g58m-hfwm) / CVE-2026-90860, 7.1): a **privileged WebView** returned sensitive response headers to an **external origin** loaded inside it → session theft by whoever controls that WebView content. Axis worth remembering for mobile assessments: enumerate which WebView contexts receive auth-bearing headers, and test whether an embedded third-party origin can read them; same "privileged context hands credentials to untrusted frame" family as the header-derived-principal items above. App-store-mobile precondition; tracked, not promoted standalone.
+- Drogon ORM `makeCriteria` filter SQLi ([GHSA-c6jr-7xqv-9vjv](https://github.com/advisories/GHSA-c6jr-7xqv-9vjv) / CVE-2026-94144) — filter-position SQLi in a C++ ORM; order-by/filter-key class already covered by the Fleet/ClickHouse key-position lessons. Sparse VulDB detail; tracked.
+- ScadaBR export-endpoint disclosure is promoted on the [Sept 19 alternate-surface page](2026-09-19-wordpress-alternate-surface-authz-drift-rest-ajax-import-wave-ghsa.md) (September 21 follow-up section) as the import-gated/export-ungated mirror-leg exemplar.
+- xxl-job task-name/author reflected XSS, Omega Solution HRM/FBP singles, BioStar BSMEM64 write-what-where IOCTL (fourth of the driver-IOCTL class), Netty CompressionFilter decompression-bomb DoS (CVE-2026-47321 — DoS-only per parser precedent) — tracked, no new axis.

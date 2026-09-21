@@ -103,3 +103,14 @@ Report **image bytes to new-tab browser context**, **PyPI-equivalent package spe
 [GHSA-pppj-hq3g-57pj](https://github.com/advisories/GHSA-pppj-hq3g-57pj) adds a settings-import sink affecting JupyterLab 3.3.0 through 4.5.9 and 4.6.0 through 4.6.1. A crafted `overrides.json` can cross from expected display preferences into code in the JupyterLab origin, either after an explicit Settings Editor import or when an attacker can plant the file in a settings location loaded from an improperly isolated shared filesystem.
 
 Use a disposable profile and an `overrides.json` that produces only an inert DOM marker. Compare explicit import, startup loading from a user-owned settings directory, a shared directory the other lab user cannot write, malformed/non-executable settings, and fixed releases. Capture file provenance, filesystem owner/mode, import interaction, parsed setting, and marker state. Never read notebooks, invoke kernels, open terminals, or use a shared production home. Report **settings file trusted as data -> unvalidated display setting -> JupyterLab-origin code marker**, and separate user-assisted import from cross-user settings-file placement.
+
+## September 21 follow-up: CRI-O checkpoint-restore metadata reaches the host filesystem
+
+[CVE-2026-15801 / GHSA-53fm-c92p-fxxw](https://github.com/advisories/GHSA-53fm-c92p-fxxw) (CVSS 8.0): when CRI-O is configured to restore containers from checkpoint archives (not the default), **insufficient validation of restore metadata** lets a user who can trigger restoration from untrusted checkpoint content perform unintended operations on the **host filesystem**.
+
+Operator axes (extending the Kubernetes checkpoint-restore section above):
+
+- **Checkpoint archive = untrusted input with host-side parsing.** A CRIU-style checkpoint bundle carries metadata (restore paths, spec annotations) that the runtime applies to host state. Treat every field in the archive as a path/host sink: restore-log paths, spec/annotation mirrors of mount or device configuration, and any file-restore list the runtime honors.
+- **Feature-flagged ≠ vulnerable — but enumeration is cheap.** Checkpoint/restore must be explicitly enabled; on authorized node/cluster assessments, probe whether the runtime advertises checkpoint/restore capability before building the chain, and record enablement state as a precondition in the report.
+- **Who can trigger restore is the privilege floor.** The finding is reachable by "a user with sufficient privileges" — i.e., whoever can create/restore workloads with an attacker-supplied archive. In multi-tenant or CI-on-cluster scopes, that is often a much lower bar than it sounds; map which service accounts or namespaces can supply checkpoint content.
+- Validation boundary: disposable single-node lab only; synthetic checkpoint archives with inert outside-canary files as restore targets; never restore untrusted bundles on shared or production nodes.
