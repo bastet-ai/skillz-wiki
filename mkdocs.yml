@@ -102,6 +102,7 @@ nav:
       - OAuth Token Theft: methodology/oauth-token-theft.md
       - OAuth Misconfigs for MCP / Agents: methodology/oauth-mcp-misconfig.md
       - JWT Algorithm Confusion: methodology/jwt-algorithm-confusion-testing.md
+      - SAML Assertion Attack-Surface Testing: methodology/saml-assertion-attack-surface-testing.md
       - Return URL Scheme Bypasses: methodology/return-url-scheme-bypass-testing.md
       - Canonicalization Differentials at Security Gates: methodology/canonicalization-differentials-at-security-gates.md
       - Rich-text Import SSRF: methodology/rich-text-import-ssrf-testing.md
