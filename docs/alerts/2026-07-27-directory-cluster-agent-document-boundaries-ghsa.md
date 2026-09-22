@@ -79,6 +79,29 @@ CVE-2026-14476 describes `..` components in the GPO `gPCFileSysPath` crossing fr
 
 Report **directory attribute -> parser normalization -> root-owned resolved path -> marker write**. Do not claim authentication bypass unless that separate configuration-dependent edge is reproduced in a throwaway host; never demonstrate it against a real login stack.
 
+## September 21 follow-up: ADSys AD CS CA fetch over plaintext HTTP poisons the system trust store
+
+[GHSA-crm4-q7v4-c2r2 / CVE-2026-12249](https://github.com/advisories/GHSA-crm4-q7v4-c2r2) — Canonical ADSys through v0.16.2 performs Active Directory Certificate Services (AD CS) certificate auto-enrollment through the vendored Samba client script (`internal/policies/certificate/python/vendor_samba/gp/gp_cert_auto_enroll_ext.py`), which requests the CA certificate from the configured CA hostname via `GetCACert` over **plaintext `http://`** instead of `https://`. An **unauthenticated network-position attacker** between the managed Ubuntu host and the CA hostname intercepts that fetch and returns an arbitrary attacker-controlled root CA, which ADSys **accepts unconditionally and installs into the local trust store via `update-ca-certificates`**. Result: every OS-trust-store TLS client on the host accepts rogue certificates for arbitrary domains — persistent, host-wide TLS interception from one network position. Fixed in v0.16.3.
+
+Why this is the same page as the SSSD rows: it is another **directory-adjacent enrollment artifact crossing into host authorization state** — here the artifact is CA material fetched during group-policy processing, and the "authorization" it changes is the host's TLS trust anchor set. The preconditions are weaker than the SSSD sudo/GPO rows (network position, no credentials), which makes it the strongest pivot in this cluster on hybrid AD + Ubuntu fleets.
+
+### Operator axes
+
+1. **Enrollment daemons fetch trust material over unauthenticated channels.** Any agent that runs during join/GPO processing to download CA certs, CRLs, or policy blobs is a trust-anchor injection target if the scheme is `http://` and the response is installed without pinning. Grep deployed agent source (Python, Samba vendor trees, shell hooks) for `http://` + `GetCACert`/`caCert`/`update-ca-certificates`/`update-ca-trust`.
+2. **GPO/sysvol configuration carries the fetch target.** The CA hostname arrives via group policy; in an authorized lab where you control a GPO or DNS answer for the CA hostname, you control where the plaintext fetch goes. Test only on lab hosts you own.
+3. **Trust-store poisoning is persistence, not just interception.** The injected root survives reboots and outlives the network position; detection is a trust-store diff, so the operator-relevant validation is: enumerate installed anchors (`/usr/local/share/ca-certificates`, `update-ca-certificates` output), timestamp drift, and which anchor was *not* issued by the enterprise CA.
+4. **Fingerprint-then-pivot recon on internal Linux fleets:** unpatched ADSys (< 0.16.3) on AD-joined Ubuntu hosts means a single on-path position (ARP/NDP, switched-port attack, rogue AP, compromised neighbor) yields interception of *all* subsequent TLS from that host — backup sessions, package pulls, web apps, LDAP-over-TLS, anything using the OS store.
+
+### Bounded validation (owned lab only)
+
+| Step | Input | Record | Stop condition |
+| --- | --- | --- | --- |
+| Fingerprint | ADSys version on lab host (`dpkg -l adsys`) + CA fetch scheme in policy | version, scheme (`http` vs `https`), CA hostname source | plaintext scheme + < 0.16.3 = precondition positive |
+| MITM proof | Disposable AD domain, lab Ubuntu host, owned fake CA hostname (lab DNS); attacker listener on the host's network segment | whether `GetCACert` request is visible, whether lab-generated test root lands in `/usr/local/share/ca-certificates` / `update-ca-certificates --fresh` output | test root present in store = boundary crossing proven |
+| Impact bound | One `curl` from the lab host to an owned HTTPS canary through the fake root | chain accepted with fake CA | **stop there** — never intercept real user traffic, real enterprise CAs, or production sessions |
+
+Prove with a **self-generated lab root CA and a synthetic canary service only**. Never poison a real host's trust store, never present a forged certificate for a live domain, and redact CA hostnames and policy paths from reports. Report shape: **network position (no credentials) -> plaintext CA fetch -> unvalidated root installed -> OS-trust TLS clients accept lab-issued anchor for synthetic domain**, with the fixed-build (0.16.3) negative control showing HTTPS scheme or rejected install.
+
 ## CDI: do not treat subresource creation as source-data read authority
 
 CVE-2026-17527 says the aggregated `cdi.kubevirt.io:view` role grants `create` on `datavolumes/source`, and CDI clone authorization accepts that permission as sufficient to clone a named PVC. A principal also needs ordinary write access to a destination namespace. The reusable bug class is a control-plane subresource permission standing in for authorization to the source data.
