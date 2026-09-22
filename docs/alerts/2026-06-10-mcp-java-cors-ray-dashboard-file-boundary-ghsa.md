@@ -44,6 +44,16 @@ Accept: text/event-stream
 - A safe proof shows that traversal escapes the static directory and returns the marker content. It does not need broad filesystem enumeration.
 - Strong evidence: dashboard URL, authentication state, Ray version or build evidence, sanitized traversal request, and response containing only the synthetic marker.
 
+## September 22 follow-up: Open VSX deployment-level CORS reflection → token theft chain
+
+The open-vsx.org deployment (VS Code extension marketplace; [GHSA-px7g-fw3g-w264](https://github.com/advisories/GHSA-px7g-fw3g-w264) / [CVE-2026-90882](https://nvd.nist.gov/vuln/detail/CVE-2026-90882)) returned `Access-Control-Allow-Origin` **reflecting the requesting origin together with `Access-Control-Allow-Credentials: true`** on the authenticated `/user/` endpoint family — `/user`, `/user/tokens`, `/user/namespaces`, `/user/search/{name}`, `/user/namespace/{name}/members`. Because `/user/csrf` was readable the same way, the reflection simultaneously defeated the CSRF token on write endpoints, chaining to `/user/token/create` to mint (and exfiltrate) a personal access token with publish/delete rights over the victim's namespaces.
+
+Operator value beyond the MCP Java case:
+
+- **Deployment-level vs application-level CORS.** The headers were emitted by the CDN/edge layer, not the application — the Open VSX software sets `allowCredentials(true)` against exactly one derived origin and defines no `/user/` CORS mapping. When testing CORS, treat the response header as evidence about the *deployment*, not the code: a reflection you can trigger proves nothing the app config explains, and the vendor "no config produces this" statement is itself confirmation the fix is infrastructure-side. Fingerprint by sending two distinct synthetic `Origin:` values and diffing the reflected pair (`ACAO` value + `ACAC`).
+- **CSRF-token readability converts CORS-read into CORS-write.** Any credentialed-readable endpoint that returns the CSRF token (or a token seed) collapses the classic "GET is read-only" boundary. On credentialed APIs with permissive CORS, enumerate endpoints for token/secret material before concluding the finding is disclosure-only; the chain proof is: reflected ACAO+ACAC on the token endpoint → cross-origin `fetch(..., {credentials:'include'})` reads the token → cross-origin POST replays it. Demonstrate only against your own account on the real service or a lab deployment; the strongest bounded proof stops at reading a disposable token you then revoke.
+- **Publisher-identity theft is supply-chain access.** An exfilable marketplace publish token is an extension-update RCE channel against the token owner's install base; report the token type and its capability scope (publish/delete rights), not the value.
+
 ## Reporting heuristics
 
 - Lead with the failed trust boundary:
