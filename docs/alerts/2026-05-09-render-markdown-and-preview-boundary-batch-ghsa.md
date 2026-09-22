@@ -48,3 +48,13 @@ The reviewed records list Showdown through 2.1.0 as affected but do not identify
 5. The bounded positives are **frontmatter metadata -> title raw-text context break -> harmless detached-DOM event** and **table header -> generated `id` quote break -> harmless detached-DOM event**. Do not generalize to every Showdown configuration when `completeHTMLDocument`, table parsing, or the host sink is unreachable.
 
 Report persistence separately from browser execution. A stored Markdown record is not stored XSS until the affected render path, final same-origin DOM sink, and harmless execution marker are all demonstrated.
+
+## September 22 follow-up: front-matter parsers with language selectors are code-execution surfaces
+
+- **gray-matter eval() on `js`/`javascript` front matter** — [GHSA-j9gx-vjm3-jpmm](https://github.com/advisories/GHSA-j9gx-vjm3-jpmm) / CVE-2026-78847 (all versions, verified on 4.0.3): `lib/engines.js` dispatches front matter whose language marker is `js`/`javascript` (the `---js` delimiter form) straight to `eval()`. The front-matter *header itself* is attacker code: any Node pipeline that parses untrusted Markdown — docs generators, CMS/markdown import, README/preview renderers, resume or content-ingest jobs — runs arbitrary JS if the app forwards the raw document to gray-matter with default engine handling, and gray-matter is a transitive dependency of thousands of SSG and tooling packages.
+
+Operator rules:
+
+1. **A parser that accepts a language/engine/expression selector is not a parser.** Same shape as the OrdaSoft `method`-field dispatch and CuteNews internal-namespace deserialization: metadata fields that name a language, engine, filter, or class are remote code dispatch until an allowlist proves otherwise. Grep dependency trees for front-matter/markdown libraries and check which engine options the application enables.
+2. **Untrusted document + permissive engine = pre-auth RCE candidate** wherever user content reaches Markdown parsing (issue bodies, imported posts, uploaded `.md` files, webhook payloads). Fingerprint the library and version from lockfiles/package metadata on open-source targets before theorizing.
+3. **Lab-only proof:** disposable Node harness calling gray-matter on a document with a `---js` header containing a marker (write a temp file / set a global), never on shared tooling. Evidence: the marker, plus the parse-call chain showing no engine restriction. Absence of a patched release (all versions affected) makes this a "verify whether your pipeline parses hostile front matter" finding, not a version-upgrade note.

@@ -33,6 +33,10 @@ Folded to an existing page: **SOGo** also lands on the [May 19 Apostrophe Host-h
 4. **Amelia-class BOLA:** two disposable lab users — one `wpamelia-provider`, one customer-holder. From the provider token, read and modify the other customer's record and attempt the password-reset action against a *lab* core account, recording whether a core WordPress session/credential changes. Marker-only mutations; snapshot and restore rows.
 5. **Motors-class status disclosure:** on an authorized site, call `mvl_ajax_dealer_load_cars()` (admin-ajax, no cookie) and compare returned listings against a logged-in control, restricted to a seeded lab listing in `draft` status. Presence-only proof (post ID + status), never bulk-extract real listings.
 
+## September 22 follow-up: the origin leg can also be a request *parameter*
+
+- **Gladys Assistant <5.1.0 reset-link poisoning via `origin` parameter** (CVE-2026-93340, [GHSA-47ff-wp9w-g26c](https://github.com/advisories/GHSA-47ff-wp9w-g26c), 6.8): the `forgot_password` endpoint accepts a **client-supplied `origin` parameter with no server-side validation** and embeds it in the emailed reset link — an unauthenticated attacker requests recovery for any account (including administrators) with their own origin and receives the victim's valid token. Third spelling of the same primitive: SOGo used the `Origin` **header**, Apostrophe the `Host` **header**, Nezha the `redirect_uri`, and Gladys a plain body/query **parameter**. Sweep generalizes accordingly: for every recovery/invite/verification flow, test hostile authority in `Origin`, `Host`, **and** every plausible body/query key named `origin`, `redirect`, `host`, `base_url`, `referer` — and the parameter-absent control.
+
 ## Reporting checklist
 
 - Exact product/plugin version, transport (`grafana-cli` vs API vs env var; admin-ajax action name; REST route), and auth state per leg.

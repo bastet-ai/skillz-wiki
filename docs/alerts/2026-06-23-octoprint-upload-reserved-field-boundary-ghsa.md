@@ -20,6 +20,12 @@ Adjacent [GHSA-p6qx-ghxm-389h](https://github.com/advisories/GHSA-p6qx-ghxm-389h
 4. **Prove relocation, not data theft.** A before/after path table and successful download of the synthetic marker is enough.
 5. **Record fixed-version controls.** Pair the vulnerable behavior with OctoPrint 1.11.8 or 2.0.0rc3 rejection where possible.
 
+## September 22 follow-up: same product, adjacent API legs (public exploits)
+
+- **OctoPrint Command API `executeSystemCommand` OS-command injection** ([GHSA-jwf4-wmgv-pvqx](https://github.com/advisories/GHSA-jwf4-wmgv-pvqx) / CVE-2026-94490, `src/octoprint/server/api/system.py`): the `command` argument crosses into a shell. This is the OctoPrint instance of the standing rule that **any "run a configured command" API is an argv-injection sink until a flag allowlist is proven** (Aug 5 command-wrapper page); treat a low-sev rating as scope-limited (authenticated caller), then check what else reaches the same helper. Exploit is public.
+- **OctoPrint File Download API `_validate` filename path traversal** ([GHSA-6wqw-4v48-3xjc](https://github.com/advisories/GHSA-6wqw-4v48-3xjc) / CVE-2026-94489, `src/octoprint/server/api/files.py`): download-route filename reaches the filesystem unconfined — same lexical-containment class as the June 23 reserved-field item on this page. Exploit is public.
+- Operator value: the vendor was contacted and did not respond, and exploits are public — on authorized targets, fingerprint OctoPrint builds, then test both legs against your own canary path/marker command only. These pair with the upload-handler leg above into a three-leg picture: upload handoff fields, download filename, and system-command API are the three places this product's file/exec boundaries were each independently broken.
+
 ## Replayable validation boundary
 
 - Preconditions: owned OctoPrint lab or explicit bug-bounty scope, disposable `FILE_UPLOAD` user, test upload folder, and one synthetic canary file readable by the OctoPrint service account.
