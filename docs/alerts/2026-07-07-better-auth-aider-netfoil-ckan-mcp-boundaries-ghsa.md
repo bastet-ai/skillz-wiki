@@ -217,3 +217,15 @@ Three later CKAN MCP Server advisories add reusable MCP server-trust checks to t
 2. Capture the response body and record which fields are disclosed (stack frames, internal URLs, config keys, data fragments). Redact real secrets and report the disclosure surface and the request shape that triggered it.
 
 Keep all three to synthetic CKAN fixtures, owned/lab peers, and redacted output; do not read real CKAN data or poison a live shared cache.
+
+## September 22 follow-up: the guard validates the string, the client connects to the address
+
+[GHSA-798p-78g2-v556](https://github.com/advisories/GHSA-798p-78g2-v556) / CVE-2026-61612: `@aborruso/ckan-mcp-server` SSRF guard `validateServerUrl` — patched **three times** now (CVE-2026-33060 added the guard, CVE-2026-53509 added `ip6-localhost`/`ip6-loopback` alias strings) — still validates only the **hostname string** (denylist + IPv4-literal regex) and never resolves DNS. A `server_url` whose hostname *resolves* to `127.0.0.1`, `169.254.169.254`, or RFC-1918 passes the guard, and this time the impact crosses from loopback to **IMDS** — strictly more than the prior CVE. Unpatched as of current latest 0.4.107; the self-hosted unauthenticated HTTP transport (`TRANSPORT=http`, `POST /mcp`) is the reachable surface (the Cloudflare Worker deployment is platform-sandboxed).
+
+Reusable axes:
+
+1. **String-validation-vs-resolution gap is the permanent SSRF-guard finding class.** When you find a URL guard, ask which representation it checks and which the HTTP client actually uses: denylisted literal, resolved A/AAAA record, redirect target, or proxy-selected address. If validation and connection touch different representations, the guard is bypassable by DNS alone — no rebinding TTL tricks needed, just an A record pointing at a blocked address.
+2. **Fix-history is a target map.** Three CVEs on one guard with each fix only appending denylist strings means the root cause was never addressed. When an advisory reads "incomplete fix of CVE-X", read CVE-X and its predecessor first — the prior fix diffs tell you exactly which representations are covered and which were never considered.
+3. **Transport decides severity.** Same package, same guard: the hosted Worker endpoint can't reach loopback/IMDS while the self-hosted HTTP transport reaches it directly from any remote client. Record the deployment mode before scoring or reporting.
+
+Bounded proof (lab only): stand up a disposable instance of the MCP server with `TRANSPORT=http`, point `server_url` at an owned domain whose A record you set to a loopback-bound canary HTTP listener (never real cloud IMDS), and capture the server-side callback as evidence the resolved address passed the string guard. Negative control: the IPv4-literal form the denylist does block.
