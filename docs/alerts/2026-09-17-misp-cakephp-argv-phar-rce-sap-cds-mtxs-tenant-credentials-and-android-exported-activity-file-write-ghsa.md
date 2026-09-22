@@ -45,6 +45,10 @@ This batch is durable because all three entries are the same meta-pattern in dif
 - Android testing on your own device profile with your own test app and marker files; never target another user's account or install surveillance payloads.
 - Keep credentials, tenant identifiers, and device data out of wiki and report evidence.
 
+## September 22 follow-up: MISP ships the phar wrapper with zero legitimate use (wrapper-audit rule)
+
+- **CVE-2026-95806 / [GHSA-8rgx-3gvf-26gg](https://github.com/advisories/GHSA-8rgx-3gvf-26gg)** (high): MISP registers PHP's **phar stream wrapper in both its web and console entry points**, yet no MISP/CakePHP/runtime code ever reads or constructs phar archives. Consequences: any filesystem operation on a caller-influenced path that resolves to an uploaded `.phar` triggers implicit `unserialize()` (deserialization sink), and a relocated app root (see the `-app` argv leg above) can reach executable code inside an uploaded phar. Operator rule generalized from this advisory: on any PHP target, treat **wrapper availability as attack surface inventory** — probe whether `phar://` is accepted at file-existence/read/unlink sinks (`file_exists('phar://…')` timing/popcheck shapes), and in source audits, flag registered wrappers with no legitimate consumer; a wrapper nothing uses is a primitive only an attacker uses. Combine with the two legs already on this page (argv path switch + upload) for the full chain — prove only in a lab instance with an inert archive marker.
+
 ---
 
-*Sources: [GHSA-2q9g-8hcw-6c23](https://github.com/advisories/GHSA-2q9g-8hcw-6c23) · [GHSA-955m-rr6m-2f9v](https://github.com/advisories/GHSA-955m-rr6m-2f9v) · [CVE-2026-76969](https://nvd.nist.gov/vuln/detail/CVE-2026-76969) · [SAP note 3798315](https://me.sap.com/notes/3798315) · [GHSA-x3gc-cx3q-fw5m](https://github.com/advisories/GHSA-x3gc-cx3q-fw5m)*
+*Sources: [GHSA-2q9g-8hcw-6c23](https://github.com/advisories/GHSA-2q9g-8hcw-6c23) · [GHSA-955m-rr6m-2f9v](https://github.com/advisories/GHSA-955m-rr6m-2f9v) · [CVE-2026-76969](https://nvd.nist.gov/vuln/detail/CVE-2026-76969) · [SAP note 3798315](https://me.sap.com/notes/3798315) · [GHSA-x3gc-cx3q-fw5m](https://github.com/advisories/GHSA-x3gc-cx3q-fw5m) · [GHSA-8rgx-3gvf-26gg](https://github.com/advisories/GHSA-8rgx-3gvf-26gg)*
