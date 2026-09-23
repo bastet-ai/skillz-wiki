@@ -33,6 +33,10 @@ Also in-cluster: [CVE-2026-77251 / GHSA-w66g-j6c4-hcfc](https://github.com/advis
 
 Report language: lead with the composed chain (no-auth transport → full registry → file-path sink → operator credentials), not the per-CVE list; state which gate each advisory breaks and what the fallback identity is.
 
+## September 23 follow-up: SDK token caches keyed wrong leak your highest-value token to your lowest-value peer
+
+- **`mcp-toolbox-sdk-python` `toolbox-core` module-level ID-token cache not keyed by audience** (CVE-2026-19202, [GHSA-jcjp-gr26-563j](https://github.com/advisories/GHSA-jcjp-gr26-563j)): the Google ID token minted for Service A is cached process-globally and **replayed to Service B** when the same process authenticates to multiple audiences. Whoever operates, compromises, or passively observes traffic to the *lower-trust* Service B captures a valid token for Service A and replays it to impersonate the application there. Operator axes for any agent/MCP/SDK that fetches cloud identity tokens: (1) sweep credential caches for **key shape** — a cache keyed by nothing, by client id, or by timestamp instead of (audience, scope) will cross-serve tokens; (2) in recon, treat the lowest-trust peer an SDK talks to as a token-capture position for its highest-trust peers — enumerate which audiences a target process shares one SDK/process with; (3) token theft here needs no exploit, only a listening socket on a service the victim library also calls. Proof in labs = a fake "Service B" that logs received `Authorization` headers while a test client legitimately fetches a real Service-A token; never target live Google endpoints.
+
 ## Tracked, not published
 
 - OAuth setup callback reflected XSS (77272) — low-severity stored/reflected class, no new axis beyond existing OAuth-CSRF family.

@@ -84,3 +84,19 @@ Strong finding titles:
 - `UniFi OS diagnostic input reaches command wrapper without safe argument binding`
 
 In the body, include the affected version range, network reachability, actor role, exact route class, expected boundary, observed canary-only crossing, and negative controls. Avoid claiming broad appliance compromise unless the owner separately authorized a lab exploit chain and supplied non-sensitive evidence.
+
+## September 23 follow-up: OpenEye Apex NVR — an appliance unlock-code design break is a chain blueprint, not a finding
+
+Four-GHSA wave on OpenEye Apex NVR firmware ≤ 3.2.9.376 (design present since ≥ 2.2.3.4, fixed 3.5.4) that reads as a complete physical-to-remote takeover ladder on a camera appliance:
+
+- **Hardcoded undocumented recovery account with shared, unrotatable credential** — unauthenticated entry into the password-reset workflow specifically ([CVE-2026-92928 / GHSA-2h86-6hmv-8f46](https://github.com/advisories/GHSA-2h86-6hmv-8f46), 6.5; advisory explicitly states: not normal admin access, "additional vulnerabilities are required").
+- **Password-reset unlock code with no per-device secret or server-side cryptographic material** — offline code forgery from the console workflow ([CVE-2026-92930 / GHSA-g4p9-62qj-r366](https://github.com/advisories/GHSA-g4p9-62qj-r366), 6.2).
+- **`X-Forwarded-For` trusted from any client on the non-TLS web interface** — spoof `127.0.0.1` to pass local-connection-only controls and read configuration ([CVE-2026-92929 / GHSA-2jx4-m53c-2mqc](https://github.com/advisories/GHSA-2jx4-m53c-2mqc), 5.3).
+- **Backup-area configuration crosses into a shell command** — authenticated-admin cmdi as the `nvr` user via `recbackup` ([CVE-2026-94367 / GHSA-xr8v-x794-fm52](https://github.com/advisories/GHSA-xr8v-x794-fm52), 7.2).
+
+Operator value:
+
+1. **Each CVSS score understates the ladder; the chain is the finding.** Recovery account → forged unlock code → admin password reset → backup-config cmdi = unauthenticated remote to code execution, composed entirely from "low-severity" advisories. When assessing NVR/camera appliances, evaluate GHSA bundles on one product as a composition, not per-CVE.
+2. **Unlock/recovery codes must be keyed to per-device secret material.** Same token-authority family as the Lantronix model+clock session tokens (Sept 22 page) and the Cotonti `md5(microtime())` tokens: ask what generator inputs exist on the device and whether any of them are *actually secret to that unit*. A "code" derivable from public/algorithmic inputs is a documentation artifact, not a credential.
+3. **Loopback-as-identity on management planes**: `X-Forwarded-For`-to-localhost trust is the appliance twin of the 9router `X-9r-Real-Ip` pattern — the identity check reads a client-supplied header on the *non-TLS* interface; fingerprint whether the "local-only" controls gate on header vs socket peer, with a spoofed-header vs raw-socket positive/negative pair.
+4. **Firmware vintage is the posture probe**: the advisories state the design was present "since at least 2.2.3.4" — these devices sit unpatched for years; fingerprint build from login page and treat ≤ 3.2.9.x as the chain-live population. Video-surveillance appliances additionally aggregate camera streams and operator credential stores, making them standing lateral-movement targets on internal recon.
