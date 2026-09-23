@@ -172,6 +172,15 @@ Use an offline disposable process with the installed package version. Replace `p
 
 Adjacent records in the same wave were processed without promotion: Netcore NBR200V2 router CGI/traceroute/LAN-config command injection trio (CVE-2026-94097/94096/94095, familiar unauthenticated-arg-to-shell router class with public PoCs), OpenClaw canvas-host whole-file-buffer DoS (CVE-2026-94094), and a Manalyze PE-debug integer-underflow parser fix (CVE-2026-94090).
 
+## September 23 follow-up: two more data-science loaders pickle-load by default
+
+Two more entries in the same stagnant-loader class landed in the 2026-09-23 03:30Z wave, both with **public exploits and unresponsive vendors** — the fingerprint-the-installed-loader rule applies verbatim:
+
+- [GHSA-7jm5-7xjw-qq97 / CVE-2026-95897](https://github.com/advisories/GHSA-7jm5-7xjw-qq97) — Dask through 2026.8.0: `dask.array.core.from_npy_stack` deserializes attacker-supplied stack metadata; a ubiquitous distributed-computing dependency means any pipeline that loads a user-uploaded "npy stack" directory is a code-execution channel.
+- [GHSA-vmf3-6q95-pmx3 / CVE-2026-95928](https://github.com/advisories/GHSA-vmf3-6q95-pmx3) — recommenders-team recommenders through 1.2.1: `recommenders/models/newsrec/io/mind_iterator.py` calls `pickle.load` on MIND dataset artifacts — the Microsoft RECOMMENDERS framework many notebook/tutorials pull from model-storage endpoints.
+
+Report-shape note unchanged: pair the positive with the installed version and upstream disposition (both here: informed early, no response, exploit public) — the disposition is part of the finding and the EOL/unresponsive framing is a severity multiplier.
+
 ## Reporting notes
 
 - Lead with the exact boundary crossed: **untrusted molecule input to native parser**, **deserialization policy to reduce/global lookup**, **model-name substring to remote code loader**, **unset ambient safe mode to pickle/bytecode reconstruction**, **model/archive metadata to canonical filesystem destination**, **checkpoint manifest to secondary shard path**, **HDF5 metadata to a secondary file resolver**, **model metadata name to sidecar-file destination**, or **certificate subject string to authenticated username**.
