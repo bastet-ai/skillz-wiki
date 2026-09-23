@@ -85,6 +85,7 @@ nav:
       - Google-style API Black-box Recon: methodology/google-api-black-box-recon.md
       - HTTP Anomaly and WebSocket Triage: methodology/http-anomaly-websocket-triage.md
       - HTTP Desync Research Campaigns: methodology/http-desync-research-campaigns.md
+      - HTTP/3 Fuzzing, Race, and Downgrade Testing: methodology/http3-turbo-intruder-race-and-downgrade-testing.md
       - DNS Rebinding Local-Service Testing: methodology/dns-rebinding-local-service-testing.md
       - GitHub Actions Static Analysis: methodology/github-actions-static-analysis-recon.md
       - Agent Skill Supply Chain Testing: methodology/agent-skill-supply-chain-testing.md
