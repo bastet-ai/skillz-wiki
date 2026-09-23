@@ -74,6 +74,10 @@ Operator value: monitoring plugins often sit at a privileged boundary where low-
 
 Additional reporting note: lead with **monitoring user argument -> sudo-permitted plugin -> shell command construction**. Include sudoers scope, plugin/version, raw argument, captured command/argv evidence, marker-only result, and fixed-version negative control.
 
+## September 23 evening follow-up: sudo NOTBEFORE/NOTAFTER time windows trust the caller's `TZ` (CVE-2026-96512 / GHSA-jj2h-hcrf-9gfx)
+
+- **sudo with `NOTBEFORE`/`NOTAFTER` sudoers timestamps that omit the trailing `Z`** evaluates the time against the **`TZ` environment variable inherited from the calling user** — an unprivileged local user sets an extreme timezone offset and shifts the authorization window by up to ~25 hours, re-activating expired time-boxed rules (authentication itself is unaffected). Audit rule for local privilege-boundary work: on any host with sudoers grants, check for time-based rules (`sudoers.d/*` with `NOTBEFORE`/`NOTAFTER`), and if present, test whether the window is enforced in the caller-controllable timezone — a time-boxed emergency/admin grant that omits the UTC `Z` suffix is a **standing grant you can time-shift into**. Generalized invariant, sibling of this page's sudoers-argv item: **a sudoers gate must not depend on any value the invoking environment controls** (`TZ`, `PATH`, locale); environment-derived inputs to authorization decisions are attacker inputs.
+
 ## Reviewed but not promoted here
 
 - [GHSA-x4hg-hfwf-p9mw](https://github.com/advisories/GHSA-x4hg-hfwf-p9mw) was processed as ReDoS/resource-exhaustion only and did not add a non-availability operator workflow.

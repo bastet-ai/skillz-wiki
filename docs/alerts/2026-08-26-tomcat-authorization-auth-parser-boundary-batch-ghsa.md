@@ -65,6 +65,10 @@ The same publication window shipped a second Tomcat train. Same audit doctrine a
 
 Validation boundary unchanged: disposable `catalina`, lab proxies, synthetic certs/users; raw-byte canaries on lab backends only.
 
+### Same-window Tomcat Native triplet (fixed 2.0.16 / 1.3.9)
+
+The train also carried three **Tomcat Native** (tcnative/OpenSSL shim) items: insecure TLS options **on by default** (`ALLOW_CLIENT_RENEGOTIATION`, `NO_EXTENDED_MASTER_SECRET`, `IGNORE_UNEXPECTED_EOF`, `ALLOW_NO_DHE_KEX` — GHSA-9p2m-jvmj-wh8q), a TLS-handshake buffer over-read crashing the JVM (GHSA-w68h-fc49-cmrg), and a **race condition that downgrades client-certificate verification requirements** in some configurations (GHSA-jhrw-x5gg-jjqw). Operator angles: (1) tcnative version fingerprinting (APR/OpenSSL banner, ALPN behavior) tells you a host may run renegotiation-allowed / EMS-disabled TLS even when the config looks hardened — probe the handshake itself, not the conf; (2) mTLS-dependent targets on affected tcnative: attempt client-auth flows **without** a client cert repeatedly under concurrency — a soft accept is the negative-cert test paying off, same doctrine as the CLIENT_CERT soft-fail item above.
+
 ## Reporting heuristics
 
 - Group the cluster as one version-train finding ("Tomcat `< 11.0.25 / 10.1.58 / 9.0.121` cluster") and call out each CVE's distinct boundary (constraint ordering, realm auth, method scoping, role aliasing, replay, channel persistence, socket TOCTOU, rewrite re-entry, HTTP/2 leak).
