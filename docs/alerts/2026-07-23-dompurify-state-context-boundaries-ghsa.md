@@ -169,6 +169,19 @@ Lead with the reachable preconditions. Distinguish:
 
 Capture package and bundle versions, browser engine, effective config, hook registration order, instance lifetime, raw sanitizer output, post-transform DOM, inert marker result, and a patched or fresh-instance negative control. Redact real content and user identifiers.
 
+## October 1 follow-up: IN_PLACE hook-detached subtrees keep armed handlers
+
+[GHSA-p98j-92pf-mc4p](https://github.com/advisories/GHSA-p98j-92pf-mc4p) (DOMPurify `>=3.4.13 <=3.4.15`, fixed **3.4.16**) extends the state/context axis to hook-interaction coverage drift. In `IN_PLACE` mode the library neutralizes any subtree a hook detaches (strip non-allow-listed attributes) so queued resource events cannot fire in page scope after `sanitize()` returns — but that `_handleHookDetachedNode` guard is wired only into the `beforeSanitizeElements` and `uponSanitizeElement` hook sites. A documented, supported pattern — an `afterSanitizeElements`/`afterSanitizeAttributes` hook that removes a node — detaches the subtree with **no** neutralization, and the post-walk `IN_PLACE` cleanup pass iterates only `DOMPurify.removed`, which by design excludes hook-detached nodes. Result: descendant `on*` handlers (e.g. an `<img onerror>` that started loading when the caller built the tree) remain armed on the caller's live tree after sanitize returns.
+
+Audit rule for any in-place sanitizer with user- or app-registered hooks: **enumerate every lifecycle point where a node can leave the tree and check the cleanup path covers each one.** The fix history proves the pattern (GHSA-55q2-fjhq-7xh7 added the guard at two sites, missed the rest). Validation harness:
+
+1. In a disposable owned page, register an afterSanitize hook that removes a marker element, and a beforeSanitize hook that removes an identical one.
+2. Give both subtrees a resource-event canary (`<img src=x onerror="console.log('skillz-detach-marker')">`) that begins loading pre-sanitize.
+3. Compare: before-site detach should neutralize (no marker fires); after-site detach on an affected version fires the handler post-return.
+4. Negative control on 3.4.16 with the same hook set.
+
+Report shape: sanitizer version, mode (`IN_PLACE` vs string), hook registration order and site, whether the detached node appears in `DOMPurify.removed`, and whether the marker fires after `sanitize()` returns. This is a hook-interaction defect class, not an allow-list bypass — keep that distinction in the report; the app's hooks need not be misconfigured for it to trigger.
+
 ## Related Skillz Wiki guidance
 
 - The earlier [`selectedcontent` browser re-cloning check](2026-06-01-rattler-vitest-dompurify-mcp-boundary-batch-ghsa.md#dompurify-selectedcontent-xss-check) covers a separate post-sanitization DOM mutation pattern.

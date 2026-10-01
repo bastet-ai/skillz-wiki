@@ -39,6 +39,17 @@ Two reviewed Showdown records reinforce that Markdown body escaping does not cov
 
 The reviewed records list Showdown through 2.1.0 as affected but do not identify a patched package release. The linked upstream commits are useful fixed-code controls; verify package provenance rather than assuming a later version exists.
 
+## October 1 follow-up: serialize-javascript function-body script termination
+
+[GHSA-gfhx-hw2g-v5hg](https://github.com/advisories/GHSA-gfhx-hw2g-v5hg) / CVE-2026-97711 shows the same escape-regex boundary-condition failure in a different generated context: `serialize-javascript` 7.1.1 exists specifically to make output safe inside `<script>`, but its `SCRIPT_CLOSE_REGEXP` first alternative `<\/script[^>]*>` excluded only `>` from the character class — so one match could run from the first `</script` all the way to the next `>` anywhere in the source, swallowing a second complete `</script>` which was then re-emitted verbatim. Reaching that shape needs `</script` in *code position*, which is legal JavaScript: `x</script=+/` parses as `x < /script=+/` (comparison against a regex literal). Embedding the serialized value in the README-documented `<script>window.S = <%= serialize(state) %></script>` pattern ends the script element early and the trailing `<img onerror>` executes in page origin. Only the **function** path is affected — the same payload as plain data is escaped correctly, and `isJSON`/non-function values are safe. Fixed in **7.1.2** (class widened to `[^<>]*`); 7.1.0 and earlier unaffected.
+
+Operator takeaways for any SSR state-injection surface:
+
+- Enumerate what types reach inline `<script>` embedding. Escaping guarantees are often per-type; test functions/callables/classes separately from plain data even when "state" is supposedly JSON.
+- When serialized function source is attacker-influenced (stored callbacks, template functions, plugin hooks), probe for parser-legal token shapes that break the escaper's regex assumptions: `x</script=+/`, nested `<` sequences, `<!--`, `<![CDATA[`.
+- The differential to prove is tag-boundary, not payload: show the emitted bytes contain a live `</script>` that closes the element early; a marker element after it is enough evidence.
+- Sweep fix regressions the same way: this is a sanitizer whose *fix target* was correct but whose greedy-quantifier match boundary re-opened the hole. Diff character classes and quantifiers in close-tag escapers, not just their presence.
+
 ### Parse, serialize, and host-render matrix
 
 1. Build a local harness around the exact Showdown options and extensions used by the application. Exercise fragment output and `completeHTMLDocument`, default and GitHub flavors, tables enabled/disabled, and the application's real post-render sanitizer.
