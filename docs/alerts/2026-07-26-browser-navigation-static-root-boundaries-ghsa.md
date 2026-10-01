@@ -79,6 +79,10 @@ Package presence and an external static directory are not enough. Exploitability
 
 A valid result proves **attacker-influenceable symlink inside the served root -> lexical containment check passes -> file open resolves outside the root -> synthetic outside marker is served**. Do not claim arbitrary file read unless the application also supplies the required symlink-placement primitive and the process can read the target class.
 
+## October 1 follow-up: Tornado `StaticFileHandler` re-proves the lexical-check rule (Sept 30 GHSA wave)
+
+[GHSA-c2m8-h5v5-343r](https://github.com/advisories/GHSA-c2m8-h5v5-343r) (high): Tornado's `StaticFileHandler` resolves both the request path and the root with `os.path.abspath()` — which normalizes `.`/`..` but **does not resolve symlinks** — then applies a `startswith(root)` string check. A symlink placed inside the static root (user-upload area, `npm link`, webpack artifact, Docker volume mount, CDN sync tool) passes containment while the file open resolves anywhere on the filesystem: `/etc/passwd`, private keys, app config. The placement prerequisite is exactly this page's SparkJava leg: hunt static roots populated by uploads or build pipelines first, then request the link path and record lexical candidate vs resolved real path vs served marker using the disposable symlink-root replay above — the same harness validates Tornado unchanged. Two sweep additions from this wave: (1) when auditing Python frameworks, `os.path.abspath` vs `os.path.realpath` in any path-validation function is a one-grep differential; (2) adjacent same-wave advisory [GHSA-chx6-46f5-w4vp](https://github.com/advisories/GHSA-chx6-46f5-w4vp) (high) — `CurlAsyncHTTPClient` enforces no response-size limit, so a decompression bomb yields unbounded memory: outbound-fetch libraries that fetch user-supplied URLs need byte caps on the *decompressed* leg, a probe worth running (owned slow-drip + compressible-bomb callback) whenever a Tornado/async service fetches user URLs.
+
 ## Reporting checklist
 
 Include:
