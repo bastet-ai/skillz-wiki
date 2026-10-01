@@ -1,5 +1,9 @@
 # MkDocs build output
 site/
+.wrangler/
+.venv/
+.env*
+.dev.vars*
 
 # Node / Playwright test artifacts
 node_modules/

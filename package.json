@@ -1,8 +1,16 @@
 {
+  "name": "skillz-wiki",
+  "private": true,
   "scripts": {
+    "build": "bash scripts/build.sh",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:check": "wrangler deploy --dry-run",
+    "test:hosting": "playwright test tests/hosting.spec.js",
     "test:sources": "playwright test tests/source-links.spec.js"
   },
   "devDependencies": {
-    "@playwright/test": "^1.60.0"
+    "@playwright/test": "1.60.0",
+    "wrangler": "4.145.0"
   }
 }

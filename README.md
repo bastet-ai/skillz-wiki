@@ -5,16 +5,21 @@ Skillz Wiki is a public MkDocs site that doubles as an installable skill library
 ## Local development
 
 ```bash
-python -m pip install -r requirements.txt
-mkdocs serve
+npm ci
+npm run build
+npm run dev
 ```
 
-Open `http://127.0.0.1:8000` while serving locally.
+Open `http://127.0.0.1:8787` while serving locally. The build creates an isolated
+`.venv` with the pinned Python dependencies. For live Markdown editing, run
+`.venv/bin/mkdocs serve` and open `http://127.0.0.1:8000`.
 
 ## Validation
 
 ```bash
-mkdocs build --strict
+npm run build
+npm run deploy:check
+npm run test:hosting
 ```
 
 ## Content model
@@ -30,6 +35,28 @@ Older `docs/alerts/`, `docs/best-practices/`, and `docs/process/` pages may rema
 
 ## Publishing
 
-GitHub Pages is driven by [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). The workflow installs `requirements.txt` and runs a strict MkDocs build on pushes to `main`.
+Cloudflare Workers Static Assets serves the generated `site/` directory. The
+strict MkDocs build, advisory duplicate-ID check, directory URLs, search index,
+feed, and custom 404 page are preserved. No database or runtime secrets are needed.
+
+Connect `bastet-ai/skillz-wiki` to the `skillz-wiki` Worker using
+[Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/):
+
+- Production branch: `main`
+- Build command: `npm run build`
+- Deploy command: `npm run deploy`
+- Root directory: repository root
+- Node.js and Python versions: the checked-in `.node-version` and `.python-version`
+
+[`validate.yml`](.github/workflows/validate.yml) checks pushes and pull requests.
+Cloudflare owns automatic production deployment; GitHub Actions only validates.
+Attach `skillz.wiki` as a Worker custom domain after verifying the initial
+`workers.dev` deployment, then record the custom domain in `wrangler.jsonc`.
+Keep existing MX/TXT records when changing the site's DNS. `docs/CNAME` remains
+as domain metadata and for rollback; it does not configure Cloudflare routing.
+
+The Wrangler configuration enables logs and traces for any Worker execution.
+Asset-only requests are served directly by the static asset service and do not
+produce Worker invocation logs. Use Cloudflare HTTP analytics for site traffic.
 
 The production site is published at `https://skillz.wiki/`.

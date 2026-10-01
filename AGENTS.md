@@ -47,15 +47,20 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - **Blog**: launch posts and major updates
 - Legacy alert or defensive-reference pages may remain in the repo, but they are not the main navigation model.
 
-## MkDocs / GitHub Pages lessons learned
+## MkDocs / Cloudflare publishing lessons learned
+
+- Cloudflare migration uses the `skillz-wiki` Worker and `site/` Static Assets; `wisdom.bastet.ai` is retired and must not be reintroduced.
+- Use `npm ci && npm run build`, `npm run deploy:check`, and `npm run test:hosting` before publishing. The build installs pinned Python dependencies in `.venv` and restores shallow Git history for page revision dates.
+- Workers Builds should connect `bastet-ai/skillz-wiki` / `main` with build `npm run build` and deploy `npm run deploy`. GitHub Actions validates only; avoid overlapping automatic and manual production deployments.
+- Preserve `auto-trailing-slash` HTML handling, `404-page` fallback, `site_url`, search index, feed, and public page paths. Asset-only traffic does not emit Worker invocation logs even with observability enabled.
 
 - Use `theme.custom_dir` for template overrides; do not add a non-MkDocs `overrides:` key to `mkdocs.yml`.
-- Keep the Pages workflow strict-friendly; config warnings should be treated as build failures.
+- Keep the publishing workflow strict-friendly; config warnings should be treated as build failures.
 - Keep the landing page updated with a manual "Recent entries" section capped at 10 links.
 - Maintain `docs/feed.xml` manually when major launch posts or release-style updates are added.
 - The chosen custom domain is `skillz.wiki`; keep `mkdocs.yml`, `docs/feed.xml`, and `docs/CNAME` aligned with it.
 - Archived reference pages that stay outside the main nav will show up as informational "not included in nav" lines during `mkdocs build --strict`; that is expected while the public taxonomy stays narrower than the repo contents.
-- As of March 26, 2026, GitHub warns that `actions/checkout@v4`, `actions/configure-pages@v4`, `actions/setup-python@v5`, and `actions/upload-artifact@v4` are still on Node.js 20; revisit the workflow before GitHub's Node 24 switchover dates become urgent.
+- The validation workflow uses Node 24 actions and the checked-in runtime version files.
 
 ## Verified commands
 
