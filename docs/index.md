@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [FortiMail IBE unauthenticated file-write KEV — feature-gated pre-auth surface, NULL-byte writers, appliance persistence IoCs (Oct 1 20:1xZ)](alerts/2026-10-01-fortimail-ibe-unauth-file-write-kev-cve-2026-104286.md)
+
 - [Apache HTTP Server auth-state lifecycle — Digest capture-replay, concurrent-request UAF, h2 session reuse (Oct 1 late wave)](alerts/2026-10-01-apache-httpd-auth-state-lifecycle-digest-replay-h2-uaf-ghsa.md)
 
 - [vm2 seventeen-GHSA escape wave — capability-bearing builtins, allowlist grammar drift, shape-typed guards (Oct 1 15:1xZ)](alerts/2026-10-01-vm2-sandbox-escape-wave-builtin-loader-allowlist-and-bridge-boundaries-ghsa.md)
@@ -25,5 +27,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [MCP trust-layers cluster + wireless management-plane pre-auth wave (Oct 1)](alerts/2026-10-01-mcp-gateway-session-client-browser-bridge-and-agent-prompt-injection-cluster-ghsa.md)
 
 - [HTTP/3 fuzzing, race, and downgrade testing with Turbo Intruder (Sept 23 methodology)](methodology/http3-turbo-intruder-race-and-downgrade-testing.md)
-
-- [Document-viewer + desktop-update surface cluster — Foxit PDF pack, Tauri manifest downgrade, OEM localhost listeners (Sept 23)](alerts/2026-09-23-document-viewer-and-desktop-update-surface-cluster-ghsa.md)
