@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Apache HTTP Server auth-state lifecycle — Digest capture-replay, concurrent-request UAF, h2 session reuse (Oct 1 late wave)](alerts/2026-10-01-apache-httpd-auth-state-lifecycle-digest-replay-h2-uaf-ghsa.md)
+
 - [vm2 seventeen-GHSA escape wave — capability-bearing builtins, allowlist grammar drift, shape-typed guards (Oct 1 15:1xZ)](alerts/2026-10-01-vm2-sandbox-escape-wave-builtin-loader-allowlist-and-bridge-boundaries-ghsa.md)
 
 - [n8n seventeen-GHSA wave — automation-platform credential relay, approval forgery, node filter injection (Oct 1 12:31Z)](alerts/2026-10-01-n8n-credential-relay-approval-forgery-and-node-filter-injection-wave-ghsa.md)
@@ -25,5 +27,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [HTTP/3 fuzzing, race, and downgrade testing with Turbo Intruder (Sept 23 methodology)](methodology/http3-turbo-intruder-race-and-downgrade-testing.md)
 
 - [Document-viewer + desktop-update surface cluster — Foxit PDF pack, Tauri manifest downgrade, OEM localhost listeners (Sept 23)](alerts/2026-09-23-document-viewer-and-desktop-update-surface-cluster-ghsa.md)
-
-- [Payment-gateway webhook branch integrity + client-trusted amount state — five-plugin WP/WC cluster (Sept 23)](alerts/2026-09-23-woocommerce-payment-webhook-branch-and-amount-integrity-cluster-ghsa.md)

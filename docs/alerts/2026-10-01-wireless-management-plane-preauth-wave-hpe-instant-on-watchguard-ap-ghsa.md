@@ -24,6 +24,22 @@ Why this is durable: WLAN controllers and AP fleets sit **between the network ed
 
 Two more AP-firmware entries the same week, same product class: Anjvision YSSD-RTMP-H5 (unauth ONVIF endpoint pack, hidden debug interface toggle, hardcoded cloud-API creds, empty-body `POST /setUserConfig` cred change, legacy hash exposure — [GHSA-x4gx-cgh5-8gqx](https://github.com/advisories/GHSA-x4gx-cgh5-8gqx) et al.) and Dbit T-CPE301K minirouter stack overflow — the recurring "consumer/prosumer radio gear ships unpatched forever" tracking class.
 
+## October 1 follow-up: TP-Link Tapo C120 v1 / C200 v5 — the onboarding interface lives past setup (4 GHSAs)
+
+Same product-class lesson from a camera fleet: the **HTTPS onboarding interfaces remain reachable and unauthenticated after initial setup**.
+
+| Advisory | CVE | Sev | Primitive |
+| --- | --- | --- | --- |
+| [GHSA-7ch5-88j9-f3v7](https://github.com/advisories/GHSA-7ch5-88j9-f3v7) | CVE-2026-78577 | Med | Unauthenticated onboarding **scan** action returns nearby AP metadata (SSIDs, BSSIDs, auth/encryption modes, RSSI) — the camera does wardriving for any LAN-adjacent attacker |
+| [GHSA-5hx8-fmw3-r64v](https://github.com/advisories/GHSA-5hx8-fmw3-r64v) | CVE-2026-78578 | High | Unauthenticated `do`-method **connect** action accepts attacker-supplied wireless config → camera joins an attacker network / leaves its own, losing its management address |
+| [GHSA-gq3v-7fcg-vgjc](https://github.com/advisories/GHSA-gq3v-7fcg-vgjc) | CVE-2026-9032 | — | NULL-deref in the connect-request parser (password field not validated for certain auth/encryption combos) → HTTPS service crash, sustained on repetition, sometimes reboot-only recovery |
+| [GHSA-xrj7-3q7x-59fm](https://github.com/advisories/GHSA-xrj7-3q7x-59fm) | CVE-2026-102369 | High | **Full chain:** replay of login challenge data → administrative session → enable a privileged service that only becomes reachable **after a reboot** → crafted MacTool-handler input → arbitrary command execution in the device management process |
+
+- **Setup-mode surfaces that outlive setup.** Same rule as the Instant ON controller plane: enumerate the provisioning/onboarding endpoint family on the *production* service (scan/connect actions, `do` method variants) and test auth gating. A device that has completed onboarding should not still honor onboarding RPCs; when it does, the "post-initial-setup" note in the advisory means every deployed unit is exposed, not just unconfigured ones.
+- **Challenge replay = the challenge is a token.** A login challenge must bind to single-use server state; if previously-observed challenge data yields an admin session, the handshake degenerates to replay. Sweep rule for any device challenge-response login: capture one exchange on your own device, replay the server-side artifact, record whether a session mints without the secret.
+- **Two-stage activation gates hide services.** The Tapo privileged service becomes network-reachable only after enabling + reboot — static service enumeration on a live device misses it. In the lab, enable advertised/hidden features and re-scan post-reboot; report any service family that appears only in that state.
+- **Unauthenticated scan actions are LAN foothold tools.** Post-foothold wireless recon no longer needs radio tools: a vulnerable camera on the VLAN enumerates the surrounding RF environment for you, and the connect action is a stealthy one-packet relocation of an IoT device onto your network.
+
 ## Durable axes
 
 1. **"Adjacent" means Wi-Fi range or one switched VLAN.** The Instant ON management-protocol advisories rate 9.6 with an *adjacent* attacker: whoever associates to the SSID (or lands any internal foothold) is in scope. For red-team internal recon, treat every AP management IP found in scanning as an unauthenticated target, not scenery — same posture rule as the Sept 22 serial-console page (own the console = own the gear; own the AP = see the air).
