@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [**Oct 1 late-wave — four folds, no new page**: **The Newsletter ≤9.3.9** public click-tracking REST route (`__return_true`) validates the signed URL then emits `Set-Cookie: newsletter=<id>-<raw_token>` — the `get_user()` loader path skips the `_trusted` flag gating MD5 masking, so any holder of one (mass-distributed, link-scanner-prefetched) tracking URL gets the subscriber's **permanent raw auth cookie** → PII export/profile rewrite/unsubscribe with no nonce (r57r) — *sweep signed-redirect endpoints for credential-mint side effects; masking is per-code-path* (Sept 19 WP page). **DeepWiki-Open** unauth arbitrary file read: `/codemap/file?repo_url=` containment runs only when the value parses as a URL; an absolute path takes the unchecked branch (103591, Sept 5 agent page) — *shape-keyed validators fail open on shape mismatch*. **9Router seventh bug class**: `provider_options.baseUrl` in the request body selects a second fetch destination the `ssrfGuard.js`-wrapped primary fetch never covers (103530, Aug 28 page) — *sweep which fetch legs the guard library isn't wired into*. **`hono/jsx` position-dependent escaping**: plain strings as Suspense/ErrorBoundary child-or-fallback, single Context.Provider child, or SSR root are emitted raw; single-vs-double-child and sync-vs-async asymmetry is the fingerprint; streaming fallback lands in the first chunk (93981, May 9 page). Tracked: iperf3 pre-auth authtoken heap overflow (101283), ESXi ionic VM-escape trio, virtualenv seed-wheel + pyvenv.cfg injection pair, ASUS router pair, russh rekey-window DoS. KEV unchanged (2026.09.30, 1730); blog feeds unchanged](alerts/2026-09-19-wordpress-alternate-surface-authz-drift-rest-ajax-import-wave-ghsa.md#october-1-follow-up-signed-click-tracking-url-mints-the-subscribers-permanent-raw-auth-cookie-the-newsletter-939-folded)
+
 - [**HTTP-client adapter guard-coverage drift — axios 1.20 wave (Oct 1)**: ~13-GHSA Axios train (fixed 1.20.0) + Astro/Netlify allowlist, one rule — **guard flags are adapter-scoped**: HTTP/2 adapter drops configured `lookup`/agent/proxy state (`http2.connect` gets only `http2Options`; verified `lookupCalls: 0`) = per-transport SSRF-guard bypass (3pq3); **fetch adapter never reads `maxRedirects`** → `maxRedirects: 0` redirect-SSRF guard inert on runtime-selected fetch (r4gj); CIDR `NO_PROXY` entries match nothing → believed-excluded internal traffic rides through the proxy (44g4); polluted `Object.prototype.createConnection` hijacks the socket while URL/config name the honest origin = **pre-call destination validation defeated at transport layer** (m8m8); ReDoS via redirect `Location` in proxy-bypass normalization + data-URL parser freeze (mghh/c29m); Astro `@astrojs/netlify` **unanchored allowlist regexes** met by `RegExp.test()` → allowlisted origin in a query string authorizes CDN fetch to `127.0.0.1:6379` (4233). Operator battery: replay every guard per-adapter against owned redirectors and diff. + six folds: **GitPython four-pack** (repo-root `gitdir`+`commondir`+`HEAD` shadow the real `.git` → tracked `hooks/pre-commit` executes on CI/scanner clone-then-commit, fsck-clean, 239g; `--no-index` alternate route = blind local-file oracle under default safe options, whh4; `.gitmodules` path-unvalidated-name-guarded consumer drift, 59cr; commit-author ReDoS, g5vv) onto May 9 agent/git page; **Tornado StaticFileHandler** abspath-no-realpath symlink root escape onto July 26 static-root page; **LiteLLM** nested body denylist + operator provider-key relay (3cv6) onto June 8 page; **grpc-js** `getAuthContext` presents unauthorized certs as authorized, xds RBAC consumes it (m9gg) onto Sept 21 precedence page; **PyJWT** pre-verification deep-JSON RecursionError escapes all documented handlers (42vr) onto JWT methodology; **next/og Node ImageResponse SVG RCE** (vcvr critical) onto Sept 17 OG-image page. KEV unchanged (2026.09.30, 1730); blog feeds unchanged](alerts/2026-10-01-http-client-adapter-guard-coverage-drift-axios-1-20-wave-ghsa.md)
 
 - [**MCP trust-layers cluster + wireless management-plane pre-auth wave (Oct 1)**: ten MCP-ecosystem GHSAs, one rule — *audit each actor's trust separately*: MetaMCP session IDOR with session IDs leaked by an unauthenticated health route (79537) + `/mcp-proxy/server/stdio` inspector RCE (79538); **mcp-remote: hostile MCP servers SSRF/RCE the CLIENT via `WWW-Authenticate` OAuth-metadata URLs and server-URL hashing** (51994/51996) — the server→client channel is unauthenticated input; DBHub HTTP MCP `Origin==Host` gate defeated by DNS rebinding → victim-browser-driven SQL (61742); Obot `/mcp-connect` skips ACL rules (101084) + **README quickstart ships unauth-admin with `docker.sock` mounted** (101065); **Decepticon agent: unescaped ChatML tokens in crawled pages forge operator turns → Kali-container RCE, CVSS 10** (61732) — pentest agents that ingest untrusted text are themselves the target; mcp-chrome-bridge origin bypass = any visited page drives browser automation (102878); vm2 sibling-prefix resolver escape (100721); mcp-go roots symlink escape (102242). Same wave: **HPE Instant ON AP 8-GHSA ladder** (unauth-remote format string/BO at 9.8, controller↔AP management-protocol auth bypass/cmdi/BO at 9.6, API SSRF that executes on the AP) + **WatchGuard AP unauth API-session mint chained to internal-API cmdi** — APs and WLAN controllers carry a second management plane nobody audits; "adjacent" = Wi-Fi range. Folds: **PyJWT 2.13.0 seven-way guard-encoding bypass sweep** (DER/JWKS-container/whitespace/BOM encodings, PyJWK path asymmetry, options-dict mutation regression, JWKS redirects) onto the JWT algorithm-confusion workflow; **Fastify four-pack** (not-found dispatch escapes encapsulation, `$async` result-unwrap body replacement) onto the Feb 2 Fastify page; **Contrast attestation relay** (verified measurements, unbound machine identity) onto the Sept 17 attestation page. KEV 2026.09.30 (1730) tracked wave incl. first-ever WordPress Core RFI KEV (87902) and repeat NetScaler + SD-WAN Manager entries](alerts/2026-10-01-mcp-gateway-session-client-browser-bridge-and-agent-prompt-injection-cluster-ghsa.md)
@@ -25,78 +27,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [**Lantronix SLC8000/EMG serial-console appliance cluster — snprintf truncation as a redirect primitive (Sept 22)**: 13-GHSA wave on serial console servers (own one = console authority over every downstream switch/router/PDU). **CVE-2026-80155 (10.0)**: session-cookie file path built with fixed-buffer `snprintf` — a chosen-length cookie truncates the path at the delimiter, then traversal redirects the session-validation file read to an arbitrary on-disk file (the user DB) = unauthenticated read + upload → RCE; **CVE-2026-80154 (9.6)**: session tokens derived from **device model + one-second clock** = enumerable window + extension-handling bypass of per-session IP/UA binding; **CVE-2026-80148/80149/80150**: WebSSH overlong-username truncation drops the appended device-IP suffix → the appliance SSHes/Telnets to an attacker-chosen host (unauth SSRF); **4×9.9**: undocumented `mfc eeprom read/write` CLI verbs → bounded stack buffer + `system()` as root for *any* authenticated user. Durable axes: **fixed-buffer truncation is a redirect primitive** (path → file-selector hijack, host → connection-target hijack — for every field concatenated with a trusted suffix, ask what the final string actually is), **audit token derivation inputs not token length**, **enumerate undocumented CLI verbs from firmware strings**, and sanitizer **combination** tests (`..\/..`) on every filename check. + six same-evening folds: Virtualizor `from_billing_module` parameter-presence auth skip → unauth root RCE/POI/balance-UPDATE (43641–43643), Deepstream `PATCH_MULTI` unregistered-in-rules-map fail-open + MISP ACL-typo + Databasement validate-once invite tokens, MISP phar-wrapper-with-no-consumer, Kimi Code `.mcp.json` spawn-before-trust-prompt + plantable bare-name helpers, Tauri updater `allowDowngrades` from webview JS (XSS → anti-rollback off) + microsandbox secrets in world-readable argv, Concrete CMS order-timestamp download tokens. KEV moved to catalog 2026.09.22 (1721): F5 BIG-IP APM, Check Point Mgmt traversal + **Quantum gateway cert-validation VPN RCE (85102, 9.8, due 09-25)**, VeloCloud VCO](alerts/2026-09-22-lantronix-slc8000-emg-appliance-primitive-cluster-ghsa.md)
 - [**F5 BIG-IP APM + OAuth profile unauthenticated data-plane RCE — composite-config perimeter validation (Sept 22)**: CVE-2026-94127 / GHSA-qppv-6jrg-hxq4 (9.8): unauthenticated RCE when a virtual server carries **both an APM access policy and an OAuth profile** — Appliance mode not a mitigation, data-plane only. Durable axes: version-only scans false-positive on **config-intersection surfaces** (enumerate vserver→profile bindings read-only and report the intersection count); the OAuth/APM federation endpoint is **pre-auth parser surface by design** — map what each licensed module adds to a shared listener, one module's profile widens another's attack surface; report severity from intersection + traffic behind the vserver, not the build string. + three same-wave folds: **9router `X-9r-Real-Ip`** header spoof = unauthenticated LLM API + rotating-header lockout-bucket reset (CVE-2026-56681/56682) onto the Aug 28 9router page — audit *vendor-branded* forwarding headers and whether the sanitizing wrapper is actually in the path; **SGLang diffusion `DiffusionServer` unauthenticated ZMQ ROUTER → `pickle.loads()` before validation** (CVE-2026-93088) + NeMo `.pkl`/`model_config.yaml` pack (65179/65178) onto the July 30 SGLang page — side-channel listeners are API surface once routable, config files are input surface; **MISP second wave** onto the Sept 21 page — `readFile && http || https` precedence-dead guard feeding unauth `cspReport` XML-locator SSRF (95679), `unlockedActions` CSRF-stripped module executor (95658), `tmp_name` probed before `is_uploaded_file()` file-oracle (95703), parent-checked/child-ACL-skipped enrichment + soft-deleted disclosure (95683), POST-only authz vs POST+PUT persistence (95671); **MarketKing IDOR quad** (payout-view, vendor-dump, product-copy, any-order-refund, 93341–93344) onto the Sept 19 WP page — multi-vendor plugins are tenancy WP never checks, and the duplicate primitive is copy-exfil](alerts/2026-09-22-f5-bigip-apm-access-policy-oauth-profile-unauth-rce-validation-boundary-ghsa.md)
 
-- [**WordPress render-vs-process authz parity + options-import ladder (Sept 22 fold)**: Meta Box AIO ≤3.11.0 unauth→Administrator chain (CVE-2026-13355): form target `object_id` overridden from GET with no authz + `Form::process()` lacks the `user_can_edit()` check its `render()` has → unauth arbitrary-page content write with an injected shortcode → user-profile component trusts the shortcode's `role`/`auto_login` attributes → register-as-admin. Rule: **render-path capability checks must be re-proven on the process endpoint** — call submit without ever rendering; treat any `*_object_id` parameter as a target-selection pivot; injected WP content is parsed as trusted configuration (privilege-bearing shortcode attributes). CMP ≤4.1.17 editor→admin via nonce-only `cmp_ajax_import_settings` arbitrary-option write (`default_role`=admin + open registration). Give Tributes ≤2.3.1 unauth POI reachable only under one config posture (Multiple-Recipients ON + custom-message OFF) — **configuration posture is part of the exploitability proof**, sweep every toggle that switches which sibling path runs your input. Folded onto the Sept 19 WP alternate-surface page](alerts/2026-09-19-wordpress-alternate-surface-authz-drift-rest-ajax-import-wave-ghsa.md#september-22-follow-up-render-vs-process-authz-parity-options-import-ladders-and-config-posture-gated-poi-6-ghsas)
-
-
-
-
 ## What lives here
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## What lives here
 
