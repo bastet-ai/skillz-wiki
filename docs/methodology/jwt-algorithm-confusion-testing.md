@@ -78,6 +78,20 @@ A vulnerable acceptance proof is a route decision that changes because of the un
 | Wrong `aud` or token family | Rejected | HTTP status/error code |
 | Unknown `kid` | Rejected without outbound/internal fetch side effects | App log or owned-callback absence |
 
+## October 1 addition: the PyJWT 2.13.0 guard-encoding sweep — every guard is a recognizer, and recognizers have encodings
+
+Seven advisories published 2026-09-29 against **PyJWT 2.13.0** (with [GHSA-gvp8-978c-rx2q](https://github.com/advisories/GHSA-gvp8-978c-rx2q), [GHSA-ffc3-869f-jxw9](https://github.com/advisories/GHSA-ffc3-869f-jxw9), [GHSA-9j54-fg26-wv3r](https://github.com/advisories/GHSA-9j54-fg26-wv3r), [GHSA-w2cx-738m-mc7w](https://github.com/advisories/GHSA-w2cx-738m-mc7w), [GHSA-p4g4-x82p-q773](https://github.com/advisories/GHSA-p4g4-x82p-q773), [GHSA-r6x4-923q-g947](https://github.com/advisories/GHSA-r6x4-923q-g947), [GHSA-9v7f-9g4p-ffgj](https://github.com/advisories/GHSA-9v7f-9g4p-ffgj)) turn this workflow's core heuristic into a systematic sweep: **when a library fixes an algorithm/key-confusion bug with a *recognizer* (regex/marker/prefix detection of "is this an asymmetric key?"), the fix inherits every encoding the recognizer fails to see.** The 2022 CVE-2022-29217 guard (`is_pem_format()` / `is_ssh_key()` text markers) was re-bypassed four independent ways in the same release:
+
+- **DER encoding** (p4g4): a public RSA/EC key in binary DER contains neither `-----BEGIN` nor `ssh-` — passes the marker check, used as HMAC secret, HS\* forgery with public material.
+- **Container wrapping** (w2cx): public JWK wrapped in JWKS `{"keys":[...]}`, nested arrays, or any container without a top-level `kty` — JWK detection misses it, key accepted as HMAC secret.
+- **Whitespace/line-ending mutation** (ffc3, critical): marker-adjacent indentation, CR-only line endings, or single-line PEM folds (all natural outcomes of YAML/JSON block scalars, single-line env vars, config CR/LF round-trips) defeat the `is_pem_format` regex while `cryptography`'s loader still accepts the key.
+- **BOM prefix** (r6x4): `bytes.lstrip()` strips ASCII whitespace only — a UTF-8 BOM (`\xef\xbb\xbf`) before `{` defeats the JWK-shape check.
+- **Path asymmetry** (9j54): the empty-key rejection lives in `HMACAlgorithm.prepare_key` on the raw str/bytes path; the `PyJWK`/`PyJWKSet` path (`{"kty":"oct","k":""}` → `b""`) skips it → attacker computes `HMAC-SHA256(b"", ...)` offline and forges arbitrary claims.
+
+Two more axes beyond key parsing: **shared-mutable-state verification bypass** (gvp8, a regression of a 2022 fix): `decode()` mutates a caller-supplied `options` dict in place; reuse the dict across calls and a later `verify_signature=True` call silently inherits `verify_exp=False` leftovers — expired/wrong-aud/wrong-iss tokens accepted. The audit question generalizes to every wrapper library: *does the verifier mutate config you share?* And **JWKS redirect trust** (9v7f): `PyJWKClient` followed redirects unvalidated — a compromised/attacker-influenced JWKS endpoint redirects to attacker key material, with caller headers leaked to the redirect target.
+
+Operator translation: on any token verifier, enumerate the **guard's input grammar** and test one representative of every encoding the parser accepts but the recognizer might not: PEM vs DER vs OpenSSH vs JWK vs JWKS-container vs nested; leading BOM/indent/CR/CRLF/single-line; empty vs whitespace key; and run each shape through *every* key-supply path the library exposes (raw key, PyJWK, JWKS client, framework adapter) — path asymmetry is where the marker guards hide. Check verifier-side config objects for cross-call mutation by making a lenient call before the strict call in your harness. Proofs stay with disposable keys and canary claims.
+
 ## Reporting heuristic
 
 Frame findings as a failed binding, not as generic JWT weakness:
