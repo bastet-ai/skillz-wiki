@@ -176,3 +176,9 @@ Stop testing if:
 - [CORS Vulnerability Analysis Methodology](cors-vulnerability-analysis.md)
 - [URL allowlists and canonicalization](../best-practices/url-allowlists-canonicalization.md)
 - [Agent runtime trust boundaries](../best-practices/agent-runtime-trust-boundaries.md)
+
+## October 1 follow-up: Lektor admin blueprint — the textbook rebinding target (folded)
+
+**Lektor 3.3.14 / 3.4.0b15** ([GHSA-76hh-mx5x-4xrx](https://github.com/advisories/GHSA-76hh-mx5x-4xrx), 8.1): the CMS's local **admin API blueprint** has *no* CSRF tokens, no Origin/Referer validation, no CORS config, and no Host allowlist. A malicious web page can cross-origin POST to `newattachment`, `deleterecord`, `build`, `clean`, and `publish` from the victim's browser — writing arbitrary files, deleting pages, wiping build output, and triggering deployment — and with DNS rebinding the same page can also *read* endpoints for data disclosure.
+
+This is the cleanest public reproduction of this page's precondition list — use it as the checklist exemplar: (1) service listens on loopback (dev-server admin UI), (2) state-changing endpoints with zero anti-CSRF, (3) no Host pinning, (4) meaningful impact (arbitrary file write through a "content editor"). Bug-hunt shortcut for any localhost dev/CMS tooling: fire a **cross-origin form POST** (simple request, no preflight) at each write endpoint from an owned page *before* attempting rebinding — if the write lands, Origin-based defenses were never the barrier and rebinding only adds the read leg. Prove with a canary attachment in a disposable project only.

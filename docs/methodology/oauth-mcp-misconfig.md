@@ -85,6 +85,17 @@ Even with “correct” auth, MCP deployments can leak data **between clients** 
 Reference:
 - https://github.com/advisories/GHSA-345p-7cg4-v4c7
 
+## October 1 follow-up: Authlib discovery-metadata cache — the OIDC trust bootstrap is a fetch, not a constant
+
+**Authlib ≤1.7.2** ([GHSA-8wx9-759m-hfm8](https://github.com/advisories/GHSA-8wx9-759m-hfm8)): OpenID **discovery JSON metadata is cached without validation or issuer-origin binding**, so a poisoned discovery response replaces *all* endpoint values with attacker-controlled ones — not just endpoint URLs sharing the configured server metadata origin.
+
+Durable axes for any OAuth/OIDC integration test (extends this page's open-DCR/redirect/PKCE combo):
+1. **The discovery document is attacker-reachable trust material.** Every derived value (authorization_endpoint, token_endpoint, jwks_uri, issuer) is *data from a network fetch*. Test integrations for: does the client verify the returned `issuer` string matches the configured one *exactly, post-cache*? Does it re-anchor after cache refresh? A poisoned or MITM'd `/.well-known/openid-configuration` response that swaps `jwks_uri` silently converts the integration into verifying tokens against *your* keys.
+2. **Black-box probes:** configure an integration against an owned IdP; mutate the discovery document fields (different-origin `jwks_uri`, altered issuer) and observe whether the relying party accepts the substitution or rejects on origin/issuer mismatch. Cache-behavior check: change the IdP's discovery content, force a refresh (restart or TTL expiry), and record which values win — stale-cache-vs-live-config drift is this class's timing twin.
+3. Report shape: *"server metadata is fetched material; the RP must enforce issuer equality and endpoint-origin binding after every fetch/cache load"* — that sentence is the finding, with your substitution decision table as evidence.
+
+Proof stays on owned IdPs/RPs; never intercept a real third party's discovery traffic.
+
 ## Source / inspiration
 
 - Inspired by research on OAuth misconfigurations in MCP-like systems (open DCR + weak redirect + missing PKCE → one-click ATO).

@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Oct 1 21:3xZ wave — httpd module-primitives tier + seven folds (no new page)](alerts/2026-10-01-apache-httpd-auth-state-lifecycle-digest-replay-h2-uaf-ghsa.md#october-1-213xz-follow-up-the-rest-of-the-wave-module-level-primitives-folded)
+
 - [FortiMail IBE unauthenticated file-write KEV — feature-gated pre-auth surface, NULL-byte writers, appliance persistence IoCs (Oct 1 20:1xZ)](alerts/2026-10-01-fortimail-ibe-unauth-file-write-kev-cve-2026-104286.md)
 
 - [Apache HTTP Server auth-state lifecycle — Digest capture-replay, concurrent-request UAF, h2 session reuse (Oct 1 late wave)](alerts/2026-10-01-apache-httpd-auth-state-lifecycle-digest-replay-h2-uaf-ghsa.md)

@@ -24,6 +24,28 @@ Why this is durable: httpd 2.4.x is deployed behind a huge share of frontiers, a
 
 Authorized targets only. Non-invasive proofs first: Digest configuration probing (nonce reuse, nc replay), mTLS decision tables, version banner (`Server:` header + protocol feature probes). The Digest UAF and h2 UAF are crash/memory-corruption primitives — reproduce only against lab httpd builds you own, with the exact advisory configuration (`AuthDigestNcCheck On` / `AuthDigestNonceLifetime 0`), and never fuzz production frontiers with concurrent-state-corruption traffic. Capture the 401-challenge parameters as evidence; never collect real user credentials.
 
+## October 1 21:3xZ follow-up: the rest of the wave — module-level primitives (folded)
+
+The same 18:32Z advisory train carried a second tier of httpd 2.4.0–2.4.68 module defects that landed in the updated feed at 21:33Z. Same invariant as this page — **the module you enabled is a separate implementation with its own parser, buffer, and trust assumptions** — but different sinks:
+
+| Advisory | CVE | Module | Boundary |
+| --- | --- | --- | --- |
+| [GHSA-f5cw-5j88-wxxc](https://github.com/advisories/GHSA-f5cw-5j88-wxxc) | CVE (9.8) | mod_rewrite | **Use-after-free in `mod_rewrite` lookahead** (`%{LA-U:HTTP:...}`) — the lookahead re-enters the filter chain for an internal sub-request and the shared request state lifecycle breaks, same shape as this page's digest/h2 findings |
+| [GHSA-f6c9-29xf-9j37](https://github.com/advisories/GHSA-f6c9-29xf-9j37) | 7.5 | mod_vhost_alias | **Stack overflow via `Host` header >8192 bytes** when `VirtualDocumentRoot` uses a hostname format specifier and `LimitRequestFieldSize` is raised — remote unauthenticated DoS/possible code exec |
+| [GHSA-6wv6-863r-87j4](https://github.com/advisories/GHSA-6wv6-863r-87j4) | 7.5 | mod_proxy_ftp | **Forward proxy opens a data connection to an arbitrary third-party host** from a crafted FTP PASV reply — an untrusted FTP server turns the proxy into an SSRF/port-scanner pivot |
+| [GHSA-9fgx-g8xr-w8vf](https://github.com/advisories/GHSA-9fgx-g8xr-w8vf) | 7.5 | mod_proxy_uwsgi | **Response smuggling** via a crafted uwsgi response containing `Transfer-Encoding` (2.4.30+) |
+| [GHSA-cr6f-pjrc-7rw2](https://github.com/advisories/GHSA-cr6f-pjrc-7rw2) | 5.3 | mod_userdir | **Path equivalence `/./`** with absolute non-wildcard `UserDir` — canonicalization differential at a file-existence gate |
+| [GHSA-rxhx-8qf3-fc8h](https://github.com/advisories/GHSA-rxhx-8qf3-fc8h) | 3.7 | mod_cgi | Internal redirects **from** CGI execute the redirect *target* as CGI too (target must be in a CGI-enabled dir with no mime-recognized extension) |
+| [GHSA-p249-893m-q7j8](https://github.com/advisories/GHSA-p249-893m-q7j8) | 5.3 | mod_dav_fs | `GET` the `.DAV` state directory to read **WebDAV dead properties of resources you cannot author** |
+
+Durable axes from the second tier:
+
+1. **`Host` is a memory-safety input, not just a routing string.** The vhost_alias overflow is triggered by the request's own `Host` header once `VirtualDocumentRoot` interpolates it. Add an oversized-Host probe (e.g. 9 KB `Host`) to any httpd recon pass on hosts where `LimitRequestFieldSize` has been raised — acceptance vs 400/413 vs worker death is a black-box configuration oracle. Prove reachability only; never chase the write.
+2. **Any module that parses a peer-supplied address opens a pivot.** The PASV-reply flaw is the FTP twin of every "server names the connect destination" bug: in forward-proxy configs your *outbound* destination is chosen by the remote server's payload. If an authorized scope includes an httpd forward proxy with FTP enabled, connect it only to owned servers and record whether a crafted PASV address produces an outbound connection to your listener — that single proof is the finding.
+3. **Lookahead/rewrite re-entrancy is auth-state lifecycle in a different costume.** `%{LA-U:...}` spawns an internal sub-request that shares request state; same test discipline as the digest race: sub-request-bearing rewrite rules on just-patched builds deserve re-run batteries, and 5xx only-when-a-specific-RulePattern-fires is the reachability signal.
+4. **Response-side parser differentials exist below HTTP/1.1 framing too.** The uwsgi adapter trusts `Transfer-Encoding` inside the backend response — when a target fronts uwsgi/AJP/FCG variants, run the desync canary battery against the *backend protocol*, not just the client-facing leg.
+5. **`/./` and `.DAV` are cheap recon strings.** Append `/./` segments to userdir-style paths and `GET /.DAV/` (or `GET <dir>/.DAV/`) on any WebDAV-visible route: an equivalence leak or dead-property disclosure is a same-origin, non-invasive first-touch check.
+
 ## Tracked, not published from the same wave
 
 - Zod ≤4.6.5 uncapped array-issue accumulation OOM (CVE-2026-54404) — availability-only validation-library DoS; revisit if an early-termination oracle emerges.
