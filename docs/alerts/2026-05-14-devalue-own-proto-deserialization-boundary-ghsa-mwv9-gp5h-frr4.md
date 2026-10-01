@@ -27,3 +27,7 @@ Deserializer fixes are often assessed only at the parser. The safer question is 
 - Block prototype-reserved keys at every nested assignment boundary, not just in the first parser.
 - Prefer explicit allowlists for hydration/config/state fields; do not pass raw parsed objects into broad merge utilities.
 - Test source-and-sink chains: a low-severity parser primitive can become high impact when paired with a downstream prototype-pollution sink or inherited-property security decision.
+
+## October 1 follow-up: null-prototype key coercion reopens the `__proto__` rejection (GHSA-4q55-j62x-fr9h)
+
+[GHSA-4q55-j62x-fr9h](https://github.com/advisories/GHSA-4q55-j62x-fr9h) (medium, devalue) is a direct regression of this page's own class: malformed **null-prototype object keys** bypass the `__proto__` own-property rejection via property-key coercion, letting `parse` create objects with a `__proto__` own property again. Maintainers rate standalone impact low (this matches `JSON.parse` semantics), but the durable rule is this page's rule restated: **key-rejection filters are written against the parser's happy-path key representation** — feed the filter every key-representation variant (null-prototype inputs, coercion-prone shapes, exotic strings), and re-run the *previous* advisory's key battery on each "fixed" build, since the fix gates the spelling it was written for.

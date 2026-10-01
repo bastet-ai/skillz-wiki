@@ -156,3 +156,12 @@ Replayable validation (marker-only): in a disposable SiYuan **desktop** build, w
 ---
 
 *Source: hourly offensive-security scan, 2026-09-04 and 2026-09-05. All 22 SiYuan kernel advisories in the first wave, the 8 late-wave advisories, and the 2 September 5 attribute-view follow-ups above (32 total) tracked in the [source index](../notes/source-index.md).*
+
+## October 1 follow-up: publish-mode authz asymmetry — the unguarded sibling route and the read-only-missing pair (2 GHSAs)
+
+Source: GitHub advisories published 2026-10-01 15:44–15:46Z (kernel fixed `0.0.0-20260812083335-251596fc0de2`). Two more entries for the same kernel audit axis:
+
+- **`/api/file/getUniqueFilename` — anonymous existence oracle over the whole host filesystem** ([GHSA-hf8h-97gm-4x2p](https://github.com/advisories/GHSA-hf8h-97gm-4x2p), CVE-2026-73605): the binder contract is *required + non-empty* and nothing else — no `filepath.Clean`, no workspace join, no traversal check — so an absolute path reaches `IsExist` unmodified; the response echoes the input when the path does not exist (a `(1)` suffix when it does). Every neighbouring file route requires admin or confines the path; this one carries `CheckAuth` only. In publish mode a reader gets one boolean per request against any host path, files and directories alike.
+- **`/api/storage/getOutlineStorage` — writes gated, read open** ([GHSA-53fp-9jmv-227g](https://github.com/advisories/GHSA-53fp-9jmv-227g), CVE-2026-73607): `setOutlineStorage`/`removeOutlineStorage` carry `CheckAdminRole` + `CheckReadonly`; the read of the *same stored data* takes a docID and returns it with no publish-tier check at all — outline state (structure of the document, the schema-level disclosure pattern already noted on this page) for documents forbidden to readers.
+
+Durable rules, both extensions of controls already on this page: (1) **route-matrix sweep, not advisory-driven spot checks** — enumerate every registered route with its middleware chain and flag any route whose chain is weaker than its siblings'/data-store's write-path chain (one binder-level miss survives every neighbouring hardening); (2) **the read path is the leak; the write path is the benchmark** — when any storage family has admin-gated writes, request the same data through the read endpoint as a publish reader; a positive is returned payload under a principal that cannot see the source object. Proofs stay marker-only: a synthetic file path outside the workspace and a synthetic hidden-document docID in a disposable kernel.
