@@ -52,6 +52,7 @@ Follow the [Recurse.bot guide](https://recurse.bot/) approach: treat `AGENTS.md`
 - Cloudflare migration uses the `skillz-wiki` Worker and `site/` Static Assets; `wisdom.bastet.ai` is retired and must not be reintroduced.
 - Use `npm ci && npm run build`, `npm run deploy:check`, and `npm run test:hosting` before publishing. The build installs pinned Python dependencies in `.venv` and restores shallow Git history for page revision dates.
 - Workers Builds should connect `bastet-ai/skillz-wiki` / `main` with build `npm run build` and deploy `npm run deploy`. GitHub Actions validates only; avoid overlapping automatic and manual production deployments.
+- Migration status on 2026-09-30: `https://skillz.wiki/` and `https://skillz-wiki.bcrt43.workers.dev/` serve the Cloudflare Worker. The exact custom domain is recorded in Wrangler; its changeset had no conflicting DNS records. Workers Builds is not connected: use the manual publishing commands in README until the GitHub app/repository connection is established. The previous GitHub Pages deployment remains for rollback, with automatic publishing disabled.
 - Preserve `auto-trailing-slash` HTML handling, `404-page` fallback, `site_url`, search index, feed, and public page paths. Asset-only traffic does not emit Worker invocation logs even with observability enabled.
 
 - Use `theme.custom_dir` for template overrides; do not add a non-MkDocs `overrides:` key to `mkdocs.yml`.

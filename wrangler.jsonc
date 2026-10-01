@@ -5,6 +5,9 @@
   "compatibility_date": "2026-09-30",
   "workers_dev": true,
   "preview_urls": true,
+  "routes": [
+    { "pattern": "skillz.wiki", "custom_domain": true, "zone_id": "0719995674ef9441858bbf4458450517" }
+  ],
   "assets": {
     "directory": "./site",
     "html_handling": "auto-trailing-slash",

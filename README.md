@@ -48,11 +48,24 @@ Connect `bastet-ai/skillz-wiki` to the `skillz-wiki` Worker using
 - Root directory: repository root
 - Node.js and Python versions: the checked-in `.node-version` and `.python-version`
 
-[`validate.yml`](.github/workflows/validate.yml) checks pushes and pull requests.
-Cloudflare owns automatic production deployment; GitHub Actions only validates.
-Attach `skillz.wiki` as a Worker custom domain after verifying the initial
-`workers.dev` deployment, then record the custom domain in `wrangler.jsonc`.
-Keep existing MX/TXT records when changing the site's DNS. `docs/CNAME` remains
+[`validate.yml`](.github/workflows/validate.yml) checks pushes and pull requests
+without publishing to GitHub Pages. Workers Builds is not connected yet. Until
+the Cloudflare GitHub app is installed and this repository is connected, publish
+the Worker manually from an up-to-date `main` checkout:
+
+```bash
+npm ci
+npm run build
+npm run deploy:check
+npm run test:hosting
+npm run deploy
+```
+
+The Cloudflare preview is [skillz-wiki.bcrt43.workers.dev](https://skillz-wiki.bcrt43.workers.dev/).
+The production custom domain [skillz.wiki](https://skillz.wiki/) is attached in
+`wrangler.jsonc`. The September 2026 cutover added only this exact hostname;
+there were no conflicting Cloudflare DNS records. Keep existing MX/TXT records
+when changing the site's DNS. The previous GitHub Pages deployment and `docs/CNAME` remain
 as domain metadata and for rollback; it does not configure Cloudflare routing.
 
 The Wrangler configuration enables logs and traces for any Worker execution.
