@@ -144,6 +144,21 @@ The reusable axis extends this page's rule ("a crypto API returning success must
 
 Keep proofs to generated keys and synthetic bindings; no production keys, mail, or real signatures.
 
+## October 1 follow-up: node-forge DigestAlgorithm element-count — an incomplete fix is an attack map
+
+[GHSA-86w9-cpqp-85rv / CVE-2026-85393](https://github.com/advisories/GHSA-86w9-cpqp-85rv) (node-forge through 1.4.0, no patched release at scan time): RSA PKCS#1 v1.5 signature verification fails to validate the **element count inside nested `DigestAlgorithm` sequences**, so an attacker embeds garbage bytes in that sequence and forges valid signatures for arbitrary messages using **low-exponent RSA keys**. The advisory explicitly labels this an **incomplete fix for CVE-2026-33894** — the prior fix added a count/shape check at one level while the nested sequence still absorbs slack.
+
+This is the same class as the August 3 `DigestInfo` NULL-omitted/last-bytes entry ([GHSA-cggx-vw4r-j93f](https://github.com/advisories/GHSA-cggx-vw4r-j93f)): PKCS#1 v1.5 verification is only sound if the verifier treats the decoded digest-info structure as a fixed shape (byte-exact expected prefix or strict structural compare). Any BER/DER slack — omitted NULLs, trailing bytes, **extra sequence elements at any nesting depth** — becomes forgery room under low exponent `e`, because the attacker controls the cube/higher-power directly rather than needing the private key.
+
+Operator workflow (disposable harness, generated low-exponent keys only):
+
+1. When any crypto library ships a signature-encoding fix, **re-run the full historical bypass battery on the "fixed" build** — element-count, unexpected nested sequences, BER definite/indefinite length mixes, trailing garbage, omitted optional fields. An `incomplete fix` label means the previous advisory's own description is the attack map for what remains unchecked.
+2. Enumerate **every** SEQUENCE/SET in the verified encoding (DigestInfo, DigestAlgorithm parameters, the full AlgorithmIdentifier), not just the outer envelope, and ask per container: does the verifier enforce exact element count and types, or does it decode leniently and only compare the fields it happens to read?
+3. Differential fixture: one valid control signature, then the same signature bytes plus attacker bytes inserted as extra elements in each nested container, verified against affected (<=1.4.0) and any future patched build with a synthetic e=3/e=5 key pair. Positive evidence = `verify()` returns true for a constructed "signature" over a chosen canary message; record the exact DER offsets that gained slack.
+4. Application reachability decides reportability: show a consumer (package-registry style signature checks, signed-config gates, JWT/PKCS#7 verify helpers) that calls node-forge verify on attacker-supplied signature bytes. Library acceptance alone is the structural finding, not the impact claim.
+
+Report shape: **constructed DigestAlgorithm-sequence slack -> low-exponent public-key "signature" over arbitrary canary message -> affected node-forge verify() true -> patched/other-verifier false**. Never publish working forged signatures for live systems; keep canaries to synthetic messages and generated keys.
+
 ## Evidence and reporting checklist
 
 - [ ] Absent-field inference findings record the exact packet/subpacket omitted and each verifier's inferred vs explicit answer.
