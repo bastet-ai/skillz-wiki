@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [AI serving/RAG wave — unauthenticated KV-cache data plane, tenant-blind RAGFlow routes, Langflow validate-code RCE (Oct 2 00:31Z)](alerts/2026-10-02-ai-serving-rag-stack-authz-and-path-wave-ghsa.md)
+
 - [Oct 1 21:3xZ wave — httpd module-primitives tier + seven folds (no new page)](alerts/2026-10-01-apache-httpd-auth-state-lifecycle-digest-replay-h2-uaf-ghsa.md#october-1-213xz-follow-up-the-rest-of-the-wave-module-level-primitives-folded)
 
 - [FortiMail IBE unauthenticated file-write KEV — feature-gated pre-auth surface, NULL-byte writers, appliance persistence IoCs (Oct 1 20:1xZ)](alerts/2026-10-01-fortimail-ibe-unauth-file-write-kev-cve-2026-104286.md)
@@ -27,5 +29,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [HTTP-client adapter guard-coverage drift — axios 1.20 wave (Oct 1)](alerts/2026-10-01-http-client-adapter-guard-coverage-drift-axios-1-20-wave-ghsa.md)
 
 - [MCP trust-layers cluster + wireless management-plane pre-auth wave (Oct 1)](alerts/2026-10-01-mcp-gateway-session-client-browser-bridge-and-agent-prompt-injection-cluster-ghsa.md)
-
-- [HTTP/3 fuzzing, race, and downgrade testing with Turbo Intruder (Sept 23 methodology)](methodology/http3-turbo-intruder-race-and-downgrade-testing.md)
