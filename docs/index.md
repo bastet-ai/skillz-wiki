@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Zammad KEV chain — session fixation → service-user RCE + unfixed zammad→root LPE (Oct 2 16:1xZ)](alerts/2026-10-02-zammad-session-fixation-to-root-kev-cve-2026-102489.md)
+
 - [YesWiki 36-GHSA wave — secondary-handler ACL drift, ActivityPub signer-actor binding, deferred identifier SQLi, destructive-GET sweep (Oct 2 12:31Z)](alerts/2026-10-02-yeswiki-secondary-handler-acl-drift-federation-sig-and-deferred-sqli-ghsa.md)
 
 - [Bouncy Castle .NET parser, oracle, and constraint-bypass wave — Bleichenbacher/padding oracles, PKIX name-constraint bypasses, forged attribute certs, pre-auth ASN.1 exhaustion shapes (Oct 2 09:31Z)](alerts/2026-10-02-bouncy-castle-net-parser-oracle-and-constraint-bypass-wave-ghsa.md)
