@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Airflow 3.3.1 wave — deserializer gadgets into the scheduler, dependency-vs-handler parser discrepancy, secret-masker shape gaps (Oct 2 23:1xZ)](alerts/2026-10-02-airflow-deserializer-gadgets-parser-discrepancy-and-masker-shape-gaps-ghsa.md)
+
 - [UTMStack — static `Utm-Internal-Key` env-var header = full admin API + any-user STOMP `/command/{hostname}` agent RCE (Oct 2 21:32Z)](alerts/2026-10-02-utmstack-internal-key-header-and-agent-command-transport-ghsa.md)
 
 - [Zammad KEV chain — session fixation → service-user RCE + unfixed zammad→root LPE (Oct 2 16:1xZ)](alerts/2026-10-02-zammad-session-fixation-to-root-kev-cve-2026-102489.md)
@@ -24,4 +26,4 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 - [Apache HTTP Server auth-state lifecycle — Digest capture-replay, concurrent-request UAF, h2 session reuse (Oct 1 late wave)](alerts/2026-10-01-apache-httpd-auth-state-lifecycle-digest-replay-h2-uaf-ghsa.md)
 
-- [vm2 seventeen-GHSA escape wave — capability-bearing builtins, allowlist grammar drift, shape-typed guards (Oct 1 15:1xZ)](alerts/2026-10-01-vm2-sandbox-escape-wave-builtin-loader-allowlist-and-bridge-boundaries-ghsa.md)
+
