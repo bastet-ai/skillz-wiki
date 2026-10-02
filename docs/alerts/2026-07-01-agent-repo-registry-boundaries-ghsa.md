@@ -252,3 +252,23 @@ A later July 6 GitHub Advisory Database entry adds [GHSA-qrwj-vh9x-gw5v](https:/
 - Positive evidence: the request follows the redirect and reads or writes a canary file under the sibling agent context despite being authorized for the original agent.
 - Negative controls: patched build, redirect-follow disabled for file APIs, same scheme/host/port/agent identity enforced after every redirect, and a sibling-agent redirect rejected before file access.
 - Report this as **workspace-agent redirect to cross-agent file authority**. Include route, original and redirected agent identifiers, redirect status/location, canary-only path, and the fixed-version decision table.
+
+## October 2 follow-up: Dulwich four-GHSA cluster — symlink write-through, cross-commit state persistence, and Windows drive-prefix escapes
+
+The 2026-10-02T18:52–19:14Z Dulwich wave is the cleanest demonstration yet of this page's standing rule that **Git clients and Git libraries are code-execution surfaces, and one "symlink protection" fix is never the whole surface**. Four independent 8.6–8.8 arbitrary-file-write-to-`.git/hooks` RCE chains in the same Python Git library, each defeating a different assumption:
+
+| Advisory | Sink | Why the guard missed it |
+| --- | --- | --- |
+| [GHSA-8w8g-wq8h-fq33](https://github.com/advisories/GHSA-8w8g-wq8h-fq33) | `porcelain.checkout(paths=[...])` writes via raw `os.open()` without `O_NOFOLLOW` | The path validator only checks *name* grammar (`/`, `\\`, `INVALID_DOTNAMES`); the alternate checkout code path never calls the hardened `build_file_from_blob()` at all — sibling-path drift, not parser failure |
+| [GHSA-5fqc-mrg8-w798](https://github.com/advisories/GHSA-5fqc-mrg8-w798) | `filter_branch` index filter materializes ancestor-commit trees into CWD and only unlinks the temp index | A symlink planted in an **ancestor** commit persists on disk while a **descendant** commit's files are written through it — cross-commit working-directory state persistence is the traversal carrier |
+| [GHSA-cm62-gvxx-vmxx](https://github.com/advisories/GHSA-cm62-gvxx-vmxx) | `stash.pop()` uses `os.path.exists(parent_dir)` before writing | `os.path.exists()` follows symlinks, so a worktree `link → ../../.git/hooks` passes the existence check and the write lands outside the worktree |
+| [GHSA-8mcx-5rqc-vhmf](https://github.com/advisories/GHSA-8mcx-5rqc-vhmf) | `validate_path_element_ntfs` / `_tree_to_fs_path` on Windows | The NTFS validator blocks `.git` variants, ADS, `git~1`, device names — but **not DOS drive-letter prefixes**: a tree entry named `C:` makes `os.path.join(root, "C:\\...")` discard the root entirely. C git blocks this via `has_dos_drive_prefix()`; the reimplementation did not. Repos are cross-platform: author the payload on Linux, detonate on a Windows clone or CI runner |
+
+Operator takeaways:
+
+- **Audit predicate for any Git library / repo-tooling reimplementation: the C git client's path.c checks are the deny-list** (drive prefixes, device names, ADS, short names, symlink following, `O_NOFOLLOW`). Each Dulwich leg failed exactly one check the reference client performs — same "previous fixes / reference implementation define the edge" rule as the Logback family.
+- **Sweep the alternate code paths, not just the main checkout**: `checkout(paths=[])`, stash pop, filter-branch, worktree add, submodule update — each is a separate write implementation, and the hardened blob writer is bypassed by any path that doesn't call it. This is the fixed-handler-is-the-map rule with the *unhardened* sibling as the target.
+- **Cross-platform payload authoring is a first-class tactic**: a malicious tree entry that is inert on the attacker's OS (drive-letter names, alternate-data-stream names, case-collision names) detonates on the victim's OS or CI image. When testing repo-trust in authorized engagements, include a Windows-targeted and a case-collision-targeted canary repo even when your own workstation is Linux.
+- Proof discipline unchanged: disposable repos, marker-file writes into a temp canary directory (hook write only as route-level evidence), no execution of the payload, never against a real developer or CI machine outside scope.
+
+Tracked from the same wave without publication: Dulwich packfile-resolution infinite-loop DoS (GHSA-35mr-4567-66vg, availability-only).
