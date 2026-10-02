@@ -117,3 +117,17 @@ Use a disposable Vercel-adapter fixture with one public marker page and one GET-
 4. Keep cache state visible, but do not require a cache hit: the reported boundary can produce a fresh origin render. Stop at the patched route recorder rather than returning protected content.
 
 A bounded positive is **external GET reaches public `/_isr` -> client-selected path bypasses the secret-bound path channel -> edge authorizes only `/_isr` -> denied origin renderer selects the protected canary route**. Report route-selection authority and GET confidentiality separately from caching, middleware topology, or state-changing impact.
+
+## October 2 follow-up: absolute-form request target skips path-scoped Nest middleware on the Fastify adapter ([GHSA-9c5c-9qcx-q35q](https://github.com/advisories/GHSA-9c5c-9qcx-q35q))
+
+Source: GHSA published 2026-09-30 14:41Z (no CVE assigned at scan time). `@nestjs/platform-fastify` `>= 12.0.0, < 12.0.2` and `< 11.2.4`, fixed `12.0.2` / `11.2.4` (recommend `12.0.3` / `11.2.5`). A request line using the **absolute-form request target** — `GET http://host/path HTTP/1.1` instead of `GET /path HTTP/1.1` — reaches the route handler **without running the path-scoped Nest middleware** bound via `MiddlewareConsumer.forRoutes(...)` or `.exclude(...)`. Node's HTTP server accepts absolute-form targets natively, so no server misconfiguration is required; where that middleware performs authentication or authorization, the protected handler executes with those checks skipped. Exposure shrinks when a fronting reverse proxy rewrites the request target to origin-form — which most do — so this is primarily a **direct-to-origin / passthrough-proxy** finding.
+
+This is the same page's founding invariant (middleware matches a different route representation than the handler) reached through the HTTP grammar instead of a path transform: the middleware matcher keys on the normalized path, the router still dispatches correctly, and the two representations diverge at the request-line layer. RFC 9110 allows five request-target forms (origin, absolute, authority, asterisk, CONNECT-authority) but most middleware matchers only ever consider origin-form.
+
+Replayable validation boundaries:
+
+1. On an owned Fastify-adapter Nest app with one marker route protected only by path-scoped middleware, send the identical request as origin-form `GET /marker HTTP/1.1` and absolute-form `GET http://<host>/marker HTTP/1.1` (raw socket or `curl --request-target`). A positive is the middleware log/nonce absent while the handler responds.
+2. Re-run the battery per form (authority-form, asterisk) and per proxy topology (raw origin vs. each fronting proxy in the deployment) — record which hop normalizes the target; that hop is the mitigation boundary.
+3. Pair with the sibling spellings already on this page (Node-adapter backslash form, `/_isr` `x_astro_path`) when sweeping any framework: enumerate every route-representation channel the stack accepts — separator forms, encoding forms, request-target forms, header-carried paths — and test middleware/router agreement on each.
+
+Report shape: **raw request-line form -> middleware matcher representation -> router dispatch representation -> skipped guard -> marker handler response**. Proofs stay at a marker handler on owned apps; never retrieve protected content or bypass guards on third-party hosts.
