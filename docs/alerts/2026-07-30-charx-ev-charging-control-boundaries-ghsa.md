@@ -148,3 +148,24 @@ Include:
 - separate impact statements for reachability, anonymous access, reversible configuration, parser boundary, firmware acceptance, local privilege transition, and shutdown exposure.
 
 Do not publish controller credentials, backend URLs, real station identifiers, MQTT topics, firmware images, command strings, charging schedules, customer records, or production network details.
+
+## October 3 follow-up: the charging-network backend tier (Monta WebSocket cluster + Armatura One credential lifecycle)
+
+The July page covers the charger controller. The October 3 ICSA-mirrored wave adds the two tiers above it — the fleet SaaS backend and the OT charging platform — and both yield reusable axes.
+
+### Monta (monta.app) — unauthenticated station-identity WebSocket backend ([ICSA-26-274-02](https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/2026/icsa-26-274-02.json))
+
+- [GHSA-jr23-ffqr-cj5j](https://github.com/advisories/GHSA-jr23-ffqr-cj5j) / CVE-2026-95102 (9.4): WebSocket endpoints accept station-identity claims with **no authentication** — anyone can impersonate a charging station to the backend and read/push station state.
+- [GHSA-jwgf-7prh-7v76](https://github.com/advisories/GHSA-jwgf-7prh-7v76) / CVE-2026-97212 (7.3): sessions are keyed **only by the charging-station identifier**, multiple endpoints may bind the same id, and identifiers are predictable — connect-with-known-id is the auth.
+- [GHSA-9x8m-4wcm-v33m](https://github.com/advisories/GHSA-9x8m-4wcm-v33m) / CVE-2026-93474: station authentication identifiers are **publicly accessible via web mapping platforms** — the identifier space is enumerable from public data.
+- [GHSA-pfh8-7x9x-2rrf](https://github.com/advisories/GHSA-pfh8-7x9x-2rrf) / CVE-2026-97363: no rate limiting on WS auth requests (brute-force/DoS leg).
+- Durable chain pattern — **identifier-as-credential with a public identifier source**: recon (public map platform) → grammar (predictable ids) → transport (unauthenticated WS destination) composes into full station impersonation with zero secrets. This is the message-transport analogue of this page's unauthenticated-OCPP-Agent phase: on any IoT/OT fleet backend, enumerate WebSocket/MQTT/STOMP destinations with the *lowest* principal and ask where the identity material is supposed to come from — if it's a device identifier, grep for where that identifier is exposed (public dashboards, map integrations, mobile-app API responses). Multi-binding on the same session key is a separate probe: two clients under one id can interleave state.
+- Validation boundary: no live station impersonation or backend state writes; prove with an owned/lab-registered station id and read-only canary subscriptions against customer-approved scope only.
+
+### Armatura One <4.7.2 — install-material credential lifecycle ([ICSA-26-274-01](https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/2026/icsa-26-274-01.json), also lists CVE-2023-46604 ActiveMQ in the same product)
+
+- [GHSA-rpcg-4hqj-wfv3](https://github.com/advisories/GHSA-rpcg-4hqj-wfv3) / CVE-2026-94591 (8.4): config "encryption" uses a **fixed AES-128-CBC key+IV embedded in the software**, identical across every installation — possessing the (public) installer package plus any installation's config file decrypts its DB/broker credentials.
+- [GHSA-rq48-r7v8-mfh6](https://github.com/advisories/GHSA-rq48-r7v8-mfh6) / CVE-2026-94592 (8.4): DB superuser gets a **fixed vendor-defined password** at init.
+- [GHSA-3j8c-r7f9-v4vm](https://github.com/advisories/GHSA-3j8c-r7f9-v4vm) / CVE-2026-94593 (7.8): backup/restore logs the **full connection command including the superuser password** in a host log.
+- [GHSA-cmfx-346m-p68q](https://github.com/advisories/GHSA-cmfx-346m-p68q) / CVE-2026-94594: broker client credentials logged in plaintext during normal operation — and the advisory notes logs flow into **backups and support bundles**.
+- Operator axes: (1) **"encrypted at rest" with product-embedded key material is obfuscation** — audit checklist for any appliance/platform: locate the crypto call, ask where the key comes from; if it's compiled in or a constant, the installer download is the key-theft primitive and config/support-bundle files become decryptable offline; (2) **fixed-installation passwords + credential-bearing logs/bundles** = post-foothold credential harvest list (logs, backup files, support bundles, install configs) that generalizes far beyond charging platforms — pair with the Airflow masker-shape and MAAS-style log-credential findings; (3) the presence of CVE-2023-46604 (ActiveMQ broker RCE) in the same CSAF tells you the platform likely bundles an ActiveMQ broker — fingerprint bundled middleware versions from product docs as a standing OT recon step.
