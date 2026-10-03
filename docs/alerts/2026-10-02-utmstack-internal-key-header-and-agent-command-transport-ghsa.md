@@ -43,6 +43,17 @@ Operator axes:
 2. **Transport parity sweep:** CONNECT a STOMP session as the lowest-privilege lab user, `SEND /command/<lab-agent>` with an inert marker, table accept/reject per role.
 3. **Route-vs-transport diff:** replay three representative REST actions (read asset group, write config, generate report) through both transports and diff the authz decision.
 
+## Follow-up (Oct 3 12:31Z): NASA AIT-Core — the same bus class, one layer lower (CVE-2026-105105 / [GHSA-9xfm-37f4-2h8g](https://github.com/advisories/GHSA-9xfm-37f4-2h8g), 9.8)
+
+**AIT-Core through 3.1.1** (NASA AMMOS Instrument Toolkit, the flight-software ground toolkit for small satellites/rovers): the `ait-server` telemetry/command broker binds its **ZeroMQ XSUB/XPUB sockets to all interfaces by default with no authentication and no transport security**. Reaching **TCP 5559** lets an unauthenticated attacker *publish* onto internal topics — including the `__commands__` command topic, whose messages are forwarded through `command_stream` and emitted on the command-uplink UDP path with the shipped defaults. Reaching **TCP 5560** *subscribes* to all command and telemetry traffic on the ground bus. 3.1.2 changes the default binds to loopback only. A sibling advisory (GHSA-3j6g-pxmx-58qg, 9.8) covers the AIT GUI with the same missing-auth pattern.
+
+Operator axes (generalizing the STOMP lesson above to raw message buses):
+
+1. **ZeroMQ pub/sub is a standing scan class across robotics, ground-segment, and industrial middleware.** In the XSUB/XPUB pattern, *any reachable peer is a legitimate-looking publisher* — there is no handshake and no identity, so injected messages are indistinguishable from components downstream. Product families to check for exposed 555x-family/ephemeral-ZMQ ports: spacecraft ground stacks (AIT-Core, similar AMMOS toolkits), robot/autonomy middleware bridged over ZMQ, ad-hoc service buses in embedded appliances.
+2. **The protocol probe is one byte.** A TCP connect plus an XSUB join (`\x01` + topic prefix, legacy `\x00` on old XPUB) subscribes you to every matching publish with no auth exchange — non-HTTP open ports that answer a raw join with live structured traffic are the finding. Enumerate topics by prefix-widening (`""` = everything) and fingerprint command vs telemetry topics from message shape.
+3. **Blind-injection proof shape**: publish to a command topic is often *unobservable* from the attacker side; pair it with the subscribe leg (which proves bus position and shows whether your own injected frame echoes back on the bus) before claiming command-path impact. Uplink emission, actuator/telemetry forging, or station disruption require the matching sink — on authorized ground-segment engagements, prove with a lab bus bound to a test rig, never a live station.
+4. **Default-bind fail-open is a three-grep fingerprint** for white-box review of any broker/daemon: `bind("tcp://*` / `tcp://0.0.0.0` near socket setup, plus presence/absence of an auth or curve(zmq) wrapper. The fix here is literally the bind address — same "loopback by default vs network by default" axis as every agent-manager and dashboard page on this wiki.
+
 ## Tracked without publication (same 21:32Z wave)
 
 - Digi appliance CVE-2026-75937 unauth root POST → cmdi (critical, zero sink detail; revisit when the vendor advisory lands).
