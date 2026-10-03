@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Oct 2 23:18Z wave — two folds, no new page: Gitea act_runner `container.options` host-namespace escape (workflow YAML → runner-host root despite privileged-mode-disabled) + SiYuan agent-plane DNS-rebinding TOCTOU and MCP `asset.upload` absolute-path read](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md#october-2-follow-up-act_runner-containeroptions-host-namespace-escape-folded)
+
 - [Airflow 3.3.1 wave — deserializer gadgets into the scheduler, dependency-vs-handler parser discrepancy, secret-masker shape gaps (Oct 2 23:1xZ)](alerts/2026-10-02-airflow-deserializer-gadgets-parser-discrepancy-and-masker-shape-gaps-ghsa.md)
 
 - [UTMStack — static `Utm-Internal-Key` env-var header = full admin API + any-user STOMP `/command/{hostname}` agent RCE (Oct 2 21:32Z)](alerts/2026-10-02-utmstack-internal-key-header-and-agent-command-transport-ghsa.md)
