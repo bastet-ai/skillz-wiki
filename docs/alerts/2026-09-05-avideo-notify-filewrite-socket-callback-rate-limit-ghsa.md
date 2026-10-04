@@ -77,6 +77,15 @@ Durable axes this wave adds to the AVideo map: **credential-issuance endpoints a
 
 All proofs stay in a disposable lab: synthetic accounts and pairing codes, a lab NTP-skewed timing probe against your own instance, marker-only token writes; no live-instance guessing, no real account targeting, no redemption of real credentials.
 
+## October 4 18:3xZ follow-up: sanitizer run-order inversion and the trailer1 URL-into-JS-string sink
+
+Two critical stored-XSS legs (published 2026-10-04T18:30Z) extend the AVideo map with two reusable sanitizer heuristics:
+
+- **[GHSA-6rvj-w837-rcgv](https://github.com/advisories/GHSA-6rvj-w837-rcgv) / CVE-2026-105086 (critical)** — authenticated uploaders store markup via **doubly-encoded entities** in video titles: `safeString()` **strips tags before decoding entities**, and the function runs **twice** (`setTitle()` then `save()`) — first pass decodes `&amp;lt;` → `&lt;`, second pass decodes `&lt;` → `<` *after* tag-stripping already ran. Executing in trending, gallery, embed, and playlist pages. Durable rules: (1) **strip-then-decode is an inverted sanitizer** — any sanitizer that removes tags before entity-decoding is defeatable with one encoding layer per application of the sanitizer; probe with `&amp;lt;img`, `&amp;amp;lt;img`, … matched to how many times the filter executes on the write path. (2) **Count how many times the sanitizer runs, not just what it does** — save-path + setter double-invocation turns a correct single-pass filter into a decode-after-strip pipeline. Trace your canary through the full write lifecycle (setter → store → re-read → render).
+- **[GHSA-m6h8-gp7c-3qmv](https://github.com/advisories/GHSA-m6h8-gp7c-3qmv) / CVE-2026-105089 (critical)** — upload-permission users inject script via a malicious **video `trailer1` URL**: the value renders **unescaped in YouPHPFlix2-template and channel-playlist contexts**, breaking out of `onclick=` strings and `iframe src=` attributes. Durable rule: **a field validated (or trusted) as a URL is still untrusted data in every *template context* it lands in** — the same trailer value that is inert in an `href` becomes executable in an inline `onclick` JS-string context. Enumerate template/plugin variants (this one fires only in the YouPHPFlix2 plugin's templates — the feature-flag/template-family sweep pattern from the Sept 17 wave applies: toggle themes/plugins and re-run the stored-payload battery).
+
+Cross-reference: sibling of the Sept 17 `ignoreUserMustBeLoggedIn` route-sweep finding — same platform, same theme of render-path escaping depending on template family. Validation: lab AVideo, synthetic uploader account, marker `onerror` payloads in disposable videos only.
+
 ## Safety
 
 - Disposable lab AVideo instance only; synthetic users, marker files, lab tokens, owned no-content peers, denied real file/process/network sinks outside the lab.

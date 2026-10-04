@@ -47,6 +47,15 @@ One rule covers the majority of this wave: **the ACL is written where the page r
 
 Lab YesWiki < 4.6.7 with disposable pages, two synthetic accounts, marker attachments, and synthetic Bazar lists only. SSRF proofs use owned callbacks and self-owned multi-hop JSON-LD responders; never target cloud metadata or third-party internal hosts. SQLi proofs read marker rows and stop — no real user-table dumps in reports (hash extraction described, not performed, on shared instances). ActivityPub proofs use your own keypairs and mirrored synthetic entries; never delete or overwrite real federated content. GET-mutation proofs fire only against your own disposable pages/packages. Fixation/reset proofs use lab victim sessions you control.
 
+## October 4 18:3xZ follow-up: the `valeur.php` fetch-and-render pair — one handler, SSRF leg + stored-XSS leg
+
+Two advisories for the same Bazar `valeur` action (`tools/bazar/actions/valeur.php`) landed split across waves — the SSRF leg published Oct 2 (surfaced in the updated feed Oct 4), the XSS leg Oct 4:
+
+- **[GHSA-32r4-8mw9-77h4](https://github.com/advisories/GHSA-32r4-8mw9-77h4) / CVE-2026-104470 (medium)** — page-editor `url` parameter makes the server fetch arbitrary URLs (loopback/internal probing) *and* injects the fetched remote HTML unescaped into the rendered page.
+- **[GHSA-4jc3-v5mf-cppg](https://github.com/advisories/GHSA-4jc3-v5mf-cppg) / CVE-2026-105224 (medium)** — same handler pointed at a controlled server returning `BAZ_fiche_titre` markup with an `img onerror` executes script in **every viewer's browser** — editor-privilege foothold becomes stored XSS against all readers.
+
+Durable axes: (1) **a fetch-and-render action is two bugs wearing one coat** — probe it once for internal-URL acceptance (SSRF) and once for remote-HTML execution (viewer-side XSS); the impact split (editor-only authority vs all-viewer execution) makes the XSS leg the escalation path. (2) This extends durable axis 8 (fetchers inherit their destination) with a fourth leg: **render** — the fetched bytes are emitted into the page DOM, not just stored or followed. When you find any "embed/fetch/preview a URL" field, the full battery is read-back / crawl-on / localize / render. (3) Same-handler advisories split across days: when you fold one leg of a product's fetch handler, grep the advisory feed for the sibling CVE/param before closing the page.
+
 ## Tracked from this wave without publication
 
 - YesWiki XSS/DoS singles: wakka.php markdown-image-quote stored XSS (CVE-2026-104466), reflected XSS via `field`/`incomingurl`/`id`/`file`/`tags`/`template` params (CVE-2026-104465/104473), O(n²) bracket-body formatter DoS (CVE-2026-104454), user enumeration via differing LostPassword responses (CVE-2026-104439) — generic classes already canonical on existing pages.
