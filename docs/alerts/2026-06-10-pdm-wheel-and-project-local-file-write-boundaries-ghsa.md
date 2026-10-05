@@ -78,3 +78,11 @@ Expected vulnerable signal: the TOML file outside the repository gains a `[venv]
 - For CI impact, show whether the job also has release tokens, package-publishing rights, repository write tokens, cache directories, or artifact-signing access; do not print token values.
 - Keep proof narrow and reversible. Use temporary canary files, not real dotfiles, credentials, deployment manifests, or shell profiles.
 - Avoid claiming code execution unless you separately prove that the file-write primitive reaches an executable or auto-loaded path in the assessed environment.
+
+## October 5 follow-up: Papermerge upload traversal — the file-write-to-auto-loaded-path proof this page demands
+
+[GHSA-5557-484j-55xw](https://github.com/advisories/GHSA-5557-484j-55xw) / CVE-2026-105314 (high, Papermerge 3.5.3): a **standard user** (not admin) achieves RCE via directory traversal in `/api/documents/upload` — writing a Python **`.pth` file into `site-packages`**, whose line is executed by **every subsequent Python interpreter start** in that environment. This is exactly the escalation the reporting heuristic above asks you to complete: the write primitive alone is a file-confidentiality/integrity finding; the `.pth`-into-`site-packages` sink converts it into guaranteed, persistent, interpreter-start code execution with zero further attacker action.
+
+- Durable auto-loaded-path checklist for any Python-service upload/copy primitive with traversal: `site-packages/*.pth`, `site-packages/usercustomize.py`, `PYTHONSTARTUP`-reachable files, cron/systemd paths owned by the service user, and the app's own plugin/auto-import directories. `.pth` is the quietest: it needs no import of your file, fires on interpreter start, and survives app restarts.
+- Deferred-execution timing matters in reporting: the payload fires on the *next interpreter start* (worker respawn, restart, cron), not on upload — record the upload→fire interval and prove with an inert marker `.pth` (e.g., writes a temp-file timestamp) in a disposable instance, then delete the canary and verify no marker re-fires.
+- Role boundary is the headline: a *standard* user reaching interpreter-start execution as the service account is a privilege crossing, not just storage abuse; test upload traversal with the lowest authenticated role first.
