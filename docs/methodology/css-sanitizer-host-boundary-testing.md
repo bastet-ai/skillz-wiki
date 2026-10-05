@@ -6,7 +6,7 @@ title: CSS sanitizer and host-UI boundary testing
 
 Use this workflow when an application renders attacker-controlled HTML or CSS inside a trusted page, especially webmail, rich-text previews, support consoles, collaboration tools, and AI-assisted browsers. It turns PortSwigger's August 2026 webmail research into a bounded operator campaign: map what survives, preserve every parse/serialize/mutation stage, evaluate the output in the real host structure, and prove only synthetic navigation, resource, UI, or model-context effects through denied sinks.
 
-Primary research: [Gareth Heyes, “CSS:the bomb inside your inbox”](https://portswigger.net/research/css-the-bomb-inside-your-inbox) and its [companion research materials](https://github.com/portswigger/css-the-bomb-inside-your-inbox).
+Primary research: [Gareth Heyes, “CSS:the bomb inside your inbox”](https://portswigger.net/research/css-the-bomb-inside-your-inbox), its [companion research materials](https://github.com/portswigger/css-the-bomb-inside-your-inbox), and the October 2026 follow-up [“Smashing the token limit with overlapping fragments”](https://portswigger.net/research/smashing-the-token-limit) by Gareth Heyes and Alex.
 
 !!! warning "No credential capture or active host actions"
     Use disposable accounts, inert messages, fake tokens, owned no-content resource peers, patched navigation/form/UI/model sinks, and detached or script-disabled browser fixtures. Never collect passwords or login links, trigger real mailbox actions, send indirect prompts to a live privileged agent, bypass a shared image proxy, or run active HTML/CSS under a production origin.
@@ -124,6 +124,29 @@ Record focus/selection state, matching selector, animation state, geometry, hit-
 - a state change would select an owned no-content resource, but the patched loader denies it.
 
 Do not construct password forms, per-character selectors, token brute-force corpora, realistic login overlays, or network-backed keystroke proofs. Those add sensitive collection capability without improving the boundary evidence.
+
+## Overlapping-fragment token reconstruction (no recursive imports)
+
+The October 2026 follow-up [“Smashing the token limit with overlapping fragments”](https://portswigger.net/research/smashing-the-token-limit) breaks the size limit that made single-stylesheet CSS exfiltration look impractical, and it removes the recursive-`@import` requirement entirely. This changes a common triage call: **if you wrote off a CSS injection because per-character stylesheet recursion was blocked or too slow, re-test it under this model.**
+
+The primitives:
+
+1. **Presence oracle.** One stylesheet encodes `[attr*="chunk"]`-style attribute selectors that fire a beacon per matching short chunk. Each chunk reports once, positionless — the browser tells you *which* k-character substrings exist in a token-bearing attribute, not where.
+2. **Chunk-graph assembly.** Overlapping chunks are edges: `c2e → 2e1 → e16 → 16a` walks the token one character at a time (a de Bruijn-style path). The reconstruction script runs client-side after all beacons land, enumerating **every** route consistent with the reported start/end anchors and chunk length — not just the first plausible one. Ambiguity is scored, not hidden.
+3. **Budget calculus.** Rule count is `alphabet^k`. For a 16-char hex alphabet, 3-character chunks cost 4,096 rules and 4-character checks 65,536 — so the payload mixes tiers: keep the cheap 3-character set, apply stronger checks only to groups selected by middle/first character (e.g. 3-character verification for middle char `0-d`, cheaper 2-character fallback for `e-f`; prune false 5-character joins with 6-character checks only for chunks beginning `a-d`). Measured results: **223 KB / 4,128 selectors reconstructs a 12-character hex token to ≤5 candidates ~96% of the time** (~193× smaller than the original 257 MB generator), and at the same 257 MB budget the same method extracts **210 hex characters at one candidate (99%) or 640 characters at ≤5 candidates (90%)** — hundreds-of-characters tokens like session IDs and API keys come into range with one stylesheet.
+4. **Alphabet-size awareness.** For a mixed 62-character alphanumeric token, 3-character chunks would need 238,328 rules; dropping to 2-character chunks costs 3,844 and lets graph pruning plus start/end anchors carry the reconstruction. Pick chunk size as a function of alphabet, stylesheet budget, and token length before generating anything.
+5. **Validation harness.** The authors validated with 100,000 regenerated fixture URLs (fresh token plus fresh random filler with the same shape as the real page) and scored on the *candidate-count distribution* (1-candidate at ≥99%, ≤5-candidate at ≥90%), not hit/miss. Build the same harness against your target's URL/attribute shape before trusting a payload: same-length random filler in the same attribute is what produces the false-join pressure the real page will.
+
+Practice labs: `https://portswigger-labs.net/token-scripts/01-href-token.php` through `10-data-csrf-button.php` (href tokens, hidden/meta CSRF tokens, SHA-256-hashed token, data-attribute, input-value, authenticity-token, title-attribute, form-action, and button variants).
+
+Operator checklist when a CSS-injection-to-attribute-read path exists:
+
+- confirm which attributes the injected selector context can actually reach (`href`, `value`, `action`, `content`, `data-*`);
+- fingerprint the token alphabet from page context (hex vs base62 vs UUID casing) and size chunks to it;
+- include prefix/suffix anchor selectors so the graph has fixed endpoints;
+- budget selectors against the sanitizer/upload size cap first, then tier the verification checks;
+- score candidate counts over a randomized local harness before touching the target;
+- prove reads against synthetic token-shaped values on the labs and owned fixtures only — never collect live session tokens, CSRF tokens, or login-link secrets from real user pages, per the fixture rules at the top of this page.
 
 ## DOMPurify `IN_PLACE` detached-subtree follow-up
 
