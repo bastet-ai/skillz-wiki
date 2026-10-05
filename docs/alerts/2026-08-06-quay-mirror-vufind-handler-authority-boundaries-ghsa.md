@@ -138,6 +138,14 @@ Use precise outcomes:
 | queue recorder receives synthetic job | unauthorized asynchronous side-effect path |
 | only generic error timing differs | insufficient; investigate before reporting |
 
+## October 5 follow-up: build-trigger config hands read-only admins a repository write token (CVE-2026-105447)
+
+[GHSA-wr22-68gv-32xw](https://github.com/advisories/GHSA-wr22-68gv-32xw) / CVE-2026-105447: Quay's build-trigger API returns trigger configuration details — including the embedded repository **write** delegate token — to global read-only administrative users. A restricted principal reads the token from a GET response, then uses it to push arbitrary images to private repositories: read-only becomes write by way of a config endpoint that leaks the credential its own write path uses.
+
+- **Durable rule: a config/webhook/trigger read endpoint that returns a stored secret is a write-capability disclosure, and least-privilege review usually covers the mutation verb but not the config GET.** Enumerate every endpoint that *stores then replays* credentials (build triggers, webhooks, replication/mirror config, robot accounts, OAuth client secrets) and fetch each one with the lowest-privilege principal.
+- Operator check on an authorized Quay (or any registry/CI platform): authenticate as read-only, `GET` trigger/mirror/webhook configs for a synthetic repo, and record whether raw token material appears in any response body — compare against what the same principal is allowed to *do*. Token bytes in the body = escalation proven; redact the token itself from evidence, keep only the field-presence decision.
+- Same sibling doctrine as the Airflow `connections/test` cross-team credential-USE oracle (Oct 2 page): separation of duties fails when read surfaces relay write credentials.
+
 ## Evidence bundle
 
 ```text
