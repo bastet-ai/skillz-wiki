@@ -1,0 +1,84 @@
+---
+title: "vm2 coordinated advisory dump — incomplete-fix family, default-config escapes, and engine-scheduled callback bypasses (Oct 5 22:3xZ)"
+---
+
+# vm2 coordinated dump: incomplete-fix family, default-config escapes, and engine-scheduled callback bypasses (Oct 5 22:3xZ)
+
+Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-05. Between 22:33Z and 23:00Z, ~12 vm2 advisories with sequential CVE IDs (CVE-2026-92933 through CVE-2026-92959, plus CVE-2026-100723) were published simultaneously — a coordinated single-audit dump against the semi-abandoned `patriksimek/vm2` fork. Five carry CVSS 10.0. This is the single largest sandbox-escape publication event tracked on this wiki and it is durable for two reasons: (1) every product that uses vm2 as its "user code is safe here" boundary is now a fingerprinted target class, and (2) the dump is a public worked example of how to audit a realm bridge — each advisory names the earlier GHSA it bypasses, so the fix-lineage map *is* the attack-surface enumeration. This page complements the [May 29 vm2/SGLang page](2026-05-29-vm2-nodevm-and-sglang-runtime-boundary-batch-ghsa.md); several of this dump's legs are second-generation bypasses of advisories covered there.
+
+Advisories (all vm2 ≤ 3.11.6 / current HEAD):
+
+- [GHSA-wjwh-qqvp-g4p4 / CVE-2026-92956](https://github.com/advisories/GHSA-wjwh-qqvp-g4p4) — WebAssembly.compileStreaming Promise-species escape (10.0)
+- [GHSA-fcqc-726x-5wfc / CVE-2026-92947](https://github.com/advisories/GHSA-fcqc-726x-5wfc) — shared Buffer-pool host memory read/write (10.0)
+- [GHSA-j3hm-6rg5-mchv / CVE-2026-92946](https://github.com/advisories/GHSA-j3hm-6rg5-mchv) — `require.external` without `require.root` = unrestricted host access (10.0)
+- [GHSA-3vgf-8m4q-q4qr / CVE-2026-92953](https://github.com/advisories/GHSA-3vgf-8m4q-q4qr) — host TypedArray/ArrayBuffer intrinsics still mutable (10.0)
+- [GHSA-88hf-g992-jg85 / CVE-2026-92955](https://github.com/advisories/GHSA-88hf-g992-jg85) — NodeVM `console:'inherit'` → EventEmitter.prototype.emit RCE (10.0)
+- [GHSA-489w-w794-jq94 / CVE-2026-100723](https://github.com/advisories/GHSA-489w-w794-jq94) — zlib builtin returns pooled host Buffer (10.0)
+- [GHSA-x965-fc75-jpqh / CVE-2026-92934](https://github.com/advisories/GHSA-x965-fc75-jpqh) — AggregateError cycle revisit returns raw host proxy (9.0)
+- [GHSA-gjq8-xm47-88rc / CVE-2026-92954](https://github.com/advisories/GHSA-gjq8-xm47-88rc) — host Promise rejection terminates host process (8.6)
+- [GHSA-f8gf-w286-fmq2 / CVE-2026-92959](https://github.com/advisories/GHSA-f8gf-w286-fmq2) — `allowAsync:false` bypass via Promise static thenable assimilation (7.1)
+- [GHSA-r4fx-v8hh-22mv / CVE-2026-92942](https://github.com/advisories/GHSA-r4fx-v8hh-22mv) — `timeout` bypass via FinalizationRegistry GC callback (7.5)
+- [GHSA-r273-hxvj-fxhp / CVE-2026-92933](https://github.com/advisories/GHSA-r273-hxvj-fxhp) — `util.getCallSites()` bypasses host-frame redaction (5.8)
+- [GHSA-x6m4-chr9-cg97 / CVE-2026-92936](https://github.com/advisories/GHSA-x6m4-chr9-cg97) — host-realm SyntaxError stack leaks absolute host paths (5.8)
+
+!!! warning "Authorized validation only"
+    Prove escapes only inside a lab build of the product that embeds vm2, or an explicitly authorized target tenant with a disposable sandbox. Benign markers only: write a canary file in a disposable temp dir, read a synthetic env var you set, or prove read/write against a buffer you allocated. Never read real secrets, never run against production tenants, never weaponize the shared-Buffer leg beyond a self-allocated pool slice.
+
+## 1. Default configurations are the attack surface, not exotic flags
+
+Three of the 10.0 legs require **nothing unsafe in the embedder config**:
+
+- **README quick-start is vulnerable** (CVE-2026-92946): `NodeVM({require:{external:true, root:'./'}}` — the documented example — defaults `require.context` to `"host"` and leaves unlisted paths unrestricted; `./node_modules/vm2` sits *inside* `root:'./'`, so sandbox code requires vm2's own package, constructs a fresh unrestricted nested `NodeVM`, and reaches `child_process`. Rule: when a sandbox option's *safe* value is "omit the parameter", every example that omits it is a finding.
+- **`console:'inherit'` is the default** (CVE-2026-92955): `console._stdout`/`_stderr` prototype chain runs through `EventEmitter.prototype`, and nothing blocks sandbox writes to it. Overwrite `EventEmitter.prototype.emit`, make `process` emit any event, and your function runs with `this === process` on the host. It also defeats `--disallow-code-generation-from-strings`, because the escape never touches the host Function constructor. Rule: enumerate inherited-prototype chains of every *default-exposed* host object, not just explicitly injected ones. Note the advisory's own framing: the host `__proto__` getter reachable from sandbox has been reported in four prior advisories and was still never patched when this one landed.
+- **Default `new VM()` on Node 26 is escapable** (CVE-2026-92956): the prior fix removed `WebAssembly.promising`/`Suspending` (JSPI), but `WebAssembly.compileStreaming`/`instantiateStreaming` still produce a raw host-realm Promise on Node 26; controlling `Symbol.species` through `Promise.prototype.finally` captures the host error, and from the host error's constructor you walk to the host `Function` and real `process`. Rule: **newer Node runtimes re-arm old escape classes.** Fingerprint the host Node version beside the sandbox version, and after any Node upgrade assume prior "engine API not exposed" mitigations have lapsed.
+
+## 2. Incomplete-fix genealogy is the recon map
+
+Six legs are explicitly bypasses of named earlier fixes: 92956 bypasses GHSA-6j2x-vhqr-qr7q (the May 29 page's JSPI fix), 92934 bypasses GHSA-m283-3h24-438v (Error.cause sanitization), 92933 bypasses GHSA-v27g-jcqj-v8rw (host-frame stack redaction), 92953 bypasses GHSA-vwrp-x96c-mhwq (host-prototype-pollution fix), 92955 rides the same never-patched `__proto__` getter from the vwrp/v6mx/grj5/47x8 lineage, and 92946 is a config-semantics miss under the same resolver that guards other escapes. The dump makes the general rule explicit:
+
+1. Pull every historical advisory for a library and list each fix's *mechanism*, not just its CVE.
+2. For each mechanism, enumerate the sibling sinks it does not cover. Concrete examples from this wave: the error sanitizer seals plain `Error` hosts **in place** on first visit but *snapshot-rebuilds* `AggregateError`, so a self-cycle or the same aggregate twice in `errors[]` gets the raw host proxy handed back by the cycle-break at revisit (92934); the host-frame redaction is applied to `Error.stack` formatting but `util.getCallSites()` is a newer API that bypasses it entirely (92933); the protected-intrinsics defense is built from a **fixed inventory list** of classic globals (`Number, String, Boolean, Date, RegExp, Map, WeakMap, Set, WeakSet, Promise, Function`) that omits `%TypedArray%.prototype` and `ArrayBuffer.prototype`, so `__lookupGetter__`-based prototype walking still mutates host typed arrays whose effects the host observes after `VM.run()` returns (92953).
+3. Operator heuristic: **any defense implemented as an enumerated inventory is stale by construction** — test the members added to the language/runtime after the inventory was written.
+
+## 3. Shared memory pools cross the realm boundary silently
+
+CVE-2026-92947 and CVE-2026-100723 share one root: Node's small-allocation Buffer pool. `Buffer` is exposed to the sandbox by default; `Buffer.from(...)` results are views into a shared pool, and `Buffer.from(result.buffer, 0, result.buffer.byteLength)` hands the sandbox the *whole pool* — reading host `Buffer.from`/`Buffer.concat` contents (credentials, tokens, plaintext passwords in transit) and flipping bytes in unrelated host buffers. The 100723 variant shows the same invariant missed on the *return* path of an allowlisted builtin (`zlib.deflateSync` returns a pooled buffer; vm2's `depoolBuffer` normalization is applied to sandbox-facing factories but not to host-builtin returns).
+
+Operator value beyond vm2: **every realm/isolation boundary that passes view-types over a shared allocator needs a depool check** — Node worker threads with `transferList`/shared ArrayBuffers, quickjs/deno-style bridges, WASI preview buffers. Proof harness is two-sided: allocate a marker in the "host" path, then from the "guest" slice the full backing store at `byteOffset 0`, full `byteLength`, and show a byte outside the logical slice is visible/mutuable. The invariant to assert in any report: a buffer crossing into lower trust must own its complete backing store (`byteOffset === 0 && buffer.byteLength === length`).
+
+## 4. Engine-scheduled callbacks defeat call-scoped limits
+
+Two legs break the "we bound the execution" assumptions that sandbox *options* promise:
+
+- **`timeout` covers only the synchronous `VM#run()` call** (CVE-2026-92942): `FinalizationRegistry`/`WeakRef` are exposed unhardened; a cleanup callback registered during the run fires later on V8's GC path — never through `doWithTimeout` — so sandbox code runs unbounded after the host believes execution ended, and can block the host event loop from GC context.
+- **`allowAsync:false` blocks `Promise.prototype.then` but not the statics** (CVE-2026-92959): `Promise.resolve/all/race/any/allSettled` still assimilate attacker-controlled thenables, invoking their `then` in a microtask after `run()` returned.
+
+Durable rule for validating any code-execution sandbox with time/async limits: **after the sanctioned call returns, keep listening.** Trigger GC (`--expose-gc` or memory pressure in the lab), queue microtask/timer/microjob paths through every static helper that accepts an object, and check whether the policy enforcement is on the *instance method* while *static methods* reach the same primitive. Enforcement patched at one call site with unpatched siblings is this whole dump's shape — the same wrong-predicate family as the masker/shape-gap legs on the Airflow page.
+
+## 5. Host error channels are free recon
+
+CVE-2026-92936 works with zero configuration: `try { eval("@@@ catch") } catch (e) { e.stack }` returns a **host-realm** SyntaxError stack whose formatting bypassed sandbox-side redaction, exposing absolute paths of vm2 internals, Node internals, and the embedding app's source tree. Cheap fingerprint for any JS-sandbox product; also use it to relocate the embedding app on disk before path-based attacks. 92933 is the same redaction gap via `util.getCallSites()`.
+
+## Operator triage
+
+1. **Find vm2-as-boundary products**: any app, workflow engine, plugin system, low-code platform, or SaaS scripting feature whose docs mention vm2/`NodeVM`. vm2 is unmaintained yet still widely shipped; the May 29 triage checklist still applies.
+2. **Fingerprint configuration, then version, then Node version**: which legs apply depends on `VM` vs `NodeVM`, `require.external/root/context`, `console` mode, builtin allowlist (`zlib`), `timeout`/`allowAsync`, and host Node version (≥26 re-arms the WASM leg).
+3. **Prove with the lowest-and-default config first** (92956, 92955, 92936 need no opt-ins); escalate to config-gated legs only if the target actually enables them.
+4. **Treat the dump as an audit template for other realm bridges** (`isolated-vm` alternatives, `quickjs-emscripten`, plugin hosts): inventory-based protections, view-type crossings, error-channel crossings, engine-scheduled callbacks, and fix genealogy.
+
+## Reporting heuristics
+
+- Name the exact edge: **default VM on Node 26 to host process via WASM streaming Promise species**, **shared Buffer pool to host credential bytes**, **README quick-start config to nested-VM host RCE**, **GC callback to post-timeout host execution**, **static Promise helper to policy-skipped microtask**, **sanitizer cycle-revisit to raw host proxy**, **`util.getCallSites` to unredacted host frames**.
+- Include vm2 commit/version pin, host Node version, exact sandbox options object, the benign marker observed host-side, and — because this fork is abandoned — whether the product can patch at all or must replace the boundary. An unpatchable-boundary finding is materially more severe than a same-CVSS one with a fix release.
+- State which legs are *configuration-dependent* versus default-reachable; do not claim blanket RCE for products whose config excludes the precondition.
+
+## Tracked without publication (same wave)
+
+- Tinypool prototype-pollution gadget → RCE pair (5gmw/85c8, CVE-2026-104848/104849): same worker-options PP-to-exec gadget class as the Oct 1 Piscina follow-up; class canonical on the June 18 page.
+- GraphQL Tools pair: legacy WebSocket executor TLS validation disabled (6fw5/CVE-2026-103921) = default-insecure-TLS family on the Oct 2 cert page; `mergeDeep` prototype pollution (7mx3/CVE-2026-104852) = canonical PP.
+- hickory-resolver pack: `lookup()` obscuring DNSSEC validation failures (5j98), irrelevant-CNAME following (6f2x), unbounded TC-retry DoS (6w6g) — Rust resolver internals, no new cross-tool axis; revisit if an adjacent product surfaces the DNSSEC-silent-fallback shape.
+- Quart stray debug print leaking raw request bodies incl. plaintext passwords to stdout (v853) and Snowflake driver log leakage (qqj6/CVE-2026-86597) and `@opentelemetry/instrumentation-*` unconditional `db.user` span attribute (qqmp/CVE-2026-104872): secrets-to-logs class, canonical.
+- @vue/server-renderer missing-CR attribute-name blacklist XSS (g2v6), ProseMirror paste XSS (c8x8), stream-json JSONC quadratic rescan + assembler PP (hqr4/mjw6), fast-copy stack exhaustion (jggr), PostCSS selector quadratic (rj75/CVE-2026-104844), @fastify/busboy multipart filename/name CRLF injection (gxm5/CVE-2026-74866), Angular SSR Windows sibling-directory traversal in CommonEngine (7g7c/CVE-2026-104871): known classes; the Angular SSR and busboy legs are the two most interesting if follow-up detail lands.
+- python-jose DER-encoded-public-key algorithm-confusion guard bypass (3qf3/CVE-2026-85394, Sept-published enrichment landing) and Nodemailer OAuth2 token-fetch TLS validation (r7g4/CVE-2026-82662, June-published re-surfacing): JWT-parser and default-insecure-TLS canonical classes.
+- Docling arbitrary local file read via `draw:image xlink:href` in the OpenDocument backend (4xhp/CVE-2026-105751): document-parser file-read class (September 20 media-pipeline family) and RAG-ingestion relevant — fold on the media page if a second ODT/entity leg lands.
+- Duplicate-advisory markers GHSA-43rv-jrfh-9mrr, GHSA-5cwm-p7pj-gqp2, GHSA-frj6-5rhh-vwfw; Apache Spark History Server stored XSS (9437/CVE-2026-32773, retro enrichment).

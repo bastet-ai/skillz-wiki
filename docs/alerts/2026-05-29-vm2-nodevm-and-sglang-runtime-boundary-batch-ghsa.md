@@ -42,6 +42,10 @@ This batch is durable because it captures two reusable operator patterns: JavaSc
 - **Upload traversal proof:** use a canary filename such as `../sglang-traversal-canary.txt` against a disposable instance and verify write location with filesystem access you control. On production targets, stop at filename normalization evidence unless arbitrary write validation is explicitly authorized.
 - **Scheduler pickle proof:** treat exposed ROUTER sockets as critical. In normal bug-bounty scopes, prove reachability and unsafe deserialization from a lab mirror or with non-executing malformed-pickle behavior; avoid sending code-executing pickles to production infrastructure.
 
+## October 5 coordinated-dump follow-up
+
+On Oct 5 22:33–23:00Z the same vm2 fork received a coordinated ~12-advisory dump (CVE-2026-92933…92959 + CVE-2026-100723, five at CVSS 10.0), several legs being second-generation bypasses of the fixes covered on this page (the JSPI/WebAssembly fix GHSA-6j2x-vhqr-qr7q is bypassed via `WebAssembly.compileStreaming` on Node 26; the host-prototype-pollution fix GHSA-vwrp-x96c-mhwq is bypassed via the unprotected `%TypedArray%`/`ArrayBuffer` intrinsics inventory gap; the never-patched host `__proto__` getter finally lands as `EventEmitter.prototype.emit` RCE through default `console:'inherit'`). Full operator treatment: [vm2 coordinated dump page](2026-10-05-vm2-coordinated-dump-incomplete-fix-family-and-default-config-escapes-ghsa.md). Key additions there: shared Buffer-pool cross-realm memory disclosure, README quick-start config as an out-of-the-box escape, `timeout`/`allowAsync` bypass via engine-scheduled GC callbacks and Promise-static thenable assimilation, and the advisory-genealogy-as-recon-map rule.
+
 ## Reporting heuristics
 
 - For vm2 findings, include the product surface that accepts code, sandbox library/version, Node version, `VM`/`NodeVM` configuration, allowed builtins, host objects exposed to the sandbox, exact benign proof, and why the sandbox is a security boundary for the application.
