@@ -176,6 +176,16 @@ Never request this route from a production deployment if it may contain real clo
 
 Report this as **signed payload -> stale OCSP `GOOD` replay -> revoked/expired status not enforced**. Evidence should be harness logs and redacted certificate metadata.
 
+### Follow-up (Oct 5 18:34Z): FacturaScripts widget unserialize gadget — bundled-library `__destruct` as the file-delete primitive (CVE-2026-104905 / [GHSA-8rvh-x87q-rm2p](https://github.com/advisories/GHSA-8rvh-x87q-rm2p), medium)
+
+**FacturaScripts before 2026.7**: `WidgetSelect::processFormData()` runs `unserialize()` on raw POST data for multiple-select form fields with **no `allowed_classes` filter**, so an authenticated user submits a serialized `XLSXWriter` object (a library the ERP ships) and its `__destruct()` deletes arbitrary attacker-specified files — `config.php` or backups — producing denial of service and a **reinstall-hijack** opportunity (an ERP with no config.php re-runs its setup wizard).
+
+Operator axes:
+
+1. **Every form field whose server-side handling branches on "complex" values is a candidate unserialize sink.** The reusable hunt: in PHP CMS/ERP code, grep `unserialize(` outside `json_decode`-style serializers and check each call site for the `['allowed_classes' => false]` option; the FacturaScripts record shows widgets/attribute processors parsing user field values are the common miss. Black-box probe shape (authorized lab only): submit a serialized inert marker object in a multi-select field and diff response timing/errors vs a plain array value.
+2. **The gadget catalog is the vendor's `composer.lock`.** This chain didn't need a bespoke gadget — it used a bundled spreadsheet writer's `__destruct`. White-box: list installed packages, filter for `__destruct`/`__wakeup` that touch filesystem/network sinks (GD/PHPGGC covers common ones; hand-trace the rest). The presence of *any* file-deleting destructor converts object injection from theoretical to concrete impact.
+3. **Delete-config → reinstall-hijack is a recovery-flow attack**, the install-wizard twin of the config-write chains on this page: many PHP apps treat "no config file" as "fresh install" and re-expose setup endpoints. Where you can delete `config.php` on a lab instance, check whether the installer route returns and what it trusts (attacker-served database? admin credential entry?) before claiming the hijack — prove route presence and preconditions, not wizard completion, on anything but a disposable instance.
+
 ## Reporting notes
 
 - Lead with preconditions: Kimai role/team topology, object IDs under allowed and denied scopes, route family under test, 2FA step-up state, Docker deployment defaults, browser-session state, FacturaScripts 2FA-enabled accounts, static-file route family, REST API resource grant, upload route/role, destination writability, OpenCost network reachability and `CONFIG_PATH`, or App Store verifier `enable_online_checks=True` usage.

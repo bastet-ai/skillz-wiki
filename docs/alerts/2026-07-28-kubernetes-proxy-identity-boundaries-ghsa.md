@@ -124,3 +124,16 @@ Include:
 - redacted requests and logs with no live tokens, Secrets, tenant objects, or control-plane payloads.
 
 Bound impact carefully. A preserved header is not escalation until the spoke accepts the proxy's impersonation and grants a permission. A TLS connection is not agent admission until the application creates authenticated agent state. An isolated registration proves the missing identity boundary; it does not prove traffic interception unless that later routing edge is separately and safely demonstrated.
+
+## Follow-up (Oct 5 18:34Z): HyperShift operator copies user kubeconfigs — with `exec` plugins — into the privileged control-plane namespace (CVE-2026-101919 / [GHSA-9pmf-w27v-pwpg](https://github.com/advisories/GHSA-9pmf-w27v-pwpg), high)
+
+**HyperShift operator** copies user-provided kubeconfig Secrets straight into the privileged hosted-control-plane namespace **without validation or sanitization**. A user who can create clusters and Secrets supplies a kubeconfig containing an `exec:` credential plugin; when a downstream controller in the control plane loads that kubeconfig and runs the command, the attacker has arbitrary code execution **inside the control plane**.
+
+Why it earns a fold on this page (same "trusted-consumer boundary" thesis): the kubeconfig file is an *input format that executes*. Kubernetes treats `exec` plugins as first-class auth machinery, so every component that loads a user-influenced kubeconfig — operators, importers, sync controllers, CI runners — is a code-execution sink for whoever can write that Secret.
+
+Operator axes:
+
+1. **`exec`/`auth-provider` stanzas in any user-influenced kubeconfig are an RCE gadget, not a config quirk.** On authorized platform engagements with hosted-control-plane or multi-tenant cluster products (HyperShift, Cluster API, Crossplane-style composites, managed-control-plane SaaS), test: create a Secret-shaped kubeconfig whose `users[].user.exec` points at a lab PATH binary that writes a marker file, attach it as the field the operator consumes, and watch for the marker in the consuming pod. Bounded positive = marker written *inside* the privileged pod; report the consuming controller and required RBAC (here: cluster-create + secret-create), not the marker content.
+2. **Grep fingerprint for white-box review**: `clientcmd.NewClientConfigFromBytes`, `clientcmd.Load`, `clientcmd.BuildConfigFromFlags`, or `client-go` kubeconfig parsing applied to Secret/configmap payloads that originate from lower-privilege namespaces — then check whether `CmdPath`/`exec` fields are stripped or rejected before client construction.
+3. **Same-shape siblings to sweep**: kubeconfig-in-a-Secret conventions (cluster-api providers, Rancher/Anthos-style import secrets, `kubeconfig`-typed Crossplane resources, GitOps repos storing kubeconfigs), plus any product that accepts "external cluster credentials" uploads. The exec-plugin leg is often missed because the *validation* leg (YAML parses, server URL reachable) passes while nobody looks at the credential plugin stanza.
+4. Proof discipline: synthetic clusters on lab infrastructure only, marker-only exec payloads (`touch /tmp/...`), never commands against a live customer control plane; capture pod-name/namespace evidence with no control-plane tokens.

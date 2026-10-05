@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Joomla extension wave — token-existence-only download authz, guest-reachable `jform` save controllers, unauthenticated task triggers, picker SSRF with admin OAuth token (Oct 5 18:34Z)](alerts/2026-10-05-joomla-extension-token-existence-public-controller-and-task-trigger-ghsa.md)
+
 - [Oct 2 23:18Z wave — two folds, no new page: Gitea act_runner `container.options` host-namespace escape (workflow YAML → runner-host root despite privileged-mode-disabled) + SiYuan agent-plane DNS-rebinding TOCTOU and MCP `asset.upload` absolute-path read](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md#october-2-follow-up-act_runner-containeroptions-host-namespace-escape-folded)
 
 - [Airflow 3.3.1 wave — deserializer gadgets into the scheduler, dependency-vs-handler parser discrepancy, secret-masker shape gaps (Oct 2 23:1xZ)](alerts/2026-10-02-airflow-deserializer-gadgets-parser-discrepancy-and-masker-shape-gaps-ghsa.md)
@@ -23,8 +25,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [AI serving/RAG wave — unauthenticated KV-cache data plane, tenant-blind RAGFlow routes, Langflow validate-code RCE (Oct 2 00:31Z)](alerts/2026-10-02-ai-serving-rag-stack-authz-and-path-wave-ghsa.md)
 
 - [Oct 1 21:3xZ wave — httpd module-primitives tier + seven folds (no new page)](alerts/2026-10-01-apache-httpd-auth-state-lifecycle-digest-replay-h2-uaf-ghsa.md#october-1-213xz-follow-up-the-rest-of-the-wave-module-level-primitives-folded)
-
-- [FortiMail IBE unauthenticated file-write KEV — feature-gated pre-auth surface, NULL-byte writers, appliance persistence IoCs (Oct 1 20:1xZ)](alerts/2026-10-01-fortimail-ibe-unauth-file-write-kev-cve-2026-104286.md)
 
 - [Apache HTTP Server auth-state lifecycle — Digest capture-replay, concurrent-request UAF, h2 session reuse (Oct 1 late wave)](alerts/2026-10-01-apache-httpd-auth-state-lifecycle-digest-replay-h2-uaf-ghsa.md)
 
