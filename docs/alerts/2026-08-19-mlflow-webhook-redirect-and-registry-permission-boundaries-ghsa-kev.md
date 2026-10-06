@@ -87,6 +87,13 @@ Lead with the crossed boundary, not the version:
 
 Strong reports include the exact MLflow build and auth plugin state, the route and request shape, validated value versus final peer/target, the reflected or denied-sink evidence, user-interaction requirements, and the fixed-version negative control. For the KEV-tracked SSRF, state clearly whether the server is default-unauthenticated, authed, or proxy-fronted, and which redirect/rebinding vector actually fired.
 
+## October 6 follow-up: unauthorized artifact writes on the MPU route family (CVE-2026-2651 / GHSA-8c7q-86fq-vvmh, critical)
+
+MLflow ≤3.10.1.dev0 in `--serve-artifacts` mode left the **multipart-upload route family `/mlflow-artifacts/mpu/*` without resource-level permission checks**, while the ordinary artifact routes were gated. Cross-user artifact overwrite → model supply-chain poisoning → code execution when a compromised model is loaded. Published late (Oct 6 updated-feed) although the CVE is older — re-surfacing with enrichment is a standing tell that a fix diff is now public.
+
+- Durable axis: **one route family inside a gated subsystem frequently escapes the auth middleware that covers its siblings** — this page's handler-map gap (one run-write route escaping the validator) with the *upload* leg as the second example. When auditing any artifact/blob store, enumerate the multi-step upload endpoints (`/mpu/start|complete|abort`, presigned-URL minters, resumable chunks) **separately from the read/download verbs** — write paths added later for large-object support are the ones that skip the resource check. Probe on an authorized lab server with `--serve-artifacts` and auth enabled: as user B, `PUT` a marker artifact into user A's run path via each MPU verb; denial on `/mlflow-artifacts/` writes but acceptance on `/mpu/` is the finding.
+- Supply-chain framing for authorized AI-stack assessments: an artifact-overwrite primitive is a **model poisoning** primitive without any registry compromise — the victim's next `mlflow.models.load_model` of an overwritten path is the execution sink. Report it as an integrity boundary, not just a broken-access-control row.
+
 ## Reviewed but not promoted here
 
 - The `mlflow` npm/pip duplicate range entries for the three advisories were treated as one record each.

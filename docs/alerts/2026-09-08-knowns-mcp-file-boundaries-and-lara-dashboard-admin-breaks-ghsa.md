@@ -62,6 +62,14 @@ Durable pattern: **zip-extract-into-app-root is the Laravel admin RCE enabler.**
 
 Medium. Authenticated accounts without content permissions can reach the post-builder image/video upload endpoints and **upload polyglot files with attacker-chosen extensions into the public web root**; execution follows if the deployment permits the uploaded file type. Same class as the CodeIgniter4 `ext_in` upload-validation work: extension trust is decided by MIME while the original name survives.
 
+## October 6 follow-up: the LSP binary leg gets its GHSA — two execution sinks per session (GHSA-mc52-mwq4-vfx3 / CVE-2026-86540, 7.8, published 18:58Z)
+
+The repo-trust leg first tracked as duplicate GHSA-6ph4-r249-58p2 now has a full advisory with the sink anatomy. `.knowns/config.json`'s `settings.lsp.languages.<lang>.binary` field is **never validated** (`ProjectSettings.Validate()` checks duration formats and completely ignores the `LSPLanguageSettings.Binary` field), and the attacker-named binary executes **twice per session**: sink #1 `Detector.resolve()` → `exec.LookPath()` → `runVersionCheck()` `cmd.Run()` with attacker CheckArgs; sink #2 `Server.Start()` → `knownsprocess.Command()` spawn. Chained with the knowns config-overwrite legs, fully unauthenticated RCE.
+
+- Audit rule sharpened: on any repo-triggered **version/health check** ("run the binary with `--version` first"), the health check itself is an exec sink that runs *before* any user prompt about the project — validate-config-vs-validate-binary is the gap, and a `Validate()` function that covers some fields of a struct is a fingerprint for the fields it silently misses (enumerate the struct, diff the checked fields).
+- Dual-sink reminder for dev-tooling audits: when a trusted-path binary is used, count **every** exec site (version check, server spawn, restart, diagnostics) — one guard rarely covers all of them, and the pre-prompt health check is the earliest.
+- Proof discipline unchanged: canary script in a disposable workspace recording argv, never on a real dev machine.
+
 ## Durable operator value
 
 1. **Classification tables, not endpoint gates, are the auth control in agent tooling.** One knowns finding says a mutating tool is *labeled* read-only; two more say paths aren't bound to the project root. Audit the tool→(risk-class, root) mapping, not just route middleware.
