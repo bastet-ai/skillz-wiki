@@ -8,7 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
-- [Payload CMS eight-GHSA wave — case-sensitive `and/or` query validation, unvalidated join sort, join-predicate reset-token oracle, redirect whitespace-prefix drift, unauth import-export RCE (Oct 6 16:0xZ)](alerts/2026-10-06-payload-cms-eight-leg-wave-query-validation-join-sort-and-redirect-normalization-ghsa.md)
+- [Payload CMS fifteen-GHSA wave — case-sensitive `and/or` query validation, unvalidated join sort, join-predicate reset-token oracle, auth-verb field-ACL misses (refresh/reset/duplicate/API-key/password), redirect whitespace-prefix drift, unauth import-export RCE (Oct 6 16:0xZ)](alerts/2026-10-06-payload-cms-eight-leg-wave-query-validation-join-sort-and-redirect-normalization-ghsa.md)
 
 - [vm2 coordinated dump — incomplete-fix genealogy as recon map, default-config escapes, shared Buffer-pool cross-realm memory (Oct 5 22:3xZ)](alerts/2026-10-05-vm2-coordinated-dump-incomplete-fix-family-and-default-config-escapes-ghsa.md)
 
