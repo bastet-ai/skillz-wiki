@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Payload CMS eight-GHSA wave — case-sensitive `and/or` query validation, unvalidated join sort, join-predicate reset-token oracle, redirect whitespace-prefix drift, unauth import-export RCE (Oct 6 16:0xZ)](alerts/2026-10-06-payload-cms-eight-leg-wave-query-validation-join-sort-and-redirect-normalization-ghsa.md)
+
 - [vm2 coordinated dump — incomplete-fix genealogy as recon map, default-config escapes, shared Buffer-pool cross-realm memory (Oct 5 22:3xZ)](alerts/2026-10-05-vm2-coordinated-dump-incomplete-fix-family-and-default-config-escapes-ghsa.md)
 
 - [Joomla extension wave — token-existence-only download authz, guest-reachable `jform` save controllers, unauthenticated task triggers, picker SSRF with admin OAuth token (Oct 5 18:34Z)](alerts/2026-10-05-joomla-extension-token-existence-public-controller-and-task-trigger-ghsa.md)
@@ -25,7 +27,5 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Bouncy Castle .NET parser, oracle, and constraint-bypass wave — Bleichenbacher/padding oracles, PKIX name-constraint bypasses, forged attribute certs, pre-auth ASN.1 exhaustion shapes (Oct 2 09:31Z)](alerts/2026-10-02-bouncy-castle-net-parser-oracle-and-constraint-bypass-wave-ghsa.md)
 
 - [AI serving/RAG wave — unauthenticated KV-cache data plane, tenant-blind RAGFlow routes, Langflow validate-code RCE (Oct 2 00:31Z)](alerts/2026-10-02-ai-serving-rag-stack-authz-and-path-wave-ghsa.md)
-
-- [Oct 1 21:3xZ wave — httpd module-primitives tier + seven folds (no new page)](alerts/2026-10-01-apache-httpd-auth-state-lifecycle-digest-replay-h2-uaf-ghsa.md#october-1-213xz-follow-up-the-rest-of-the-wave-module-level-primitives-folded)
 
 
