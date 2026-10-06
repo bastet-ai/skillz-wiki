@@ -186,3 +186,10 @@ Report shape: sanitizer version, mode (`IN_PLACE` vs string), hook registration 
 
 - The earlier [`selectedcontent` browser re-cloning check](2026-06-01-rattler-vitest-dompurify-mcp-boundary-batch-ghsa.md#dompurify-selectedcontent-xss-check) covers a separate post-sanitization DOM mutation pattern.
 - [AngleSharp HTML integration-point checks](2026-07-17-skipper-cloudtak-anglesharp-boundaries-ghsa.md) provide a parallel parser-context methodology for non-browser sanitizers.
+
+## October 6 follow-up: IN_PLACE force-removal misses the rawtext text-content carrier (GHSA-6688-9rhm-gjv2, ≤3.4.15, fixed 3.4.16)
+
+The 3.4.9 IN_PLACE hardening added a fail-closed `TypeError` when a force-removed node can't detach, plus a `_neutralizeSubtree` pass stripping non-allowlisted **attributes** from removed subtrees. Both miss the case where the force-removed root **is a rawtext element** (`<style>`): the payload lives in the node's *text*, the node detaches cleanly (guard never fires), neutralization strips nothing (no attributes), and the `IN_PLACE` return hands the caller the detached node whose text still carries attacker markup — a later pure-HTML reparse of that tree executes it.
+
+- Durable rule for any sanitizer with an in-place/detach-and-return contract: **the neutralization pass must cover every carrier form, not just the attribute form** — attributes, text content of rawtext elements (`style`, `script`, `textarea`, `title`), and comment nodes each need explicit coverage. When auditing, enumerate carrier forms as a battery: same payload placed in attribute vs rawtext-text vs comment, diff what survives removal.
+- Validation harness (owned disposable page): `DOMPurify.sanitize(node, {IN_PLACE:true})` on a tree whose root is `<style>` containing markup that arms a benign marker on reparse; check whether the returned node's text still contains the payload and whether the marker fires after a caller-side re-insert. Negative control on 3.4.16. This continues the page's thesis: DOMPurify's fix surface is state/lifecycle interaction, not the allow-list.
