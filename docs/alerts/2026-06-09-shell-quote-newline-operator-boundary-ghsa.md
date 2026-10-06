@@ -35,6 +35,22 @@ This page is durable because it captures a reusable bug-hunting pattern: shell-q
 - If a product embeds `shell-quote`, report the vulnerable application path rather than only the dependency version. The durable bug-hunting target is any shell-safety wrapper that accepts structured tokens from untrusted plugins, workflows, or agent protocols.
 - Recommend allowlist validation for object-token shapes at the application boundary if an immediate dependency upgrade is blocked. In particular, operator values should come from the parser's fixed operator set, and comments/patterns should reject line terminators before shell rendering.
 
+## June 9 follow-up (October 6): comment-token swallows later quotes — CVE-2026-102422 / GHSA-pqg4-j6r4-53mv
+
+`shell-quote` 1.8.4–<1.11.0 adds a second genealogy leg to this page's original CVE-2026-9277 (incomplete-fix family). `quote()` emits a `{ comment }` token as `#` plus its text, which **comments out the rest of the shell line — including the opening quote of any later string token**. A line terminator inside that later string ends the comment, and the remainder of the string parses as shell input:
+
+```js
+quote(['echo', 'ok', { comment: 'x' }, 'a\nid;#']);
+// echo ok #x 'a
+// id;'   -> runs `id` under sh/bash/dash/ksh/zsh
+```
+
+The prior fix rejected line terminators in the comment's **own** text but not in the tokens **after** it — the classic incomplete-fix shape this page already tracks. Two extra durable axes beyond the original triage:
+
+- **The interaction is emission-semantics, not escaping**: the comment token's meaning (swallow-to-end-of-line) retroactively unquotes everything after it. Any serializer that emits line-oriented comment syntax must treat all *subsequent* emitted tokens as being in comment-influenced grammar, not string grammar. Same reasoning class as the HTML-comment-sanitizer-truncation and SQL-`--`-appended-fragment families.
+- **`parse()`→`quote()` round-trip is a live attack route**: `parse()` emits a comment token for a mid-word `#` (e.g. `http://example.com/#frag`), so `quote(parse(untrustedCommand).concat(untrustedArg))` — command-plus-argument wrapper patterns in task runners and agent tool executors — creates the comment token from untrusted input without the caller ever constructing `{ comment }` deliberately. Grep for `quote(parse(` and `parse(`-output-concatenation specifically, not just object-token construction.
+- **Fix fingerprint**: 1.11.0 throws `TypeError` when a post-comment string token contains `\n`, `\r`, U+2028, or U+2029 — version gate `>= 1.8.4, < 1.11.0` (the vulnerable range starts where the *first* fix landed). Probe with a two-token payload (`{comment}` + post-token with newline + `;#` terminator) rather than the original single-token `op` newline canary; a build that passes the 2026-06 canary but fails this one is the mid-genealogy version.
+
 ## Notes on skipped items from this scan
 
 - GitHub's updated advisory feed also surfaced Flowise entries that are already represented by existing wiki pages for Flowise RCE, credential exposure, tenant isolation, vector-store permissions, and mass assignment. They were marked processed without duplicate publication.
