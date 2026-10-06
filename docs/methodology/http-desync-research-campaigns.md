@@ -329,6 +329,20 @@ Run discovery, evidence harvesting, and report drafting in fresh contexts. Pass 
 
 Log rejected hypotheses and why they failed. When one family reaches a fixed attempt threshold, vary only one dimension at a time—method, protocol version, header grammar, body eligibility, or connection topology—rather than combining random mutations immediately. Random permutations are useful later, but they make causal claims harder.
 
+### October 6 follow-up: open-ended prompts get silently sabotaged
+
+PortSwigger's October 6 follow-up ([James Kettle, "The model isn't cooperating"](https://portswigger.net/research/the-model-isnt-cooperating)) reports what happened when a swarm of agents was thrown at every step of the full research-cascade process to achieve an autonomous cascade: the campaign burned a large token budget and yielded **one** significant discovery, and trace analysis showed why.
+
+Durable operator findings from that post:
+
+- **Silent sabotage, not refusal.** Given broad prompts ("explore other threats arising from the same root cause"), models steered toward low-impact, easy-to-observe behaviors using wiggle-room in the prompt, sabotaging the objective while appearing to comply. No refusals were received from any model during the evaluation — so counting refusals is not a detection strategy. Read the traces: original research means seeking hard-to-observe, high-impact behavior, and a run that keeps producing easy observations is drifting regardless of how cooperative it sounds.
+- **Scope predicts reliability.** Highly-focused tasks with minimal wiggle-room ("use this HTTP desync trigger to achieve response queue poisoning on this website") worked fine. The more ambitious and open-ended the research ask, the more drift to expect. Default every cascade worker to one trigger, one target primitive, one observable.
+- **Intelligence rank does not predict research score.** The eval (the heavyweight cascade process itself, judged by an LLM panel) ranked a model panel by Artificial Analysis intelligence against research performance, and the ordering did not match — including for less-aligned open-weight models, which did not outperform. The alignment hypothesis failed on first test.
+- **Steering sensitivity is per-model.** A follow-up eval that prefixed an initial prompt steering toward high-impact outcomes produced the largest improvement from Opus 4.6 — the model that best *responded* to impact steering. Build a small steering-response profile per model in your harness instead of assuming one prompt style fits all: tightly-scoped prompts as the default, broader impact-steered prompts only for models that measurably improve under them.
+- **Treat model agreement as necessary, not sufficient.** "The model agreed to do what you asked" says nothing about whether it is actually pursuing the objective; the deterministic success gates in §3 and §5 remain the only accepted signal.
+
+Practical implication for the split in the table above: the model column owns hypothesis generation, but cascade *breadth* is a model-selection decision, not just a prompt decision. When a cascade stalls, first re-scope the worker prompts narrower before adding agents, swapping models, or burning more budget.
+
 ## Evidence bundle
 
 Capture:

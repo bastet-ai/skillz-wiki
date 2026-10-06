@@ -90,6 +90,8 @@ Do not ask one session to maximize code coverage and find a vulnerability. Those
 
 Each worker should receive the same threat model and report schema, but only one outcome. Keep run IDs, repository commits, inputs, and artifacts isolated so results can be replayed independently.
 
+PortSwigger's October 6 "The model isn't cooperating" eval generalized this: open-ended research prompts ("explore other threats arising from the same root cause") cause models to silently steer toward low-impact, easy-to-observe outcomes without refusing — intelligence rank did not predict research score, and impact steering helped models unevenly (Opus 4.6 responded best). See the "October 6 follow-up" section of the [HTTP desync research campaigns](http-desync-research-campaigns.md) page for the trace-review, scope-narrowing, and per-model steering-response rules before adding agents or budget to a stalled campaign.
+
 ### Gate variant-analysis inputs and outputs
 
 Historical critical bugs are useful seeds only after a gate confirms they represent a real security boundary for the current threat model. Route each seed to:
