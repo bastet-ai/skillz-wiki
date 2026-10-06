@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Coraza WAF evasion wave — `SecArgumentsLimit` silent-drop ARGS bypass (94% at 10k args), truncated-multipart 200003 voiding, Native audit-log CRLF forgery; WAF fingerprint via drop-behavior differentials (Oct 6 20:3xZ)](alerts/2026-10-06-coraza-waf-evasion-wave-argument-limit-silent-drop-multipart-truncation-and-audit-log-forgery-ghsa.md)
+
 - [Payload CMS fifteen-GHSA wave — case-sensitive `and/or` query validation, unvalidated join sort, join-predicate reset-token oracle, auth-verb field-ACL misses (refresh/reset/duplicate/API-key/password), redirect whitespace-prefix drift, unauth import-export RCE (Oct 6 16:0xZ)](alerts/2026-10-06-payload-cms-eight-leg-wave-query-validation-join-sort-and-redirect-normalization-ghsa.md)
 
 - [vm2 coordinated dump — incomplete-fix genealogy as recon map, default-config escapes, shared Buffer-pool cross-realm memory (Oct 5 22:3xZ)](alerts/2026-10-05-vm2-coordinated-dump-incomplete-fix-family-and-default-config-escapes-ghsa.md)
@@ -25,7 +27,5 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [YesWiki 36-GHSA wave — secondary-handler ACL drift, ActivityPub signer-actor binding, deferred identifier SQLi, destructive-GET sweep (Oct 2 12:31Z)](alerts/2026-10-02-yeswiki-secondary-handler-acl-drift-federation-sig-and-deferred-sqli-ghsa.md)
 
 - [Bouncy Castle .NET parser, oracle, and constraint-bypass wave — Bleichenbacher/padding oracles, PKIX name-constraint bypasses, forged attribute certs, pre-auth ASN.1 exhaustion shapes (Oct 2 09:31Z)](alerts/2026-10-02-bouncy-castle-net-parser-oracle-and-constraint-bypass-wave-ghsa.md)
-
-- [AI serving/RAG wave — unauthenticated KV-cache data plane, tenant-blind RAGFlow routes, Langflow validate-code RCE (Oct 2 00:31Z)](alerts/2026-10-02-ai-serving-rag-stack-authz-and-path-wave-ghsa.md)
 
 
