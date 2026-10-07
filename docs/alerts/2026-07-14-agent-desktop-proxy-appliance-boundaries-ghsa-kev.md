@@ -90,7 +90,17 @@ The operator treatment is the same as CVE-2026-15409/15410 above, scoped to the 
 2. **CVE-2026-83549 (OS command injection)** — test only as an administrator in a lab. Stop at command-construction evidence or an inert marker command (nonce to a controlled log). Do not run a real command, do not publish a payload, and do not perform a state-changing appliance action.
 3. Keep the report bounded to the preconditions CISA lists for each CVE (unauthenticated/remote SSRF reach for 83548; specific authenticated-administrator command-execution conditions for 83549). Pair the two new entries with the 15409/15410 evidence on one SMA1000 validation queue so the appliance line is assessed as a whole, not as four disconnected CVEs.
 
-The durable operator value is unchanged: **SMA1000 is a repeat-KEV perimeter appliance**, so it belongs on the perimeter-appliance recon sweep with a single combined boundary matrix (route × auth × sink) rather than per-CVE patch notes.
+The durable operator value is unchanged: **SMA1000 is a repeat-KEV perimeter appliance**, so it belongs on the perimeter-appliance recon sweep with a single combined boundary matrix (route × auth × sink) rather than per-CVE news.
+
+### October 7 follow-up: SMA1000 four-GHSA boundary wave — alternate-access-path SSRF, AMC Zip Slip RCE, admin cmdi, admin stored XSS (CVE-2026-102255 / 102257 / 102256 / 102258, [GHSA-xww4-pc4h-x9hj](https://github.com/advisories/GHSA-xww4-pc4h-x9hj), [GHSA-5vfm-g74w-hp7p](https://github.com/advisories/GHSA-5vfm-g74w-hp7p), [GHSA-34mf-86x9-c654](https://github.com/advisories/GHSA-34mf-86x9-c654), [GHSA-mhvj-2r3g-vr93](https://github.com/advisories/GHSA-mhvj-2r3g-vr93))
+
+A fourth GHSA wave landed on the same appliance line (published Oct 7 15:31Z), extending the combined matrix with three new sink classes:
+
+1. **Pre-auth SSRF via "unintended alternate access path" on the Work Place interface** ([GHSA-xww4-pc4h-x9hj](https://github.com/advisories/GHSA-xww4-pc4h-x9hj)): the fetch leg lives on a route family that isn't the documented feature surface. Third SMA1000 SSRF entry — treat "which routes issue outbound requests" as a whole-interface sweep (portal + Work Place + AMC), not per-CVE. Proof stays owned-no-content-callback + route/auth evidence.
+2. **Zip Slip in the AMC → file extraction outside destination → RCE** ([GHSA-5vfm-g74w-hp7p](https://github.com/advisories/GHSA-5vfm-g74w-hp7p), high): appliance upload handlers remain archive-extraction targets. Archive members with `../` write into appliance paths; appliance firmware updates/config imports are the classic carrier. Lab-image proof with inert marker paths only.
+3. **Post-auth admin OS command injection** ([GHSA-34mf-86x9-c654](https://github.com/advisories/GHSA-34mf-86x9-c654), high) and **post-auth admin stored XSS in the AMC** ([GHSA-mhvj-2r3g-vr93](https://github.com/advisories/GHSA-mhvj-2r3g-vr93), medium): admin-scoped, lab-only, inert-marker proofs per the standing rule. The XSS leg matters as an admin-session-relay primitive (console stored XSS = attacker acts through a legitimate admin browser) rather than standalone.
+
+Matrix update: the SMA1000 validation queue now covers **3 pre-auth SSRF entries + 2 admin code-injection entries + 1 Zip Slip + 1 console XSS** across KEV and GHSA feeds since July — same conclusion, stronger: this product line gets assessed as one boundary matrix or not at all.
 
 ## Reporting notes
 
