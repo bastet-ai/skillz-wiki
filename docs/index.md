@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Backstage seven-GHSA wave — TechDocs `mkdocs.yml` sanitizer allow-list misses (`extra_templates`, `pymdownx.snippets` base_path/url_download) → repo-commit-to-backend RCE, Scaffolder `order=` secret oracle, task event/log credential reflection (Oct 7 16:2xZ)](alerts/2026-10-07-backstage-techdocs-sanitizer-allowlist-and-scaffolder-order-oracle-wave-ghsa.md)
+
 - [Veeam Backup & Replication wave — Backup Viewer→SYSTEM RCE via Mount Service deserialization, EM master-key tamper, Cloud Connect tenant→provider arbitrary file read, AAP cleartext creds in guest logs; lowest-tier backup-role audit rule (Oct 7 11:1xZ)](alerts/2026-10-07-veeam-br-cloud-connect-backup-plane-role-and-boundary-wave-ghsa.md)
 
 - [HPE ClearPass + AOS-S coordinated wave — unauthenticated deserialization/format-string/SQLi/auth-bypass ladder on the NAC management plane, path-traversal role oracle, OnGuard agent fleet as second network-facing surface, ArubaOS-Switch wired sibling; pre-auth-parse-is-the-boundary rule (Oct 6 21:3xZ)](alerts/2026-10-07-hpe-clearpass-aos-s-unauth-primitive-ladder-nac-trust-boundaries-ghsa.md)
@@ -26,4 +28,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 - [UTMStack — static `Utm-Internal-Key` env-var header = full admin API + any-user STOMP `/command/{hostname}` agent RCE (Oct 2 21:32Z)](alerts/2026-10-02-utmstack-internal-key-header-and-agent-command-transport-ghsa.md)
 
-- [Zammad KEV chain — session fixation → service-user RCE + unfixed zammad→root LPE (Oct 2 16:1xZ)](alerts/2026-10-02-zammad-session-fixation-to-root-kev-cve-2026-102489.md)

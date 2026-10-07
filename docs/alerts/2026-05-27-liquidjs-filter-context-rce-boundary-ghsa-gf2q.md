@@ -71,3 +71,13 @@ Reviewed but not promoted as new standalone Skillz guidance:
 - [LiquidJS remote code execution (`GHSA-gf2q-c269-pqgc`)](https://github.com/advisories/GHSA-gf2q-c269-pqgc)
 - [LiquidJS upstream advisory (`GHSA-gf2q-c269-pqgc`)](https://github.com/harttle/liquidjs/security/advisories/GHSA-gf2q-c269-pqgc)
 - [LiquidJS `v10.26.0` release](https://github.com/harttle/liquidjs/releases/tag/v10.26.0)
+
+## October 7 follow-up: `ownPropertyOnly` is enforced per-access-path, not per-value — six filter/loop paths still read inherited array indices (CVE-2026-106120 / [GHSA-fwxr-j5w2-587m](https://github.com/advisories/GHSA-fwxr-j5w2-587m), fixed 10.27.2)
+
+`ownPropertyOnly: true` correctly blocks direct `{{ a[0] }}` reads of inherited (prototype-polluted `Array.prototype`) values — but the same inherited value still discloses through `.first`, `.last`, negative indexing, `for`-loop iteration, and the `first`/`last`/`join`/`reverse`/`slice`/`compact` filters. Durable rules, generalizing this page's core lesson ("the hardening option is a per-code-path property"):
+
+1. **Security options are enforced per access path; enumerate every path.** Bracket access was patched, filter sugar and loop iteration were not. For any template engine's sandbox/confinement option (`ownPropertyOnly`, `restrictSyntax`, JS `Object.freeze`-style guards), build an access-path battery — direct index, dot-sugar aliases, negative index, iteration, every filter that touches elements — and run the full battery against the *enabled* option, not just the canonical spelling.
+2. **Filter names are an access-path inventory.** Liquid filters (`first`/`last`/`join`/`slice`/`compact`) each re-implement element access; a per-engine audit means grepping filter implementations for how they read elements (`arr[i]` vs `Object.hasOwn` checks) rather than trusting the render-level flag.
+3. **This is a disclosure leg of the same option this page's May finding already broke** (`valueOf`/filter-comparison context escape): two independent bypasses of one hardening option in six months = the option's enforcement surface is the audit target; re-sweep every confinement option on any template engine where one bypass has ever been published.
+
+Bounded validation per this page: local render harness, polluted `Array.prototype[0]` with a synthetic marker string, proof = marker appearing via each filter while direct access stays blocked (decision table per path). Prototype pollution itself needs a separate vector; do not chain beyond disclosure without authorization.
