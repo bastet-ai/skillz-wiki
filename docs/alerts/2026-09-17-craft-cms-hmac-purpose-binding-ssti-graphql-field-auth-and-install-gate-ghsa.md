@@ -52,6 +52,24 @@ The two RCE advisories are the same audit family: **an HMAC envelope proves inte
 - For the incomplete-fix advisory, cite the prior CVE and show the fix commit introduced the oracle — that's a maintainer-trust finding as well as a vulnerability.
 - GraphQL and reorder findings are authorization deltas; evidence is the request/response pair plus role/flag state, no data volume.
 
+## October 7 follow-up: preview-token action re-dispatch to unauthenticated admin impersonation
+
+[GHSA-cc7p-2j3x-x7xf](https://github.com/advisories/GHSA-cc7p-2j3x-x7xf) / CVE-2026-32267 (updated-feed enrichment landing 2026-10-07T06:59Z, original advisory March 16; fixed 4.17.6 / 5.9.12) completes this page's token-binding theme with a **full-privilege pre-auth takeover**: any holder of a valid Craft **preview token** — including an unauthenticated visitor sent a shared preview URL, or an editor who clicked Preview once on their own entry — can request `/?token=<preview>&action=users/impersonate-with-token&userId=1&prevUserId=1` and land in the admin dashboard as user 1. The advisory ships a working PoC, so this is a proven class, not inference.
+
+Three defects compose it:
+
+1. `actionPreview()` re-dispatches with `$skipSpecialHandling=true`, which bypasses all security guards on the re-dispatched request, and passes `$checkToken=false` to `checkIfActionRequest()` — so an attacker-controlled `action` query parameter **overrides the dispatch target** of a tokenized preview URL.
+2. The `requireToken()` guard on `actionImpersonateWithToken()` only checks a boolean `_hadToken` set when *any* preview token resolved. The token is never bound to the impersonation action — the same purpose-binding gap as CVE-2026-92592/92593 above, now on the session-mint side instead of the HMAC side.
+3. `actionImpersonateWithToken` sits in `$allowAnonymous` with no authorization beyond `requireToken()` — possession of any valid token from any route *is* the authentication.
+
+Operator patterns for this class:
+
+- **Action re-dispatch sweep.** Where a controller re-dispatches internally (`handleRequest`, forward, sub-request), diff the guard set of the outer request vs the inner one. Flags like `skipSpecialHandling`/`_inner` that suppress guards on the second pass, combined with a routable `action`/`_target` query parameter, give one valid token from a low-trust route as an envelope for any anonymous action.
+- **`$hadToken`-style booleans are not bindings.** Grep guard code for boolean "a token was present" checks (`_hadToken`, `tokenValid=true`); compare against guards that re-derive the intended action/route from the token payload. Every impersonation, password-reset-completion, magic-link, and SSO-handoff action guarded only by presence-of-token is the same bug.
+- **Anonymous allow-list inventory.** `$allowAnonymous` (or per-action anonymous lists in any Yii/Craft-lineage or Laravel app) plus a single weak guard = pre-auth surface. Enumerate the list from source or route dumps, then probe each entry with a token minted for a *different* purpose.
+- **Shared URLs carry the token to unauthenticated parties.** Preview, live-preview, and share links embed tokens in iframe `src` values — a token you were "sent" is an attacker-reachable pre-auth trigger leg. Treat forwarded preview URLs as credential material in scope conversations.
+- Fingerprint band: 4.x ≤ 4.17.5 and 5.x ≤ 5.9.11 are vulnerable; the PoC's expected 404-then-admin-landing behavior means a successful hit looks like a navigation error, not a redirect — verify by following up with `/admin` in the same session.
+
 ## Tracked without publication
 
 - Craft `User` element adjacent hygiene items in the same wave without a new boundary.
@@ -59,4 +77,4 @@ The two RCE advisories are the same audit family: **an HMAC envelope proves inte
 
 ---
 
-*Source: hourly offensive-security scan, 2026-09-17 (00:31Z GitHub advisory wave). Tracked in the [source index](../notes/source-index.md).*
+*Source: hourly offensive-security scan, 2026-09-17 (00:31Z GitHub advisory wave); October 7 follow-up added 2026-10-07 from the enriched GHSA-cc7p landing. Tracked in the [source index](../notes/source-index.md).*
