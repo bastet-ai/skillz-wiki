@@ -60,6 +60,16 @@ Operator value:
 
 Safe validation boundaries: authorized appliance labs only; proof = canary token you seeded into the integration config re-appearing in the crafted response for the read-only principal. Positive/negative pair: read-only sees marker; anonymous and a non-integration role do not.
 
+## October 7 follow-up: Devolutions Server wave two — redirect-exposed tokens, replayable device links, view-only write (CVE-2026-9226 / GHSA-jfrq-j4wj-3h93, CVE-2026-105485 / GHSA-h4fx-378p-mcpj, CVE-2026-105488 / GHSA-w745-4j22-6fw5)
+
+The same credential-vault product shipped a second cluster (≤2026.3.7.0, vendor advisory DEVO-2026-0035):
+
+- **Azure AD external login: account takeover by replaying a login-session token exposed in a redirect URL.** The handoff token rode in a URL the victim's browser sees (Referer/history/log leakage surface). Standing rule: any IdP-finish URL carrying a session/credential artifact is a leak primitive — capture-shape check on your own instance is whether the token sits in query vs fragment vs post body, and whether it's single-use with expiry. This is the OIDC/browser-relay family already on the Sept 16 IdP authority page; Devolutions is now a *recurring product anchor* for it.
+- **OAuth device flow: replay of a captured device verification link by an authenticated victim = ATO.** Device-code surfaces where the verification link is bearer-like and replayable let a captured click complete login as the victim. Device-flow audit battery: single-use? bound to the initiating client/IP window? short polling expiry? victim-consent shown per use?
+- **Global vault: view permission ≠ write — a view-only principal could modify and delete global contact/folder entries.** The read/write verb-split on shared vault objects (already rule 2 above for params) now has a *verb-family* twin: enumerate PATCH/PUT/DELETE on every object type as a view-only synthetic user, not just GET variants.
+
+Validation stays as before: owned Devolutions Server lab, synthetic users, marker entries; token-capture proofs on your own redirect flows only.
+
 ## Tracked from the same waves without publication
 
 - [GHSA-75h8-hx74-6qmf](https://github.com/advisories/GHSA-75h8-hx74-6qmf) / CVE-2026-93964 (NginxProxyManager unauthenticated cert-validate route: echoes submitted cert, risk is unauthenticated openssl processing) — missing-auth axis already covered; no cross-boundary proof beyond echo.

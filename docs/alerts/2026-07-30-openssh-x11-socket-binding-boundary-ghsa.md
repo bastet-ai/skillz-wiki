@@ -62,3 +62,16 @@ Include the local-host foothold and X11-forwarding preconditions in the title an
 5. any higher-level X11 confidentiality or manipulation impact, which should remain untested outside a vendor-provided fixture.
 
 Do not report remote SSH compromise, server-side privilege escalation, cross-host interception, arbitrary keystroke theft, or desktop control from socket binding alone.
+
+## October 7 follow-up: OpenSSH 10.6 batch — the ineffective-hardening-knob family (CVE-2026-106586 / CVE-2026-106582 / CVE-2026-106553 / CVE-2026-106552)
+
+The OpenSSH 10.6 release fixed a cluster whose common denominator is **documented restriction options that did not actually restrict**:
+
+- `restrict` in `authorized_keys` never applied to **tunnel forwarding** (`permit-tunnel` survived the "disable everything" keyword) — CVE-2026-106586.
+- The **LZ77 compressed transport coder** remained negotiable even where compression was meant to be disabled — CVE-2026-106582 (the Compression-Oracle-era compression option is still a live protocol leg).
+- **Credentials could persist after a failed keyboard-interactive** re-auth — CVE-2026-106553 (auth-state cleanup on failure path).
+- A malicious **sftp server** can trigger directory traversal during client-side recursive copy — CVE-2026-106552: client trusts server-supplied path components, the VPN-client-role-reversal axis again — on red-team infrastructure, a hostile SFTP/WebDAV endpoint a target employee connects *out* to writes outside the download dir.
+- Plus certificate expiry mishandling in `ssh-keygen` (CVE-2026-106584) and unenforced max-packet-length check (CVE-2026-106585).
+
+- Operator rules: (1) **audit SSH hardening by testing what each knob actually gates**, not by reading `sshd_config`/`authorized_keys` — on authorized engagements, enumerate forbidden-verb survivors past `restrict` (tunnel, agent-forwarding, port-forwarding variants, `permit-tunnel`) against your own test user; option-grant grammar has repeatedly been per-option, and the "catch-all" keyword lags new options. (2) Client-side trust: any automation or analyst that pulls from third-party SFTP/SCP endpoints should be treated as running a hostile-server protocol — test recursive-copy traversal only against your own listener.
+- Version fingerprint: these are <10.6 fixes; `ssh -V` on targets and jump hosts is the whole triage.

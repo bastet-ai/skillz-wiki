@@ -21,6 +21,13 @@ The durable lesson: cryptographic wrappers, agent-tool specs, table renderers, a
 4. For Dolibarr deployments using online signatures, inventory versions and module exposure, monitor for vendor clarification, and avoid relying on `dol_verifyHash` decisions for high-value approval flows until patched or compensating controls are in place.
 5. Re-run tests around the consuming operation: `CipherCtxRef::cipher_update*` / `Crypter::update`, UTCP `call_tool*`, NetBox table rendering, and Dolibarr signature verification.
 
+## October 7 follow-up: NetBox core custom-links Jinja2 context exposes the raw HttpRequest — sanitizer-bypassing credential exfil (CVE-2026-104073 / GHSA-hwq6-cq8c-9m9m, 7.6, NetBox 2.9.5–<4.7.0)
+
+A low-privileged user holding only the **"Can add custom links"** permission can embed `request.COOKIES['sessionid']` or a victim's API token into a custom-link Jinja2 template rendered as an `<img src>` URL — the raw Django `HttpRequest` object was in the template context, and the value-in-URL shape bypasses the `clean_html` sanitizer; the exfil fires automatically when any privileged user views the object. Full account takeover from a low-tier grant.
+
+- Durable axis: **user-editable template fields = SSTI even when output is HTML-sanitized, if the template engine's context carries privileged objects.** The sanitizer only inspects markup; data pulled *through* the engine into an attribute (URL) sails past it. Audit rule for every product with user-controlled templates (custom links, webhooks with templating, email/notification templates, report generators, label printers): render `{{ request }}`, `{{ config }}`, engine-specific introspection (`{{ self._TemplateTemplate__class__.mro }}`, Jinja `{{ lipsum.__globals__ }}`, Django `{{ forloop }}`-chain walks) against a lab instance and enumerate context variable names; a context containing `request`, session, or settings objects converts a "preview" feature into credential exfil without any executable markup.
+- NetBox-specific hunt note (second NetBox item on this page): on authorized NetBox assessments, the **custom-links feature alone is an operator-reachable attack surface** — enumerate permission grants (`extras.add_customlink`) before concluding a low-priv user has no path to admin sessions; check the 4.7.0 fix (context pruning) as the version gate, and validate with your *own* sessionid in the img src against an owned callback only.
+
 ## Hunt prompts
 
 - Rust services using `EVP_aes_*_wrap_pad` or `Cipher::aes_*_wrap_pad()` with input lengths not fixed or controlled by trusted code.
