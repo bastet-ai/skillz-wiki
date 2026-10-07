@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Cisco 35-GHSA coordinated review dump — NGOAM VXLAN/MPLS/SRv6 OAM unauthenticated root RCE cluster (feature-enabled = attack surface, `show running-config` fingerprint), NX-API root RCE, Cisco License On-Prem CVSS 10.0 forgotten licensing appliance; GHSA review-dumps = pointers to vendor advisories, not sources (Oct 7 18:32Z)](alerts/2026-10-07-cisco-coordinated-review-dump-ngoam-management-plane-and-license-appliance-ghsa.md)
+
 - [Backstage seven-GHSA wave — TechDocs `mkdocs.yml` sanitizer allow-list misses (`extra_templates`, `pymdownx.snippets` base_path/url_download) → repo-commit-to-backend RCE, Scaffolder `order=` secret oracle, task event/log credential reflection (Oct 7 16:2xZ)](alerts/2026-10-07-backstage-techdocs-sanitizer-allowlist-and-scaffolder-order-oracle-wave-ghsa.md)
 
 - [Veeam Backup & Replication wave — Backup Viewer→SYSTEM RCE via Mount Service deserialization, EM master-key tamper, Cloud Connect tenant→provider arbitrary file read, AAP cleartext creds in guest logs; lowest-tier backup-role audit rule (Oct 7 11:1xZ)](alerts/2026-10-07-veeam-br-cloud-connect-backup-plane-role-and-boundary-wave-ghsa.md)
@@ -25,6 +27,4 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Oct 2 23:18Z wave — two folds, no new page: Gitea act_runner `container.options` host-namespace escape (workflow YAML → runner-host root despite privileged-mode-disabled) + SiYuan agent-plane DNS-rebinding TOCTOU and MCP `asset.upload` absolute-path read](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md#october-2-follow-up-act_runner-containeroptions-host-namespace-escape-folded)
 
 - [Airflow 3.3.1 wave — deserializer gadgets into the scheduler, dependency-vs-handler parser discrepancy, secret-masker shape gaps (Oct 2 23:1xZ)](alerts/2026-10-02-airflow-deserializer-gadgets-parser-discrepancy-and-masker-shape-gaps-ghsa.md)
-
-- [UTMStack — static `Utm-Internal-Key` env-var header = full admin API + any-user STOMP `/command/{hostname}` agent RCE (Oct 2 21:32Z)](alerts/2026-10-02-utmstack-internal-key-header-and-agent-command-transport-ghsa.md)
 
