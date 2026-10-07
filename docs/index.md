@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Veeam Backup & Replication wave — Backup Viewer→SYSTEM RCE via Mount Service deserialization, EM master-key tamper, Cloud Connect tenant→provider arbitrary file read, AAP cleartext creds in guest logs; lowest-tier backup-role audit rule (Oct 7 11:1xZ)](alerts/2026-10-07-veeam-br-cloud-connect-backup-plane-role-and-boundary-wave-ghsa.md)
+
 - [HPE ClearPass + AOS-S coordinated wave — unauthenticated deserialization/format-string/SQLi/auth-bypass ladder on the NAC management plane, path-traversal role oracle, OnGuard agent fleet as second network-facing surface, ArubaOS-Switch wired sibling; pre-auth-parse-is-the-boundary rule (Oct 6 21:3xZ)](alerts/2026-10-07-hpe-clearpass-aos-s-unauth-primitive-ladder-nac-trust-boundaries-ghsa.md)
 
 - [Coraza WAF evasion wave — `SecArgumentsLimit` silent-drop ARGS bypass (94% at 10k args), truncated-multipart 200003 voiding, Native audit-log CRLF forgery; WAF fingerprint via drop-behavior differentials (Oct 6 20:3xZ)](alerts/2026-10-06-coraza-waf-evasion-wave-argument-limit-silent-drop-multipart-truncation-and-audit-log-forgery-ghsa.md)
@@ -25,7 +27,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [UTMStack — static `Utm-Internal-Key` env-var header = full admin API + any-user STOMP `/command/{hostname}` agent RCE (Oct 2 21:32Z)](alerts/2026-10-02-utmstack-internal-key-header-and-agent-command-transport-ghsa.md)
 
 - [Zammad KEV chain — session fixation → service-user RCE + unfixed zammad→root LPE (Oct 2 16:1xZ)](alerts/2026-10-02-zammad-session-fixation-to-root-kev-cve-2026-102489.md)
-
-- [YesWiki 36-GHSA wave — secondary-handler ACL drift, ActivityPub signer-actor binding, deferred identifier SQLi, destructive-GET sweep (Oct 2 12:31Z)](alerts/2026-10-02-yeswiki-secondary-handler-acl-drift-federation-sig-and-deferred-sqli-ghsa.md)
-
-
