@@ -249,6 +249,21 @@ Treat loopback agent and developer dashboards as browser-reachable attack surfac
 
 Evidence should show: local service version/mode, browser origin, request content type, CORS/Host/Origin decision, accepted route, and marker-only effect. Do not run shell commands through the agent, modify real project memories, upload production plugins, or rely on secret exfiltration as proof.
 
+#### October 8 follow-up: DeepSeek Harness — Host header as the loopback credential ([GHSA-8m2g-8cgm-3vcp / CVE-2026-82533](https://github.com/advisories/GHSA-8m2g-8cgm-3vcp), critical, `< 0.1.2-alpha.1`)
+
+DeepSeek Harness's local HTTP control-plane API gated access by validating the **client-supplied `Host` header** value rather than the actual TCP connection origin. Any client that sets `Host: localhost` (or the expected name) passes the check with no credential or API key and gains full agent control: invoke privileged `commands/execute` with `danger-full-access` permissions, escalate session approval policies to unconfined execution, and retrieve all stored conversations.
+
+This is the header-spoof branch of the browser-to-loopback family above, and it changes the threat model: browser-origin assumptions (same-origin, CORS, DNS rebinding) no longer bound the attack. Anything that can deliver an HTTP request with an attacker-chosen `Host` value reaches the control plane — an SSRF chain on the same host, a shared-hosting front proxy, a co-tenant with local network access, or a plain `curl` if the socket is bound beyond loopback.
+
+Operator rules:
+
+1. **`Host` is data, not identity.** When probing any local agent/developer control plane, run a `Host` decision table before anything else: expected loopback value, public hostname, empty, absent, numeric `127.0.0.1:PORT`, arbitrary token. A control plane that changes its auth decision on `Host` alone is unauthenticated for anyone who knows the expected string.
+2. **Fingerprint the guard implementation, not the docs.** "Localhost-only" claims need a check against socket peer (`getsockname`/peer IP) or an OS-verified transport (UDS peer credentials). Grep the served binary/source for `Host` reads in auth code paths; header-read + string-compare = the DeepSeek shape.
+3. **Scope the blast radius by capability names.** Grep API surfaces for `danger`, `full-access`, `unconfined`, `approval` policy fields — a control plane that can *widen its own execution policy* turns an auth-gate miss into host execution without any second bug.
+4. Harness: run the lab instance, probe from your own host with the `Host` matrix above, record only route-acceptance and auth decisions against inert canary conversations. Prove policy-escalation acceptance with a synthetic session on a disposable profile; never invoke real shell commands or read another user's stored conversations.
+
+Same-product watch: the pre-1.0 alpha version line means every fix window is a rebuild of the control plane — re-run the `Host` matrix after each release.
+
 ### Nuclio cron trigger command construction
 
 This is a controller-to-Kubernetes command-boundary check. The advisory describes tenant-controlled cron trigger `event.headers` keys and `event.body` values entering a generated `/bin/sh -c` `curl` command.

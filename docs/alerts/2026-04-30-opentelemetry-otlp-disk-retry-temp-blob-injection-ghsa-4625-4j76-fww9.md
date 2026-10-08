@@ -34,3 +34,13 @@ Reference: <https://github.com/advisories/GHSA-4625-4j76-fww9>
 
 ## Durable lesson
 Retry queues are trust boundaries. If a process will later replay files with its identity, the queue path must be private, permission-checked, quota-bound, and never silently default to a shared temp root.
+
+## October 8 follow-up: same shape in native-library loaders ([GHSA-mcr4-qmvw-px4g / CVE-2026-106451](https://github.com/advisories/GHSA-mcr4-qmvw-px4g), high, yawkat `lz4-java` < 1.11.4)
+
+`net.jpountz.util.Native.load()` extracts the bundled native library into `java.io.tmpdir` when no system `liblz4-java` is present and `System.load()`s it. Only the `.lck` sentinel gets a random, exclusively-created name; the library path is derived by stripping `.lck`, is predictable before creation, and is opened without exclusive creation. A co-tenant that wins the race controls the code loaded into every JVM that later uses the library — arbitrary-code-execution-grade local persistence in one shared temp root.
+
+Operator rules for shared-host footholds (the recon half of this class):
+
+1. **Enumerate loader-written temp artifacts.** On any multi-user host, list predictable shared-temp library/bundle/queue names (`lib*-java*.so`, exporter retry blobs, extracted helper binaries). A file another user's process will later `load()`/replay with its identity is a standing local-privilege target.
+2. **Race-shape check, bounded.** The reportable primitive is "path is predictable and non-exclusive" — prove with a marker file placed at the predicted path in a lab, never by loading code on a shared system. Evidence: the lock-file/library-file naming scheme, file owner, and load-order timeline.
+3. **Grep-side fingerprint for audits:** `createTempFile` followed by a derived (string-mangled) path used in `System.load`/`dlopen`/`exec` — the random name guards only the lock, not the payload. Same genealogy as the Oct 6 Nx world-connectable daemon UDS finding: the safely-created artifact and the actually-consumed artifact are different files.
