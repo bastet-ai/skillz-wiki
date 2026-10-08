@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [IBM DataPower Gateway coordinated wave (~36 GHSAs) — unauthenticated heap-overflow RCE legs, RFC2047 encoded-word parser OOB write, empty-password LDAP admin bypass, XXE on the XML appliance, WS-signature validation bypass, band-gated WebUI XSS; header/MIME-parser probe battery + empty-password appliance test + edition-fingerprint decision table (Oct 8 15:3xZ)](alerts/2026-10-08-ibm-datapower-gateway-coordinated-wave-preauth-parser-overflows-empty-password-ldap-and-signature-trust-ghsa.md)
+
 - [hMailServer coordinated wave — Windows COM service with zero DCOM ACLs (any local login = service-account file read/write + queue mail as any sender), loopback REST admin API brute-forced by DNS-rebinding page (no Host check, no local throttling), root update helper taking its signature-verifier from a service-writable file, DANE/DANE-TA fail-open downgrades, webmail decrypt-then-blob XSS + untrusted signer-cert reply-encryption poisoning (Oct 8 12:3xZ)](alerts/2026-10-08-hmailserver-coordinated-wave-local-com-privesc-loopback-rebinding-and-mail-security-downgrade-ghsa.md)
 
 - [Brocade Fabric OS SAN management-plane wave — in-band Fibre Channel CT peer-switch auth bypass (no credentials: password reset/reboot/firmware push), RADIUS-VSA/directory-claim root role binding, read-only opcode RBAC bypass, header-only internal-endpoint gate + Host-header IP-ACL bypass, cross-logical-switch MAPS dump, AD-compromise-to-switch-RCE session-verification cmdi, SNMPv3/IKEv2-UDP500/web-daemon unauthenticated overflow surface (Oct 8 03:31Z)](alerts/2026-10-08-brocade-fabric-os-san-fabric-management-plane-trust-wave-ghsa.md)
@@ -26,7 +28,6 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 - [Payload CMS fifteen-GHSA wave — case-sensitive `and/or` query validation, unvalidated join sort, join-predicate reset-token oracle, auth-verb field-ACL misses (refresh/reset/duplicate/API-key/password), redirect whitespace-prefix drift, unauth import-export RCE (Oct 6 16:0xZ)](alerts/2026-10-06-payload-cms-eight-leg-wave-query-validation-join-sort-and-redirect-normalization-ghsa.md)
 
-- [vm2 coordinated dump — incomplete-fix genealogy as recon map, default-config escapes, shared Buffer-pool cross-realm memory (Oct 5 22:3xZ)](alerts/2026-10-05-vm2-coordinated-dump-incomplete-fix-family-and-default-config-escapes-ghsa.md)
 
 
 
