@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [AsyncHttpClient coordinated wave (10 GHSAs) — stale-target replay writes one host's request+credentials into another host's valid TLS tunnel (critical), Digest-no-nonce→Basic cleartext downgrade, NTLM/SPNEGO pool-key identity crossover, plaintext HTTP plants/overwrites/deletes Secure cookies, `Domain=co.uk` public-suffix residual; client-side credential-crossing probe kit + fix-history version fingerprinting (Oct 8 17:1xZ)](alerts/2026-10-08-asynchttpclient-coordinated-wave-client-side-credential-crossing-replay-digest-downgrade-and-cookie-store-failures-ghsa.md)
+
 - [IBM DataPower Gateway coordinated wave (~36 GHSAs) — unauthenticated heap-overflow RCE legs, RFC2047 encoded-word parser OOB write, empty-password LDAP admin bypass, XXE on the XML appliance, WS-signature validation bypass, band-gated WebUI XSS; header/MIME-parser probe battery + empty-password appliance test + edition-fingerprint decision table (Oct 8 15:3xZ)](alerts/2026-10-08-ibm-datapower-gateway-coordinated-wave-preauth-parser-overflows-empty-password-ldap-and-signature-trust-ghsa.md)
 
 - [hMailServer coordinated wave — Windows COM service with zero DCOM ACLs (any local login = service-account file read/write + queue mail as any sender), loopback REST admin API brute-forced by DNS-rebinding page (no Host check, no local throttling), root update helper taking its signature-verifier from a service-writable file, DANE/DANE-TA fail-open downgrades, webmail decrypt-then-blob XSS + untrusted signer-cert reply-encryption poisoning (Oct 8 12:3xZ)](alerts/2026-10-08-hmailserver-coordinated-wave-local-com-privesc-loopback-rebinding-and-mail-security-downgrade-ghsa.md)
@@ -25,9 +27,4 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [HPE ClearPass + AOS-S coordinated wave — unauthenticated deserialization/format-string/SQLi/auth-bypass ladder on the NAC management plane, path-traversal role oracle, OnGuard agent fleet as second network-facing surface, ArubaOS-Switch wired sibling; pre-auth-parse-is-the-boundary rule (Oct 6 21:3xZ)](alerts/2026-10-07-hpe-clearpass-aos-s-unauth-primitive-ladder-nac-trust-boundaries-ghsa.md)
 
 - [Coraza WAF evasion wave — `SecArgumentsLimit` silent-drop ARGS bypass (94% at 10k args), truncated-multipart 200003 voiding, Native audit-log CRLF forgery; WAF fingerprint via drop-behavior differentials (Oct 6 20:3xZ)](alerts/2026-10-06-coraza-waf-evasion-wave-argument-limit-silent-drop-multipart-truncation-and-audit-log-forgery-ghsa.md)
-
-- [Payload CMS fifteen-GHSA wave — case-sensitive `and/or` query validation, unvalidated join sort, join-predicate reset-token oracle, auth-verb field-ACL misses (refresh/reset/duplicate/API-key/password), redirect whitespace-prefix drift, unauth import-export RCE (Oct 6 16:0xZ)](alerts/2026-10-06-payload-cms-eight-leg-wave-query-validation-join-sort-and-redirect-normalization-ghsa.md)
-
-
-
 
