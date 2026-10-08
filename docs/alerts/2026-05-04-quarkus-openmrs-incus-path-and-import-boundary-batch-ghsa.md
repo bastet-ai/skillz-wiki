@@ -44,3 +44,13 @@ The recurring failure is that string or archive structure was trusted before bei
 ## Operator lesson
 
 When auditing paths, ask: “What exact string did auth approve, what exact object did the router/filesystem/daemon use, and what transformations happened between them?” Bugs live in that gap.
+
+## October 8 follow-up: RESTEasy `SourceProvider` XXE — the JAX-RS body-type handler your framework picked for you (CVE-2026-17615 / [GHSA-h82j-45qh-f65r](https://github.com/advisories/GHSA-h82j-45qh-f65r), high)
+
+RESTEasy's `SourceProvider.writeTo()`/read side constructs a `SAXParser` with default features, so **any endpoint whose resource method accepts `application/xml` into `Source`/`StreamSource` resolves external entities** — unauthenticated remote file read into the HTTP response body. Published Aug 31, enriched into the updated feed Oct 8; fixed per advisory branch.
+
+Why this earns a fold onto this page's Quarkus/RESTEasy lineage:
+
+- **XXE in a framework message-body reader is everywhere at once.** The vulnerable parser is not in any application file — it is the provider the framework auto-selects when a resource method's parameter type is `Source`/`StreamSource`/`DOMSource`. A single library fix covers N deployments, and conversely: fingerprinting an app for `org.jboss.resteasy` jars plus any `javax.xml.transform.Source` parameter (grep-able in decompiled classes or via error/behavior probes) tells you the surface exists before you send a payload. Same "the framework's default choice is the boundary" theme as this page's matrix-parameter route split.
+- **Type-based XXE probe battery:** for every XML-accepting endpoint, POST the same body under `Content-Type: application/xml` with each of the parameter shapes frameworks accept — the generic `Source`-typed leg is the one that bypasses app-level hardening, because app-level `XMLInputFactory` hardening only covers the readers the *app* constructs. Classic external-entity canary (`<!DOCTYPE x [<!ENTITY e SYSTEM "file:///etc/passwd">]>` in a benign element) against your own lab RESTEasy deployment is the proof; against third parties, use a parameter-entity/timeout-blind shape or an owned HTTP callback and stop at resolution proof.
+- Sweep extension for any Java stack: enumerate which `MessageBodyReader`s are registered (RESTEasy providers, Jackson XML, JAXB, Digester) — each is its own parser with its own entity settings, and hardening one says nothing about the others. This is the multi-backend guard-parity rule restated inside a single framework.

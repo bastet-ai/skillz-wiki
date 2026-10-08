@@ -73,6 +73,10 @@ Adjacent AVideo advisories from the same scan were promoted as an update to the 
 - Keep evidence non-sensitive: file names, path-resolution tables, callback metadata, DOM markers, seeded directory entries, and fake config keys.
 - If chaining is approved, state the chain as preconditions plus canary impact. Do not publish exploit payloads that read secrets, modify host files, forge real sessions, or execute commands on shared systems.
 
+### October 8 tracked note: flatpak-builder local-file `file://` source URIs escape build-directory confinement
+
+[GHSA-m6mj-r236-h4v7](https://github.com/advisories/GHSA-m6mj-r236-h4v7) / CVE-2026-107466 (medium): a crafted flatpak build manifest specifies **local file URIs in source download definitions**, the builder bypasses its directory-confinement checks, and host files readable by the build process get incorporated into build artifacts — CI/build-farm info disclosure via a trusted-looking manifest. Same remote-build-context family as this page's Buildah leg (the manifest is the attacker input; the builder's confinement is the boundary). Operator relevance for CI assessments: where a farm builds third-party flatpak manifests, proof stays on a disposable builder with a marker file under `/tmp` and an artifact file listing — never read real SSH keys or CI tokens. Tracked, not promoted standalone (medium, single-axis).
+
 ## July 24 OpenAM pre-auth class-loading, deserialization, and consent-rendering follow-up
 
 OpenAM 16.1.2 fixes three adjacent paths:
