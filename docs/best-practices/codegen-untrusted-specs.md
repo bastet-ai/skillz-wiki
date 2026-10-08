@@ -68,3 +68,10 @@ If you consume a generator:
 ## References
 
 - GitHub Advisory: https://github.com/advisories/GHSA-gch2-phqh-fg9q
+
+## Follow-up (Oct 8, 2026): filesystem side effects from schema ingestion — datamodel-code-generator weak-import traversal (CVE-2026-107377 / [GHSA-77xj-x4rm-935c](https://github.com/advisories/GHSA-77xj-x4rm-935c), <=0.80.0 → 0.81.0)
+
+A Protobuf schema with absolute or `..`-carrying **import paths** made `datamodel-code-generator` write generated weak-import stub files **outside the `__weak_imports__` temp directory** — new directories/files anywhere the process can write, and overwrite of existing writable files (existence check and write used different base directories). Content was limited to a `syntax = "proto3";` line, no demonstrated RCE — but note the timing detail: the writes happen **before `protoc` runs**, and a later compile error does not undo them.
+
+- Operator read: codegen attack surface is not only *code injection into generated output* (the Orval/comment-break-out class) — **schema ingestion has filesystem side effects before validation completes**. On CI-recon engagements where a pipeline consumes attacker-influenceable schemas (OpenAPI/Protobuf/JSON Schema from PRs or registries), test import/`$ref`/`x-` fields with absolute and traversal spellings pointed at a disposable marker directory, and check whether side effects survive the tool's eventual failure exit.
+- Grep fingerprint in any generator: `os.path.join(base, untrusted_path_component)` without containment check, and any pair where the *existence check* and the *write* resolve against different bases.

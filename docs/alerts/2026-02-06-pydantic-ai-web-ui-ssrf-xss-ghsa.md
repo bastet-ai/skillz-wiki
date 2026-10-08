@@ -49,3 +49,15 @@ Higher risk when:
 ## Notes
 
 Even if your UI is “intended to be local only”, many incidents start with an accidental exposure (tunnel, misconfigured reverse proxy, `0.0.0.0` bind). Treat “local web UIs” as potentially internet-reachable and harden accordingly.
+## October 8 follow-up: the same local chat UI, now a browser-reachable tool-execution surface (CVE-2026-107295 / [GHSA-h4xc-3qfq-jf93](https://github.com/advisories/GHSA-h4xc-3qfq-jf93) high, and CVE-2026-107292 / [GHSA-q2xc-rrxj-58x9](https://github.com/advisories/GHSA-q2xc-rrxj-58x9) medium)
+
+Two more `Agent.to_web()` / `clai web` legs (fixed 1.107.4/2.28.0 and 1.107.5/2.30.0):
+
+1. **No Content-Type check on the chat endpoint**: a website the developer visits POSTs to `http://localhost:<port>` (text/plain simple request — no preflight, no CORS needed), the agent runs, and **its tools execute with the local process's privileges and credentials**. `requires_approval=True` tools were *also* reachable because the endpoint **trusts approval decisions relayed by the client** — client-side approval UIs are not access controls. Fix: require `Content-Type: application/json` before parsing.
+2. **No Host-header validation → DNS rebinding makes the local UI same-origin**: attacker name TTL=0 → loopback, browser treats `http://attacker-tld:port` as same-origin, Origin checks and any token in the served UI are defeated; Chromium's Local Network Access gates subresources but **not top-level navigations**, and Safari doesn't implement it. Fix: Host allow-list with `421 Misdirected Request`.
+
+Durable rules (this is the same product's web-UI surface on its *third* advisory generation — same-product re-sweep again):
+
+- **Local dev/agent UIs get the full browser-origin battery by default**: simple-content-type POST, DNS rebinding, Host decision table, top-level-navigation exceptions to LNA. Loopback binding proves nothing — the victim's browser is the attack path (July 8 browser-to-loopback family).
+- **Approval/confirmation flows rendered in a local web UI must be re-authorized server-side**: any endpoint that accepts a client-relayed "user approved" decision has no approval gate at all. Grep: `approved`/`approval` fields in request models.
+- Black-box probe on any local agent/dashboard port you find during desktop/loopback recon: POST a simple text/plain body and watch for state change; rebind a lab domain to 127.0.0.1 and check for `421`-style Host rejection vs same-origin reads.

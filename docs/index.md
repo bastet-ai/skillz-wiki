@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Handlebars template-injection triple (fixed 4.7.10) — 9.8 AST-input validator bypass: JSON-shaped `Program` AST reaches `compile()` and `blockParams.length` runs at render with default options; `Function.prototype.constructor` own-property defeats the sandbox deny-list (RCE with `allowProtoMethodsByDefault`); `precompile()` emits raw `</script>` breaking out of inline script embedding — validator-coverage-vs-compiler-consumption + own-property-twins + per-embedding-context escaping rules (Oct 8 18:1xZ)](alerts/2026-10-08-handlebars-template-injection-triple-ast-validator-bypass-own-property-denylist-and-script-breakout-ghsa.md)
+
 - [AsyncHttpClient coordinated wave (10 GHSAs) — stale-target replay writes one host's request+credentials into another host's valid TLS tunnel (critical), Digest-no-nonce→Basic cleartext downgrade, NTLM/SPNEGO pool-key identity crossover, plaintext HTTP plants/overwrites/deletes Secure cookies, `Domain=co.uk` public-suffix residual; client-side credential-crossing probe kit + fix-history version fingerprinting (Oct 8 17:1xZ)](alerts/2026-10-08-asynchttpclient-coordinated-wave-client-side-credential-crossing-replay-digest-downgrade-and-cookie-store-failures-ghsa.md)
 
 - [IBM DataPower Gateway coordinated wave (~36 GHSAs) — unauthenticated heap-overflow RCE legs, RFC2047 encoded-word parser OOB write, empty-password LDAP admin bypass, XXE on the XML appliance, WS-signature validation bypass, band-gated WebUI XSS; header/MIME-parser probe battery + empty-password appliance test + edition-fingerprint decision table (Oct 8 15:3xZ)](alerts/2026-10-08-ibm-datapower-gateway-coordinated-wave-preauth-parser-overflows-empty-password-ldap-and-signature-trust-ghsa.md)
@@ -25,6 +27,4 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [Veeam Backup & Replication wave — Backup Viewer→SYSTEM RCE via Mount Service deserialization, EM master-key tamper, Cloud Connect tenant→provider arbitrary file read, AAP cleartext creds in guest logs; lowest-tier backup-role audit rule (Oct 7 11:1xZ)](alerts/2026-10-07-veeam-br-cloud-connect-backup-plane-role-and-boundary-wave-ghsa.md)
 
 - [HPE ClearPass + AOS-S coordinated wave — unauthenticated deserialization/format-string/SQLi/auth-bypass ladder on the NAC management plane, path-traversal role oracle, OnGuard agent fleet as second network-facing surface, ArubaOS-Switch wired sibling; pre-auth-parse-is-the-boundary rule (Oct 6 21:3xZ)](alerts/2026-10-07-hpe-clearpass-aos-s-unauth-primitive-ladder-nac-trust-boundaries-ghsa.md)
-
-- [Coraza WAF evasion wave — `SecArgumentsLimit` silent-drop ARGS bypass (94% at 10k args), truncated-multipart 200003 voiding, Native audit-log CRLF forgery; WAF fingerprint via drop-behavior differentials (Oct 6 20:3xZ)](alerts/2026-10-06-coraza-waf-evasion-wave-argument-limit-silent-drop-multipart-truncation-and-audit-log-forgery-ghsa.md)
 
