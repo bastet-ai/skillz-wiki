@@ -8,6 +8,8 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [Brocade Fabric OS SAN management-plane wave — in-band Fibre Channel CT peer-switch auth bypass (no credentials: password reset/reboot/firmware push), RADIUS-VSA/directory-claim root role binding, read-only opcode RBAC bypass, header-only internal-endpoint gate + Host-header IP-ACL bypass, cross-logical-switch MAPS dump, AD-compromise-to-switch-RCE session-verification cmdi, SNMPv3/IKEv2-UDP500/web-daemon unauthenticated overflow surface (Oct 8 03:31Z)](alerts/2026-10-08-brocade-fabric-os-san-fabric-management-plane-trust-wave-ghsa.md)
+
 - [Splunk Enterprise coordinated wave — 9.8 unauthenticated Patroni sidecar OS command execution on search head cluster members, search-job cross-user query/results disclosure, SPL2 filter SQLi, Secure Gateway sign-anything oracle, raw-config scripted-lookup capability miss; second Splunk sidecar RCE leg (Oct 7 21:3xZ)](alerts/2026-10-07-splunk-enterprise-coordinated-wave-sidecar-rce-job-tenancy-and-signing-oracles-ghsa.md)
 
 - [Cisco 35-GHSA coordinated review dump — NGOAM VXLAN/MPLS/SRv6 OAM unauthenticated root RCE cluster (feature-enabled = attack surface, `show running-config` fingerprint), NX-API root RCE, Cisco License On-Prem CVSS 10.0 forgotten licensing appliance; GHSA review-dumps = pointers to vendor advisories, not sources (Oct 7 18:32Z)](alerts/2026-10-07-cisco-coordinated-review-dump-ngoam-management-plane-and-license-appliance-ghsa.md)
@@ -25,6 +27,4 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [vm2 coordinated dump — incomplete-fix genealogy as recon map, default-config escapes, shared Buffer-pool cross-realm memory (Oct 5 22:3xZ)](alerts/2026-10-05-vm2-coordinated-dump-incomplete-fix-family-and-default-config-escapes-ghsa.md)
 
 - [Joomla extension wave — token-existence-only download authz, guest-reachable `jform` save controllers, unauthenticated task triggers, picker SSRF with admin OAuth token (Oct 5 18:34Z)](alerts/2026-10-05-joomla-extension-token-existence-public-controller-and-task-trigger-ghsa.md)
-
-- [Oct 2 23:18Z wave — two folds, no new page: Gitea act_runner `container.options` host-namespace escape (workflow YAML → runner-host root despite privileged-mode-disabled) + SiYuan agent-plane DNS-rebinding TOCTOU and MCP `asset.upload` absolute-path read](alerts/2026-06-17-gitea-langchain4j-hapi-agent-websocket-boundary-batch-ghsa.md#october-2-follow-up-act_runner-containeroptions-host-namespace-escape-folded)
 
