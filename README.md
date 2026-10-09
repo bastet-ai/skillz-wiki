@@ -39,19 +39,25 @@ Cloudflare Workers Static Assets serves the generated `site/` directory. The
 strict MkDocs build, advisory duplicate-ID check, directory URLs, search index,
 feed, and custom 404 page are preserved. No database or runtime secrets are needed.
 
-Connect `bastet-ai/skillz-wiki` to the `skillz-wiki` Worker using
-[Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/):
+Cloudflare [Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/)
+connects `bastet-ai/skillz-wiki` to the `skillz-wiki` Worker. Every push to `main`
+triggers Cloudflare to fetch, build, and deploy the repository with these settings:
 
 - Production branch: `main`
 - Build command: `npm run build`
-- Deploy command: `npm run deploy`
-- Root directory: repository root
+- Deploy command: `npx wrangler deploy`
+- Root directory: `/` (repository root)
+- Included paths: `*`
 - Node.js and Python versions: the checked-in `.node-version` and `.python-version`
 
-[`validate.yml`](.github/workflows/validate.yml) checks pushes and pull requests
-without publishing to GitHub Pages. Workers Builds is not connected yet. Until
-the Cloudflare GitHub app is installed and this repository is connected, publish
-the Worker manually from an up-to-date `main` checkout:
+Cloudflare stores the deployment credential; no Cloudflare secrets are needed in
+GitHub. [`validate.yml`](.github/workflows/validate.yml) checks pushes and pull
+requests without publishing to GitHub Pages. For a normal update, run the
+validation commands above, commit and push to `main`, then wait for the Cloudflare
+build for that commit and verify the public site.
+
+For a deliberate manual recovery, first pause automatic builds in Cloudflare and
+wait for any running build to finish. Use an up-to-date `main` checkout:
 
 ```bash
 npm ci
@@ -60,6 +66,9 @@ npm run deploy:check
 npm run test:hosting
 npm run deploy
 ```
+
+Verify the recovered site before re-enabling automatic builds. Never overlap a
+manual production deployment with an automatic build.
 
 The Cloudflare preview is [skillz-wiki.bcrt43.workers.dev](https://skillz-wiki.bcrt43.workers.dev/).
 The production custom domain [skillz.wiki](https://skillz.wiki/) is attached in
