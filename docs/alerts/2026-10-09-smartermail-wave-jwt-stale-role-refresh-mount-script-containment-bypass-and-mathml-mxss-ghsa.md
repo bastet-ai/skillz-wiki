@@ -1,4 +1,6 @@
-# SmarterMail build-9777 wave: the JWT role claim is a snapshot, the script-directory containment is a four-call chain away, and the sanitizer treats MathML as CDATA (3 GHSAs)
+# SmarterMail build-9777 wave (3 GHSAs): the JWT role claim is a snapshot
+
+**Wave in one line:** The JWT role claim is a snapshot, the script-directory containment is a four-call chain away, and the sanitizer treats MathML as CDATA
 
 **Signal:** GitHub Security Advisories published a coordinated three-advisory wave against SmarterMail (all fixed **before build 9777**) at **2026-10-09T18:31Z**. SmarterMail is an internet-exposed Windows mail server with a long exploitation history (CVE-2026-24423 `ConnectToHub` RCE is already KEV-listed), and this wave reads like a field guide to its admin API: one leg defeats the token lifecycle, one leg walks a low-value authenticated primitive into SYSTEM code execution, one leg breaks the mail-content sanitizer with browser-reparse mechanics.
 

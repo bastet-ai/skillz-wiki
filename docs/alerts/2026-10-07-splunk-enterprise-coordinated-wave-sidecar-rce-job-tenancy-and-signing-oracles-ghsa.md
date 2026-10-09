@@ -1,4 +1,6 @@
-# Splunk Enterprise coordinated wave: unauthenticated Patroni sidecar RCE, search-job tenancy collapse, Secure Gateway signing oracles, and raw-config capability misses
+# Splunk Enterprise wave: unauthenticated Patroni sidecar RCE
+
+**Wave in one line:** unauthenticated Patroni sidecar RCE, search-job tenancy collapse, Secure Gateway signing oracles, and raw-config capability misses
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-07 (wave published 2026-10-07T21:33Z, CVE-2026-76264 through CVE-2026-76286).
 

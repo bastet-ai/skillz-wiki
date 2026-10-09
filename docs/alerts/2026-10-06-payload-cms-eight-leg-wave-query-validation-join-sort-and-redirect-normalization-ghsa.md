@@ -1,4 +1,6 @@
-# October 6 16:0xZ — Payload CMS fifteen-GHSA wave: case-sensitive `and/or` query validation, unvalidated join sort, auth-response and duplicate-path ACL misses, redirect whitespace-prefix drift, and multipart regex collapse
+# Payload CMS wave (15 GHSAs): case-sensitive `and/or` query validation
+
+**Wave in one line:** October 6 16:0xZ — case-sensitive `and/or` query validation, unvalidated join sort, auth-response and duplicate-path ACL misses, redirect whitespace-prefix drift, and multipart regex collapse
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-06 (waves published 15:38Z, 16:09Z, and 16:17–16:22Z). Payload CMS (`payload`, Payload apps on the Drizzle adapters) published fifteen advisories in ~45 minutes. The fix commits are public, so each leg ships with its exact patched code shape — this is one of the richest same-product audit maps available right now.
 

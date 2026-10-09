@@ -1,4 +1,6 @@
-# Brocade Fabric OS SAN management-plane wave: in-band Fibre Channel peer auth bypass, IdP-claim role binding, and header-as-transport trust on the forgotten fabric network
+# Brocade Fabric OS wave (~18 GHSAs): in-band Fibre Channel peer auth bypass
+
+**Wave in one line:** SAN management-plane wave: in-band Fibre Channel peer auth bypass, IdP-claim role binding, and header-as-transport trust on the forgotten fabric network
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-08 (wave published 2026-10-08T03:31Z, ~18 advisories, CVE-2026-87659 through CVE-2026-87686 plus CVE-2026-94578/94582/94583; fixed band **Fabric OS before 10.0.1**).
 

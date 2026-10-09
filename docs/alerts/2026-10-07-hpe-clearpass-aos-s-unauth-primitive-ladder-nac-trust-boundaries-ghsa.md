@@ -1,4 +1,6 @@
-# HPE ClearPass Policy Manager + AOS-S coordinated wave: unauthenticated primitive ladder on the NAC brain
+# HPE ClearPass Policy Manager + AOS-S wave (~28 GHSAs): unauth ladder on the NAC brain
+
+**Wave in one line:** unauthenticated primitive ladder on the NAC brain
 
 Source: GitHub Security Advisories wave published 2026-10-06T21:32Z — ~28 GHSAs for **HPE Networking ClearPass Policy Manager** and **ArubaOS-Switch (AOS-S)** in one vendor bulletin window (HPE bulletins [hpesbnw05158](https://support.hpe.com/hpesc/public/docDisplay?docId=hpesbnw05158en_us&docLocale=en_US) for ClearPass, [hpesbnw05156](https://support.hpe.com/hpesc/public/docDisplay?docId=hpesbnw05156en_us&docLocale=en_US) for AOS-S). Related pages: [Oct 1 wireless management-plane pre-auth wave](2026-10-01-wireless-management-plane-preauth-wave-hpe-instant-on-watchguard-ap-ghsa.md) (same Aruba ecosystem, AP/controller plane), [Oct 2 UTMStack transport page](2026-10-02-utmstack-internal-key-header-and-agent-command-transport-ghsa.md) (agent-fleet reasoning), [Sept 15 KEV wave page](2026-09-15-kev-wave-netscaler-cisco-routeros-jfrog-gitlab-screenconnect.md) (perimeter appliance validation posture).
 

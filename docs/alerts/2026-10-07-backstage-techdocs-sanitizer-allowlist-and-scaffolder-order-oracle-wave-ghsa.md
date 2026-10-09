@@ -1,4 +1,6 @@
-# October 7 16:2xZ — Backstage seven-GHSA wave: TechDocs `mkdocs.yml` sanitizer allow-list misses, Scaffolder order-field secret oracle, and task-event/log secret reflection
+# Backstage wave (7 GHSAs): Scaffolder order-field secret oracle
+
+**Wave in one line:** October 7 16:2xZ — TechDocs `mkdocs.yml` sanitizer allow-list misses, Scaffolder order-field secret oracle, and task-event/log secret reflection
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-07 (published 16:22–16:25Z). Backstage (Spotify's developer portal) published seven advisories for `@backstage/plugin-techdocs-node` (fixed 1.15.4, releases v1.50.5/v1.54.6) and `@backstage/plugin-scaffolder-backend` (fixed 4.1.0). Fix commits are public, so the sanitizer gaps ship with their exact pre-fix shape.
 

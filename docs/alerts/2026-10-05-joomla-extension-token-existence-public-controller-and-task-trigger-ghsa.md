@@ -2,7 +2,9 @@
 title: "Joomla extension wave — token-existence authz, public save controllers, and unauthenticated task triggers (Oct 5 18:34Z)"
 ---
 
-# Joomla extension wave: token-existence authz, public save controllers, and unauthenticated task triggers (Oct 5 18:34Z)
+# Joomla extension wave: public save controllers in third-party extensions
+
+**Wave in one line:** token-existence authz, public save controllers, and unauthenticated task triggers (Oct 5 18:34Z wave)
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-05. The 18:34Z wave carried a Joomla-extension cluster from distinct vendors. Four legs carry reusable operator axes; the rest land on canonical classes (reflected/stored XSS, classic IDOR-by-ID) and are tracked without publication. Joomla/CMS-extension surfaces remain high-yield because third-party extensions ship their own controllers beside the core's hardened ones — the core's CSRF/ACL model protects nothing the extension never calls.
 

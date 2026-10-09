@@ -1,4 +1,6 @@
-# Malcolm NSM stack wave: the Lua RBAC gate reads bytes nginx never routes on, one fall-through location is unauthenticated with a trusted identity header, and the shipped upload server fetches any URL for you
+# Malcolm NSM wave (6 GHSAs): the Lua RBAC gate reads bytes nginx never routes on
+
+**Wave in one line:** The Lua RBAC gate reads bytes nginx never routes on, one fall-through location is unauthenticated with a trusted identity header, and the shipped upload server fetches any URL for you
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-08 (wave published 2026-10-08T18:32Z, six advisories for the Malcolm network-security-monitoring stack — idapyramid/Malcolm).
 

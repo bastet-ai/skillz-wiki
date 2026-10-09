@@ -1,4 +1,6 @@
-# AsyncHttpClient coordinated wave: client-side credential-crossing primitives — stale-target replay writes one host's request into another host's TLS tunnel, digest downgrade leaks cleartext passwords, plaintext HTTP overwrites Secure cookies, and NTLM pool keys keep leaking identities
+# AsyncHttpClient wave (10 GHSAs): replay writes one host's request into another host's TLS tunnel
+
+**Wave in one line:** Client-side credential-crossing primitives — stale-target replay writes one host's request into another host's TLS tunnel, digest downgrade leaks cleartext passwords, plaintext HTTP overwrites Secure cookies, and NTLM pool keys keep leaking identities
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-08 (wave published 2026-10-08T16:08–16:50Z, ten advisories for `org.asynchttpclient:async-http-client` plus one moby DoS, CVE-2026-107212-adjacent band CVE-2026-107226–107231 / 107280–107285, fixed across **3.0.12 / 3.0.13 / 3.0.14** and **2.16.1**; 2.x is EOL — two legs never get a 2.x fix).
 

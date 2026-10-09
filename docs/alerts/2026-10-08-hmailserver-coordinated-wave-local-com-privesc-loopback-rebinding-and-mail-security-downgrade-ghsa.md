@@ -1,4 +1,6 @@
-# hMailServer coordinated wave: COM service as a local-privilege surface, loopback REST reachable by browser rebinding, and DANE/TLS fail-open on the outbound mail path
+# hMailServer wave (~20 GHSAs): loopback REST reachable by browser rebinding
+
+**Wave in one line:** COM service as a local-privilege surface, loopback REST reachable by browser rebinding, and DANE/TLS fail-open on the outbound mail path
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-08 (wave published 2026-10-08T12:34Z, ~20 advisories for Progressive Robot hMailServer, CVE-2026-107503-adjacent band CVE-2026-107570–107587 plus CVE-2026-103010/103011/103517-adjacent CVE-2026-103647/103649/104658/104659/104660; affected band **6.0.0 through 6.3.5**, webmail legs 6.3.2–6.3.5).
 

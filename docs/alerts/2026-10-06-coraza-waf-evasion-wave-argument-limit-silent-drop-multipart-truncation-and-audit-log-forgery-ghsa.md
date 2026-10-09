@@ -2,7 +2,9 @@
 title: "Coraza WAF evasion wave — argument-limit silent drop, multipart truncation, and audit-log forgery (GHSA)"
 ---
 
-# Coraza WAF evasion wave — argument-limit silent drop, multipart truncation, and audit-log forgery
+# Coraza WAF evasion wave (3 GHSAs): argument-limit silent drop
+
+**Wave in one line:** argument-limit silent drop, multipart truncation, and audit-log forgery
 
 Coraza (the Go ModSecurity-compatible WAF) published a coordinated trio on 2026-10-06T20:37–20:38Z, all fixed in **v3.8.0**. For an operator this is a fingerprintable, replayable **WAF-evasion playbook against any Coraza-fronted target running the recommended config** — two request-level rule evasions plus a log-forgery primitive. Unlike typical parser advisories, all three ship with working PoCs and the argument-limit advisory includes a measured bypass-rate table.
 

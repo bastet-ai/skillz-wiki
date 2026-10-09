@@ -1,4 +1,6 @@
-# Cisco coordinated "internal review" dump — NGOAM pre-auth root RCE cluster, NX-API root RCE, and the License On-Prem forgotten appliance (Oct 7 18:32Z wave)
+# Cisco coordinated dump wave (35 GHSAs): NGOAM pre-auth root RCE cluster
+
+**Wave in one line:** Coordinated “internal review” dump: NGOAM pre-auth root RCE cluster, NX-API root RCE, and the License On-Prem forgotten appliance (Oct 7 18:32Z wave)
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-07. **Thirty-five Cisco GHSAs published 18:32Z** in one coordinated batch across NX-OS, APIC, Cisco License On-Prem (formerly Smart Software Manager On-Prem), Finesse, and Jabber for Android. Most descriptions are the boilerplate "comprehensive internal security review … hardening releases" text with **no affected-version or fixed-version data in the GHSA record at all** — the version truth lives only in Cisco's advisories lookup. The durable value of this wave is not any single CVE; it is the boundary map the batch exposes.
 

@@ -1,4 +1,6 @@
-# OpenStack Mistral wave: the orchestrator ships its own exec primitive, share grants outlive their owner's control, and the maintenance controller has no policy
+# OpenStack Mistral wave (4 GHSAs): the orchestrator ships its own exec primitive
+
+**Wave in one line:** The orchestrator ships its own exec primitive, share grants outlive their owner's control, and the maintenance controller has no policy
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-08 (wave published 2026-10-08T18:32Z, four advisories for OpenStack Mistral `through 23.0.0`).
 

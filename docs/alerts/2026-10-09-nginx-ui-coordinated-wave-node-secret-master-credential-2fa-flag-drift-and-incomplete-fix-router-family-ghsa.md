@@ -1,4 +1,6 @@
-# Nginx UI coordinated wave: the node secret is a master credential, the 2FA UI flag is not the login enforcement, and the fix missed the parallel router (7 GHSAs)
+# Nginx UI wave (7 GHSAs): the node secret is a master credential
+
+**Wave in one line:** the node secret is a master credential, the 2FA UI flag is not the login enforcement, and the fix missed the parallel router
 
 **Signal:** GitHub Security Advisories published a coordinated seven-advisory wave against [0xJacky/nginx-ui](https://github.com/0xJacky/nginx-ui) (CVE-2026-107807 through CVE-2026-107813) at **2026-10-09T17:07–17:08Z**, all fixed in late-July 2026 builds (pseudo-versions `1.9.10-0.20260728*`). Nginx UI is a widely deployed web management panel sitting directly in front of the reverse proxy that fronts everything else — its own compromise is an engagement-level pivot. The wave is a textbook cluster of reusable axes: a machine-to-machine shared secret that upgrades to a superuser identity, a capability flag that says "2FA on" while the enforcement code checks a different flag, a security fix applied to every router except its physically separate sibling, an archive restore that materializes files before it consults the restore flags, and a self-upgrade whose only integrity check is a digest fetched from the same endpoint as the binary.
 

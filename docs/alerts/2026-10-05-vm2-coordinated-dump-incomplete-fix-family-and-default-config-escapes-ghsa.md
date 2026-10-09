@@ -2,7 +2,9 @@
 title: "vm2 coordinated advisory dump — incomplete-fix family, default-config escapes, and engine-scheduled callback bypasses (Oct 5 22:3xZ)"
 ---
 
-# vm2 coordinated dump: incomplete-fix family, default-config escapes, and engine-scheduled callback bypasses (Oct 5 22:3xZ)
+# vm2 coordinated dump (~12 GHSAs): incomplete-fix family and default-config escapes
+
+**Wave in one line:** Coordinated dump: incomplete-fix family, default-config escapes, and engine-scheduled callback bypasses (Oct 5 22:3xZ)
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-05. Between 22:33Z and 23:00Z, ~12 vm2 advisories with sequential CVE IDs (CVE-2026-92933 through CVE-2026-92959, plus CVE-2026-100723) were published simultaneously — a coordinated single-audit dump against the semi-abandoned `patriksimek/vm2` fork. Five carry CVSS 10.0. This is the single largest sandbox-escape publication event tracked on this wiki and it is durable for two reasons: (1) every product that uses vm2 as its "user code is safe here" boundary is now a fingerprinted target class, and (2) the dump is a public worked example of how to audit a realm bridge — each advisory names the earlier GHSA it bypasses, so the fix-lineage map *is* the attack-surface enumeration. This page complements the [May 29 vm2/SGLang page](2026-05-29-vm2-nodevm-and-sglang-runtime-boundary-batch-ghsa.md); several of this dump's legs are second-generation bypasses of advisories covered there.
 

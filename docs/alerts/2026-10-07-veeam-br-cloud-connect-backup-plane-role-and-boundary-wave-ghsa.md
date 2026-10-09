@@ -2,7 +2,9 @@
 title: "Veeam Backup & Replication wave: Backup Viewer to SYSTEM RCE, master-key tamper, Cloud Connect tenant-to-provider file read, AAP credentials in guest logs"
 ---
 
-# Veeam Backup & Replication wave: the "read-only" backup role is a SYSTEM foothold
+# Veeam Backup & Replication wave: the “read-only” backup role is a SYSTEM foothold
+
+**Wave in one line:** Backup Viewer to SYSTEM RCE, master-key tamper, Cloud Connect tenant-to-provider file read, AAP credentials in guest logs (two bulletins: KB4934 VBR 12.3.2 P4, KB4902 VBR 13.1)
 
 Source: GitHub advisories published 2026-10-07 09:32Z across two vendor bulletins — [KB4934 (VBR 12.3.2 P4)](https://www.veeam.com/kb4934) and [KB4902 (VBR 13.1)](https://www.veeam.com/kb4902). Related pages: [Oct 6 HPE ClearPass NAC plane](2026-10-07-hpe-clearpass-aos-s-unauth-primitive-ladder-nac-trust-boundaries-ghsa.md) (credential-dense appliance reasoning), [Sept 21 management-plane page](2026-09-21-management-plane-config-writes-toctou-onboarding-race-and-flat-authz-drift-ghsa.md) (config-write/monitoring-plane doctrine).
 

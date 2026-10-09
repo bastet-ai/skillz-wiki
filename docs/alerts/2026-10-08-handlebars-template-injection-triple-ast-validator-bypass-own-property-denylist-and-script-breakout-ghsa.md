@@ -1,4 +1,6 @@
-# Handlebars template-injection triple: AST-input validator bypass gives pre-render RCE, `Function.prototype.constructor` own-property defeats the sandbox deny-list, and precompile output breaks out of inline `<script>` (GHSA wave)
+# Handlebars wave (3 GHSAs): AST-input validator bypass gives pre-render RCE
+
+**Wave in one line:** Template-injection triple: AST-input validator bypass gives pre-render RCE, `Function.prototype.constructor` own-property defeats the sandbox deny-list, and precompile output breaks out of inline `<script>`
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-08 (wave published 2026-10-08T17:52Z, three advisories for npm `handlebars` `>=4.0.0 <=4.7.9`, all fixed in **4.7.10**).
 

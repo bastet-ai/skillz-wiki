@@ -1,4 +1,6 @@
-# IBM DataPower Gateway coordinated wave: pre-auth parser overflows on the perimeter SOA box, empty-password LDAP admin, and XML/signature trust legs
+# IBM DataPower Gateway wave (~36 GHSAs): pre-auth parser overflows on the perimeter SOA box
+
+**Wave in one line:** pre-auth parser overflows on the perimeter SOA box, empty-password LDAP admin, and XML/signature trust legs
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-08 (wave published 2026-10-08T15:33Z, ~36 GHSAs for IBM DataPower Gateway; affected bands **10.5.0.0–10.5.0.22, 10.6.0.0–10.6.0.10, 10.6.1–10.6.6, 11.0.0.0–11.0.0.2**, some legs edition-gated).
 
