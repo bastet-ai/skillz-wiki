@@ -35,3 +35,23 @@ Adjacent, tracked without publication from the same waves: [@jitsi/electron-sdk]
 3. **Vault XSS grammar sweep.** Treat the vault UI like any app: reflected/stored/mXSS on search, folder names, secret display names, and link-shaped entry points (the advisory confirms a malicious-link → script sink exists). Report only with harmless DOM markers in your own session.
 4. **Update-channel key extraction (authorized product assessments).** For appliance/OT software in scope, inspect the shipped update/automation components for embedded key material (search bundles for PEM blobs, hardcoded public-key constants, signature-verification call sites). Demonstrate that the extracted key verifies a *synthetic* manifest against the product's own verifier — never deliver a manifest to a live system.
 5. Report decision tables and byte-level evidence; do not claim decryption of customer data or firmware update takeover without a lab end-to-end proof.
+
+## October 9 follow-up: openPDC / openHistorian coordinated wave — the OT data platform's own service interfaces skip auth, deserialize clients, and dial arbitrary Modbus peers
+
+GitHub advisories published a coordinated RMS/openPDC/openHistorian wave at **2026-10-09T15:31Z** (Grid Solutions products deployed across utility OT/monitoring estates). Legs:
+
+| GHSA | CVE | Sev. | Boundary |
+| --- | --- | --- | --- |
+| [GHSA-g2gc-jv32-q89f](https://github.com/advisories/GHSA-g2gc-jv32-q89f) | CVE-2026-100730 | critical 9.8 | Service-console interface **deserializes a client-supplied data structure** → arbitrary object graph → RCE as the service account. Auth is only in the way when Windows Authentication is enabled — unauthenticated network RCE on systems without it. |
+| [GHSA-68jv-q5j2-rgqm](https://github.com/advisories/GHSA-68jv-q5j2-rgqm) | CVE-2026-104629 | high | Component-loading mechanism **constructs and runs any specified type** — authenticated user + any file placed on the host = arbitrary constructor execution as the service account. |
+| [GHSA-cg72-3fmm-q6mm](https://github.com/advisories/GHSA-cg72-3fmm-q6mm) | CVE-2026-105281 | high | **Internal data publisher accepts connections with no authentication in its default configuration** → full device + measurement topology of the system, unauthenticated. |
+| [GHSA-xr5w-f3rm-m5gq](https://github.com/advisories/GHSA-xr5w-f3rm-m5gq) | CVE-2026-85479 | medium | STTP-based data publisher likewise unauthenticated by default → bidirectional data exchange. |
+| [GHSA-q8fp-gfvc-6mwj](https://github.com/advisories/GHSA-q8fp-gfvc-6mwj) | CVE-2026-101022 | medium | Modbus connection feature accepts **caller-specified destination address/port** with no restriction → authenticated user maps the internal OT network (reachability oracle). |
+| [GHSA-99g4-gvqf-7f8p](https://github.com/advisories/GHSA-99g4-gvqf-7f8p) | CVE-2026-105278 | critical | Published Docker image ships a **fixed admin credential with no forced rotation**. |
+
+Operator axes (extends the update-channel-key workflow above):
+
+- **OT data platforms carry IT-shaped bugs with OT-shaped blast radius.** The unauthenticated publisher/topology leak is passive-recon gold once you're on the network: a single TCP connect reveals the entire measurement model (devices, points, naming conventions) with zero credentials — that catalog then drives every later Modbus/protocol interaction. Scan posture: enumerate non-HTTP service ports on monitoring hosts; default-config "internal" publishers are the fingerprint.
+- **.NET service-console deserialization on OT appliances:** the Windows-Auth on/off toggle flips 9.8 authenticated to 9.8 unauthenticated — edition/config posture is the exploitability gate; fingerprint which auth mode a target runs before credentialed testing. Same server-to-client trust inversion theme as the Sept 15 parser page's LDAP leg, but in the client→server direction.
+- **Protocol-connector SSRF in management UIs** (caller-specified Modbus host:port) = an authorized internal-mapping oracle handed to any low-priv account on SCADA-adjacent platforms — reusable across historian/SCADA products that offer "test connection" flows.
+- **Fixed-credential container images** join the hardcoded-key family above: pull the vendor image in scope, diff baked credentials/config against defaults before any live test. Proofs stay lab-only: connect to your own lab openPDC publisher for the topology leg; never touch a live utility data plane.
