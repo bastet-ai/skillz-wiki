@@ -4,7 +4,7 @@ Use this before publishing a new skill or major update.
 
 ## Basics
 
-- [ ] Title is short and specific
+- [ ] Title is short and specific — **display title (the `# ` H1) is capped at ~100 characters (Dean request, 2026-10-09).** Shape: `<Product> wave (<N> GHSAs): <one short clause naming the single most interesting boundary>`. The page's multi-clause thesis belongs in the Signal/lead paragraph, not the headline; if everything must stay visible, add it verbatim under the H1 as a `**Wave in one line:**` sub-line. Titles feed nav, feeds, and mobile headers — 150-287 char H1s broke all three. File names/slug stay descriptive (stable public paths beat short filenames).
 - [ ] Links are clickable Markdown links
 - [ ] Commands are reproducible and minimally scoped
 - [ ] Page is in the right section
