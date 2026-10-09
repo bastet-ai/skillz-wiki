@@ -30,8 +30,22 @@ Container orchestration helpers often treat ConfigMaps, Secrets, and existing vo
 - Prefer fresh, private deployment volumes for each untrusted run; if reuse is required, scrub or recreate them from trusted state.
 - Keep orchestration helpers least-privileged: avoid running container-to-host file population paths with broader host write permission than needed.
 
+## October 9 follow-up: gvproxy unauthenticated expose endpoint deletes host files (GHSA-hp8g-9vjx-j62m / CVE-2026-107935, critical, CVSS 9.3)
+
+`gvproxy` — the network forwarder in `containers/gvisor-tap-vsock` that backs Podman Machine, `podman machine`, Red Hat Desktop/CRC-style VM runners — exposed an **unauthenticated `/services/forwarder/expose` endpoint** that takes a caller-supplied socket path and calls `os.Remove(socketPath)` before `net.Listen("unix", …)` with **no path validation** ([fix PR #718](https://github.com/containers/gvisor-tap-vsock/pull/718), merged 2026-09-29: all `os.Remove` pre-listen cleanup calls deleted and replaced by close-on-exit). Anyone who can reach the forwarder's control API can delete arbitrary files on the **host** running gvproxy — anyone, because the whole purpose of the component is bridging the untrusted guest VM to the host network stack. Third container-tooling host-boundary leg this quarter after this page's `kube play` symlink write and the June 5 Netavark DNS-confusion page: same product family, same re-sweep rule.
+
+Operator reading:
+
+- **Destructive-sink-from-unvalidated-path pattern**: the pre-delete-before-listen idiom (`os.Remove(path); net.Listen(path)`) appears across socket/lock/pid handlers. Grepping any local HTTP control plane for `os.Remove`/`os.RemoveAll`/`unlink` fed from a request field finds standing file-deletion primitives; the path never needs to be the file you want to *read* — deleting unit files, sockets, or lock files is the impact.
+- **Unauthenticated local control-plane inventory**: gvproxy's forwarder API has no auth at all. Per the July 8 browser-to-loopback methodology (and the DeepSeek Harness Host-gate leg folded there), enumerate what each container-network helper (`gvproxy`, `podman machine`, kind, minikube, WSL relay) exposes on vsock/tcp from guest reachability, then map which endpoints mutate host state. A forwarder that can open ports is also, by design, an SSRF/pivot helper — test its *admin* verbs, not just its forwarding verbs.
+- **Validation shape**: prove only with a disposable marker file outside any real path (point `expose` at a temp canary socket path you pre-create, observe deletion), never against a shared machine's sockets or unit files.
+
+Cross-reference: pre-listen `os.Remove` is the same "cleanup step trusts caller input" genealogy as the shared-temp `lz4-java` hijack (April 30 page) — one deletes, one reuses; both are local-IPC control-plane paths most scans never touch because the listener isn't on a "real" port.
+
 ## References
 
 - <https://github.com/advisories/GHSA-wp3j-xq48-xpjw>
 - <https://github.com/containers/podman/security/advisories/GHSA-wp3j-xq48-xpjw>
 - <https://github.com/containers/podman/commit/43fbde4e665fe6cee6921868f04b7ccd3de5ad89>
+- <https://github.com/advisories/GHSA-hp8g-9vjx-j62m> (gvproxy, CVE-2026-107935)
+- <https://github.com/containers/gvisor-tap-vsock/pull/718> (fix diff)
