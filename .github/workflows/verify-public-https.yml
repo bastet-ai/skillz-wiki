@@ -1,0 +1,29 @@
+name: Verify public wiki HTTPS
+
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: Verify Skillz or all eleven known canonical wiki hosts (after cutover)
+        required: true
+        default: skillz
+        type: choice
+        options:
+          - skillz
+          - all-wikis
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Verify public HTTPS from this independent runner
+        env:
+          VERIFY_SCOPE: ${{ inputs.scope }}
+        run: python3 scripts/check-public-https.py --scope "$VERIFY_SCOPE"
