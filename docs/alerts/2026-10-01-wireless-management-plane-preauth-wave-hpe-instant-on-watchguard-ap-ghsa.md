@@ -40,6 +40,24 @@ Same product-class lesson from a camera fleet: the **HTTPS onboarding interfaces
 - **Two-stage activation gates hide services.** The Tapo privileged service becomes network-reachable only after enabling + reboot — static service enumeration on a live device misses it. In the lab, enable advertised/hidden features and re-scan post-reboot; report any service family that appears only in that state.
 - **Unauthenticated scan actions are LAN foothold tools.** Post-foothold wireless recon no longer needs radio tools: a vulnerable camera on the VLAN enumerates the surrounding RF environment for you, and the connect action is a stealthy one-packet relocation of an IoT device onto your network.
 
+## October 9 00:3xZ follow-up: TP-Link Tapo C325WB V2 — predictable PSK + onboarding-object auth bypass on the same camera line (3 GHSAs)
+
+The same October 1 Tapo lesson repeated on a newer model (published 2026-10-09T00:31Z by the NVD import, vendor advisories for C325WB V2):
+
+| Advisory | CVE | Sev | Primitive |
+| --- | --- | --- | --- |
+| [GHSA-9544-m82g-43mh](https://github.com/advisories/GHSA-9544-m82g-43mh) | CVE-2026-105672 | High | **JSON API dispatcher auth bypass on TCP/443:** appending an *onboarding-scoped object* to an authenticated-shape JSON request bypasses session verification entirely → privileged actions unauthenticated (live video/audio, settings changes, device secrets) |
+| [GHSA-h78v-m5hq-73p4](https://github.com/advisories/GHSA-h78v-m5hq-73p4) | CVE-2026-105674 | High | **Time-seeded PRNG generates the local media-streaming pre-shared key** → key recoverable/predictable → authenticate to the media service with no user credentials |
+| [GHSA-mjqg-3r8q-j4cx](https://github.com/advisories/GHSA-mjqg-3r8q-j4cx) | CVE-2026-105673 | High | Crafted pair of RTSP-over-HTTP tunneling requests crashes the streaming daemon (memory corruption) when Camera Account is enabled — tracked as availability-only unless chained |
+
+Reusable axes this adds to the page:
+
+- **"Feature-scope objects are auth bypasses waiting for a friendly parser."** The bypass is not a route or a parameter — it is a *request-shape token* (an onboarding-scoped object) that the dispatcher's session gate treats as "provisioning mode, skip verification." On any device JSON API: replay captured production requests with provisioning/onboarding/first-run fields or wrapper objects appended, and compare the gate decision table. Same family as this page's onboarding-interfaces-outlive-setup rule, inverted: here an onboarding *object* outlives setup inside normal requests.
+- **PRNG-seeded PSKs = offline key recovery from boot time.** Where a device derives keys/seeds from time at first boot, the attack is clock-skew-tolerant brute force offline, not online guessing — adjacent-network attackers recover the key, then authenticate cleanly. Fingerprint: fresh/rebooted devices emitting a new PSK-like credential; correlate observed keys across reboots to spot a narrow entropy window.
+- **Same-model-line re-sweep confirmed again:** the Oct 1 C120/C200 quad and this C325WB V2 triple are the same product family shipping the same two classes (onboarding-interface trust + credential derivation). When one Tapo model gets an advisory wave, audit the sibling models for the same dispatcher and key-derivation code paths.
+
+Validation boundary unchanged: owned/lab cameras only; PSK-recovery proofs stop at key recovery against your own device, onboarding-object proofs at one read-only privileged action on a bench unit.
+
 ## Durable axes
 
 1. **"Adjacent" means Wi-Fi range or one switched VLAN.** The Instant ON management-protocol advisories rate 9.6 with an *adjacent* attacker: whoever associates to the SSID (or lands any internal foothold) is in scope. For red-team internal recon, treat every AP management IP found in scanning as an unauthenticated target, not scenery — same posture rule as the Sept 22 serial-console page (own the console = own the gear; own the AP = see the air).

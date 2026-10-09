@@ -26,3 +26,13 @@ Reference: <https://github.com/advisories/GHSA-56c3-vfp2-5qqj>
 
 ## Durable lesson
 URL validation is not complete until all equivalent address forms collapse to the same policy decision. IPv4-mapped IPv6, DNS rebinding, redirects, and normalized hostnames need the same egress policy as plain IPv4 literals.
+
+## October 9 follow-up: Pydantic AI metadata-blocklist bypass via IPv6 zone identifiers — `%25`-encoded scope IDs survive into the connect target (CVE-2026-107289 / GHSA-vmxc-h2x2-jmf3)
+
+Third-generation fix-drift on this exact invariant. Pydantic AI's cloud-metadata blocklist (itself already two generations of fixes deep: CVE-2026-25580 → CVE-2026-46678 → CVE-2026-48782) is bypassed by appending an **IPv6 zone identifier to a metadata address**: `fd00:ec2::254%251` (AWS IPv6 metadata endpoint with `%251` = URL-encoded zone `%1`). The **validator parses the zone and treats the string as a different/unmatchable host, while the host stack ignores the zone on a non-link-local destination and delivers to the metadata endpoint anyway** — exposing cloud IAM short-term credentials through `FileUrl(force_download='allow-local')` / `web_fetch_tool(allow_local_urls=True)`.
+
+Operator battery additions for every URL-allowlist/metadata-blocklist engagement (add to the canonicalization sweep this page already prescribes):
+
+- **Zone-identifier shapes on every blocklisted IPv6 literal:** `fe80::1%251`, `%25eth0`, `%25lo`, double-encoded `%25251` — validators that call `netip.ParseAddr`-family parsers often reject or normalize-away the zone while the socket layer silently drops it and connects.
+- **The general rule stays the same and now has a fourth proof point:** *any token the parser understands but the connect path discards creates a validator-vs-destination split.* Zone IDs are the newest member of the family next to IPv4-mapped IPv6, leading-zero octets, and DNS rebinding. Grep for URL/network validators that call a parse-and-stringify routine (`Addr.String()`-style) — the stringify is where the discarded token disappears from the *comparison* but not the *connection*.
+- **Fix-generation counting is recon:** three prior CVEs on the same guard means the guard is a denylist over address spellings, not a resolve-then-connect design — expect more spellings (this is now confirmed a fourth time) and test new spellings against it first.
