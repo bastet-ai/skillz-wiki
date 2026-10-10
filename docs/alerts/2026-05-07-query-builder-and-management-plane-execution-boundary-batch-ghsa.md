@@ -34,3 +34,14 @@ All three issues hide dangerous sinks behind convenience helpers. A structured a
 - Keep restart/launcher endpoints behind strong auth, CSRF protection, mTLS or VPN, network allowlists, and detailed audit logs.
 - Invoke management actions through fixed argv arrays, not shell strings; if dynamic values are required, constrain them to enumerated tokens.
 - Add regression tests that feed malicious arrays and command metacharacters through the same helper paths used in production.
+
+## October 10 follow-up: JetBrains Exposed — the idiomatic Kotlin DSL was the sink (CVE-2026-108474 / [GHSA-cv5g-jv44-53r2](https://github.com/advisories/GHSA-cv5g-jv44-53r2), critical, fixed 1.5.1)
+
+Exposed before `1.5.1` allowed SQL injection through **unescaped string arguments of several SQL functions** in the DSL itself. This is the strongest instance yet of the rule this page exists for: the injection point is not raw-SQL escape hatches but convenience function wrappers that interpolate literal string arguments instead of binding them — the same shape as the MixPHP helper arrays above and the CakePHP `FunctionsBuilder` `cast/extract/datePart` tracking item, now in the default Kotlin/JVM SQL library.
+
+Operator takeaways for Kotlin service assessments:
+
+1. Grep for `org.jetbrains.exposed.sql` usage and check the resolved version (`gradle dependencies | grep exposed`); below 1.5.1, treat SQL-function call sites as injection sinks, not as safe DSL.
+2. Fingerprint the vulnerable shape: user-controlled values flowing into string-typed arguments of SQL function helpers (literal text inside function expressions, custom function wrappers, `cast`/`extract`-style helpers) rather than into bound column parameters.
+3. When validating, prove with time-based or error-based markers at the function-argument position only, in scope; a successful marker at that position distinguishes this class from parameter-binding paths that remain safe.
+4. Report as **query-builder function-argument interpolation**, naming the exact function and argument position — the DSL's safe-by-default reputation means triagers often dismiss these; the version-pinned argument-position evidence settles it.

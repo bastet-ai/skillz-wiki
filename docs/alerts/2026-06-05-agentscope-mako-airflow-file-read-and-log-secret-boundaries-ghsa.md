@@ -76,6 +76,17 @@ Use two lab endpoints: an intended fixed-base API and a canary receiver you cont
 - Frame Faraday findings as a **fixed-base client host-scope bypass**. Include the object type (`URI` vs string), base URL, connection-level headers present, and controlled canary evidence.
 - Keep proofs non-destructive and scoped. Do not retrieve real secrets, production files, or unrelated task logs.
 
+## October 10 follow-up: NetApp Trident — CSI debug logs as a storage-credential vault (CVE-2026-22061 / [GHSA-h9gv-qj3w-x5ff](https://github.com/advisories/GHSA-h9gv-qj3w-x5ff), high, v25.02.1–v26.06.1)
+
+Trident (the CSI provisioner behind NetApp-backed Kubernetes storage) wrote **LUKS passphrases and SMB Active Directory credentials into debug logs**, readable by any authenticated principal with debug-log access. Same boundary as the Airflow task-log leg above — log-reader role → backend credential — but at a higher-value layer: storage orchestrators stringify the secrets that mount entire node disks and SMB shares.
+
+Operator takeaways for Kubernetes/storage assessments:
+
+1. Treat provisioner/CSI driver log output at debug level as a credential target, not telemetry. Enumerate which principals can raise log verbosity or read provisioner pod/controller logs (`pods/log` on the storage namespace, sidecar log routes, support-bundle endpoints).
+2. On in-scope Trident installs, check the deployed version against v25.02.1–v26.06.1 and whether debug logging is enabled on the controller; the hunt is log access, not the volume API.
+3. Validate only with synthetic canary secrets: configure a lab storage backend with a fake passphrase/SMB credential, trigger provisioning at debug level, and confirm the canary string appears in controller logs. Never harvest live LUKS passphrases or AD hashes; capture canary presence plus the least-privileged role that read them.
+4. Generalize into a recon heuristic for any storage control plane (CSI drivers, provisioners, backup agents): grep log statements for fields named `passphrase`, `password`, `key`, `secret` that get dumped with whole config structs — whole-struct log lines at debug level are the common miss. Report as **log-reader to storage-master-key boundary**, with canary evidence and the reading role.
+
 ## Sources
 
 - GitHub Advisory Database: [GHSA-f4hc-q562-cc5r / CVE-2024-8438](https://github.com/advisories/GHSA-f4hc-q562-cc5r)
