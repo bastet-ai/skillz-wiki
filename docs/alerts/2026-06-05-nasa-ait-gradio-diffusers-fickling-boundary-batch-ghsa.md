@@ -1,6 +1,6 @@
 # NASA AIT, Gradio, Diffusers, Fickling, and identity boundary batch
 
-Source: GitHub Security Advisories REST API, published/updated 2026-06-05. Updated 2026-07-13 with an adjacent Diffusers time-of-check/time-of-use custom-code gate bypass.
+Source: GitHub Security Advisories REST API, published/updated 2026-06-05. Updated 2026-07-13 with an adjacent Diffusers time-of-check/time-of-use custom-code gate bypass, and 2026-10-10 with the pdf2zh Gradio-GUI SSRF follow-up.
 
 This batch is durable because the advisories map to reusable offensive testing patterns: **unauthenticated telemetry capture APIs writing outside a log root**, **ML/web UI file-boundary and token-leak checks**, **model-loader `trust_remote_code` gate bypasses**, **pickle scanner bypass canaries**, **telco service-token scope confusion**, and **ASGI header canonicalization mismatches**. Use these workflows only in authorized labs or explicitly scoped assessments.
 
@@ -100,6 +100,17 @@ Run only in a telecom lab or explicitly scoped private 5G environment.
 4. Vulnerable result: application code sees the attacker-controlled variant or disagrees with the proxy/logged header value.
 5. Capture raw request, proxy behavior, Django-observed header map, application decision, and version. Do not target real impersonation headers without written scope.
 
+## October 10 follow-up: pdf2zh Gradio GUI — URL-link input crosses to an unguarded fetcher with response relay (GHSA-685q-m24h-8x9g / CVE-2026-108554, through 1.9.11)
+
+This page's Gradio canaries covered the library's file/token boundaries; this one is the **application built on Gradio** failing the same way. PDFMathTranslate's web GUI accepts a `Link` URL, and `translate_file` passes it straight to `download_with_limit` with no scheme or address validation — an unauthenticated visitor makes the server fetch arbitrary URLs, reaches internal services and cloud metadata endpoints, and **reads the result back because the fetched PDF is translated and rendered as the job output**. That last part is what separates it from a blind SSRF: the pipeline itself is the response relay.
+
+Operator notes:
+
+1. Fingerprint: pdf2zh deployments exposed as Gradio apps (Hugging Face Spaces demos, self-hosted docker GUIs on 7860/8501-style ports). Sweep any public Gradio/Streamlit ML demo for URL/Link/`file://`-style input components and trace the handler to its fetch call — the handler name is in the app source, which Gradio serves alongside the UI.
+2. Proof boundary: owned redirector or owned canary listener first; cloud metadata only against the deployment's own IAM role on customer-owned cloud hosts, and report the role/credentials read-back redacted. Do not crawl adjacent internal ranges to find a reachable service — record the deployment's route precondition honestly.
+3. Decision-table evidence: `http://` external control (fetches), `http://127.0.0.1:<owned listener>` (fetches → no address filter), `file://` and non-http schemes (probe for scheme filter absence), DNS-rebind alternation of an owned zone if initial direct-IP is filtered (the fetcher has no IP pinning either).
+4. Class anchor: same read-primitive-with-relay shape as the September 16 Open WebUI Playwright loader leg on the [May 16 Open WebUI RAG SSRF page](2026-05-16-open-webui-rag-ssrf-and-knowledge-boundary-batch-ghsa.md) and the Kortix Suna connector leg on the [April 30 address-spelling page](2026-04-30-n8n-mcp-ipv4-mapped-ipv6-ssrf-ghsa-56c3-vfp2-5qqj.md) — but with zero validation layer, which is the default state of ML demo GUIs. Treat every public AI-tool web GUI URL field as an unauthenticated SSRF candidate until a validation layer is demonstrated.
+
 ## Reporting heuristics
 
 - Frame AIT findings as **unauthenticated handler-creation crossing a log-root boundary**. Strong evidence is a normal capture inside the root versus a marker append outside the root.
@@ -125,6 +136,7 @@ Run only in a telecom lab or explicitly scoped private 5G environment.
 - GitHub Advisory Database: [GHSA-mvfq-ggxm-9mc5 / CVE-2026-3902](https://github.com/advisories/GHSA-mvfq-ggxm-9mc5)
 - NASA AMMOS AIT-Core advisories/source: <https://github.com/NASA-AMMOS/AIT-Core/security/advisories> and <https://github.com/NASA-AMMOS/AIT-Core>
 - Gradio advisories/source: <https://github.com/gradio-app/gradio/security/advisories> and <https://github.com/gradio-app/gradio>
+- GitHub Advisory Database: [GHSA-685q-m24h-8x9g / CVE-2026-108554](https://github.com/advisories/GHSA-685q-m24h-8x9g) (pdf2zh SSRF via Gradio GUI Link input)
 - Hugging Face Diffusers advisories/source: <https://github.com/huggingface/diffusers/security/advisories> and <https://github.com/huggingface/diffusers>
 - Trail of Bits Fickling advisories/source: <https://github.com/trailofbits/fickling/security/advisories> and <https://github.com/trailofbits/fickling>
 - free5GC NRF source: <https://github.com/free5gc/nrf>
