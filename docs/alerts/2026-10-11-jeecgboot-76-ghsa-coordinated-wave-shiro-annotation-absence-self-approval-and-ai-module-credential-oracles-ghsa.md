@@ -50,6 +50,10 @@
 - **Sentinel bulk-verb test (scratch rows only):** bulk-delete one scratch row, then `ids=allclear` against a **seeded scratch table in an isolated schema**, with audit export first. Never point this at `sys_log` of a shared instance.
 - **Shared-key prompt poisoning (lab Redis):** snapshot the `airag:ocr`-style key, write a marker template via the user route, observe another lab user's call consuming it, restore. Never touch production caches.
 
+## October 11 (03:30Z) same-template legs from the following wave
+
+The Oct 11 03:30Z batch repeated this page's templates verbatim on other products — evidence the annotation-absence/id-source-parity sweep generalizes beyond JeecgBoot: **eladmin** `GET /api/s3Storage/download/{id}` sequential-id enumeration returns every stored object URL without storage permission ([GHSA-8j2c-pwgm-76r5](https://github.com/advisories/GHSA-8j2c-pwgm-76r5)) and `POST /api/localStorage/pictures` image-named upload bypasses `storage:add` + leaks absolute paths ([GHSA-2hch-3q25-w3g9](https://github.com/advisories/GHSA-2hch-3q25-w3g9)); **MultiVendorX** marketplace settings REST route gated only by `edit_stores` lets any store_owner rewrite commission/payout settings site-wide — verb-scope drift on a settings namespace ([GHSA-h37j-r28p-597w](https://github.com/advisories/GHSA-h37j-r28p-597w)); **Wukong AICRM** `POST /chat/send` accepts an arbitrary `sessionId`, letting any user append into and stream replies from a victim's AI conversation (AI-module id-source parity again, [GHSA-2p74-f492-56xr](https://github.com/advisories/GHSA-2p74-f492-56xr)). Wukong_HRM/CordysCRM aspect/annotation waves folded on the [Sept 21 flat-authz drift page](2026-09-21-management-plane-config-writes-toctou-onboarding-race-and-flat-authz-drift-ghsa.md).
+
 ## Related pages
 
 - [Oct 10 HaiND MCP wave](2026-10-10-haind-mcp-coordinated-wave-negated-scope-filter-route-smuggling-sibling-gate-drift-and-tokenless-filesystem-ghsa.md) — sibling-gate diff rule this wave generalizes to id-source routes.
