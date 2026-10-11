@@ -12,7 +12,8 @@ Sources:
 - SuperTokens Core tenant separation: [GHSA-j7vw-hh5c-2w6x / CVE-2026-37171](https://github.com/advisories/GHSA-j7vw-hh5c-2w6x);
 - libvirt virtual-network XML to dnsmasq configuration injection: [GHSA-f6jp-rhmm-v59g / CVE-2026-61477](https://github.com/advisories/GHSA-f6jp-rhmm-v59g);
 - OPeNDAP Hyrax redirect-based SSRF and Earthdata-header forwarding: [GHSA-7c9q-38r9-q62m / CVE-2026-16637](https://github.com/advisories/GHSA-7c9q-38r9-q62m); and
-- Telefunken/Vestel SmartCenter `browserseturl` internal-browser reach: [GHSA-7535-6xrw-p7v8 / CVE-2026-15570](https://github.com/advisories/GHSA-7535-6xrw-p7v8).
+- Telefunken/Vestel SmartCenter `browserseturl` internal-browser reach: [GHSA-7535-6xrw-p7v8 / CVE-2026-15570](https://github.com/advisories/GHSA-7535-6xrw-p7v8); and
+- Postiz full-row response echo with secret leakage on delete/member paths: [GHSA-wm8w-ph5r-v9cm / CVE-2026-107761](https://github.com/advisories/GHSA-wm8w-ph5r-v9cm).
 
 The GitHub records were unreviewed at scan time. Confirm exact product, version, feature configuration, route or API, principal, and corrected behavior before reporting.
 
@@ -44,6 +45,21 @@ The record describes a public local-media route where raw dot segments are colla
 4. Exercise unauthenticated, ordinary user, feature-disabled, and fixed-build controls. Stop before opening or returning the sibling file.
 
 A bounded positive is **public route accepts encoded path representation -> handler decoding restores traversal -> denied stream recorder selects the sibling canary**. Do not request process environment, JWT material, database strings, provider secrets, or forge a session. Report file-selector authority only; downstream token impact remains source-reported, not reproduced.
+
+## 2b. October 11 follow-up — Postiz full-row response echo leaks secrets to mutation-only and low-role callers ([GHSA-wm8w-ph5r-v9cm / CVE-2026-107761](https://github.com/advisories/GHSA-wm8w-ph5r-v9cm))
+
+Several Postiz endpoints return the complete database row of the record they operate on instead of only the fields the client needs, and two of them carry secrets the caller is never meant to receive ([GHSA-wm8w-ph5r-v9cm](https://github.com/advisories/GHSA-wm8w-ph5r-v9cm)). Two legs:
+
+1. The public API's **channel delete** returns the deleted integration row, including the channel's platform **access token and refresh token**. A third-party OAuth app permitted only to delete a channel receives that channel's social-platform credentials and can replay them against the connected account **outside Postiz** — the token outlives both the channel and the app's scope grant.
+2. `GET /user/organizations` returns each organization row, including its **API key** (admin-only by design), to **every member** of the organization, so a lower-role member calls the public API on behalf of the org.
+
+Both require a valid session/API key/OAuth token and are scoped to the caller's own organization — there is no anonymous or cross-tenant leg. The durable axes generalize beyond this product:
+
+- **Delete is a read in disguise.** Enumerate mutation verbs (delete, archive, restore, transfer) as response-bearing surfaces, not just GET families. A row-echoing delete hands you the secret at the moment the record disappears from every later read.
+- **Field-role gating lives per-verb.** A field hidden from one endpoint because it is admin-only still leaks through any sibling verb that serializes the whole row; map each secret-bearing column to *every* route that returns its entity, then compare against the lowest role permitted on that route.
+- **OAuth third-party apps are a distinct principal class.** A scoped app token that satisfies the route's permission check but was never intended to receive the echoed fields is a clean bounty-grade path; test whether the leaked token validates directly at the upstream platform, not just inside the app.
+
+Validation stays bounded: disposable org, member role, one fake social-integration row seeded with synthetic canary tokens, and a mock platform endpoint that records token presentation. Never touch real provider accounts or live tokens; a positive is the canary token appearing verbatim in the mutation/list response body of a verb the low-scope principal is permitted to call.
 
 ## 3. SuperTokens: bind tenant identity at every query and mutation
 
