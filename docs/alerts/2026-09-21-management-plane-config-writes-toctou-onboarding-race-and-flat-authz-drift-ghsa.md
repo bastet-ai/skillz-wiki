@@ -139,6 +139,13 @@ Oct 11 03:30Z wave on two Chinese HR/CRM stacks extends this page's "optional se
 
 Proving boundaries: own lab installs, synthetic employee/contract rows, owned redirect host for the SSRF validator check; never touch real HR/payslip or invoicing data.
 
+## October 12 follow-up: Kong Gateway hybrid-mode clustering RPC SQLi — the mTLS peer channel is an unvalidated input surface (CVE-2026-1907 / [GHSA-gjvg-7rjg-jm9f](https://github.com/advisories/GHSA-gjvg-7rjg-jm9f), high)
+
+Kong Gateway (Enterprise + OSS) hybrid mode: the Data Plane→Control Plane **clustering RPC** logic interpolates RPC request fields into SQL — crafted RPC requests to the CP clustering port yield unauthorized database access. Gating is (a) network reachability of the clustering port and (b) a **valid client certificate/key**. Operator axes:
+
+1. **A mutual-TLS peer identity buys trust in the whole protocol — every field an RPC handler reads deserves parser fuzzing as if it were user input.** The cert boundary selects *who* may speak; it says nothing about *what* may be said. On any clustered appliance/service with an internal RPC/replication port gated only by mTLS (Kong CP, DB replicas, K8s kubelet-style channels), the post-cert grammar is the attack surface, and a stolen/leaked dataplane cert turns the "trusted" control plane's database into a query target. Recon: clustering ports are fingerprintable (Kong's is a distinct listener from the proxy/admin ports); enumerate feature-named ports on any cluster product before enumerating credentials.
+2. **Fingerprint for grep:** RPC dispatchers that concatenate message fields into SQL/commands, contrasted with handlers using bound parameters — same internal-deputy lineage as the OpenFGA/TargetAllocator legs. Proof boundary: lab CP + disposable generated client certs, synthetic RPC payloads, never a live control plane.
+
 ## Tracked from the same wave without publication
 
 - Proxmox PMG `apt-get changelog` argument injection (CVE-2026-94588, CSRF-style, thin detail) — argument-injection class already covered by the command-wrapper page; revisit if an argv-level PoC lands.
