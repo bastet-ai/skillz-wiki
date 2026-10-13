@@ -51,3 +51,9 @@ All validation is lab-only: a disposable malicious SSH/SCP server you control, a
 - No real credentials, SSH keys, or tokens in any fixture.
 - No execution of written content; the primitive is the unconfined write, escalation is a separate step that must be proven (and then bounded) in isolation.
 - Do not run these checks against untrusted remote servers in a production data pipeline; the exposure is real, so treat any live hit as a compromise indicator for the pipeline, not a test artifact.
+
+## October 13 follow-up: scp.py client-side receive traversal — the same bug in the second Python SCP client (CVE-2026-109152 / [GHSA-3f22-449q-g7c5](https://github.com/advisories/GHSA-3f22-449q-g7c5), medium, `jbardin scp.py ≤0.16.1`, fixed 0.16.2, patch 42fc3aa)
+
+The 12:32Z wave landed the direct twin of this page's asyncssh finding: **`_recv_file`/`_recv_pushd` in scp.py's SCP receive handler trust server-supplied `C`/`D` filename fields**, so a malicious SCP server's traversal names write outside the requested download directory — OpenSSH CVE-2019-6111's family again, now confirmed in both Python SCP clients. The fix commit (42fc3aaa714) is public, which doubles as the reference sanitization shape for audits.
+
+Operator update: this makes the class **grep-able across the ecosystem** rather than product-specific — `grep -rn "recv" */scp*`-style sweeps for SCP-protocol parsers that `join(dir, name)` without confinement are a standing recon task on any pipeline that automates downloads from third-party SSH servers. When you find one, the asyncssh lab harness above transfers verbatim: disposable malicious server, marker `C`/`D` lines, resolved-path logging, patched-version negative control. Treat a live pipeline hit as a compromise indicator (an attacker who controls the remote server owns your download host's file writes), not a test artifact.

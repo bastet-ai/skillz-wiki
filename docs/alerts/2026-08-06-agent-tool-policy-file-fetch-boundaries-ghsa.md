@@ -344,6 +344,20 @@ Operator axes:
 3. **Enumerate every channel from sandbox → host and treat each as archive/parser input**: result tarballs, workspace syncs, log ships, artifact uploads. Run the standard link-following fixture battery (symlink out, hardlink→symlink, absolute-target) against the *host-side extractor*, plus the `nsenter`/`--root`/`--mount` flag audit on any wrapper that enters namespaces: attach flags that preserve the host mount namespace are an escape by construction, greppable in the launcher script.
 4. Proof boundary: owned agent installs, disposable repos with inert marker continuations (`touch /tmp/agent-marker` class), temp-dir sandbox roots; never use real user repos or shared orchestrators.
 
+## October 13 follow-up: workflow-platform MCP/API-tool config fields dial arbitrary peers — Conductor `mcpServer` and `specUrl`, MeterSphere Swagger3 import (CVE-2026-109402 / [GHSA-36mx-2w99-hqwq](https://github.com/advisories/GHSA-36mx-2w99-hqwq); CVE-2026-109190 / [GHSA-q2hq-xqfr-hx4g](https://github.com/advisories/GHSA-q2hq-xqfr-hx4g); CVE-2026-109189 / [GHSA-hhch-5r3f-p76p](https://github.com/advisories/GHSA-hhch-5r3f-p76p), 12:32Z wave, public exploits on the first two)
+
+Three same-shape SSRF legs on orchestration/QA platforms where a **configuration field is the fetch destination**:
+
+- **Conductor `MCPService.listTools(mcpServer)`** (3.22.0, `ai/.../mcp/MCPService.java`): the MCP-server URL passed to the tools-listing call is contacted server-side with no egress bound — remote-exploitable, exploit public.
+- **Conductor `ListApiToolsTask.start(specUrl)`** (3.31.2, API Tool Configuration): the OpenAPI spec URL a workflow task fetches to enumerate API tools — same unbounded-fetch shape one config object away.
+- **MeterSphere `Swagger3ParserApiDefinition.testUrlTimeout(swaggerUrl)`** (≤3.6.9-lts): Swagger3 import "test URL" endpoint fetches the supplied `swaggerUrl` server-side; exploit public.
+
+Operator rules (extends this page's "tool argument → final authority" invariant to workflow platforms):
+
+1. **Workflow/AI platforms are SSRF farms by design — the question is bound, not reach.** Every "list tools from server", "load spec from URL", "test this endpoint" feature exists *to* fetch user-supplied URLs; the test is whether the fetch honors an egress allowlist, blocks link-local/metadata ranges, and re-checks after redirects. Probe class: point the field at an owned callback, then at redirect-wrapped and rebinding variants, from the lowest-privilege role that can legitimately create a workflow/API definition (usually nearly everyone).
+2. **Same-product sibling parity**: Conductor shipped two independent unbounded-fetch sinks (`listTools` and `specUrl`) in the MCP and API-tool subsystems — when one config-URL field on a platform dials arbitrary peers, enumerate every feature that ingests a URL (spec import, MCP registration, webhook test, plugin source) and treat them as separate legs with separate fix bands.
+3. **Conductor/MeterSphere banner recon**: both are common on internal OT/devops networks with no auth in default installs; "can I create a workflow/API definition anonymously?" is the first question, and the config-URL fetch is the second (file:// variants and internal-range canaries on lab instances only, owned callbacks for positive proof).
+
 ## Evidence and reporting boundaries
 
 - Include positive and negative mode/auth controls for management routes.
