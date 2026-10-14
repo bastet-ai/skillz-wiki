@@ -199,3 +199,13 @@ The bounded chain is **local network/DNS redirection in an approved lab -> unaut
 - [ ] DNS or proxy redirection is confined to a disposable VM.
 - [ ] No real update traffic, credentials, documents, smart-card material, host files, or executable payloads appear in evidence.
 - [ ] Claims stop at the first callback, opener, or process-start recorder and do not overstate downstream code execution or data access.
+
+## October 14 15:3xZ follow-up: Report One MyReport Updater — unauthenticated gRPC re-points a SYSTEM service's update source, "integrity" is an attacker-computable MD5 (c58m/CVE-2026-110632 critical + www7/CVE-2026-110633 LPE, ≤2.1.1)
+
+The MyReport Updater service (runs as SYSTEM on Windows hosts with SAP Business One reporting) exposes a **gRPC listener on TCP 9095 with no authentication**; invoking `UpdateConfigReferent` overwrites the updater's reference-server configuration. The attacker points it at their own server, which serves "modified module archives **with matching MD5 digests**" — the digest check is satisfied because the attacker recomputes MD5 over their own payload. Result: file write + code execution as SYSTEM. The sibling advisory covers a local privilege escalation in the same updater.
+
+Durable axes (extends this page's updater-binding checklist):
+
+- **The update *source* is itself an unauthenticated write target on many Windows sidecar services.** Before attacking the download/verify path, enumerate the service's management surface (gRPC reflection on non-HTTP ports is one `grpcurl` away: `grpcurl -plaintext <host>:9095 list`). If config that selects the update URL is writable pre-auth, the entire TLS/signature chain downstream is moot — this is the "descriptor authenticity" binding in this page's checklist failing at the *storage* layer, not the parse layer.
+- **MD5 "verification" of attacker-supplied artifacts is not integrity — it's formatting.** Any updater whose check is `hash(served_bytes) == hash_shipped_with_pointer` where the attacker controls both sides validates nothing. During authorized reviews, compute the digest yourself and confirm match to prove the check is post-hoc; the real bindings are signature-over-digest by a pinned key or digest pinned in a protected store.
+- Fingerprint for red-team recon: Windows hosts with vendor reporting stacks exposing 9095 (default gRPC-ish band) or any high port answering gRPC reflection; banner = reflection list output. Proof stops at a synthetic module served from an owned fake reference server into a lab VM — never push archives at production updaters.
