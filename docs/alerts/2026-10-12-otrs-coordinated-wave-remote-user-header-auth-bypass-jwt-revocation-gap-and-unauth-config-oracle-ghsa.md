@@ -35,6 +35,14 @@
 - **Colliding-identity resolution (two lab backends):** lab DB + lab LDAP with a synthetic shared email; verify which account inbound email resolves to. Synthetic tickets only, never real customer data.
 - **Export formula marker (own mailbox → own export):** send a ticket containing an inert `=HYPERLINK("http://owned-callback/#marker","x")` payload via the test email channel, export the queue, inspect raw CSV bytes for unescaped formula prefix. Do not deliver live formula payloads to real analyst workstations.
 
+## October 15 follow-up: Znuny ≤7.3.6 — the fork shipped the same `Remote-User` login bypass plus a search-operator SQLi (g4fx/CVE-2026-93483 critical, mxcg/CVE-2026-93484 high)
+
+The Znuny fork independently published the identical header-identity bypass this page documented for OTRS: `Kernel::System::Auth::HTTPBasicAuth` and `Kernel::System::CustomerAuth::HTTPBasicAuth` read the login username from `$ENV{REMOTE_USER}` **or fall back to `$ENV{HTTP_REMOTE_USER}`** — a client-controlled `Remote-User:` header with no password step, on any install configured with the HTTPBasic backend.
+
+- **Fork-genealogy sweep rule validated a third time:** the same defect class (OTRS CE ≤6 here, Znuny ≤7.3.6 now, plus the July 24 Caddy leg) propagates through product forks and derivatives largely unchanged. When a fork/derivative family exists (OTRS→Znuny→others, OpenSSH forks, BusyBox wrappers), re-sweep every member with the parent's PoC after the parent is published — the patch rarely backports, and each fork is a fresh CVE. Search Znuny/OTRS-family targets for the same grep: `HTTP_REMOTE_USER` consumed without a verification step.
+- **Znuny ticket-search SQLi via a boolean-operator parameter** (mxcg, `ContentSearch` param expected to be `AND`/`OR`, concatenated raw into `TicketSearch`/`ArticleSearchIndex::DB` SQL): **enum-valued "operator" parameters are SQL fragments waiting to happen.** Everywhere a API/doc says a field accepts `AND|OR|ASC|DESC|LIKE`, send quote/paren/stacked variants — this pairs with the Sept 18/23 sort-direction and Sept 18 Mongoid grammar legs; the keyword field is the least-scrutinized SQL input because developers assume it's validated by enum comparison upstream. In Znuny it is reachable behind agent auth, so chain it after the header bypass above for the unauthenticated read path.
+- Validation stays lab-only per this page's boundaries: lab Znuny fixture, forged header against your own lab agent, synthetic search payload; never target third-party helpdesks.
+
 ## Cross-references
 
 - Header→env identity-injection family: [July 24 Caddy REMOTE_USER underscore-alias page](2026-07-24-caddy-imagemagick-electron-boundaries-ghsa.md).
