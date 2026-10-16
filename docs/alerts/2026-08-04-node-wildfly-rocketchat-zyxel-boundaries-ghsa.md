@@ -180,6 +180,17 @@ For NameService, stop at **unauthenticated request -> random lab name reaches de
 - For IIOP/JNDI, report a naming-authority flaw separately from any speculative deserialization, MITM, or code-execution chain.
 - Keep fake keys, certificates, principals, names, URLs, and classes in evidence; never include production identity material.
 
+## October 16 follow-up: WildFly `Monitor` role → config snapshot to arbitrary path → RBAC-restricted credentials ([GHSA-5v76-4c24-rjmj](https://github.com/advisories/GHSA-5v76-4c24-rjmj) / CVE-2026-84823, high)
+
+The lowest standard RBAC role in WildFly (`Monitor`) can call the `take-snapshot` management operation and manipulate its `name` parameter with path traversal, writing a copy of the full server configuration — datasources, vault/credential references, security realms — to an arbitrary filesystem location it can then read back. The RBAC model gates the *read* APIs for configuration; nobody gated the *snapshot side-effect sink*, because "take a snapshot" reads as a harmless monitoring verb.
+
+Operator rules for any Java EE / app-server management interface (WildFly, EAP, GlassFish-family, JBoss CLI/HTTP management):
+
+- **RBAC audits that enumerate API verbs miss side-effect sinks.** `take-snapshot`, `export`, `dump`, `backup`, `archive`, `:read-config-as-stream`-adjacent operations are write-then-read-your-own-file primitives that bypass the read ACL. For each role from the lowest tier up, list every operation that *produces a file* and ask who can read the produced file and where it lands.
+- **"Write where you can read" is the traversal proof shape.** You don't need to read `/standalone/configuration/` directly — write the snapshot into a log directory, deployment scan path, or HTTP-served directory and retrieve it through that alternate channel. Prove with a synthetic datasource credential in a lab instance and recover it from the redirected snapshot; never touch real production configuration.
+- **Config snapshots are credential stores** (same genealogy as this page's domain-controller repository traversal leg and the Veeam EM/KV-store snapshot legs): vault references, JAAS/identity-store entries, SMTP passwords, and keystore locations routinely live in the snapshot even when individual read endpoints mask them. Grep the recovered snapshot for `clear-text`, `secret-value`, `ldap`, `keystore`, `vault` before concluding on exposure.
+- Fingerprint: management interface reachable + role assignment below `Deployer`/`Admin` + snapshot operation allowed = check the `name` parameter's traversal handling (`../`, absolute paths, `%2e%2e%2f` shapes) with a denied-write recorder first.
+
 ## Reporting checklist
 
 - [ ] Every finding records exact release, deployment mode, caller position/role, and feature or storage configuration.
