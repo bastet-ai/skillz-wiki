@@ -67,6 +67,13 @@ Three legs treat outgoing mail as an attack surface rather than a delivery mecha
 
 The fix bands (15.98.0 → 15.121.3, 16.6.0 → 16.35.0) mean each leg was patched at a different point over months. A live instance's exact version (readable from `/api/method/frappe.client.get_versions`-shaped endpoints, login-page asset paths, or response headers) tells you **which subset of this wave is still open on that host** — diff version against the per-advisory bands before choosing test cases. A site current on 16.35+ is patched; a site on 16.20 still has everything fixed in 16.21–16.35, including the 8.1 public-page XSS and the permission-flag leg. This is the same "advisory set as per-host attack map" pattern as the Brocade and HPE ClearPass waves.
 
+## October 16 follow-up: network restriction bound to session auth only, and the no-role SQLi cohort grows
+
+Two Frappe advisories landed 2026-10-16 03:30Z — second Frappe wave in three days, same-product re-sweep rule once more:
+
+- **`restrict_ip` allowlist enforced for session logins only** ([GHSA-87cm-fpc4-v76f](https://github.com/advisories/GHSA-87cm-fpc4-v76f) / CVE-2026-111388, medium, Framework before 15.120.0 / 16.x before 16.33.0). The per-user IP allowlist is **not** applied to non-session authentication methods: API key, OAuth, and header-based auth authenticate fine from any IP outside the allowlist. The generalization: **IP/network restriction is an attribute of the credential class, not the user.** A user who can create an API key or OAuth token from inside the allowlisted network hands you a credential that works from anywhere. Audit battery on any product with IP-restriction features: enumerate every auth shape the product supports (session, API key, OAuth bearer, HMAC/header, PAT), then test the network gate against *each shape* with the same identity — decision table (auth-shape × inside/outside allowlist). Frappe made this concrete: mint an API key from an allowed source, replay it from a denied source.
+- **HRMS SQLi cohort grows** ([GHSA-c3rv-h6h6-6f8m](https://github.com/advisories/GHSA-c3rv-h6h6-6f8m) / CVE-2026-111389, high, HRMS 14.x before 14.38.2, 15.x before 15.64.0, 16.x before 16.18.0): "some endpoints, missing input validation, any authenticated attacker including low-privilege" — same sentence as the Oct 13 wave's 59gg/109608 leg. Fold into the existing low-token sweep; note HRMS has its own fix bands separate from Framework, so fingerprint HRMS version independently when diffing per-host open legs.
+
 ## Validation boundaries
 
 - Authorized instances only; Frappe's public bounty program defines scope — read it per engagement.
