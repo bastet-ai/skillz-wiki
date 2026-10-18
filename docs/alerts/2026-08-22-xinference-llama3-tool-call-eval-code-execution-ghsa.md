@@ -70,6 +70,28 @@ Lead with the crossed channel and the auth state:
 
 Strong reports include the exact `xinference` version, the auth state on the route, the model backend and model, whether `tools` is enabled, the exact parser location, the denied-sink capture (prompt + tool-call fragment + `eval()` argument), and the `2.7.0` negative control. Durable operator lesson for any model-serving or agentic stack: **treat LLM output as untrusted input to any evaluator** — `eval`, `exec`, `ast.literal_eval` on non-literals, `pickle`, YAML load, shell, or template render are all the same boundary. A prompt that controls model output is a write primitive into that evaluator.
 
+## October 18, 2026 follow-up: `model_name` backslash traversal on the registration endpoint (CVE-2026-112051)
+
+A second, independent boundary in the same product landed 2026-10-18: **Xinference through 4.0.1** accepts a custom model registration via `POST /v1/model_registrations/{model_type}` with a `model_name` like `..\..\evil`, and the name is used to build a file path under the model directory — giving an **unauthenticated attacker arbitrary `.json` file write/delete** through the process-writable scope (fix commit `beddc97a`, [GHSA-xhc4-qrhj-p2jj / CVE-2026-112051](https://github.com/advisories/GHSA-xhc4-qrhj-p2jj), VulnCheck writeup).
+
+The fix diff is the whole lesson. Pre-fix, the validator was a single regex denylist:
+
+```python
+# pre-fix (utils.py is_valid_model_name)
+return re.match(r"^[^+/?%#&=\s]*$", model_name) is not None
+```
+
+It denies `/` but **not `\`**, and does not reject bare `.`/`..`. On Windows the backslash is the path separator, so the "safe name" gate is separator-blind on one OS while the filesystem consumer splits on it. Post-fix adds `\` to the deny class plus explicit `.`/`..` rejection.
+
+Durable operator rules:
+
+1. **Separator-parity on every name-as-filename field.** Any identifier that becomes a path segment (model name, workspace, export name, cache key, username-as-dir) must be probed with `/`, `\`, `..`, `.%20`, `...`, and trailing-separator variants — a validator that denies only one separator is an OS-conditional traversal. Deny-list character classes are the fingerprint: grep validators for `[^...]` classes and check which separator is missing.
+2. **Registration/persistence endpoints are standing write primitives.** The traversal here is not one request-deep: the poisoned name is *persisted in the model registry*, so the write target survives restart and re-materializes on load. Sweep create/register/save endpoints for name fields before theorizing about dedicated upload routes — the "name" field is the underrated write sink.
+3. **Extension confinement is not scope confinement.** The sink only wrote `.json` files — but the process-writable `.json` surface includes the model registry and config/data files, so attacker-chosen content lands where the product itself trusts structure. Enumerate which files the service writes with the service's own privileges; that set is the real blast radius of any bounded write primitive.
+4. **Same-product re-sweep rule holds again.** This is the second independent boundary class in Xinference on this wiki (Aug 21 `eval()` on Llama3 tool-call output, above; Oct 18 name-as-path traversal). One published boundary in an AI-serving product justifies re-sweeping the sibling surfaces — route families, validators, and file consumers — not treating the product as "covered."
+
+Lab boundary: prove with a disposable Xinference on Windows (or a mocked path consumer on Linux recording the joined path), inert marker `.json` names, and a denied file-sink recorder; never overwrite real registry/config files, and check version and auth state before claiming unauthenticated reach (the default deployment, as in the August finding, ships without auth).
+
 ## Notes on skipped adjacent items
 
 The same 2026-08-21 scan reviewed the JSONata expression-sandbox-escape family (published as a separate page), a GeoTools `jsonArrayContains` unauthenticated SQLi, and a large VulDB-style WordPress/TRENDnet/Joomla/Linux-kernel/Spring wave. The GeoTools and product-specific records are tracked to state without publication — they are product/DB-boundary records without a new reusable operator pattern in this window.
