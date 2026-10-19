@@ -65,6 +65,20 @@ Primary entries:
 4. **AI-platform global config is a privilege surface.** Cognee's non-superuser LLM-config overwrite is the same family as model-loading RCE and vector-store tenant bypass — a config/model/identity write that should be role-gated. When auditing AI platforms, test every global config/model/LLM-key write for role enforcement.
 5. **Report the trust break, not the CVE count.** Each of the five is one narrow transition; frame each as input → authority crossing with the exact field, endpoint, and canary evidence.
 
+## October 19 follow-up: crewai-tools `SeleniumScrapingTool` never calls `validate_url` at all — the guard exists in the repo, this tool doesn't import it ([GHSA-5595-9g9c-5cc4](https://github.com/advisories/GHSA-5595-9g9c-5cc4) / CVE-2026-112308, high, through 1.15.28)
+
+The September leg on this page covered `crewai-tools` fetch SSRF where the gate ran on hop 0 but not post-redirect. This new advisory is the complementary failure mode in the *same package*: `SeleniumScrapingTool` **never applies the `validate_url` private-address check** — the helper ships in the repo (other tools call it), this one just doesn't. An attacker influencing agent tool input (prompt injection, untrusted page content, task data) directs **headless Chrome** at loopback, RFC1918, or cloud metadata to disclose internal data and cloud credentials.
+
+Rules:
+
+1. **Per-tool guard parity: enumerate every URL-consuming tool in an agent framework, then grep which ones import the SSRF helper.** Frameworks ship N scraping/fetch/browse tools (requests-based, Playwright-based, Selenium-based); the guard's existence proves nothing about coverage. Fingerprint: `import validate_url` present in some tool modules, absent in others = ready-made bug list. Test each tool's URL param against one owned loopback listener + one owned RFC1918-marker listener; a hit from one tool and a block from its sibling is the report.
+2. **Browser-backed fetchers widen the blast radius beyond HTTP clients.** Headless Chrome follows redirects, renders subresources, and sends credentials/cookies a raw client wouldn't — and its results come back into the agent's context (full-readback SSRF). For browser tools specifically also probe `file://` navigation (see the browserless leg on the June 5 Crawl4AI page) — protocol guard parity, per transport, per tool.
+3. **Same-product second wave = re-sweep signal.** crewai-tools is now twice SSRF-promoted (Sept redirect-hop leg, Oct missing-guard leg) inside six weeks — keep agent-tool libraries on the standing re-sweep list; each new release is a re-enumeration trigger for the whole tool catalog.
+
+Validation boundary: owned listeners only (loopback + a synthetic "internal" marker host), never cloud metadata endpoints, no third-party internal ranges; proof is the inbound hit + returned marker, nothing more.
+
+Tracked no-publish from the same 18:32Z wave: docTR `load_pretrained_params` torch.load without `weights_only` (rh68/112304, pickle-deser class already on this page's checkpoint legs; pre-2.6 torch band), MongoDB PHP BSON recursion DoS (69c3/112368), sqlparse PHP code-injection single (457h/112307), prototype-pollution set-get single (ffhp/112309), GDevelop cred leak (rq3j/112303), IBM MQ/Concert/Cloud-Pak patch-day packs (authenticated DoS/memory-safety singles), RouterOS `ipt_SAME.ko` integer overflow (99hw/112158, vuldb-style detail-free single — watch for KEV given the RouterOS standing watch on CVE-2026-84411), Tapo C320WS adjacent-network overflow (xj9v/105810), ForgeRock refresh-token-as-access-token (vp4v/7043, token-class-confusion class known), Netskope captive-portal rogue-AP gap (4fcp/12254).
+
 ## Safety
 
 - **Owned listeners only** for all SSRF legs; no metadata, no RFC1918 production, no uncontrolled public DNS/redirects.
