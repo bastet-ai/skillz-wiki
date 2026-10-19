@@ -264,6 +264,18 @@ Operator rules:
 
 Same-product watch: the pre-1.0 alpha version line means every fix window is a rebuild of the control plane — re-run the `Host` matrix after each release.
 
+#### October 19 follow-up: LoopX `serve-status` — wildcard-CORS branch of the loopback family, read routes exfiltrate operator notes ([GHSA-vx2m-gpq4-8j5q / CVE-2026-108372](https://github.com/advisories/GHSA-vx2m-gpq4-8j5q), high, fixed 0.4.5)
+
+LoopX's local status server sends `Access-Control-Allow-Origin: *` on **every** response, including its unauthenticated `GET` routes, on hardcoded well-known loopback ports `8765` (project) and `8766` (global). Any website the operator visits reads, with a plain `fetch()` and zero interaction: `/status.json` (full control-plane projection — goal ids, run history, local absolute paths, and with `--global-registry` every project registered on the machine), `/review-material?goal_id=…&path=…` (content of **any** `.md`/`.markdown` file under a goal's repo/state/runtime dirs — private design notes, handoff docs, evidence write-ups), `/` (endpoint discovery including which write APIs are enabled), and `POST /control-plane/configure-goal/dry-run` which has **no Origin check at all** and preflight-permissive `Access-Control-Allow-Headers: Content-Type`, leaking the before/after control-plane config for a goal. The write endpoints were correctly Origin-checked — the leak is strictly the read paths, and the project's own `public-private-boundary.md` classifies all of it as must-stay-private.
+
+Operator rules — this is the **permissive-CORS branch** of the family (DeepSeek above was the `Host`-spoof branch, Serena/Joro the plain-trusted-API branch), so the loopback probe matrix must cover all three gates independently:
+
+1. **Read and write routes get separate CORS/Origin audits.** Partial hardening (Origin checks on writes, `*` on reads) is the shape here — a fix-diff or "it blocks my POST" test proves nothing about the GET surface. On any loopback control plane: enumerate every route, then run cross-origin `fetch()` for each verb from an owned page; record a per-route CORS/Origin decision table.
+2. **Fixed well-known ports kill the discovery step.** Attack pages iterate `127.0.0.1:8765/8766` blind. Standing fingerprint for agent-harness tools: grep source for default port constants + `ACAO`/`Access-Control` middleware wiring; wildcard + unauthenticated read + fixed port = browser pivot with no user interaction.
+3. **File-serving query params on a local status UI inherit the repo's private namespace.** A `path=` param scoped to "goal repos" reads whatever the operator keeps there; on authorized engagements test whether notes/docs/evidence files render through the same route class as status JSON, and whether a `dry-run`/preview verb skips the Origin gate that its committed sibling enforces (dry-run-vs-commit parity is a new gate axis — dry-run handlers frequently get looser guards than the mutating endpoint they mirror).
+
+Proof discipline: own the browser page, own the repo contents (synthetic markdown markers), lab instance on a disposable profile; never read real operator notes or exercise write routes.
+
 ### Nuclio cron trigger command construction
 
 This is a controller-to-Kubernetes command-boundary check. The advisory describes tenant-controlled cron trigger `event.headers` keys and `event.body` values entering a generated `/bin/sh -c` `curl` command.

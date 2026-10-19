@@ -112,3 +112,13 @@ Operator rules for this page's model-runtime section:
 3. **Ollama's default posture has always been unauthenticated with broad binds in dev images** (this page's recurring default-posture rule); this leg converts that posture into root code execution via one HTTP request plus a restart. Standing recon on authorized AI engagements: `GET /api/version` first, then treat `/api/pull`, `/api/push`, `/api/create` as file-boundary surfaces and check the container image's writable-directory layout (lab copies only).
 
 Proof discipline: lab Ollama in a disposable container with a marker write outside the model store; never push real images, never traverse on shared inference hosts, and restart/load-trigger tests only on deployments you own.
+
+## October 19 15:3xZ follow-up: BentoML `containerize` — newline in `docker.env` mapping keys injects RUN instructions into the generated Dockerfile (CVE-2026-112264 / [GHSA-rq23-h86h-7v4x](https://github.com/advisories/GHSA-rq23-h86h-7v4x), high, through 1.4.39)
+
+BentoML's legacy `base.j2` Dockerfile template renders `docker.env` mapping keys/values **without newline stripping**, so a crafted `bentofile.yaml` or an **imported bento archive** supplies a key like `X\nRUN curl … | sh` and `bentoml containerize` executes injected `RUN` instructions during `docker build` — build-secret access and image poisoning. The trust boundary is the *artifact import*: a shared/exported bento archive is attacker-authored config that the victim's own build pipeline trusts.
+
+Durable rules for this page's model/build-supply-chain section:
+
+1. **Generated-Dockerfile fields are instruction-injection sinks.** Any key/value, label, model name, or tag interpolated into a Dockerfile/Compose/K8s-YAML template must reject newlines; audit grep = template files with `{{ ... }}` on the same line as `ENV|LABEL|RUN|COPY`. Same generator-template lineage as the Backstage `extra_templates` and Hydra `dictConfig` legs — config-to-template with no context-appropriate escaping.
+2. **Importable artifacts carry executable config.** On AI platforms with export/import (bento archives, model zips, workflow JSON), the import→build→run pipeline is one untrusted-input chain; on authorized engagements, import a synthetic archive with a marker key into a disposable builder and record whether build-time instructions fire (inert `RUN touch marker` only, local builder, never CI).
+3. **Build-time ≠ deploy-time impact:** RUN injection detonates during image build on the *builder's* host with buildkit mounts and CI secrets in scope — report the build-context exposure, not just the poisoned-image outcome.
