@@ -58,3 +58,14 @@ When a target (or you) reach for an "audit" command to close the gap, check **wh
 
 !!! warning "Containment"
     Malicious-repository simulation belongs in disposable containers against mirrors you own or that are explicitly in scope. Never mutate public registry content, never intercept third-party developer traffic, and keep injected payloads inert (print-only canaries).
+
+## October 19 07:1xZ follow-up: bootc — mutable OS image tags + policy fall-through = unsigned content becomes host root on reboot (66j5/CVE-2026-16487 high, CVSS 8.1)
+
+`bootc` (immutable/OStree-style Linux boot from container images) with the **default** `containers-policy.json`: registries that fall through to the `default` scope of `insecureAcceptAnything` accept *any* content for a **mutable tag** (`:latest` and friends) during automatic or manual `bootc upgrade`. An attacker who can push to (or poison the mirror for) that tag gets arbitrary OS content applied **as the host root filesystem on next boot** — below every container runtime control, with A/B rollback making the swap look like a normal update.
+
+This is the bootc-native twin of the Composer/CocoaPods "the tag is the trust anchor and the host serves it honestly" illusion in the catalog above — same defect shape one layer down the stack:
+
+- **Signature policy is scoped per-registry; the default scope is the attack.** Audit any bootc/rpm-ostree-containing-host fleet by reading `/etc/containers/policy.json` (and drop-ins): `grep -A2 default` for `insecureAcceptAnything`, then enumerate which image references actually resolve via fall-through instead of a `signedBy`/`sigstoreSigned` rule. A `default: insecureAcceptAnything` plus any mutable tracked tag = standing supply-chain RCE below the OS.
+- **Tag mutability is a separate audit axis from signature presence.** Even registries *with* signed rules are unsafe if the rule is `signedBy` without identity binding and the tag is mutable plus re-signable by a broad CI role; `bootc upgrade` re-resolves tags, so the delivery leg is revisited on every timer tick (`bootc-fetch-apply-updates.timer`). Recon: presence of that timer service on a host = the fetch leg fires unattended.
+- **The write target is the root filesystem of a boot-managed host** — the report value is higher than package-manager code execution because persistence is the boot path itself; proof should stop at a pinned-digest mismatch observation in a lab VM, never a reboot into attacker content on shared systems.
+- Bug-bounty angle: bootc-based distributions (Fedora CoreOS-class, image-mode RHEL, edge/IoT fleets) and their public registries qualify for the same "tag serves unverified content" report classes as this page's registry heuristics; the novel twist is the host-root blast radius.
