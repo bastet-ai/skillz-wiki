@@ -32,6 +32,15 @@ These advisories are durable because they hit two places defenders routinely und
 - Optional dependencies and git URL dependencies deserve supply-chain review because failed optional installs can hide traces while still executing lifecycle scripts.
 - Media metadata is parser input. Treat XMP/EXIF/IPTC parsing like archive extraction or document rendering: isolate it, patch it, budget it, and do not run it beside secrets.
 
+## October 19 follow-up: Rank Math SEO PRO 3.0.123 — time-windowed plugin compromise, the WordPress-plugin twin of the version-is-not-the-indicator rule (CVE-2026-111862 / [GHSA-6qfj-hq55-w68p](https://github.com/advisories/GHSA-6qfj-hq55-w68p), critical)
+
+WordPress plugin Rank Math SEO PRO shipped malware in **a subset of version 3.0.123 packages downloaded or updated between 2026-10-15 20:02 UTC and 2026-10-16 07:12 UTC**; clean replacement is 3.0.124. The vendor's own wording matters for triage: **the version number alone does not establish compromise — the download/update timestamp window does.**
+
+- **Triage rule for time-windowed compromises (npm, WordPress.org, PyPI, VS Code Marketplace): the query is (artifact ∈ affected set) AND (fetch-time ∈ window), never version alone.** For WP sites that means: plugin-file mtimes and updater logs, host control-panel access logs for `wp-content/plugins/` writes, and CDN/waf logs for the download event — not just the readme version header, which reads 3.0.123 on both clean and dirty installs.
+- Vendor-indicated IOCs to sweep on owned/authorized engagements: three malicious `wp_options` keys, hidden PHP backdoors, unauthorized administrator accounts, a fake WordPress core file, **PHP-executable `.cache` files** (extensionless-looking sink), a system cron marker, and C2 to `rank1cdn[.]com`. The `.cache`-file trick is the durable pattern: attacker payloads hiding behind a name every host hygiene scan whitelists.
+- Recon/engagement angle: a Rank Math 3.0.123 site whose admin never noticed the window is a site with live third-party backdoors and rotated-everything credentials — post-compromise persistence found during recon is a finding class of its own (report the backdoor's presence, do not use it).
+- Same-page invariant restated by a second ecosystem: trusted-publisher identity (Rank Math is a top-tier WP plugin) proves nothing about artifact contents inside the window; treat any install during a disclosed window as a fresh supply-chain investigation.
+
 ## Related Wisdom
 
 - [Git scanner, attestation, and build-boundary batch](2026-05-11-git-scanner-attestation-and-build-boundary-batch-ghsa.md)
