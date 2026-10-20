@@ -94,6 +94,21 @@ If you cannot observe server-side headers directly, use a unique canary username
 
 Frame this as a stale proxy-auth header crossing an origin and proxy-mode boundary. The initial request legitimately needed `Proxy-Authorization` for the proxy, but redirect handling failed to clear the header when the final request no longer used that proxy. Impact depends on whether attacker-controlled URLs are fetched by a vulnerable Node.js Axios client that uses authenticated proxy settings and follows redirects automatically.
 
+## October 20 follow-up: follow-redirects ships two silent failures of the same strip control
+
+The redirect-time credential strip in Node's most widely deployed redirect library failed **open twice**, in two different ways, both published 2026-10-20. Same control as the Axios legs above — strip `Authorization`/`Proxy-Authorization`/`Cookie` before following a cross-origin redirect — two independent implementation defects, both silent.
+
+**1. Array-form headers disable the strip entirely** — [GHSA-q3jh-wrc6-jgq8 / CVE-2026-111756, `follow-redirects`](https://github.com/advisories/GHSA-q3jh-wrc6-jgq8). Node's `http.request` accepts `options.headers` as an alternating `[name, value, name, value]` array (supported for ordering/duplication). `removeMatchingHeaders` iterates the container with `for...in` and matches header **names** against a regex — for an array, `for...in` yields `"0","1","2"`, never matches, and deletes nothing. Applications sending array-form headers leak `Authorization`, `Cookie`, `Proxy-Authorization`, plus the stale `Host` and (on POST→GET) `Content-Length` to any attacker-controlled redirect target. The `sensitiveHeaders` option added to fix the earlier CVE-2026-40895 relies on the same helper and is equally ineffective. Verified unchanged 1.15.11→1.16.0.
+
+**2. Incomplete regex escaping fail-opens the custom-header filter** — [GHSA-8r9p-f939-6h3c / CVE-2026-111755](https://github.com/advisories/GHSA-8r9p-f939-6h3c). The filter is `^(?:` + declared names joined with `|` after a partial `escapeRegex` that misses `^`, `|`, `[`, `{`, `}`. RFC 9110 `tchar` permits `^` and `|` in header names, and Node accepts them: a declared sensitive name `X-Token|Secret` splits the alternation into two alternatives (`X-Token`, `Secret`) — the real header is never stripped while unrelated headers named `X-Token`/`Secret` get stripped as collateral. Silent for `^`/`|`, loud `SyntaxError` crash for `[`/`{`/`}` — same root cause, two failure modes. The filter is also built once at construction, so entries added in `beforeRedirect` are ignored.
+
+**Operator rules:**
+- **Iteration-structure mismatch is a control-bypass fingerprint**: a security filter that enumerates a container assuming one shape (object keys) silently no-ops on every other shape the sink accepts (arrays, `Map`, `Headers`). Node's array-form headers are a standing probe: any client library with header-removal/stripping logic gets an array-form cross-origin redirect canary.
+- **Test the fix's own metacharacter boundary**: after a library adds a configurable deny/allow list compiled into a regex, feed it list entries containing regex metacharacters that the wire grammar permits. The CI blind spot is identical everywhere: fixtures use only metacharacter-free names.
+- Bug-bounty shape: any Node service that fetches attacker-influenced URLs with `follow-redirects` and array-form or `^`/`|`-named credential headers leaks them on a 302 — same owned-redirector canary capture workflow as the Axios section above, with an array-form header variant and a `X-Api^Key`-style declared-name variant.
+
+Sources: [GHSA-q3jh-wrc6-jgq8](https://github.com/advisories/GHSA-q3jh-wrc6-jgq8), [GHSA-8r9p-f939-6h3c](https://github.com/advisories/GHSA-8r9p-f939-6h3c), follow-redirects [commit 724087d](https://github.com/follow-redirects/follow-redirects/commit/724087d696c0bcd55c13ee0f3560c4558138e422) (strip present since v1.11.0) and [commit 844c4d3](https://github.com/follow-redirects/follow-redirects/commit/844c4d302ac963d29bdb5dc1754ec7df3d70d7f9) (`sensitiveHeaders`).
+
 ## Sources
 
 - GitHub Advisory Database: [GHSA-j5f8-grm9-p9fc / CVE-2026-44486](https://github.com/advisories/GHSA-j5f8-grm9-p9fc)
