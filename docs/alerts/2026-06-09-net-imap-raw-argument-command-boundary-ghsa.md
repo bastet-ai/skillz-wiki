@@ -35,3 +35,14 @@ This page is durable because it captures a reusable protocol-injection pattern: 
 - Keep the proof limited to protocol markers and synthetic mailbox fixtures. A strong report does not need production email data.
 - If the app constructs IMAP search/fetch syntax from user filters, recommend a typed criteria builder or strict allowlist rather than passing caller-supplied raw strings.
 - Note when modern servers advertise safe literal capabilities; that reduces but does not erase the application-side finding if unsafe raw fragments can reach the socket.
+
+## October 20 follow-up: Roundcube Webmail — CRLF in `_uid` rides the mail/headers and mail/viewsource actions into IMAP commands (CVE-2026-113386 / [GHSA-qwfm-hv5v-vc9r](https://github.com/advisories/GHSA-qwfm-hv5v-vc9r), before 1.6.20 / 1.7.5)
+
+Roundcube shipped fixes (commits 004adaa / bf5bc02 / f62879d) that add `preg_match('/[\r\n]/', $uid)` gates to `program/actions/mail/headers.php` and `mail/viewsource.php` — before the fix, the `_uid` GET/GET-param value flowed into IMAP `UID` commands with only numeric-ish assumptions, so an authenticated attacker (or any XSS/CSRF able to drive the webmail actions) injected CRLF sequences to append arbitrary IMAP commands on the session's authenticated connection.
+
+Durable axes extending this page:
+
+- **The webmail layer is the raw-argument source.** The June advisory was a client library; this one is the same defect class one tier up: a web app that builds IMAP syntax from request parameters. When auditing any webmail/mail-adjacent product, grep the request-parameter-to-IMAP-call sites (`_uid`, `_search`, `_folder`, sort/thread params) — the UI action names (`mail/headers`, `mail/viewsource`, `get.inc`) are the ingress inventory.
+- **CRLF-only validation is the fix shape — test the whole newline grammar.** The fix rejects `\r|\n` and nothing else; that is correct for IMAP line framing, but on sibling products check for `\0`, lone CR/LF normalized away by intermediate layers, and encoding shapes that survive to the socket. Run the CRLF/encoding battery per parameter, not per product.
+- **Two action files, same parameter, separately patched = parameter-parity rule.** `_uid` was validated in one action's fix commit and needed gates in the sibling action too; when you find one injection point on a shared parameter name, enumerate every route that reads that name (this page's raw-argument inventory rule, applied to a web app's param namespace).
+- **Read-back channel:** webmail proxies the IMAP server's response into the rendered message view, so injected `FETCH`/`SEARCH` results return to the attacker — protocol injection through a web UI is a full-read primitive, not a blind one. Validation boundary unchanged: lab mailbox, tagged `NOOP`-style markers, synthetic fixtures only; proof = transcript framing evidence, not message content.
