@@ -98,3 +98,9 @@ MLflow ≤3.10.1.dev0 in `--serve-artifacts` mode left the **multipart-upload ro
 
 - The `mlflow` npm/pip duplicate range entries for the three advisories were treated as one record each.
 - No adjacent MLflow availability-only records were promoted in this window.
+
+## October 20 follow-up: FileStore trace-ID traversal — the unauthenticated write primitive moved to the tracing API (wqmh/CVE-2026-53995, MLflow ≤3.17.1)
+
+`POST /api/3.0/mlflow/traces` accepts a **crafted trace ID containing traversal sequences**; `FileStore.start_trace()` writes `trace_info.yaml`, request_metadata, and tag files at attacker-controlled paths **outside the experiment trace directory**, subject to process permissions, with no authentication required on the tracking server. Backend-shape fingerprint matters: **FileStore is the default tracking backend before 3.7.0** (opt-in after; SQLite is the newer default) — so older deployments are vulnerable with zero configuration, and the route family (`/api/3.0/mlflow/traces`) is newer than most pentesters' probe list.
+
+- Rule extension from this page's handler-map gap: **each new API surface family (runs → experiments → traces) re-implements path construction against the store backend; the newest family is the least-audited one.** Enumerate tracing/evaluation route families (`/api/3.0/mlflow/traces*`, `/ajax-api/3.0/...` alias) separately from the classic run endpoints, then probe ID fields with `../` shapes scored on file-existence side channels in a lab FileStore. Traversal-in-identifier position, write-what-content-you-can-name (yaml/tag files) = config-write candidate chain, same deferred-execution framing as the Oct 14 ONLYOFFICE runtime.json leg — but prove only with disposable canary directories.
