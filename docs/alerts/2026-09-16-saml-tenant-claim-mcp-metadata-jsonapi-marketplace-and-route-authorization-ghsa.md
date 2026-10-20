@@ -36,6 +36,17 @@ One shared axis across this cluster: **an authority decision trusts an attacker-
 - **Slash-command and callback handlers are the least-audited authorization surface** (Mattermost trio): command handlers, install-callback endpoints, and subscription-edit routes each skipped exactly one check (admin, authentication, ownership) that the "main" API surface enforces. Enumerate command/callback/subscription route families with a low-privilege canary user.
 - **NiFi's four records repeat the wiki's alternate-header and read-path-write axes**: Host validation that never reached `X-Forwarded-Host`, identifier escaping that only narrowed injection, a replace-flow that skipped the restricted-component check, and a read-only role holding a "validate with proposed config" write primitive. Verification endpoints are write paths.
 
+## October 20 late-wave follow-up: RHACS Central SAML — signed assertions are replayable indefinitely because used assertion/response IDs are never retained (xxr5/CVE-2026-103314, high)
+
+Red Hat Advanced Cluster Security for Kubernetes (RHACS) Central's SAML authentication endpoint performs signature and expiry validation but **keeps no used-identifier store** — a captured valid, unexpired signed SAML response can be POSTed repeatedly, each time minting a **distinct** Central authentication token for the mapped identity. This is the assertion-side completion of this page's replay family (ZITADEL `exp`-not-validated JWT): one product forgot expiry, this one forgot the one-time-use ledger.
+
+Operator checks this adds to the SAML audit above:
+
+- **Replay ≠ forgery test matrix.** On any SAML-enabled lab login, run all three legs as a decision table: (a) fresh valid response → expect 200 once; (b) same response replayed within `SessionNotOnOrAfter`/`NotOnOrAfter` → **must** fail (ID-usage store present). Positive on (b) = finding, and note whether each replay mints a *fresh* app token (RHACS did — the artifact is a renewable token stream from one captured assertion, no re-touching the IdP); (c) response after expiry window → expect fail (catches the ZITADEL-style `exp`-skip separately).
+- **Where ID stores live:** `Response/ID`, `Assertion/ID`, and `SubjectConfirmationData`'s `InResponseTo`/`NotOnRegion` cache are three separate retention points; a product that retains one (artifact resolution) often skips the others. Multi-token minting from one assertion is the observable that distinguishes "no store" from "racy store."
+- **Capture surface:** SAML responses transit the browser via POST binding — anything that logs POST bodies (proxy, analytics, browser extensions, shared logging) is an assertion-theft path; on engagements, note whether the response arrives over TLS-stripped/legacy front-ends before claiming capture feasibility.
+- Proof boundary: lab IdP you own, synthetic identities, replay only against your own RHACS/console deployment; never replay a real user's assertion.
+
 ## Validation workflows (authorized scope only)
 
 !!! warning "Synthetic IdPs, tenants, packages, and lab instances only"
