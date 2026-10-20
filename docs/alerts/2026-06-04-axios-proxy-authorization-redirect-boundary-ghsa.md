@@ -109,6 +109,16 @@ The redirect-time credential strip in Node's most widely deployed redirect libra
 
 Sources: [GHSA-q3jh-wrc6-jgq8](https://github.com/advisories/GHSA-q3jh-wrc6-jgq8), [GHSA-8r9p-f939-6h3c](https://github.com/advisories/GHSA-8r9p-f939-6h3c), follow-redirects [commit 724087d](https://github.com/follow-redirects/follow-redirects/commit/724087d696c0bcd55c13ee0f3560c4558138e422) (strip present since v1.11.0) and [commit 844c4d3](https://github.com/follow-redirects/follow-redirects/commit/844c4d302ac963d29bdb5dc1754ec7df3d70d7f9) (`sensitiveHeaders`).
 
+## October 20 18:26Z follow-up: the MCP TypeScript SDK client is the next library to re-send credentials across a cross-origin redirect (CVE-2026-111769 / [GHSA-6prh-2h8m-c8cw](https://github.com/advisories/GHSA-6prh-2h8m-c8cw), fixed 1.32.0 / 2.x 2.3.0)
+
+`@modelcontextprotocol/sdk`'s HTTP client transports (`StreamableHTTPClientTransport`, `SSEClientTransport`) and its OAuth helpers (`auth()` et al.) followed redirects to **any origin** and re-sent the request along with: custom `requestInit.headers` (e.g. an operator's `X-API-Key`), the `mcp-session-id` header, and — on `307`/`308` — the **request body**, which for OAuth token exchanges means `refresh_token` and `client_secret` in cleartext to the redirect target. The advisory notes current `fetch` drops only `Authorization` cross-origin; every other credential header and the body sail through. Fixed 1.x 1.32.0 / `@modelcontextprotocol/client` 2.3.0: redirects now same-origin-only, and never followed in browsers. Two operator-visible details: the vendor kept an escape hatch (`redirectPolicy: 'follow'`) that **restores the full exposure**, and the interim workaround is a `redirect: 'error'` fetch — both are grep fingerprints on pinned configs and wrapper code.
+
+Durable axes:
+
+1. **This is now a four-member family on this page** — Axios proxy-auth, follow-redirects array-form + regex-escape, and MCP SDK custom headers/body/session-ID. The invariant: the strip-cross-origin-credentials control is implemented per transport library, and each new library re-implements it from scratch, usually only covering `Authorization`. Inventory grep (`follow-redirects`, `axios`, `@modelcontextprotocol/sdk`) is the recon; every HTTP client library in the stack gets the same owned-redirector canary battery.
+2. **`307`/`308` are the body-carrying variants** — a canary suite that only tests `302` misses the leg that leaks OAuth `refresh_token`/`client_secret`. Any token-exchange or signed-request client must be tested behind a lab `307`.
+3. **Bug-bounty shape (agent/MCP infra):** an attacker-controlled or compromised MCP server (or authorization server) answers the client's first request with a `307` to attacker infrastructure and harvests the operator's API keys and OAuth secrets — the MCP client runs on developer workstations and CI, so one malicious server entry in a shared config harvests tool credentials. Lab proof: two owned endpoints (fake MCP server + capture sink), inert canary headers/tokens; never redirect toward real third parties.
+
 ## Sources
 
 - GitHub Advisory Database: [GHSA-j5f8-grm9-p9fc / CVE-2026-44486](https://github.com/advisories/GHSA-j5f8-grm9-p9fc)
