@@ -225,3 +225,13 @@ Operator reading:
 - Version-span claims are a fingerprint: "confirmed on every release from 0.34 to main" means there is no safe version to fingerprint *out of* — gate on library banner/behavior probing, not version strings.
 
 Lab-only proof: unit-test shape in the advisory (own test module helpers, disposable keypair, no network). Never send SHA-1-downgraded auth attempts against production SSH beyond a single authorized decision check.
+
+## October 20 20:0xZ follow-up: emSign/emMudhra root CAs inside *vendored trust bundles* — uv and certifi ship MITM-capable roots (GHSA-hq85-5cpj-mr62 critical uv <0.13.4, GHSA-6q48-6c7w-9gw2 certifi, no CVEs)
+
+Eight eMudhra intermediate CA certificates chaining to `emSign ECC Root CA - G3` have **compromised private keys** (revoked by the CA). Holders of those keys can issue trusted certs for **any hostname**. The offensive-relevant part is not the CA incident — it's the *distribution channel*: uv vendors its own copy of `webpki-root-certs` and shipped the emSign root until 0.13.4 removed it (following webpki-root-certs 1.0.10), and certifi bundled the emSign roots directly. So a pinned-toolchain TLS leg that "looks" safer than the OS store because it carries its own bundle was silently MITM-able by whoever holds the leaked intermediate key, on every uv/certifi version predating the pull.
+
+Durable axes:
+
+1. **Vendored CA bundle = sixth artifact shape in this page's TLS-trust family** (after shared client helper, config-stored destination, shipped config stub, gem-internal builder, kubeconfig loader fail-open): `grep -ri "emSign\|webpki-roots\|certifi" ` against dependency manifests and lockfiles, and check *bundle version* not just library version — uv 0.13.3 vs 0.13.4 is the whole difference, and a pentester who fingerprinted "uv, TLS pinned, looks safe" without the bundle-generation date missed a full MITM primitive against any uv-mediated fetch on the wire.
+2. **Compromised-key CA events create a bounded-window backdoor with no target-side signal** — trust-store version is the only fingerprint, and the attacker need not exploit anything client-side beyond being on-path. For red-team planning: verify (offline, your own tool copies) whether the target estate's pip/uv/requests-era toolchains predate the bundle pull; for reporting: flag vendored-bundle staleness as a finding class even when no product CVE exists. Validation stays lab-only: your own on-path harness with a synthetic leaf — you do not and must not have a real compromised intermediate; never intercept live traffic.
+3. No CVE assigned on either advisory = not in KEV, nothing to patch-sweep server-side; this is a client/toolchain finding. Track as processed.
