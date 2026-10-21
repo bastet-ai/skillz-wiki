@@ -1,8 +1,8 @@
 # Agent-guided fuzzing campaigns
 
-**Date**: 2026-07-02; updated 2026-08-26
+**Date**: 2026-07-02; updated 2026-08-26; updated 2026-10-21
 
-**Sources**: Trail of Bits, *Field reports from Patch the Planet*, *How we use /goal to find bugs in Patch the Planet*, and *VMs won't contain cyber-capable agents*
+**Sources**: Trail of Bits, *Field reports from Patch the Planet*, *How we use /goal to find bugs in Patch the Planet*, *VMs won't contain cyber-capable agents*, and *Your AI agent fixed the bug, but what else did it change?*
 
 **Status**: Durable offensive operator workflow
 
@@ -366,10 +366,82 @@ and negative controls. Stop at the primitive.
 
 ---
 
+## October 21 follow-up: agent-patched code as a hunting surface
+
+**Source:** Trail of Bits, [Your AI agent fixed the bug, but what else did it change?](https://blog.trailofbits.com/2026/10/21/your-ai-agent-fixed-the-bug-but-what-else-did-it-change/) (publishes the `patching-bugs` and `regression-hunt` agent plugins from the Patch the Planet initiative).
+
+Two things in this post matter to a bug hunter: a measured base rate for
+AI-authored patches introducing new defects, and a validation battery that
+transfers directly from "did this patch break something" to "did this patch
+actually close the bug I reported."
+
+### The base rate
+
+ToB reviewed every Patch the Planet PR a maintainer merged: **21 confirmed
+regressions across 130+ merged PRs (~16%)** — 16 functional, one performance,
+four build/test; none broke a security protection. A single agent run flagged 58
+candidates for those 21 (≈36% precision), and the structured plugin cut
+false-positive rate 25% vs a baseline "review the PR for regressions" prompt
+(95% CI 14–38%) at the cost of leaving some known regressions "borderline."
+
+Operator takeaways:
+
+- Vendor/maintainer patches — increasingly agent-authored — are a **fresh attack
+  surface with a known defect rate**. A fix commit is a small, reviewed-intent
+  diff written under time pressure across ~130 PRs per quarter per initiative;
+  diff-review the fix itself as you would new code.
+- The regression classes observed were functional/build, not security-gating
+  breaks — but functional regressions on parser/auth paths are exactly where
+  variant bugs re-open. The fix-diff differential discovery map pattern (fix
+  history as a discovery map) extends backward: the *fix diff itself*, not just
+  the sibling routes it missed.
+
+### The three-arm proof (use it on fixes to your own reports)
+
+`patching-bugs` requires every fix claim to run the same reproduction against
+three arms:
+
+1. original code **fails**,
+2. patched code **passes**,
+3. a complete revert of the patch **fails again**.
+
+The revert arm is the part hunters should steal: it proves the patch — not an
+environment change, test edit, or dependency bump — is what closed the behavior.
+When a vendor marks your report fixed, re-run your PoC on the patched build AND
+verify the fix commit revert re-opens it before accepting "fixed" or moving to
+variant analysis. A "fixed" ticket where the revert arm doesn't fail means
+something else masked the bug — the class is still live in variants.
+
+### The adjudication battery (inverted, it's a report-strength checklist)
+
+`regression-hunt` only reports a finding after an adjudication agent proves the
+candidate is **not**: a false positive, an incomplete fix, a latent bug, or a
+pre-existing bug — with a live-PoC replay on a fresh-context agent each time.
+No live PoC against a running instance reached through real user interfaces =
+result is inconclusive, full stop. Inverted for hunting: before submitting,
+actively rule out that your finding is pre-existing (older affected band than
+you assumed), environment-dependent, or harness-only — the same gates ToB uses
+to suppress noise are the gates that make a submission survive triage.
+
+### Schema discipline transfers to swarm harnesses
+
+Every plugin step takes/returns a fixed schema (claim, code revision, required
+check, raw evidence, open questions) so the next step **verifies the previous
+step's work instead of trusting its summary**. If your swarm's stages pass
+prose summaries between agents, each stage's hallucination budget compounds;
+pass structured evidence (revision-pinned, command-recorded) and make
+verification the next stage's first operation. The project-knowledge inputs
+(`THREAT_MODEL.md` injected into every step, `PATCHING_GUIDELINES.md`) are the
+same threat-model-per-agent rule from the goal-contract section above, now in
+product form.
+
+---
+
 ## References
 
 - Trail of Bits: [Field reports from Patch the Planet](https://blog.trailofbits.com/2026/07/02/field-reports-from-patch-the-planet/)
 - Trail of Bits: [How we use /goal to find bugs in Patch the Planet](https://blog.trailofbits.com/2026/07/28/how-we-use-goal-to-find-bugs-in-patch-the-planet/)
 - Trail of Bits: [Introducing Patch the Planet](https://blog.trailofbits.com/2026/06/22/introducing-patch-the-planet/)
 - Trail of Bits: [VMs won't contain cyber-capable agents](https://blog.trailofbits.com/2026/08/26/vms-wont-contain-cyber-capable-agents/)
+- Trail of Bits: [Your AI agent fixed the bug, but what else did it change?](https://blog.trailofbits.com/2026/10/21/your-ai-agent-fixed-the-bug-but-what-else-did-it-change/)
 - PortSwigger: [Burp AT: What's new since Black Hat](https://portswigger.net/blog/burp-at-whats-new-since-black-hat)
