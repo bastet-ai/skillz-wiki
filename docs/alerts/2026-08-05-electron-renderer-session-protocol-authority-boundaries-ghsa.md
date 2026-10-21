@@ -59,7 +59,7 @@ Test sandboxed and unsandboxed windows separately. The advisory says unsandboxed
 
 ## 3. Build a frame-origin permission matrix
 
-For camera, microphone, and serial permission checks, use fake permission requests or patch the grant callback before it reaches a device. Test:
+For camera, microphone, serial — and, as of the October 21 Electron advisory wave, **HID and USB** ([GHSA-fw47-9c62-h3vw](https://github.com/advisories/GHSA-fw47-9c62-h3vw) / CVE-2026-113800, fixed 45.0.0-alpha.5/44.3.0/43.7.0/42.11.3: `setPermissionCheckHandler` received the top-level frame's origin for hid/usb checks made from an iframe, so an origin-gated app granted an embedded frame device access intended for the top page; same class as the earlier iframe permission-origin leg, two more features added to the tested set. Audit note: the vendor's own workaround points at the right place — decide in `select-hid-device`/`select-usb-device` using `details.frame`, i.e., the *selector* callbacks carry the true frame while the *check* handler may not — test both entry points separately) — permission checks, use fake permission requests or patch the grant callback before it reaches a device. Test:
 
 | Top frame | Requesting frame | Delegation | Decision fields to compare |
 | --- | --- | --- | --- |
