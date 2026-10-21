@@ -119,6 +119,18 @@ Durable rules:
 
 Validation boundary: own ioFog lab Controller, self-minted tokens, your own microservice UUIDs, marker commands only; never target shared controllers.
 
+## October 21 follow-up: djust MCP `find_handlers_for_template` — arbitrary absolute-path read where the sibling tool has the confinement check ([GHSA-r57g-mc79-8hj2 / CVE-2026-113731](https://github.com/advisories/GHSA-r57g-mc79-8hj2), low, 0.9.0–1.0.9 / 1.1.0–1.1.6 / 1.2.x ≤1.2.3 / 1.3.0rc ≤rc7)
+
+The MCP tool accepts "absolute filesystem path" as a documented input form and, when `os.path.isabs(template_path) and os.path.isfile(template_path)`, opens it directly — no `realpath()` + prefix check, no allowlist. The **`loaddata` tool in the same file has exactly that guard** for its own path parameter (`candidate.startswith(os.path.realpath(base_dir))` → reject), making this page's divergent-sibling grep the discovery method again. Impact shape worth keeping: the tool is not a raw file reader — it runs one fixed regex (`dj-(?:click|submit|...)="…"`) and returns only matched handler strings, so the primitive is (a) a **file existence/readability oracle on any process-readable path** (`/etc/passwd`, `.env`, SSH keys — true/false per path) and (b) conditional partial disclosure for any file containing `key="value"`-shaped lines (configs, logs). Oracle-grade value anyway: existence + readability of named secrets is a target-selection and confirmation channel for the agent host.
+
+Operator rules:
+
+- **Per-tool, not per-server, authorization audits for MCP servers.** Every tool registered on an agent-facing MCP server is its own trust boundary; enumerate registered tools (`tools/list` or source decorators) and run the path/URL/ID probe matrix **per tool**. A server that "confinement-checks paths" is a per-tool claim, not a server-level property — one ungated tool defeats the whole premise.
+- **Partial-read primitives still deserve reports**: existence/readability oracles on secret paths plus regex-shaped content leakage across config/log files is a legitimate low/medium finding; the advisory's own CVSS downgrade rationale is the shape of the argument, not a dismissal.
+- Recon fingerprint: `grep -n "isabs\|isfile" ` next to `open(` inside `@mcp.tool()` bodies, and diff against sibling tools that call `realpath` — same-file guard asymmetry is the whole hunt.
+
+Validation boundary: lab Django project with djust MCP running, synthetic marker files only; never read real host secrets through an agent's tool surface on a shared machine.
+
 ## Reporting notes
 
 - For djust-class findings, report the decision table (bound field vs. unbound attribute) plus the traced mutation sink for one attribute; state whether the app actually keeps authz state in public view attributes (severity hinges on it).
