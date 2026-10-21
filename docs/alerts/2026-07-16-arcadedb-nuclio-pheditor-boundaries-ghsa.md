@@ -102,3 +102,15 @@ Keep the three claims separate: **MCP-authenticated role -> missing engine princ
 - Lead with the trust boundary and precondition, not exploit spectacle: database role, dashboard auth mode, web-editor credential state, or shell-wrapper design.
 - Preserve route names, versions, role matrices, and marker evidence. Redact hostnames, tokens, session cookies, tenant names, and filesystem layouts that reveal sensitive deployments.
 - For multi-advisory clusters, group findings by reusable invariant: host-aware interpreter exposure, import source validation, build metadata execution, path confinement, or shell allowlist bypass.
+
+## October 21 ArcadeDB second follow-up: multi-protocol authz drift — Bolt tenant enumeration, schema-flag writes without UPDATE_SCHEMA, and reader-role Groovy RCE (fixed 26.10.1)
+
+Fourth ArcadeDB wave (published 2026-10-21T03:32Z, CVE-2026-114056–114058/114059). Same product keeps yielding the same invariant family — **authorization checks live in the HTTP layer while Bolt/gRPC/WS handlers re-implement access independently**:
+
+| Advisory | Failed binding | Operator probe |
+| --- | --- | --- |
+| [GHSA-vp2h-6426-v5wh](https://github.com/advisories/GHSA-vp2h-6426-v5wh) | `SHOW DATABASES` over the **Bolt port** for a single-database user reveals all database names | credentials to one tenant DB ⇒ enumerate other tenant/project identifiers; run the enum battery per-protocol, not just HTTP |
+| [GHSA-7762-mmrx-x9p5](https://github.com/advisories/GHSA-7762-mmrx-x9p5) | read-only user alters edge-type `lightweight`/`unique` schema flags via bare `ALTER TYPE ... WITH` with no `UPDATE_SCHEMA` check — over HTTP, gRPC, **or Bolt** | schema mutation persistence without schema permission; compare per-protocol decisions on the same statement |
+| [GHSA-2mgh-5pqv-xpqq](https://github.com/advisories/GHSA-2mgh-5pqv-xpqq) | `GremlinQueryEngine.command()` lacks scripting authorization: **reader-role** users execute Groovy (`POST /api/v1/command/{database}` when the Groovy engine is enabled) ⇒ OS commands as the server user | the script-engine route family is the escalation pivot; fingerprint enabled engines (Gremlin/Groovy/JS) then run the reader-role command battery |
+
+Rules reinforced: multi-protocol databases need per-protocol authz decision tables (this page's Aug 2 MCP-principal leg was the same defect on a third transport); *read-only* role names do not imply no script-engine access — enumerate query engines exposed through the command API and test lowest-tier roles on each. Lab-only: fake multi-database fixture, reader-role canary user, inert Groovy marker (`touch` in temp), never OS-level payloads.
