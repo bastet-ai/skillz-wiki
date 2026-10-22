@@ -126,3 +126,16 @@ Frame the report around key-lookup fail-open behavior:
 - Never publish reusable forged tokens, real JWT secrets, or full authorization headers.
 - Keep tests inside authorized tenants and accounts. A multi-tenant key miss can affect other customers if tested carelessly.
 - Prefer source-level proof plus a harmless `/me`-style request over data-access demonstrations.
+
+## October 22 follow-up: PyJWT JWK-path empty HMAC key — the ecosystem convergence proves the class, and the sibling-path gap is the new fingerprint
+
+[GHSA-pxh4-856f-4h89](https://github.com/advisories/GHSA-pxh4-856f-4h89) (high, `pyjwt <= 2.13.0`, fixed 2.14.0, no CVE at publication) completes the empty-HMAC-key family the advisory itself cites: fast-jwt CVE-2026-44351 and **this page's ruby-jwt CVE-2026-45363** both added library-side reject-empty-key preconditions; PyJWT is the third independent implementation to need the same fix.
+
+New axis beyond this page's keyfinder/`.to_s` paths — **the guard existed but never propagated to the sibling code path**: PyJWT 2.13.0 added the empty-key rejection to `HMACAlgorithm.prepare_key` (string/bytes secrets), but `HMACAlgorithm.from_jwk` returns `base64url_decode(obj["k"])` with no length check, and `_verify_signature` uses `PyJWK` key material *directly, bypassing `prepare_key`*. Under default decode options the only consequence is a non-fatal `InsecureKeyLengthWarning` — verification succeeds. Attack: any verifier resolving keys via `PyJWK`/`PyJWKSet`/`PyJWKClient` where an `oct` entry has `k=""` (unset env var → base64url of `b""` is the empty string) accepts tokens anyone forged with key `b""` by pointing `kid` at the empty entry. Zero secrets required.
+
+Operator rules:
+
+- **Guard-propagation audit**: when a library version note says "now rejects empty/short keys", enumerate *every* key-ingress API (`prepare_key`, `from_jwk`, keyfinder callbacks, JWK-set resolution, PEM loaders) and test each separately — a fix on one ingress route is a roadmap, not a patch. Version-fingerprinting `pyjwt` alone misleads: 2.13.0 is *partially* patched and looks current.
+- Reachability hunt on Python verifiers: grep for `PyJWKClient(`, `PyJWKSet`, `from_jwk`, and JWKS-published `oct` keys; `jq '.keys[] | select(.kty=="oct") | .k' <jwks>` — an empty or missing `k` is the precondition, and it usually means an unset `ENV`/config secret server-side (same root cause as this page's Ruby findings, surfaced through a *published JWKS* instead of a keyfinder).
+- Canary probe stays the same shape as step 2 above: HS256 token signed with `""`, `kid` set to the empty-`k` JWK, replayed against a `/me`-class endpoint; controls: non-empty wrong key rejected, unknown `kid` rejected, patched lib rejects the empty-key token.
+- Third implementation, three years apart, same defect = **empty-key acceptance is a standing battery item** for every JWT-verifying stack you test, not a per-library trivia note.

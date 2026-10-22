@@ -74,3 +74,13 @@ Also in-wave: `InputFilter` whitespace/data-URI bypass applies to the *old* 1.5.
 - Quay OAuth-callback XSS (fjvc/CVE-2026-102295) + post-login redirect XSS (f2m3/CVE-2026-102576, DB-auth precondition): XSS classes canonical; revisit if a registry-specific token-flow axis lands.
 - dormakaba evolo .NET SYSTEM RCE (c2jx/CVE-2026-37719, zero sink detail, physical-access appliance product); GouGuOA/ApiAdmin/WookTeam/HospitalManagementSystem sparse Chinese-CMS singles; TallCMS low-sev single.
 - @orpc/zod smart-coercion prototype injection (gcgf/CVE-2026-103918) was already tracked at 17:3xZ.
+
+## October 22 follow-up: YOOtheme Pro image-transformation handler — signature binds a subset of the request, so a public URL's signature authorizes traversal + polyglot write (GHSA-8w8j-f6ph-29mm / CVE-2026-102785, critical, 5.0.0–5.0.52)
+
+Unauthenticated RCE in the publicly accessible YOOtheme Pro image-transformation handler: the request signature **incompletely binds the normalized operations and the output destination**. An attacker harvests a signature disclosed in any legitimate public image URL, then (a) injects additional image operations, (b) traverses out of the intended cache directory, and (c) writes an attacker-controlled PNG/PHP polyglot into an executable public media directory.
+
+Why it belongs on this page: same native pattern as the Phoca token-existence leg above — *the signature/token validates that a request of this shape is allowed, not that THIS request's fields are the signed ones*. Generalizes the page's one-line thesis to signed-URL handlers:
+
+- **Signed-URL field-coverage audit**: for every signed/resumable/transform URL in scope, flip each parameter individually (extra ops, path/destination fields, `..` segments) and see which mutations survive the signature check. Parameters NOT covered by the signature are attacker-controlled regardless of signing strength — enumerate sign-input construction from the handler source (or black-box: which params does removing/changing leave the signature accepted?).
+- **Destination-binding is part of the signature, always**: validation-target vs write-target mismatch again (Oct 19 Bricksforge `temporaryFileUploads`+`url` pair, this page's task-trigger lineage): the transform pipeline normalizes ops for *integrity of ops* while the write path re-reads raw fields.
+- Polyglot-to-executable-directory is the standard closing leg once a write escapes its confinement root — proof boundary: synthetic PNG-headered `.php` marker with `phpinfo()`-free content, lab install only, and check the destination directory's execution policy before claiming RCE.
