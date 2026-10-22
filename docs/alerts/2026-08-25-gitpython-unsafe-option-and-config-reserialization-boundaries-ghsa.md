@@ -104,3 +104,14 @@ Wave-level rule: **a major-version rewrite of the guard layer marks the denylist
 ## Reviewed but not promoted here
 
 The adjacent GitPython CVE records in the same wave have no separate operator surface beyond the five boundaries above and are tracked in the source index.
+
+## October 22 follow-up: `create_submodule(path=".git/hooks")` — the strict `.git`-alias check runs *after* the clone, so the raise is too late to prevent the plant ([GHSA-83vg-56qc-22m7](https://github.com/advisories/GHSA-83vg-56qc-22m7) / CVE-2026-114145, high, <=3.2.0, fixed 3.2.1)
+
+This page's wrapper now ships a hook-installation leg, and it inverts this wave's own validate-before-mutation lesson rather than extending the argv denylist:
+
+- `Submodule.add()` runs only the permissive `_to_relative_path` (blocks `..`/absolute/out-of-tree) before `_clone_repo`, so `path=".git/hooks"` clones the attacker's submodule **straight into the live hooks directory** of the victim repo. The strict `_validate_repo_path` (added 3.2.0 specifically to reject `.git` aliases) fires later, at `index.add` — it raises, but the clone already wrote to disk and the `ValueError` **does not roll back**; a `post-checkout` file in the submodule root is now an armed executable hook. On 3.1.x there is no strict check at all: the call *returns successfully* and plants silently. Same-code, two outcomes by version — 3.2.x's exception is false assurance, not mitigation.
+- Operator rules:
+  - **Validate-before-mutation audits must check rollback, not just rejection.** For any library that validates a path after a disk mutation, the correct probe is: trigger the rejection, then *check whether the mutation survived the exception*. The grep: find the guard, ask whether it runs before or after the first write/clone/exec call, and what cleanup runs on the raise path.
+  - **`.git`-alias vocabulary battery** on every git-wrapper path/API that accepts checkout targets: `.git`, `.git/hooks`, `.git/config`, `.git/modules/*`, worktree `gitdir` pointer files — aliases are routinely absent from `..`-based traversal guards, exactly as in this page's argv-denylist legs.
+  - **CI/automation angle:** the precondition is any scripted flow calling `create_submodule`/`Repo.clone` with repo- or caller-influenced paths on minimal checkouts (empty `GIT_TEMPLATE_DIR`, no sample hooks). Red-team-relevant where build bots clone untrusted repos with a Python git wrapper.
+- Validation boundary: disposable repo pairs only — an `evilsub/` with an inert marker `post-checkout` (writes a scratch file if executed, or leave hooks non-executable and inspect on disk) and a victim repo you own; never arm hooks on shared hosts. This joins the August 25 Gitea diff-patch git-hook installation KEV as the wrapper-client member of the hook-plant family.

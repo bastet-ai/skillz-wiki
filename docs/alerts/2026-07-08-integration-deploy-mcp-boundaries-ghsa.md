@@ -396,3 +396,16 @@ A strong report for this wave should include:
 - for package/archive/filesystem bugs, a canonical path or parser-differential table rather than a sensitive file read;
 - for IDOR and authorization drift, a two-user object matrix with synthetic canaries only;
 - clear negative controls showing the intended blocked path still blocks when the parser variant is not used.
+
+#### October 22 follow-up: Storybook dev server, second wave — LAN token theft over plain page load plus the validated write-event chain ([GHSA-px85-f4q5-jh77](https://github.com/advisories/GHSA-px85-f4q5-jh77) / CVE-2026-114126, high, 8.x <8.6.19, 9.x <9.1.21, 10.x <10.6.2, 11-alpha <11.0.0-alpha.6)
+
+Same version bands as the October 21 postMessage leg on this page — a second, complementary wave: the WebSocket auth token is served **to any client that can load the dev server's HTML pages**, and pre-fix the server bound to all interfaces, so *any host on the LAN (or an evil-twin WiFi network) can open the app by IP and steal the token* — no browser-driving of the victim, no postMessage gate needed. With the token, the WS allows code injection into story files / new file creation, and with the Vitest addon installed (especially old Vitest) a triggered test run escalates to arbitrary filesystem writes and execution.
+
+Fix-set is the confession, and it doubles as a fingerprint for vulnerable fleets: dev server now binds `127.0.0.1` by default (`--host` opt-out with host/origin validation), Vitest Browser mode now **disables `browser.api.allowWrite`/`allowExec` by default**, and `saveStoryRequest` input validation was narrowed to serialized args/titles only (the pre-fix over-broad validation was the file-write leg).
+
+Operator rules:
+
+- **Token delivered by an unauthenticated page load is not a token.** Any dev/agent tool that boots an auth token into the HTML/JS it serves has zero network-ACL-based protection: enumerate open dev ports on LAN/evil-twin engagements like any service (`http://<ip>:6006`), load the page, and look for bootstrap tokens/config blobs in HTML before testing gates.
+- **Write-event APIs are the payload leg; a test-runner addon is the executor.** The chain shape (WS write event → file written → test runner writes more → local runtime executes) matches this page's "hunt the write channel, then name the executor" rule from the f2ph leg; note the vendor had to *remove* `allowWrite`/`allowExec` Vitest browser APIs — feature-API capability names are recon greps for self-widening tools.
+- **Precondition enumeration for recon:** dev server reachable + token in page + (Vitest addon in package list + old Vitest) = full-chain; without the addon the chain stops at story-file writes. Grep `package.json`/lockfile for `@storybook/addon-vitest`, `@storybook/experimental-addon-test`, and `@storybook/addon-mcp` when assessing a discovered dev server.
+- Same-wave tracked: Black's bundled GitHub Action installs `tool.black.required-version` from a PR-edited `pyproject.toml` without validation ([GHSA-cg8m-r9f2-5wm2](https://github.com/advisories/GHSA-cg8m-r9f2-5wm2) / CVE-2026-114134, high, <26.10.1, explicit sibling of CVE-2026-31900) — promoted on the June 12 build-context page as repo-controlled-install-source third generation.

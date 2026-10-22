@@ -297,3 +297,13 @@ Operator value: the audit rule sharpens from "does an inherited option reach wor
 ## Notes on skipped adjacent items
 
 The same scan rechecked Disclosed, PortSwigger research, Trail of Bits, ProjectDiscovery, GitHub advisory published/updated feeds, and CISA KEV. JLine Telnet resource exhaustion, NCalc factorial DoS, tract-nnef parser memory safety, pypdf stream-limit handling, generic or self-XSS-only rich-text issues, and availability-only WebSocket/client-fragment items were tracked in state but not promoted separately because the page above focuses on stronger replayable agent, proxy, render, CMS, scanner, Kubernetes, identity-provider, and runtime trust boundaries. The ProjectDiscovery RSS body hash changed without a new item in the top feed entries, and CISA KEV remained unchanged.
+
+## October 22 follow-up: nbconvert export converters write attacker-named paths from cell output metadata — arbitrary file write via `filename` traversal ([GHSA-pjvx-prjx-h659](https://github.com/advisories/GHSA-pjvx-prjx-h659) / CVE-2026-114140, high, 5.4.0–7.17.1, fixed 7.17.2)
+
+`ExtractOutputPreprocessor` joins the attacker-controlled `outputs[].metadata.filename` to the output dir with no canonicalization (`extractoutput.py:116-119`) on `--to markdown|latex|rst|asciidoc`. A notebook shipped with a pre-baked output cell (never needs to be executed — re-running the cell *overwrites* the payload, so an executed-and-clean-looking notebook still carries it) writes arbitrary content anywhere the user can write: the vendor example is `../../../tmp/PWNED.png` escalating to `authorized_keys` overwrite. Declared a sibling of GHSA-4c99-qj7h-p3vg — second traversal in the same converter family.
+
+Operator rules:
+
+- **Unexecuted cell outputs are attacker data.** Notebook *content* triage that only looks at `source` misses `outputs[].metadata` entirely; when assessing any ingest that parses ipynb (converters, viewers, LLM context loaders, artifact scanners), the outputs/metadata trees are untrusted input with file-path-shaped fields inside.
+- **Delivery shape for authorized labs:** the trigger is a human or CI running `jupyter nbconvert --to markdown evil.ipynb` — pairs with every "open this notebook" phishing vector; validate with a marker `filename` pointed at a scratch dir inside a disposable export root only, never at shell-startup files, keys, or config.
+- **Sibling-field sweep after any ipynb traversal fix:** the same metadata objects carry `output_type`, `data` MIME keys, and per-format converter fields; each converter family (latex/rst/asciidoc/markdown) has its own path handling — test all four spellings after any fix.
