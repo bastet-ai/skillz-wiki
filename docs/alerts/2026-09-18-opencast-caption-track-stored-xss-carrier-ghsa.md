@@ -68,4 +68,22 @@ Wiki-side variant (SMW or any markup platform, lab wiki only):
 - Four-stage fidelity evidence (submitted → stored → served → DOM) with inert marker only.
 - Generalize the sweep in the report body: every upload flavor and every client-side parser on the platform, not just WebVTT.
 
-Related pages: the [Sept 17 Vendure `innerHTML`-vs-`textContent` fake sanitizer](2026-09-17-request-derived-identity-vendure-guard-composition-and-blind-ssrf-oracle-ghsa.md) (server renders attacker bytes into DOM), the [Sept 16 @nuxtjs/mdc sanitizer-miss page](2026-09-16-rmcp-oauth-resource-spoofing-mdc-sanitizer-gaps-and-vllm-route-guard-parity-ghsa.md) (sibling: attribute-name and scheme-check misses in client-side sanitizers), and the [Aug 4 Ghost fetch/upload/import boundary page](2026-08-04-ghost-fetch-upload-import-offer-boundaries-ghsa.md) (import-asset channels as sinks).
+## October 23 follow-up: VertiGIS WebOrderSystem — "self-XSS" that a business workflow relays to privileged victims
+
+Three VertiGIS advisories published 2026-10-23T09:31Z (all v7.0.8.6, vendor silent on earlier bands) add the relay shape to this page's carrier theme:
+
+- [GHSA-636r-rhx8-pwmx / CVE-2026-4952: the ASMobile "business reference" free-text field is self-XSS in isolation — but the value is copied into order details and executed in the OrderAdministration portal (AuftragsManager) the moment a highly privileged user opens the order](https://github.com/advisories/GHSA-636r-rhx8-pwmx)
+- [GHSA-4jx9-cq4x-76w5 / CVE-2026-4951: `searchValue` URL parameter reflected XSS in the CustomerAdministration portal; because admin users can change any other user's password **without entering the old one**, one click from a privileged session = account takeover/lockout of any account including admins](https://github.com/advisories/GHSA-4jx9-cq4x-76w5)
+- [GHSA-g5vv-w6m9-qrh6 / CVE-2026-4950: stored XSS via the `secondName` user property rendered in other privileged users' portals](https://github.com/advisories/GHSA-g5vv-w6m9-qrh6)
+
+Operator rules:
+
+1. **Downgrade "self-XSS" only after tracing the field through every downstream render.** The triage-reflex dismissal ("only affects the entering user") dies the moment a workflow copies the field into a view a *different* role opens. Sweep: for every free-text field a low-privilege portal accepts, enumerate which reports, order/queue views, admin consoles, or notification emails render it. The trigger is passive (victim opens the record), so no lure beyond normal business volume is needed.
+2. **Price the XSS by the victim portal's worst capability, not by the script tag.** Here the admin portal's old-password-free password change turns reflected XSS into full ATO — map the victim's session capabilities (password reset, role edit, export) before writing severity into the report.
+3. **URL-carried reflected sinks in admin portals are phishing-ready primitives** (`searchValue` executes on page open); pair with the URL structure published in the advisory itself.
+
+## October 23 follow-up 2: CGM CLININET medical-platform wave — see the dedicated page
+
+The same 09:31Z sweep carried the twelve-GHSA CGM CLININET wave, promoted as its own page: [CGM CLININET coordinated wave — dynamic module-import RCE, root HL7 listeners, adjacent-network trust map](2026-10-23-cgm-clininet-coordinated-wave-dynamic-module-import-root-listeners-and-adjacent-network-trust-map-ghsa.md).
+
+Related pages: [Opencast caption-track stored XSS and the SMW `data-*` sink](#media-client-side-render-sinks-as-stored-xss-carriers-opencast-captions-semantic-mediawiki-data-attributes) (top of this page), the [Sept 17 Vendure `innerHTML`-vs-`textContent` fake sanitizer](2026-09-17-request-derived-identity-vendure-guard-composition-and-blind-ssrf-oracle-ghsa.md) (server renders attacker bytes into DOM), the [Sept 16 @nuxtjs/mdc sanitizer-miss page](2026-09-16-rmcp-oauth-resource-spoofing-mdc-sanitizer-gaps-and-vllm-route-guard-parity-ghsa.md) (sibling: attribute-name and scheme-check misses in client-side sanitizers), and the [Aug 4 Ghost fetch/upload/import boundary page](2026-08-04-ghost-fetch-upload-import-offer-boundaries-ghsa.md) (import-asset channels as sinks).

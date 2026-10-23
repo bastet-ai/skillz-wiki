@@ -41,4 +41,18 @@ The durable lesson: **every alternate programmatic surface (API module, debug fo
 - For smwtask, name the reachable tasks and the disclosure→mutation bridge (object-ID enumeration via `duplicate-lookup` feeding `entityIdDisposer` id parameter).
 - Cite the sink chain (`Query::addErrors()` → `ErrorWidget::queryError()` → `Html::errorBox()` raw) — error-path text is attacker-influenced and must not be treated as trusted.
 
+## October 23 follow-up: BlueSpice (MediaWiki platform) — empty-string config fails the IP gate open, REST endpoints skip the UI's permission check
+
+Two BlueSpice advisories published 2026-10-23T09:31Z extend the same MediaWiki-family axis:
+
+- [GHSA-xrr7-cjx6-x9j2 / CVE-2026-25784 (critical): BlueSpice container default `$mwsgTokenAuthenticatorServiceCIDR` — intended to restrict internal service token authentication to the container network — evaluated to an **empty string** when env var `WIKI_SERVICE_TOKEN_AUTH_ALLOWED` was unset; the token authenticator treats empty as "no IP restriction," so **any reader (including anonymous on public wikis) could obtain an application token from the REST API and mint a sysop session as the internal service user](https://github.com/advisories/GHSA-xrr7-cjx6-x9j2) (affected 5.2.3–5.2.7 and container images published before 2026-10-19 15:37 UTC — image republish date is the fingerprint, not the version tag).
+- [GHSA-vr6v-xrj8-f9m9 / CVE-2026-25716 (high): `BlueSpiceUserManager` REST endpoints `/bs-usermanager/v1/block/create|delete` call `UserManager::blockUser()/unblockUser()` with **no permission verification at all** — any authenticated user blocks/unblocks arbitrary accounts including admins](https://github.com/advisories/GHSA-vr6v-xrj8-f9m9) (fixed 5.1.11/5.2.7).
+
+Operator rules reinforced:
+
+1. **Empty-container semantics battery on every config gate.** A restriction list that is empty because "not configured" must be probed: does empty mean allow-all (here it did) or deny-all? Send the unconfigured-default shape (no env var, empty string, empty array) against any CIDR/allowlist/domain gate before testing injection against it. Container images make this worse: the shipped `LocalSettings.php` default, not the upstream extension default, is what runs.
+2. **Token-forge ladder on wikis:** anonymous read → REST application token → sysop session is the highest-ladder anonymous finding in this product family; on any BlueSpice/MediaWiki deploy, request the service-token endpoint from a non-container-network source as the negative control.
+3. **Extension REST endpoints are a separate authorization surface from the Special-page UI** — same API-parity rule as `api.php?action=smwtask` above: `block/unblock` reached via `/bs-usermanager/v1/*` with a base-user token is the proof shape (block a disposable account, then unblock; also a lockout-admin DoS primitive).
+4. **Image-republish fix dates:** BlueSpice 5.2.7 "fixed" only in images rebuilt after 2026-10-19 15:37 UTC — pull-time fingerprinting (image digest/created timestamp) beats version tags when validating this band.
+
 Related pages: [Semantic MediaWiki stored `data-*` client-side sink](2026-09-18-opencast-caption-track-stored-xss-carrier-ghsa.md) (same product, opposite half: front-end dataset sink), the [Sept 18 Nextcloud app-layer authority drift](2026-09-18-nextcloud-app-layer-authority-drift-circles-keyid-ssrf-webdav-locks-and-deck-config-ghsa.md) (REST-vs-alternate-transport authorization parity is the same axis), and the [Sept 16 sanitizer-gap page](2026-09-16-rmcp-oauth-resource-spoofing-mdc-sanitizer-gaps-and-vllm-route-guard-parity-ghsa.md).
