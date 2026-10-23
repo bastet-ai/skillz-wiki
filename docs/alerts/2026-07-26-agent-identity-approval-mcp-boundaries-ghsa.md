@@ -174,6 +174,45 @@ Use a fake Dynatrace HTTP backend or disposable tenant with a fake platform toke
 
 Report two edges separately: **tool call -> persistent notebook write without approval** and **stored DQL text -> later viewer-triggered evaluation**. The first can be proven with a no-op backend; do not claim the second without a disposable tenant and an instrumented no-data query. Do not expose the server publicly, use a live platform token, query logs/metrics, send messages, publish workflows, or place executable DQL in a real tenant.
 
+## October 23 obsidian-tc follow-up: vault-selector dispatch, unenforced human declines, and enumeration-only deny lists
+
+An October 23 four-advisory wave against `obsidian-tc` (an Obsidian vault MCP server) adds two new approval/tenancy axes and two class confirmations. All legs fixed in the 1.3.1 band; the HITL leg cites 1.31.4 — a vendor versioning discrepancy (the vault fix was developed on tag `v1.3.0`, which never published to npm), so treat published-release diffing, not tag names, as the fix boundary.
+
+Sources:
+
+- [GHSA-84c9-qqpq-2pq5 / CVE-2026-77366 (9.9): tokens access arbitrary configured vaults](https://github.com/advisories/GHSA-84c9-qqpq-2pq5)
+- [GHSA-737x-cwfr-5vvc / CVE-2026-115477: declined HITL confirmations still execute over HTTP](https://github.com/advisories/GHSA-737x-cwfr-5vvc)
+- [GHSA-cvp8-vvgf-69q4 / CVE-2026-77364: default ACL fail-open, control dirs denied only during enumeration](https://github.com/advisories/GHSA-cvp8-vvgf-69q4)
+- [GHSA-c5xx-h28h-f682 / CVE-2026-77361: lexical-path ACL versus realpath containment](https://github.com/advisories/GHSA-c5xx-h28h-f682)
+
+### Any token selects any vault through a dispatcher parameter
+
+Tool dispatch never compared the caller-supplied `input.vault` against the caller's bound vault (`ctx.vaultId`); the folder ACL was a single global instance and the JWT carried no vault claim. Any valid token read, wrote, or deleted **every configured vault** by passing `input.vault` — across ~90 tool sites — while `resources/read` was the only surface that already guarded it.
+
+Operator rules:
+
+1. **Store-selector parameter with no store claim in the credential = cross-tenant by default.** Grep tool inputs and request bodies for parameter names that mirror server-side context fields (`vault`, `workspace`, `project`, `org`, `tenant`, `namespace`); for each, check whether dispatch compares `input.X` to a session-derived `ctx.X` or trusts the wire value.
+2. **Per-verb guard parity:** when one RPC family (`resources/read`) enforces a binding and its sibling (`tools/call`) does not, the guard exists but was not ported — enumerate every dispatch site, not just the route class that got the security review.
+
+Probe with two disposable vaults and two fake tokens: token bound to vault A calling `input.vault=B` on a read tool, a write tool, and a delete tool, with a vault-A control. A valid finding is one call landing in vault B without any second credential.
+
+### A declined approval is not enforced by the server
+
+On Streamable HTTP with `auth.jwtSecret` set and a client declaring `elicitation.form`, a `destructive: true` tool offered an `inputRequired` confirmation still **wrote after the human answered `{action:"decline"}`**, provided the client re-echoed the validly bound `requestState`. The state token is minted before the elicitation leg, so it proves resubmission belongs to the same call — never that anyone approved it. Fixed in 1.31.4 by additionally requiring the confirm leg's own `inputResponse` to be an explicit accept.
+
+Operator rules:
+
+1. **Drive the confirmation leg yourself.** Against any MCP server with elicitation-based HITL, answer the `elicitation/create` leg with `decline`, `cancel`, a malformed response, and an omission — then resubmit the original call with the echoed state. Every non-accept must render an error and must not be offered a second round for the same declined confirmation.
+2. **Gate-family parity:** the dispatch-gated tools were reachable, but sixteen handler-side conditionally gated tools (`write_note` overwrite, `move_note`, …) never read elicitation state on the modern wire at all — neither declines nor approvals passed through. Map gate families separately (dispatch-level vs handler-level) and diff behavior per family per transport (stdio legacy shim vs Streamable HTTP).
+3. **Client-driven approval is inherently unverifiable.** The residual in this fix is that a malicious client can still answer its own elicitation with `accept`; a server-owned (legacy shim) confirmation path does not share the gap. Client-driven HITL without server-side accept-requirement is reportable as a design weakness even when the client "behaves."
+
+Prove with an instrumented mock MCP client against a disposable server and a marker-only destructive tool (delete a scratch note). Never use a live vault or trigger real file operations.
+
+### Class confirmations in the same wave
+
+- **Enumeration-only deny lists** (`cvp8`): default configuration was allow-all, `strictReadDefault` was inert, and `.obsidian`/`.git`/`.trash` were denied only during enumeration — not on the direct read path — exposing `.obsidian/plugins/*/data.json` (plugin API keys, Obsidian Sync passwords, vendor-confirmed live repro). Standing probe on any Obsidian-adjacent HTTP/MCP surface: request the control-directory path directly even when listings hide it; deny-decision parity between list and read verbs is the check.
+- **Lexical-versus-realpath ACL split** (`c5xx`): read ACL ran on the lexical vault-relative path while containment used realpath, so an in-vault symlink under an allowed glob resolved into a denied folder. Long-standing class (see the July 28 extraction page); noted here as the MCP-server instance. Planting the symlink is out-of-band, so scope reports accordingly.
+
 ## Reporting checklist
 
 Include:
