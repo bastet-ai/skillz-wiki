@@ -58,3 +58,14 @@ If you discover debug mode was exposed:
 ## References
 
 - GitHub Security Advisory feed: Unfurl debug mode string parsing (Werkzeug debugger exposure) (2026-01-29)
+
+## October 23 2026 follow-up: AgenticSeek — hardcoded debug on a public bind, and the Werkzeug PIN as a derivable gate ([GHSA-r5cp-9ffr-m5mf](https://github.com/advisories/GHSA-r5cp-9ffr-m5mf) / CVE-2026-115727, critical, CVSS 8.1, before commit 409840c)
+
+`llm_server/app.py` hardcoded Flask `debug=True` while binding to all interfaces. Reaching the server port plus obtaining the **derivable** Werkzeug debugger PIN = Python code and OS command execution with the llm_server privileges. The AI-agent serving stack keeps reproducing this exact shape: an agent/LLM server component booted with the framework debug flag on, on `0.0.0.0`, in deployments that assume network ACLs are the auth.
+
+Operator rules (authorized testing only):
+
+- **A debugger on a non-loopback bind is the whole finding.** When fingerprinting agent/LLM/dev servers, check every discovered Flask/Werkzeug (or equivalent REPL-console) surface for the interactive-console affordance before testing app auth — the console is a pre-auth code-exec surface if the gate is only the PIN.
+- **The Werkzeug PIN is an access gate, not a secret.** It is derived from machine-visible identifiers (MAC address, machine-id) plus per-instance values the console itself discloses; the derivation is publicly documented. Treat "the PIN protects it" as fail-open once the server is reachable: harvest the values the PIN formula consumes from disclosures you already have, then verify interactively in lab. Do not publish or share PIN generator output against third-party hosts.
+- **Config-string truthiness remains the audit grep** (`debug="False"`, env-sourced flags passed straight into boolean parameters) — but note this leg didn't even need a parse bug: the flag was hardcoded. Grep agent-serving repos for `debug=True`, `FLASK_DEBUG`, and `host="0.0.0.0"` co-occurrence in the same app file; that pair is the fingerprint.
+- Same-wave sibling tracked: Electron SameSite restrictions not applied to link-opened windows ([GHSA-2p8c-gr87-2676](https://github.com/advisories/GHSA-2p8c-gr87-2676) / CVE-2026-113796) — cookie-scope parity across window-creation paths, known transport-parity class.
