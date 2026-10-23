@@ -117,9 +117,18 @@ Evidence to capture:
 
 Reporting heuristic: strong reports prove the three-part chain: **affected Flask-HTTPAuth version, empty-string token stored for a user, and missing/empty token request authenticating as that user**. Without the empty-token data condition, this is usually configuration risk rather than exploitable impact.
 
+## October 23 21:1xZ follow-up: mem0 Databricks vector store — stored memory content interpolates into warehouse SQL ([GHSA-7587-9684-52r6 / CVE-2026-115324](https://github.com/advisories/GHSA-7587-9684-52r6), critical, 0.1.117–<1.0.8)
+
+`mem0/vector_stores/databricks.py` builds `insert()`/`update()` statements by **string interpolation**, so crafted memory text, metadata, or message names execute SQL on the configured Databricks SQL warehouse. Second-party integration pattern: the product is an agent-memory layer, the injection point is *stored memory content* — data the agent itself ingested (including prompt-injected content from any source it reads) becomes a SQL payload when the memory store writes it onward.
+
+- **Agent-memory stores are second-order SQLi carriers:** the attacker never calls the app's SQL surface — they get text *into* a memory (chat message, ingested doc, injected tool output) and the memory framework writes it into unparameterized DDL/DML later. When auditing any agent-memory/RAG integration, read the vector-store backends (the least-reviewed files, one per vendor) for f-string/`%`-built INSERT/UPDATE — this page's original mem0 authz leg plus this SQLi leg make mem0's storage layer a standing re-sweep target.
+- **Warehouse-side blast radius differs from app-DB SQLi:** the Databricks SQL warehouse credential typically spans catalogs/tables far beyond the memory table — report scope accordingly (cross-catalog read, not one-row leak).
+- Known class folded for lineage only (SQLi-via-stored-content, adapter-file pattern from the Sept 18 ORM query-grammar page); published here for the agent-memory carrier angle. Validation: own Databricks workspace/lab, inert marker statements via a disposable memory entry; never touch a shared warehouse.
+
 ## References
 
 - [mem0 memory management authorization advisory (`GHSA-jfv9-68m5-gjjr`)](https://github.com/advisories/GHSA-jfv9-68m5-gjjr)
 - [compliance-trestle recursive Jinja SSTI advisory (`GHSA-gg2g-p7xc-qqmm`)](https://github.com/advisories/GHSA-gg2g-p7xc-qqmm)
 - [compliance-trestle remote-fetch SSRF advisory (`GHSA-w76h-q7c6-jpjp`)](https://github.com/advisories/GHSA-w76h-q7c6-jpjp)
 - [Flask-HTTPAuth empty-token advisory (`GHSA-p44q-vqpr-4xmg`)](https://github.com/advisories/GHSA-p44q-vqpr-4xmg)
+- [mem0 Databricks vector-store SQL injection advisory (`GHSA-7587-9684-52r6`)](https://github.com/advisories/GHSA-7587-9684-52r6)
