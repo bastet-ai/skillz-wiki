@@ -142,6 +142,19 @@ curl -i -s 'https://avideo.example.test/plugin/API/set.json.php' \
 
 Strong evidence includes the registration response, the absence of a valid `APISecret`, the CAPTCHA validation path, and a before/after capability comparison for the disposable account. Stop at capability proof; do not upload real media, start public streams, create meetings with real users, or use the elevated account to touch production content.
 
+### October 23 frevvo/onPhase registration-identity and form-service SSRF update
+
+The October 23 scan added two onPhase (frevvo) advisories that extend this page's signup mass-assignment class from **capability flags** to **identity binding**:
+
+- [GHSA-542f-hr4v-mv7f / CVE-2026-19677](https://github.com/advisories/GHSA-542f-hr4v-mv7f) (critical): the public registration form in onPhase/frevvo 11.0.14 let an unauthenticated attacker authenticate as an **arbitrary tenant user** by supplying a valid tenant name plus an existing user identifier in registration parameters, obtaining TenantAdmin and Designer privileges, then reaching OS command execution. Registration parameters are not just capability carriers — identity-shaped fields (tenant, user id, email) are account-binding inputs when the form trusts them.
+- [GHSA-qgfh-wgwf-xmcx / CVE-2026-19678](https://github.com/advisories/GHSA-qgfh-wgwf-xmcx) (high): the unauthenticated form service accepted an attacker-controlled URL on a publicly accessible form and fetched it, exposing internal Apache Solr data. Low-code/form platforms ship search and integration backends (Solr, embedded DBs) that the form's URL-shaped field can reach.
+
+Operator rules:
+
+1. On any public registration/enrollment form, send a battery of **identity-shaped** fields (tenant, tenantId, orgId, userId, uid, email, username) alongside the known capability fields (verified, role, admin, can*). Existence-oracle value first: differential responses on valid vs invalid tenant/user identifiers; takeover value if the session adopts the supplied identity.
+2. Multi-tenant registration forms: prove cross-tenant binding only with your own disposable tenant/user pair in an authorized lab. Never enroll against another tenant's real user identifiers.
+3. On form/BPM platforms, enumerate every field that renders or fetches a remote resource (file pickers, data-source connectors, webhook/submit URLs) as an SSRF leg; prove with owned callbacks and stop before querying internal search backends.
+
 ### AVideo gallery and third-party content encoding
 
 Prefer source review plus a harmless rendering canary. Test each context independently: attribute, element body, hidden container, and pagination `href`.
