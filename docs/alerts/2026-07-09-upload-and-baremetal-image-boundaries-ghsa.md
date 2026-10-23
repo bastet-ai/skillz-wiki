@@ -76,6 +76,14 @@ This check is for approved OpenStack/Ironic labs or customer-approved private-cl
 
 Do not issue real power, boot, SOL, or management commands against production BMCs. The finding is about control-plane trust, not destructive device control.
 
+### October 23 follow-up: Ironic `vendor_passthru` reaches the BMC's Redfish service with conductor credentials
+
+Three advisories published 2026-10-23T06:31Z (fixed 39.0.1 and earlier bands) sharpen the tenant-to-BMC trust boundary on this page:
+
+- **`vendor_passthru` allows DELETE/GET against the BMC Redfish service** ([GHSA-54m8-h3qj-96qg](https://github.com/advisories/GHSA-54m8-h3qj-96qg) / CVE-2026-90458, medium 5.4) — the advisory's own example is deleting **accounts from the BMC's Redfish service**. The durable axis: a tenant-callable passthrough verb family rides the **conductor's BMC credentials**, not the tenant's identity, and HTTP methods beyond the intended POST semantics (GET reads management-plane state, DELETE mutates it) turn a "custom action" channel into arbitrary management operations against the out-of-band network. On any cloud/bare-metal platform with vendor-extension or passthrough endpoints, enumerate the accepted HTTP verbs per passthrough route (not just documented actions) and map what credentials the backend call carries. Proof only in a lab with a **fake Redfish endpoint** that logs method+path+auth: show a tenant-issued DELETE arriving with conductor credentials; never touch a real BMC.
+- **Maintenance state settable via `PATCH /v1/nodes/{ident}` bypassing the dedicated maintenance endpoint** ([GHSA-6x3j-5f9q-7h4j](https://github.com/advisories/GHSA-6x3j-5f9q-7h4j) / CVE-2026-89419) — the general node-update route reaches a state transition whose dedicated endpoint has its own gating. This is the route-family/verb-asymmetry class: **check which state fields the generic PATCH surface accepts, because guards attached to the named endpoint don't cover alternate writers.** On an authorized Ironic API, record the field-vs-route acceptance matrix (documented maintenance route vs generic PATCH) with your own lab node's maintenance flag toggled and restored.
+- **Configdrive gzip-bomb DoS** (GHSA-48wg-78rx-fcjg / CVE-2026-115638) is tracked without publication (availability-only); note the decompression-budget class is already canonical on the Oct 22 DRF codec page.
+
 ### Ironic Python Agent chroot image execution
 
 The risky pattern is host/provisioning code entering an image supplied or influenced by the tenant, then executing a helper resolved from that image's filesystem.

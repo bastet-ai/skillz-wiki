@@ -289,6 +289,16 @@ Operator rules — this is the **message-channel branch**, a fourth gate family 
 
 Proof discipline: disposable repo + lab dev server on your own machine, synthetic marker story files only; never drive this against a teammate's or a client's workstation.
 
+#### October 23 follow-up: Google ADK for Java web server — wildcard-CORS REST *and* wildcard-WebSocket on the same unauthenticated agent control plane ([GHSA-2pr8-78jh-mm95 / CVE-2026-107858](https://github.com/advisories/GHSA-2pr8-78jh-mm95), high, `google-adk-dev` 0.1.0–<1.13.0, `google-adk-maven-plugin` 0.3.0–<1.13.0)
+
+The Agent Development Kit's dev web server (`adk web`) shipped **no authentication at all**, plus two simultaneously permissive gates: the `/run_live` WebSocket endpoint accepted **any origin** (hardcoded `setAllowedOrigins("*")` in 0.1.0–1.5.0, then defaulting to `*` via `adk.web.cors.origins` in 1.6.0–1.12.0), and since 0.4.0 the REST API returns `Access-Control-Allow-Origin: *` by default. A malicious web page a developer visits can therefore **send messages to the running agent (triggering registered tools), stream agent responses, and list/read/create/delete sessions and artifacts** — using the developer's own browser as the relay, so loopback binding prevents nothing. Fixed in 1.13.0 with same-origin defaults for both REST and WS plus DNS-rebinding rejection over loopback.
+
+Operator rules:
+
+1. **This is the rare shape where both branches of the family are open at once**: wildcard-CORS reads (LoopX branch) *and* cross-origin WebSocket message-channel writes (Storybook branch) on one control plane. When probing any agent dev server, test the REST ACA surface and the WS `Origin` handshake **independently** — one being locked down (the 1.6.0+ property exists for CORS but WS stayed `*`-defaulted through 1.12.0) says nothing about the other. Record a per-channel gate table: REST-GET / REST-POST / WS-handshake, each tested cross-origin from an owned page.
+2. **Tool-triggering is the payload leg without any second bug.** Unlike file-write→executor chains, a WS message that makes the agent invoke its registered tools is already capability abuse: the developer's configured toolset (shell, HTTP, code exec, whatever the agent registers) runs server-side with the developer's privileges. In a lab ADK agent, prove with an inert registered echo tool invoked from a cross-origin test page; never drive a real teammate's agent.
+3. **Vendor-shipped mitigation properties are fingerprint material.** `adk.web.cors.origins` was the documented knob 1.6.0–1.12.0 — fleets that never set it are unauthenticated-by-default even on "patched for other CVEs" versions; recon check for the ADK dev banner/port and treat 1.6.0–1.12.0 as exposed unless config review proves an allowlist was set. Same rule generalizes: a security property that defaults permissive is exposure, not mitigation.
+
 ### Nuclio cron trigger command construction
 
 This is a controller-to-Kubernetes command-boundary check. The advisory describes tenant-controlled cron trigger `event.headers` keys and `event.body` values entering a generated `/bin/sh -c` `curl` command.
