@@ -6,7 +6,7 @@ title: Document-server RCE wave — Collabora CODE Server proxy.php pre-auth com
 
 Source: hourly offensive-security scan of GitHub Security Advisories, 2026-10-14 (wave published 2026-10-14T03:30Z).
 
-Two self-hosted document-conversion backends that sit behind Nextcloud, ownCloud, and collaborative-editing deployments both shipped pre-authenticated or low-privilege-to-RCE bugs in the same advisory minute — and one of them is **confirmed exploited in the wild in September and October 2026** while still not in CISA KEV (checked against catalog 2026.10.13, 1741 entries). This is the ICSA-to-KEV head-start window pattern again, but the ITW signal is in the GHSA text itself.
+Two self-hosted document-conversion backends that sit behind Nextcloud, ownCloud, and collaborative-editing deployments both shipped pre-authenticated or low-privilege-to-RCE bugs in the same advisory minute — and one of them is **confirmed exploited in the wild in September and October 2026** while still not in CISA KEV (checked against catalog 2026.10.13; **update: CVE-2026-110447 was KEV'd on 2026-10-23, see the follow-up section below**). This is the ICSA-to-KEV head-start window pattern again, but the ITW signal is in the GHSA text itself.
 
 ## Advisory table
 
@@ -36,5 +36,13 @@ Evidence to capture: deployment-shape identification output, version/app-listing
 
 - Deferred-detonation and config-relay family: Brocade deferred config-relay leg on the [Oct 8 SAN wave](2026-10-08-brocade-fabric-os-san-fabric-management-plane-trust-wave-ghsa.md); Nginx UI extractor-before-decide on the [Oct 9 Nginx UI wave](2026-10-09-nginx-ui-coordinated-wave-node-secret-master-credential-2fa-flag-drift-and-incomplete-fix-router-family-ghsa.md); W3TC deferred-import confused deputy on the [Sept 19 alternate-surface page](2026-09-19-wordpress-alternate-surface-authz-drift-rest-ajax-import-wave-ghsa.md).
 - Validate-target-vs-write-target upload/override invariant: Bricksforge parameter-pair leg on the [Sept 19 shortcode page](2026-09-19-wordpress-shortcode-execution-hidden-field-upload-and-encrypted-blob-dispatch-ghsa.md).
-- ITW-before-KEV head-start precedent: RouterOS CVE-2026-84411 tracking on the [Sept 15 KEV page](2026-09-15-kev-wave-netscaler-cisco-routeros-jfrog-gitlab-screenconnect.md); NetScaler 88779 24-hour KEV fast-follow note on the same page — watch whether CVE-2026-110447 gets KEV'd.
+- ITW-before-KEV head-start precedent: RouterOS CVE-2026-84411 tracking on the [Sept 15 KEV page](2026-09-15-kev-wave-netscaler-cisco-routeros-jfrog-gitlab-screenconnect.md); NetScaler 88779 24-hour KEV fast-follow note on the same page.
+
+## October 23 follow-up: CVE-2026-110447 is now in CISA KEV — watch closed, head-start window ended
+
+- CISA added **CVE-2026-110447** to KEV on 2026-10-23 (catalog 2026.10.23, 1756 entries; added 10-23, **due 10-26**, forensic triage Yes, ransomware use Unknown; KEV note links the [Nextcloud "update ASAP" forum notice](https://help.nextcloud.com/t/to-collabora-built-in-user-update-asap/250516) and [GHSA-g3vx-3m76-fghh](https://github.com/CollaboraOnline/online/security/advisories/GHSA-g3vx-3m76-fghh) — note the KEV-cited GHSA is the vendor-published repo advisory, distinct from the GitHub mirror GHSA-f97p-r72q-64h2). Durable consequences:
+  1. **The head-start window this page documented has closed** — nine days passed between the GHSA's ITW disclosure (10-14) and KEV confirmation. For future ITW-in-GHSA-text items, the KEV lag is measured in days, not weeks: the RouterOS-style long window is the exception.
+  2. **The deployment-shape fingerprint rule is KEV-validated**: only `richdocumentscode` Built-in CODE Server installs are exposed, and the KEV description repeats the "when the CODE server isn't running" lifecycle gate. On authorized Nextcloud engagements this is now a KEV-class "move now" report item (`/apps/richdocumentscode/` version evidence < 26.4.303), not a watch item.
+  3. **Forensic-triage = Yes + due 10-26** means federal estates are patching on a 3-day clock; expect editor-proxy route scans and restart-window probing traffic to spike — on red-team engagements against collaboration platforms, the patch rush itself (restarts, broken integrations, helpdesk traffic) is the best cover window for the transient not-running state this bug needs.
+  4. KEV cites CWE-78 (OS command injection) — confirms the `proxy.php` pre-auth command-injection framing over any alternate reading.
 - Editor-suite sibling history: ONLYOFFICE Docs 2021 path-traversal was KEV-backfilled 2026-10-08 (catalog entry) — this product line is now a repeat-offender class for the wiki; Zimbra's twelve-KEV mail-suite precedent shows how collaboration platforms accumulate exploitation history.
