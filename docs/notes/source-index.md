@@ -472,6 +472,7 @@ Maintain this as the seed list of official or primary sources for the tool famil
 - Trail of Bits Blog: https://blog.trailofbits.com/ (RSS: https://blog.trailofbits.com/feed/)
 - Trail of Bits skill-distribution scanner-bypass research: https://blog.trailofbits.com/2026/06/03/the-sorry-state-of-skill-distribution/
 - PortSwigger Research: https://portswigger.net/research (RSS: https://portswigger.net/research/rss)
+- PortSwigger Blog: RSS at https://portswigger.net/blog/rss (`/web-security/blog` 404s; confirmed 2026-10-23 hourly scan)
 - Hacktron AI Blog: https://www.hacktron.ai/blog/
 - ProjectDiscovery Blog: https://projectdiscovery.io/blog/
 - Brutecat Security articles: https://brutecat.com/articles/ (RSS: https://brutecat.com/rss.xml)
