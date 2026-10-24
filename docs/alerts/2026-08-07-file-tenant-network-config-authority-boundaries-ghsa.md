@@ -14,7 +14,9 @@ Sources:
 - OPeNDAP Hyrax redirect-based SSRF and Earthdata-header forwarding: [GHSA-7c9q-38r9-q62m / CVE-2026-16637](https://github.com/advisories/GHSA-7c9q-38r9-q62m); and
 - Telefunken/Vestel SmartCenter `browserseturl` internal-browser reach: [GHSA-7535-6xrw-p7v8 / CVE-2026-15570](https://github.com/advisories/GHSA-7535-6xrw-p7v8); and
 - Postiz full-row response echo with secret leakage on delete/member paths: [GHSA-wm8w-ph5r-v9cm / CVE-2026-107761](https://github.com/advisories/GHSA-wm8w-ph5r-v9cm); and
-- Postiz unrestricted backend function dispatch with file-read helper: [GHSA-h5r5-h782-vqvp / CVE-2026-115931](https://github.com/advisories/GHSA-h5r5-h782-vqvp).
+- Postiz unrestricted backend function dispatch with file-read helper: [GHSA-h5r5-h782-vqvp / CVE-2026-115931](https://github.com/advisories/GHSA-h5r5-h782-vqvp);
+- Postiz publishing-worker media path read and exfil via attacker-controlled Discord channel: [GHSA-rmc2-p2gv-m88f / CVE-2026-115932](https://github.com/advisories/GHSA-rmc2-p2gv-m88f); and
+- Postiz shared-secret token minting oracle across session/invitation/reset/provisioning purposes: [GHSA-9j6f-8rw3-93c4 / CVE-2026-115933](https://github.com/advisories/GHSA-9j6f-8rw3-93c4).
 
 The GitHub records were unreviewed at scan time. Confirm exact product, version, feature configuration, route or API, principal, and corrected behavior before reporting.
 
@@ -73,6 +75,27 @@ Durable axes for hunters:
 - **Env-file disclosure is the full-deauth chain in one response.** Where the read reaches `.env`/process env, one request hands you the session-signing secret (forge any user, including admins), DB credentials, and third-party tokens. Frame the report around the signing secret, not file-read semantics.
 - Same-wave second leg: a single request kills the process — availability-only, but on dispatch surfaces note every lifecycle helper (exit, restart, reload) that is dispatchable; restart races pair with the Oct 23 KEV cover-window pattern.
 - Validation boundary: disposable Postiz install, synthetic fake tokens, canary file outside the app root, never the real `.env`; positive = canary bytes in the response. GHSA package version fields were empty at scan time — confirm bands against the vendor advisory before reporting.
+
+## 2d. October 24 second wave — Postiz publishing-worker media path exfiltrates arbitrary files through the app's own delivery channel ([GHSA-rmc2-p2gv-m88f / CVE-2026-115932](https://github.com/advisories/GHSA-rmc2-p2gv-m88f), critical) and shared-secret token minting oracle mints sessions, invitations, resets, and provisioning tokens from any signed payload ([GHSA-9j6f-8rw3-93c4 / CVE-2026-115933](https://github.com/advisories/GHSA-9j6f-8rw3-93c4), critical)
+
+Same product, same day, two more critical legs beyond the 2c dispatch bug — and each exposes an axis the dispatch page did not cover.
+
+**Leg 1: publish-time path read, exfil through your own integration.** When a post is published, Postiz treats a media path that is not a web address as a **local file path**, with no check that it lies inside the upload directory. A registered user stores a crafted media path on a post, gets it past the checks that normally restrict it, and the publishing worker reads an arbitrary server file and **sends it as an attachment to a Discord server the attacker controls**. Two sibling routes reach the same unconfined reads: one tells the caller whether a file exists (and can exhaust backend memory), the other delivers files the same way as the main route. Self-registration is open by default. ([GHSA-rmc2-p2gv-m88f](https://github.com/advisories/GHSA-rmc2-p2gv-m88f))
+
+Durable axes:
+
+- **Deferred-async consumers re-parse fields with different semantics than the submit-time validator.** The post-save checks gate URL-vs-path shape, but the *worker* at publish time decides "not a web address → it's a file" with no confinement. On any store-now/do-later pipeline (queues, cron workers, webhooks, render jobs), probe the same field with path-shaped values and observe the *worker's* interpretation minutes later — submit-time validation passing means nothing about the async sink.
+- **Attacker-owned delivery integrations are a built-in exfil channel — you never need a callback.** On any platform with user-connected outbound channels (Discord/Slack/webhook/email/social), every server-side read primitive pairs with "attach contents to my own channel": the app carries the file out for you, through a trusted, allowlisted destination that no egress filter blocks. Enumerate which user-controlled integration fields a worker can write to.
+- **Sweep every sibling of an unconfined-read route for parity.** Here the same read surfaces three ways: full delivery, existence oracle (+memory exhaustion), and a second delivery route. Once one leg is found, enumerate the handler family; each variant is independently reportable and the oracle variant works when full reads are logged/alerted.
+
+**Leg 2: the token factory.** Postiz signs session, invitation, and password-reset tokens with **one shared secret and no purpose marker**. A route that refreshes browser-extension channel credentials **signs data taken directly from the request** and stores the result where the requesting user can read it back — so any user can obtain a validly signed token containing **any claims they choose**, which the application then accepts as a session, as an organization invitation with an attacker-chosen role, as a password reset, or as an enterprise provisioning token. A second, narrower team-invitation route signs extra body fields the same way. ([GHSA-9j6f-8rw3-93c4](https://github.com/advisories/GHSA-9j6f-8rw3-93c4))
+
+Durable axes:
+
+- **Grep for signing oracles: any endpoint that signs attacker-influenced content is a token factory.** Look for routes that take a request payload (or fields of it), HMAC/JWT-sign it, and return or store it where the caller can read it. The signature, not the issuer, is the trust — you don't need the secret when the server will sign for you.
+- **One secret + no purpose/audience binding = one mint crosses every token family.** Cross-purpose replay battery: take a token minted for the lowest-privilege flow (extension refresh, team invite) and replay it at every consumer of every other family — login/session, invitation acceptance (pick your role), password reset (target any account), provisioning. The Oct 7 Craft preview-token page (`_hadToken` boolean with no purpose binding) is the same defect class; this leg adds the *signing-oracle* entry point, which needs no pre-existing token at all.
+- **Token-family inventory before probing.** Enumerate every place the product issues a signed blob (auth code, refresh, invite, reset, provisioning, API key bootstrap), record claim shapes, then test whether consumers distinguish families. If claim schemas overlap, assume cross-family acceptance until a negative proves otherwise.
+- Validation boundary for both legs: disposable self-hosted Postiz build, synthetic canary files outside the app root (never the real `.env` — see 2c), attacker-owned Discord test server or mock delivery sink, disposable orgs/users only. Positives: canary bytes arriving as an attachment; forged token accepted at a session/invitation/reset consumer it was never minted for. GHSA package version fields were empty at scan time — confirm bands against the vendor advisory before reporting.
 
 ## 3. SuperTokens: bind tenant identity at every query and mutation
 
