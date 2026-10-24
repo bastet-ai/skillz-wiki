@@ -13,7 +13,8 @@ Sources:
 - libvirt virtual-network XML to dnsmasq configuration injection: [GHSA-f6jp-rhmm-v59g / CVE-2026-61477](https://github.com/advisories/GHSA-f6jp-rhmm-v59g);
 - OPeNDAP Hyrax redirect-based SSRF and Earthdata-header forwarding: [GHSA-7c9q-38r9-q62m / CVE-2026-16637](https://github.com/advisories/GHSA-7c9q-38r9-q62m); and
 - Telefunken/Vestel SmartCenter `browserseturl` internal-browser reach: [GHSA-7535-6xrw-p7v8 / CVE-2026-15570](https://github.com/advisories/GHSA-7535-6xrw-p7v8); and
-- Postiz full-row response echo with secret leakage on delete/member paths: [GHSA-wm8w-ph5r-v9cm / CVE-2026-107761](https://github.com/advisories/GHSA-wm8w-ph5r-v9cm).
+- Postiz full-row response echo with secret leakage on delete/member paths: [GHSA-wm8w-ph5r-v9cm / CVE-2026-107761](https://github.com/advisories/GHSA-wm8w-ph5r-v9cm); and
+- Postiz unrestricted backend function dispatch with file-read helper: [GHSA-h5r5-h782-vqvp / CVE-2026-115931](https://github.com/advisories/GHSA-h5r5-h782-vqvp).
 
 The GitHub records were unreviewed at scan time. Confirm exact product, version, feature configuration, route or API, principal, and corrected behavior before reporting.
 
@@ -60,6 +61,18 @@ Both require a valid session/API key/OAuth token and are scoped to the caller's 
 - **OAuth third-party apps are a distinct principal class.** A scoped app token that satisfies the route's permission check but was never intended to receive the echoed fields is a clean bounty-grade path; test whether the leaked token validates directly at the upstream platform, not just inside the app.
 
 Validation stays bounded: disposable org, member role, one fake social-integration row seeded with synthetic canary tokens, and a mock platform endpoint that records token presentation. Never touch real provider accounts or live tokens; a positive is the canary token appearing verbatim in the mutation/list response body of a verb the low-scope principal is permitted to call.
+
+## 2c. October 24 follow-up — Postiz RPC-style channel-function dispatch reaches internal file-read helper; the "token" field becomes the file path ([GHSA-h5r5-h782-vqvp / CVE-2026-115931](https://github.com/advisories/GHSA-h5r5-h782-vqvp), critical)
+
+Postiz lets a signed-in user ask the backend to run a function against one of *their* connected channels — and the backend never restricted **which** functions are dispatchable. Two internal helpers were reachable from the web surface: one reads an arbitrary file from the server's disk, the other makes the process exit from a single request. The file-read leg composes with a second missing control: a channel's **stored token is never format-validated**, so a user connects a "channel" whose token field is a file path, then invokes the read helper to have the backend return that file — including the process environment, which holds the session-signing secret, the database address, and the credentials of every connected service. Self-registration is open by default, so there is no existing-account precondition. ([GHSA-h5r5-h782-vqvp](https://github.com/advisories/GHSA-h5r5-h782-vqvp))
+
+Durable axes for hunters:
+
+- **RPC-style dispatch surfaces need a callable-name allowlist; "it runs against your own resource" is not one.** Any endpoint shaped like `POST /…/{action|function|method}` that fans into backend code paths is a recon target: enumerate dispatchable names from client bundles, route maps, or error strings, then probe each against a helper inventory (read, exec, exit/restart, fetch). A helper "never meant to be reachable from the web interface" is the classic finding when dispatch is dynamic instead of route-bound.
+- **Free-form credential fields are plantable file paths / URLs.** Every "connect an integration" form that stores a token/key/secret string without grammar validation is a smuggling channel into whatever code later consumes that field: file path → arbitrary read (this leg), URL → SSRF, command → injection. Before trusting the fetcher's guards, test the *field* with each sink-shaped value and see whether the consumer resolves it. The pairing rule: a read helper + an attacker-controlled path argument = arbitrary read even when each side alone looks harmless — validate target *and* caller separately.
+- **Env-file disclosure is the full-deauth chain in one response.** Where the read reaches `.env`/process env, one request hands you the session-signing secret (forge any user, including admins), DB credentials, and third-party tokens. Frame the report around the signing secret, not file-read semantics.
+- Same-wave second leg: a single request kills the process — availability-only, but on dispatch surfaces note every lifecycle helper (exit, restart, reload) that is dispatchable; restart races pair with the Oct 23 KEV cover-window pattern.
+- Validation boundary: disposable Postiz install, synthetic fake tokens, canary file outside the app root, never the real `.env`; positive = canary bytes in the response. GHSA package version fields were empty at scan time — confirm bands against the vendor advisory before reporting.
 
 ## 3. SuperTokens: bind tenant identity at every query and mutation
 
