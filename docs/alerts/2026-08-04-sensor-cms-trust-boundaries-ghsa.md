@@ -147,3 +147,13 @@ Report the exact sender capability, profile field, server transformation, client
 - [ ] Microweber evidence preserves every intermediate representation and uses a non-executable detached DOM.
 - [ ] LINE evidence distinguishes server acceptance, renderer selection, evaluator reachability, and native-bridge exposure; affected-version metadata alone is not a positive.
 - [ ] No executable controller artifact, shell input, live CMS/mobile content, session, CSRF token, client storage, callback, or browser/mobile side effect appears in evidence.
+
+## October 24 follow-up: Camaleon second wave — media permission alone → RCE via `crop_url` data-URI write with `../` in the *name* parameter (CVE-2026-116009 / [GHSA-wq77-q3hj-c75x](https://github.com/advisories/GHSA-wq77-q3hj-c75x), high 8.8, <2.9.3)
+
+Same product as this page's Camaleon draft-authorization section, second independent boundary break — the vendor-sibling re-sweep rule paying off again. The `crop_url` media action accepts a **base64 `data:` URI** as its image source, decodes it server-side, and writes the result to a path built from an attacker-supplied `name` parameter **containing `../` sequences**, with no containment check — media-only users write an ERB template into a theme's `views/` directory, which executes when rendered. Media permission → arbitrary file write → template RCE, no editor/post capabilities needed.
+
+Operator rules:
+
+- **Every media action is an upload in disguise.** Enumerate all media-controller verbs (`crop_url`, resize, rotate, save, import) separately from the main upload endpoint; each one may re-implement source fetching (`data:` URIs, remote URLs) and destination naming (`name`, `slug`, `path`) independently. For each: test (a) non-file source schemes (`data:`, `http:`, `file:`) and (b) traversal in the *destination* parameter even when the source validates. This is the validation-target-vs-write-target mismatch by parameter pair (Sept 19 shortcode page) applied to media actions: what gets validated (the image) is never what gets controlled (the filename).
+- **CMS template directories are the RCE pivot for any file-write primitive.** On Ruby/Rails-flavored CMSes (ERB views) and PHP CMSes (theme/partials), test whether the web root contains a renderer-consulted directory writable by your current role; one marker-template write + render request closes the chain. Validate only in lab installs with your own theme copy.
+- Adjacent Oct 24 CMS waves tracked without publication: RosarioSIS missing-authorization pair, DaybydayCRM controller-level authz misses, ONEARMY IDOR, Xiaozhi-esp32 IDOR, Scada-LTS/InternAgent thin singles — flat-missing-authz class already on this page's audit heuristic.

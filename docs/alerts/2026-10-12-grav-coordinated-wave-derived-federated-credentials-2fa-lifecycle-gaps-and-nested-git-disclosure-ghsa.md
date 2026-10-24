@@ -97,3 +97,15 @@ When Git Sync runs in `gravuser`/`gravfull` author mode, the commit `--author` s
 - **Network-AI ClaudeHookBridge deny-pattern first-field bypass + dashboard CSWSH** folded on the June 19 developer-control page.
 - **SiYuan** plugin-handler absolute-path read + Sprig function-map OOM folded on the July 10 SiYuan page.
 - Edimax BR-6208AC detail-free quartet, Semtech LR11xx SPI OOB, WP singles (WP-Members, Forminator, Patreon CSRF pair, Booktics, Salevo, VillaTheme), Zebra gossip/DoS pack, Contrast coordinator legs, Grav remainder, DOMPurify 3.4.16 pair (mutable-config class covered), vLLM PyAV audio fallback (media-pipeline class), Craft DOM XSS — known classes or detail-free.
+
+## October 24 follow-up: page editor reaches arbitrary public static methods — `data-*@` directive allowlist defeated by key relocation (CVE-2026-116019 / [GHSA-8xfc-f7mm-8g34](https://github.com/advisories/GHSA-8xfc-f7mm-8g34), high 8.8, Grav 2.0.15–<2.2.13)
+
+Second Grav wave after this page's October 12 dump. A page-edit-permission user embeds crafted fields in **Flex form overrides inside page frontmatter**: the blueprints allowlist validates the `data-*@` directive *name*, but `unset-name@` or integer array keys **relocate the field's effective key after the check** — the crafted key survives to the rendering layer, which invokes **any public static method** (`Folder::delete`, `Utils::download` named in the advisory) → delete directories, overwrite files, read files outside the page tree.
+
+Operator rules:
+
+- **Prefix/directive allowlists are only as strong as their position in the normalization order.** If name-mutating directives (`unset-name@`, integer keys, merge operators) are processed *after* the allowlist check, the check inspects a key that never reaches the sink. Probe battery for any "safe-prefixed key" gate: submit the same payload (a) with a name-removal directive, (b) wrapped in integer keys, (c) paired with sibling merge/override directives, and diff the key that got checked vs the key that reaches the sink. Validation-target-vs-execution-target on the **key axis** — the September 19 shortcode page's validated-GIF-path-vs-attacker-`.php`-url pair, generalized from values to keys.
+- **In flat-file CMSes, frontmatter is configuration-as-code.** Editor capability → frontmatter → engine directives → method invocation is a full privilege ladder. Enumerate the engine's directive grammar (`@`-suffixed keys in blueprints/docs/templates) and fuzz editor-reachable override surfaces with the *grammar*, not just value payloads; every key-rewriting directive is an allowlist-bypass candidate.
+- Band note: 2.0.15–<2.2.13 overlaps but is not identical to this page's Oct 12 bands (core 2.0.22–2.1.6) — "older Grav" fingerprints two distinct bug families; retest both per install.
+
+Validation boundary: lab Grav with a disposable editor account, marker-only files under a disposable root, synthetic canary files outside the page tree for read proof; no destructive `Folder::delete` shapes outside the lab.
