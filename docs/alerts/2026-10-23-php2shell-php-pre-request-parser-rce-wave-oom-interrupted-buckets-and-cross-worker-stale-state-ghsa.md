@@ -32,3 +32,14 @@ Key operational properties from the repro: the request **never reaches applicati
 - Against customer scope: this class executes before logging/auth in the app — confirm written scope covers memory-corruption testing before touching it; a crashing worker is an availability incident on shared hosting.
 - Memory-disclosure probes (PHPSESSID-style leak paths) can capture other users' data from worker memory; in scope, prove only with your own seeded marker values.
 - KEV-watch: re-check on each scan; expect an entry imminently given ITW reports.
+
+## October 26 follow-up — KEV'd
+
+Both CVEs entered CISA KEV on **2026-10-26** (catalog `2026.10.26`, 1758 entries): CVE-2026-109618 "PHP Memory Corruption Vulnerability" and CVE-2026-109619 "PHP Stale Internal Request-State Vulnerability", both due **2026-10-29**, forensic-triage required, ransomware-use Unknown, both carrying the same five-CWE stack **CWE-416 / 755 / 824 / 1325 / 1419**. CISA also published its own [Critical Vulnerabilities in PHP alert on 10-21](https://www.cisa.gov/news-events/alerts/2026-10-21/critical-vulnerabilities-php-require-immediate-patching) — ahead of the KEV entry, unusual sequencing that confirms federal-level exploitation confidence.
+
+Operator consequences of the KEV listing:
+
+1. **The head-start window is closed.** From here the herd mobilizes: expect commodity exploit traffic against every internet-facing `mod_php`/FPM host within days. Richness now comes from *unpatched-but-backported* estates (7.4/8.0/8.1 with silent distro backports — version strings lie, parser-error-shape fingerprinting per axis 6 above is the real check), not from being early.
+2. **The multi-CWE label is the taxonomy tell.** One CVE carrying uninit-pointer (824) + UAF (416) + unhandled-error (755) + two interaction/sequencing classes is CISA encoding the *bailout-lifecycle* bug class, not a single sink. For any runtime with a non-unwinding abort path (longjmp/setjmp, panic-with-cleanup, signal-based timeouts), the producer/consumer framing of CVE-2026-109619 — operation stashes state in a persistent global, fatal skips the reset, next request consumes it before init — re-applies. Grep runtimes for `longjmp`/`setjmp` in allocator/error paths as a discovery axis on custom C/C++ SaaS stacks.
+3. **Forensic-triage + 3-day due date** = federal estates are purging this class before month-end; on pentests against government-adjacent targets, PHP version evidence and multipart-shape request logs are now likely-triage items — collect parser-error-shape fingerprints as reachability findings rather than attempting the chain where scope excludes memory corruption.
+4. The ITW→KEV lag for this campaign was **nine days (Oct 17 ITW → Oct 26 KEV)**, matching the Collabora calibration on the KEV page: days, not weeks. The RouterOS CVE-2026-84411 watch remains the oldest open ITW-confirmed un-KEV'd item.
