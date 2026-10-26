@@ -123,6 +123,16 @@ Grant writes only to `allowed/`, invoke the reachable `process.report` write API
 
 Capture the exact Node version, permission flags, requested path, canonical path, pre/post hashes of the disposable target, and exit status. Do not target startup files, package manifests, service units, credentials, or application data.
 
+## October 26 follow-up: MCP Toolbox cloud-storage source — unauthenticated path traversal exfiltrates host files to attacker GCS buckets (CVE-2026-93328 / [GHSA-2gc9-c85v-5vwr](https://github.com/advisories/GHSA-2gc9-c85v-5vwr), versions 1.2.0–1.4.0)
+
+Fourth independent advisory family on this product (after the July 31 OAuth/route/policy legs and the June/July protocol-version + host-allowlist legs). The `cloud-storage` tool source combines path traversal with missing authorization: an **unauthenticated** remote attacker crafts tool-invocation parameters to (a) exfiltrate host files by uploading them to an **external Google Cloud Storage bucket the attacker names**, and (b) overwrite arbitrary local files.
+
+Operator axes:
+
+- **Cloud-SDK-backed tool sources are file-exfiltration primitives with a built-in upload leg.** The exfil destination does not need an outbound HTTP channel — an attacker-supplied bucket name rides the platform's own authorized GCS client. When auditing any MCP/agent tool that wraps a cloud storage SDK, test bucket/container/object parameters for attacker-controlled destination values, not just source-path traversal.
+- **Tool-source parity sweep again**: the OAuth layer, the legacy HTTP route family, the protocol-version handlers, and now the cloud-storage source each failed independently on the same binary. Enumerate every registered tool source separately — auth middleware correctness says nothing about per-source parameter handling (this page's standing adapter-parity rule, validated a fifth time).
+- Probe shape on an authorized lab Toolbox: a disposable instance with one cloud-storage tool, a synthetic local marker file, and a bucket you own; a traversal-shaped source parameter landing the marker in your bucket is the bounded positive. Never touch real buckets or host files outside a disposable root.
+
 ## Evidence and reporting
 
 For each finding preserve:

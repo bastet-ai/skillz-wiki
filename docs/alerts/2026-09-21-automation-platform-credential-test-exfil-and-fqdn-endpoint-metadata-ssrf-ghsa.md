@@ -75,6 +75,18 @@ Operator axes (extends the "test button = outbound-fetch primitive" rule above t
 3. **Devfile/manifest `parent.uri` = zero-interaction trigger leg.** Workspace platforms that dereference imports from shared links turn a phishing-shaped URL into a server-side fetch with the victim's stored credentials. On authorized Che/Gitpod/Codespaces-class engagements, register a disposable account, mint a synthetic marker PAT, and open a lab devfile pointing at an owned listener — the listener's captured `Authorization` value is the bounded positive.
 4. **No-fix state is an engagement planning input**: high-severity, unfixed, shipped across a wide version range — treat internet-exposed Che workspaces as reachable SA-token sources during cloud-assessment scoping (route/auth evidence only; no token capture outside approved labs).
 
+## October 26 follow-up: Harbor webhook delivery SSRF with execution-log read-back (CVE-2026-111590 / [GHSA-h7v4-fjg7-95fc](https://github.com/advisories/GHSA-h7v4-fjg7-95fc))
+
+A wide range of Harbor versions (registry/artifact platform) accept webhook target addresses without blocking private and link-local ranges. A ProjectAdmin-tier user configures a webhook policy pointing at an internal address; when any project event fires, the Harbor **jobservice** makes an unauthenticated outbound HTTP POST to that target — and **if the target answers with an error status, the response body is written into the webhook execution log, which project members can read**. Cloud metadata and other network-restricted resources become readable through the log.
+
+Operator axes (this page's registry-platform lineage: Quay robot tokens, OpenShift Router FQDN endpoints, Harbor mirror SSRF):
+
+1. **Webhook/notification delivery is an SSRF primitive on every platform that has one — and the URL field is write-gated at a much lower tier than operators expect.** "Project admin" is a low bar on registries, CI systems, and SaaS tools; enumerate every webhook/connector/destination URL field and check whether private/link-local/metadata shapes are rejected at save time. Save-time allowlist vs delivery-time resolution drift (rebinding) also applies.
+2. **Error-path log writes are a response read-back channel for otherwise-blind SSRF.** Many delivery components echo response bodies only for non-2xx answers. Probe shape: make your callback (or the internal endpoint's error page) return 4xx/5xx with distinctive content, fire the event, then read the platform's own execution/attempt log. When auditing any outbound-delivery component, read its logging code for `response.body` writes — one grep decides blind-vs-readable SSRF.
+3. **Delivery-side identity is worth enumerating**: jobservice sends the POST unauthenticated with no target allowlist, but on other platforms the delivery leg may ride a service identity (cf. the Vault-plugin test path on this page). Capture the request client-side on an owned listener first.
+
+Bounded proof: two-user lab project, webhook target = owned listener returning 500 + marker string, fire a push event, confirm marker in project-visible webhook logs; internal leg proven only against lab-owned denied canaries, never live metadata endpoints.
+
 ## Tracked from the same enrichment wave without publication
 
 - libaom AV1 codec quartet (CVE-2026-56211 encoder SVC layer-ID overlap with crash-oracle base-address brute force in fork-based encode services, CVE-2026-56209 arbitrary-address write, CVE-2026-56208/56210 heap overflows): codec memory-safety class per parser precedent; the **crash oracle in fork-per-job workers is itself the reusable primitive** — revisit if a replayable service-level workflow lands.
