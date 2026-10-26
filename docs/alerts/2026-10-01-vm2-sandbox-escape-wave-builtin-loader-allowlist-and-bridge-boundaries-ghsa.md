@@ -50,6 +50,15 @@ The generic builtin loader exposes host modules through a recursive read-only pr
 - **Guard-shape battery:** `[]`, `{}`, `''`, `0`, `null` vs `undefined`, Proxy-wrapped config against every "is configured?" guard.
 - **Fix-battery on patched builds:** re-run the *previous* advisory's PoC (here GHSA-m283-3h24-438v) **plus** its call/apply/bind/Reflect/spelling variants on the fixed version — the patch is a token closure, not a property closure.
 
+## October 26 follow-up — kobako: the bridge dispatcher hands the guest `public_send` (GHSA-7pwq-q9jf-539h / CVE-2026-55107)
+
+**kobako** (mruby-in-Ruby wasm-boundary sandbox, all versions 0.1.0–0.9.0, fixed 0.9.1) escaped host RCE-style with the exact bridge shape this page keeps mapping: the host embeds "Service" objects and a transport dispatcher resolves the **guest-supplied method name string** against the bound object via `target.public_send(method.to_sym, *args, **kwargs, &block)` — unrestricted to methods the object itself defines. Guest call `method = "send"`, `args = [:eval, "<ruby>"]` evaluates as `target.send(:eval, "<ruby>")` and runs attacker Ruby **in the host process**. Any bound Service object is sufficient — no Service-specific behavior required. The full advisory PoC is public.
+
+- **Reusable check — ambient-reflection battery on every guest→host bridge:** wherever a dispatcher resolves a caller-supplied method name against a host object (wasm transport, RPC router, MCP tool dispatcher, plugin bridges), probe `send`, `__send__`, `public_send`, `instance_eval`, `instance_exec`, `method`, `instance_variable_get` as the method name, and the two-hop `send(:eval, payload)` / `send(:instance_eval, payload)` pivot. One reachable ambient reflection method voids the entire sandbox.
+- **Fix-shape lesson (applies to your own harness reviews):** the 0.9.1 fix gates by **resolved method owner** — reject any method whose owner is a core/meta module (`BasicObject`, `Kernel`, `Object`, `Module`, `Class`) — instead of a name denylist. Owner-based rejection covers inherited ambient surface by construction; name denylists (the Grav `isDangerousFunction` failure on this wiki's Aug 25 page, vm2's DANGEROUS_BUILTINS omissions) always miss members. When fingerprinting a target bridge, ask whether its guard compares *names* or *resolution owners*.
+- **Genealogy grep:** the same unguarded `public_send` sink survived three renames (`registry` → `rpc` → `transport`) without ever being fixed — when auditing a sandbox's history, grep the current dispatcher for the *sink call*, not the historical component names.
+- Lab boundary: prove only with a disposable harness and a marker (env read or temp-file write from host Ruby); never run escapes against production plugin hosts.
+
 ## Tracked, not promoted from the same wave
 
 pypdf resource-exhaustion septet (102993–103000, availability-only), jackson-core unbounded-error-token + float-regex ReDoS pair (89425/89407), devalue CPU-amplification singles (see [May 15 sparse-array page](2026-05-15-devalue-sparse-array-and-open-webui-banner-boundary-batch-ghsa.md)), basic-ftp listing-parser ReDoS (102990), devalue async-rejection leak (x5rw).
