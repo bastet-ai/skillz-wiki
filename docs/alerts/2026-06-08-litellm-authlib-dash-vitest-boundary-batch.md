@@ -104,6 +104,16 @@ For guardrails, submit only Python that writes a fixed marker in the disposable 
 
 Name **test-only code validation to production guardrail execution**, **failed LiteLLM auth to authenticated MCP session**, **connection-test parameter to local canary file**, or **skill archive member to outside-stage write**. A marker-only file or tool response is sufficient; do not turn proof into secret collection or persistence.
 
+## October 27 follow-up: the empty-signatures fail-open sibling in the same library family ([GHSA-6v38-4h7w-rj9h](https://github.com/advisories/GHSA-6v38-4h7w-rj9h) / CVE-2026-96760, critical, Authlib < 1.9.0)
+
+`JsonWebSignature.deserialize_json()` initializes `is_valid = True` and only ever flips it to `False` **inside** the loop over `obj["signatures"]`. A JSON Serialization JWS with `"signatures": []` iterates zero times, the flag survives, and the payload returns as "verified" with no key consulted at all. Duplicate marker GHSA-6m87-8wg6-hh8w.
+
+Operator rules this adds to the Authlib rows above:
+
+1. **Empty-collection fail-open is a first-class probe shape.** Anywhere a validator loops over a collection of proofs (signatures, certificates, chain elements, approvals) and starts from `valid = True`, submit the **zero-element** variant before any forged one. The battery for any JWS JSON-serialization verifier: `signatures:[{}]` (malformed), `signatures:[<valid-for-wrong-key>]`, `signatures:[]`, key absent. The third leg is where libraries with a `count == 0` semantic gap die.
+2. **Cross-library same-primitive sweep.** When one library fails an empty-collection or default-flag check, re-run the identical canary against sibling implementations of the same RFC (python-jose, jose-node, Nimbus, java-jose) — parser parity across languages is this wiki's standing rule, and JSON-vs-compact serialization are two parsers to test separately (compact JWS has no signature array at all, so only the JSON form carries this defect).
+3. Validation boundary: local harness only, forged payload is a synthetic `{"role":"admin"}` marker; never point forged tokens at production verifiers.
+
 ## September 16 late-wave LiteLLM follow-up: MCP spec loader SSRF, async guardrail `call_type` mismatch, SSO session retention, user-enumeration fix gap (4 GHSAs)
 
 Four additional records (published 2026-06-21, surfaced via the updated feed 2026-09-14) extend the LiteLLM boundary set. All affect ≤ 1.82.x lines; confirm the deployment version and route before validating.
@@ -128,3 +138,13 @@ Operator value: the guard is a **flat key-blocklist applied only at the top leve
 [GHSA-3cv6-jpf6-8222](https://github.com/advisories/GHSA-3cv6-jpf6-8222) (medium, fixed across 1.88.6–1.96.2): request-body validation remained a **denylist** that (a) missed sensitive routing/credential parameters and (b) did not inspect parameters **nested inside other request fields**; and when a caller-supplied routing value was applied, the proxy did **not clear the operator's stored provider key**, so the outbound call carried provider credentials to the caller-chosen destination. Any authenticated proxy user → SSRF + operator provider-credential exfiltration.
 
 Operator value beyond the Sept 17 nesting lesson: this proves the **credential-relay leg** — a body-level destination override is not just blind SSRF, it is an *authenticated credential-delivery* primitive whenever the guard's fail-action is "apply value, keep the configured key." Audit rule for any AI gateway/proxy with authenticated users: (1) diff the denylist against every field consumed by outbound-request construction, at every nesting depth; (2) for each accepted override (or override the guard merely fails to see), verify the outbound request's credential state — does the operator key ride along? Proof shape: disposable proxy, fake provider key, owned no-content callback as the nested destination, evidence = callback hit carrying the fake key header. Never test with live provider credentials. Vendor workaround note (`allow_client_side_credentials: false`) doubles as a fingerprint: check whether the toggle exists and its default on any deployed LiteLLM-class gateway.
+
+## October 27 follow-up: one key, two jobs — salt-key cross-domain reuse turns API-key minting into admin-token minting ([GHSA-7hp6-4w63-5g45](https://github.com/advisories/GHSA-7hp6-4w63-5g45) / CVE-2026-114612, high, > 1.91.0 exploitable in default config; 1.87.0–1.90.x only with `EXPERIMENTAL_UI_LOGIN=true`)
+
+An `internal_user` requests a new API key with a crafted metadata field containing a forged admin credential as the "secret" value. The proxy encrypts it with the **same salt key** it uses to mint session tokens and returns the ciphertext; presenting that ciphertext as a bearer token makes the proxy decrypt it, trust the forged `proxy_admin` identity, and hand over full admin — including arbitrary command execution via the MCP stdio endpoint. Discovered by OPSWAT Unit 515.
+
+Operator rules this adds:
+
+1. **Credential-domain separation audit.** Anywhere one symmetric key serves both "seal secrets at rest" and "mint auth tokens," every encrypt-or-encrypt-and-return endpoint is a token-forgery oracle. Fingerprint: grep the codebase/config for one key/env var (`SALT_KEY`-class) consumed by both a secret-encryption module and a session/token module; then ask which authenticated endpoints encrypt *caller-supplied* content and echo the result.
+2. **Encrypt-anything probe.** With the lowest privileged account you hold, submit a synthetic forged-identity blob as every "secret"-shaped input (key metadata, custom values, webhook secrets) and replay the returned ciphertext in every bearer/session slot the product accepts. Success shape: an admin-scoped call succeeds with a token you never issued.
+3. **Config-gate fingerprint:** `EXPERIMENTAL_UI_LOGIN` presence/absence is remotely observable via login-flow shape; version-band the exploitability before spending time. Validation stays in a disposable proxy with fake provider keys and synthetic admin-identity markers; never mint real user keys on shared deployments.
