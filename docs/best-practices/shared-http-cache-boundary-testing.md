@@ -97,3 +97,31 @@ Two rows for the matrix above, library-level and end-to-end:
 | Entry security-zeroed after A's use; B requests the same URL with `max-stale: 86400` | Stale-serving refused for security-zeroed entries | B receives the zeroed entry's residual headers (synthetic fake `Set-Cookie`) |
 
 Same rule as the whitespace family: **the policy state (excluded by `Vary`, zeroed for security) must be re-derived from the canonical representation at every hit path — exact string equality and freshness-only checks are both bypassable by header shapes the caller controls.** Fix versions: >4.2.0 per advisories; replay the battery on both affected and corrected releases.
+
+## October 27 follow-up: interceptor composition order breaks cache-key origin binding (undici, GHSA-4w7w-5xrc-9h26 / CVE-2026-109829, high, 7.x < 7.30.1, 8.x < 8.12.2)
+
+When an originless `Agent` composes interceptors as `compose(redirect(), cache())` with a shared store (`type: 'shared'`, `MemoryCacheStore` or `SqliteCacheStore`), the cache interceptor builds its key from the **original** request URL before the redirect handler changes the origin. The post-redirect response is then stored under the pre-redirect key even when the redirect **crossed origins**. Two impacts from one key confusion:
+
+- **Persistent cross-origin cache poisoning:** a target URL that redirects to an attacker-influenced location lets the attacker's body be cached under the trusted URL; later callers get the attacker body with neither origin contacted.
+- **Private-data disclosure:** an authenticated request whose `private, no-store` redirect lands on a user-specific resource stores the final response under the original URL — a later **unauthenticated** caller receives it.
+
+The fix verifies the producing origin still matches the cache key before storing, and preserves each redirect hop's cache-control policy. Origin-bound `Client`/`Pool` dispatchers and the reverse composition `compose(cache(), redirect())` are not affected — that asymmetry is the fingerprint and the control set.
+
+### Redirect-binding probe (extends the two-caller proof)
+
+Preconditions to confirm in the target first: originless `Agent` + shared store + `compose(redirect(), cache())`. Grep the composition order — it is load-bearing.
+
+| Case | Upstream behavior | Correct expectation |
+| --- | --- | --- |
+| Same-origin redirect | `/a` → `/a-final`, same origin | Cacheable per directives |
+| Cross-origin redirect | `/a` → owned attacker origin, response `public, max-age=300` | Must NOT store under `/a` key |
+| Private redirect chain | authenticated `/a` → `private, no-store` hop → user-specific final | Must NOT store; per-hop policy honored |
+| Reverse composition control | `compose(cache(), redirect())` | Key derived post-redirect |
+
+Record for each case: cache key at store time, producing origin at store time, per-hop `Cache-Control` seen by the store, and the A→B two-caller hit result with random canaries. The reportable positive is **cross-origin (or no-store-hop) redirect response stored under the pre-redirect key → second caller receives it with zero upstream requests** — same end-to-end bar as the whole page.
+
+### Durable axes
+
+1. **Middleware/interceptor order is a security property.** Any two layers where one mutates the routing identity (origin, host, path) and the other derives a key, ACL, or policy from it must be tested in both compositions. Same order-sensitivity rule as this wiki's Backstage `order=asc:secrets` oracle and guard-vs-transform legs: ask *which layer runs before the identity changes*, on every interceptor stack.
+2. **Validate the binding at write time, not request time.** Cache-key-vs-producer, ACL-vs-resource, signature-vs-payload: a mismatch that is only checkable at store/commit time must actually be checked there. The redirect case proves the check was never added at the store path.
+3. **Per-hop policy propagation:** when policy directives (`no-store`, `private`) arrive on an intermediate hop, verify the storage decision consults every hop, not just the final response.
