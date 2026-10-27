@@ -102,3 +102,14 @@ The Contrast leg above fixed the report→machine binding gap. The CCC Attestati
 ---
 
 *Source: hourly offensive-security scan, 2026-09-17 (Sept 16 21:32Z unreviewed wave). Tracked in the [source index](../notes/source-index.md).*
+
+## October 27 follow-up: dcap-qvl — QE Identity collateral signature never verified — the signer *of the signers* is the unverified link ([CVE-2026-22696 / GHSA-796p-j2gh-9m2q](https://github.com/advisories/GHSA-796p-j2gh-9m2q), critical, dcap-qvl < 0.3.9, Phala `@phala/dcap-qvl*`)
+
+The DCAP quote-verification library fetches QE Identity collateral (`qe_identity`, `qe_identity_signature`, `qe_identity_issuer_chain`) from the PCCS and **skips verifying the signature against the chain**, and never enforces MRSIGNER/ISVPRODID/ISVSVN policy on the QE Report. An attacker who can serve PCCS-collateral-shaped data (MITM, poisoned cache, malicious PCCS config) forges the QE Identity to whitelist a malicious/non-Intel Quoting Enclave, then that rogue QE signs arbitrary TEE quotes the verifier accepts as genuine — the whole remote-attestation model collapses because the *root that signs quotes* was never bound to a verified identity. Fourth instance on this page of verified-≠-bound, and the one that sits lowest in the chain.
+
+Operator rules for DCAP/attestation-stack audits (extends the four-question audit from the Oct 1/Oct 19 legs):
+
+- **Trace the full collateral chain, then ask which hops actually verify.** A quote verifier validates the quote against the collateral; the collateral itself is a chain (PCCS → issuer chain → QE identity → QE signing key). Test each hop independently against a reference verifier: (1) swap `qe_identity_signature` for garbage — does verification still pass? (2) re-root the issuer chain — does it still pass? (3) flip MRSIGNER/ISVPRODID fields in the QE Report — does policy reject them? A verifier that passes legs 1–3 has CVE-2026-22696's shape regardless of product name.
+- **Cross-language parity inside one library:** the same advisory shipped Rust, Python, and npm packages with *different* fixed bands (`@phala/dcap-qvl-web`/`-node` never got a fix — remediation is "switch to the pure-JS implementation"). When auditing a shared-security-primitive library, enumerate every published binding/package and diff their verification code paths; the weakest binding is the deployment target.
+- **The fix diff is the audit checklist:** the 0.3.9 patch (signature verification + MRSIGNER/ISVPRODID/ISVSVN enforcement) is literally the missing-checks list for any SGX/TDX verifier you encounter — compare vendor verifier code against that two-item inventory.
+- Proof boundary: lab PCCS mock serving deliberately mis-signed collateral against a local verifier instance; never forge attestation against relying third-party services.
