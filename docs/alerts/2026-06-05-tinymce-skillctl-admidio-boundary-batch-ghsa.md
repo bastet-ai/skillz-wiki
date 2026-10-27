@@ -67,3 +67,13 @@ This is a sensitive export action. Use a lab administrator and a throwaway SSO k
 - skillctl advisory/source: <https://github.com/umanio-agency/skillctl/security/advisories/GHSA-wx3m-whqv-xv47> and <https://github.com/umanio-agency/skillctl>
 - GitHub Advisory Database: [GHSA-4rgq-38mh-9xqg / CVE-2026-47232](https://github.com/advisories/GHSA-4rgq-38mh-9xqg)
 - Admidio advisory/source: <https://github.com/Admidio/admidio/security/advisories/GHSA-4rgq-38mh-9xqg> and <https://github.com/Admidio/admidio>
+
+## October 27 21:07Z follow-up: TinyMCE media plugin — `data-mce-object` serialization creates/executes elements *before* sanitization (CVE-2026-116675 / [GHSA-mf2p-h6hf-fcwm](https://github.com/advisories/GHSA-mf2p-h6hf-fcwm), high, fixed 8.9.3 / 7.9.4)
+
+Stored XSS in the media plugin: content crafted through the `data-mce-object` attribute is turned into elements during serialization, and that element creation happens **before the sanitizer pass** — so whatever the sanitizer model covers never sees the materialized node. Same page's June 5 nested-SVG leg was "sanitizer misses nested namespace scope"; this one is "sanitizer runs after a plugin's own deserialization step." Fixed by ensuring `data-mce-object`-created content is sanitized first.
+
+Durable axes:
+
+1. **In rich-text editors, enumeration of *deserialization steps* comes before enumeration of sanitizers.** Every attribute whose value the editor parses back into DOM (`data-mce-object`, `data-mce-x`, macro/shortcode blobs, embed placeholders, template tokens in page builders) is a second input surface that bypasses the first pass. Battery: for each surviving `data-*` attribute in saved output, submit values the plugin would reconstitute (JSON blobs, serialized element markup) with inert marker handlers and diff pre-save vs post-render DOM.
+2. **Order-of-operations bypasses beat filter bypasses for reporting.** "Sanitizer is correct; it just runs after the sink's own parser" is a clean narrative with a deterministic stored payload — same shape as the wiki's sanitizer-vs-final-parse-context lineage (May 7 DOMPurify page, Oct 9 SmarterMail MathML mXSS leg).
+3. Attribution note: credited to Fariskhi Vidyan and David Vieira Kurz — prolific rich-text XSS hunters; their advisory lineage is a seed list for sibling editor/plugin targets.
