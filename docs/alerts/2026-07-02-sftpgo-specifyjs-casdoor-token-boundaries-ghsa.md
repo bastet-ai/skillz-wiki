@@ -67,3 +67,13 @@ These are durable for operators because they expose recurring validation seams: 
 - [GHSA-qcr8-x557-7cp3](https://github.com/advisories/GHSA-qcr8-x557-7cp3) covers production console warnings leaking framework state; useful for code hygiene, but it did not add a distinct replayable operator path.
 - [GHSA-93q6-wwjh-jc6h](https://github.com/advisories/GHSA-93q6-wwjh-jc6h) is a legacy-browser CSS expression sanitizer bypass; note it during render reviews, but modern-browser exploitability is narrow.
 - [GHSA-3vcg-pv95-pq54](https://github.com/advisories/GHSA-3vcg-pv95-pq54) is included only as a render-origin boundary paired with SFTPGo shares; do not overstate it as cookie theft because the advisory notes HttpOnly and session-cookie constraints.
+
+## October 27 follow-up: ftpserverlib "mandatory TLS" enforced by a client-set flag — PROT P after PASV silently downgrades the data channel ([GHSA-j2x3-vcc8-r98q](https://github.com/advisories/GHSA-j2x3-vcc8-r98q) / CVE-2026-116844, medium, through 0.32.4)
+
+The Go FTP server library's `TransferOpen` gate checks only the `transferTLS` boolean that the client's own `PROT` command sets — it never checks whether the *prepared data connection* actually negotiated TLS. Sequence `PASV` (or `PORT`) **then** `PROT P`: the server records the flag after the data channel is prepared, and file contents plus directory listings ride the plain connection while the control channel stays encrypted and logs look compliant.
+
+Operator rules:
+
+- **Command-order battery on any dual-channel protocol (FTP, XMPP, IMAP, Postgres STARTTLS):** perform the resource-allocation command (PASV/PORT, stream open) *before* the upgrade command (PROT P, STARTTLS), then read content. "Encryption required" implemented as a boolean flag rather than a channel property is exactly this bug.
+- **Flag-set-by-the-client vs state-of-the-socket is the audit question.** For every "mandatory encryption" or "TLS required" gate, ask what object the check reads: a per-session flag a client command mutates (bypassable by ordering or by replaying the flag in the wrong window) vs the live transport handle. Same axis as this page's binding-vs-identity token checks and the Oct 27 loopback Host-header family.
+- **On-path read/write of "encrypted" transfers is the impact claim** — an active network attacker sees plaintext listings/content and can modify transfers despite mandatory-TLS config; proof in a lab server + raw-socket client ordering canary, never against production file shares.
