@@ -39,3 +39,13 @@ This batch is durable because it turns advisory details into repeatable operator
 - Include preconditions: who controls the model reference, who can trigger service restart/model load, who holds the Anyquery bearer token, and what filesystem permissions the service account has.
 - Prefer artifact-resolution evidence over broad RCE claims. For AI serving, a strong report shows the mismatch between reviewed/pinned artifacts and what actually loaded.
 - Keep canaries synthetic and redact repository names or tokens if they belong to a customer environment.
+
+## October 27 16:1xZ follow-up: the pin went the other way — request-body `mm_processor_kwargs.code_revision` selects EXECUTED processor code ([CVE-2026-114053 / GHSA-h3rc-6mm3-gc2m](https://github.com/advisories/GHSA-h3rc-6mm3-gc2m), high, vLLM 0.7.3–<0.31.0)
+
+An untrusted multimodal request sets `mm_processor_kwargs.code_revision`; when the served model's HF processor uses dynamic `auto_map` code and the operator ran `--trust-remote-code`, the request value reaches `AutoProcessor.from_pretrained` and selects **which Python revision of the same model repo gets imported**. The operator's model/data `revision` stays pinned — the pin covers the weights, not the executed code path. Module import = arbitrary code execution in the API/renderer process (PoC is an import-time filesystem write, offline, no GPU/weights needed).
+
+Operator rules extending this page's pin-decay set:
+
+1. **Per-request revision fields are per-request CODE SELECTION.** The earlier legs were startup-time pin decay; this leg puts the revision knob in the *request body*. Audit: enumerate every per-request field name containing `revision`, `version`, `variant`, `code_`, or `config_` in any multimodal/generation schema and test whether it reaches a loader (`from_pretrained`, `import_module`, `Auto*` factories) alongside `trust_remote_code`-class flags.
+2. **Fingerprint triad before testing:** (a) served model uses dynamic `auto_map` processor code (visible in the model repo's `preprocessor_config.json` `auto_map` field — readable without touching the server), (b) `--trust-remote-code` observable via startup banner/config endpoint or by the presence of custom-processor models in the served set, (c) multimodal endpoint accepts `mm_processor_kwargs`. All three remotely checkable.
+3. **Same-host, different-revision probe:** a benign second revision of an owned canary repo (a revision whose `__init__` writes a marker file) proves code selection without loading hostile code. Never import untrusted third-party repos on shared workers.
