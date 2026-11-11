@@ -28,7 +28,7 @@ Use this before publishing a new skill or major update.
 ## Maintenance
 
 - [ ] `mkdocs.yml` nav is updated when the page is first-class content
-- [ ] `docs/index.md` recent entries are updated if the addition is notable. Title-only lines: bold core title plus link, capped at 10, no summaries, fold lists, ids, or KEV status on the landing page (Dean request, 2026-10-01; write-ups live on their own pages, scan narratives in `source-index.md`)
+- [ ] `docs/index.md` recent entries are updated if the addition is notable. Title-only lines: bold core title plus link, capped at 10, no summaries, fold lists, ids, or KEV status on the landing page (Dean request, 2026-10-01; write-ups live on their own pages, scan narratives in `source-index.md`). The title states the FINDING a pentester cares about (product + boundary + impact in plain language), NOT the scanning process: no "NN:xxZ scan", no "1 new page + N folds", no feed-head/KEV/baseline tracking (Dean request, 2026-11-10).
 - [ ] `docs/feed.xml` and blog index are updated for major launches or major repositioning posts
 - [ ] `docs/notes/source-index.md` is extended if a new tool family is added
 - [ ] Alert, mitigation-heavy, incident-response, or defensive-SecOps pages are not promoted in nav unless the user explicitly wants that framing
