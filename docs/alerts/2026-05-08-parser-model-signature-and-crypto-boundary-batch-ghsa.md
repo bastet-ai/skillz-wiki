@@ -4,12 +4,12 @@
 
 ## Advisories covered
 
-- **phpseclib ASN.1 OID amplification DoS** — [GHSA-3qpq-r242-jqj7](https://github.com/advisories/GHSA-3qpq-r242-jqj7): `phpseclib/phpseclib` patched in `1.0.29`, `2.0.54`, and `3.0.52`.
-- **GoBGP IPv6 extended parser out-of-bounds read** — [GHSA-wmvj-f67g-qg4g](https://github.com/advisories/GHSA-wmvj-f67g-qg4g): `github.com/osrg/gobgp/v4 < 4.4.0`; patch to `4.4.0+`.
-- **bitcoinj P2PKH/P2WPKH fast-path verification bypass** — [GHSA-hfcf-v2f8-x9pc](https://github.com/advisories/GHSA-hfcf-v2f8-x9pc): `org.bitcoinj:bitcoinj-core >= 0.15, < 0.17.1`; patch to `0.17.1+`.
-- **gitsign empty-certificate PKCS7 panic exits 0 for exit-code callers** — [GHSA-7c37-gx6w-8vc5](https://github.com/advisories/GHSA-7c37-gx6w-8vc5): `github.com/sigstore/gitsign >= 0.4.0, < 0.15.0`; patch to `0.15.0+`.
-- **jOpenDocument XXE/entity blowup** — [GHSA-j9rh-p96m-mhhp](https://github.com/advisories/GHSA-j9rh-p96m-mhhp): jOpenDocument XML parsing is unsafe for untrusted documents; no patched version was listed in GitHub metadata.
-- **Ollama GGUF model loader heap out-of-bounds read** — [GHSA-x8qc-fggm-mpqg](https://github.com/advisories/GHSA-x8qc-fggm-mpqg): `github.com/ollama/ollama < 0.17.1`; patch to `0.17.1+`.
+- **phpseclib ASN.1 OID amplification DoS**, [GHSA-3qpq-r242-jqj7](https://github.com/advisories/GHSA-3qpq-r242-jqj7): `phpseclib/phpseclib` patched in `1.0.29`, `2.0.54`, and `3.0.52`.
+- **GoBGP IPv6 extended parser out-of-bounds read**, [GHSA-wmvj-f67g-qg4g](https://github.com/advisories/GHSA-wmvj-f67g-qg4g): `github.com/osrg/gobgp/v4 < 4.4.0`; patch to `4.4.0+`.
+- **bitcoinj P2PKH/P2WPKH fast-path verification bypass**, [GHSA-hfcf-v2f8-x9pc](https://github.com/advisories/GHSA-hfcf-v2f8-x9pc): `org.bitcoinj:bitcoinj-core >= 0.15, < 0.17.1`; patch to `0.17.1+`.
+- **gitsign empty-certificate PKCS7 panic exits 0 for exit-code callers**, [GHSA-7c37-gx6w-8vc5](https://github.com/advisories/GHSA-7c37-gx6w-8vc5): `github.com/sigstore/gitsign >= 0.4.0, < 0.15.0`; patch to `0.15.0+`.
+- **jOpenDocument XXE/entity blowup**, [GHSA-j9rh-p96m-mhhp](https://github.com/advisories/GHSA-j9rh-p96m-mhhp): jOpenDocument XML parsing is unsafe for untrusted documents; no patched version was listed in GitHub metadata.
+- **Ollama GGUF model loader heap out-of-bounds read**, [GHSA-x8qc-fggm-mpqg](https://github.com/advisories/GHSA-x8qc-fggm-mpqg): `github.com/ollama/ollama < 0.17.1`; patch to `0.17.1+`.
 
 ## Why this is durable
 

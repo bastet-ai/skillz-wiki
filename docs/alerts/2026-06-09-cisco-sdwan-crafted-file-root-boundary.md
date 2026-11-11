@@ -6,10 +6,10 @@ This page is durable because it captures a reusable appliance-validation pattern
 
 ## What changed
 
-- **Cisco Catalyst SD-WAN root escalation is in KEV** — CISA added CVE-2026-20245 for Cisco Catalyst SD-WAN Controller, Manager, and Validator. Cisco describes an authenticated local command-injection path in the CLI where a crafted file supplied to the affected system can execute commands as root.
-- **Required access is high-value but realistic in chained tests** — Cisco states exploitation requires `netadmin` privileges, valid credentials, or prior exploitation of CVE-2026-20182 or CVE-2026-20127. This makes it a post-auth appliance boundary, not an internet spray target.
-- **Operational impact reaches managed edges** — Cisco observed limited cases where exploitation resulted in configuration changes pushed to edge devices. For authorized tests, that makes the safe validation boundary the management-plane file/CLI path and a controlled canary configuration, not broad device changes.
-- **Root cause class** — the issue is insufficient validation of user-supplied input before CLI handling; CISA maps it to CWE-116, improper encoding or escaping of output.
+- **Cisco Catalyst SD-WAN root escalation is in KEV**, CISA added CVE-2026-20245 for Cisco Catalyst SD-WAN Controller, Manager, and Validator. Cisco describes an authenticated local command-injection path in the CLI where a crafted file supplied to the affected system can execute commands as root.
+- **Required access is high-value but realistic in chained tests**, Cisco states exploitation requires `netadmin` privileges, valid credentials, or prior exploitation of CVE-2026-20182 or CVE-2026-20127. This makes it a post-auth appliance boundary, not an internet spray target.
+- **Operational impact reaches managed edges**, Cisco observed limited cases where exploitation resulted in configuration changes pushed to edge devices. For authorized tests, that makes the safe validation boundary the management-plane file/CLI path and a controlled canary configuration, not broad device changes.
+- **Root cause class**, the issue is insufficient validation of user-supplied input before CLI handling; CISA maps it to CWE-116, improper encoding or escaping of output.
 
 ## Operator triage
 

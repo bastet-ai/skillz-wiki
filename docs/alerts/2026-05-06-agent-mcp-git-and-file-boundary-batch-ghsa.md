@@ -4,13 +4,13 @@
 
 ## Advisories covered
 
-- **OpenClaw shared reply MEDIA local-file exfiltration** — [GHSA-qqq7-4hxc-x63c](https://github.com/advisories/GHSA-qqq7-4hxc-x63c): cross-channel shared reply media paths could be treated as trusted local paths. Fixed in 2026.4.8.
-- **GitPython reference API path traversal** — [GHSA-7545-fcxq-7j24](https://github.com/advisories/GHSA-7545-fcxq-7j24): reference APIs could write/delete outside the repository. Fixed in 3.1.48.
-- **NLTK path traversal** — [GHSA-68j8-pq59-fqgm](https://github.com/advisories/GHSA-68j8-pq59-fqgm): data/resource handling could traverse paths in affected versions.
-- **notes-mcp path traversal** — [GHSA-vc5j-42hh-j3mr](https://github.com/advisories/GHSA-vc5j-42hh-j3mr): note paths could escape intended roots.
-- **sqlite-mcp injection** — [GHSA-4j28-22qp-rjcf](https://github.com/advisories/GHSA-4j28-22qp-rjcf): SQL/tool input handling could inject into SQLite operations.
-- **HyperChat SSRF** — [GHSA-r2jq-4h3x-rfj6](https://github.com/advisories/GHSA-r2jq-4h3x-rfj6): URL-fetching chat functionality could reach server-side targets.
-- **OpenStack Ironic untrusted control-sphere inclusion** — [GHSA-wqpv-c3pp-3m58](https://github.com/advisories/GHSA-wqpv-c3pp-3m58): control-plane inputs could include functionality from an untrusted sphere.
+- **OpenClaw shared reply MEDIA local-file exfiltration**, [GHSA-qqq7-4hxc-x63c](https://github.com/advisories/GHSA-qqq7-4hxc-x63c): cross-channel shared reply media paths could be treated as trusted local paths. Fixed in 2026.4.8.
+- **GitPython reference API path traversal**, [GHSA-7545-fcxq-7j24](https://github.com/advisories/GHSA-7545-fcxq-7j24): reference APIs could write/delete outside the repository. Fixed in 3.1.48.
+- **NLTK path traversal**, [GHSA-68j8-pq59-fqgm](https://github.com/advisories/GHSA-68j8-pq59-fqgm): data/resource handling could traverse paths in affected versions.
+- **notes-mcp path traversal**, [GHSA-vc5j-42hh-j3mr](https://github.com/advisories/GHSA-vc5j-42hh-j3mr): note paths could escape intended roots.
+- **sqlite-mcp injection**, [GHSA-4j28-22qp-rjcf](https://github.com/advisories/GHSA-4j28-22qp-rjcf): SQL/tool input handling could inject into SQLite operations.
+- **HyperChat SSRF**, [GHSA-r2jq-4h3x-rfj6](https://github.com/advisories/GHSA-r2jq-4h3x-rfj6): URL-fetching chat functionality could reach server-side targets.
+- **OpenStack Ironic untrusted control-sphere inclusion**, [GHSA-wqpv-c3pp-3m58](https://github.com/advisories/GHSA-wqpv-c3pp-3m58): control-plane inputs could include functionality from an untrusted sphere.
 
 ## Why this is durable
 

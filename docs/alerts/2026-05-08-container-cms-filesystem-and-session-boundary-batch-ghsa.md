@@ -4,11 +4,11 @@
 
 ## Advisory cluster
 
-- **Kata Containers CopyFile symlink policy subversion** — [GHSA-q49m-57vm-c8cc](https://github.com/advisories/GHSA-q49m-57vm-c8cc): `github.com/kata-containers/kata-containers` builds before `1b9e49eb2763` could let symlinks undermine file-copy policy.
-- **Admidio SSRF incomplete fix** — [GHSA-hcjj-chvw-fmw9](https://github.com/advisories/GHSA-hcjj-chvw-fmw9): `admidio/admidio <= 5.0.8` still had a bypass for the CVE-2026-32812 SSRF control.
-- **CI4MS session and destructive admin paths** — [GHSA-5hfv-c864-qcq9](https://github.com/advisories/GHSA-5hfv-c864-qcq9), [GHSA-vgrf-pr28-vf98](https://github.com/advisories/GHSA-vgrf-pr28-vf98), [GHSA-xv3r-vr59-95rg](https://github.com/advisories/GHSA-xv3r-vr59-95rg), [GHSA-xp9f-pvvc-57p4](https://github.com/advisories/GHSA-xp9f-pvvc-57p4): `ci4-cms-erp/ci4ms` had deactivated-user session bypass, arbitrary table drop, and two Zip Slip-to-RCE paths. Patch to the fixed train (`0.31.5.0+` for Zip Slip; newer fixed releases where available for the admin/session issues).
-- **OpenClaw symlink traversal and browser-tab SSRF bypasses** — [GHSA-35mw-5vvr-vrxc](https://github.com/advisories/GHSA-35mw-5vvr-vrxc), [GHSA-rj2p-j66c-mgqh](https://github.com/advisories/GHSA-rj2p-j66c-mgqh): patch OpenClaw to `2026.4.5+` for symlink containment and `2026.4.10+` for browser tab `select`/`close` SSRF policy enforcement.
-- **Grav admin page-title stored XSS** — [GHSA-fmg2-f5r9-24qc](https://github.com/advisories/GHSA-fmg2-f5r9-24qc): `getgrav/grav < 1.7.49.5` could store XSS through `data[header][title]` in admin.
+- **Kata Containers CopyFile symlink policy subversion**, [GHSA-q49m-57vm-c8cc](https://github.com/advisories/GHSA-q49m-57vm-c8cc): `github.com/kata-containers/kata-containers` builds before `1b9e49eb2763` could let symlinks undermine file-copy policy.
+- **Admidio SSRF incomplete fix**, [GHSA-hcjj-chvw-fmw9](https://github.com/advisories/GHSA-hcjj-chvw-fmw9): `admidio/admidio <= 5.0.8` still had a bypass for the CVE-2026-32812 SSRF control.
+- **CI4MS session and destructive admin paths**, [GHSA-5hfv-c864-qcq9](https://github.com/advisories/GHSA-5hfv-c864-qcq9), [GHSA-vgrf-pr28-vf98](https://github.com/advisories/GHSA-vgrf-pr28-vf98), [GHSA-xv3r-vr59-95rg](https://github.com/advisories/GHSA-xv3r-vr59-95rg), [GHSA-xp9f-pvvc-57p4](https://github.com/advisories/GHSA-xp9f-pvvc-57p4): `ci4-cms-erp/ci4ms` had deactivated-user session bypass, arbitrary table drop, and two Zip Slip-to-RCE paths. Patch to the fixed train (`0.31.5.0+` for Zip Slip; newer fixed releases where available for the admin/session issues).
+- **OpenClaw symlink traversal and browser-tab SSRF bypasses**, [GHSA-35mw-5vvr-vrxc](https://github.com/advisories/GHSA-35mw-5vvr-vrxc), [GHSA-rj2p-j66c-mgqh](https://github.com/advisories/GHSA-rj2p-j66c-mgqh): patch OpenClaw to `2026.4.5+` for symlink containment and `2026.4.10+` for browser tab `select`/`close` SSRF policy enforcement.
+- **Grav admin page-title stored XSS**, [GHSA-fmg2-f5r9-24qc](https://github.com/advisories/GHSA-fmg2-f5r9-24qc): `getgrav/grav < 1.7.49.5` could store XSS through `data[header][title]` in admin.
 
 ## Why this matters
 

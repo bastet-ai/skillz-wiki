@@ -6,9 +6,9 @@ This batch is durable because it captures three reusable operator patterns: clie
 
 ## What changed
 
-- **Fides consent-banner DOM XSS** — Fides Enterprise deployments that load `fides.js` and enable HTML-formatted banner descriptions can render `fides_description` override values from a URL parameter, JavaScript global, or cookie as live HTML. The advisory notes that defaults are not affected unless HTML descriptions are enabled, but affected sites can be triggered by a crafted visitor URL and the cookie source can make the payload persist on the embedding origin.
-- **Froxlor API bypasses 2FA** — vulnerable `froxlor/froxlor < 2.3.7` enforces TOTP during web UI login, but `FroxlorRPC::validateAuth` accepts API key/secret authentication without checking the account's 2FA state. If an API key and secret are exposed for a 2FA-protected admin or customer account, the API becomes a second-factor bypass path.
-- **OpenStack Ironic Python Agent untrusted image execution** — `ironic-python-agent >= 1.0.0, <= 11.5.0` can execute `grub-install` from inside a deployed partition image chroot. In bare-metal provisioning workflows, a malicious tenant-controlled image can therefore influence code execution inside the provisioning boundary.
+- **Fides consent-banner DOM XSS**, Fides Enterprise deployments that load `fides.js` and enable HTML-formatted banner descriptions can render `fides_description` override values from a URL parameter, JavaScript global, or cookie as live HTML. The advisory notes that defaults are not affected unless HTML descriptions are enabled, but affected sites can be triggered by a crafted visitor URL and the cookie source can make the payload persist on the embedding origin.
+- **Froxlor API bypasses 2FA**, vulnerable `froxlor/froxlor < 2.3.7` enforces TOTP during web UI login, but `FroxlorRPC::validateAuth` accepts API key/secret authentication without checking the account's 2FA state. If an API key and secret are exposed for a 2FA-protected admin or customer account, the API becomes a second-factor bypass path.
+- **OpenStack Ironic Python Agent untrusted image execution**, `ironic-python-agent >= 1.0.0, <= 11.5.0` can execute `grub-install` from inside a deployed partition image chroot. In bare-metal provisioning workflows, a malicious tenant-controlled image can therefore influence code execution inside the provisioning boundary.
 
 ## Operator triage
 

@@ -1,4 +1,4 @@
-# 2026-03-27 — OpenClaw BlueBubbles group reactions bypass `requireMention` (GHSA-mw7w-g3mg-xqm7)
+# 2026-03-27, OpenClaw BlueBubbles group reactions bypass `requireMention` (GHSA-mw7w-g3mg-xqm7)
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

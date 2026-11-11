@@ -1,11 +1,11 @@
-# File-write and install-path escape batch — operator validation
+# File-write and install-path escape batch, operator validation
 
 **Date reviewed:** 2026-08-27  
 **Advisories:**
-- [GHSA-f63g-88cj-hjf9](https://github.com/advisories/GHSA-f63g-88cj-hjf9) / CVE-2026-54550 — IzPack unpacker path traversal (high)
-- [GHSA-gmxc-r82q-347r](https://github.com/advisories/GHSA-gmxc-r82q-347r) / CVE-2026-54732 — `libreoffice-convert` filename path traversal / arbitrary file write (medium)
-- [GHSA-q7m3-rhxg-7vxr](https://github.com/advisories/GHSA-q7m3-rhxg-7vxr) / CVE-2026-54687 — `n8n-nodes-sqlite3` `db_path` path traversal (medium)
-- [GHSA-mf7q-r4rv-jv94](https://github.com/advisories/GHSA-mf7q-r4rv-jv94) — Crossplane cosign verify-then-fetch TOCTOU (high)
+- [GHSA-f63g-88cj-hjf9](https://github.com/advisories/GHSA-f63g-88cj-hjf9) / CVE-2026-54550, IzPack unpacker path traversal (high)
+- [GHSA-gmxc-r82q-347r](https://github.com/advisories/GHSA-gmxc-r82q-347r) / CVE-2026-54732, `libreoffice-convert` filename path traversal / arbitrary file write (medium)
+- [GHSA-q7m3-rhxg-7vxr](https://github.com/advisories/GHSA-q7m3-rhxg-7vxr) / CVE-2026-54687, `n8n-nodes-sqlite3` `db_path` path traversal (medium)
+- [GHSA-mf7q-r4rv-jv94](https://github.com/advisories/GHSA-mf7q-r4rv-jv94), Crossplane cosign verify-then-fetch TOCTOU (high)
 
 **Boundary class:** caller-supplied filenames / paths / references that are joined to a working directory or resolved twice, escaping an install root, a temp dir, or a signature boundary.
 
@@ -28,18 +28,18 @@ time for fetch, so "verified" and "fetched" can refer to different content.
 The operator value is the **containment-check review pattern** applied to any
 "filename joins a directory" or "name resolves to an artifact" transition:
 
-1. **Filename + directory join** — does the code reduce the filename to a base
+1. **Filename + directory join**, does the code reduce the filename to a base
    name (`path.basename` / `filepath.Base`) before `join`? If not, `../` in the
    name escapes the directory.
-2. **Pack/entry `targetPath`** — installer and archive formats that carry a
+2. **Pack/entry `targetPath`**, installer and archive formats that carry a
    per-entry destination path are a classic escape vector when the entry path
    is attacker-controlled (trojanized media) and there is no
    canonicalization/containment check.
-3. **Parameter that names a file** — a node/plugin parameter like `db_path`
+3. **Parameter that names a file**, a node/plugin parameter like `db_path`
    that a *trusted author* can wire to *untrusted input* converts a
    configuration choice into an arbitrary-file primitive in multi-tenant
    deployments.
-4. **Verify-then-fetch by name** — if a registry reference (tag) is resolved
+4. **Verify-then-fetch by name**, if a registry reference (tag) is resolved
    independently for signature verification and for pull, a tag can point at a
    signed image during verify and an unsigned one during fetch. The
    "verified" claim is not bound to the fetched artifact.
@@ -60,8 +60,8 @@ The operator value is the **containment-check review pattern** applied to any
 
 ## Validation workflow (authorized lab / customer-approved)
 
-All four proofs stop at the **destination differential** — "the target left the
-intended root / the fetched artifact ≠ the verified artifact" — and do not
+All four proofs stop at the **destination differential**, "the target left the
+intended root / the fetched artifact ≠ the verified artifact", and do not
 complete a write to a real protected path, a SQLite overwrite of a real DB, or
 an unsigned install on a cluster.
 

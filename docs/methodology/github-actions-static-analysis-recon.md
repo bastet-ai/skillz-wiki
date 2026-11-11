@@ -1,6 +1,6 @@
 # GitHub Actions static-analysis recon
 
-Source: [Trail of Bits — We hardened zizmor's GitHub Actions static analyzer](https://blog.trailofbits.com/2026/05/22/we-hardened-zizmors-github-actions-static-analyzer/), published 2026-05-22.
+Source: [Trail of Bits, We hardened zizmor's GitHub Actions static analyzer](https://blog.trailofbits.com/2026/05/22/we-hardened-zizmors-github-actions-static-analyzer/), published 2026-05-22.
 
 GitHub Actions workflows are high-value recon artifacts: they expose trust boundaries, secret paths, deploy identities, and places where untrusted pull-request or issue input can cross into privileged execution. The durable operator lesson from Trail of Bits' zizmor work is the corpus method: collect real workflow files, run a CI-aware static analyzer, triage parser/evaluator gaps, then manually validate only the findings that connect untrusted input to sensitive sinks.
 
@@ -91,4 +91,4 @@ Include:
 
 ## Durable lesson
 
-Static CI analysis is strongest when it starts from a corpus rather than a single interesting file. Analyzer warnings identify known risky patterns; analyzer crashes and parser gaps identify places where manual review matters. The highest-value bug-hunting output is not "this workflow is ugly" — it is a narrow chain from untrusted input to privileged CI execution or deploy identity, with evidence that stays inside the authorized boundary.
+Static CI analysis is strongest when it starts from a corpus rather than a single interesting file. Analyzer warnings identify known risky patterns; analyzer crashes and parser gaps identify places where manual review matters. The highest-value bug-hunting output is not "this workflow is ugly", it is a narrow chain from untrusted input to privileged CI execution or deploy identity, with evidence that stays inside the authorized boundary.

@@ -6,10 +6,10 @@ These phpMyFAQ issues are useful beyond one product because they expose two comm
 
 ## Advisory signals
 
-- **Unauthenticated password reset without token** — phpMyFAQ `< 4.1.3` exposes `PUT /api/user/password/update` with only `username` and `email` in the JSON body. When the pair is valid, the server changes the account password and emails the new plaintext password without requiring a time-limited reset token, prior confirmation, or rate limiting.
-- **Username/email enumeration oracle** — mismatched input can distinguish “user does not exist” from “email does not exist,” giving testers a low-noise way to confirm candidate accounts before attempting an authorized reset workflow.
-- **Admin password-overwrite IDOR** — `PUT /admin/api/user/overwrite-password` checks for `USER_EDIT` and CSRF but trusts request-body `userId`. A lower-privileged admin can target SuperAdmin `userId=1` or another administrator if role/ownership checks are absent.
-- **Shared boundary** — both flaws turn identity metadata or object IDs into authorization decisions. The replayable lesson is to test every password-change path for a binding between requester, reset token or CSRF token, target account, privilege tier, and intended action.
+- **Unauthenticated password reset without token**, phpMyFAQ `< 4.1.3` exposes `PUT /api/user/password/update` with only `username` and `email` in the JSON body. When the pair is valid, the server changes the account password and emails the new plaintext password without requiring a time-limited reset token, prior confirmation, or rate limiting.
+- **Username/email enumeration oracle**, mismatched input can distinguish “user does not exist” from “email does not exist,” giving testers a low-noise way to confirm candidate accounts before attempting an authorized reset workflow.
+- **Admin password-overwrite IDOR**, `PUT /admin/api/user/overwrite-password` checks for `USER_EDIT` and CSRF but trusts request-body `userId`. A lower-privileged admin can target SuperAdmin `userId=1` or another administrator if role/ownership checks are absent.
+- **Shared boundary**, both flaws turn identity metadata or object IDs into authorization decisions. The replayable lesson is to test every password-change path for a binding between requester, reset token or CSRF token, target account, privilege tier, and intended action.
 
 ## Operator triage
 

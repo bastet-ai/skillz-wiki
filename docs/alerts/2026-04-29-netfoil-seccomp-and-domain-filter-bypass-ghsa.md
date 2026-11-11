@@ -1,4 +1,4 @@
-# netfoil seccomp flag not applied and domain allowlist bypass (GHSA-vjgj-42f6-7997 / GHSA-84g5-x8j3-7235)
+# netfoil seccomp flag not applied and domain allowlist bypass
 
 **Signal:** GitHub Security Advisories published **2026-04-29**. netfoil fixed a defense-in-depth sandboxing failure and an off-by-one domain-filter bypass.
 

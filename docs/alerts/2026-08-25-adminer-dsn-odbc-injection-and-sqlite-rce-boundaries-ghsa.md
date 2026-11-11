@@ -52,7 +52,7 @@ The drop action for a SQLite database trusts the `db[]` path. Supply a relative 
 Three compounding weaknesses make the CSRF control effectively forgeable:
 
 - The token is sent as `rand XOR secret : rand`; observing one token (sniff, log, `Referrer`, XSS) lets an attacker XOR once to recover the secret and mint unlimited valid tokens.
-- `rand(1, 1e6)` is ~20 bits — brute-forable blind.
+- `rand(1, 1e6)` is ~20 bits, brute-forable blind.
 - Verification uses loose `==`, enabling PHP type juggling.
 
 Check each edge in a lab: capture a single token, recover the secret, and forge; test `==` with a juggling candidate. Report the token-design flaw and the weak compare; do not forge a real admin action against a live deployment.
@@ -85,10 +85,10 @@ No separate items in this Adminer wave exceed the boundaries above; all six are 
 
 ## October 12 follow-up: UTF-8 BOM prefix defeats the ATTACH/VACUUM INTO blocklist → authenticated SQLite RCE ([GHSA-q48c-r4q8-5c57](https://github.com/advisories/GHSA-q48c-r4q8-5c57)/CVE-2026-109347, high, Adminer < 6.1.1)
 
-The August page's `VACUUM INTO`-vs-`ATTACH` sibling-gap now has its mirror: Adminer blocks those statements by **statement-prefix matching**, and a leading **UTF-8 byte-order mark (EF BB BF)** slips past the matcher while SQLite still parses and executes `ATTACH`/`VACUUM INTO`. Authenticated SQLite users attach a database file at a PHP-served path and create a table whose *name* is PHP code — executed as the web-server user.
+The August page's `VACUUM INTO`-vs-`ATTACH` sibling-gap now has its mirror: Adminer blocks those statements by **statement-prefix matching**, and a leading **UTF-8 byte-order mark (EF BB BF)** slips past the matcher while SQLite still parses and executes `ATTACH`/`VACUUM INTO`. Authenticated SQLite users attach a database file at a PHP-served path and create a table whose *name* is PHP code, executed as the web-server user.
 
 Sharpened rules for this page's standing axis:
 
 - **Blocklists that match the first token of a statement have an invisible-character shadow grammar**: BOM, leading whitespace forms, comments (`/*x*/ATTACH`), and encoding-prefix variants all deserve a spot in the differential battery. Test byte-level prefixes (raw `\xEF\xBB\xBF`, UTF-16 BOM, NBSP) before concluding a statement-class block is airtight.
-- The sink shifted from "write a file to a path" to "write a file whose *name* is code at a PHP-served path" — in DB admin panels, object *names* (table, index, function) are file paths or markup on some engines; enumerate naming sinks, not just COPY/OUT/INTO verbs.
+- The sink shifted from "write a file to a path" to "write a file whose *name* is code at a PHP-served path", in DB admin panels, object *names* (table, index, function) are file paths or markup on some engines; enumerate naming sinks, not just COPY/OUT/INTO verbs.
 - Proof stays lab-bounded per this page's safety section: disposable Adminer + scratch web root + a table named with a harmless `phpinfo()`-free marker statement; never write runnable files to live hosts.

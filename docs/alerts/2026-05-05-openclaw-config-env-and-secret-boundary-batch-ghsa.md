@@ -6,9 +6,9 @@ This batch is durable because it reinforces a high-value operator lesson: AI/run
 
 ## Advisories covered
 
-- **OpenClaw gateway config mutation guard** — [GHSA-cwj3-vqpp-pmxr](https://github.com/advisories/GHSA-cwj3-vqpp-pmxr): unsafe model-driven config writes were possible through insufficient mutation guarding.
-- **OpenClaw env-key resolution** — [GHSA-r39h-4c2p-3jxp](https://github.com/advisories/GHSA-r39h-4c2p-3jxp): attacker-controlled `setup-api.js` loaded from current working directory could lead to arbitrary code execution during environment-key resolution.
-- **OpenClaw Webhooks SecretRef rotation** — [GHSA-q8ff-7ffm-m3r9](https://github.com/advisories/GHSA-q8ff-7ffm-m3r9): route secrets remained valid after rotation/reload.
+- **OpenClaw gateway config mutation guard**, [GHSA-cwj3-vqpp-pmxr](https://github.com/advisories/GHSA-cwj3-vqpp-pmxr): unsafe model-driven config writes were possible through insufficient mutation guarding.
+- **OpenClaw env-key resolution**, [GHSA-r39h-4c2p-3jxp](https://github.com/advisories/GHSA-r39h-4c2p-3jxp): attacker-controlled `setup-api.js` loaded from current working directory could lead to arbitrary code execution during environment-key resolution.
+- **OpenClaw Webhooks SecretRef rotation**, [GHSA-q8ff-7ffm-m3r9](https://github.com/advisories/GHSA-q8ff-7ffm-m3r9): route secrets remained valid after rotation/reload.
 
 ## Operator triage
 

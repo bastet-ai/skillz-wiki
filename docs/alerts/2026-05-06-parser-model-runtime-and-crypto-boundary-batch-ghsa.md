@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **Netty epoll half-closed TCP DoS** — [GHSA-rwm7-x88c-3g2p](https://github.com/advisories/GHSA-rwm7-x88c-3g2p): RST handling on half-closed connections could terminate service availability.
-- **Keras HDF5 shape-bomb DoS** — [GHSA-mgx6-5cf9-rr43](https://github.com/advisories/GHSA-mgx6-5cf9-rr43): malicious `.keras` / HDF5 model metadata could trigger petabyte-scale allocation in `KerasFileEditor`.
-- **Nerdbank.MessagePack DateTime stack exhaustion** — [GHSA-2cwq-pwfr-wcw3](https://github.com/advisories/GHSA-2cwq-pwfr-wcw3): attacker-controlled decoding could drive `stackalloc` to a process-terminating `StackOverflowException`.
-- **pyquorum timing side-channel** — [GHSA-7r92-3jgr-r65q](https://github.com/advisories/GHSA-7r92-3jgr-r65q): modular multiplication leaked timing information.
-- **MediaMTX vulnerable dependency notice** — [GHSA-2ccx-cjjh-r2j8](https://github.com/advisories/GHSA-2ccx-cjjh-r2j8): dependency exposure still needs inventory and upgrade workflow, even when severity is low.
+- **Netty epoll half-closed TCP DoS**, [GHSA-rwm7-x88c-3g2p](https://github.com/advisories/GHSA-rwm7-x88c-3g2p): RST handling on half-closed connections could terminate service availability.
+- **Keras HDF5 shape-bomb DoS**, [GHSA-mgx6-5cf9-rr43](https://github.com/advisories/GHSA-mgx6-5cf9-rr43): malicious `.keras` / HDF5 model metadata could trigger petabyte-scale allocation in `KerasFileEditor`.
+- **Nerdbank.MessagePack DateTime stack exhaustion**, [GHSA-2cwq-pwfr-wcw3](https://github.com/advisories/GHSA-2cwq-pwfr-wcw3): attacker-controlled decoding could drive `stackalloc` to a process-terminating `StackOverflowException`.
+- **pyquorum timing side-channel**, [GHSA-7r92-3jgr-r65q](https://github.com/advisories/GHSA-7r92-3jgr-r65q): modular multiplication leaked timing information.
+- **MediaMTX vulnerable dependency notice**, [GHSA-2ccx-cjjh-r2j8](https://github.com/advisories/GHSA-2ccx-cjjh-r2j8): dependency exposure still needs inventory and upgrade workflow, even when severity is low.
 
 Withdrawn duplicate Keras metadata in this scan was treated as duplicate advisory bookkeeping; the canonical Keras shape-bomb guidance above remains the durable item.
 

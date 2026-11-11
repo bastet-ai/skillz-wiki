@@ -1,4 +1,4 @@
-# PhpSpreadsheet IOFactory SSRF/RCE and row-index DoS batch (GHSA-q4q6-r8wh-5cgh / GHSA-84wq-86v6-x5j6 / GHSA-7c6m-4442-2x6m)
+# PhpSpreadsheet IOFactory SSRF/RCE and row-index DoS batch
 
 **Signal:** GitHub Security Advisories published **2026-04-29**. PhpSpreadsheet disclosed a high-impact file-loading issue plus two row-index denial-of-service issues.
 

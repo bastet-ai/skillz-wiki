@@ -4,8 +4,8 @@
 
 ## Advisory cluster
 
-- **fast-xml-parser XMLBuilder delimiter injection** — [GHSA-gh4j-gqv2-49f6](https://github.com/advisories/GHSA-gh4j-gqv2-49f6): `fast-xml-parser <5.7.0` did not escape `-->` in XML comments or `]]>` in CDATA sections, enabling XML injection, SOAP manipulation, or browser XSS when user data flowed into those nodes.
-- **Wish SCP path traversal** — [GHSA-xjvp-7243-rg9h](https://github.com/advisories/GHSA-xjvp-7243-rg9h): `charm.land/wish/v2 <2.0.1` and `github.com/charmbracelet/wish <=1.4.7` let malicious SCP clients use `../` path components to read, write, or create files outside the configured server root.
+- **fast-xml-parser XMLBuilder delimiter injection**, [GHSA-gh4j-gqv2-49f6](https://github.com/advisories/GHSA-gh4j-gqv2-49f6): `fast-xml-parser <5.7.0` did not escape `-->` in XML comments or `]]>` in CDATA sections, enabling XML injection, SOAP manipulation, or browser XSS when user data flowed into those nodes.
+- **Wish SCP path traversal**, [GHSA-xjvp-7243-rg9h](https://github.com/advisories/GHSA-xjvp-7243-rg9h): `charm.land/wish/v2 <2.0.1` and `github.com/charmbracelet/wish <=1.4.7` let malicious SCP clients use `../` path components to read, write, or create files outside the configured server root.
 
 ## Why this matters
 

@@ -4,10 +4,10 @@
 
 ## Advisories covered
 
-- **Free5GC UDM input validation and sensitive error disclosure** — [GHSA-585v-hcgf-jhfr](https://github.com/advisories/GHSA-585v-hcgf-jhfr): malformed input and verbose errors can expose sensitive subscriber or backend state.
-- **Free5GC PCF missing authentication middleware** — [GHSA-6rgm-gr97-x3j5](https://github.com/advisories/GHSA-6rgm-gr97-x3j5): SM policy handlers exposed subscriber SUPI data without the intended auth gate.
-- **Free5GC AMF concurrent NAS SMC validation gap during NGAP handover** — [GHSA-vrrx-58h3-prmh](https://github.com/advisories/GHSA-vrrx-58h3-prmh): handover state transitions need concurrency-safe security checks.
-- **Free5GC AMF UE security capability bypass on NGAP PathSwitchRequest** — [GHSA-77x9-rf64-92gv](https://github.com/advisories/GHSA-77x9-rf64-92gv): path-switch flows must revalidate negotiated security capabilities rather than trusting stale session state.
+- **Free5GC UDM input validation and sensitive error disclosure**, [GHSA-585v-hcgf-jhfr](https://github.com/advisories/GHSA-585v-hcgf-jhfr): malformed input and verbose errors can expose sensitive subscriber or backend state.
+- **Free5GC PCF missing authentication middleware**, [GHSA-6rgm-gr97-x3j5](https://github.com/advisories/GHSA-6rgm-gr97-x3j5): SM policy handlers exposed subscriber SUPI data without the intended auth gate.
+- **Free5GC AMF concurrent NAS SMC validation gap during NGAP handover**, [GHSA-vrrx-58h3-prmh](https://github.com/advisories/GHSA-vrrx-58h3-prmh): handover state transitions need concurrency-safe security checks.
+- **Free5GC AMF UE security capability bypass on NGAP PathSwitchRequest**, [GHSA-77x9-rf64-92gv](https://github.com/advisories/GHSA-77x9-rf64-92gv): path-switch flows must revalidate negotiated security capabilities rather than trusting stale session state.
 
 ## Why this is durable
 

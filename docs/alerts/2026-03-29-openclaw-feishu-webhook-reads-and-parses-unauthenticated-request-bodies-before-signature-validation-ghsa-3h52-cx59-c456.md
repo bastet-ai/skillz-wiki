@@ -1,4 +1,4 @@
-# 2026-03-29 — OpenClaw Feishu webhook reads and parses unauthenticated request bodies before signature validation (GHSA-3h52-cx59-c456)
+# 2026-03-29, OpenClaw Feishu webhook reads and parses unauthenticated request bodies before…
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

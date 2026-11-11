@@ -6,10 +6,10 @@ This batch is durable because it gives three reusable operator patterns: framewo
 
 ## What changed
 
-- **Nuxt page-island middleware bypass** — with `experimental.componentIslands` enabled, `.server.vue` files under `pages/` are registered as `page_*` server islands. Direct requests to `/__nuxt_island/page_<routeName>_<hash>` rendered the page component without instantiating Vue Router, so `definePageMeta({ middleware })` auth checks did not run. Patched in `nuxt@4.4.6` and `nuxt@3.21.6`.
-- **Gotenberg outbound SSRF deny-list bypass** — `IsPublicIP` unmaps IPv4-mapped IPv6 but did not block IPv6 prefixes that embed or route to internal IPv4 ranges, including `2002::/16` 6to4, `64:ff9b::/96` NAT64, `64:ff9b:1::/48` local-use NAT64, and deprecated `fec0::/10` site-local. On dual-stack or NAT64-enabled hosts, a controlled DNS AAAA record can route converter fetches toward metadata or internal addresses despite `WithDenyPrivateIPs(true)`.
-- **Gotenberg zip entry path traversal** — multipart upload filenames are normalized with Linux `filepath.Base`, which does not treat backslash as a separator. A filename such as `..\\..\\Windows\\System32\\evil.pdf` can survive into multi-output ZIP entry names, and Windows extractors may treat it as traversal.
-- **Gotenberg `downloadFrom` race** — multiple `downloadFrom` entries can concurrently write shared context maps and terminate the process. This is availability-only, so treat it as secondary evidence unless a program explicitly rewards DoS.
+- **Nuxt page-island middleware bypass**, with `experimental.componentIslands` enabled, `.server.vue` files under `pages/` are registered as `page_*` server islands. Direct requests to `/__nuxt_island/page_<routeName>_<hash>` rendered the page component without instantiating Vue Router, so `definePageMeta({ middleware })` auth checks did not run. Patched in `nuxt@4.4.6` and `nuxt@3.21.6`.
+- **Gotenberg outbound SSRF deny-list bypass**, `IsPublicIP` unmaps IPv4-mapped IPv6 but did not block IPv6 prefixes that embed or route to internal IPv4 ranges, including `2002::/16` 6to4, `64:ff9b::/96` NAT64, `64:ff9b:1::/48` local-use NAT64, and deprecated `fec0::/10` site-local. On dual-stack or NAT64-enabled hosts, a controlled DNS AAAA record can route converter fetches toward metadata or internal addresses despite `WithDenyPrivateIPs(true)`.
+- **Gotenberg zip entry path traversal**, multipart upload filenames are normalized with Linux `filepath.Base`, which does not treat backslash as a separator. A filename such as `..\\..\\Windows\\System32\\evil.pdf` can survive into multi-output ZIP entry names, and Windows extractors may treat it as traversal.
+- **Gotenberg `downloadFrom` race**, multiple `downloadFrom` entries can concurrently write shared context maps and terminate the process. This is availability-only, so treat it as secondary evidence unless a program explicitly rewards DoS.
 
 ## Operator triage
 

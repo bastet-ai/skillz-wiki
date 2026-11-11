@@ -1,6 +1,6 @@
-# Ivanti Neurons for ITSM before 2026.2: deserialization sinks and missing-authorization routes to arbitrary code execution (8 GHSAs)
+# Ivanti Neurons for ITSM before 2026.2
 
-Source: hourly offensive-security scan, 2026-09-08 late GitHub `unreviewed` advisory wave (published 2026-09-08 15:31 UTC, Ivanti Neurons for ITSM cluster). This is a new operator page because the eight advisories expose a **repeatable ITSM/CMDB appliance audit axis**: an enterprise appliance whose HTTP surface carries (a) object/graph-data deserialization endpoints reachable with different authentication strengths — three of them **unauthenticated** — and (b) management routes that execute code with no authorization check at all. Each record is a different instance of the same question: **which byte sequence crosses from HTTP into a deserializer or a code-executing handler, and what credential gates it?**
+Source: hourly offensive-security scan, 2026-09-08 late GitHub `unreviewed` advisory wave (published 2026-09-08 15:31 UTC, Ivanti Neurons for ITSM cluster). This is a new operator page because the eight advisories expose a **repeatable ITSM/CMDB appliance audit axis**: an enterprise appliance whose HTTP surface carries (a) object/graph-data deserialization endpoints reachable with different authentication strengths, three of them **unauthenticated**, and (b) management routes that execute code with no authorization check at all. Each record is a different instance of the same question: **which byte sequence crosses from HTTP into a deserializer or a code-executing handler, and what credential gates it?**
 
 Primary entries: [GHSA-rqrh-xrq8-v5c4](https://github.com/advisories/GHSA-rqrh-xrq8-v5c4), [GHSA-fgj3-259w-8mmm](https://github.com/advisories/GHSA-fgj3-259w-8mmm), [GHSA-w2vf-r8hj-2qr9](https://github.com/advisories/GHSA-w2vf-r8hj-2qr9) (deserialization, critical, unauthenticated), [GHSA-8c5w-pg5c-69g3](https://github.com/advisories/GHSA-8c5w-pg5c-69g3), [GHSA-7556-4q8c-55vc](https://github.com/advisories/GHSA-7556-4q8c-55vc) (deserialization, high, authenticated), and [GHSA-c82j-rg2r-f495](https://github.com/advisories/GHSA-c82j-rg2r-f495), [GHSA-5mqc-6wv5-fvcw](https://github.com/advisories/GHSA-5mqc-6wv5-fvcw), [GHSA-x5fg-jpx8-4322](https://github.com/advisories/GHSA-x5fg-jpx8-4322) (missing authorization, critical, authenticated), all before 2026.2.
 
@@ -11,7 +11,7 @@ Primary entries: [GHSA-rqrh-xrq8-v5c4](https://github.com/advisories/GHSA-rqrh-x
 
 Ivanti Neurons for ITSM is an ITSM/CMDB appliance: it stores configuration items, relations, incidents, and service requests, and its API layer deserializes structured objects. The wave shows two independent boundary failures on the same appliance:
 
-1. **Deserialization with inconsistent credential gating.** Five records are deserialization-of-untrusted-data; three of them require *no* authentication. The deserializer itself is the sink — whoever can reach the endpoint can attempt arbitrary object construction. The reusable value is the **per-endpoint auth matrix** (unauth / low-priv / admin) attached to each deserialization sink.
+1. **Deserialization with inconsistent credential gating.** Five records are deserialization-of-untrusted-data; three of them require *no* authentication. The deserializer itself is the sink, whoever can reach the endpoint can attempt arbitrary object construction. The reusable value is the **per-endpoint auth matrix** (unauth / low-priv / admin) attached to each deserialization sink.
 2. **Missing authorization before code execution.** Three records are missing-authorization (CWE-862) on routes that let an *authenticated* attacker execute arbitrary code. The reusable value is the **route-level authorization check**: which management endpoints execute server logic without checking whether the caller is allowed to.
 
 Together these are the standard two-axis audit for any ITSM/CMDB appliance: *what deserialization surfaces exist and what credential reaches each* + *which high-value routes skip the authorization check*.
@@ -34,7 +34,7 @@ Each advisory: "A Deserialization of Untrusted Data vulnerability in Ivanti Neur
 | --- | --- | --- |
 | HTTP object endpoint → deserializer | Serialized object bytes from the request body reach a deserializer that can resolve arbitrary classes | Identify every endpoint that deserializes structured object data; record the credential strength required to reach it (none / low-priv / admin). |
 | Unauthenticated deserialization | Three of the five deserialization sinks require no credential at all | The unauth-reachable deserializer is the top-priority sink: it is the direct unauth-RCE surface. Confirm the auth filter chain on the route (or its absence). |
-| Consistent-gate expectation | The same data type (an object/serialization) is gated differently per route | A gate that is admin-only on one route but open on another is a configuration/authorization inconsistency — report the per-route matrix, not one CVE. |
+| Consistent-gate expectation | The same data type (an object/serialization) is gated differently per route | A gate that is admin-only on one route but open on another is a configuration/authorization inconsistency, report the per-route matrix, not one CVE. |
 
 ### 2. Missing authorization on code-executing management routes (3 GHSAs)
 

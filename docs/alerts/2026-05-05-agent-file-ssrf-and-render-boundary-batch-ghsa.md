@@ -6,12 +6,12 @@ This batch is durable because it repeats a core agentic-systems pattern: generat
 
 ## Advisories covered
 
-- **PPTAgent `save_generated_slides`** — [GHSA-pxhg-7xr2-w7xg](https://github.com/advisories/GHSA-pxhg-7xr2-w7xg): arbitrary file write through generated slide save paths.
-- **PPTAgent LLM-generated Python** — [GHSA-89g2-xw5c-v95p](https://github.com/advisories/GHSA-89g2-xw5c-v95p): arbitrary code execution through `eval()` of LLM-generated code with builtins in scope.
-- **PPTAgent `markdown_table_to_image`** — [GHSA-hrcw-xc63-g29m](https://github.com/advisories/GHSA-hrcw-xc63-g29m): arbitrary file write and directory creation through image/table rendering paths.
-- **Langflow Knowledge Bases API** — [GHSA-9whx-c884-c68q](https://github.com/advisories/GHSA-9whx-c884-c68q): path traversal in knowledge-base file operations.
-- **FireFighter Raid `jira_bot`** — [GHSA-fqvv-jvhr-g5jc](https://github.com/advisories/GHSA-fqvv-jvhr-g5jc): unauthenticated SSRF that can reach cloud metadata and steal IAM credentials.
-- **`@tdurieux/anonymous_github`** — [GHSA-g485-8j3v-p6x8](https://github.com/advisories/GHSA-g485-8j3v-p6x8): XSS via unsanitized repository-content rendering in an anonymous GitHub origin.
+- **PPTAgent `save_generated_slides`**, [GHSA-pxhg-7xr2-w7xg](https://github.com/advisories/GHSA-pxhg-7xr2-w7xg): arbitrary file write through generated slide save paths.
+- **PPTAgent LLM-generated Python**, [GHSA-89g2-xw5c-v95p](https://github.com/advisories/GHSA-89g2-xw5c-v95p): arbitrary code execution through `eval()` of LLM-generated code with builtins in scope.
+- **PPTAgent `markdown_table_to_image`**, [GHSA-hrcw-xc63-g29m](https://github.com/advisories/GHSA-hrcw-xc63-g29m): arbitrary file write and directory creation through image/table rendering paths.
+- **Langflow Knowledge Bases API**, [GHSA-9whx-c884-c68q](https://github.com/advisories/GHSA-9whx-c884-c68q): path traversal in knowledge-base file operations.
+- **FireFighter Raid `jira_bot`**, [GHSA-fqvv-jvhr-g5jc](https://github.com/advisories/GHSA-fqvv-jvhr-g5jc): unauthenticated SSRF that can reach cloud metadata and steal IAM credentials.
+- **`@tdurieux/anonymous_github`**, [GHSA-g485-8j3v-p6x8](https://github.com/advisories/GHSA-g485-8j3v-p6x8): XSS via unsanitized repository-content rendering in an anonymous GitHub origin.
 
 ## Operator triage
 

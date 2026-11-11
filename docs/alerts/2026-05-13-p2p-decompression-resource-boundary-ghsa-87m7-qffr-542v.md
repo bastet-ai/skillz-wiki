@@ -22,7 +22,7 @@ No patched version was listed by GitHub at scan time; the advisory says a patch 
 
 ## Durable controls
 
-- Apply resource budgets to post-decompression size, object count, recursion depth, and final in-memory representation — not only to wire bytes.
+- Apply resource budgets to post-decompression size, object count, recursion depth, and final in-memory representation, not only to wire bytes.
 - Use `io.LimitReader` or equivalent hard ceilings around every decompressor before reading into memory.
 - Treat declared size fields as untrusted hints. Verify them against actual decompressed length and fail closed on mismatch.
 - Run antiflood and quota checks before expensive parsing whenever possible, then repeat checks after transformations that expand attacker-controlled data.

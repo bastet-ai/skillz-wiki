@@ -32,7 +32,7 @@ A lot of security-impacting bugs come from *scale* mismatches, not only dimensio
 Examples:
 
 - fixed-point: `D18`, `D27`
-- percentages: `0–1` vs `0–100` vs `0–10000` (basis points)
+- percentages: `0-1` vs `0-100` vs `0-10000` (basis points)
 - money: cents vs dollars
 
 Rule of thumb:

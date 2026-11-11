@@ -1,4 +1,4 @@
-# OpenClaw webchat local-file read and wildcard command-owner authorization issues (GHSA-mr34-9552-qr95 / GHSA-gfg9-5357-hv4c / GHSA-c28g-vh7m-fm7v)
+# OpenClaw webchat local-file read and wildcard command-owner authorization issues
 
 **Signal:** GitHub Security Advisories published **2026-04-29** and updated **2026-05-08**. OpenClaw fixed medium-severity boundary issues affecting webchat media embedding and owner-enforced channel commands.
 
@@ -35,4 +35,4 @@ References:
 - Alert on failed local media containment checks after upgrade; they may indicate prompt injection or malicious tool output attempts.
 
 ## Durable lesson
-Agent outputs cross trust boundaries too. Media helpers and command gates must re-derive authority from explicit, local policy—not from broad inbound accept rules or model-provided paths.
+Agent outputs cross trust boundaries too. Media helpers and command gates must re-derive authority from explicit, local policy,not from broad inbound accept rules or model-provided paths.

@@ -1,10 +1,10 @@
-# SunEditor Embed plugin DOM XSS via script-element recreation — operator validation
+# SunEditor Embed plugin DOM XSS via script-element recreation, operator validation
 
 **Date reviewed:** 2026-08-28
 **Advisory:** [GHSA-w93q-cq9w-58p7 / CVE-2026-54606](https://github.com/advisories/GHSA-w93q-cq9w-58p7)
 **Severity:** High
 **Affected:** `suneditor` <= 3.1.3 (patched 3.1.4)
-**Boundary class:** rich-text editor sanitize step that parses attacker-controlled embed HTML, then *re-creates and appends* `<script>` elements from parsed nodes — a DOM XSS via parser round-trip
+**Boundary class:** rich-text editor sanitize step that parses attacker-controlled embed HTML, then *re-creates and appends* `<script>` elements from parsed nodes, a DOM XSS via parser round-trip
 
 ## What is durable here
 
@@ -37,7 +37,7 @@ The durable operator question for any rich-text editor with an embed/iframe feat
 2. Determine who can write embed content:
    - **Stored:** any user who can save editor content (comments, articles, tickets, CMS pages). Highest value: content that is later opened in the editor context by a *higher-privilege* user (editor/admin preview or edit).
    - **Reflected:** a preview endpoint or draft-save flow that round-trips the payload without persisting it.
-3. Check whether the app applies a *second* server-side sanitizer on read. The advisory's impact statement hinges on content being stored or reflected "without additional backend sanitization" — if the backend strips `<script>` on save, the chain is blocked at the storage layer and the finding is lower impact.
+3. Check whether the app applies a *second* server-side sanitizer on read. The advisory's impact statement hinges on content being stored or reflected "without additional backend sanitization", if the backend strips `<script>` on save, the chain is blocked at the storage layer and the finding is lower impact.
 
 ## Validation workflow (authorized lab / customer-approved)
 
@@ -62,9 +62,9 @@ All proofs use a lab origin and an inert local payload server. Do not load scrip
    ```
 4. Save, then open the stored/previewed content in a fresh browser context (or re-enter the editor).
 5. Capture:
-   - **Positive control (vulnerable):** the lab payload server logs `GET /poc.js` and the page console shows the canary string — proof the recreated script executed in the victim context.
+   - **Positive control (vulnerable):** the lab payload server logs `GET /poc.js` and the page console shows the canary string, proof the recreated script executed in the victim context.
    - **Patched control (3.1.4):** no fetch of `poc.js`, no console canary; the embed is rendered without executing the appended script.
-   - **Negative control:** an embed with only the `<iframe>` and no `<script>` — confirms the beacon server is reachable and the trigger is the script element, not network conditions.
+   - **Negative control:** an embed with only the `<iframe>` and no `<script>`, confirms the beacon server is reachable and the trigger is the script element, not network conditions.
 
 ## Evidence to capture
 

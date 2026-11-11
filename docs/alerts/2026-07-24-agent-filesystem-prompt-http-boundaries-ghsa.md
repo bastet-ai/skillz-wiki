@@ -61,8 +61,8 @@ Oh My Posh through `29.35.0` re-parsed a path containing literal directory names
 
 Test in a disposable shell profile and repository with no credentials or hooks:
 
-- create a directory name containing template delimiters that increments an in-process recorder or writes one nonce under the temp root—do not execute a shell payload;
-- create a commit subject containing harmless title-change or visibly escaped control-byte markers—do not write the clipboard;
+- create a directory name containing template delimiters that increments an in-process recorder or writes one nonce under the temp root,do not execute a shell payload;
+- create a commit subject containing harmless title-change or visibly escaped control-byte markers,do not write the clipboard;
 - render the prompt without opening an interactive production terminal, and preserve raw output bytes plus marker state;
 - compare path styles and a Git segment only when each is actually enabled by the tested theme.
 
@@ -91,7 +91,7 @@ Two blaze advisories affect default `BlazeServerBuilder` HTTP/1.1 handling throu
 - The wire parser accepted multiple malformed framing forms that can disagree with a front-end parser. Exploitability requires a specific intermediary pair; package presence alone is not request smuggling.
 - Chunked trailer fields could be promoted into `Request.headers`, potentially restoring a proxy-stripped `X-Forwarded-*` or synthetic internal-auth field.
 
-Use a disposable front end, blaze origin, two harmless routes, and one TCP connection per fixture. Capture the exact request bytes, front-end boundary/headers, origin boundary/headers, response sequence, and fixed-version result. For trailers, send a canary trust header both in the initial header block and trailer, with the front end configured to strip the initial copy; prove only marker-route selection. For parser cases, stop at a second canary route or response-order delta—never target another user's request, cache entry, or authenticated session.
+Use a disposable front end, blaze origin, two harmless routes, and one TCP connection per fixture. Capture the exact request bytes, front-end boundary/headers, origin boundary/headers, response sequence, and fixed-version result. For trailers, send a canary trust header both in the initial header block and trailer, with the front end configured to strip the initial copy; prove only marker-route selection. For parser cases, stop at a second canary route or response-order delta,never target another user's request, cache entry, or authenticated session.
 
 ## Reporting checklist
 

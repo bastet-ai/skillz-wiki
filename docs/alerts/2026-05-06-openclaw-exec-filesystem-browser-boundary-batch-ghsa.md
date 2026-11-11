@@ -4,10 +4,10 @@
 
 ## Advisories covered
 
-- **Host exec environment sanitization gaps** — [GHSA-cg7q-fg22-4g98](https://github.com/advisories/GHSA-cg7q-fg22-4g98): host command execution could retain package-manager, registry, Docker, compiler, or TLS override variables that change what a supposedly controlled command downloads, builds, trusts, or contacts. Duplicate advisory: [GHSA-5mh4-3rv3-fpcf](https://github.com/advisories/GHSA-5mh4-3rv3-fpcf).
-- **SSH sandbox tar upload symlink following** — [GHSA-fv94-qvg8-xqpw](https://github.com/advisories/GHSA-fv94-qvg8-xqpw): remote sandbox upload/extraction could follow symlinks and write outside the intended destination. Duplicate advisory: [GHSA-5799-3xg7-rfrv](https://github.com/advisories/GHSA-5799-3xg7-rfrv).
-- **Trailing-dot localhost CDP bypass** — [GHSA-fh32-73r9-rgh5](https://github.com/advisories/GHSA-fh32-73r9-rgh5): browser/CDP loopback checks that did not canonicalize `localhost.` could misclassify a remote-control target. Duplicate advisory: [GHSA-f5fm-9jmp-c88r](https://github.com/advisories/GHSA-f5fm-9jmp-c88r).
-- **Teams Graph API thread-history sender-allowlist bypass** — [GHSA-chfm-xgc4-47rj / CVE-2026-41365](https://github.com/advisories/GHSA-chfm-xgc4-47rj): Graph-fetched Microsoft Teams thread history could bypass sender allowlists in OpenClaw `<=2026.3.28`; patch to `>=2026.3.31`. Duplicate advisory: [GHSA-8pf2-vj79-4wxg](https://github.com/advisories/GHSA-8pf2-vj79-4wxg).
+- **Host exec environment sanitization gaps**, [GHSA-cg7q-fg22-4g98](https://github.com/advisories/GHSA-cg7q-fg22-4g98): host command execution could retain package-manager, registry, Docker, compiler, or TLS override variables that change what a supposedly controlled command downloads, builds, trusts, or contacts. Duplicate advisory: [GHSA-5mh4-3rv3-fpcf](https://github.com/advisories/GHSA-5mh4-3rv3-fpcf).
+- **SSH sandbox tar upload symlink following**, [GHSA-fv94-qvg8-xqpw](https://github.com/advisories/GHSA-fv94-qvg8-xqpw): remote sandbox upload/extraction could follow symlinks and write outside the intended destination. Duplicate advisory: [GHSA-5799-3xg7-rfrv](https://github.com/advisories/GHSA-5799-3xg7-rfrv).
+- **Trailing-dot localhost CDP bypass**, [GHSA-fh32-73r9-rgh5](https://github.com/advisories/GHSA-fh32-73r9-rgh5): browser/CDP loopback checks that did not canonicalize `localhost.` could misclassify a remote-control target. Duplicate advisory: [GHSA-f5fm-9jmp-c88r](https://github.com/advisories/GHSA-f5fm-9jmp-c88r).
+- **Teams Graph API thread-history sender-allowlist bypass**, [GHSA-chfm-xgc4-47rj / CVE-2026-41365](https://github.com/advisories/GHSA-chfm-xgc4-47rj): Graph-fetched Microsoft Teams thread history could bypass sender allowlists in OpenClaw `<=2026.3.28`; patch to `>=2026.3.31`. Duplicate advisory: [GHSA-8pf2-vj79-4wxg](https://github.com/advisories/GHSA-8pf2-vj79-4wxg).
 
 ## Why this is durable
 

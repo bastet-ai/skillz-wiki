@@ -1,4 +1,4 @@
-# Gotenberg SSRF and ExifTool argument-injection batch (GHSA-5q7p-7jgv-ww56 / GHSA-5vh4-rgv7-p9g4 / GHSA-q7r4-hc83-hf2q)
+# Gotenberg SSRF and ExifTool argument-injection batch
 
 **Signal:** GitHub Security Advisories published **2026-04-30**. Gotenberg fixed a cluster of unauthenticated issues in webhook/download URL filtering and PDF metadata writing.
 

@@ -6,11 +6,11 @@ This batch is durable because it captures reusable operator patterns: PROXY-prot
 
 ## What changed
 
-- **Puma PROXY protocol v1 source spoofing** — when `set_remote_address proxy_protocol: :v1` is enabled and persistent connections reach Puma, a second `PROXY` line between keep-alive requests can overwrite `REMOTE_ADDR` for the next request. Puma defaults are not affected; the signal is a non-default PROXY-protocol deployment where application logic trusts `REMOTE_ADDR`.
-- **Puma PROXY protocol v1 pre-parse memory exhaustion** — with the same non-default configuration, a TCP client can keep sending bytes without `\r\n` so Puma continues appending to its PROXY-line buffer before normal HTTP parsing.
-- **Arc DuckDB local-file read and SSRF** — authenticated `/api/v1/query` access, even with empty permissions, can call DuckDB I/O table functions such as `read_csv_auto`, `read_json`, `read_blob`, `glob`, or metadata readers outside RBAC table extraction. The advisory confirms reads of local config/token databases and SSRF when `httpfs` is loaded.
-- **phpMyFAQ unauthenticated SQLi and 2FA workflow gaps** — phpMyFAQ `<= 4.1.1` includes unauthenticated SQL injection through the `User-Agent` header on `GET /api/captcha`, plus unauthenticated `/admin/check` TOTP probing that accepts arbitrary `user-id` values without binding to a prior password phase or rate limiting.
-- **phpMyFAQ authenticated authorization drift** — additional advisories describe non-terminating admin permission checks, frontend users reaching admin API information endpoints, OAuth token fields interpolated into SQL, and unauthenticated FAQ permission bypass through `solution_id` redirects.
+- **Puma PROXY protocol v1 source spoofing**, when `set_remote_address proxy_protocol: :v1` is enabled and persistent connections reach Puma, a second `PROXY` line between keep-alive requests can overwrite `REMOTE_ADDR` for the next request. Puma defaults are not affected; the signal is a non-default PROXY-protocol deployment where application logic trusts `REMOTE_ADDR`.
+- **Puma PROXY protocol v1 pre-parse memory exhaustion**, with the same non-default configuration, a TCP client can keep sending bytes without `\r\n` so Puma continues appending to its PROXY-line buffer before normal HTTP parsing.
+- **Arc DuckDB local-file read and SSRF**, authenticated `/api/v1/query` access, even with empty permissions, can call DuckDB I/O table functions such as `read_csv_auto`, `read_json`, `read_blob`, `glob`, or metadata readers outside RBAC table extraction. The advisory confirms reads of local config/token databases and SSRF when `httpfs` is loaded.
+- **phpMyFAQ unauthenticated SQLi and 2FA workflow gaps**, phpMyFAQ `<= 4.1.1` includes unauthenticated SQL injection through the `User-Agent` header on `GET /api/captcha`, plus unauthenticated `/admin/check` TOTP probing that accepts arbitrary `user-id` values without binding to a prior password phase or rate limiting.
+- **phpMyFAQ authenticated authorization drift**, additional advisories describe non-terminating admin permission checks, frontend users reaching admin API information endpoints, OAuth token fields interpolated into SQL, and unauthenticated FAQ permission bypass through `solution_id` redirects.
 
 ### June 23 phpMyFAQ API write-endpoint authorization update
 

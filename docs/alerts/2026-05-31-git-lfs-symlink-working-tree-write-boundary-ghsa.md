@@ -6,10 +6,10 @@ Git LFS `git lfs checkout` and `git lfs pull` before `3.7.1` could write LFS obj
 
 ## Advisory signals
 
-- **Working-tree link following** — when an LFS-tracked path is represented by a symlink or hard link in the working tree, vulnerable Git LFS commands may write object bytes to a target visible outside the intended checkout path.
-- **Bare-repository edge case** — the advisory also calls out `git lfs checkout` / `git lfs pull` behavior in bare repositories that could write outside the repository under specific conditions.
-- **Patch shape** — Git LFS now checks symbolic links similarly to Git before writing and removes existing working-tree files before writing replacements. That patch pattern is a useful review cue for custom Git importers and SCM wrappers.
-- **Impact surface** — hosted code search, dependency scanners, CI preview jobs, bug-bounty “import my repo” features, AI coding-agent sandboxes, and package build systems often run Git and Git LFS on attacker-controlled repositories with valuable tokens or host-mounted caches nearby.
+- **Working-tree link following**, when an LFS-tracked path is represented by a symlink or hard link in the working tree, vulnerable Git LFS commands may write object bytes to a target visible outside the intended checkout path.
+- **Bare-repository edge case**, the advisory also calls out `git lfs checkout` / `git lfs pull` behavior in bare repositories that could write outside the repository under specific conditions.
+- **Patch shape**, Git LFS now checks symbolic links similarly to Git before writing and removes existing working-tree files before writing replacements. That patch pattern is a useful review cue for custom Git importers and SCM wrappers.
+- **Impact surface**, hosted code search, dependency scanners, CI preview jobs, bug-bounty “import my repo” features, AI coding-agent sandboxes, and package build systems often run Git and Git LFS on attacker-controlled repositories with valuable tokens or host-mounted caches nearby.
 
 ## Operator triage
 

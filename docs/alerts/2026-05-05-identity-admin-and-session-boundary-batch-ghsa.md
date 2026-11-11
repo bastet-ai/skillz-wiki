@@ -6,13 +6,13 @@ This batch is durable because identity transitions and admin affordances keep re
 
 ## Advisories covered
 
-- **PocketBase OAuth2 linking** — [GHSA-pq7p-mc74-g65w](https://github.com/advisories/GHSA-pq7p-mc74-g65w): account pre-hijacking via unverified-to-verified OAuth2 autolinking upgrade.
-- **Ethyca Fides privacy requests** — [GHSA-qx5f-ghc2-7g5c](https://github.com/advisories/GHSA-qx5f-ghc2-7g5c): duplicate detection can bypass identity verification for privacy requests.
-- **DevGuard** — [GHSA-2g9v-7mr5-fgjg](https://github.com/advisories/GHSA-2g9v-7mr5-fgjg): unauthenticated identity assertion via `X-Admin-Token` header.
-- **JupyterHub Extension Manager** — [GHSA-37w4-hwhx-4rc4](https://github.com/advisories/GHSA-37w4-hwhx-4rc4): API/GUI policy discrepancy allows third-party extension install via POST.
-- **Nginx-UI** — [GHSA-7jrr-xw9c-mj39](https://github.com/advisories/GHSA-7jrr-xw9c-mj39): authenticated settings disclosure exposes `node.secret`, enabling trusted-node abuse, backup exfiltration, and restore rollback.
-- **parse-server MFA SMS** — [GHSA-jpq4-7fmq-q5fj](https://github.com/advisories/GHSA-jpq4-7fmq-q5fj): concurrent login can reuse one-time passwords.
-- **Kratos** — [GHSA-jj45-xvq5-rhh9](https://github.com/advisories/GHSA-jj45-xvq5-rhh9): confused-deputy issue.
+- **PocketBase OAuth2 linking**, [GHSA-pq7p-mc74-g65w](https://github.com/advisories/GHSA-pq7p-mc74-g65w): account pre-hijacking via unverified-to-verified OAuth2 autolinking upgrade.
+- **Ethyca Fides privacy requests**, [GHSA-qx5f-ghc2-7g5c](https://github.com/advisories/GHSA-qx5f-ghc2-7g5c): duplicate detection can bypass identity verification for privacy requests.
+- **DevGuard**, [GHSA-2g9v-7mr5-fgjg](https://github.com/advisories/GHSA-2g9v-7mr5-fgjg): unauthenticated identity assertion via `X-Admin-Token` header.
+- **JupyterHub Extension Manager**, [GHSA-37w4-hwhx-4rc4](https://github.com/advisories/GHSA-37w4-hwhx-4rc4): API/GUI policy discrepancy allows third-party extension install via POST.
+- **Nginx-UI**, [GHSA-7jrr-xw9c-mj39](https://github.com/advisories/GHSA-7jrr-xw9c-mj39): authenticated settings disclosure exposes `node.secret`, enabling trusted-node abuse, backup exfiltration, and restore rollback.
+- **parse-server MFA SMS**, [GHSA-jpq4-7fmq-q5fj](https://github.com/advisories/GHSA-jpq4-7fmq-q5fj): concurrent login can reuse one-time passwords.
+- **Kratos**, [GHSA-jj45-xvq5-rhh9](https://github.com/advisories/GHSA-jj45-xvq5-rhh9): confused-deputy issue.
 
 ## Operator triage
 

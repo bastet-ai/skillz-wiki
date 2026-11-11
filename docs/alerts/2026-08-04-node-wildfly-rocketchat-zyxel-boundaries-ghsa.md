@@ -111,7 +111,7 @@ A bounded positive is **unauthenticated custom-sounds route -> filesystem backen
 
 ## 5. Keep Zyxel portal admission and administrator export separate
 
-The Zyxel records affect WAX650S firmware through `7.10(ABRM.4)C0`. One issue allows a WLAN-side attacker to bypass captive-portal authentication through `social_login.cgi`; the other requires an authenticated administrator and reaches an OS-command sink through `export-cgi`. Do not present them as an unauthenticated command-execution chain unless an independent test proves that captive-portal admission also creates an administrative session—it normally should not.
+The Zyxel records affect WAX650S firmware through `7.10(ABRM.4)C0`. One issue allows a WLAN-side attacker to bypass captive-portal authentication through `social_login.cgi`; the other requires an authenticated administrator and reaches an OS-command sink through `export-cgi`. Do not present them as an unauthenticated command-execution chain unless an independent test proves that captive-portal admission also creates an administrative session,it normally should not.
 
 ### Captive-portal state matrix
 
@@ -128,7 +128,7 @@ The positive is **owned WLAN client lacks valid portal proof -> alternate `socia
 
 ### Administrator export recorder
 
-Only in a disposable administrator session, patch the process-launch boundary behind `export-cgi` so it records executable and structured arguments and refuses to spawn. Compare an ordinary export name/value with separators, quoting boundaries, option-like values, whitespace, newline, and Unicode-normalization canaries. Use random marker text only—no shell commands, substitutions, redirections, or callbacks.
+Only in a disposable administrator session, patch the process-launch boundary behind `export-cgi` so it records executable and structured arguments and refuses to spawn. Compare an ordinary export name/value with separators, quoting boundaries, option-like values, whitespace, newline, and Unicode-normalization canaries. Use random marker text only,no shell commands, substitutions, redirections, or callbacks.
 
 Report **administrator-controlled export field -> application constructs a command boundary -> recorder shows the marker becoming a new argument or shell token -> fixed firmware rejects or passes it as one literal value**. Administrator access is a material prerequisite, and a changed filename or validation error is not command execution.
 
@@ -182,12 +182,12 @@ For NameService, stop at **unauthenticated request -> random lab name reaches de
 
 ## October 16 follow-up: WildFly `Monitor` role → config snapshot to arbitrary path → RBAC-restricted credentials ([GHSA-5v76-4c24-rjmj](https://github.com/advisories/GHSA-5v76-4c24-rjmj) / CVE-2026-84823, high)
 
-The lowest standard RBAC role in WildFly (`Monitor`) can call the `take-snapshot` management operation and manipulate its `name` parameter with path traversal, writing a copy of the full server configuration — datasources, vault/credential references, security realms — to an arbitrary filesystem location it can then read back. The RBAC model gates the *read* APIs for configuration; nobody gated the *snapshot side-effect sink*, because "take a snapshot" reads as a harmless monitoring verb.
+The lowest standard RBAC role in WildFly (`Monitor`) can call the `take-snapshot` management operation and manipulate its `name` parameter with path traversal, writing a copy of the full server configuration, datasources, vault/credential references, security realms, to an arbitrary filesystem location it can then read back. The RBAC model gates the *read* APIs for configuration; nobody gated the *snapshot side-effect sink*, because "take a snapshot" reads as a harmless monitoring verb.
 
 Operator rules for any Java EE / app-server management interface (WildFly, EAP, GlassFish-family, JBoss CLI/HTTP management):
 
 - **RBAC audits that enumerate API verbs miss side-effect sinks.** `take-snapshot`, `export`, `dump`, `backup`, `archive`, `:read-config-as-stream`-adjacent operations are write-then-read-your-own-file primitives that bypass the read ACL. For each role from the lowest tier up, list every operation that *produces a file* and ask who can read the produced file and where it lands.
-- **"Write where you can read" is the traversal proof shape.** You don't need to read `/standalone/configuration/` directly — write the snapshot into a log directory, deployment scan path, or HTTP-served directory and retrieve it through that alternate channel. Prove with a synthetic datasource credential in a lab instance and recover it from the redirected snapshot; never touch real production configuration.
+- **"Write where you can read" is the traversal proof shape.** You don't need to read `/standalone/configuration/` directly, write the snapshot into a log directory, deployment scan path, or HTTP-served directory and retrieve it through that alternate channel. Prove with a synthetic datasource credential in a lab instance and recover it from the redirected snapshot; never touch real production configuration.
 - **Config snapshots are credential stores** (same genealogy as this page's domain-controller repository traversal leg and the Veeam EM/KV-store snapshot legs): vault references, JAAS/identity-store entries, SMTP passwords, and keystore locations routinely live in the snapshot even when individual read endpoints mask them. Grep the recovered snapshot for `clear-text`, `secret-value`, `ldap`, `keystore`, `vault` before concluding on exposure.
 - Fingerprint: management interface reachable + role assignment below `Deployer`/`Admin` + snapshot operation allowed = check the `name` parameter's traversal handling (`../`, absolute paths, `%2e%2e%2f` shapes) with a denied-write recorder first.
 

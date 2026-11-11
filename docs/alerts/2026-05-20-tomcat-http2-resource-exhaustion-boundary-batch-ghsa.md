@@ -6,8 +6,8 @@ This batch is durable because both advisories describe HTTP/2 protocol handling 
 
 ## What changed
 
-- **Tomcat h2c upgrade processor leak leading to OOM** — [GHSA-vf77-8h7g-gghp](https://github.com/advisories/GHSA-vf77-8h7g-gghp) / CVE-2020-13934: Tomcat `10.0.0-M1` through `10.0.0-M5`, `9.0.0.M5` before `9.0.36`, and `8.5.1` before `8.5.56` failed to release the HTTP/1.1 processor after an h2c upgrade to HTTP/2. Enough direct h2c upgrade requests could trigger `OutOfMemoryException` and deny service.
-- **Tomcat HTTP/2 SETTINGS and blocking-I/O stream exhaustion** — [GHSA-qcxh-w3j9-58qr](https://github.com/advisories/GHSA-qcxh-w3j9-58qr) / CVE-2019-0199: Tomcat `9.0.0.M1` through `9.0.14` and `8.5.0` through `8.5.37` accepted excessive HTTP/2 SETTINGS frames and allowed streams to stay open without request/response progress. When those streams used Servlet API blocking I/O, attacker-held streams could exhaust server threads.
+- **Tomcat h2c upgrade processor leak leading to OOM**, [GHSA-vf77-8h7g-gghp](https://github.com/advisories/GHSA-vf77-8h7g-gghp) / CVE-2020-13934: Tomcat `10.0.0-M1` through `10.0.0-M5`, `9.0.0.M5` before `9.0.36`, and `8.5.1` before `8.5.56` failed to release the HTTP/1.1 processor after an h2c upgrade to HTTP/2. Enough direct h2c upgrade requests could trigger `OutOfMemoryException` and deny service.
+- **Tomcat HTTP/2 SETTINGS and blocking-I/O stream exhaustion**, [GHSA-qcxh-w3j9-58qr](https://github.com/advisories/GHSA-qcxh-w3j9-58qr) / CVE-2019-0199: Tomcat `9.0.0.M1` through `9.0.14` and `8.5.0` through `8.5.37` accepted excessive HTTP/2 SETTINGS frames and allowed streams to stay open without request/response progress. When those streams used Servlet API blocking I/O, attacker-held streams could exhaust server threads.
 
 ## Operator triage
 

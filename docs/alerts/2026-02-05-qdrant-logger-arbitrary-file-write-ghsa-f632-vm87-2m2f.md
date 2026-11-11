@@ -1,4 +1,4 @@
-# 2026-02-05 — Qdrant: arbitrary file write via `/logger` endpoint (GHSA-f632-vm87-2m2f)
+# 2026-02-05, Qdrant: arbitrary file write via `/logger` endpoint (GHSA-f632-vm87-2m2f)
 
 GitHub advisory: <https://github.com/advisories/GHSA-f632-vm87-2m2f>
 

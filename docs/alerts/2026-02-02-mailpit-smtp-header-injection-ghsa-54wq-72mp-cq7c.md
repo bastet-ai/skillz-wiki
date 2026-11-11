@@ -1,4 +1,4 @@
-# 2026-02-02 — Mailpit SMTP header injection via regex bypass (GHSA-54wq-72mp-cq7c)
+# 2026-02-02, Mailpit SMTP header injection via regex bypass (GHSA-54wq-72mp-cq7c)
 
 ## Summary
 
@@ -24,7 +24,7 @@ Mailpit is a testing tool, but teams routinely:
 ## What to do (durable guidance)
 
 1. **Treat SMTP envelope addresses as hostile input**
-   - Reject **CTLs** (`0x00–0x1F` and `0x7F`) in `MAIL FROM` / `RCPT TO`.
+   - Reject **CTLs** (`0x00-0x1F` and `0x7F`) in `MAIL FROM` / `RCPT TO`.
    - Specifically reject `\r` and `\n` even if your socket read path “usually” blocks `\n`.
 
 2. **Prefer parsing over regex**

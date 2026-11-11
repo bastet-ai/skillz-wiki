@@ -1,4 +1,4 @@
-# 2026-02-04 — OpenClaw local file inclusion via MEDIA: path extraction (GHSA-r8g4-86fx-92mq)
+# 2026-02-04, OpenClaw local file inclusion via MEDIA: path extraction (GHSA-r8g4-86fx-92mq)
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

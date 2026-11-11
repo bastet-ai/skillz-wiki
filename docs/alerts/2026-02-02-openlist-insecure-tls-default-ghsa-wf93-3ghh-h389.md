@@ -1,4 +1,4 @@
-# 2026-02-02 — OpenList ships with insecure TLS defaults (GHSA-wf93-3ghh-h389)
+# 2026-02-02, OpenList ships with insecure TLS defaults (GHSA-wf93-3ghh-h389)
 
 ## Summary
 

@@ -1,4 +1,4 @@
-# 2026-03-27 — OpenClaw BlueBubbles webhook missing rate limiting (GHSA-xq8g-hgh6-87hv)
+# 2026-03-27, OpenClaw BlueBubbles webhook missing rate limiting (GHSA-xq8g-hgh6-87hv)
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

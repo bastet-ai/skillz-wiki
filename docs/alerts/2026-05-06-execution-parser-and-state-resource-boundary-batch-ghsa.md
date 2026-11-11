@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **Scramble validation-rule RCE** — [GHSA-4rm2-28vj-fj39](https://github.com/advisories/GHSA-4rm2-28vj-fj39): user-controlled validation rules could be evaluated as code. Fixed in 0.13.22.
-- **Apache Thrift Go TFramedTransport integer overflow** — [GHSA-wf45-q9ch-q8gh](https://github.com/advisories/GHSA-wf45-q9ch-q8gh): framed transport length handling could overflow/wrap. Fixed in 0.23.0.
-- **Apache Thrift Node.js uncontrolled recursion** — [GHSA-r67j-r569-jrwp](https://github.com/advisories/GHSA-r67j-r569-jrwp): nested inputs could trigger recursion exhaustion. Fixed in 0.23.0.
-- **basic-ftp unbounded multiline response buffering** — [GHSA-rpmf-866q-6p89](https://github.com/advisories/GHSA-rpmf-866q-6p89): a malicious FTP server could exhaust client memory with control-channel responses. Fixed in 5.3.1.
-- **Mezo stale StateDB overwrite bridge drain** — [GHSA-6447-269v-g68m](https://github.com/advisories/GHSA-6447-269v-g68m): an ERC-20 bridgeOut burn could be erased by stale state, risking L1 bridge funds. Fixed in 8.0.0.
+- **Scramble validation-rule RCE**, [GHSA-4rm2-28vj-fj39](https://github.com/advisories/GHSA-4rm2-28vj-fj39): user-controlled validation rules could be evaluated as code. Fixed in 0.13.22.
+- **Apache Thrift Go TFramedTransport integer overflow**, [GHSA-wf45-q9ch-q8gh](https://github.com/advisories/GHSA-wf45-q9ch-q8gh): framed transport length handling could overflow/wrap. Fixed in 0.23.0.
+- **Apache Thrift Node.js uncontrolled recursion**, [GHSA-r67j-r569-jrwp](https://github.com/advisories/GHSA-r67j-r569-jrwp): nested inputs could trigger recursion exhaustion. Fixed in 0.23.0.
+- **basic-ftp unbounded multiline response buffering**, [GHSA-rpmf-866q-6p89](https://github.com/advisories/GHSA-rpmf-866q-6p89): a malicious FTP server could exhaust client memory with control-channel responses. Fixed in 5.3.1.
+- **Mezo stale StateDB overwrite bridge drain**, [GHSA-6447-269v-g68m](https://github.com/advisories/GHSA-6447-269v-g68m): an ERC-20 bridgeOut burn could be erased by stale state, risking L1 bridge funds. Fixed in 8.0.0.
 
 ## Why this is durable
 

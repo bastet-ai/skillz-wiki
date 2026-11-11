@@ -1,4 +1,4 @@
-# Claude SDK local filesystem memory tool creates overly permissive files (GHSA-p7fg-763f-g4gf / CVE-2026-41686)
+# Claude SDK local filesystem memory tool creates overly permissive files
 
 **Signal:** GitHub Security Advisories published **2026-04-29**. The Anthropic TypeScript SDK fixed insecure default modes in the beta local filesystem memory tool.
 

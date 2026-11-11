@@ -4,8 +4,8 @@
 
 ## Advisory cluster
 
-- **Daptin aggregate raw SQL injection** — [GHSA-rw2c-8rfq-gwfv](https://github.com/advisories/GHSA-rw2c-8rfq-gwfv): `github.com/daptin/daptin <0.11.4` accepted `column` and `group` query parameters on `/aggregate/:typename` and passed them into `goqu.L()` raw SQL expressions. Any authenticated session could inject arbitrary expressions under the application's database privileges.
-- **Dagster dynamic partition SQL injection** — [GHSA-mjw2-v2hm-wj34](https://github.com/advisories/GHSA-mjw2-v2hm-wj34): `dagster <=1.13.0` and related DuckDB, Snowflake, BigQuery, and DeltaLake I/O manager packages `<=0.29.0` interpolated dynamic partition key values into SQL `WHERE` clauses without escaping.
+- **Daptin aggregate raw SQL injection**, [GHSA-rw2c-8rfq-gwfv](https://github.com/advisories/GHSA-rw2c-8rfq-gwfv): `github.com/daptin/daptin <0.11.4` accepted `column` and `group` query parameters on `/aggregate/:typename` and passed them into `goqu.L()` raw SQL expressions. Any authenticated session could inject arbitrary expressions under the application's database privileges.
+- **Dagster dynamic partition SQL injection**, [GHSA-mjw2-v2hm-wj34](https://github.com/advisories/GHSA-mjw2-v2hm-wj34): `dagster <=1.13.0` and related DuckDB, Snowflake, BigQuery, and DeltaLake I/O manager packages `<=0.29.0` interpolated dynamic partition key values into SQL `WHERE` clauses without escaping.
 
 ## Why this matters
 

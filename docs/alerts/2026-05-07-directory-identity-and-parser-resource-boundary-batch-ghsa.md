@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **ldap3_proto stack exhaustion** — [GHSA-qcxq-75wr-5cm8](https://github.com/advisories/GHSA-qcxq-75wr-5cm8): LDAP filter parsing can exhaust stack resources without recursion and depth limits.
-- **Kanidm / SCIM process aborts and validator ordering** — [GHSA-r5fr-9gmv-jggh](https://github.com/advisories/GHSA-r5fr-9gmv-jggh), [GHSA-84jc-3hj2-hwc7](https://github.com/advisories/GHSA-84jc-3hj2-hwc7): SCIM filter parsing and PNG validators can crash services, including when validation runs before authorization.
-- **Kanidm OAuth2 client-secret timing and stored HTML injection** — [GHSA-53hj-r94p-8c8f](https://github.com/advisories/GHSA-53hj-r94p-8c8f), [GHSA-gpxg-fx2g-qxj2](https://github.com/advisories/GHSA-gpxg-fx2g-qxj2): secret comparison and htmx-driven partial rendering remain identity boundaries.
-- **WebAuthn origin validation mismatch** — [GHSA-22w3-693w-x895](https://github.com/advisories/GHSA-22w3-693w-x895): subdomain allowance can create relying-party origin mismatches.
-- **ShellHub filter/sort crash DoS** — [GHSA-47r2-v3x6-wff9](https://github.com/advisories/GHSA-47r2-v3x6-wff9): field injection in query filters can terminate service processes.
+- **ldap3_proto stack exhaustion**, [GHSA-qcxq-75wr-5cm8](https://github.com/advisories/GHSA-qcxq-75wr-5cm8): LDAP filter parsing can exhaust stack resources without recursion and depth limits.
+- **Kanidm / SCIM process aborts and validator ordering**, [GHSA-r5fr-9gmv-jggh](https://github.com/advisories/GHSA-r5fr-9gmv-jggh), [GHSA-84jc-3hj2-hwc7](https://github.com/advisories/GHSA-84jc-3hj2-hwc7): SCIM filter parsing and PNG validators can crash services, including when validation runs before authorization.
+- **Kanidm OAuth2 client-secret timing and stored HTML injection**, [GHSA-53hj-r94p-8c8f](https://github.com/advisories/GHSA-53hj-r94p-8c8f), [GHSA-gpxg-fx2g-qxj2](https://github.com/advisories/GHSA-gpxg-fx2g-qxj2): secret comparison and htmx-driven partial rendering remain identity boundaries.
+- **WebAuthn origin validation mismatch**, [GHSA-22w3-693w-x895](https://github.com/advisories/GHSA-22w3-693w-x895): subdomain allowance can create relying-party origin mismatches.
+- **ShellHub filter/sort crash DoS**, [GHSA-47r2-v3x6-wff9](https://github.com/advisories/GHSA-47r2-v3x6-wff9): field injection in query filters can terminate service processes.
 
 ## Why this is durable
 

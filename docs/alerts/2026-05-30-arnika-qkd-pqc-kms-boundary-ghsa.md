@@ -6,9 +6,9 @@ This is a narrow but durable operator pattern: key-rotation, hybrid key derivati
 
 ## Advisory signals
 
-- **UDP key-rotation ACK replay** — arnika `<= 1.0.0` validates HMAC and packet type in `udpClient()` but does not validate `ackPkt.Timestamp`. A network-positioned attacker can replay an old ACK so the primary advances PSKs while the backup stays behind, breaking the tunnel without knowing the PSK.
-- **Empty PQC key file accepted** — `PQC_PSK_FILE` is read through `os.ReadFile`, which follows symlinks, and `base64.DecodeString("")` returns an empty byte slice without error. With write access to the PQC key directory, a tester can prove the hybrid derivation silently falls back to QKD-only material while logging success.
-- **KMS TLS verification disabled** — the KMS HTTP client hardcodes `InsecureSkipVerify: true`, so configured CA material is effectively dead code. A MITM-positioned tester can intercept KMS traffic with a self-signed proxy certificate.
+- **UDP key-rotation ACK replay**, arnika `<= 1.0.0` validates HMAC and packet type in `udpClient()` but does not validate `ackPkt.Timestamp`. A network-positioned attacker can replay an old ACK so the primary advances PSKs while the backup stays behind, breaking the tunnel without knowing the PSK.
+- **Empty PQC key file accepted**, `PQC_PSK_FILE` is read through `os.ReadFile`, which follows symlinks, and `base64.DecodeString("")` returns an empty byte slice without error. With write access to the PQC key directory, a tester can prove the hybrid derivation silently falls back to QKD-only material while logging success.
+- **KMS TLS verification disabled**, the KMS HTTP client hardcodes `InsecureSkipVerify: true`, so configured CA material is effectively dead code. A MITM-positioned tester can intercept KMS traffic with a self-signed proxy certificate.
 
 ## Operator triage
 

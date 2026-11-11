@@ -1,4 +1,4 @@
-# 2026-03-29 — OpenClaw Telegram DM-scoped callback authorization bypass (GHSA-j4c9-w69r-cw33)
+# 2026-03-29, OpenClaw Telegram DM-scoped callback authorization bypass (GHSA-j4c9-w69r-cw33)
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

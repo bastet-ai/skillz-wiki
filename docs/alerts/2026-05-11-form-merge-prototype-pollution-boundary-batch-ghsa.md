@@ -6,8 +6,8 @@ This batch is durable because it shows prototype pollution moving through routin
 
 ## Advisories covered
 
-- **`@theecryptochad/merge-guard` `deepMerge()` prototype pollution** — [GHSA-mhwj-73qx-jqxm](https://github.com/advisories/GHSA-mhwj-73qx-jqxm): npm `@theecryptochad/merge-guard <1.0.1` recursively merged source objects without blocking `__proto__`, `constructor`, or `prototype`, allowing attacker-controlled source objects to mutate `Object.prototype`. Fixed in `1.0.1`.
-- **`@rvf/set-get` form-data path prototype pollution** — [GHSA-c567-44rc-m5hq](https://github.com/advisories/GHSA-c567-44rc-m5hq): npm `@rvf/set-get >=6.0.0,<6.0.4` and `>=7.0.0,<7.0.2`, reachable through `@rvf/core` form helpers such as `preprocessFormData`, `parseFormData`, and `validate`, accepted field names that walked into `__proto__`, `constructor`, or `prototype`. Fixed in `6.0.4` and `7.0.2`.
+- **`@theecryptochad/merge-guard` `deepMerge()` prototype pollution**, [GHSA-mhwj-73qx-jqxm](https://github.com/advisories/GHSA-mhwj-73qx-jqxm): npm `@theecryptochad/merge-guard <1.0.1` recursively merged source objects without blocking `__proto__`, `constructor`, or `prototype`, allowing attacker-controlled source objects to mutate `Object.prototype`. Fixed in `1.0.1`.
+- **`@rvf/set-get` form-data path prototype pollution**, [GHSA-c567-44rc-m5hq](https://github.com/advisories/GHSA-c567-44rc-m5hq): npm `@rvf/set-get >=6.0.0,<6.0.4` and `>=7.0.0,<7.0.2`, reachable through `@rvf/core` form helpers such as `preprocessFormData`, `parseFormData`, and `validate`, accepted field names that walked into `__proto__`, `constructor`, or `prototype`. Fixed in `6.0.4` and `7.0.2`.
 
 ## Operator triage
 

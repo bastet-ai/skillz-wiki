@@ -6,16 +6,16 @@ This batch is durable because it clusters around control-plane trust assumptions
 
 ## Advisories covered
 
-- **S3-Proxy resource path matching** — [GHSA-rfgq-wgg8-662p](https://github.com/advisories/GHSA-rfgq-wgg8-662p): critical path-matching issues in resource authorization.
-- **Antrea** — [GHSA-qcmw-8mm4-4p28](https://github.com/advisories/GHSA-qcmw-8mm4-4p28): missing encryption of sensitive data.
-- **CI4MS profile/user management** — [GHSA-vr2g-rhm5-q4jr](https://github.com/advisories/GHSA-vr2g-rhm5-q4jr): stored DOM XSS account takeover and privilege escalation.
-- **awslabs/tough delegated metadata validation** — [GHSA-4v58-8p28-2rq3](https://github.com/advisories/GHSA-4v58-8p28-2rq3): missing delegated metadata validation.
-- **awslabs/tough delegated-role thresholds** — [GHSA-8m7c-8m39-rv4x](https://github.com/advisories/GHSA-8m7c-8m39-rv4x): delegated role signature-threshold bypass.
-- **@workos/authkit-session** — [GHSA-vvvv-983w-r7pv](https://github.com/advisories/GHSA-vvvv-983w-r7pv): open redirect via state-derived redirect target.
-- **External Secrets Operator** — [GHSA-wv26-88m5-6h59](https://github.com/advisories/GHSA-wv26-88m5-6h59): namespace isolation bypass in `CAProvider` ConfigMap resolution for `SecretStore`.
-- **Microdot** — [GHSA-7wc8-wvc4-m498](https://github.com/advisories/GHSA-7wc8-wvc4-m498): HTTP response splitting in `Response.set_cookie()`.
-- **PyJWT** — [GHSA-752w-5fwx-jx9f](https://github.com/advisories/GHSA-752w-5fwx-jx9f): unknown `crit` header extensions accepted.
-- **Netty** — [GHSA-v8h7-rr48-vmmv](https://github.com/advisories/GHSA-v8h7-rr48-vmmv): start-line injection in `DefaultHttpRequest.setUri()` enabling HTTP request smuggling and RTSP request injection.
+- **S3-Proxy resource path matching**, [GHSA-rfgq-wgg8-662p](https://github.com/advisories/GHSA-rfgq-wgg8-662p): critical path-matching issues in resource authorization.
+- **Antrea**, [GHSA-qcmw-8mm4-4p28](https://github.com/advisories/GHSA-qcmw-8mm4-4p28): missing encryption of sensitive data.
+- **CI4MS profile/user management**, [GHSA-vr2g-rhm5-q4jr](https://github.com/advisories/GHSA-vr2g-rhm5-q4jr): stored DOM XSS account takeover and privilege escalation.
+- **awslabs/tough delegated metadata validation**, [GHSA-4v58-8p28-2rq3](https://github.com/advisories/GHSA-4v58-8p28-2rq3): missing delegated metadata validation.
+- **awslabs/tough delegated-role thresholds**, [GHSA-8m7c-8m39-rv4x](https://github.com/advisories/GHSA-8m7c-8m39-rv4x): delegated role signature-threshold bypass.
+- **@workos/authkit-session**, [GHSA-vvvv-983w-r7pv](https://github.com/advisories/GHSA-vvvv-983w-r7pv): open redirect via state-derived redirect target.
+- **External Secrets Operator**, [GHSA-wv26-88m5-6h59](https://github.com/advisories/GHSA-wv26-88m5-6h59): namespace isolation bypass in `CAProvider` ConfigMap resolution for `SecretStore`.
+- **Microdot**, [GHSA-7wc8-wvc4-m498](https://github.com/advisories/GHSA-7wc8-wvc4-m498): HTTP response splitting in `Response.set_cookie()`.
+- **PyJWT**, [GHSA-752w-5fwx-jx9f](https://github.com/advisories/GHSA-752w-5fwx-jx9f): unknown `crit` header extensions accepted.
+- **Netty**, [GHSA-v8h7-rr48-vmmv](https://github.com/advisories/GHSA-v8h7-rr48-vmmv): start-line injection in `DefaultHttpRequest.setUri()` enabling HTTP request smuggling and RTSP request injection.
 
 ## Operator triage
 

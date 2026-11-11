@@ -4,9 +4,9 @@
 
 ## Advisories in this batch
 
-- **XWiki WebJars path traversal to configuration files** — `org.xwiki.platform:xwiki-platform-webjars-api >= 7.1.4, < 16.10.7` and `>= 17.0.0-rc-1, < 17.4.0-rc-1` can expose configuration files such as `WEB-INF/xwiki.cfg` through encoded separators in WebJars URLs. Fixed in 16.10.7 and 17.4.0-rc-1. Reference: <https://github.com/advisories/GHSA-qww7-89xh-x7m7>, CVE-2025-55747.
-- **sequoia-git hard-revocation handling gap** — `sequoia-git < 0.6.0` could miss hard revocations removed from a signing policy after a cache-key bug truncated the policy hash to zero bytes, allowing a malicious merge to strip a compromised signer revocation. Fixed in 0.6.0. Reference: <https://github.com/advisories/GHSA-g27r-r6ph-vf5r>.
-- **webonyx/graphql-php inline-fragment validation DoS** — `webonyx/graphql-php < 15.32.2` has quadratic `OverlappingFieldsCanBeMerged` validation cost for flattened inline fragments, letting low-rate requests consume PHP workers before execution. Fixed in 15.32.2. Reference: <https://github.com/advisories/GHSA-fc86-6rv6-2jpm>.
+- **XWiki WebJars path traversal to configuration files**, `org.xwiki.platform:xwiki-platform-webjars-api >= 7.1.4, < 16.10.7` and `>= 17.0.0-rc-1, < 17.4.0-rc-1` can expose configuration files such as `WEB-INF/xwiki.cfg` through encoded separators in WebJars URLs. Fixed in 16.10.7 and 17.4.0-rc-1. Reference: <https://github.com/advisories/GHSA-qww7-89xh-x7m7>, CVE-2025-55747.
+- **sequoia-git hard-revocation handling gap**, `sequoia-git < 0.6.0` could miss hard revocations removed from a signing policy after a cache-key bug truncated the policy hash to zero bytes, allowing a malicious merge to strip a compromised signer revocation. Fixed in 0.6.0. Reference: <https://github.com/advisories/GHSA-g27r-r6ph-vf5r>.
+- **webonyx/graphql-php inline-fragment validation DoS**, `webonyx/graphql-php < 15.32.2` has quadratic `OverlappingFieldsCanBeMerged` validation cost for flattened inline fragments, letting low-rate requests consume PHP workers before execution. Fixed in 15.32.2. Reference: <https://github.com/advisories/GHSA-fc86-6rv6-2jpm>.
 
 ## Why this is durable
 
@@ -40,4 +40,4 @@ These are not one-off bugs. They are trust-boundary failures around **canonicali
 
 ## Operator lesson
 
-Pre-execution code is still attack surface. Canonicalize before authority, preserve revocation provenance, and budget validators like they are exposed parsers—because they are.
+Pre-execution code is still attack surface. Canonicalize before authority, preserve revocation provenance, and budget validators like they are exposed parsers,because they are.

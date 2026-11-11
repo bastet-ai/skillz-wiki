@@ -1,4 +1,4 @@
-# Senaite LIMS unauthenticated eval injection — operator validation
+# Senaite LIMS unauthenticated eval injection, operator validation
 
 **Date reviewed:** 2026-08-27  
 **Advisory:** [GHSA-JRW6-7X4Q-W25J](https://github.com/advisories/GHSA-JRW6-7X4Q-W25J) / CVE-2026-54569  
@@ -22,7 +22,7 @@ WAF rule. The advisory describes a two-request anonymous chain:
    fix alone does not close the unauthenticated chain.
 
 The operator value is the **unauthenticated `eval()` on a JSON API
-route** — a rare, high-yield primitive on a Zope stack. Most Zope
+route**, a rare, high-yield primitive on a Zope stack. Most Zope
 applications sit behind the same Zope instance as other products, so
 a working chain here often gives a foothold on a host that also runs
 lab data, sample management, and sometimes internal integrations.
@@ -69,7 +69,7 @@ lab data, sample management, and sometimes internal integrations.
 
 ## Reporting heuristic
 
-- Lead with the **unauthenticated `eval()`** — it is the critical
+- Lead with the **unauthenticated `eval()`**, it is the critical
   finding. The authenticated variant is a secondary finding that
   requires two flaws to chain.
 - State the Zope instance version and whether the `update.py` route

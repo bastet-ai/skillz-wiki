@@ -6,11 +6,11 @@ This batch is durable because storage and admin planes repeatedly fail when path
 
 ## Advisories covered
 
-- **RustFS ListServiceAccount** — [GHSA-mm2q-qcmx-gw4w](https://github.com/advisories/GHSA-mm2q-qcmx-gw4w): wrong admin-action authorization can allow cross-user enumeration and root service-account takeover.
-- **django-s3file** — [GHSA-67qg-7284-2277](https://github.com/advisories/GHSA-67qg-7284-2277): relative path traversal.
-- **MinIO `ReadMultiple` storage-REST endpoint** — [GHSA-xh8f-g2qw-gcm7](https://github.com/advisories/GHSA-xh8f-g2qw-gcm7): path traversal through msgpack request bodies.
-- **OpenBao namespace deletion** — [GHSA-vv66-6rp4-wr4f](https://github.com/advisories/GHSA-vv66-6rp4-wr4f): namespace deletion may not delete data properly.
-- **Magento LTS API session IDs** — [GHSA-2cwr-gcf9-pvxr](https://github.com/advisories/GHSA-2cwr-gcf9-pvxr): weak API session IDs generated from predictable MD5 time-derived inputs.
+- **RustFS ListServiceAccount**, [GHSA-mm2q-qcmx-gw4w](https://github.com/advisories/GHSA-mm2q-qcmx-gw4w): wrong admin-action authorization can allow cross-user enumeration and root service-account takeover.
+- **django-s3file**, [GHSA-67qg-7284-2277](https://github.com/advisories/GHSA-67qg-7284-2277): relative path traversal.
+- **MinIO `ReadMultiple` storage-REST endpoint**, [GHSA-xh8f-g2qw-gcm7](https://github.com/advisories/GHSA-xh8f-g2qw-gcm7): path traversal through msgpack request bodies.
+- **OpenBao namespace deletion**, [GHSA-vv66-6rp4-wr4f](https://github.com/advisories/GHSA-vv66-6rp4-wr4f): namespace deletion may not delete data properly.
+- **Magento LTS API session IDs**, [GHSA-2cwr-gcf9-pvxr](https://github.com/advisories/GHSA-2cwr-gcf9-pvxr): weak API session IDs generated from predictable MD5 time-derived inputs.
 
 ## Operator triage
 

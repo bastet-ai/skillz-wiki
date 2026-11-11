@@ -1,4 +1,4 @@
-# Silverstripe email-field to code execution cluster — operator validation
+# Silverstripe email-field to code execution cluster, operator validation
 
 **Date reviewed:** 2026-08-27  
 **Advisories:** [GHSA-g8wr-r2v2-vqc6](https://github.com/advisories/GHSA-g8wr-r2v2-vqc6) / CVE-2026-54721 (high), [GHSA-39mm-rwm3-29jp](https://github.com/advisories/GHSA-39mm-r2v2-vqc6) / CVE-2026-54718 (high), [GHSA-gvrw-qqp5-jgc5](https://github.com/advisories/GHSA-gvrw-qqp5-jgc5) / CVE-2026-54720 (medium)  
@@ -10,7 +10,7 @@ Silverstripe ships a large family of CMS modules (core `framework`, `userforms`,
 `advancedworkflow`) that all render user-authored CMS fields. This wave shows a
 recurring trust-boundary defect: **email/template string fields are treated as
 trusted server-side markup or code, not as inert text.** Two of the three
-advisories are RCE, and both ride on the same primitive — an email-related CMS
+advisories are RCE, and both ride on the same primitive, an email-related CMS
 field that is evaluated by the server rather than rendered as a plain string.
 
 | Advisory | Product / field | Boundary | Fixed |
@@ -23,7 +23,7 @@ The RCE pair is the high-yield finding: a low- or medium-privilege CMS author
 who can write an email subject or an advanced-workflow email template can reach
 server-side code execution, because the field is passed to an evaluation sink
 instead of being output as escaped text. The media-embed XSS is the same
-pattern at lower severity — a web-host string crossing into a rendered
+pattern at lower severity, a web-host string crossing into a rendered
 `<script>`/embed context.
 
 The durable operator pattern is: **any CMS string field that is *used to build
@@ -36,7 +36,7 @@ reporting.
 - Enumerate Silverstripe modules and versions. `userforms`,
   `advancedworkflow`, and `framework` each have independent version axes and
   independent fixes (6.4.9 / 6.4.5 / 6.2.2 respectively). A host can be
-  patched on one module and unpatched on another — check each.
+  patched on one module and unpatched on another, check each.
 - Identify which CMS roles can author email subjects, advanced-workflow email
   templates, or insert web media. The primitive needs a CMS author, not an
   administrator; the blast radius is the whole web app.
@@ -73,7 +73,7 @@ reporting.
 
 - Lead with the **email-field → server-side evaluation** boundary. Name the
   exact field and the exact module. Distinguish the two RCEs (userforms email
-  subject vs advanced-workflow email template) — they are separate modules
+  subject vs advanced-workflow email template), they are separate modules
   with separate fixes.
 - Report the media-embed XSS as a lower-severity sibling finding on
   `framework` (embed host → untrusted script execution), not as part of the
@@ -90,4 +90,4 @@ reporting.
 
 ## Not promoted from the same wave
 
-- [GHSA-r5pm-vrc5-3m73](https://github.com/advisories/GHSA-r5pm-vrc5-3m73) / CVE-2026-54713 — `cakephp/queue` `getUniqueId` incomplete-comparison collision: queue identity/DoS surface, no durable offensive exploit path on its own.
+- [GHSA-r5pm-vrc5-3m73](https://github.com/advisories/GHSA-r5pm-vrc5-3m73) / CVE-2026-54713, `cakephp/queue` `getUniqueId` incomplete-comparison collision: queue identity/DoS surface, no durable offensive exploit path on its own.

@@ -6,7 +6,7 @@ This advisory is durable because it shows a subtle identity bootstrap failure: a
 
 ## Advisory covered
 
-- **Pelican WebUI privilege escalation** — [GHSA-rpfr-x88x-xwcw](https://github.com/advisories/GHSA-rpfr-x88x-xwcw) / CVE-2026-42571: affected Pelican WebUI deployments between `v7.21` and `v7.24` when OIDC login is enabled and admin identity is bootstrapped from `Server.UIAdminUsers` or `Server.AdminGroups` under specific first-login conditions. Patched lines include `>=v7.21.5`, `>=v7.22.3`, `>=v7.23.3`, and `>=v7.24.2`.
+- **Pelican WebUI privilege escalation**, [GHSA-rpfr-x88x-xwcw](https://github.com/advisories/GHSA-rpfr-x88x-xwcw) / CVE-2026-42571: affected Pelican WebUI deployments between `v7.21` and `v7.24` when OIDC login is enabled and admin identity is bootstrapped from `Server.UIAdminUsers` or `Server.AdminGroups` under specific first-login conditions. Patched lines include `>=v7.21.5`, `>=v7.22.3`, `>=v7.23.3`, and `>=v7.24.2`.
 
 ## Operator triage
 

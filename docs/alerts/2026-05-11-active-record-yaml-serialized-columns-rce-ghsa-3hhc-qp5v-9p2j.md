@@ -2,11 +2,11 @@
 
 Source: GitHub Security Advisory REST fallback updated 2026-05-11.
 
-This advisory is durable because it is the classic deserialization boundary in a web-app shape defenders still miss: database content is treated as trusted application object state. If an attacker can write a YAML-backed serialized column — often through SQL injection, unsafe admin imports, compromised integration tokens, or a lower-privileged data-write path — Active Record can deserialize that database value into Ruby objects and turn a data-write primitive into remote code execution.
+This advisory is durable because it is the classic deserialization boundary in a web-app shape defenders still miss: database content is treated as trusted application object state. If an attacker can write a YAML-backed serialized column, often through SQL injection, unsafe admin imports, compromised integration tokens, or a lower-privileged data-write path, Active Record can deserialize that database value into Ruby objects and turn a data-write primitive into remote code execution.
 
 ## Advisory covered
 
-- **Active Record RCE bug with serialized columns** — [GHSA-3hhc-qp5v-9p2j](https://github.com/advisories/GHSA-3hhc-qp5v-9p2j), CVE-2022-32224: RubyGems `activerecord` used `YAML.unsafe_load` for YAML serialized columns. Affected Rails / Active Record lines are `<=5.2.8`, `>=6.0.0,<=6.0.5`, `>=6.1.0,<=6.1.6`, and `>=7.0.0,<=7.0.3`; patched versions are `5.2.8.1`, `6.0.5.1`, `6.1.6.1`, and `7.0.3.1`. JSON and other non-YAML coders are not impacted by this specific bug.
+- **Active Record RCE bug with serialized columns**, [GHSA-3hhc-qp5v-9p2j](https://github.com/advisories/GHSA-3hhc-qp5v-9p2j), CVE-2022-32224: RubyGems `activerecord` used `YAML.unsafe_load` for YAML serialized columns. Affected Rails / Active Record lines are `<=5.2.8`, `>=6.0.0,<=6.0.5`, `>=6.1.0,<=6.1.6`, and `>=7.0.0,<=7.0.3`; patched versions are `5.2.8.1`, `6.0.5.1`, `6.1.6.1`, and `7.0.3.1`. JSON and other non-YAML coders are not impacted by this specific bug.
 
 ## Operator triage
 

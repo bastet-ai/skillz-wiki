@@ -6,12 +6,12 @@ This page is durable because the batch highlights four reusable operator pattern
 
 ## What changed
 
-- **Pheditor terminal handler RCE** — authenticated users with terminal access can bypass the `TERMINAL_COMMANDS` whitelist because shell metacharacter filtering was applied to `command` but not to the `dir` POST parameter before `cd <dir> && <command>` reached `shell_exec()`.
-- **Dex token exchange connector ACL gap** — the token-exchange handler validated that the requested connector exists and allows the token-exchange grant, but did not enforce the OAuth client's `allowedConnectors` restriction before issuing Dex-signed tokens.
-- **Phoenix Storybook playground RCE** — unauthenticated LiveView clients could send playground attribute values that were interpolated into generated HEEx markup and evaluated with full Elixir `Kernel` access.
-- **Phoenix Storybook cross-session iframe topic injection** — the iframe LiveView accepted a PubSub topic from a URL parameter, letting an unauthenticated visitor who knows or guesses another playground topic redirect playground-to-iframe messages to an attacker-controlled process.
-- **Phoenix Storybook atom exhaustion is adjacent signal** — unbounded `String.to_atom/1` use on LiveView event params can crash the BEAM VM. Treat it as evidence that unauthenticated playground events reach sensitive server-side conversion paths, not as a standalone availability playbook.
-- **Symfony Runtime patch bypass** — the previous `symfony/runtime` guard used `empty($_GET)` as a proxy for CLI context. Crafted web queries can leave `$_GET` empty while `$_SERVER['argv']` still carries flags when `register_argc_argv=On`, restoring unauthenticated `APP_ENV` / `APP_DEBUG` manipulation.
+- **Pheditor terminal handler RCE**, authenticated users with terminal access can bypass the `TERMINAL_COMMANDS` whitelist because shell metacharacter filtering was applied to `command` but not to the `dir` POST parameter before `cd <dir> && <command>` reached `shell_exec()`.
+- **Dex token exchange connector ACL gap**, the token-exchange handler validated that the requested connector exists and allows the token-exchange grant, but did not enforce the OAuth client's `allowedConnectors` restriction before issuing Dex-signed tokens.
+- **Phoenix Storybook playground RCE**, unauthenticated LiveView clients could send playground attribute values that were interpolated into generated HEEx markup and evaluated with full Elixir `Kernel` access.
+- **Phoenix Storybook cross-session iframe topic injection**, the iframe LiveView accepted a PubSub topic from a URL parameter, letting an unauthenticated visitor who knows or guesses another playground topic redirect playground-to-iframe messages to an attacker-controlled process.
+- **Phoenix Storybook atom exhaustion is adjacent signal**, unbounded `String.to_atom/1` use on LiveView event params can crash the BEAM VM. Treat it as evidence that unauthenticated playground events reach sensitive server-side conversion paths, not as a standalone availability playbook.
+- **Symfony Runtime patch bypass**, the previous `symfony/runtime` guard used `empty($_GET)` as a proxy for CLI context. Crafted web queries can leave `$_GET` empty while `$_SERVER['argv']` still carries flags when `register_argc_argv=On`, restoring unauthenticated `APP_ENV` / `APP_DEBUG` manipulation.
 
 ## Operator triage
 

@@ -1,4 +1,4 @@
-# 2026-02-05 — Sliver website subsystem path traversal → arbitrary file read (authenticated) (GHSA-2286-hxv5-cmp2)
+# 2026-02-05, Sliver website subsystem path traversal → arbitrary file read
 
 GitHub published an advisory for **Sliver** (Bishop Fox) describing a **path traversal / arbitrary file read** issue in the *website content* subsystem.
 

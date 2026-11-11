@@ -1,6 +1,6 @@
 # CI/CD to cloud pivot chain
 
-Source: [ProjectDiscovery — Red-Teaming Cloud Infrastructure with Neo](https://projectdiscovery.io/blog/red-teaming-cloud-infrastructure-with-neo), published 2026-05-21.
+Source: [ProjectDiscovery, Red-Teaming Cloud Infrastructure with Neo](https://projectdiscovery.io/blog/red-teaming-cloud-infrastructure-with-neo), published 2026-05-21.
 
 A self-hosted CI/CD server is often the shortest path from public recon to cloud impact. The durable operator lesson from ProjectDiscovery's Neo red-team lab is not the AI branding; it is the repeatable chain: internet-facing build service → admin/API access → build-agent code execution → instance metadata credentials → cloud secret stores and backups → private-subnet service validation.
 

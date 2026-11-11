@@ -4,14 +4,14 @@
 
 ## Advisories covered
 
-- **Spring AI VectorStore filter-expression injection** — [GHSA-qc4j-qjqx-vr58](https://github.com/advisories/GHSA-qc4j-qjqx-vr58): attacker-controlled vector-store filters could become backend queries. Fixed in 1.0.6 / 1.1.5.
-- **Spring AI CosmosDBVectorStore SQL injection** — [GHSA-63c8-m9m2-cvr3](https://github.com/advisories/GHSA-63c8-m9m2-cvr3): delete filters could inject Cosmos DB query syntax. Fixed in 1.0.6 / 1.1.5.
-- **Spring AI VectorStoreChatMemoryAdvisor cross-tenant memory exfiltration** — [GHSA-v6x6-pjxw-3pv2](https://github.com/advisories/GHSA-v6x6-pjxw-3pv2): conversation scoping could mix tenant memory. Fixed in 1.0.6 / 1.1.5.
-- **Spring AI ONNX predictable world-writable model cache** — [GHSA-r5hp-3cgj-j6xv](https://github.com/advisories/GHSA-r5hp-3cgj-j6xv): default `/tmp` cache placement could let local users influence model files. Fixed in 1.0.6 / 1.1.5.
-- **Spring AI PDF reader OOM** — [GHSA-26gg-9gv2-v27j](https://github.com/advisories/GHSA-26gg-9gv2-v27j): attacker-controlled PDFs could exhaust memory. Fixed in 1.0.6 / 1.1.5.
-- **Spring gRPC SecurityContext leak** — [GHSA-4g9c-3x4p-mfpp](https://github.com/advisories/GHSA-4g9c-3x4p-mfpp): authorization failure paths could leak security context across requests. Fixed in 1.0.3.
-- **Spring gRPC reflected AuthenticationException messages** — [GHSA-37w2-q6vh-45v6](https://github.com/advisories/GHSA-37w2-q6vh-45v6): remote clients could receive internal authentication exception content. Fixed in 1.0.3.
-- **Micronaut unbounded language caches** — [GHSA-8hjv-92q9-g4xj](https://github.com/advisories/GHSA-8hjv-92q9-g4xj), [GHSA-3rfq-4wpf-qqw3](https://github.com/advisories/GHSA-3rfq-4wpf-qqw3): `Accept-Language`-derived formatter/message caches could grow without bound. Fixed in 4.10.22.
+- **Spring AI VectorStore filter-expression injection**, [GHSA-qc4j-qjqx-vr58](https://github.com/advisories/GHSA-qc4j-qjqx-vr58): attacker-controlled vector-store filters could become backend queries. Fixed in 1.0.6 / 1.1.5.
+- **Spring AI CosmosDBVectorStore SQL injection**, [GHSA-63c8-m9m2-cvr3](https://github.com/advisories/GHSA-63c8-m9m2-cvr3): delete filters could inject Cosmos DB query syntax. Fixed in 1.0.6 / 1.1.5.
+- **Spring AI VectorStoreChatMemoryAdvisor cross-tenant memory exfiltration**, [GHSA-v6x6-pjxw-3pv2](https://github.com/advisories/GHSA-v6x6-pjxw-3pv2): conversation scoping could mix tenant memory. Fixed in 1.0.6 / 1.1.5.
+- **Spring AI ONNX predictable world-writable model cache**, [GHSA-r5hp-3cgj-j6xv](https://github.com/advisories/GHSA-r5hp-3cgj-j6xv): default `/tmp` cache placement could let local users influence model files. Fixed in 1.0.6 / 1.1.5.
+- **Spring AI PDF reader OOM**, [GHSA-26gg-9gv2-v27j](https://github.com/advisories/GHSA-26gg-9gv2-v27j): attacker-controlled PDFs could exhaust memory. Fixed in 1.0.6 / 1.1.5.
+- **Spring gRPC SecurityContext leak**, [GHSA-4g9c-3x4p-mfpp](https://github.com/advisories/GHSA-4g9c-3x4p-mfpp): authorization failure paths could leak security context across requests. Fixed in 1.0.3.
+- **Spring gRPC reflected AuthenticationException messages**, [GHSA-37w2-q6vh-45v6](https://github.com/advisories/GHSA-37w2-q6vh-45v6): remote clients could receive internal authentication exception content. Fixed in 1.0.3.
+- **Micronaut unbounded language caches**, [GHSA-8hjv-92q9-g4xj](https://github.com/advisories/GHSA-8hjv-92q9-g4xj), [GHSA-3rfq-4wpf-qqw3](https://github.com/advisories/GHSA-3rfq-4wpf-qqw3): `Accept-Language`-derived formatter/message caches could grow without bound. Fixed in 4.10.22.
 
 ## Why this is durable
 

@@ -4,8 +4,8 @@
 
 ## Advisory cluster
 
-- **`@profullstack/mcp-server` OS command injection in `domain_lookup`** — [GHSA-v6wj-c83f-v46x](https://github.com/advisories/GHSA-v6wj-c83f-v46x): `@profullstack/mcp-server <=1.4.12` allowed attacker-controlled input to reach OS command execution in the `domain_lookup` module. GitHub listed severity as critical and no patched version at scan time.
-- **Vert.x unbounded SNI `SslContext` cache growth** — [GHSA-3g76-f9xq-8vp6](https://github.com/advisories/GHSA-3g76-f9xq-8vp6): `io.vertx:vertx-core` ranges `4.3.4-4.3.8`, `4.4.0-4.4.9`, `4.5.0-4.5.25`, and `5.0.0-5.0.8` could grow server-side SNI SSL context caches without bound, enabling denial of service. No patched version was listed at scan time.
+- **`@profullstack/mcp-server` OS command injection in `domain_lookup`**, [GHSA-v6wj-c83f-v46x](https://github.com/advisories/GHSA-v6wj-c83f-v46x): `@profullstack/mcp-server <=1.4.12` allowed attacker-controlled input to reach OS command execution in the `domain_lookup` module. GitHub listed severity as critical and no patched version at scan time.
+- **Vert.x unbounded SNI `SslContext` cache growth**, [GHSA-3g76-f9xq-8vp6](https://github.com/advisories/GHSA-3g76-f9xq-8vp6): `io.vertx:vertx-core` ranges `4.3.4-4.3.8`, `4.4.0-4.4.9`, `4.5.0-4.5.25`, and `5.0.0-5.0.8` could grow server-side SNI SSL context caches without bound, enabling denial of service. No patched version was listed at scan time.
 
 ## Why this matters
 

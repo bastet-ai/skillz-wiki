@@ -1,4 +1,4 @@
-# 2026-02-02 — Fastify DoS via unbounded memory allocation in sendWebStream (GHSA-mrq3-vjjr-p77c)
+# 2026-02-02, Fastify DoS via unbounded memory allocation in sendWebStream (GHSA-mrq3-vjjr-p77c)
 
 ## Summary
 

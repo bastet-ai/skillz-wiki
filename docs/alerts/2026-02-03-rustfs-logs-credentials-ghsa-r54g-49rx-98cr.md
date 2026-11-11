@@ -1,4 +1,4 @@
-# 2026-02-03 — RustFS logs credentials in plaintext (GHSA-r54g-49rx-98cr)
+# 2026-02-03, RustFS logs credentials in plaintext (GHSA-r54g-49rx-98cr)
 
 **Summary:** RustFS logged sensitive credential material (access keys, secret keys, session tokens) at **INFO** level, resulting in plaintext secrets being written to logs and potentially forwarded to log aggregation systems.
 

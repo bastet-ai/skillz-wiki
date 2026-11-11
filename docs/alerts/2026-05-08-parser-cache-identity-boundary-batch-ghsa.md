@@ -4,12 +4,12 @@
 
 ## Advisories covered
 
-- **fast-uri percent-encoded dot-segment traversal** — [GHSA-q3j6-qgpj-74h6](https://github.com/advisories/GHSA-q3j6-qgpj-74h6): `fast-uri <= 3.1.0` accepted percent-encoded `.` / `..` segments in paths; patch to `3.1.1+`.
-- **@fastify/accepts-serializer Accept-header cache DoS** — [GHSA-qxhc-wx3p-2wmg](https://github.com/advisories/GHSA-qxhc-wx3p-2wmg): `@fastify/accepts-serializer <= 6.0.3` could grow negotiation caches without bound; patch to `6.0.4+`.
-- **ZITADEL LDAP filter injection in login flow** — [GHSA-rxvx-hhpj-q6px](https://github.com/advisories/GHSA-rxvx-hhpj-q6px): affected `github.com/zitadel/zitadel` 2.71.x, 3.x, and 4.x ranges; patch to the fixed tracks (`3.4.10+` or `4.15.0+` where applicable).
-- **ex_webrtc client-role handshake missing DTLS peer-fingerprint validation** — [GHSA-qwfw-ggxw-577c](https://github.com/advisories/GHSA-qwfw-ggxw-577c): patch `ex_webrtc` to `0.15.1+` or `0.16.1+`.
-- **MCP Registry OIDC audience replay across deployments** — [GHSA-95c3-6vvw-4mrq](https://github.com/advisories/GHSA-95c3-6vvw-4mrq): `github.com/modelcontextprotocol/registry < 1.7.6` used a shared GitHub OIDC audience; patch to `1.7.6+`.
-- **MCP Registry protocol-relative open redirect** — [GHSA-v8vw-gw5j-w7m6](https://github.com/advisories/GHSA-v8vw-gw5j-w7m6): `github.com/modelcontextprotocol/registry >= 1.1.0, < 1.7.5`; patch to `1.7.5+`.
+- **fast-uri percent-encoded dot-segment traversal**, [GHSA-q3j6-qgpj-74h6](https://github.com/advisories/GHSA-q3j6-qgpj-74h6): `fast-uri <= 3.1.0` accepted percent-encoded `.` / `..` segments in paths; patch to `3.1.1+`.
+- **@fastify/accepts-serializer Accept-header cache DoS**, [GHSA-qxhc-wx3p-2wmg](https://github.com/advisories/GHSA-qxhc-wx3p-2wmg): `@fastify/accepts-serializer <= 6.0.3` could grow negotiation caches without bound; patch to `6.0.4+`.
+- **ZITADEL LDAP filter injection in login flow**, [GHSA-rxvx-hhpj-q6px](https://github.com/advisories/GHSA-rxvx-hhpj-q6px): affected `github.com/zitadel/zitadel` 2.71.x, 3.x, and 4.x ranges; patch to the fixed tracks (`3.4.10+` or `4.15.0+` where applicable).
+- **ex_webrtc client-role handshake missing DTLS peer-fingerprint validation**, [GHSA-qwfw-ggxw-577c](https://github.com/advisories/GHSA-qwfw-ggxw-577c): patch `ex_webrtc` to `0.15.1+` or `0.16.1+`.
+- **MCP Registry OIDC audience replay across deployments**, [GHSA-95c3-6vvw-4mrq](https://github.com/advisories/GHSA-95c3-6vvw-4mrq): `github.com/modelcontextprotocol/registry < 1.7.6` used a shared GitHub OIDC audience; patch to `1.7.6+`.
+- **MCP Registry protocol-relative open redirect**, [GHSA-v8vw-gw5j-w7m6](https://github.com/advisories/GHSA-v8vw-gw5j-w7m6): `github.com/modelcontextprotocol/registry >= 1.1.0, < 1.7.5`; patch to `1.7.5+`.
 
 ## Why this is durable
 

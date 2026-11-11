@@ -1,14 +1,14 @@
-# Unauthenticated RCE / admin-escalation KEV wave: Kestra, JFrog Artifactory, Sangoma Switchvox (CVE-2026-49869, CVE-2026-82329, CVE-2026-9586)
+# Unauthenticated RCE / admin-escalation KEV wave
 
-**Why this is worth an operator page.** CISA KEV added three actively-exploited, *unauthenticated* entries on 2026-09-02/04, all with forensic-triage flags (`Yes`) and 2026-09-05 due dates. Each is a durable, replayable operator boundary — a suffix-match auth bypass to RCE, a default-config auth bypass to admin, and a single-request SQLi→RCE — and each maps to a class of control that shows up across many products:
+**Why this is worth an operator page.** CISA KEV added three actively-exploited, *unauthenticated* entries on 2026-09-02/04, all with forensic-triage flags (`Yes`) and 2026-09-05 due dates. Each is a durable, replayable operator boundary, a suffix-match auth bypass to RCE, a default-config auth bypass to admin, and a single-request SQLi→RCE, and each maps to a class of control that shows up across many products:
 
-- **CVE-2026-49869** — Kestra OSS (event-driven orchestration), CWE-78 + CWE-287. `AuthenticationFilter` whitelists the public config endpoint with `request.getPath().endsWith("/configs")` — a *suffix* match, not an exact path. Any API path whose last segment is `configs` skips Basic Auth entirely. Combined with Kestra shipping script-execution plugins (`plugin-script-shell`, `plugin-script-python`, …) enabled by default, an unauthenticated remote attacker can create and execute arbitrary workflows → unauthenticated RCE as root in the worker container. Fixed in 1.0.45 / 1.3.21.
-- **CVE-2026-82329** — JFrog Artifactory, CWE-287. Under **default configuration**, an unauthenticated attacker with network access can obtain administrative privileges.
-- **CVE-2026-9586** — Sangoma Switchvox SMB Edition 8.3 (104997), CWE-89, CVSSv4 9.3. The unauthenticated `/pa` endpoint parses `<PolycomIPPhone>` XML, and the `PhoneIP` field is concatenated into a PostgreSQL query with **no sanitization or parameterization**. A single crafted request executes arbitrary SQL as the PostgreSQL superuser → RCE. Patched in 8.4.0.2 (July 14 2026). Public research documents in-the-wild attempts.
+- **CVE-2026-49869**, Kestra OSS (event-driven orchestration), CWE-78 + CWE-287. `AuthenticationFilter` whitelists the public config endpoint with `request.getPath().endsWith("/configs")`, a *suffix* match, not an exact path. Any API path whose last segment is `configs` skips Basic Auth entirely. Combined with Kestra shipping script-execution plugins (`plugin-script-shell`, `plugin-script-python`, …) enabled by default, an unauthenticated remote attacker can create and execute arbitrary workflows → unauthenticated RCE as root in the worker container. Fixed in 1.0.45 / 1.3.21.
+- **CVE-2026-82329**, JFrog Artifactory, CWE-287. Under **default configuration**, an unauthenticated attacker with network access can obtain administrative privileges.
+- **CVE-2026-9586**, Sangoma Switchvox SMB Edition 8.3 (104997), CWE-89, CVSSv4 9.3. The unauthenticated `/pa` endpoint parses `<PolycomIPPhone>` XML, and the `PhoneIP` field is concatenated into a PostgreSQL query with **no sanitization or parameterization**. A single crafted request executes arbitrary SQL as the PostgreSQL superuser → RCE. Patched in 8.4.0.2 (July 14 2026). Public research documents in-the-wild attempts.
 
 This page gives the durable operator workflow: exposure recon, boundary validation, and compromise-verification checks for each. Chromium V8 type-confusion (CVE-2026-85046, added the same day) is a browser memory-safety entry with no public exploit path; it is tracked but **not** turned into an operator page.
 
-## Kestra — suffix-match auth bypass → unauth workflow RCE (CVE-2026-49869)
+## Kestra, suffix-match auth bypass → unauth workflow RCE (CVE-2026-49869)
 
 The control that broke is an **exact-path vs suffix-match** decision in an auth filter:
 
@@ -25,7 +25,7 @@ Operator boundary checks (authorized scope / lab only):
 
 Do not author or execute a real workflow on a production instance; prove the boundary with the auth-filter differential (auth required vs not) on a lab Kestra, and stop at "unauth reach + execution-capable route reachable" rather than spawning processes.
 
-## JFrog Artifactory — default-config unauth admin (CVE-2026-82329)
+## JFrog Artifactory, default-config unauth admin (CVE-2026-82329)
 
 Improper authentication that, **out of the box**, lets an unauthenticated network attacker reach administrative functions. Durable operator lesson: Artifactory is a high-value artifact/replication hub and a frequent pivot point in CI/CD and supply-chain chains, so "default config" is itself the vuln.
 
@@ -36,12 +36,12 @@ Operator boundary checks (authorized scope / lab only):
 
 Do not read, download, or publish artifacts, and do not create admin accounts on a production system. Boundary confirmation (unauth admin route reachable on default config) is the report.
 
-## Sangoma Switchvox — unauth SQLi → RCE via `/pa` PhoneIP (CVE-2026-9586)
+## Sangoma Switchvox, unauth SQLi → RCE via `/pa` PhoneIP (CVE-2026-9586)
 
 Public research (SRA Labs + Horizon3) documents the full chain and **in-the-wild** exploitation:
 
 1. Unauthenticated `POST /pa` with a `POSTDATA` body that **starts with `<PolycomIPPhone>`**.
-2. The handler (`PhoneAppsHandler.pm`) validates only the `<PolycomIPPhone>` prefix — no content sanitization — stores it, and dispatches a `tel_notify` command.
+2. The handler (`PhoneAppsHandler.pm`) validates only the `<PolycomIPPhone>` prefix, no content sanitization, stores it, and dispatches a `tel_notify` command.
 3. `tel_notify()` parses the XML (`XML::Simple::XMLin`) and extracts `PhoneIP` with **no validation**.
 4. `PhoneIP` is concatenated (single-quoted context) into a PostgreSQL query and executed via `$db->query("sql", $sql)` **as the PostgreSQL superuser**.
 
@@ -56,7 +56,7 @@ i.e. a SQLi escape out of the single-quoted `ip_address` value into a `COPY … 
 
 Operator boundary checks (authorized scope / lab only):
 - **Endpoint existence + version:** identify Switchvox SMB and the build; 8.3 (104997) is in scope, 8.4.0.2+ is patched. Record the exact version from the portal/headers.
-- **Auth gate on `/pa`:** confirm `/pa` is unauthenticated and accepts a `<PolycomIPPhone>`-prefixed body (the prefix check is the only gate). A body that is accepted and parsed past the prefix is the boundary evidence — stop before SQL injection.
+- **Auth gate on `/pa`:** confirm `/pa` is unauthenticated and accepts a `<PolycomIPPhone>`-prefixed body (the prefix check is the only gate). A body that is accepted and parsed past the prefix is the boundary evidence, stop before SQL injection.
 - **Sink characterization:** note the single-quoted `ip_address` SQL context + `COPY … TO PROGRAM` capability (superuser DB). Prove on a lab Switchvox with a marker command (e.g. write a canary file) at most; never run a reverse shell or read the production DB.
 - **Compromise verification (owner-directed):** if SSH access exists, Horizon3 notes exploit payloads can be observed in `/var/log/switchvox/db-quirks.log`. A read-only grep for `db-quirks.log` entries with `COPY … TO PROGRAM` / shell command strings is the owner-directed hunt; absence of IOCs is not proof of non-compromise.
 
@@ -65,8 +65,8 @@ Operator boundary checks (authorized scope / lab only):
 1. **Suffix-match vs exact-path auth filters are a reusable bypass axis.** Any auth/whitelist check that uses `endsWith`, `contains`, or a non-anchored path match can be satisfied by a *different* route with the same suffix. Audit every "public endpoint" allowlist for exactness; the exploit is "a route that should require auth ends in the same string as one that shouldn't."
 2. **Default-enabled execution plugins convert workflow/config writes into RCE.** For orchestration and automation products, inventory which script/code plugins are on by default. An unauth or low-priv write to a workflow/config is RCE the moment a shell/python plugin is present.
 3. **"Default configuration" is itself a vulnerability class.** Artifactory's unauth-admin is a *default* state. For high-value hubs (package repos, artifact registries, orchestration servers), the recon question is "is this still on factory defaults?", and a yes is the finding.
-4. **`COPY … TO PROGRAM` is the PostgreSQL RCE primitive** for unparameterized SQLi in a superuser-context DB. When a product embeds a PostgreSQL DB and injects user data into a query it runs as superuser, the endgame is `COPY TO PROGRAM`/command execution — recon for the sink, not just the injection.
-5. **Obfuscated vendor handlers are still reverse-engineerable.** Switchvox ships partially-obfuscated Perl; public research recovered the exact sink via de-obfuscation. Obfuscation is not a control — it delays the sink identification.
+4. **`COPY … TO PROGRAM` is the PostgreSQL RCE primitive** for unparameterized SQLi in a superuser-context DB. When a product embeds a PostgreSQL DB and injects user data into a query it runs as superuser, the endgame is `COPY TO PROGRAM`/command execution, recon for the sink, not just the injection.
+5. **Obfuscated vendor handlers are still reverse-engineerable.** Switchvox ships partially-obfuscated Perl; public research recovered the exact sink via de-obfuscation. Obfuscation is not a control, it delays the sink identification.
 
 ## Safety
 

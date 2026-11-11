@@ -6,8 +6,8 @@ This batch is durable because it shows how client-side and SDK trust boundaries 
 
 ## Advisories covered
 
-- **LobeHub / LobeChat `@lobehub/lobehub` <= 2.1.26** — [GHSA-xq4x-622m-q8fq](https://github.com/advisories/GHSA-xq4x-622m-q8fq): stored XSS in artifact/message rendering can chain with insecure Electron IPC exposure to remote code execution. No patched version was listed in the advisory at scan time.
-- **@supabase/auth-js <= 2.69.1** — [GHSA-8r88-6cj9-9fh5](https://github.com/advisories/GHSA-8r88-6cj9-9fh5): functions such as `getUserById`, `deleteUser`, `updateUserById`, `listFactors`, and `deleteFactor` accepted malformed `userId`/`factorId` values that could alter the URL path and call an unintended API route. Advisory text lists **2.70.0** as first patched in GitHub metadata and notes strict UUID checks in the patch guidance.
+- **LobeHub / LobeChat `@lobehub/lobehub` <= 2.1.26**, [GHSA-xq4x-622m-q8fq](https://github.com/advisories/GHSA-xq4x-622m-q8fq): stored XSS in artifact/message rendering can chain with insecure Electron IPC exposure to remote code execution. No patched version was listed in the advisory at scan time.
+- **@supabase/auth-js <= 2.69.1**, [GHSA-8r88-6cj9-9fh5](https://github.com/advisories/GHSA-8r88-6cj9-9fh5): functions such as `getUserById`, `deleteUser`, `updateUserById`, `listFactors`, and `deleteFactor` accepted malformed `userId`/`factorId` values that could alter the URL path and call an unintended API route. Advisory text lists **2.70.0** as first patched in GitHub metadata and notes strict UUID checks in the patch guidance.
 
 ## Operator triage
 

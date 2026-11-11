@@ -4,8 +4,8 @@
 
 ## Advisories covered
 
-- **docling-graph URLInputHandler SSRF** — [GHSA-fqph-j6v6-jvgx](https://github.com/advisories/GHSA-fqph-j6v6-jvgx): document ingestion accepted remote URLs without blocking internal IP ranges and metadata services.
-- **Apache Neethi remote policy reference SSRF** — [GHSA-287c-fxr7-3w6c](https://github.com/advisories/GHSA-287c-fxr7-3w6c): manually fetched policy references could retrieve arbitrary URIs through the PolicyReference API.
+- **docling-graph URLInputHandler SSRF**, [GHSA-fqph-j6v6-jvgx](https://github.com/advisories/GHSA-fqph-j6v6-jvgx): document ingestion accepted remote URLs without blocking internal IP ranges and metadata services.
+- **Apache Neethi remote policy reference SSRF**, [GHSA-287c-fxr7-3w6c](https://github.com/advisories/GHSA-287c-fxr7-3w6c): manually fetched policy references could retrieve arbitrary URIs through the PolicyReference API.
 
 ## Why this is durable
 

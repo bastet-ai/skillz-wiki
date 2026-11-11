@@ -31,7 +31,7 @@ Editor extensions auto-update and run with the user's privileges on the machine 
 - Shell startup files (`~/.bashrc`, `~/.zshrc`): file-write-to-RCE on the next shell.
 - Git hooks (`.git/hooks/pre-commit`, `post-checkout`): runs on the next ordinary Git operation.
 - Build/tooling config (`.vscode/tasks.json`, lint/test configs, dependency manifests): runs on the next build or install.
-- `~/.ssh/authorized_keys`: append a key (proof only — never actually done).
+- `~/.ssh/authorized_keys`: append a key (proof only, never actually done).
 
 ## Inputs
 
@@ -63,7 +63,7 @@ Confirm which diagram types survive the sanitizer allowlist. The key distinction
 
 ## 2. Separate sanitizer layers by timing
 
-Many editor extensions run two sanitizers: a server-side HTML pass (Cheerio) and a client-side pass (DOMPurify). Content injected into `<head>` (for example via a `head.html` include) can execute at parse time — before the React app and before DOMPurify have initialized. Verify:
+Many editor extensions run two sanitizers: a server-side HTML pass (Cheerio) and a client-side pass (DOMPurify). Content injected into `<head>` (for example via a `head.html` include) can execute at parse time, before the React app and before DOMPurify have initialized. Verify:
 
 - Which layer processes which content region (body vs head vs template).
 - The initialization order relative to the injected content.

@@ -4,15 +4,15 @@
 
 ## Advisories in this batch
 
-- **changedetection.io XXE** — `changedetection.io <= 0.54.9` accepted XML in a way that could trigger external entity processing. References: <https://github.com/advisories/GHSA-v7cp-2cx9-x793>, CVE-2026-41895.
-- **Signal K Server WebSocket login brute force** — `signalk-server <= 2.24.0` lacked rate limiting on the WebSocket login endpoint. References: <https://github.com/advisories/GHSA-vmfm-ch9h-5c7g>, CVE-2026-41893.
-- **CI4MS deactivated-user session bypass** — `ci4-cms-erp/ci4ms >= 0.26.0, <= 0.31.7.0` allowed sessions for users marked inactive. References: <https://github.com/advisories/GHSA-5hfv-c864-qcq9>, CVE-2026-41891.
-- **CI4MS arbitrary table drop through theme deletion** — `ci4-cms-erp/ci4ms >= 0.31.1.0, <= 0.31.7.0` allowed destructive database table deletion via `Theme deleteProcess`. References: <https://github.com/advisories/GHSA-vgrf-pr28-vf98>, CVE-2026-41890.
-- **Distribution tag deletion policy bypass** — `github.com/distribution/distribution/v3 < 3.1.1` and legacy `github.com/distribution/distribution <= 2.8.3` could delete tags despite `storage.delete.enabled` being disabled. References: <https://github.com/advisories/GHSA-6pjf-3r9x-m592>, CVE-2026-41888.
-- **nova-toggle-5 boolean field authorization bypass** — `almirhodzic/nova-toggle-5 < 1.3.0` let non-Nova users modify boolean fields through the toggle endpoint. References: <https://github.com/advisories/GHSA-f5c8-m5vw-rmgq>, CVE-2026-42202.
-- **RedwoodSDK same-site CSRF** — `rwsdk >= 1.0.0-beta.50, <= 1.2.2` lacked origin validation for server actions. References: <https://github.com/advisories/GHSA-m2m6-cff5-3w7c>, CVE-2026-42190.
-- **Lemmy post-link metadata SSRF** — `lemmy_api_common < 0.19.18` could fetch internal images through unvalidated `og:image` metadata. References: <https://github.com/advisories/GHSA-h6hf-9846-xwrq>, CVE-2026-42181.
-- **Lemmy Webmention SSRF** — `lemmy_api_common < 0.19.18` could trigger SSRF via `/api/v3/post` Webmention dispatch. References: <https://github.com/advisories/GHSA-3jvj-v6w2-h948>, CVE-2026-42180.
+- **changedetection.io XXE**, `changedetection.io <= 0.54.9` accepted XML in a way that could trigger external entity processing. References: <https://github.com/advisories/GHSA-v7cp-2cx9-x793>, CVE-2026-41895.
+- **Signal K Server WebSocket login brute force**, `signalk-server <= 2.24.0` lacked rate limiting on the WebSocket login endpoint. References: <https://github.com/advisories/GHSA-vmfm-ch9h-5c7g>, CVE-2026-41893.
+- **CI4MS deactivated-user session bypass**, `ci4-cms-erp/ci4ms >= 0.26.0, <= 0.31.7.0` allowed sessions for users marked inactive. References: <https://github.com/advisories/GHSA-5hfv-c864-qcq9>, CVE-2026-41891.
+- **CI4MS arbitrary table drop through theme deletion**, `ci4-cms-erp/ci4ms >= 0.31.1.0, <= 0.31.7.0` allowed destructive database table deletion via `Theme deleteProcess`. References: <https://github.com/advisories/GHSA-vgrf-pr28-vf98>, CVE-2026-41890.
+- **Distribution tag deletion policy bypass**, `github.com/distribution/distribution/v3 < 3.1.1` and legacy `github.com/distribution/distribution <= 2.8.3` could delete tags despite `storage.delete.enabled` being disabled. References: <https://github.com/advisories/GHSA-6pjf-3r9x-m592>, CVE-2026-41888.
+- **nova-toggle-5 boolean field authorization bypass**, `almirhodzic/nova-toggle-5 < 1.3.0` let non-Nova users modify boolean fields through the toggle endpoint. References: <https://github.com/advisories/GHSA-f5c8-m5vw-rmgq>, CVE-2026-42202.
+- **RedwoodSDK same-site CSRF**, `rwsdk >= 1.0.0-beta.50, <= 1.2.2` lacked origin validation for server actions. References: <https://github.com/advisories/GHSA-m2m6-cff5-3w7c>, CVE-2026-42190.
+- **Lemmy post-link metadata SSRF**, `lemmy_api_common < 0.19.18` could fetch internal images through unvalidated `og:image` metadata. References: <https://github.com/advisories/GHSA-h6hf-9846-xwrq>, CVE-2026-42181.
+- **Lemmy Webmention SSRF**, `lemmy_api_common < 0.19.18` could trigger SSRF via `/api/v3/post` Webmention dispatch. References: <https://github.com/advisories/GHSA-3jvj-v6w2-h948>, CVE-2026-42180.
 
 ## Why this is durable
 

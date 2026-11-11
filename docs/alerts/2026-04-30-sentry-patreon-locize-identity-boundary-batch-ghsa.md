@@ -1,4 +1,4 @@
-# Sentry SAML, Patreon auth, and locize message-origin identity boundary batch (GHSA-rcmw-7mc7-3rj7 / GHSA-f6qq-3m3h-4g42 / GHSA-w937-fg2h-xhq2)
+# Sentry SAML, Patreon auth, and locize message-origin identity boundary batch
 
 **Signal:** GitHub Security Advisories updated **2026-04-30**. Three identity-boundary bugs landed together: Sentry SAML account takeover, go-pkgz/auth Patreon account collapse, and locize InContext Editor cross-origin DOM XSS / handler hijack.
 

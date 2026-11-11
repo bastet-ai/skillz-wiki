@@ -6,9 +6,9 @@ This batch is durable because the issues map to reusable Airflow operator checks
 
 ## What changed
 
-- **Variable redaction depth bypass** — Airflow Variable responses could return plaintext values under sensitive key names such as `password`, `token`, `secret`, or `api_key` when the JSON value is nested deeper than the shared secrets masker's recursion limit. The affected precondition is an authenticated UI/API user with Variable read permission.
-- **Event-log detail IDOR across DAG scope** — `GET /api/v2/eventLogs/{event_log_id}` fetched audit-log rows by numeric ID after only a generic Audit Log permission check, while the list endpoint applied per-DAG scoping. A user authorized for one DAG's audit logs could enumerate numeric IDs and retrieve logs for other DAGs.
-- **JWT refresh cookie without `Secure`** — `JWTRefreshMiddleware` set the JWT auth cookie without the `Secure` flag. In the common topology where HTTPS terminates at nginx, Envoy, or a managed load balancer and cleartext HTTP reaches the Airflow API server, a network-positioned attacker could induce a browser request over HTTP and capture the session JWT.
+- **Variable redaction depth bypass**, Airflow Variable responses could return plaintext values under sensitive key names such as `password`, `token`, `secret`, or `api_key` when the JSON value is nested deeper than the shared secrets masker's recursion limit. The affected precondition is an authenticated UI/API user with Variable read permission.
+- **Event-log detail IDOR across DAG scope**, `GET /api/v2/eventLogs/{event_log_id}` fetched audit-log rows by numeric ID after only a generic Audit Log permission check, while the list endpoint applied per-DAG scoping. A user authorized for one DAG's audit logs could enumerate numeric IDs and retrieve logs for other DAGs.
+- **JWT refresh cookie without `Secure`**, `JWTRefreshMiddleware` set the JWT auth cookie without the `Secure` flag. In the common topology where HTTPS terminates at nginx, Envoy, or a managed load balancer and cleartext HTTP reaches the Airflow API server, a network-positioned attacker could induce a browser request over HTTP and capture the session JWT.
 
 ## Operator triage
 

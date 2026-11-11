@@ -6,15 +6,15 @@ This batch is durable because the advisories point to reusable operator checks f
 
 ## What changed
 
-- **Remote cluster invite token rotation** — affected Mattermost versions can accept an invite confirmation where `RefreshedToken` equals the original invite token, allowing authenticated reuse of a token that should have rotated.
-- **Shared-channel membership sync authorization** — a malicious remote cluster can send crafted membership-removal sync messages for channels it should not control, including private channels.
-- **Support-packet secret exposure** — Mattermost core and the Calls plugin can include sensitive configuration fields in support packets, including plaintext TURN credentials for Calls deployments.
-- **Playbooks public/private permission check** — users lacking public/private playbook permissions can still access public playbooks through the `/get` path.
-- **Created-user password disclosure** — created user passwords may be exposed in a way that enables impersonation when an attacker can observe the relevant output path.
-- **Slash-command response URL host-header trust** — custom slash command response URLs can be constructed from an attacker-supplied `Host` header, redirecting command responses to an attacker-controlled listener.
-- **AI-assisted rewrite channel-membership check** — crafted post-rewrite requests can expose private-channel or direct-message thread content to a user who is not a member.
-- **Burn-on-read reveal request forgery** — a crafted Markdown image tag can force reveal of a burn-on-read message because the reveal endpoint does not validate the expected `X-Requested-With` request shape.
-- **Playbook team reassignment drift** — users with only `Manage Playbook Configurations` can change a playbook's `team_id` through the update API and bypass manage-members restrictions.
+- **Remote cluster invite token rotation**, affected Mattermost versions can accept an invite confirmation where `RefreshedToken` equals the original invite token, allowing authenticated reuse of a token that should have rotated.
+- **Shared-channel membership sync authorization**, a malicious remote cluster can send crafted membership-removal sync messages for channels it should not control, including private channels.
+- **Support-packet secret exposure**, Mattermost core and the Calls plugin can include sensitive configuration fields in support packets, including plaintext TURN credentials for Calls deployments.
+- **Playbooks public/private permission check**, users lacking public/private playbook permissions can still access public playbooks through the `/get` path.
+- **Created-user password disclosure**, created user passwords may be exposed in a way that enables impersonation when an attacker can observe the relevant output path.
+- **Slash-command response URL host-header trust**, custom slash command response URLs can be constructed from an attacker-supplied `Host` header, redirecting command responses to an attacker-controlled listener.
+- **AI-assisted rewrite channel-membership check**, crafted post-rewrite requests can expose private-channel or direct-message thread content to a user who is not a member.
+- **Burn-on-read reveal request forgery**, a crafted Markdown image tag can force reveal of a burn-on-read message because the reveal endpoint does not validate the expected `X-Requested-With` request shape.
+- **Playbook team reassignment drift**, users with only `Manage Playbook Configurations` can change a playbook's `team_id` through the update API and bypass manage-members restrictions.
 
 ## Operator triage
 

@@ -19,7 +19,7 @@ For AI systems, safe harbor often matters because:
 
 ## Report quality bar (minimum)
 
-If you file a report—AI-assisted or not—include:
+If you file a report,AI-assisted or not,include:
 
 - Clear **scope + target**
 - Precise **steps to reproduce** (deterministic when possible)

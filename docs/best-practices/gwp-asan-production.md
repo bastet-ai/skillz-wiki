@@ -14,7 +14,7 @@ Traditional ASan is great in CI but too slow (and can change security properties
 ## Practical deployment patterns
 - **Enable by default in canary / staged rollouts**, then expand.
 - **Tune sampling** based on crash volume:
-  - start low (e.g., 1 per 100k–1M allocations)
+  - start low (e.g., 1 per 100k-1M allocations)
   - increase temporarily during incident response or hardening
 - **Keep symbolization workable**:
   - ship build IDs / symbols to your crash pipeline

@@ -6,12 +6,12 @@ This batch is durable because agent/workflow helpers keep letting remote project
 
 ## Advisories covered
 
-- **@evomap/evolver validator sandbox** — [GHSA-jxh8-jh77-xh6g](https://github.com/advisories/GHSA-jxh8-jh77-xh6g): sandbox allowlist permits `npm`/`npx`, enabling RCE from Hub-delivered validation tasks via lifecycle scripts.
-- **@evomap/evolver proxy `/asset/submit`** — [GHSA-7xp7-m392-h92c](https://github.com/advisories/GHSA-7xp7-m392-h92c): unbounded request bodies can cause persistent disk-exhaustion DoS.
-- **@evomap/evolver fetch** — [GHSA-cfcj-hqpf-hccf](https://github.com/advisories/GHSA-cfcj-hqpf-hccf): default-branch `safeId` path traversal allows Hub-controlled project-file overwrite and potential RCE.
-- **Ollama** — [GHSA-x99g-8v8j-25j2](https://github.com/advisories/GHSA-x99g-8v8j-25j2): path traversal in model/runtime file handling.
-- **open-websearch MCP tool** — [GHSA-v228-72c7-fx8j](https://github.com/advisories/GHSA-v228-72c7-fx8j): bracketed IPv6 literals and hostname-check gaps bypass private/local SSRF protections.
-- **AstrBot** — [GHSA-h3rr-9wqj-v3c6](https://github.com/advisories/GHSA-h3rr-9wqj-v3c6): incomplete filtering of special elements.
+- **@evomap/evolver validator sandbox**, [GHSA-jxh8-jh77-xh6g](https://github.com/advisories/GHSA-jxh8-jh77-xh6g): sandbox allowlist permits `npm`/`npx`, enabling RCE from Hub-delivered validation tasks via lifecycle scripts.
+- **@evomap/evolver proxy `/asset/submit`**, [GHSA-7xp7-m392-h92c](https://github.com/advisories/GHSA-7xp7-m392-h92c): unbounded request bodies can cause persistent disk-exhaustion DoS.
+- **@evomap/evolver fetch**, [GHSA-cfcj-hqpf-hccf](https://github.com/advisories/GHSA-cfcj-hqpf-hccf): default-branch `safeId` path traversal allows Hub-controlled project-file overwrite and potential RCE.
+- **Ollama**, [GHSA-x99g-8v8j-25j2](https://github.com/advisories/GHSA-x99g-8v8j-25j2): path traversal in model/runtime file handling.
+- **open-websearch MCP tool**, [GHSA-v228-72c7-fx8j](https://github.com/advisories/GHSA-v228-72c7-fx8j): bracketed IPv6 literals and hostname-check gaps bypass private/local SSRF protections.
+- **AstrBot**, [GHSA-h3rr-9wqj-v3c6](https://github.com/advisories/GHSA-h3rr-9wqj-v3c6): incomplete filtering of special elements.
 
 ## Operator triage
 

@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **HTTP/2 frame-size limit bypass through late buffer checks** — [GHSA-q6v9-r226-v65f](https://github.com/advisories/GHSA-q6v9-r226-v65f)
-- **Trusting client-supplied URI scheme on plaintext connections** — [GHSA-375f-4r2h-f99j](https://github.com/advisories/GHSA-375f-4r2h-f99j)
-- **CL.CL request smuggling via duplicate `Content-Length` headers** — [GHSA-c67r-gc9j-2qf7](https://github.com/advisories/GHSA-c67r-gc9j-2qf7)
-- **Unbounded WebSocket continuation-frame buffering** — [GHSA-pf94-94m9-536p](https://github.com/advisories/GHSA-pf94-94m9-536p)
-- **Unbounded WebSocket inflate causing BEAM OOM** — [GHSA-frh3-6pv6-rc8j](https://github.com/advisories/GHSA-frh3-6pv6-rc8j)
+- **HTTP/2 frame-size limit bypass through late buffer checks**, [GHSA-q6v9-r226-v65f](https://github.com/advisories/GHSA-q6v9-r226-v65f)
+- **Trusting client-supplied URI scheme on plaintext connections**, [GHSA-375f-4r2h-f99j](https://github.com/advisories/GHSA-375f-4r2h-f99j)
+- **CL.CL request smuggling via duplicate `Content-Length` headers**, [GHSA-c67r-gc9j-2qf7](https://github.com/advisories/GHSA-c67r-gc9j-2qf7)
+- **Unbounded WebSocket continuation-frame buffering**, [GHSA-pf94-94m9-536p](https://github.com/advisories/GHSA-pf94-94m9-536p)
+- **Unbounded WebSocket inflate causing BEAM OOM**, [GHSA-frh3-6pv6-rc8j](https://github.com/advisories/GHSA-frh3-6pv6-rc8j)
 
 ## Why this is durable
 

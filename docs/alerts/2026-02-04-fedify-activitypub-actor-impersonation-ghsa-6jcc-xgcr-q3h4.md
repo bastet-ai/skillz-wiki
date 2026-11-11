@@ -1,9 +1,9 @@
-# 2026-02-04 — Fedify ActivityPub actor impersonation via post-processing auth check (GHSA-6jcc-xgcr-q3h4 / CVE-2025-54888)
+# 2026-02-04, Fedify ActivityPub actor impersonation via post-processing auth check
 
 **Category:** AuthN/AuthZ logic flaw (order-of-operations)
 
 ## What happened
-Fedify (an ActivityPub framework) processed inbound activities **before** verifying that the HTTP Signature key belonged to the claimed `actor`. The server returns `401` after the check fails — but the activity may already have been processed or queued.
+Fedify (an ActivityPub framework) processed inbound activities **before** verifying that the HTTP Signature key belonged to the claimed `actor`. The server returns `401` after the check fails, but the activity may already have been processed or queued.
 
 This enables **unauthenticated actor impersonation** (send activities “as” any actor) across affected Fedify instances.
 
@@ -16,7 +16,7 @@ This is a classic **“auth after side effects”** bug:
 - The *security decision* (who is allowed) happens **after** the system has already taken an action.
 - In async systems (queues, event buses, background workers), “we return 401” is meaningless if you already enqueued the job.
 
-See: [Best practice — Auth before side effects](../best-practices/auth-before-side-effects.md)
+See: [Best practice, Auth before side effects](../best-practices/auth-before-side-effects.md)
 
 ## Detection ideas
 If you operate Fedify or similar systems, look for:

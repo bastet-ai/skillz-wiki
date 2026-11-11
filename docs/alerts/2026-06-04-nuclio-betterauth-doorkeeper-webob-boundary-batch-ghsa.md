@@ -50,7 +50,7 @@ Treat these as boundary checks: identity must bind to the target project, device
 - Advisory: [GHSA-6hx8-3wjj-gr8g / CVE-2026-54770](https://github.com/advisories/GHSA-6hx8-3wjj-gr8g) (third follow-up, `webob` < 1.8.11, patched 1.8.11)
 - Product: `webob`
 - Affected versions: `< 1.8.11`
-- Required position: same — ability to influence `Response.location`
+- Required position: same, ability to influence `Response.location`
 - Boundary: a single leading C0 control byte or ASCII space must not slip past the un-stripped `SCHEME_RE` / `startswith("//")` guards and then be silently removed by `urllib.parse.urljoin()` (Python 3.10+ `urlsplit()` strips leading/trailing C0 controls and spaces before parsing), turning a guarded value into an open redirect. This is the fix-drift variant of the same Location-normalization gate: the guard runs on the un-stripped value while the joiner normalizes it.
 
 ## Recon workflow
@@ -193,7 +193,7 @@ This extends the canonicalization check to the Python 3.10+ `urlsplit()` normali
 
 4. Interpret results:
    - **Contained:** `Location` stays same-origin, the input is rejected, or the value is 1.8.11+ (guard and joiner now agree on the normalized value).
-   - **Vulnerable boundary:** `Location` becomes `https://redirect-canary.example.test/path` — the leading byte passed the guard un-stripped and was removed by `urljoin()`.
+   - **Vulnerable boundary:** `Location` becomes `https://redirect-canary.example.test/path`, the leading byte passed the guard un-stripped and was removed by `urljoin()`.
 
 ## Evidence to capture
 
@@ -222,10 +222,10 @@ Avoid destructive validation in production. A metadata canary, controlled device
 - GitHub Advisory Database: [GHSA-fh3h-vg37-cc95 / CVE-2026-44889](https://github.com/advisories/GHSA-fh3h-vg37-cc95)
 - RFC 8628 OAuth 2.0 Device Authorization Grant, session-spying risk: https://www.rfc-editor.org/rfc/rfc8628#section-5.5
 
-## October 12 follow-up: Better Auth device flow approves blind — GET /device omits client_id and scope ([GHSA-v9c8-wq66-wf8g](https://github.com/advisories/GHSA-v9c8-wq66-wf8g)/CVE-2026-109346, high, 1.3.8-beta.3–<1.7.0-rc.3)
+## October 12 follow-up: Better Auth device flow approves blind, GET /device omits client_id and scope ([GHSA-v9c8-wq66-wf8g](https://github.com/advisories/GHSA-v9c8-wq66-wf8g)/CVE-2026-109346, high, 1.3.8-beta.3-<1.7.0-rc.3)
 
-The deviceAuthorization plugin's approval UI (`GET /device`) renders **no requesting `client_id`, no requested scope** — the user sees a code and a button, nothing about who is asking or what they're asking for. Attack: start a device request at `/device/code`, social-engineer a signed-in user into approving the displayed code, redeem at `/device/token` for a live session token. RFC 8628 §5.5's session-spying warning made concrete in a popular library.
+The deviceAuthorization plugin's approval UI (`GET /device`) renders **no requesting `client_id`, no requested scope**, the user sees a code and a button, nothing about who is asking or what they're asking for. Attack: start a device request at `/device/code`, social-engineer a signed-in user into approving the displayed code, redeem at `/device/token` for a live session token. RFC 8628 §5.5's session-spying warning made concrete in a popular library.
 
-Delta over this page's June device-code ownership finding: the June leg was *authorization* (code vs owner binding); this one is *informed-consent rendering* — the approval screen itself is the control, and a blank one converts every device flow into a consent-phish vector.
+Delta over this page's June device-code ownership finding: the June leg was *authorization* (code vs owner binding); this one is *informed-consent rendering*, the approval screen itself is the control, and a blank one converts every device flow into a consent-phish vector.
 
 Replayable check for any device-flow implementation (extends the RFC 8628 matrix already cited here): load the approval page with a lab client and check it displays (a) client identity, (b) requested scopes, (c) the code the user is confirming matches, (d) session context being granted. A missing field in that decision table is the finding. Keep proofs to your own client registrations and disposable accounts; never drive real users' approvals.

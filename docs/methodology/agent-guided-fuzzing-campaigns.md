@@ -10,7 +10,7 @@
 
 ## Core lesson
 
-Frontier coding agents can now build useful fuzzing campaigns without being handed every harness step. The operator value is not “ask an agent to fuzz it” — it is giving the agent a scoped target, hard validity rules, observable sanitizer output, and a replayable evidence standard.
+Frontier coding agents can now build useful fuzzing campaigns without being handed every harness step. The operator value is not “ask an agent to fuzz it”, it is giving the agent a scoped target, hard validity rules, observable sanitizer output, and a replayable evidence standard.
 
 Use this workflow for authorized source reviews where parser, compression, archive, media, protocol, model, or file-format code exposes attacker-controlled input.
 
@@ -90,15 +90,15 @@ Do not ask one session to maximize code coverage and find a vulnerability. Those
 
 Each worker should receive the same threat model and report schema, but only one outcome. Keep run IDs, repository commits, inputs, and artifacts isolated so results can be replayed independently.
 
-PortSwigger's October 6 "The model isn't cooperating" eval generalized this: open-ended research prompts ("explore other threats arising from the same root cause") cause models to silently steer toward low-impact, easy-to-observe outcomes without refusing — intelligence rank did not predict research score, and impact steering helped models unevenly (Opus 4.6 responded best). See the "October 6 follow-up" section of the [HTTP desync research campaigns](http-desync-research-campaigns.md) page for the trace-review, scope-narrowing, and per-model steering-response rules before adding agents or budget to a stalled campaign.
+PortSwigger's October 6 "The model isn't cooperating" eval generalized this: open-ended research prompts ("explore other threats arising from the same root cause") cause models to silently steer toward low-impact, easy-to-observe outcomes without refusing, intelligence rank did not predict research score, and impact steering helped models unevenly (Opus 4.6 responded best). See the "October 6 follow-up" section of the [HTTP desync research campaigns](http-desync-research-campaigns.md) page for the trace-review, scope-narrowing, and per-model steering-response rules before adding agents or budget to a stalled campaign.
 
 ### October 15 follow-up: Burp AT control-plane updates map onto the same tasking rules
 
 PortSwigger's [Burp AT: What's new since Black Hat](https://portswigger.net/blog/burp-at-whats-new-since-black-hat) (Oct 15) shipped product features that validate the campaign rules above and add three operator-relevant primitives for any agentic testing harness, not just Burp AT:
 
-- **Custom skills = codified methodology.** The ability to add your own skills (selectable via slash commands instead of leaving invocation to the model) is the deterministic-coding-of-process rule made configurable: repeated manual steps become a skill so the agent follows the same procedure per engagement. Practical rule: whenever a campaign trace shows the agent improvising a procedure you already know works, freeze it as a skill rather than re-prompting — this also removes one silent-steering vector (the model choosing *how* to explore).
-- **`/goal` outcome-setting is the ToB completion-contract pattern in product form:** the agent keeps working across steps until the objective, a can't-do verdict, or a set limit — matching the testable completion-contract guidance above (define the outcome, cap the run, do not re-prompt per stage).
-- **Approval rejection with redirect + session-scoped approve-once-more:** rejecting a tool call and stating the alternative action mid-run is the human-in-the-loop steering leg the Oct-6 model-cooperation eval says models respond to unevenly — note which steering responses your model actually honors inside Burp AT before trusting the same prompt style in a swarm harness. Context handover (send requests/issues from the proxy, attach scope docs/API specs to tasks) and queued prompts are the trajectory-continuity features to demand from any harness you build: mid-flight ideas should enter a queue, not restart the run.
+- **Custom skills = codified methodology.** The ability to add your own skills (selectable via slash commands instead of leaving invocation to the model) is the deterministic-coding-of-process rule made configurable: repeated manual steps become a skill so the agent follows the same procedure per engagement. Practical rule: whenever a campaign trace shows the agent improvising a procedure you already know works, freeze it as a skill rather than re-prompting, this also removes one silent-steering vector (the model choosing *how* to explore).
+- **`/goal` outcome-setting is the ToB completion-contract pattern in product form:** the agent keeps working across steps until the objective, a can't-do verdict, or a set limit, matching the testable completion-contract guidance above (define the outcome, cap the run, do not re-prompt per stage).
+- **Approval rejection with redirect + session-scoped approve-once-more:** rejecting a tool call and stating the alternative action mid-run is the human-in-the-loop steering leg the Oct-6 model-cooperation eval says models respond to unevenly, note which steering responses your model actually honors inside Burp AT before trusting the same prompt style in a swarm harness. Context handover (send requests/issues from the proxy, attach scope docs/API specs to tasks) and queued prompts are the trajectory-continuity features to demand from any harness you build: mid-flight ideas should enter a queue, not restart the run.
 
 For harness builders and bounty-swarm operators, this post is a feature checklist: skills-with-direct-invocation, goal-contracts, reject-and-redirect approvals, per-action durable approval, artifact/context attachment, and prompt queueing are the capabilities the market leader just converged on; missing any of them in your own harness predicts where operator friction lands.
 
@@ -275,7 +275,7 @@ Low-signal reports to avoid:
 
 This report extends the campaign workflow from "find one bug in a parser" to a
 **containment-escape goal**: an agent starts outside a QEMU/KVM VM, gets SSH in,
-and must read a flag on the host — i.e. it must escape the VM. The agent ran for
+and must read a flag on the host, i.e. it must escape the VM. The agent ran for
 roughly 12 hours, backtracked, wrote its own oracles, and chained several 0-days
 to get a host primitive. Treat it as the durable template for any authorized
 red-team / sandbox-escape scenario where the target boundary is a VM, container,
@@ -292,7 +292,7 @@ or agent sandbox rather than a single component.
 
 2. **Distribution backport lag is attack surface.** The agent's first two
    escapes both came from bugs that were *fixed upstream but not present in the
-   distro's shipped package* — one a CVE that never reached `oldstable`, one a
+   distro's shipped package*, one a CVE that never reached `oldstable`, one a
    plain fix commit with **no CVE assigned** that the agent combined with a real
    CVE to make an arbitrary host memory read/write. So the recon step is a
    three-way diff, not a CVE lookup:
@@ -308,14 +308,14 @@ or agent sandbox rather than a single component.
    `mitigations=off`, VAPIC ROM aliasing, and SMRAM each opened a distinct path.
    The operator should enumerate every enabled device/feature and treat "we don't
    use the display" as a note that a display-renderer bug is *not* currently
-   reachable — not as a reason to skip it. Record the precondition that blocks
+   reachable, not as a reason to skip it. Record the precondition that blocks
    each candidate so the report states exactly what configuration makes it live.
 
 4. **Long-horizon persistence is the campaign property.** What made this run
    different from a short fuzz session: the agent kept a research ledger,
    backtracked across dead ends over many sub-agent invocations, wrote minimal
    oracles to test hypotheses, and stopped only on a *reliable* exploit. The
-   "one outcome per agent" rule still applies — the goal was "read the flag",
+   "one outcome per agent" rule still applies, the goal was "read the flag",
    not "maximize coverage". Coverage/telemetry and the escape primitive are
    separate tracks.
 
@@ -378,20 +378,20 @@ actually close the bug I reported."
 ### The base rate
 
 ToB reviewed every Patch the Planet PR a maintainer merged: **21 confirmed
-regressions across 130+ merged PRs (~16%)** — 16 functional, one performance,
+regressions across 130+ merged PRs (~16%)**, 16 functional, one performance,
 four build/test; none broke a security protection. A single agent run flagged 58
 candidates for those 21 (≈36% precision), and the structured plugin cut
 false-positive rate 25% vs a baseline "review the PR for regressions" prompt
-(95% CI 14–38%) at the cost of leaving some known regressions "borderline."
+(95% CI 14-38%) at the cost of leaving some known regressions "borderline."
 
 Operator takeaways:
 
-- Vendor/maintainer patches — increasingly agent-authored — are a **fresh attack
+- Vendor/maintainer patches, increasingly agent-authored, are a **fresh attack
   surface with a known defect rate**. A fix commit is a small, reviewed-intent
   diff written under time pressure across ~130 PRs per quarter per initiative;
   diff-review the fix itself as you would new code.
 - The regression classes observed were functional/build, not security-gating
-  breaks — but functional regressions on parser/auth paths are exactly where
+  breaks, but functional regressions on parser/auth paths are exactly where
   variant bugs re-open. The fix-diff differential discovery map pattern (fix
   history as a discovery map) extends backward: the *fix diff itself*, not just
   the sibling routes it missed.
@@ -405,22 +405,22 @@ three arms:
 2. patched code **passes**,
 3. a complete revert of the patch **fails again**.
 
-The revert arm is the part hunters should steal: it proves the patch — not an
-environment change, test edit, or dependency bump — is what closed the behavior.
+The revert arm is the part hunters should steal: it proves the patch, not an
+environment change, test edit, or dependency bump, is what closed the behavior.
 When a vendor marks your report fixed, re-run your PoC on the patched build AND
 verify the fix commit revert re-opens it before accepting "fixed" or moving to
 variant analysis. A "fixed" ticket where the revert arm doesn't fail means
-something else masked the bug — the class is still live in variants.
+something else masked the bug, the class is still live in variants.
 
 ### The adjudication battery (inverted, it's a report-strength checklist)
 
 `regression-hunt` only reports a finding after an adjudication agent proves the
 candidate is **not**: a false positive, an incomplete fix, a latent bug, or a
-pre-existing bug — with a live-PoC replay on a fresh-context agent each time.
+pre-existing bug, with a live-PoC replay on a fresh-context agent each time.
 No live PoC against a running instance reached through real user interfaces =
 result is inconclusive, full stop. Inverted for hunting: before submitting,
 actively rule out that your finding is pre-existing (older affected band than
-you assumed), environment-dependent, or harness-only — the same gates ToB uses
+you assumed), environment-dependent, or harness-only, the same gates ToB uses
 to suppress noise are the gates that make a submission survive triage.
 
 ### Schema discipline transfers to swarm harnesses

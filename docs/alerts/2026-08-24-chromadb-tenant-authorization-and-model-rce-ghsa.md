@@ -38,7 +38,7 @@ All four advisories affect the `chromadb` Python package in roughly `>= 0.4.17, 
 ### Model-loading RCE check (post-auth)
 
 - **Version and route proof first:** capture the ChromaDB version, the `UPDATE_COLLECTION`-authorized session, and the exact `update_collection` route before sending any payload.
-- **Use a controlled benign model repo in a lab:** host a minimal Hugging Face-compatible model repository that performs a harmless canary action — request a tester-owned callback URL or write a marker to a disposable path inside the container.
+- **Use a controlled benign model repo in a lab:** host a minimal Hugging Face-compatible model repository that performs a harmless canary action, request a tester-owned callback URL or write a marker to a disposable path inside the container.
 - **Prove post-auth execution safely:** with the authorized session, send an `update_collection` body that sets the controlled model name and `trust_remote_code: true`. Verify the benign canary fired. Do not read environment variables, tokens, collection data, or mounted secrets on production systems.
 - **Distinguish from the pre-auth batch:** this path requires a valid `UPDATE_COLLECTION` session. Note that explicitly so the report is not conflated with the 2026-05-29 pre-auth ordering finding.
 
@@ -64,6 +64,6 @@ All four advisories affect the `chromadb` Python package in roughly `>= 0.4.17, 
 
 ## September 16 follow-up: Chroma tenant/database segments unvalidated in collection resolution
 
-[GHSA-j8fq-8cc8-m22c](https://github.com/advisories/GHSA-j8fq-8cc8-m22c) / CVE-2026-92782: Chroma through 1.5.9 does not validate the **tenant and database segments** when resolving collections — an authenticated caller issuing requests under its own tenant path but naming a foreign collection identifier can read, modify, and update records in other tenants' collections. Same UUID-keyed-resolution root cause as the Aug 24 wave on this page; treat it as confirmation that the tenant segment remained decorative in the resolver through 1.5.x.
+[GHSA-j8fq-8cc8-m22c](https://github.com/advisories/GHSA-j8fq-8cc8-m22c) / CVE-2026-92782: Chroma through 1.5.9 does not validate the **tenant and database segments** when resolving collections, an authenticated caller issuing requests under its own tenant path but naming a foreign collection identifier can read, modify, and update records in other tenants' collections. Same UUID-keyed-resolution root cause as the Aug 24 wave on this page; treat it as confirmation that the tenant segment remained decorative in the resolver through 1.5.x.
 
 Operator replay unchanged: two-tenant lab, synthetic canary docs, one operation at a time (peek/add/update under tenant A against tenant B's collection UUID), decision table per V1/V2 route. Add the `1.5.9` boundary to the version-evidence matrix; any engagement checklist item that said "patched past 0.6.x" must be re-run on current releases.

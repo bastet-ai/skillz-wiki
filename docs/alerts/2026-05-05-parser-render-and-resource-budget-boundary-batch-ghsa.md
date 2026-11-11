@@ -6,14 +6,14 @@ This batch is durable because old parser assumptions keep resurfacing: recursive
 
 ## Advisories covered
 
-- **Underscore recursion DoS** — [GHSA-qpx9-hpmf-5gmw](https://github.com/advisories/GHSA-qpx9-hpmf-5gmw): `_.flatten` and `_.isEqual` can recurse without bound.
-- **OpAMP unbounded response bodies** — [GHSA-w2jh-77fq-7gp8](https://github.com/advisories/GHSA-w2jh-77fq-7gp8): client reads HTTP response bodies without size limits.
-- **Prometheus old web UI heatmap XSS** — [GHSA-fw8g-cg8f-9j28](https://github.com/advisories/GHSA-fw8g-cg8f-9j28): crafted histogram bucket label values can trigger stored XSS.
-- **GraphQL-Ruby token-count bypass** — [GHSA-3h96-34p3-xm76](https://github.com/advisories/GHSA-3h96-34p3-xm76): Ruby lexer excludes comment tokens from `max_query_string_tokens` accounting.
-- **ip-address HTML helper XSS** — [GHSA-v2v4-37r5-5v8g](https://github.com/advisories/GHSA-v2v4-37r5-5v8g): Address6 HTML-emitting methods can produce XSS.
-- **Mongoose `$nor` sanitizeFilter gap** — [GHSA-wpg9-53fq-2r8h](https://github.com/advisories/GHSA-wpg9-53fq-2r8h): improper `$nor` sanitization can allow NoSQL injection.
-- **rust-openssl OCSP responder UB** — [GHSA-xp3w-r5p5-63rr](https://github.com/advisories/GHSA-xp3w-r5p5-63rr): non-UTF-8 OCSP URLs in certificates can trigger undefined behavior.
-- **Plug.Cowboy HTTP/2 atom-table exhaustion** — [GHSA-q8x4-x7mp-5vg2](https://github.com/advisories/GHSA-q8x4-x7mp-5vg2): unauthenticated HTTP/2 `:scheme` values can exhaust the atom table.
+- **Underscore recursion DoS**, [GHSA-qpx9-hpmf-5gmw](https://github.com/advisories/GHSA-qpx9-hpmf-5gmw): `_.flatten` and `_.isEqual` can recurse without bound.
+- **OpAMP unbounded response bodies**, [GHSA-w2jh-77fq-7gp8](https://github.com/advisories/GHSA-w2jh-77fq-7gp8): client reads HTTP response bodies without size limits.
+- **Prometheus old web UI heatmap XSS**, [GHSA-fw8g-cg8f-9j28](https://github.com/advisories/GHSA-fw8g-cg8f-9j28): crafted histogram bucket label values can trigger stored XSS.
+- **GraphQL-Ruby token-count bypass**, [GHSA-3h96-34p3-xm76](https://github.com/advisories/GHSA-3h96-34p3-xm76): Ruby lexer excludes comment tokens from `max_query_string_tokens` accounting.
+- **ip-address HTML helper XSS**, [GHSA-v2v4-37r5-5v8g](https://github.com/advisories/GHSA-v2v4-37r5-5v8g): Address6 HTML-emitting methods can produce XSS.
+- **Mongoose `$nor` sanitizeFilter gap**, [GHSA-wpg9-53fq-2r8h](https://github.com/advisories/GHSA-wpg9-53fq-2r8h): improper `$nor` sanitization can allow NoSQL injection.
+- **rust-openssl OCSP responder UB**, [GHSA-xp3w-r5p5-63rr](https://github.com/advisories/GHSA-xp3w-r5p5-63rr): non-UTF-8 OCSP URLs in certificates can trigger undefined behavior.
+- **Plug.Cowboy HTTP/2 atom-table exhaustion**, [GHSA-q8x4-x7mp-5vg2](https://github.com/advisories/GHSA-q8x4-x7mp-5vg2): unauthenticated HTTP/2 `:scheme` values can exhaust the atom table.
 
 ## Operator triage
 

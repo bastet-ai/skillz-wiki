@@ -1,4 +1,4 @@
-# 2026-02-07 — Antrea NetworkPolicy enforcement-order bug via integer overflow (GHSA-86x4-wp9f-wrr9)
+# 2026-02-07, Antrea NetworkPolicy enforcement-order bug via integer overflow (GHSA-86x4-wp9f-wrr9)
 
 GitHub advisory: <https://github.com/advisories/GHSA-86x4-wp9f-wrr9>
 

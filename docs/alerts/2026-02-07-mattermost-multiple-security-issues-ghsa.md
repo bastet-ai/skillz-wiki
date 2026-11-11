@@ -1,4 +1,4 @@
-# 2026-02-07 — Mattermost Server: multiple security issues (GHSAs)
+# 2026-02-07, Mattermost Server: multiple security issues (GHSAs)
 
 GitHub advisories:
 

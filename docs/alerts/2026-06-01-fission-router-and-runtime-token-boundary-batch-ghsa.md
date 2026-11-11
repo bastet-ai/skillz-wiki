@@ -6,12 +6,12 @@ Fission before `1.23.0` exposed two useful serverless-control-plane seams: publi
 
 ## Advisory signals
 
-- **Internal route on public listener** — the Fission router registered `/fission-function/<name>` and `/fission-function/<namespace>/<name>` on the same public listener that served user `HTTPTrigger` routes. Any caller who could reach `svc/router` on port `8888` could try direct function invocation, independent of the configured host, path, or method rules on `HTTPTrigger` objects.
-- **Trigger-bypass primitive** — functions intended only for timer, kubewatcher, message-queue, helper, or sample use could be invoked by guessed name/namespace. Published functions could also be called with methods or paths that the trigger did not allow.
-- **Enumeration oracle** — response differences such as `404`, successful invocation, or cold-start / backend errors can disclose whether a function name exists, even when the intended HTTP route is absent.
-- **Pod identity bleed** — runtime pods used the `fission-fetcher` service account, and the user function container could read the automounted Kubernetes token from `/var/run/secrets/kubernetes.io/serviceaccount/token`. That token was allowed to `get` secrets and configmaps namespace-wide, bypassing the apparent `Function.spec.secrets` allowlist boundary.
-- **Patch shape** — Fission `1.23.0` separates public and internal listeners, keeps `/fission-function/...` on a ClusterIP-only internal listener with service HMAC verification, adds network-policy constraints, and suppresses token exposure to the user function container while preserving fetcher-side access.
-- **Adjacent CI/registry cue** — MCP Registry `GHSA-95c3-6vvw-4mrq` is a lower-severity but useful analogue: GitHub Actions OIDC tokens used a shared audience string instead of a registry-instance-bound audience, creating cross-deployment replay risk for publisher workflows.
+- **Internal route on public listener**, the Fission router registered `/fission-function/<name>` and `/fission-function/<namespace>/<name>` on the same public listener that served user `HTTPTrigger` routes. Any caller who could reach `svc/router` on port `8888` could try direct function invocation, independent of the configured host, path, or method rules on `HTTPTrigger` objects.
+- **Trigger-bypass primitive**, functions intended only for timer, kubewatcher, message-queue, helper, or sample use could be invoked by guessed name/namespace. Published functions could also be called with methods or paths that the trigger did not allow.
+- **Enumeration oracle**, response differences such as `404`, successful invocation, or cold-start / backend errors can disclose whether a function name exists, even when the intended HTTP route is absent.
+- **Pod identity bleed**, runtime pods used the `fission-fetcher` service account, and the user function container could read the automounted Kubernetes token from `/var/run/secrets/kubernetes.io/serviceaccount/token`. That token was allowed to `get` secrets and configmaps namespace-wide, bypassing the apparent `Function.spec.secrets` allowlist boundary.
+- **Patch shape**, Fission `1.23.0` separates public and internal listeners, keeps `/fission-function/...` on a ClusterIP-only internal listener with service HMAC verification, adds network-policy constraints, and suppresses token exposure to the user function container while preserving fetcher-side access.
+- **Adjacent CI/registry cue**, MCP Registry `GHSA-95c3-6vvw-4mrq` is a lower-severity but useful analogue: GitHub Actions OIDC tokens used a shared audience string instead of a registry-instance-bound audience, creating cross-deployment replay risk for publisher workflows.
 
 ## Operator triage
 

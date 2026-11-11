@@ -6,9 +6,9 @@ These advisories are durable because they all involve small helper APIs that loo
 
 ## Advisories covered
 
-- **Kysely: JSON-path traversal injection via unsanitized path-leg metacharacters in `JSONPathBuilder.key()` / `.at()`** — [GHSA-pv5w-4p9q-p3v2](https://github.com/advisories/GHSA-pv5w-4p9q-p3v2), CVE-2026-44635 (High): npm `kysely` >= 0.26.0, < 0.28.17; fixed in `0.28.17`.
-- **local-deep-research is Vulnerable to HTML Injection via Unescaped User Input in PDF Export (`pdf_service.py:_markdown_to_html`)** — [GHSA-fj2m-qvh9-jq4q](https://github.com/advisories/GHSA-fj2m-qvh9-jq4q), CVE-2026-43979 (Medium): pip `local-deep-research` < 1.6.0; fixed in `1.6.0`.
-- **Yii 2: Local file inclusion via view parameter name collision** — [GHSA-5vpg-rj7q-qpw2](https://github.com/advisories/GHSA-5vpg-rj7q-qpw2), CVE-2026-39850 (High): composer `yiisoft/yii2` < 2.0.55; fixed in `2.0.55`.
+- **Kysely: JSON-path traversal injection via unsanitized path-leg metacharacters in `JSONPathBuilder.key()` / `.at()`**, [GHSA-pv5w-4p9q-p3v2](https://github.com/advisories/GHSA-pv5w-4p9q-p3v2), CVE-2026-44635 (High): npm `kysely` >= 0.26.0, < 0.28.17; fixed in `0.28.17`.
+- **local-deep-research is Vulnerable to HTML Injection via Unescaped User Input in PDF Export (`pdf_service.py:_markdown_to_html`)**, [GHSA-fj2m-qvh9-jq4q](https://github.com/advisories/GHSA-fj2m-qvh9-jq4q), CVE-2026-43979 (Medium): pip `local-deep-research` < 1.6.0; fixed in `1.6.0`.
+- **Yii 2: Local file inclusion via view parameter name collision**, [GHSA-5vpg-rj7q-qpw2](https://github.com/advisories/GHSA-5vpg-rj7q-qpw2), CVE-2026-39850 (High): composer `yiisoft/yii2` < 2.0.55; fixed in `2.0.55`.
 
 ## Operator triage
 

@@ -6,15 +6,15 @@ The durable lesson is to bind network, file, and scanner helpers to a resolved t
 
 ## Advisories covered
 
-- **django-s3file relative path traversal** — [GHSA-67qg-7284-2277](https://github.com/advisories/GHSA-67qg-7284-2277): relative paths could escape intended object/file locations.
-- **ciguard symlink escape** — [GHSA-8cxw-cc62-q28v](https://github.com/advisories/GHSA-8cxw-cc62-q28v): pipeline discovery followed symlinks out of the scan root.
-- **ciguard container runs as root** — [GHSA-jrm4-4pcf-4763](https://github.com/advisories/GHSA-jrm4-4pcf-4763): scanner container defaults increased blast radius because no USER directive lowered privilege.
-- **OpenTelemetry OTLP disk retry local blob injection** — [GHSA-4625-4j76-fww9](https://github.com/advisories/GHSA-4625-4j76-fww9): default temp-path behavior let local users inject retry blobs.
-- **changedetection.io backup-restore file read** — [GHSA-8757-69j2-hx56](https://github.com/advisories/GHSA-8757-69j2-hx56): crafted backup restore could read arbitrary local files.
-- **ssrfcheck incomplete SSRF deny-list** — [GHSA-j4rj-2jr5-m439](https://github.com/advisories/GHSA-j4rj-2jr5-m439): the SSRF checker missed disallowed inputs and should not be treated as an oracle.
-- **requests-hardened SSRF bypass** — [GHSA-vh75-fwv3-pqrh](https://github.com/advisories/GHSA-vh75-fwv3-pqrh): hardened client checks were incomplete under URL/address edge cases.
-- **Langflow Knowledge Bases path traversal** — [GHSA-9whx-c884-c68q](https://github.com/advisories/GHSA-9whx-c884-c68q): knowledge-base file APIs could cross path boundaries.
-- **open-websearch MCP SSRF** — [GHSA-v228-72c7-fx8j](https://github.com/advisories/GHSA-v228-72c7-fx8j): bracketed IPv6 literals and non-resolving hostname checks bypassed private/local filtering.
+- **django-s3file relative path traversal**, [GHSA-67qg-7284-2277](https://github.com/advisories/GHSA-67qg-7284-2277): relative paths could escape intended object/file locations.
+- **ciguard symlink escape**, [GHSA-8cxw-cc62-q28v](https://github.com/advisories/GHSA-8cxw-cc62-q28v): pipeline discovery followed symlinks out of the scan root.
+- **ciguard container runs as root**, [GHSA-jrm4-4pcf-4763](https://github.com/advisories/GHSA-jrm4-4pcf-4763): scanner container defaults increased blast radius because no USER directive lowered privilege.
+- **OpenTelemetry OTLP disk retry local blob injection**, [GHSA-4625-4j76-fww9](https://github.com/advisories/GHSA-4625-4j76-fww9): default temp-path behavior let local users inject retry blobs.
+- **changedetection.io backup-restore file read**, [GHSA-8757-69j2-hx56](https://github.com/advisories/GHSA-8757-69j2-hx56): crafted backup restore could read arbitrary local files.
+- **ssrfcheck incomplete SSRF deny-list**, [GHSA-j4rj-2jr5-m439](https://github.com/advisories/GHSA-j4rj-2jr5-m439): the SSRF checker missed disallowed inputs and should not be treated as an oracle.
+- **requests-hardened SSRF bypass**, [GHSA-vh75-fwv3-pqrh](https://github.com/advisories/GHSA-vh75-fwv3-pqrh): hardened client checks were incomplete under URL/address edge cases.
+- **Langflow Knowledge Bases path traversal**, [GHSA-9whx-c884-c68q](https://github.com/advisories/GHSA-9whx-c884-c68q): knowledge-base file APIs could cross path boundaries.
+- **open-websearch MCP SSRF**, [GHSA-v228-72c7-fx8j](https://github.com/advisories/GHSA-v228-72c7-fx8j): bracketed IPv6 literals and non-resolving hostname checks bypassed private/local filtering.
 
 ## Operator triage
 

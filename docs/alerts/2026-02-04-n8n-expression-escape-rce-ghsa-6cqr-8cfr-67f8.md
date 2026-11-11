@@ -1,4 +1,4 @@
-# 2026-02-04 — n8n Expression Escape vulnerability leading to RCE (GHSA-6cqr-8cfr-67f8)
+# 2026-02-04, n8n Expression Escape vulnerability leading to RCE (GHSA-6cqr-8cfr-67f8)
 
 **Signal:** GitHub Security Advisory published/updated 2026-02-04.
 

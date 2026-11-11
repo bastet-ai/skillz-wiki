@@ -22,7 +22,7 @@ React Router [GHSA-wrjc-x8rr-h8h6 / CVE-2026-53669](https://github.com/advisorie
 
 GeoNetwork [GHSA-pjp7-q6wp-97qx / CVE-2026-53573](https://github.com/advisories/GHSA-pjp7-q6wp-97qx) adds a post-authentication differential across both OAuth2/OIDC and Keycloak login filters: a target classified as an in-application relative path before login can still normalize to an off-origin browser destination afterward. Preserve the login adapter, pre-login target, stored representation, final `Location`, and browser-normalized URL as separate evidence.
 
-The reusable lesson is broader than any one framework: URL sinks need URL parsing, canonicalization, and origin decisions made in the same representation the browser or redirect client will follow. The same representational-drift shape applies to **security gates** (origin, CORS, CSRF, host-trust, path allowlist) that disagree with the router — see [canonicalization differentials at security gates](canonicalization-differentials-at-security-gates.md).
+The reusable lesson is broader than any one framework: URL sinks need URL parsing, canonicalization, and origin decisions made in the same representation the browser or redirect client will follow. The same representational-drift shape applies to **security gates** (origin, CORS, CSRF, host-trust, path allowlist) that disagree with the router, see [canonicalization differentials at security gates](canonicalization-differentials-at-security-gates.md).
 
 ## Preconditions
 

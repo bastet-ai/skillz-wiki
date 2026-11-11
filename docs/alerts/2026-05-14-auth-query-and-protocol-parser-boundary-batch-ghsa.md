@@ -4,10 +4,10 @@
 
 ## Advisory cluster
 
-- **`slack-go` empty signing secret accepted** — [GHSA-gxhx-2686-5h9g](https://github.com/advisories/GHSA-gxhx-2686-5h9g): `SecretsVerifier` accepted an empty signing secret without a precondition, making webhook authenticity checks meaningless when configuration was missing or blank.
-- **Marten full-text search `regConfig` injection** — [GHSA-vmw2-qwm8-x84c](https://github.com/advisories/GHSA-vmw2-qwm8-x84c): attacker-controlled full-text search configuration could cross into query construction and become injection in affected Marten deployments.
-- **Bettercap MySQL server integer coercion** — [GHSA-jcqv-2g3v-gm88](https://github.com/advisories/GHSA-jcqv-2g3v-gm88): integer coercion in `modules/mysql_server/mysql_server.go` created parser-state risk in the service-emulation path.
-- **Bettercap IPP chunked-body integer coercion** — [GHSA-322p-rrj6-j44g](https://github.com/advisories/GHSA-322p-rrj6-j44g): integer coercion in `ippReadChunkedBody` affected chunked request parsing in Bettercap’s IPP handling.
+- **`slack-go` empty signing secret accepted**, [GHSA-gxhx-2686-5h9g](https://github.com/advisories/GHSA-gxhx-2686-5h9g): `SecretsVerifier` accepted an empty signing secret without a precondition, making webhook authenticity checks meaningless when configuration was missing or blank.
+- **Marten full-text search `regConfig` injection**, [GHSA-vmw2-qwm8-x84c](https://github.com/advisories/GHSA-vmw2-qwm8-x84c): attacker-controlled full-text search configuration could cross into query construction and become injection in affected Marten deployments.
+- **Bettercap MySQL server integer coercion**, [GHSA-jcqv-2g3v-gm88](https://github.com/advisories/GHSA-jcqv-2g3v-gm88): integer coercion in `modules/mysql_server/mysql_server.go` created parser-state risk in the service-emulation path.
+- **Bettercap IPP chunked-body integer coercion**, [GHSA-322p-rrj6-j44g](https://github.com/advisories/GHSA-322p-rrj6-j44g): integer coercion in `ippReadChunkedBody` affected chunked request parsing in Bettercap’s IPP handling.
 
 ## Why this matters
 

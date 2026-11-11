@@ -4,9 +4,9 @@
 
 ## Advisories covered
 
-- **`operator.write` to persisted verbose defaults** — [GHSA-5h2w-qmfp-ggp6](https://github.com/advisories/GHSA-5h2w-qmfp-ggp6) / CVE-2026-41344: `openclaw <= 2026.3.24`; patch to `2026.3.28+`.
-- **Unauthenticated remote discovery endpoint persisted during onboarding** — [GHSA-3cw3-5vxw-g2h3](https://github.com/advisories/GHSA-3cw3-5vxw-g2h3) / CVE-2026-41342: `openclaw <= 2026.3.24`; patch to `2026.3.28+`.
-- **`operator.write` reaching admin-class Telegram config and cron persistence through send** — [GHSA-767m-xrhc-fxm7](https://github.com/advisories/GHSA-767m-xrhc-fxm7) / CVE-2026-41359: `openclaw <= 2026.3.24`; patch to `2026.3.28+`.
+- **`operator.write` to persisted verbose defaults**, [GHSA-5h2w-qmfp-ggp6](https://github.com/advisories/GHSA-5h2w-qmfp-ggp6) / CVE-2026-41344: `openclaw <= 2026.3.24`; patch to `2026.3.28+`.
+- **Unauthenticated remote discovery endpoint persisted during onboarding**, [GHSA-3cw3-5vxw-g2h3](https://github.com/advisories/GHSA-3cw3-5vxw-g2h3) / CVE-2026-41342: `openclaw <= 2026.3.24`; patch to `2026.3.28+`.
+- **`operator.write` reaching admin-class Telegram config and cron persistence through send**, [GHSA-767m-xrhc-fxm7](https://github.com/advisories/GHSA-767m-xrhc-fxm7) / CVE-2026-41359: `openclaw <= 2026.3.24`; patch to `2026.3.28+`.
 
 ## Why this is durable
 

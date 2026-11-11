@@ -1,4 +1,4 @@
-# 2026-02-06 — PHPUnit unsafe deserialization in PHPT code coverage handling (GHSA-vvj3-c3rp-c85p / CVE-2026-24765)
+# 2026-02-06, PHPUnit unsafe deserialization in PHPT code coverage handling
 
 **Upstream advisory:** https://github.com/advisories/GHSA-vvj3-c3rp-c85p
 
@@ -33,7 +33,7 @@ Treat **“tests are safe”** as a myth when executing untrusted code.
 ### Add a tripwire: pre-existing coverage files
 A simple hardening check is to fail fast if unexpected coverage files exist before tests run.
 
-Example (bash) — adjust paths/globs to your setup:
+Example (bash), adjust paths/globs to your setup:
 
 ```bash
 set -euo pipefail

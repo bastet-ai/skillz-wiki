@@ -6,8 +6,8 @@ title: TrueConf server 4307/TCP authority and sandbox-breakout validation (KEV)
 
 CISA added two TrueConf Server records to the Known Exploited Vulnerabilities catalog on August 20, 2026. Both sit on the same externally reachable service port and chain into the same outcome class:
 
-- [CVE-2026-72529](https://nvd.nist.gov/vuln/detail/CVE-2026-72529) (KEV due 2026-08-23): **missing authentication for a critical function** — a remote unauthorized attacker with network access via **port 4307/TCP** can execute an arbitrary script **by calling an undocumented function** (CWE-306; KLCERT CVSS vector AV:N/AC:L/PR:N/UI:N).
-- [CVE-2026-72530](https://nvd.nist.gov/vuln/detail/CVE-2026-72530) (KEV due 2026-09-03): **code injection** — a crafted script on that same route can **break out of the isolated execution environment and execute arbitrary code on the host system** (CWE-94; KLCERT CVSS vector AV:N/AC:H/PR:N/UI:N/S:C).
+- [CVE-2026-72529](https://nvd.nist.gov/vuln/detail/CVE-2026-72529) (KEV due 2026-08-23): **missing authentication for a critical function**, a remote unauthorized attacker with network access via **port 4307/TCP** can execute an arbitrary script **by calling an undocumented function** (CWE-306; KLCERT CVSS vector AV:N/AC:L/PR:N/UI:N).
+- [CVE-2026-72530](https://nvd.nist.gov/vuln/detail/CVE-2026-72530) (KEV due 2026-09-03): **code injection**, a crafted script on that same route can **break out of the isolated execution environment and execute arbitrary code on the host system** (CWE-94; KLCERT CVSS vector AV:N/AC:H/PR:N/UI:N/S:C).
 
 The durable operator pattern is a **single service port exposing an unauthenticated script-accepting surface that runs inside an isolation boundary**: establish whether the port is reachable at all, what function is unauthenticated behind it, and whether the isolation layer is the only thing standing between that function and the host. Kaspersky ICS-CERT [KLCERT-26-058](https://ics-cert.kaspersky.com/advisories/2026/08/11/trueconf-server-breakout-from-isolated-environment/) (published 2026-08-07) identifies in-the-wild exploitation by the **Head Mare APT group** delivering **PhantomCore** malware to conference participants, and provides IoCs to correlate against.
 
@@ -32,12 +32,12 @@ TrueConf Server is a conferencing appliance that frequently fronts meeting rooms
 | --- | --- |
 | authority | IP/hostname, whether 4307/TCP is directly reachable or sits behind a load balancer, reverse proxy, or firewall policy |
 | version | UI version banner, `trueconfd` package metadata, or owner-supplied build; compare against 5.3.9 / 5.4.9 / 5.5.5 per product line |
-| OS variant | Windows vs Linux Server — the breakout mechanism and host context differ |
+| OS variant | Windows vs Linux Server, the breakout mechanism and host context differ |
 | network position | internet-facing, DMZ, VPN-facing, or internal; whether other TrueConf ports (signaling, media, web UI) are open |
 | in-use state | active conferences, participant counts, whether the instance participates in federated calls |
 | approved depth | passive/version only, 4307 reachability check, or lab sink instrumentation |
 
-Do not infer TrueConf from a generic TCP banner. Preserve at least two product signals: an owner-confirmed asset plus TrueConf-specific behavior on the service port, web UI artifacts, or package metadata. The April 2026 TrueConf **Client** KEV record (CVE-2026-3502, client-side code download without integrity check) is a distinct boundary — do not merge client supply-chain findings into this server-side 4307 record.
+Do not infer TrueConf from a generic TCP banner. Preserve at least two product signals: an owner-confirmed asset plus TrueConf-specific behavior on the service port, web UI artifacts, or package metadata. The April 2026 TrueConf **Client** KEV record (CVE-2026-3502, client-side code download without integrity check) is a distinct boundary, do not merge client supply-chain findings into this server-side 4307 record.
 
 ## 2. 4307/TCP surface mapping
 
@@ -101,7 +101,7 @@ That proves the unauthenticated script boundary and the isolation-breakout path 
 The KLCERT advisory reports Head Mare APT exploitation delivering PhantomCore to conference participants and publishes IoCs. For an authorized engagement:
 
 - correlate owner-supplied telemetry against the published IoCs (process names, file paths, network indicators) without exfiltrating them into the report;
-- note the attack shape: unauthenticated script execution on 4307, breakout, then delivery to conference participants — this means **conference participants' endpoints are the downstream blast radius**, not just the server;
+- note the attack shape: unauthenticated script execution on 4307, breakout, then delivery to conference participants, this means **conference participants' endpoints are the downstream blast radius**, not just the server;
 - record whether any participant-side compromise indicators exist on owner-approved systems, with all identifiers redacted.
 
 ## 6. Separate route exposure from application impact

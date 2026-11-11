@@ -4,10 +4,10 @@
 
 ## Advisories covered
 
-- **katalyst-koi replayable session cookies after logout** — [GHSA-4cx3-3c38-j9vv](https://github.com/advisories/GHSA-4cx3-3c38-j9vv): logout must invalidate server-side session material, not only remove client-side cookies.
-- **Aegra cross-user run injection IDOR** — [GHSA-m98r-6667-4wq7](https://github.com/advisories/GHSA-m98r-6667-4wq7): agent/thread run creation must bind requested thread IDs to the authenticated principal.
-- **Kiota RedirectHandler cross-host header leakage** — [GHSA-7j59-v9qr-6fq9](https://github.com/advisories/GHSA-7j59-v9qr-6fq9): redirects can exfiltrate Cookie or Proxy-Authorization headers unless credentials are origin-scoped.
-- **container pf rule injection through localhost DNS command arguments** — [GHSA-39g5-644c-qwcg](https://github.com/advisories/GHSA-39g5-644c-qwcg): local admin CLIs still need command-argument validation before emitting firewall rules.
+- **katalyst-koi replayable session cookies after logout**, [GHSA-4cx3-3c38-j9vv](https://github.com/advisories/GHSA-4cx3-3c38-j9vv): logout must invalidate server-side session material, not only remove client-side cookies.
+- **Aegra cross-user run injection IDOR**, [GHSA-m98r-6667-4wq7](https://github.com/advisories/GHSA-m98r-6667-4wq7): agent/thread run creation must bind requested thread IDs to the authenticated principal.
+- **Kiota RedirectHandler cross-host header leakage**, [GHSA-7j59-v9qr-6fq9](https://github.com/advisories/GHSA-7j59-v9qr-6fq9): redirects can exfiltrate Cookie or Proxy-Authorization headers unless credentials are origin-scoped.
+- **container pf rule injection through localhost DNS command arguments**, [GHSA-39g5-644c-qwcg](https://github.com/advisories/GHSA-39g5-644c-qwcg): local admin CLIs still need command-argument validation before emitting firewall rules.
 
 ## Why this is durable
 

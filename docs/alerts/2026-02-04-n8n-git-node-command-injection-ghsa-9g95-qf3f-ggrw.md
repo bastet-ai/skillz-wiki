@@ -1,4 +1,4 @@
-# 2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw)
+# 2026-02-04, n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw)
 
 **Product:** **n8n** (npm package: `n8n`)
 

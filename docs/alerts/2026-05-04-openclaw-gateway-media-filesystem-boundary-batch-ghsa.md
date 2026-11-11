@@ -4,15 +4,15 @@
 
 ## Advisories in this batch
 
-- **Gateway Control UI bootstrap config required Gateway auth** — `openclaw <= 2026.4.21` tightened bootstrap/config access so UI setup paths require authenticated Gateway context. References: <https://github.com/advisories/GHSA-93rg-2xm5-2p9v>.
-- **OpenShell FS bridge read pinning** — `openclaw <= 2026.4.21` now pins and verifies opened files before bytes are returned, preventing path swaps after validation. References: <https://github.com/advisories/GHSA-5h3g-6xhh-rg6p>.
-- **OpenShell FS bridge write pinning** — `openclaw <= 2026.4.21` keeps writes pinned to the sandbox mount root. References: <https://github.com/advisories/GHSA-wppj-c6mr-83jj>.
-- **Assistant media trusted-proxy scope enforcement** — `openclaw < 2026.4.20` missed scope enforcement for a trusted-proxy media route; GHSA-qgx9-6px9-7p75 is a duplicate of GHSA-v8qf-fr4g-28p2. References: <https://github.com/advisories/GHSA-v8qf-fr4g-28p2>, <https://github.com/advisories/GHSA-qgx9-6px9-7p75>, CVE-2026-41908.
-- **Exec allowlist heredoc analysis** — `openclaw <= 2026.4.21` rejects shell expansion in unquoted heredocs during exec allowlist analysis. References: <https://github.com/advisories/GHSA-x3h8-jrgh-p8jx>.
-- **MCP loopback owner context** — `openclaw <= 2026.4.21` derives MCP loopback owner context from server-issued bearer tokens. References: <https://github.com/advisories/GHSA-r6xh-pqhr-v4xh>.
-- **Workspace dotenv connector endpoint guard** — `openclaw <= 2026.4.21` prevents workspace dotenv files from overriding connector endpoint hosts. References: <https://github.com/advisories/GHSA-55cf-xx38-4p9p>.
-- **ACP child session security envelope inheritance** — `openclaw <= 2026.4.21` ensures ACP children inherit subagent security envelope constraints. References: <https://github.com/advisories/GHSA-q3jj-46pq-826r>.
-- **Zalo outbound photo URL SSRF guard** — `openclaw <= 2026.4.21` validates outbound Zalo photo URLs through the SSRF guard. References: <https://github.com/advisories/GHSA-2hh7-c75g-qj2r>.
+- **Gateway Control UI bootstrap config required Gateway auth**, `openclaw <= 2026.4.21` tightened bootstrap/config access so UI setup paths require authenticated Gateway context. References: <https://github.com/advisories/GHSA-93rg-2xm5-2p9v>.
+- **OpenShell FS bridge read pinning**, `openclaw <= 2026.4.21` now pins and verifies opened files before bytes are returned, preventing path swaps after validation. References: <https://github.com/advisories/GHSA-5h3g-6xhh-rg6p>.
+- **OpenShell FS bridge write pinning**, `openclaw <= 2026.4.21` keeps writes pinned to the sandbox mount root. References: <https://github.com/advisories/GHSA-wppj-c6mr-83jj>.
+- **Assistant media trusted-proxy scope enforcement**, `openclaw < 2026.4.20` missed scope enforcement for a trusted-proxy media route; GHSA-qgx9-6px9-7p75 is a duplicate of GHSA-v8qf-fr4g-28p2. References: <https://github.com/advisories/GHSA-v8qf-fr4g-28p2>, <https://github.com/advisories/GHSA-qgx9-6px9-7p75>, CVE-2026-41908.
+- **Exec allowlist heredoc analysis**, `openclaw <= 2026.4.21` rejects shell expansion in unquoted heredocs during exec allowlist analysis. References: <https://github.com/advisories/GHSA-x3h8-jrgh-p8jx>.
+- **MCP loopback owner context**, `openclaw <= 2026.4.21` derives MCP loopback owner context from server-issued bearer tokens. References: <https://github.com/advisories/GHSA-r6xh-pqhr-v4xh>.
+- **Workspace dotenv connector endpoint guard**, `openclaw <= 2026.4.21` prevents workspace dotenv files from overriding connector endpoint hosts. References: <https://github.com/advisories/GHSA-55cf-xx38-4p9p>.
+- **ACP child session security envelope inheritance**, `openclaw <= 2026.4.21` ensures ACP children inherit subagent security envelope constraints. References: <https://github.com/advisories/GHSA-q3jj-46pq-826r>.
+- **Zalo outbound photo URL SSRF guard**, `openclaw <= 2026.4.21` validates outbound Zalo photo URLs through the SSRF guard. References: <https://github.com/advisories/GHSA-2hh7-c75g-qj2r>.
 
 ## Why this is durable
 

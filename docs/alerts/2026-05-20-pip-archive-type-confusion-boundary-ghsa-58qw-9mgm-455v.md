@@ -6,7 +6,7 @@ This advisory is durable because it is a supply-chain parser boundary issue in a
 
 ## What changed
 
-- **pip archive interpretation conflict** — [GHSA-58qw-9mgm-455v](https://github.com/advisories/GHSA-58qw-9mgm-455v) / CVE-2026-3219: `pip` versions `<= 26.0.1` handled archives that identified as both tar and ZIP as ZIP files, even when the filename or expected package format suggested tar handling. `pip 26.1` only proceeds when an archive identifies uniquely as ZIP or tar.
+- **pip archive interpretation conflict**, [GHSA-58qw-9mgm-455v](https://github.com/advisories/GHSA-58qw-9mgm-455v) / CVE-2026-3219: `pip` versions `<= 26.0.1` handled archives that identified as both tar and ZIP as ZIP files, even when the filename or expected package format suggested tar handling. `pip 26.1` only proceeds when an archive identifies uniquely as ZIP or tar.
 
 ## Operator triage
 

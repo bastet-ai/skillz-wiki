@@ -6,10 +6,10 @@ This is durable for operators because it turns a current KEV entry into a reusab
 
 ## What changed
 
-- **CISA KEV signal** — CISA added CVE-2026-45247 to the known-exploited catalog on 2026-06-03.
-- **Affected component** — CVE records identify Mirasvit Full Page Cache Warmer for Magento 2 versions before `1.11.12` as affected.
-- **Vulnerable primitive** — the `CacheWarmer` cookie can carry attacker-controlled serialized PHP object data to native `unserialize()`. Sansec describes this as reachable on ordinary storefront requests, not only Mirasvit's own warmer traffic.
-- **Operator takeaway** — during Magento/Adobe Commerce testing, third-party performance extensions and cache-warming cookies belong in the unauthenticated attack-surface map, not only in authenticated admin-extension review.
+- **CISA KEV signal**, CISA added CVE-2026-45247 to the known-exploited catalog on 2026-06-03.
+- **Affected component**, CVE records identify Mirasvit Full Page Cache Warmer for Magento 2 versions before `1.11.12` as affected.
+- **Vulnerable primitive**, the `CacheWarmer` cookie can carry attacker-controlled serialized PHP object data to native `unserialize()`. Sansec describes this as reachable on ordinary storefront requests, not only Mirasvit's own warmer traffic.
+- **Operator takeaway**, during Magento/Adobe Commerce testing, third-party performance extensions and cache-warming cookies belong in the unauthenticated attack-surface map, not only in authenticated admin-extension review.
 
 ## When to use this check
 

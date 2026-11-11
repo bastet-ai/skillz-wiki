@@ -1,4 +1,4 @@
-# InstructLab trust_remote_code execution and logs_dir path traversal (GHSA-rxpq-xgqx-fr7p / GHSA-pqmg-c2j8-fq92)
+# InstructLab trust_remote_code execution and logs_dir path traversal
 
 **Signal:** GitHub Security Advisories updated **2026-04-29**. InstructLab advisories highlight two AI-workflow boundary failures: remote model code execution and local path traversal.
 

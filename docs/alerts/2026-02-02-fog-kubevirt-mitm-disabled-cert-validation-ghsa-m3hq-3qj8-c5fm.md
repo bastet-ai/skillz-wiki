@@ -1,4 +1,4 @@
-# 2026-02-02 — fog-kubevirt: MitM risk from disabled certificate validation (GHSA-m3hq-3qj8-c5fm)
+# 2026-02-02, fog-kubevirt: MitM risk from disabled certificate validation (GHSA-m3hq-3qj8-c5fm)
 
 ## Summary
 

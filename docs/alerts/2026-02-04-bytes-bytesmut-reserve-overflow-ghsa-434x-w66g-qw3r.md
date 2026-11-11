@@ -1,4 +1,4 @@
-# 2026-02-04 — Rust `bytes` integer overflow in `BytesMut::reserve` (GHSA-434x-w66g-qw3r / RUSTSEC-2026-0007)
+# 2026-02-04, Rust `bytes` integer overflow in `BytesMut::reserve`
 
 **Signal:** GitHub Security Advisory updated 2026-02-04.
 

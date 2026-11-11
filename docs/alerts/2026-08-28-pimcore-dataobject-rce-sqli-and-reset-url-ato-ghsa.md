@@ -1,4 +1,4 @@
-# Pimcore DataObject RCE, Hotspotimage PHP deserialization, Studio SQLi, and reset-URL ATO — operator validation
+# Pimcore DataObject RCE, Hotspotimage PHP deserialization, Studio SQLi, and reset-URL ATO, operator…
 
 **Date reviewed:** 2026-08-28
 **Advisories:** [GHSA-9x44-4gxf-8c25 / CVE-2026-55634](https://github.com/advisories/GHSA-9x44-4gxf-8c25) (critical, RCE), [GHSA-w23p-wrp7-ch38 / CVE-2026-55220](https://github.com/advisories/GHSA-w23p-wrp7-ch38) (critical, PHP object injection), [GHSA-f97c-ph8j-8vff / CVE-2026-55212](https://github.com/advisories/GHSA-f97c-ph8j-8vff) (high, privilege escalation), [GHSA-79cw-hfcc-7mw9 / CVE-2026-55208](https://github.com/advisories/GHSA-79cw-hfcc-7mw9) (high, blind SQLi), [GHSA-h854-c3m3-mh5v / CVE-2026-55207](https://github.com/advisories/GHSA-h854-c3m3-mh5v) (high, account takeover). All in `pimcore/pimcore` and/or `pimcore/studio-backend-bundle`.
@@ -11,7 +11,7 @@ Five independent primitives from one product in one wave, each reusable across C
 | PHP OI | Unrestricted `unserialize()` over a persisted column | Stored-bytes → load-time code execution; write-once, fire-on-load |
 | Privesc | Structural admin operation guarded by a weaker permission + no format validation | Class/table creation = structural change; `objects` vs `classes` guard drift |
 | Blind SQLi | User-supplied column name interpolated into SQL with only backtick wrapping | Named parameters don't protect identifiers; backtick breakout + status-code oracle |
-| ATO | Unauthenticated reset flow accepts attacker-controlled URL; token appended to it | Token-login endpoint explicitly disables 2FA — the reset flow *is* the auth bypass |
+| ATO | Unauthenticated reset flow accepts attacker-controlled URL; token appended to it | Token-login endpoint explicitly disables 2FA, the reset flow *is* the auth bypass |
 
 ## 1. DataObject class-definition field name → RCE (GHSA-9x44-4gxf-8c25)
 
@@ -61,11 +61,11 @@ Break out of the backtick quoting with a backtick character and append arbitrary
 
 An unauthenticated attacker takes over any Pimcore admin account by sending a password-reset request with an attacker-controlled `resetPasswordUrl`. The server generates a real cryptographic recovery token, appends it to the attacker's URL, and emails the link to the victim. When the victim clicks the link, the token is sent to the attacker's server. The attacker then uses `POST /pimcore-studio/api/login/token` to authenticate as the victim with full admin privileges. Token login **explicitly disables two-factor authentication**, so even accounts with TOTP/Google Authenticator are compromised.
 
-Root: the reset endpoint at `src/User/Controller/ResetPasswordController.php` (line 53) is public (`PUBLIC_STUDIO_API` voter) and the `ResetPassword` schema accepts `resetPasswordUrl` with zero validation — no URL scheme check, no domain allowlist, no comparison against the configured system domain.
+Root: the reset endpoint at `src/User/Controller/ResetPasswordController.php` (line 53) is public (`PUBLIC_STUDIO_API` voter) and the `ResetPassword` schema accepts `resetPasswordUrl` with zero validation, no URL scheme check, no domain allowlist, no comparison against the configured system domain.
 
 ## Durable operator value
 
-1. **Schema-to-source compilers are a CMS class.** Any low-code/CMS that turns user-defined fields/labels into generated PHP, SQL DDL, or class files is a target. Enumerate every emission context and check the identifier allowlist. The DataObject property builder and the `ALTER TABLE` DDL share the same unvalidated field name — one bug, two primitives.
+1. **Schema-to-source compilers are a CMS class.** Any low-code/CMS that turns user-defined fields/labels into generated PHP, SQL DDL, or class files is a target. Enumerate every emission context and check the identifier allowlist. The DataObject property builder and the `ALTER TABLE` DDL share the same unvalidated field name, one bug, two primitives.
 2. **Unrestricted `unserialize()` over a persisted column is write-once, fire-on-load.** If you have any write primitive into a DataObject store column (or an image-field metadata column), you have a deserialization sink on the next load. Sibling marshallers (`ImageGallery`, `Block`, `Video`) multiply the surface. Pair a write primitive here with an existing `__destruct`/`__wakeup`/`__toString` gadget in the autoloader.
 3. **Guard drift on structural operations.** When a "create class / create table / create schema" endpoint is gated by a weaker permission than the matching read/delete route, that's a privilege-escalation probe. Report the exact permission on the UI route vs the API route.
 4. **Backtick-wrapped identifiers are not parameterized.** Named PDO parameters protect *values*, not *identifiers*. Any user-supplied column/table/field name reaching SQL with only manual backtick wrapping is a breakout candidate. The status-code / response-time oracle (200 vs 404, `SLEEP` vs no-sleep) turns it into blind SQLi.

@@ -6,9 +6,9 @@ This batch is durable because it shows three recurring rendering failures: map/p
 
 ## Advisories covered
 
-- **Mapfish Print dynamic table code injection** — [GHSA-q7m6-wpvf-mvwx](https://github.com/advisories/GHSA-q7m6-wpvf-mvwx), CVE-2026-44672: unauthenticated attackers could execute arbitrary code through Dynamic table handling. Affected `org.mapfish.print:print-lib` and `org.mapfish.print:print-servlet` release lines from `3.23.0` through vulnerable `4.0.x`; patched versions include `3.28.28`, `3.30.30`, `3.31.21`, `3.33.14`, and `4.0.3` depending on release line.
-- **Astro server island encrypted-parameter replay** — [GHSA-xr5h-phrj-8vxv](https://github.com/advisories/GHSA-xr5h-phrj-8vxv), CVE-2026-45028: `astro < 6.1.10` encrypted server-island props/slots with AES-GCM but did not bind ciphertext to the target component and parameter purpose, allowing cross-component or props-to-slots replay in narrow configurations.
-- **short-video-maker REST path traversal** — [GHSA-935g-9rq5-q95c](https://github.com/advisories/GHSA-935g-9rq5-q95c), CVE-2026-8115: `short-video-maker <= 1.3.4` accepted `req.params.tmpFile` through a REST route in `src/server/routers/rest.ts`, enabling remote path traversal. No patched npm version was listed at scan time.
+- **Mapfish Print dynamic table code injection**, [GHSA-q7m6-wpvf-mvwx](https://github.com/advisories/GHSA-q7m6-wpvf-mvwx), CVE-2026-44672: unauthenticated attackers could execute arbitrary code through Dynamic table handling. Affected `org.mapfish.print:print-lib` and `org.mapfish.print:print-servlet` release lines from `3.23.0` through vulnerable `4.0.x`; patched versions include `3.28.28`, `3.30.30`, `3.31.21`, `3.33.14`, and `4.0.3` depending on release line.
+- **Astro server island encrypted-parameter replay**, [GHSA-xr5h-phrj-8vxv](https://github.com/advisories/GHSA-xr5h-phrj-8vxv), CVE-2026-45028: `astro < 6.1.10` encrypted server-island props/slots with AES-GCM but did not bind ciphertext to the target component and parameter purpose, allowing cross-component or props-to-slots replay in narrow configurations.
+- **short-video-maker REST path traversal**, [GHSA-935g-9rq5-q95c](https://github.com/advisories/GHSA-935g-9rq5-q95c), CVE-2026-8115: `short-video-maker <= 1.3.4` accepted `req.params.tmpFile` through a REST route in `src/server/routers/rest.ts`, enabling remote path traversal. No patched npm version was listed at scan time.
 
 ## Operator triage
 

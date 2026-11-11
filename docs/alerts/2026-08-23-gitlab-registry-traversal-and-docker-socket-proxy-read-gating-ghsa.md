@@ -4,7 +4,7 @@ title: GitLab package-registry traversal and docker-socket-proxy read-endpoint b
 
 # GitLab package-registry traversal and docker-socket-proxy read-endpoint boundaries
 
-Two 2026-08-23 GitHub advisories expose one durable operator pattern: a proxy, registry, or operator layer that re-implements path handling and permission gating on top of an authoritative backend (GitLab's package-registry storage, the Docker Engine API) and gets one side of the binding wrong. In GitLab, an authenticated user reaches a package-registry route whose storage path is built from user-supplied package coordinates, and on affected versions the traversal reaches code execution. In docker-socket-proxy, a read-endpoint allow-list is applied per namespace but misses the `/containers/{id}/archive` and `/containers/{id}/export` routes, so any caller who can talk to the proxy can read arbitrary container files and tar-download entire container filesystems — which on a host that runs sensitive workloads is a host-level information-disclosure and credential-theft primitive.
+Two 2026-08-23 GitHub advisories expose one durable operator pattern: a proxy, registry, or operator layer that re-implements path handling and permission gating on top of an authoritative backend (GitLab's package-registry storage, the Docker Engine API) and gets one side of the binding wrong. In GitLab, an authenticated user reaches a package-registry route whose storage path is built from user-supplied package coordinates, and on affected versions the traversal reaches code execution. In docker-socket-proxy, a read-endpoint allow-list is applied per namespace but misses the `/containers/{id}/archive` and `/containers/{id}/export` routes, so any caller who can talk to the proxy can read arbitrary container files and tar-download entire container filesystems, which on a host that runs sensitive workloads is a host-level information-disclosure and credential-theft primitive.
 
 Source records:
 
@@ -37,7 +37,7 @@ Replayable validation:
 4. Compare against a control request with well-formed coordinates that stays inside the root.
 5. Re-run the same request set against the fixed version and record the negative control.
 
-A bounded positive is **attacker-chosen registry coordinate -> storage resolver -> canonical path outside the registry root observed by the denied recorder**, on the affected build only. The RCE claim additionally depends on what the out-of-root write or read hits (executable path, registry job scripts, CI variables) — that is a separate untested precondition. Report the exact coordinate shape, the version, the storage backend, and the recorder capture; do not claim RCE from the traversal alone.
+A bounded positive is **attacker-chosen registry coordinate -> storage resolver -> canonical path outside the registry root observed by the denied recorder**, on the affected build only. The RCE claim additionally depends on what the out-of-root write or read hits (executable path, registry job scripts, CI variables), that is a separate untested precondition. Report the exact coordinate shape, the version, the storage backend, and the recorder capture; do not claim RCE from the traversal alone.
 
 ## 2. docker-socket-proxy read-endpoint gating differential
 
@@ -60,7 +60,7 @@ Lead with the crossed binding:
 - **GitLab**: authenticated registry coordinate -> uncanonicalized storage path -> out-of-root read/write (CWE-22), version matrix 18.8/19.1/19.2 with fixed 19.0.6/19.1.4/19.2.2.
 - **docker-socket-proxy**: namespace allow-list granted -> per-endpoint gate missing -> `archive`/`export` file reads and full-filesystem tar (CWE-1220 family: insufficiently controlled surface gating).
 
-Strong reports include the exact coordinates or endpoint/method, the active allow-list/namespace variables, the canonical target the recorder observed, the fixed-version negative control, and a clear statement of what the read primitive implies on a real host (credential and workload-file exposure) without actually reading anything sensitive. Durable operator lesson: **when a middle layer re-implements scope on top of an authoritative backend, test both the entry gate and the final sink** — an allow-list that covers the namespace but not the leaf endpoint is the same bug as a traversal that covers the URL but not the path.
+Strong reports include the exact coordinates or endpoint/method, the active allow-list/namespace variables, the canonical target the recorder observed, the fixed-version negative control, and a clear statement of what the read primitive implies on a real host (credential and workload-file exposure) without actually reading anything sensitive. Durable operator lesson: **when a middle layer re-implements scope on top of an authoritative backend, test both the entry gate and the final sink**, an allow-list that covers the namespace but not the leaf endpoint is the same bug as a traversal that covers the URL but not the path.
 
 ## Notes on skipped adjacent items
 

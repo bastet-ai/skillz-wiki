@@ -4,9 +4,9 @@
 
 ## Advisories covered
 
-- **Cinny Matrix access-token disclosure via emoji pack avatar URL** — [GHSA-j944-w549-3453](https://github.com/advisories/GHSA-j944-w549-3453) / [CVE-2026-42553](https://www.cve.org/CVERecord?id=CVE-2026-42553): before `4.10.3`, attacker-controlled emote-pack avatar metadata could cause the client/service worker to send the victim's Matrix access token to an attacker-controlled server when the emoji or sticker picker loaded.
-- **BentoML build-context symlink traversal** — [GHSA-mcfx-4vc6-qgxv](https://github.com/advisories/GHSA-mcfx-4vc6-qgxv) / [CVE-2026-40610](https://www.cve.org/CVERecord?id=CVE-2026-40610): before `1.4.39`, `bentoml build` followed attacker-controlled symlinks inside the build context and copied target file contents into the generated Bento artifact.
-- **OpenClaw Zalo replay dedupe key scope collision** — [GHSA-rxmx-g7hr-8mx4](https://github.com/advisories/GHSA-rxmx-g7hr-8mx4) / [CVE-2026-41354](https://www.cve.org/CVERecord?id=CVE-2026-41354): OpenClaw before `2026.4.2` could suppress legitimate webhook events across chats or senders because replay dedupe keys were not strongly scoped. [GHSA-6477-wvjj-47v6](https://github.com/advisories/GHSA-6477-wvjj-47v6) is a withdrawn duplicate.
+- **Cinny Matrix access-token disclosure via emoji pack avatar URL**, [GHSA-j944-w549-3453](https://github.com/advisories/GHSA-j944-w549-3453) / [CVE-2026-42553](https://www.cve.org/CVERecord?id=CVE-2026-42553): before `4.10.3`, attacker-controlled emote-pack avatar metadata could cause the client/service worker to send the victim's Matrix access token to an attacker-controlled server when the emoji or sticker picker loaded.
+- **BentoML build-context symlink traversal**, [GHSA-mcfx-4vc6-qgxv](https://github.com/advisories/GHSA-mcfx-4vc6-qgxv) / [CVE-2026-40610](https://www.cve.org/CVERecord?id=CVE-2026-40610): before `1.4.39`, `bentoml build` followed attacker-controlled symlinks inside the build context and copied target file contents into the generated Bento artifact.
+- **OpenClaw Zalo replay dedupe key scope collision**, [GHSA-rxmx-g7hr-8mx4](https://github.com/advisories/GHSA-rxmx-g7hr-8mx4) / [CVE-2026-41354](https://www.cve.org/CVERecord?id=CVE-2026-41354): OpenClaw before `2026.4.2` could suppress legitimate webhook events across chats or senders because replay dedupe keys were not strongly scoped. [GHSA-6477-wvjj-47v6](https://github.com/advisories/GHSA-6477-wvjj-47v6) is a withdrawn duplicate.
 
 ## Why this is durable
 

@@ -4,11 +4,11 @@
 
 ## What changed
 
-- **Open WebUI feedback `user_id` spoofing and evaluation data manipulation** — [GHSA-rjmp-vjf2-qf4g / CVE-2026-45396](https://github.com/advisories/GHSA-rjmp-vjf2-qf4g): `open-webui < 0.9.5`, fixed in `0.9.5`, accepted arbitrary extra fields in `FeedbackForm` and merged `form_data.model_dump()` after server-derived fields in feedback creation. Because later duplicate keys win in Python dict literals, a low-privilege authenticated user could supply `user_id`, `id`, or `version` and create feedback attributed to another user.
+- **Open WebUI feedback `user_id` spoofing and evaluation data manipulation**, [GHSA-rjmp-vjf2-qf4g / CVE-2026-45396](https://github.com/advisories/GHSA-rjmp-vjf2-qf4g): `open-webui < 0.9.5`, fixed in `0.9.5`, accepted arbitrary extra fields in `FeedbackForm` and merged `form_data.model_dump()` after server-derived fields in feedback creation. Because later duplicate keys win in Python dict literals, a low-privilege authenticated user could supply `user_id`, `id`, or `version` and create feedback attributed to another user.
 
 ## Boundary lesson
 
-Mass assignment is not only a Rails-era controller problem. Any request schema that preserves unknown fields becomes dangerous when those fields are later splatted or merged into persistence models. Server-owned identity, authorization, versioning, ownership, timestamps, and primary-key fields should be assigned after untrusted form data—or, better, never share a generic merge path with form data at all.
+Mass assignment is not only a Rails-era controller problem. Any request schema that preserves unknown fields becomes dangerous when those fields are later splatted or merged into persistence models. Server-owned identity, authorization, versioning, ownership, timestamps, and primary-key fields should be assigned after untrusted form data,or, better, never share a generic merge path with form data at all.
 
 For model-evaluation systems, this becomes an integrity boundary: user feedback and Elo-style ranking inputs are security-relevant data because they can influence model routing, procurement decisions, benchmarks, or trust dashboards. Treat evaluation telemetry as authenticated, attributable audit data rather than harmless product analytics.
 

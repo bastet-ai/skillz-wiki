@@ -1,4 +1,4 @@
-# 2026-03-30 — Fleet team maintainer can transfer hosts from any team via missing source team authorization (GHSA-m2h6-4xpq-qw3m)
+# 2026-03-30, Fleet team maintainer can transfer hosts from any team via missing source team…
 
 **Product:** **Fleet**
 

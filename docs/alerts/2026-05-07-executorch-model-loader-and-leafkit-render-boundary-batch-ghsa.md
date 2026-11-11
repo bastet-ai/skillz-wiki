@@ -4,13 +4,13 @@
 
 ## Advisories covered
 
-- **ExecuTorch heap-based buffer overflow in model loading** — [GHSA-xc7w-r669-48pf](https://github.com/advisories/GHSA-xc7w-r669-48pf): malformed model data can crash the runtime and may enable code execution. Affected packages include `executorch`, `org.pytorch:executorch-android`, and Swift `github.com/pytorch/executorch`; patch to **0.7.0**.
-- **ExecuTorch integer overflow in model loading** — [GHSA-hj95-mhgf-jxc4](https://github.com/advisories/GHSA-hj95-mhgf-jxc4): size arithmetic can create overlapping allocations, turning untrusted model bytes into memory corruption. Patch to **0.7.0**.
-- **ExecuTorch heap buffer overflow in method loading** — [GHSA-h952-963h-rv99](https://github.com/advisories/GHSA-h952-963h-rv99): method payload loading can overflow heap buffers; Android/Swift fixed at **0.7.0-rc1** or later and Python at **0.7.0**.
-- **ExecuTorch out-of-bounds access in model loading** — [GHSA-f9hx-c6jf-3qxm](https://github.com/advisories/GHSA-f9hx-c6jf-3qxm): malformed models can drive reads/writes outside expected bounds. Patch to **0.7.0**.
-- **ExecuTorch heap buffer overflow in model loading** — [GHSA-9m39-3mf3-xwch](https://github.com/advisories/GHSA-9m39-3mf3-xwch): another loader path can corrupt memory before model execution begins. Patch to **0.7.0**.
-- **ExecuTorch integer overflow placing objects outside allocations** — [GHSA-84m3-f99p-cqx5](https://github.com/advisories/GHSA-84m3-f99p-cqx5): object placement arithmetic can escape the allocated memory area. Patch to **0.7.0**.
-- **LeafKit collection-value escaping bypass** — [GHSA-6jj5-j4j8-8473](https://github.com/advisories/GHSA-6jj5-j4j8-8473): printing Arrays or Dictionaries through `#(value)` can skip HTML escaping when `LeafData.htmlEscaped()` treats conversion as ambiguous. Patch Swift `github.com/vapor/leaf-kit` to **1.14.2**.
+- **ExecuTorch heap-based buffer overflow in model loading**, [GHSA-xc7w-r669-48pf](https://github.com/advisories/GHSA-xc7w-r669-48pf): malformed model data can crash the runtime and may enable code execution. Affected packages include `executorch`, `org.pytorch:executorch-android`, and Swift `github.com/pytorch/executorch`; patch to **0.7.0**.
+- **ExecuTorch integer overflow in model loading**, [GHSA-hj95-mhgf-jxc4](https://github.com/advisories/GHSA-hj95-mhgf-jxc4): size arithmetic can create overlapping allocations, turning untrusted model bytes into memory corruption. Patch to **0.7.0**.
+- **ExecuTorch heap buffer overflow in method loading**, [GHSA-h952-963h-rv99](https://github.com/advisories/GHSA-h952-963h-rv99): method payload loading can overflow heap buffers; Android/Swift fixed at **0.7.0-rc1** or later and Python at **0.7.0**.
+- **ExecuTorch out-of-bounds access in model loading**, [GHSA-f9hx-c6jf-3qxm](https://github.com/advisories/GHSA-f9hx-c6jf-3qxm): malformed models can drive reads/writes outside expected bounds. Patch to **0.7.0**.
+- **ExecuTorch heap buffer overflow in model loading**, [GHSA-9m39-3mf3-xwch](https://github.com/advisories/GHSA-9m39-3mf3-xwch): another loader path can corrupt memory before model execution begins. Patch to **0.7.0**.
+- **ExecuTorch integer overflow placing objects outside allocations**, [GHSA-84m3-f99p-cqx5](https://github.com/advisories/GHSA-84m3-f99p-cqx5): object placement arithmetic can escape the allocated memory area. Patch to **0.7.0**.
+- **LeafKit collection-value escaping bypass**, [GHSA-6jj5-j4j8-8473](https://github.com/advisories/GHSA-6jj5-j4j8-8473): printing Arrays or Dictionaries through `#(value)` can skip HTML escaping when `LeafData.htmlEscaped()` treats conversion as ambiguous. Patch Swift `github.com/vapor/leaf-kit` to **1.14.2**.
 
 ## Why this is durable
 

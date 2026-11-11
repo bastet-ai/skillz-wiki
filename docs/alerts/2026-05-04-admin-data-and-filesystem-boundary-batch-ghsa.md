@@ -4,12 +4,12 @@
 
 ## Advisories in this batch
 
-- **zrok WebDAV drive symlink escape** — `github.com/openziti/zrok <= 1.1.11` and `github.com/openziti/zrok/v2 < 2.0.2` allowed WebDAV drive backends to follow symlinks outside `DriveRoot`, enabling host filesystem read/write. Reference: <https://github.com/advisories/GHSA-74m3-9qvm-rp9h>, CVE-2026-42275.
-- **Pelican Web UI privilege escalation** — `github.com/pelicanplatform/pelican` before build `0.0.0-20260408120501-7f73b9c3e677` was affected by a critical Web UI privilege escalation issue. Reference: <https://github.com/advisories/GHSA-rpfr-x88x-xwcw>, CVE-2026-42571.
-- **phpVMS importer authorization bypass** — `nabeel/phpvms < 7.0.6` exposed `/importer` behavior that could be reached without proper authorization and wipe the database. Reference: <https://github.com/advisories/GHSA-fv26-4939-62fh>, CVE-2026-42569.
-- **livewire-markdown-editor arbitrary upload/stored XSS** — `mckenziearts/livewire-markdown-editor < 1.3` allowed arbitrary attachment upload leading to stored XSS. Reference: <https://github.com/advisories/GHSA-gxxh-8vcj-w2mh>.
-- **n8n-MCP sensitive argument logging** — `n8n-mcp < 2.47.13` logged sensitive MCP tool-call arguments on authenticated HTTP-mode requests. Reference: <https://github.com/advisories/GHSA-wg4g-395p-mqv3>, CVE-2026-42282.
-- **ParquetSharp stack overflow** — `ParquetSharp >= 18.1.0, < 23.0.0.1` could stack overflow on Parquet files with large decimal type widths. Reference: <https://github.com/advisories/GHSA-rrjr-v56m-ww88>, CVE-2026-42241.
+- **zrok WebDAV drive symlink escape**, `github.com/openziti/zrok <= 1.1.11` and `github.com/openziti/zrok/v2 < 2.0.2` allowed WebDAV drive backends to follow symlinks outside `DriveRoot`, enabling host filesystem read/write. Reference: <https://github.com/advisories/GHSA-74m3-9qvm-rp9h>, CVE-2026-42275.
+- **Pelican Web UI privilege escalation**, `github.com/pelicanplatform/pelican` before build `0.0.0-20260408120501-7f73b9c3e677` was affected by a critical Web UI privilege escalation issue. Reference: <https://github.com/advisories/GHSA-rpfr-x88x-xwcw>, CVE-2026-42571.
+- **phpVMS importer authorization bypass**, `nabeel/phpvms < 7.0.6` exposed `/importer` behavior that could be reached without proper authorization and wipe the database. Reference: <https://github.com/advisories/GHSA-fv26-4939-62fh>, CVE-2026-42569.
+- **livewire-markdown-editor arbitrary upload/stored XSS**, `mckenziearts/livewire-markdown-editor < 1.3` allowed arbitrary attachment upload leading to stored XSS. Reference: <https://github.com/advisories/GHSA-gxxh-8vcj-w2mh>.
+- **n8n-MCP sensitive argument logging**, `n8n-mcp < 2.47.13` logged sensitive MCP tool-call arguments on authenticated HTTP-mode requests. Reference: <https://github.com/advisories/GHSA-wg4g-395p-mqv3>, CVE-2026-42282.
+- **ParquetSharp stack overflow**, `ParquetSharp >= 18.1.0, < 23.0.0.1` could stack overflow on Parquet files with large decimal type widths. Reference: <https://github.com/advisories/GHSA-rrjr-v56m-ww88>, CVE-2026-42241.
 
 ## Why this is durable
 

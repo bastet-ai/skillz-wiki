@@ -4,14 +4,14 @@
 
 ## Advisories covered
 
-- **Lemmy private-instance metadata exposure** — [GHSA-jmxc-hhwx-gvv3](https://github.com/advisories/GHSA-jmxc-hhwx-gvv3): private instances exposed multi-community metadata without authentication.
-- **Kyverno policy-reporter-ui stored XSS** — [GHSA-q98m-7w8c-w388](https://github.com/advisories/GHSA-q98m-7w8c-w388): stored property values rendered through `PropertyCard` could execute script.
-- **Daptin fuzzy-search SQL injection** — [GHSA-pwqg-q8pg-pp6r](https://github.com/advisories/GHSA-pwqg-q8pg-pp6r): unvalidated column names reached raw SQL.
-- **CyberChef XSS** — [GHSA-h4hv-92pp-pcjg](https://github.com/advisories/GHSA-h4hv-92pp-pcjg): crafted input could cross into script execution.
-- **Bagisto SSRF and XSS** — [GHSA-x3f9-vcp2-hgcw](https://github.com/advisories/GHSA-x3f9-vcp2-hgcw), [GHSA-65fp-7g2v-658r](https://github.com/advisories/GHSA-65fp-7g2v-658r): server-side fetch and render paths need explicit origin and HTML boundaries.
-- **Hatchet cross-tenant task disclosure** — [GHSA-55gc-6fmc-fpx9](https://github.com/advisories/GHSA-55gc-6fmc-fpx9): `listTasksByDAGIds` could disclose tasks across tenants.
-- **xxl-job resource injection, authorization, and weak token generation** — [GHSA-gw2x-mfwr-h46p](https://github.com/advisories/GHSA-gw2x-mfwr-h46p), [GHSA-565h-44m8-4c2v](https://github.com/advisories/GHSA-565h-44m8-4c2v), [GHSA-gjx6-h8hm-c9rq](https://github.com/advisories/GHSA-gjx6-h8hm-c9rq), [GHSA-6rq7-m52p-8pqg](https://github.com/advisories/GHSA-6rq7-m52p-8pqg): scheduler resource identifiers and handler IDs need ownership/authorization checks before runtime effects, and admin/session token material must use modern high-entropy generation rather than low-effort password hashing.
-- **Flight framework batch** — [GHSA-qrch-52m5-vv85](https://github.com/advisories/GHSA-qrch-52m5-vv85), [GHSA-vxrr-w42w-w76g](https://github.com/advisories/GHSA-vxrr-w42w-w76g), [GHSA-xwqr-rcqg-22mr](https://github.com/advisories/GHSA-xwqr-rcqg-22mr), [GHSA-3xjv-pmf2-gf2q](https://github.com/advisories/GHSA-3xjv-pmf2-gf2q), [GHSA-fcx8-ph5r-mxr4](https://github.com/advisories/GHSA-fcx8-ph5r-mxr4): default error disclosure, method override, identifier SQL injection, CLI path traversal, and JSONP callback XSS.
+- **Lemmy private-instance metadata exposure**, [GHSA-jmxc-hhwx-gvv3](https://github.com/advisories/GHSA-jmxc-hhwx-gvv3): private instances exposed multi-community metadata without authentication.
+- **Kyverno policy-reporter-ui stored XSS**, [GHSA-q98m-7w8c-w388](https://github.com/advisories/GHSA-q98m-7w8c-w388): stored property values rendered through `PropertyCard` could execute script.
+- **Daptin fuzzy-search SQL injection**, [GHSA-pwqg-q8pg-pp6r](https://github.com/advisories/GHSA-pwqg-q8pg-pp6r): unvalidated column names reached raw SQL.
+- **CyberChef XSS**, [GHSA-h4hv-92pp-pcjg](https://github.com/advisories/GHSA-h4hv-92pp-pcjg): crafted input could cross into script execution.
+- **Bagisto SSRF and XSS**, [GHSA-x3f9-vcp2-hgcw](https://github.com/advisories/GHSA-x3f9-vcp2-hgcw), [GHSA-65fp-7g2v-658r](https://github.com/advisories/GHSA-65fp-7g2v-658r): server-side fetch and render paths need explicit origin and HTML boundaries.
+- **Hatchet cross-tenant task disclosure**, [GHSA-55gc-6fmc-fpx9](https://github.com/advisories/GHSA-55gc-6fmc-fpx9): `listTasksByDAGIds` could disclose tasks across tenants.
+- **xxl-job resource injection, authorization, and weak token generation**, [GHSA-gw2x-mfwr-h46p](https://github.com/advisories/GHSA-gw2x-mfwr-h46p), [GHSA-565h-44m8-4c2v](https://github.com/advisories/GHSA-565h-44m8-4c2v), [GHSA-gjx6-h8hm-c9rq](https://github.com/advisories/GHSA-gjx6-h8hm-c9rq), [GHSA-6rq7-m52p-8pqg](https://github.com/advisories/GHSA-6rq7-m52p-8pqg): scheduler resource identifiers and handler IDs need ownership/authorization checks before runtime effects, and admin/session token material must use modern high-entropy generation rather than low-effort password hashing.
+- **Flight framework batch**, [GHSA-qrch-52m5-vv85](https://github.com/advisories/GHSA-qrch-52m5-vv85), [GHSA-vxrr-w42w-w76g](https://github.com/advisories/GHSA-vxrr-w42w-w76g), [GHSA-xwqr-rcqg-22mr](https://github.com/advisories/GHSA-xwqr-rcqg-22mr), [GHSA-3xjv-pmf2-gf2q](https://github.com/advisories/GHSA-3xjv-pmf2-gf2q), [GHSA-fcx8-ph5r-mxr4](https://github.com/advisories/GHSA-fcx8-ph5r-mxr4): default error disclosure, method override, identifier SQL injection, CLI path traversal, and JSONP callback XSS.
 
 ## Why this is durable
 

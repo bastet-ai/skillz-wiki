@@ -1,4 +1,4 @@
-# 2026-03-29 — OpenClaw SSRF via unguarded configured base URLs in multiple channel extensions (Incomplete Fix for CVE-2026-28476) (GHSA-rhfg-j8jq-7v2h)
+# 2026-03-29, OpenClaw SSRF via unguarded configured base URLs in multiple channel extensions
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

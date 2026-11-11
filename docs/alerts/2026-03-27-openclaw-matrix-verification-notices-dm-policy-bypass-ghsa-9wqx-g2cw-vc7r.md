@@ -1,4 +1,4 @@
-# 2026-03-27 — OpenClaw Matrix verification notices bypass DM policy (GHSA-9wqx-g2cw-vc7r)
+# 2026-03-27, OpenClaw Matrix verification notices bypass DM policy (GHSA-9wqx-g2cw-vc7r)
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

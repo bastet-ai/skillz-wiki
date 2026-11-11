@@ -1,4 +1,4 @@
-# Nezha DDNS SSRF, Admidio document/auth boundaries, OpenC3 file/SQL boundaries, and Ouroboros tool-path batch
+# Nezha DDNS SSRF, Admidio document/auth boundaries, OpenC3 file/SQL boundaries, and Ouroboros…
 
 Source: GitHub Security Advisories REST fallback, updated 2026-05-29: [GHSA-6x26-5727-rrm9](https://github.com/advisories/GHSA-6x26-5727-rrm9) / CVE-2026-47268, [GHSA-x628-457g-2pw9](https://github.com/advisories/GHSA-x628-457g-2pw9) / CVE-2026-47231, [GHSA-mx25-j3rc-6w2w](https://github.com/advisories/GHSA-mx25-j3rc-6w2w) / CVE-2026-47228, [GHSA-v529-vhwc-wfc5](https://github.com/advisories/GHSA-v529-vhwc-wfc5) / CVE-2026-42087, [GHSA-4jvx-93h3-f45h](https://github.com/advisories/GHSA-4jvx-93h3-f45h) / CVE-2026-42085, [GHSA-3jfp-46x4-xgfj](https://github.com/advisories/GHSA-3jfp-46x4-xgfj) / CVE-2026-41493, [GHSA-55rj-x2vc-4whq](https://github.com/advisories/GHSA-55rj-x2vc-4whq) / CVE-2026-47212, and [GHSA-c4m7-2gwp-vw76](https://github.com/advisories/GHSA-c4m7-2gwp-vw76) / CVE-2026-47211.
 
@@ -6,14 +6,14 @@ This batch is durable because it captures reusable offensive validation patterns
 
 ## What changed
 
-- **Nezha DDNS webhook blind SSRF** — authenticated dashboard users can create webhook-backed DDNS profiles with arbitrary URL, method, headers, and body. When DDNS fires for an owned server, the dashboard host issues the request without the SSRF protections used by notification webhooks.
-- **Admidio document-manager IDOR** — upload rights are checked against the URL `folder_uuid`, while `move_save` operates on a separate `file_uuid`. A user with upload rights in one folder can move files from private folders into a controlled folder and then download them.
-- **Admidio registration CSRF** — `registration.php` `send_login` regenerates and stores a new password for an arbitrary assigned user without validating a CSRF token, allowing a registration administrator's browser to be used as the state-changing principal.
-- **OpenC3 COSMOS TSDB SQL injection** — the `get_tlm_values` RPC path can pass attacker-controlled time-series lookup input into QuestDB SQL, enabling telemetry disclosure or destructive statements from roles that only need telemetry-view permissions.
-- **OpenC3 COSMOS plugin config file write** — tool configuration saves can escape their intended directory and create or overwrite files within the shared `/plugins` tree.
-- **YARD doc server traversal** — YARD `<=0.9.41` can expose arbitrary host files through crafted HTTP paths in some `yard server` deployments, especially non-WEBrick/docroot configurations.
-- **Symfony Twilio SMS Notifier unsigned callback parsing** — the parser receives a webhook secret but ignored `X-Twilio-Signature`, letting anyone who can reach the endpoint forge delivery/failure callbacks when applications wire those events into automation.
-- **Ouroboros project `.env` CLI-path execution** — running Ouroboros inside an untrusted repository could load execution-affecting variables such as `OUROBOROS_CLI_PATH` or `OPENCODE_CLI_PATH` from the repo-local `.env`, causing project-controlled helper binaries or scripts to execute.
+- **Nezha DDNS webhook blind SSRF**, authenticated dashboard users can create webhook-backed DDNS profiles with arbitrary URL, method, headers, and body. When DDNS fires for an owned server, the dashboard host issues the request without the SSRF protections used by notification webhooks.
+- **Admidio document-manager IDOR**, upload rights are checked against the URL `folder_uuid`, while `move_save` operates on a separate `file_uuid`. A user with upload rights in one folder can move files from private folders into a controlled folder and then download them.
+- **Admidio registration CSRF**, `registration.php` `send_login` regenerates and stores a new password for an arbitrary assigned user without validating a CSRF token, allowing a registration administrator's browser to be used as the state-changing principal.
+- **OpenC3 COSMOS TSDB SQL injection**, the `get_tlm_values` RPC path can pass attacker-controlled time-series lookup input into QuestDB SQL, enabling telemetry disclosure or destructive statements from roles that only need telemetry-view permissions.
+- **OpenC3 COSMOS plugin config file write**, tool configuration saves can escape their intended directory and create or overwrite files within the shared `/plugins` tree.
+- **YARD doc server traversal**, YARD `<=0.9.41` can expose arbitrary host files through crafted HTTP paths in some `yard server` deployments, especially non-WEBrick/docroot configurations.
+- **Symfony Twilio SMS Notifier unsigned callback parsing**, the parser receives a webhook secret but ignored `X-Twilio-Signature`, letting anyone who can reach the endpoint forge delivery/failure callbacks when applications wire those events into automation.
+- **Ouroboros project `.env` CLI-path execution**, running Ouroboros inside an untrusted repository could load execution-affecting variables such as `OUROBOROS_CLI_PATH` or `OPENCODE_CLI_PATH` from the repo-local `.env`, causing project-controlled helper binaries or scripts to execute.
 
 ## Operator triage
 

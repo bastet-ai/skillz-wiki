@@ -1,4 +1,4 @@
-# 2026-02-04 — FUXA unauthenticated file upload leading to overwrite / RCE (GHSA-7g56-fwxj-cm23)
+# 2026-02-04, FUXA unauthenticated file upload leading to overwrite / RCE (GHSA-7g56-fwxj-cm23)
 
 **Product:** **FUXA** (advisory notes npm package `fuxa-server`)
 

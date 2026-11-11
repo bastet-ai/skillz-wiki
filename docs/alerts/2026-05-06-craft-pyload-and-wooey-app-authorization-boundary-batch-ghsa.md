@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **Craft CMS `AssetsController::actionShowInFolder` information disclosure** — [GHSA-33m5-hqp9-97pw](https://github.com/advisories/GHSA-33m5-hqp9-97pw): authenticated Control Panel users without volume permissions could enumerate asset filenames and folder hierarchy. Fixed in `craftcms/cms 5.9.18`.
-- **Craft CMS object-config / attached-behavior RCE** — [GHSA-qrgm-p9w5-rrfw](https://github.com/advisories/GHSA-qrgm-p9w5-rrfw): authenticated users could inject malicious Yii object configuration through field-layout hydration. Fixed in `4.17.12` and `5.9.18`.
-- **Craft CMS GraphQL Address resolver cross-scope PII disclosure** — [GHSA-gj2p-p9m4-c8gw](https://github.com/advisories/GHSA-gj2p-p9m4-c8gw): GraphQL tokens scoped to one user group could query all address records because resolver-level schema filtering was missing. Fixed in `4.17.12` and `5.9.18`.
-- **PyLoad WebUI traceback disclosure** — [GHSA-c3gc-9pf2-84gg](https://github.com/advisories/GHSA-c3gc-9pf2-84gg): unauthenticated template-rendering errors returned full Python tracebacks. Fixed in `pyload-ng 0.5.0b3.dev100`.
-- **Wooey API incorrect privilege assignment** — [GHSA-w65c-cmxj-qrhm](https://github.com/advisories/GHSA-w65c-cmxj-qrhm): remote API manipulation in `add_or_update_script` could lead to improper authorization. Fixed in `0.13.3rc1` / `0.14.0` per advisory metadata.
+- **Craft CMS `AssetsController::actionShowInFolder` information disclosure**, [GHSA-33m5-hqp9-97pw](https://github.com/advisories/GHSA-33m5-hqp9-97pw): authenticated Control Panel users without volume permissions could enumerate asset filenames and folder hierarchy. Fixed in `craftcms/cms 5.9.18`.
+- **Craft CMS object-config / attached-behavior RCE**, [GHSA-qrgm-p9w5-rrfw](https://github.com/advisories/GHSA-qrgm-p9w5-rrfw): authenticated users could inject malicious Yii object configuration through field-layout hydration. Fixed in `4.17.12` and `5.9.18`.
+- **Craft CMS GraphQL Address resolver cross-scope PII disclosure**, [GHSA-gj2p-p9m4-c8gw](https://github.com/advisories/GHSA-gj2p-p9m4-c8gw): GraphQL tokens scoped to one user group could query all address records because resolver-level schema filtering was missing. Fixed in `4.17.12` and `5.9.18`.
+- **PyLoad WebUI traceback disclosure**, [GHSA-c3gc-9pf2-84gg](https://github.com/advisories/GHSA-c3gc-9pf2-84gg): unauthenticated template-rendering errors returned full Python tracebacks. Fixed in `pyload-ng 0.5.0b3.dev100`.
+- **Wooey API incorrect privilege assignment**, [GHSA-w65c-cmxj-qrhm](https://github.com/advisories/GHSA-w65c-cmxj-qrhm): remote API manipulation in `add_or_update_script` could lead to improper authorization. Fixed in `0.13.3rc1` / `0.14.0` per advisory metadata.
 
 ## Why this is durable
 

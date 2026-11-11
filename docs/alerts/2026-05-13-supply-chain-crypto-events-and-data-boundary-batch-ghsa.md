@@ -6,12 +6,12 @@ Package compromise and data-format advisories are durable because they live betw
 
 ## Advisories covered
 
-- **PyTorch Lightning PyPI package compromise** — [GHSA-w37p-236h-pfx3](https://github.com/advisories/GHSA-w37p-236h-pfx3): published package versions were compromised, requiring dependency, token, and build-host triage.
-- **sse-channel event-field injection** — [GHSA-84hm-wfh8-c5pg](https://github.com/advisories/GHSA-84hm-wfh8-c5pg): unsanitized event fields could inject Server-Sent Event semantics.
-- **ip-address Address6 HTML XSS** — [GHSA-v2v4-37r5-5v8g](https://github.com/advisories/GHSA-v2v4-37r5-5v8g): HTML-emitting helpers could render address data as scriptable output.
-- **bsv-sdk ARC broadcaster success confusion** — [GHSA-9hfr-gw99-8rhx](https://github.com/advisories/GHSA-9hfr-gw99-8rhx): INVALID, MALFORMED, or ORPHAN responses were treated as successful broadcasts.
-- **bsv-sdk and bsv-wallet unverified certifier signatures** — [GHSA-hc36-c89j-5f4j](https://github.com/advisories/GHSA-hc36-c89j-5f4j): certificate acquisition paths persisted unverified certifier signatures.
-- **RoadRunner HTTP request/response smuggling** — [GHSA-g9pc-8g42-g6vq](https://github.com/advisories/GHSA-g9pc-8g42-g6vq): a vulnerable dependency created request/response boundary ambiguity.
+- **PyTorch Lightning PyPI package compromise**, [GHSA-w37p-236h-pfx3](https://github.com/advisories/GHSA-w37p-236h-pfx3): published package versions were compromised, requiring dependency, token, and build-host triage.
+- **sse-channel event-field injection**, [GHSA-84hm-wfh8-c5pg](https://github.com/advisories/GHSA-84hm-wfh8-c5pg): unsanitized event fields could inject Server-Sent Event semantics.
+- **ip-address Address6 HTML XSS**, [GHSA-v2v4-37r5-5v8g](https://github.com/advisories/GHSA-v2v4-37r5-5v8g): HTML-emitting helpers could render address data as scriptable output.
+- **bsv-sdk ARC broadcaster success confusion**, [GHSA-9hfr-gw99-8rhx](https://github.com/advisories/GHSA-9hfr-gw99-8rhx): INVALID, MALFORMED, or ORPHAN responses were treated as successful broadcasts.
+- **bsv-sdk and bsv-wallet unverified certifier signatures**, [GHSA-hc36-c89j-5f4j](https://github.com/advisories/GHSA-hc36-c89j-5f4j): certificate acquisition paths persisted unverified certifier signatures.
+- **RoadRunner HTTP request/response smuggling**, [GHSA-g9pc-8g42-g6vq](https://github.com/advisories/GHSA-g9pc-8g42-g6vq): a vulnerable dependency created request/response boundary ambiguity.
 
 ## Operator triage
 

@@ -4,10 +4,10 @@
 
 ## Advisories covered
 
-- **Argo CD ServerSideDiff Kubernetes Secret extraction** — [GHSA-3v3m-wc6v-x4x3](https://github.com/advisories/GHSA-3v3m-wc6v-x4x3): diff/render functionality can become a read path for Secrets when it runs with broader cluster privileges than the requesting principal.
-- **Fleet Helm impersonation bypass** — [GHSA-765j-qfrp-hm3j](https://github.com/advisories/GHSA-765j-qfrp-hm3j): template rendering retained a `cluster-admin` REST client despite intended impersonation boundaries.
-- **Rancher Extensions path traversal** — [GHSA-5v3h-x4wf-5c35](https://github.com/advisories/GHSA-5v3h-x4wf-5c35) / CVE-2026-25705: a malicious `UIPlugin` can abuse `compressedEndpoint` path traversal and Cluster Repo icon paths unless Rancher forces all resolved files to stay inside the extension cache/repository root.
-- **Amazon ECS Container Agent for Windows information disclosure** — [GHSA-fc67-c4hg-q653](https://github.com/advisories/GHSA-fc67-c4hg-q653): host/container metadata boundaries can leak sensitive operational data when agent paths are exposed too broadly.
+- **Argo CD ServerSideDiff Kubernetes Secret extraction**, [GHSA-3v3m-wc6v-x4x3](https://github.com/advisories/GHSA-3v3m-wc6v-x4x3): diff/render functionality can become a read path for Secrets when it runs with broader cluster privileges than the requesting principal.
+- **Fleet Helm impersonation bypass**, [GHSA-765j-qfrp-hm3j](https://github.com/advisories/GHSA-765j-qfrp-hm3j): template rendering retained a `cluster-admin` REST client despite intended impersonation boundaries.
+- **Rancher Extensions path traversal**, [GHSA-5v3h-x4wf-5c35](https://github.com/advisories/GHSA-5v3h-x4wf-5c35) / CVE-2026-25705: a malicious `UIPlugin` can abuse `compressedEndpoint` path traversal and Cluster Repo icon paths unless Rancher forces all resolved files to stay inside the extension cache/repository root.
+- **Amazon ECS Container Agent for Windows information disclosure**, [GHSA-fc67-c4hg-q653](https://github.com/advisories/GHSA-fc67-c4hg-q653): host/container metadata boundaries can leak sensitive operational data when agent paths are exposed too broadly.
 
 ## Why this is durable
 
@@ -83,7 +83,7 @@ Test retries, concurrent migrations, controller restart, and failed migration cl
 
 ## August 20 follow-up: bind cross-cluster objects, endpoints, and controller credentials to the authenticated cluster
 
-Five GitHub records for Red Hat Advanced Cluster Management components add the spoke-to-broker/peer authority surface of federated Kubernetes. The shared pattern: an object created inside one cluster (spoke) selects a destination — namespace, network range, or credential — that is derived from attacker-controlled fields rather than from the authenticated cluster's identity.
+Five GitHub records for Red Hat Advanced Cluster Management components add the spoke-to-broker/peer authority surface of federated Kubernetes. The shared pattern: an object created inside one cluster (spoke) selects a destination, namespace, network range, or credential, that is derived from attacker-controlled fields rather than from the authenticated cluster's identity.
 
 - [GHSA-264j-8377-4hmm / CVE-2026-66788](https://github.com/advisories/GHSA-264j-8377-4hmm) (critical, Lighthouse): the destination namespace for resource injection is derived from an attacker-controlled label or annotation on the broker object, letting a compromised spoke inject EndpointSlices and ServiceImports into any namespace on peer clusters, including `kube-system` and `openshift-*`.
 - [GHSA-7fh9-j94v-w42j / CVE-2026-66787](https://github.com/advisories/GHSA-7fh9-j94v-w42j) (high, Lighthouse): advertised IP addresses in EndpointSlice objects are insufficiently validated, so a spoke can make other clusters' lighthouse DNS redirect service traffic to attacker-chosen endpoints (transparent MITM of cross-cluster service communication).
@@ -119,13 +119,13 @@ Report each edge as a separate finding with **authenticated spoke identity -> at
 
 Seven GitHub records for OpenShift Multicluster Engine (MCE) add the same hub/spoke trust-boundary family on a second control plane. The shared pattern: hub-side controllers and routes select privileged destinations from **caller-controlled labels, resource naming conventions, and URL path segments** instead of the authenticated cluster's identity.
 
-- [GHSA-9855-9cch-x8mw / CVE-2026-66794](https://github.com/advisories/GHSA-9855-9cch-x8mw) (critical, `cluster-proxy-addon`): the user-facing route accepts unauthenticated requests and lets path-segment manipulation proxy to arbitrary services in any managed cluster — an authentication and authorization bypass with cross-cluster service reach.
+- [GHSA-9855-9cch-x8mw / CVE-2026-66794](https://github.com/advisories/GHSA-9855-9cch-x8mw) (critical, `cluster-proxy-addon`): the user-facing route accepts unauthenticated requests and lets path-segment manipulation proxy to arbitrary services in any managed cluster, an authentication and authorization bypass with cross-cluster service reach.
 - [GHSA-w9c6-w29v-4vp6 / CVE-2026-66795](https://github.com/advisories/GHSA-w9c6-w29v-4vp6) (critical, `managedcluster-import-controller`): CSR auto-approval does not inspect the signer name or decode the PEM-encoded x509 CSR, so a privileged service account on a spoke can submit a malicious CSR and obtain hub administrative credentials.
 - [GHSA-h2w9-5qx3-frqq / CVE-2026-73269](https://github.com/advisories/GHSA-h2w9-5qx3-frqq) (critical, `cluster-curator-controller`): a ClusterCurator resource matching a specific naming convention triggers creation of a cluster-scoped `ClusterRoleBinding`, escalating a namespace-local user to cluster-wide control.
 - [GHSA-6c6p-j4gf-mj2c / CVE-2026-73268](https://github.com/advisories/GHSA-6c6p-j4gf-mj2c) (critical, `cluster-curator-controller`): `CreateJob()` does not validate `spec.install.overrideJob` raw extension input, so a tenant with ClusterCurator create/update rights can inject an arbitrary Job spec that runs with the controller's elevated privileges.
 - [GHSA-xp42-v53j-r9gh / CVE-2026-73266](https://github.com/advisories/GHSA-xp42-v53j-r9gh) (high, `clusterclaims-controller`): manipulating ClusterClaim labels forces a cluster to join another tenant's `ManagedClusterSet`, enabling policy and workload injection into other tenants' clusters.
 - [GHSA-3vwx-g7ch-f3wg / CVE-2026-19130](https://github.com/advisories/GHSA-3vwx-g7ch-f3wg) (medium, `provider-credential-controller`): manipulating `copiedFrom` labels on a hub, with knowledge of a prior credential value, intercepts newly rotated provider credentials.
-- [GHSA-77qj-pc4h-hxwh / CVE-2026-75569](https://github.com/advisories/GHSA-77qj-pc4h-hxwh) (high, `mce-operator-bundle`): the build process fetches and executes scripts from a remote repository without commit pinning or signature verification — a build-time script-supply boundary for anyone trusting MCE operator bundles.
+- [GHSA-77qj-pc4h-hxwh / CVE-2026-75569](https://github.com/advisories/GHSA-77qj-pc4h-hxwh) (high, `mce-operator-bundle`): the build process fetches and executes scripts from a remote repository without commit pinning or signature verification, a build-time script-supply boundary for anyone trusting MCE operator bundles.
 
 Treat the proxy-addon record as the most operationally interesting one: it is the only unauthenticated entry point and it turns the MCE route into a user-directed cross-cluster forwarder, which is an SSRF-shaped primitive at cluster scale. The CSR, naming-convention, overrideJob, and label records each require authority already present on a spoke or hub tenant.
 

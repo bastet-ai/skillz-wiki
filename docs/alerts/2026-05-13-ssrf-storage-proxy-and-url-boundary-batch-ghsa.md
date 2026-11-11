@@ -6,13 +6,13 @@ This batch is durable because URL parsing, object storage paths, preview fetcher
 
 ## Advisories covered
 
-- **link-preview-js internal-target bypass** — [GHSA-4gp8-rjrq-ch6q](https://github.com/advisories/GHSA-4gp8-rjrq-ch6q): IPv6 and internal-loopback forms bypassed preview restrictions. Fixed in `4.0.1`.
-- **FireFighter unauthenticated Jira bot SSRF** — [GHSA-fqvv-jvhr-g5jc](https://github.com/advisories/GHSA-fqvv-jvhr-g5jc): unauthenticated SSRF could reach IAM metadata. Fixed in `firefighter-incident 0.0.54`.
-- **edx-enterprise SAML metadata SSRF** — [GHSA-64cv-vxpr-j6vc](https://github.com/advisories/GHSA-64cv-vxpr-j6vc): `sync_provider_data` accepted attacker-controlled SAML metadata URLs. Fixed in `7.0.5`.
-- **Geyser player-head texture SSRF** — [GHSA-xcfg-fcr5-gw9r](https://github.com/advisories/GHSA-xcfg-fcr5-gw9r): media URL fetching crossed into server-side network authority. Fixed in `2.9.3`.
-- **MinIO Storage REST path traversal** — [GHSA-xh8f-g2qw-gcm7](https://github.com/advisories/GHSA-xh8f-g2qw-gcm7): msgpack bodies in `ReadMultiple` could traverse object paths. Fixed in `RELEASE.2026-04-14T21-32-45Z` lineage.
-- **S3-Proxy path matching flaws** — [GHSA-rfgq-wgg8-662p](https://github.com/advisories/GHSA-rfgq-wgg8-662p): resource path matching allowed authorization confusion. Fixed in `1320e4abd46a` and later.
-- **@workos/authkit-session open redirect** — [GHSA-vvvv-983w-r7pv](https://github.com/advisories/GHSA-vvvv-983w-r7pv): redirect targets derived from `state` were not constrained. Fixed in `0.5.1`.
+- **link-preview-js internal-target bypass**, [GHSA-4gp8-rjrq-ch6q](https://github.com/advisories/GHSA-4gp8-rjrq-ch6q): IPv6 and internal-loopback forms bypassed preview restrictions. Fixed in `4.0.1`.
+- **FireFighter unauthenticated Jira bot SSRF**, [GHSA-fqvv-jvhr-g5jc](https://github.com/advisories/GHSA-fqvv-jvhr-g5jc): unauthenticated SSRF could reach IAM metadata. Fixed in `firefighter-incident 0.0.54`.
+- **edx-enterprise SAML metadata SSRF**, [GHSA-64cv-vxpr-j6vc](https://github.com/advisories/GHSA-64cv-vxpr-j6vc): `sync_provider_data` accepted attacker-controlled SAML metadata URLs. Fixed in `7.0.5`.
+- **Geyser player-head texture SSRF**, [GHSA-xcfg-fcr5-gw9r](https://github.com/advisories/GHSA-xcfg-fcr5-gw9r): media URL fetching crossed into server-side network authority. Fixed in `2.9.3`.
+- **MinIO Storage REST path traversal**, [GHSA-xh8f-g2qw-gcm7](https://github.com/advisories/GHSA-xh8f-g2qw-gcm7): msgpack bodies in `ReadMultiple` could traverse object paths. Fixed in `RELEASE.2026-04-14T21-32-45Z` lineage.
+- **S3-Proxy path matching flaws**, [GHSA-rfgq-wgg8-662p](https://github.com/advisories/GHSA-rfgq-wgg8-662p): resource path matching allowed authorization confusion. Fixed in `1320e4abd46a` and later.
+- **@workos/authkit-session open redirect**, [GHSA-vvvv-983w-r7pv](https://github.com/advisories/GHSA-vvvv-983w-r7pv): redirect targets derived from `state` were not constrained. Fixed in `0.5.1`.
 
 ## Operator triage
 

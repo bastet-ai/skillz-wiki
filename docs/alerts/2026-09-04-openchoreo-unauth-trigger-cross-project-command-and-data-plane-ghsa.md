@@ -1,4 +1,4 @@
-# OpenChoreo: unauth workflow trigger, cross-project command execution, and data-plane access boundaries (GHSA)
+# OpenChoreo
 
 Source: hourly offensive-security scan, 2026-09-04 late GitHub advisory wave (OpenChoreo cluster, 4 advisories). Durable because OpenChoreo is a cloud/Choreography orchestration service and the cluster exposes the **multi-project, multi-plane trust boundaries** this wiki flags for control/data-plane systems: an unauthenticated build/workflow trigger, a cross-project command-execution/wirelog leak, unauthenticated data-plane access, and an authenticated OS-command-injection leg.
 

@@ -23,7 +23,7 @@ Red flags:
 ### 2) Refresh endpoint accepts *any* valid JWT and upgrades privileges
 Common bug: the server verifies signature but then **re-mints** a token using request parameters (or DB fields) without re-checking authorization.
 
-**Rule:** Refresh should preserve (or reduce) privilege — never increase it.
+**Rule:** Refresh should preserve (or reduce) privilege, never increase it.
 
 ### 3) JWT verification weaknesses
 Checklist:

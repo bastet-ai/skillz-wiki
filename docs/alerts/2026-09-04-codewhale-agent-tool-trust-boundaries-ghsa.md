@@ -1,8 +1,8 @@
-# CodeWhale: agent-tool trust boundaries — repo-config shell override, git-tool argument injection, SSRF DNS-pinning TOCTOU, and env-symlink leaks (GHSA)
+# CodeWhale
 
-Source: hourly offensive-security scan, 2026-09-04 late GitHub advisory wave (CodeWhale / `codewhale` + `deepseek-tui` CLI agent-tool cluster). Durable because CodeWhale is a local coding agent that bundles a set of filesystem/git/shell tools around an LLM, and the nine-advisory cluster maps one repeatable trust axis: **which tool inputs are treated as trusted configuration or data, versus which cross into shell, filesystem, network, or prompt authority without an approval gate.** The cluster generalizes the agent-tool boundary checks this wiki already carries for Claude Code, Aider, and MCP tool packs — but CodeWhale is notable for bundling the whole class into one npm/Rust CLI and for shipping a git-arg-injection primitive that reaches both file read and file write.
+Source: hourly offensive-security scan, 2026-09-04 late GitHub advisory wave (CodeWhale / `codewhale` + `deepseek-tui` CLI agent-tool cluster). Durable because CodeWhale is a local coding agent that bundles a set of filesystem/git/shell tools around an LLM, and the nine-advisory cluster maps one repeatable trust axis: **which tool inputs are treated as trusted configuration or data, versus which cross into shell, filesystem, network, or prompt authority without an approval gate.** The cluster generalizes the agent-tool boundary checks this wiki already carries for Claude Code, Aider, and MCP tool packs, but CodeWhale is notable for bundling the whole class into one npm/Rust CLI and for shipping a git-arg-injection primitive that reaches both file read and file write.
 
-All nine entries target the `codewhale` (npm + rust) and `deepseek-tui` (npm + rust) packages; the `codewhale` line is affected `>= 0.8.41, < 0.8.64` and the `deepseek-tui` line `>= 0.3.27/0.8.5/0.8.8/0.8.32, <= 0.8.41` depending on the specific boundary. The critical anchor is [GHSA-6V2G-FPXH-PMMH](https://github.com/advisories/GHSA-6v2g-fpxh-pmmh) / CVE-2026-75856 (SSRF bypass — TOCTOU on DNS failure for DNS pinning). Full cluster:
+All nine entries target the `codewhale` (npm + rust) and `deepseek-tui` (npm + rust) packages; the `codewhale` line is affected `>= 0.8.41, < 0.8.64` and the `deepseek-tui` line `>= 0.3.27/0.8.5/0.8.8/0.8.32, <= 0.8.41` depending on the specific boundary. The critical anchor is [GHSA-6V2G-FPXH-PMMH](https://github.com/advisories/GHSA-6v2g-fpxh-pmmh) / CVE-2026-75856 (SSRF bypass, TOCTOU on DNS failure for DNS pinning). Full cluster:
 
 | GHSA | Boundary | Defect | Reusable check |
 | --- | --- | --- | --- |
@@ -25,11 +25,11 @@ Fixed control across the cluster is the `0.8.64`-line for `codewhale` and the co
 
 The 2026-02 Claude Code and Aider pages established the pattern: a coding agent that reads repository-controlled configuration (`settings.json`, project files, `.claude/` config) and then executes tools is only as safe as the boundary between *repo data* and *operator policy*. CodeWhale is the same class with more legs, because the tool family exposes six distinct sinks that each accept an unvalidated caller field:
 
-- **Repo-config → shell:** `allow_shell` and `instructions` are read from the cloned repository and treated as policy. A malicious repo therefore both enables the shell and injects prompt content — the two strongest primitives in the cluster.
-- **Git-tool argument injection → file read AND file write:** `git_blame`/`git_show` are ordinary read/show verbs, but the argument surface lets a crafted value reach a filesystem read (75912) and a filesystem write (75913) with no approval. This is the unusual leg — most agent-tool findings are read-only; a git-arg write primitive is an escalation primitive.
+- **Repo-config → shell:** `allow_shell` and `instructions` are read from the cloned repository and treated as policy. A malicious repo therefore both enables the shell and injects prompt content, the two strongest primitives in the cluster.
+- **Git-tool argument injection → file read AND file write:** `git_blame`/`git_show` are ordinary read/show verbs, but the argument surface lets a crafted value reach a filesystem read (75912) and a filesystem write (75913) with no approval. This is the unusual leg, most agent-tool findings are read-only; a git-arg write primitive is an escalation primitive.
 - **Approval-policy bypass:** `rlm_eval` auto-approves Python and `exec_shell_interact` forwards LLM-controlled input to a running shell, so the user's "ask me before running commands" control is bypassed by two separate paths.
 - **SSRF pin TOCTOU:** the DNS-pinning SSRF guard resolves the host once for the policy check and again at connect; a DNS-failure-induced race means the two resolutions can disagree.
-- **Env + symlink exfil:** `js_execution` does not scrub the parent environment into model context, and `image_analyze` follows workspace symlinks — both are disclosure legs that turn a read primitive into a secret/file read.
+- **Env + symlink exfil:** `js_execution` does not scrub the parent environment into model context, and `image_analyze` follows workspace symlinks, both are disclosure legs that turn a read primitive into a secret/file read.
 
 ## Replayable validation boundaries
 
@@ -74,7 +74,7 @@ Do not use metadata IPs, uncontrolled public DNS rebinding, or internal targets.
 
 ## Durable operator value
 
-1. **Repo config is a policy input, not just data.** Any agent that reads `allow_shell` / `instructions` / settings from the working repository can be redirected by a malicious clone. The reusable check is: *for every policy key, which source wins — user profile or repo file?*
+1. **Repo config is a policy input, not just data.** Any agent that reads `allow_shell` / `instructions` / settings from the working repository can be redirected by a malicious clone. The reusable check is: *for every policy key, which source wins, user profile or repo file?*
 2. **Ordinary git verbs are not read-only.** `git_blame`/`git_show` expose argument-injection paths to filesystem read and write. When auditing coding-agent tool wrappers, treat every git/git2 invocation as a path-escape candidate, not a safe read.
 3. **Approval controls are per-tool, not global.** A "confirm before running" switch that two tools (`rlm_eval`, `exec_shell_interact`) both bypass means the control is a whitelist, not a gate. Audit each tool's path through the approval predicate separately.
 4. **DNS-pinning SSRF is a TOCTOU, not a config bug.** Validate-then-connect with two independent resolutions is bypassable whenever the DNS layer can fail over between them. The reusable check is the pinned-host vs dialed-host differential.

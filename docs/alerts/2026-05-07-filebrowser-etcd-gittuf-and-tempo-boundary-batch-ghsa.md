@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **FileBrowser public-share stored XSS through SVG without CSP** — [GHSA-mmpx-jh39-wrv6](https://github.com/advisories/GHSA-mmpx-jh39-wrv6)
-- **FileBrowser public-share DELETE path traversal enabling unauthenticated arbitrary deletion** — [GHSA-fwj3-42wh-8673](https://github.com/advisories/GHSA-fwj3-42wh-8673)
-- **etcd RBAC bypass through `PrevKv` / lease attachment in nested transaction `Put` requests** — [GHSA-x35m-3gp4-4fh5](https://github.com/advisories/GHSA-x35m-3gp4-4fh5)
-- **gittuf policy rollback to older valid policy versions** — [GHSA-vxvc-cg7j-rwqj](https://github.com/advisories/GHSA-vxvc-cg7j-rwqj)
-- **Grafana Tempo inadequate encryption strength** — [GHSA-ffqx-q65f-36jf](https://github.com/advisories/GHSA-ffqx-q65f-36jf)
+- **FileBrowser public-share stored XSS through SVG without CSP**, [GHSA-mmpx-jh39-wrv6](https://github.com/advisories/GHSA-mmpx-jh39-wrv6)
+- **FileBrowser public-share DELETE path traversal enabling unauthenticated arbitrary deletion**, [GHSA-fwj3-42wh-8673](https://github.com/advisories/GHSA-fwj3-42wh-8673)
+- **etcd RBAC bypass through `PrevKv` / lease attachment in nested transaction `Put` requests**, [GHSA-x35m-3gp4-4fh5](https://github.com/advisories/GHSA-x35m-3gp4-4fh5)
+- **gittuf policy rollback to older valid policy versions**, [GHSA-vxvc-cg7j-rwqj](https://github.com/advisories/GHSA-vxvc-cg7j-rwqj)
+- **Grafana Tempo inadequate encryption strength**, [GHSA-ffqx-q65f-36jf](https://github.com/advisories/GHSA-ffqx-q65f-36jf)
 
 ## Why this is durable
 

@@ -4,10 +4,10 @@
 
 ## Advisory cluster
 
-- **SharpCompress directory traversal in `WriteToDirectory()`** — [GHSA-6c8g-7p36-r338](https://github.com/advisories/GHSA-6c8g-7p36-r338) / CVE-2026-44788: directory entries bypassed the file-entry full-path guard; TAR symlink handling could escalate to arbitrary file writes when callers supplied a naive `SymbolicLinkHandler`. `SharpCompress <0.48.0` is affected; use **0.48.0+** as the fixed control.
-- **smallbitvec safe-API heap buffer overflow** — [GHSA-97wc-2hqc-cjgr](https://github.com/advisories/GHSA-97wc-2hqc-cjgr) / CVE-2026-44983: unchecked capacity arithmetic could wrap, allocate too small, and let safe APIs reach unsafe out-of-bounds internals. `smallbitvec 1.0.1 through 2.6.0` were affected; no patched version was listed at scan time.
-- **epa4all-client VAU signature bypass** — [GHSA-g8r3-5hwf-qp96](https://github.com/advisories/GHSA-g8r3-5hwf-qp96) / CVE-2026-44900: ECDSA verification discarded the boolean result from `Signature.verify()`, returning trusted after chain/OCSP setup even when the signature did not match. Patch to **1.2.1+**.
-- **OpenStack Horizon pre-auth session-storage exhaustion** — [GHSA-vxvf-xvm3-p8j5](https://github.com/advisories/GHSA-vxvf-xvm3-p8j5) / CVE-2026-43002: Horizon **25.6 through <25.7.3** wrote to the session backend before authentication, regressing a CVE-2014-8124-style unauthenticated storage exhaustion issue. Patch to **25.7.3+**.
+- **SharpCompress directory traversal in `WriteToDirectory()`**, [GHSA-6c8g-7p36-r338](https://github.com/advisories/GHSA-6c8g-7p36-r338) / CVE-2026-44788: directory entries bypassed the file-entry full-path guard; TAR symlink handling could escalate to arbitrary file writes when callers supplied a naive `SymbolicLinkHandler`. `SharpCompress <0.48.0` is affected; use **0.48.0+** as the fixed control.
+- **smallbitvec safe-API heap buffer overflow**, [GHSA-97wc-2hqc-cjgr](https://github.com/advisories/GHSA-97wc-2hqc-cjgr) / CVE-2026-44983: unchecked capacity arithmetic could wrap, allocate too small, and let safe APIs reach unsafe out-of-bounds internals. `smallbitvec 1.0.1 through 2.6.0` were affected; no patched version was listed at scan time.
+- **epa4all-client VAU signature bypass**, [GHSA-g8r3-5hwf-qp96](https://github.com/advisories/GHSA-g8r3-5hwf-qp96) / CVE-2026-44900: ECDSA verification discarded the boolean result from `Signature.verify()`, returning trusted after chain/OCSP setup even when the signature did not match. Patch to **1.2.1+**.
+- **OpenStack Horizon pre-auth session-storage exhaustion**, [GHSA-vxvf-xvm3-p8j5](https://github.com/advisories/GHSA-vxvf-xvm3-p8j5) / CVE-2026-43002: Horizon **25.6 through <25.7.3** wrote to the session backend before authentication, regressing a CVE-2014-8124-style unauthenticated storage exhaustion issue. Patch to **25.7.3+**.
 
 ## Why this matters
 

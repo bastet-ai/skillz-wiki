@@ -6,7 +6,7 @@ This follow-up is durable because JavaScript sandboxes repeatedly fail when the 
 
 ## Advisory covered
 
-- **SandboxJS has a sandbox escape via Function.caller leakage of internal call op** — [GHSA-g8f2-4f4f-5jqw](https://github.com/advisories/GHSA-g8f2-4f4f-5jqw), CVE-2026-43898 (Critical): npm `@nyariv/sandboxjs` <= 0.9.5; fixed in `0.9.6`.
+- **SandboxJS has a sandbox escape via Function.caller leakage of internal call op**, [GHSA-g8f2-4f4f-5jqw](https://github.com/advisories/GHSA-g8f2-4f4f-5jqw), CVE-2026-43898 (Critical): npm `@nyariv/sandboxjs` <= 0.9.5; fixed in `0.9.6`.
 
 ## Operator triage
 

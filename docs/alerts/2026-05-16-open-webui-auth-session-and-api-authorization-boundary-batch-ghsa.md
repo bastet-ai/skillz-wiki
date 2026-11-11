@@ -6,28 +6,28 @@ This batch is durable because it is not one bug class: it is the same authorizat
 
 ## Advisories covered
 
-- **Open WebUI: Missing `workspace.tools` Authorization Check on Tool Update Endpoint Allows Privilege Escalation to Code Execution** — [GHSA-p4fx-23fq-jfg6](https://github.com/advisories/GHSA-p4fx-23fq-jfg6) / CVE-2026-45395 (high).
-- **Open WebUI: LDAP and OAuth First-User Race Condition Allows Multiple Admin Accounts** — [GHSA-h3ww-q6xx-w7x3](https://github.com/advisories/GHSA-h3ww-q6xx-w7x3) / CVE-2026-45675 (high).
-- **Open WebUI: shared-chat branch ignores access_type, allowing unauthorized file deletion** — [GHSA-26g9-27vm-x3q8](https://github.com/advisories/GHSA-26g9-27vm-x3q8) / CVE-2026-45671 (high).
-- **Open WebUI: Low-privilege authenticated users can enumerate and stop global background tasks, causing system-wide chat disruption** — [GHSA-8jjp-r2w2-4v22](https://github.com/advisories/GHSA-8jjp-r2w2-4v22) / CVE-2026-45399 (high).
-- **Open WebUI has an IDOR vulnerability in the pin_channel_message API endpoint** — [GHSA-5gc6-xhv4-2wg6](https://github.com/advisories/GHSA-5gc6-xhv4-2wg6) / CVE-2026-45386 (medium).
-- **Open WebUI has an IDOR vulnerability in the update_message_by_id API endpoint** — [GHSA-wwhq-cx22-f7vv](https://github.com/advisories/GHSA-wwhq-cx22-f7vv) / CVE-2026-45385 (medium).
-- **Open WebUI has Broken Access Control for Completions API** — [GHSA-gfm2-xm6c-37qc](https://github.com/advisories/GHSA-gfm2-xm6c-37qc) / CVE-2026-45349 (high).
-- **Open WebUI's API key endpoint restrictions bypassed via `x-api-key` header — full message processing on restricted endpoints** — [GHSA-57q6-fvp4-pqmm](https://github.com/advisories/GHSA-57q6-fvp4-pqmm) / CVE-2026-45339 (medium).
-- **Open WebUI: Deactivated Channel Members Retain Full Access to Group/DM Channels** — [GHSA-hmgr-67hw-j2cq](https://github.com/advisories/GHSA-hmgr-67hw-j2cq) / CVE-2026-44561 (medium).
-- **Read-Only Open WebUI Users Can Modify Collaborative Documents via Socket.IO** — [GHSA-vrfh-rj4q-rmhr](https://github.com/advisories/GHSA-vrfh-rj4q-rmhr) / CVE-2026-44564 (medium).
-- **Open WebUI Missing Access Check on Channel Members Endpoint for Standard Channels** — [GHSA-c7wp-3qh5-55pv](https://github.com/advisories/GHSA-c7wp-3qh5-55pv) / CVE-2026-44559 (medium).
-- **Open WebUI's Channel Access Grants Bypass filter_allowed_access_grants** — [GHSA-7rjh-px4v-5w55](https://github.com/advisories/GHSA-7rjh-px4v-5w55) / CVE-2026-44558 (medium).
-- **Open WebUI's responses passthrough endpoint lacks access control authorization** — [GHSA-hp5m-24vp-vq2q](https://github.com/advisories/GHSA-hp5m-24vp-vq2q) / CVE-2026-44556 (high).
-- **Open WebUI: Stale Admin Role in Socket.IO Session Pool Enables Post-Demotion Cross-User Note Access** — [GHSA-45m8-cpm2-3v65](https://github.com/advisories/GHSA-45m8-cpm2-3v65) / CVE-2026-44553 (high).
-- **Open WebUI's Mass Assignment via Pydantic extra='allow' Allows Creating Folders in Other Users' Accounts** — [GHSA-hr43-rjmr-7wmm](https://github.com/advisories/GHSA-hr43-rjmr-7wmm) / CVE-2026-44550 (medium).
-- **Open WebUI has an LDAP Empty Password Authentication Bypass** — [GHSA-2r4p-jpmg-48f4](https://github.com/advisories/GHSA-2r4p-jpmg-48f4) / CVE-2026-44551 (critical).
-- **Open WebUI OAuth token exchange accepts tokens minted for another client** — [GHSA-rq84-p6rr-vf89](https://github.com/advisories/GHSA-rq84-p6rr-vf89) / CVE-2026-70482 (high).
-- **Open WebUI terminal file preview collapses iframe origin isolation** — [GHSA-3xpf-xq7r-v8c5](https://github.com/advisories/GHSA-3xpf-xq7r-v8c5) / CVE-2026-70486 (high).
-- **Open WebUI shared-subfolder deletion crosses from write grant to owner chat destruction** — [GHSA-3cg5-48j3-v4gv](https://github.com/advisories/GHSA-3cg5-48j3-v4gv) / CVE-2026-70494 (high).
-- **Open WebUI KaTeX error fallback reparses message source as HTML** — [GHSA-pwxh-7358-jq2x](https://github.com/advisories/GHSA-pwxh-7358-jq2x) / CVE-2026-70492 (high).
-- **Open WebUI read-only tool responses disclose server-side source** — [GHSA-3r7g-q6cg-q2vx](https://github.com/advisories/GHSA-3r7g-q6cg-q2vx) / CVE-2026-70491 (medium).
-- **Open WebUI terminal WebSocket omits the verified-role gate** — [GHSA-5gpj-vj23-vhhv](https://github.com/advisories/GHSA-5gpj-vj23-vhhv) / CVE-2026-70490 (medium).
+- **Open WebUI: Missing `workspace.tools` Authorization Check on Tool Update Endpoint Allows Privilege Escalation to Code Execution**, [GHSA-p4fx-23fq-jfg6](https://github.com/advisories/GHSA-p4fx-23fq-jfg6) / CVE-2026-45395 (high).
+- **Open WebUI: LDAP and OAuth First-User Race Condition Allows Multiple Admin Accounts**, [GHSA-h3ww-q6xx-w7x3](https://github.com/advisories/GHSA-h3ww-q6xx-w7x3) / CVE-2026-45675 (high).
+- **Open WebUI: shared-chat branch ignores access_type, allowing unauthorized file deletion**, [GHSA-26g9-27vm-x3q8](https://github.com/advisories/GHSA-26g9-27vm-x3q8) / CVE-2026-45671 (high).
+- **Open WebUI: Low-privilege authenticated users can enumerate and stop global background tasks, causing system-wide chat disruption**, [GHSA-8jjp-r2w2-4v22](https://github.com/advisories/GHSA-8jjp-r2w2-4v22) / CVE-2026-45399 (high).
+- **Open WebUI has an IDOR vulnerability in the pin_channel_message API endpoint**, [GHSA-5gc6-xhv4-2wg6](https://github.com/advisories/GHSA-5gc6-xhv4-2wg6) / CVE-2026-45386 (medium).
+- **Open WebUI has an IDOR vulnerability in the update_message_by_id API endpoint**, [GHSA-wwhq-cx22-f7vv](https://github.com/advisories/GHSA-wwhq-cx22-f7vv) / CVE-2026-45385 (medium).
+- **Open WebUI has Broken Access Control for Completions API**, [GHSA-gfm2-xm6c-37qc](https://github.com/advisories/GHSA-gfm2-xm6c-37qc) / CVE-2026-45349 (high).
+- **Open WebUI's API key endpoint restrictions bypassed via `x-api-key` header, full message processing on restricted endpoints**, [GHSA-57q6-fvp4-pqmm](https://github.com/advisories/GHSA-57q6-fvp4-pqmm) / CVE-2026-45339 (medium).
+- **Open WebUI: Deactivated Channel Members Retain Full Access to Group/DM Channels**, [GHSA-hmgr-67hw-j2cq](https://github.com/advisories/GHSA-hmgr-67hw-j2cq) / CVE-2026-44561 (medium).
+- **Read-Only Open WebUI Users Can Modify Collaborative Documents via Socket.IO**, [GHSA-vrfh-rj4q-rmhr](https://github.com/advisories/GHSA-vrfh-rj4q-rmhr) / CVE-2026-44564 (medium).
+- **Open WebUI Missing Access Check on Channel Members Endpoint for Standard Channels**, [GHSA-c7wp-3qh5-55pv](https://github.com/advisories/GHSA-c7wp-3qh5-55pv) / CVE-2026-44559 (medium).
+- **Open WebUI's Channel Access Grants Bypass filter_allowed_access_grants**, [GHSA-7rjh-px4v-5w55](https://github.com/advisories/GHSA-7rjh-px4v-5w55) / CVE-2026-44558 (medium).
+- **Open WebUI's responses passthrough endpoint lacks access control authorization**, [GHSA-hp5m-24vp-vq2q](https://github.com/advisories/GHSA-hp5m-24vp-vq2q) / CVE-2026-44556 (high).
+- **Open WebUI: Stale Admin Role in Socket.IO Session Pool Enables Post-Demotion Cross-User Note Access**, [GHSA-45m8-cpm2-3v65](https://github.com/advisories/GHSA-45m8-cpm2-3v65) / CVE-2026-44553 (high).
+- **Open WebUI's Mass Assignment via Pydantic extra='allow' Allows Creating Folders in Other Users' Accounts**, [GHSA-hr43-rjmr-7wmm](https://github.com/advisories/GHSA-hr43-rjmr-7wmm) / CVE-2026-44550 (medium).
+- **Open WebUI has an LDAP Empty Password Authentication Bypass**, [GHSA-2r4p-jpmg-48f4](https://github.com/advisories/GHSA-2r4p-jpmg-48f4) / CVE-2026-44551 (critical).
+- **Open WebUI OAuth token exchange accepts tokens minted for another client**, [GHSA-rq84-p6rr-vf89](https://github.com/advisories/GHSA-rq84-p6rr-vf89) / CVE-2026-70482 (high).
+- **Open WebUI terminal file preview collapses iframe origin isolation**, [GHSA-3xpf-xq7r-v8c5](https://github.com/advisories/GHSA-3xpf-xq7r-v8c5) / CVE-2026-70486 (high).
+- **Open WebUI shared-subfolder deletion crosses from write grant to owner chat destruction**, [GHSA-3cg5-48j3-v4gv](https://github.com/advisories/GHSA-3cg5-48j3-v4gv) / CVE-2026-70494 (high).
+- **Open WebUI KaTeX error fallback reparses message source as HTML**, [GHSA-pwxh-7358-jq2x](https://github.com/advisories/GHSA-pwxh-7358-jq2x) / CVE-2026-70492 (high).
+- **Open WebUI read-only tool responses disclose server-side source**, [GHSA-3r7g-q6cg-q2vx](https://github.com/advisories/GHSA-3r7g-q6cg-q2vx) / CVE-2026-70491 (medium).
+- **Open WebUI terminal WebSocket omits the verified-role gate**, [GHSA-5gpj-vj23-vhhv](https://github.com/advisories/GHSA-5gpj-vj23-vhhv) / CVE-2026-70490 (medium).
 
 ## Operator triage
 
@@ -76,9 +76,9 @@ The KaTeX record is not a generic Markdown success-path test: a renderer excepti
 
 A bounded positive is **renderer throws -> raw source reaches the HTML parser -> inert element appears**, not JavaScript execution or token access. Capture input provenance, exception class, fallback value, escaping state, and final DOM nodes. Generalize the check to syntax highlighters, charting, diagram, media, and preview components: sanitizer and escaping policy must apply to every catch/fallback branch as well as normal output.
 
-## October 12 follow-up: Open WebUI 0.11.4 wave — WS-first-message-only revocation, disabled-backend index reachability, and read-only tool source export (fixed 0.11.4)
+## October 12 follow-up: Open WebUI 0.11.4 wave, WS-first-message-only revocation, disabled-backend index reachability, and read-only tool source export (fixed 0.11.4)
 
-- **Terminal WebSocket revokes at handshake, never again** ([GHSA-wqjg-w22m-7835](https://github.com/advisories/GHSA-wqjg-w22m-7835)/CVE-2026-109289): the terminal proxy route in `terminals.py` checks user access **only on the first message**, so a deactivated user with an already-open terminal WS keeps executing commands and reading/writing files on the terminal server. Fourth sighting of the revocation-lifecycle axis this month (Vikunja webhook cleanup, Grav disabled-account API, pyLoad auth-cache) — the standing rule holds: **long-lived transports must re-assert authorization on a cadence or per-message; test "deactivate account → keep using open channel" on every WS/SSE/STOMP product.**
-- **Explicit backend-index reaches disabled provider backends with configured keys attached** ([GHSA-32hx-qqmp-8j8q](https://github.com/advisories/GHSA-32hx-qqmp-8j8q)/CVE-2026-109296): Ollama/OpenAI-compatible listing routes accept a backend index as path segment or query param; disabled backends stay reachable, fire requests carrying their configured API keys, and disclose version strings + connection inventory to any authenticated user. Rule: "disabled/tombstoned" config entries are a route-parameter sweep target — enumerate index/id values, don't trust the listing UI to hide what the handler will still serve.
+- **Terminal WebSocket revokes at handshake, never again** ([GHSA-wqjg-w22m-7835](https://github.com/advisories/GHSA-wqjg-w22m-7835)/CVE-2026-109289): the terminal proxy route in `terminals.py` checks user access **only on the first message**, so a deactivated user with an already-open terminal WS keeps executing commands and reading/writing files on the terminal server. Fourth sighting of the revocation-lifecycle axis this month (Vikunja webhook cleanup, Grav disabled-account API, pyLoad auth-cache), the standing rule holds: **long-lived transports must re-assert authorization on a cadence or per-message; test "deactivate account → keep using open channel" on every WS/SSE/STOMP product.**
+- **Explicit backend-index reaches disabled provider backends with configured keys attached** ([GHSA-32hx-qqmp-8j8q](https://github.com/advisories/GHSA-32hx-qqmp-8j8q)/CVE-2026-109296): Ollama/OpenAI-compatible listing routes accept a backend index as path segment or query param; disabled backends stay reachable, fire requests carrying their configured API keys, and disclose version strings + connection inventory to any authenticated user. Rule: "disabled/tombstoned" config entries are a route-parameter sweep target, enumerate index/id values, don't trust the listing UI to hide what the handler will still serve.
 - **`GET /api/v1/tools/export` returns full Python source of read-only shared tools** ([GHSA-7rgv-j27q-wxqf](https://github.com/advisories/GHSA-7rgv-j27q-wxqf)/CVE-2026-109294): tool export permission ignores the read-only sharing mode, leaking embedded API keys/credentials in tool code. Read-vs-step-up asymmetry on an export-family endpoint (same genealogy as Keycloak installation/registration exports).
-- Remaining legs (stored XSS in model notes, tools/pipelines info-disclosure, ReDoS, automation DoS, resource consumption) are class-covered — recorded, not expanded.
+- Remaining legs (stored XSS in model notes, tools/pipelines info-disclosure, ReDoS, automation DoS, resource consumption) are class-covered, recorded, not expanded.

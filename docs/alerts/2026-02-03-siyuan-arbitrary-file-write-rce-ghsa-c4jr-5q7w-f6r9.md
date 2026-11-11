@@ -1,4 +1,4 @@
-# 2026-02-03 — SiYuan arbitrary file write → RCE (GHSA-c4jr-5q7w-f6r9)
+# 2026-02-03, SiYuan arbitrary file write → RCE (GHSA-c4jr-5q7w-f6r9)
 
 **What happened:** SiYuan had an arbitrary file write via `/api/file/copyFile`, which can lead to **remote code execution**.
 

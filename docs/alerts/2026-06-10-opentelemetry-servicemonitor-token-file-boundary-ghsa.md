@@ -26,7 +26,7 @@ Use a lab namespace or an explicitly approved cluster. Do not exfiltrate real to
 2. Create or update a `ServiceMonitor` selected by TargetAllocator with a benign scrape target that points to the capture endpoint.
 3. For proof without exposing real secrets, prefer a disposable collector deployment with a mounted synthetic file such as `/tmp/skillz-otel-canary-token` and set `bearerTokenFile` to that path.
 4. Wait for a scrape interval and confirm the capture endpoint receives `Authorization: Bearer <canary>`, proving the collector read a pod-local file because of tenant-controlled monitoring configuration.
-5. If customer validation specifically requires the default service-account-token path, coordinate a short-lived lab token, redact it immediately, and capture only evidence that a bearer header was sent—not the token value.
+5. If customer validation specifically requires the default service-account-token path, coordinate a short-lived lab token, redact it immediately, and capture only evidence that a bearer header was sent,not the token value.
 
 Minimal shape of the risky object:
 

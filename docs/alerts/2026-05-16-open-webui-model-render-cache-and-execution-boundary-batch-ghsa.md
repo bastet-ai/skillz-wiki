@@ -6,18 +6,18 @@ This batch is durable because model platforms often hide control-plane power beh
 
 ## Advisories covered
 
-- **Open WebUI: Jupyter code execution works despite `ENABLE_CODE_EXECUTION=false` — feature gate bypassed** — [GHSA-482j-2pq6-q5w4](https://github.com/advisories/GHSA-482j-2pq6-q5w4) / CVE-2026-45672 (high).
-- **Open WebUI: Sharing models for others to use (read permission) also exposes model details (system prompt leakage)** — [GHSA-h2cw-7qw9-56xr](https://github.com/advisories/GHSA-h2cw-7qw9-56xr) / CVE-2026-45387 (medium).
-- **Open WebUI's Ollama Model Access Control Bypass via /api/generate, /api/embed, /api/embeddings, and /api/show** — [GHSA-rcvp-6fgw-c7fh](https://github.com/advisories/GHSA-rcvp-6fgw-c7fh) / CVE-2026-44563 (medium).
-- **Open WebUI's Model Import Overwrites Any Model Without Ownership Check** — [GHSA-mqq6-cqcx-38vg](https://github.com/advisories/GHSA-mqq6-cqcx-38vg) / CVE-2026-44562 (medium).
-- **Open WebUI's Base Model Routing Bypasses Access Control via Model Chaining** — [GHSA-9vvh-qmjx-p4q8](https://github.com/advisories/GHSA-9vvh-qmjx-p4q8) / CVE-2026-44555 (high).
-- **Open WebUI: Redis Cache Keys tool_servers and terminal_servers Missing Instance Prefix Enable Cross-Instance Cache Poisoning** — [GHSA-3x8w-4f7p-xxc2](https://github.com/advisories/GHSA-3x8w-4f7p-xxc2) / CVE-2026-44552 (high).
-- **open-webui Vulnerable to Stored XSS via Model Description** — [GHSA-gf5m-wcrh-7928](https://github.com/advisories/GHSA-gf5m-wcrh-7928) / CVE-2026-44721 (high).
-- **Open WebUI has Stored XSS in Pending User Overlay via Incorrect DOMPurify Application Order** — [GHSA-fq3v-xjjx-95rc](https://github.com/advisories/GHSA-fq3v-xjjx-95rc) / CVE-2026-44568 (medium).
-- **Open WebUI vulnerable to Stored XSS via iFrame embeds in response messages** — [GHSA-vjm7-m4xh-7wrc](https://github.com/advisories/GHSA-vjm7-m4xh-7wrc) / CVE-2026-26193 (high; patched in `0.6.44`).
-- **Open WebUI vulnerable to Stored XSS via iFrame in citations model** — [GHSA-xc8p-9rr6-97r2](https://github.com/advisories/GHSA-xc8p-9rr6-97r2) / CVE-2026-26192 (high; patched in `0.7.0`).
-- **Open WebUI vulnerable to stored XSS via unescaped markdown token in `MarkdownTokens.svelte`** — [GHSA-9f4f-jv96-8766](https://github.com/advisories/GHSA-9f4f-jv96-8766) / CVE-2025-46719 (high; patched in `0.6.6`).
-- **Open WebUI allows limited stored XSS via uploaded HTML file** — [GHSA-8gh5-qqh8-hq3x](https://github.com/advisories/GHSA-8gh5-qqh8-hq3x) / CVE-2025-46571 (medium; patched in `0.6.6`).
+- **Open WebUI: Jupyter code execution works despite `ENABLE_CODE_EXECUTION=false`, feature gate bypassed**, [GHSA-482j-2pq6-q5w4](https://github.com/advisories/GHSA-482j-2pq6-q5w4) / CVE-2026-45672 (high).
+- **Open WebUI: Sharing models for others to use (read permission) also exposes model details (system prompt leakage)**, [GHSA-h2cw-7qw9-56xr](https://github.com/advisories/GHSA-h2cw-7qw9-56xr) / CVE-2026-45387 (medium).
+- **Open WebUI's Ollama Model Access Control Bypass via /api/generate, /api/embed, /api/embeddings, and /api/show**, [GHSA-rcvp-6fgw-c7fh](https://github.com/advisories/GHSA-rcvp-6fgw-c7fh) / CVE-2026-44563 (medium).
+- **Open WebUI's Model Import Overwrites Any Model Without Ownership Check**, [GHSA-mqq6-cqcx-38vg](https://github.com/advisories/GHSA-mqq6-cqcx-38vg) / CVE-2026-44562 (medium).
+- **Open WebUI's Base Model Routing Bypasses Access Control via Model Chaining**, [GHSA-9vvh-qmjx-p4q8](https://github.com/advisories/GHSA-9vvh-qmjx-p4q8) / CVE-2026-44555 (high).
+- **Open WebUI: Redis Cache Keys tool_servers and terminal_servers Missing Instance Prefix Enable Cross-Instance Cache Poisoning**, [GHSA-3x8w-4f7p-xxc2](https://github.com/advisories/GHSA-3x8w-4f7p-xxc2) / CVE-2026-44552 (high).
+- **open-webui Vulnerable to Stored XSS via Model Description**, [GHSA-gf5m-wcrh-7928](https://github.com/advisories/GHSA-gf5m-wcrh-7928) / CVE-2026-44721 (high).
+- **Open WebUI has Stored XSS in Pending User Overlay via Incorrect DOMPurify Application Order**, [GHSA-fq3v-xjjx-95rc](https://github.com/advisories/GHSA-fq3v-xjjx-95rc) / CVE-2026-44568 (medium).
+- **Open WebUI vulnerable to Stored XSS via iFrame embeds in response messages**, [GHSA-vjm7-m4xh-7wrc](https://github.com/advisories/GHSA-vjm7-m4xh-7wrc) / CVE-2026-26193 (high; patched in `0.6.44`).
+- **Open WebUI vulnerable to Stored XSS via iFrame in citations model**, [GHSA-xc8p-9rr6-97r2](https://github.com/advisories/GHSA-xc8p-9rr6-97r2) / CVE-2026-26192 (high; patched in `0.7.0`).
+- **Open WebUI vulnerable to stored XSS via unescaped markdown token in `MarkdownTokens.svelte`**, [GHSA-9f4f-jv96-8766](https://github.com/advisories/GHSA-9f4f-jv96-8766) / CVE-2025-46719 (high; patched in `0.6.6`).
+- **Open WebUI allows limited stored XSS via uploaded HTML file**, [GHSA-8gh5-qqh8-hq3x](https://github.com/advisories/GHSA-8gh5-qqh8-hq3x) / CVE-2025-46571 (medium; patched in `0.6.6`).
 
 ## Operator triage
 

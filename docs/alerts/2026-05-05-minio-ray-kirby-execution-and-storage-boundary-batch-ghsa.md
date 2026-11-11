@@ -90,7 +90,7 @@ Confirm all of these before reporting exposure:
 ### Inert two-extension harness
 
 1. Use a disposable virtual environment, Ray worker, and temp directory. Do not run a tainted shard on a workstation, shared cluster, notebook service, or production worker.
-2. Create a minimal WebDataset TAR with one ordinary text member and one test-only `.pkl` member. The serialized object should invoke a local Python function that increments a counter or writes one marker under the same temp root—no shell, subprocess, network, environment access, or external path.
+2. Create a minimal WebDataset TAR with one ordinary text member and one test-only `.pkl` member. The serialized object should invoke a local Python function that increments a counter or writes one marker under the same temp root,no shell, subprocess, network, environment access, or external path.
 3. Call the exact target API and materialization operation. Record whether the marker appears before application code intentionally reads the decoded object.
 4. In a separate fixture, use a `.pt` member with an equivalent inert marker object only if PyTorch is part of the scoped target. Keep `.pkl` and `.pt` evidence separate because they reach different loaders.
 5. Run negative controls with `decoder=None`, with a custom safe decoder that treats those extensions as opaque bytes, and with Ray 2.56.0 or later.

@@ -6,10 +6,10 @@ This batch is durable because it combines native parser memory safety, mailing-l
 
 ## Advisories covered
 
-- **GDAL out-of-bounds read and heap-based buffer overflow** — [GHSA-j3f5-rw74-g4rv](https://github.com/advisories/GHSA-j3f5-rw74-g4rv), [GHSA-h9rh-5ffh-h669](https://github.com/advisories/GHSA-h9rh-5ffh-h669): `GDAL <3.13.0` has native parser memory-safety issues. Even low-severity parser crashes matter in ingestion, map tiling, geospatial ETL, and upload-preview services.
-- **Postorius XSS** — [GHSA-r7c9-7pjq-hmm8](https://github.com/advisories/GHSA-r7c9-7pjq-hmm8): mailing-list administration surfaces often render list names, domains, templates, or moderation metadata supplied by semi-trusted users.
-- **Krayin CRM activity-create XSS** — [GHSA-j822-46r5-h4qx](https://github.com/advisories/GHSA-j822-46r5-h4qx): CRM activity fields are collaborative content and need output-context escaping before admin display.
-- **Sidekiq-cron crafted-URL XSS** — [GHSA-xv9c-mjw8-79gf](https://github.com/advisories/GHSA-xv9c-mjw8-79gf): operations dashboards are not safe just because they are internal; URL and job metadata still need HTML/attribute/JavaScript-context escaping.
+- **GDAL out-of-bounds read and heap-based buffer overflow**, [GHSA-j3f5-rw74-g4rv](https://github.com/advisories/GHSA-j3f5-rw74-g4rv), [GHSA-h9rh-5ffh-h669](https://github.com/advisories/GHSA-h9rh-5ffh-h669): `GDAL <3.13.0` has native parser memory-safety issues. Even low-severity parser crashes matter in ingestion, map tiling, geospatial ETL, and upload-preview services.
+- **Postorius XSS**, [GHSA-r7c9-7pjq-hmm8](https://github.com/advisories/GHSA-r7c9-7pjq-hmm8): mailing-list administration surfaces often render list names, domains, templates, or moderation metadata supplied by semi-trusted users.
+- **Krayin CRM activity-create XSS**, [GHSA-j822-46r5-h4qx](https://github.com/advisories/GHSA-j822-46r5-h4qx): CRM activity fields are collaborative content and need output-context escaping before admin display.
+- **Sidekiq-cron crafted-URL XSS**, [GHSA-xv9c-mjw8-79gf](https://github.com/advisories/GHSA-xv9c-mjw8-79gf): operations dashboards are not safe just because they are internal; URL and job metadata still need HTML/attribute/JavaScript-context escaping.
 
 ## Operator triage
 

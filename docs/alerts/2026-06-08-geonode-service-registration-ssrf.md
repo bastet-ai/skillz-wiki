@@ -6,7 +6,7 @@ This note is durable because GeoNode's advisory turns a product-specific SSRF in
 
 ## What changed
 
-- **GeoNode service registration SSRF** — [GHSA-hw9r-6m78-w6h3](https://github.com/advisories/GHSA-hw9r-6m78-w6h3) / CVE-2026-39922: GeoNode versions `>= 4.0.0, < 4.4.5` and `>= 5.0.0, < 5.0.2` allow authenticated attackers to trigger outbound requests by submitting crafted service URLs during service-registration form validation.
+- **GeoNode service registration SSRF**, [GHSA-hw9r-6m78-w6h3](https://github.com/advisories/GHSA-hw9r-6m78-w6h3) / CVE-2026-39922: GeoNode versions `>= 4.0.0, < 4.4.5` and `>= 5.0.0, < 5.0.2` allow authenticated attackers to trigger outbound requests by submitting crafted service URLs during service-registration form validation.
 - The advisory names the **WMS service handler** and calls out missing private-IP filtering or allowlist enforcement. Treat this as a pattern for any import/register/connect workflow that fetches a remote map, WMS/WFS, catalog, feed, webhook, or URL preview before persisting the configuration.
 - [GHSA-v8f7-cg9p-w5jx](https://github.com/advisories/GHSA-v8f7-cg9p-w5jx) was updated as a withdrawn duplicate that points back to GHSA-hw9r-6m78-w6h3. Track the canonical GHSA/CVE in reports, but record the duplicate if a customer's dependency scanner surfaces it.
 

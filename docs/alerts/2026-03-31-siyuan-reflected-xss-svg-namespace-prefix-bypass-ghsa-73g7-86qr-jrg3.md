@@ -1,4 +1,4 @@
-# 2026-03-31 — SiYuan reflected XSS via SVG namespace-prefix bypass (GHSA-73g7-86qr-jrg3)
+# 2026-03-31, SiYuan reflected XSS via SVG namespace-prefix bypass (GHSA-73g7-86qr-jrg3)
 
 **Product:** **SiYuan**
 

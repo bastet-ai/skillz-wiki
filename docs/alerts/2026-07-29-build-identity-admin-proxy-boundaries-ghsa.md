@@ -78,7 +78,7 @@ Use two organizations, two identity providers, and roles that can manage an IdP 
 
 ## Apache Atlas: enumerate admin route-family authorization drift
 
-Use an authenticated non-admin lab user and derive candidate routes from the same Atlas build's UI traffic, OpenAPI material, and source—not from broad production guessing. Compare anonymous, ordinary user, scoped operator, and administrator decisions for each admin route. Invoke only read-only status endpoints or replace mutating handlers with no-op counters.
+Use an authenticated non-admin lab user and derive candidate routes from the same Atlas build's UI traffic, OpenAPI material, and source,not from broad production guessing. Compare anonymous, ordinary user, scoped operator, and administrator decisions for each admin route. Invoke only read-only status endpoints or replace mutating handlers with no-op counters.
 
 Capture route, method, normalized principal, groups/roles, required capability, handler reached, object selected, and response marker. A valid finding shows **authenticated non-admin -> admin route passes authorization -> no-op administrative handler is reached**. Do not alter classifications, entity metadata, users, policies, indexes, or production configuration.
 

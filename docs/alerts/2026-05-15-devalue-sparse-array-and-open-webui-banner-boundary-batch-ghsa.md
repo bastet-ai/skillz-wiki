@@ -4,8 +4,8 @@
 
 ## Advisory cluster
 
-- **Svelte `devalue` sparse-array resource exhaustion** — [GHSA-77vg-94rm-hx3p / CVE-2026-42570](https://github.com/advisories/GHSA-77vg-94rm-hx3p): npm `devalue >=5.6.3, <=5.8.0`, fixed in `5.8.1`, allowed `devalue.parse()` to allocate far more memory than needed when deserializing sparse arrays on some JavaScript engines. The durable boundary is not just parser correctness; serialized data must be bounded before it can force server, worker, or hydration runtimes to materialize attacker-shaped structures.
-- **Open WebUI banner stored XSS via sanitize-before-Markdown order** — [GHSA-cqp4-qqvg-3787 / CVE-2026-45665](https://github.com/advisories/GHSA-cqp4-qqvg-3787): `open-webui <=0.7.2`, fixed in `0.8.0`, sanitized banner text with DOMPurify before converting Markdown with `marked`. A malicious or compromised admin could store a banner such as a `javascript:` Markdown link, which was then rendered for other admins, including primary/super-admin users.
+- **Svelte `devalue` sparse-array resource exhaustion**, [GHSA-77vg-94rm-hx3p / CVE-2026-42570](https://github.com/advisories/GHSA-77vg-94rm-hx3p): npm `devalue >=5.6.3, <=5.8.0`, fixed in `5.8.1`, allowed `devalue.parse()` to allocate far more memory than needed when deserializing sparse arrays on some JavaScript engines. The durable boundary is not just parser correctness; serialized data must be bounded before it can force server, worker, or hydration runtimes to materialize attacker-shaped structures.
+- **Open WebUI banner stored XSS via sanitize-before-Markdown order**, [GHSA-cqp4-qqvg-3787 / CVE-2026-45665](https://github.com/advisories/GHSA-cqp4-qqvg-3787): `open-webui <=0.7.2`, fixed in `0.8.0`, sanitized banner text with DOMPurify before converting Markdown with `marked`. A malicious or compromised admin could store a banner such as a `javascript:` Markdown link, which was then rendered for other admins, including primary/super-admin users.
 
 ## Why this matters
 

@@ -6,10 +6,10 @@ This batch is durable because Mermaid is often embedded in Markdown previewers, 
 
 ## Advisories covered
 
-- **Mermaid: Improper sanitization of configuration leads to CSS injection** — [GHSA-87f9-hvmw-gh4p](https://github.com/advisories/GHSA-87f9-hvmw-gh4p), CVE-2026-41159 (Medium): npm `mermaid` >= 11.0.0-alpha.1, <= 11.14.0; fixed in `11.15.0`; npm `mermaid` <= 10.9.5; fixed in `10.9.6`.
-- **Mermaid Gantt Charts are vulnerable to an Infinite Loop DoS** — [GHSA-6m6c-36f7-fhxh](https://github.com/advisories/GHSA-6m6c-36f7-fhxh), CVE-2026-41150 (Medium): npm `mermaid` >= 11.0.0-alpha.1, <= 11.14.0; fixed in `11.15.0`; npm `mermaid` <= 10.9.5; fixed in `10.9.6`.
-- **Mermaid: Improper sanitization of `classDef` in state diagrams leads to HTML injection** — [GHSA-ghcm-xqfw-q4vr](https://github.com/advisories/GHSA-ghcm-xqfw-q4vr), CVE-2026-41149 (Medium): npm `mermaid` >= 11.0.0-alpha.1, <= 11.14.0; fixed in `11.15.0`; npm `mermaid` <= 10.9.5; fixed in `10.9.6`.
-- **Mermaid: Improper sanitization of `classDefs` in diagrams leads to CSS injection** — [GHSA-xcj9-5m2h-648r](https://github.com/advisories/GHSA-xcj9-5m2h-648r), CVE-2026-41148 (Medium): npm `mermaid` >= 11.0.0-alpha.1, <= 11.14.0; fixed in `11.15.0`; npm `mermaid` <= 10.9.5; fixed in `10.9.6`.
+- **Mermaid: Improper sanitization of configuration leads to CSS injection**, [GHSA-87f9-hvmw-gh4p](https://github.com/advisories/GHSA-87f9-hvmw-gh4p), CVE-2026-41159 (Medium): npm `mermaid` >= 11.0.0-alpha.1, <= 11.14.0; fixed in `11.15.0`; npm `mermaid` <= 10.9.5; fixed in `10.9.6`.
+- **Mermaid Gantt Charts are vulnerable to an Infinite Loop DoS**, [GHSA-6m6c-36f7-fhxh](https://github.com/advisories/GHSA-6m6c-36f7-fhxh), CVE-2026-41150 (Medium): npm `mermaid` >= 11.0.0-alpha.1, <= 11.14.0; fixed in `11.15.0`; npm `mermaid` <= 10.9.5; fixed in `10.9.6`.
+- **Mermaid: Improper sanitization of `classDef` in state diagrams leads to HTML injection**, [GHSA-ghcm-xqfw-q4vr](https://github.com/advisories/GHSA-ghcm-xqfw-q4vr), CVE-2026-41149 (Medium): npm `mermaid` >= 11.0.0-alpha.1, <= 11.14.0; fixed in `11.15.0`; npm `mermaid` <= 10.9.5; fixed in `10.9.6`.
+- **Mermaid: Improper sanitization of `classDefs` in diagrams leads to CSS injection**, [GHSA-xcj9-5m2h-648r](https://github.com/advisories/GHSA-xcj9-5m2h-648r), CVE-2026-41148 (Medium): npm `mermaid` >= 11.0.0-alpha.1, <= 11.14.0; fixed in `11.15.0`; npm `mermaid` <= 10.9.5; fixed in `10.9.6`.
 
 ## Operator triage
 

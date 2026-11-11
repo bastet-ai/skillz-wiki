@@ -1,4 +1,4 @@
-# 2026-02-04 — FUXA unauthenticated remote arbitrary device tag write (GHSA-ggxw-g3cp-mgf8)
+# 2026-02-04, FUXA unauthenticated remote arbitrary device tag write (GHSA-ggxw-g3cp-mgf8)
 
 **Product:** FUXA (SCADA/HMI)
 

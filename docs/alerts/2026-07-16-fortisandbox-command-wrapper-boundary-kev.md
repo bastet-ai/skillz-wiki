@@ -2,7 +2,7 @@
 
 Sources: hourly offensive-security scan, 2026-07-16 CISA KEV update. Primary entries: [CVE-2026-25089](https://nvd.nist.gov/vuln/detail/CVE-2026-25089), [CVE-2026-39808](https://nvd.nist.gov/vuln/detail/CVE-2026-39808), and the [CISA Known Exploited Vulnerabilities catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog).
 
-This KEV update is durable for operators because it exposes a reusable appliance boundary: network-reachable FortiSandbox HTTP handlers can cross from request parameters into OS command construction on management surfaces. The useful validation is route ownership, affected-version state, authorization posture, and marker-only command-wrapper control in a lab or explicitly approved customer window — not a public exploit string.
+This KEV update is durable for operators because it exposes a reusable appliance boundary: network-reachable FortiSandbox HTTP handlers can cross from request parameters into OS command construction on management surfaces. The useful validation is route ownership, affected-version state, authorization posture, and marker-only command-wrapper control in a lab or explicitly approved customer window, not a public exploit string.
 
 !!! warning "Authorized validation only"
     Keep proofs to synthetic FortiSandbox appliances or explicitly approved customer test windows, owned source IPs, route decision tables, and marker-only commands. Do not publish working appliance RCE payloads, execute commands on appliances outside written scope, alter malware-analysis queues, retrieve submitted samples, read appliance secrets, or create persistence.

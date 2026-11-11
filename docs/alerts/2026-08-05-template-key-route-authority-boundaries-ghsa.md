@@ -111,7 +111,7 @@ A tokenless proxy request reaching an owned denied peer establishes an outbound-
 
 ## Reporting boundaries
 
-- Preserve field provenance, parser/AST output, role, route family, and denied sink—not an executable payload.
+- Preserve field provenance, parser/AST output, role, route family, and denied sink,not an executable payload.
 - Shared keys prove shared signing authority; stronger account impact requires artifact-specific verification in a disposable lab.
 - Upload acceptance, outside-root path selection, public serving, and execution are separate transitions.
 - Missing authorization requires the direct handler and no-op mutation sink, not merely an unlinked route.

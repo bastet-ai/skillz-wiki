@@ -52,7 +52,7 @@ image_tag blob.variant(resize_to_limit: [w, w])
 ### 3) Run a hardened ImageMagick policy (when applicable)
 If your processing backend is ImageMagick, deploy a **restrictive ImageMagick security policy** appropriate for your environment (disable dangerous coders/delegates, remote reads, etc.).
 
-This is *defense-in-depth* — not a substitute for input validation.
+This is *defense-in-depth*, not a substitute for input validation.
 
 ### 4) Keep Rails and dependencies patched
 Upgrade Rails to versions containing fixes for unsafe defaults / bypasses in transformation allowlists.

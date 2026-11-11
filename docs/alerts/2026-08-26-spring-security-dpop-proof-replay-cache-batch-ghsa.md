@@ -1,8 +1,8 @@
 # Spring Security DPoP proof cache-based replay
 
-Source: GitHub Security Advisories, 2026-08-26 hourly scan: [GHSA-3488-4mh8-47j4](https://github.com/advisories/GHSA-3488-4mh8-47j4) / [CVE-2026-41707](https://nvd.nist.gov/vuln/detail/CVE-2026-41707) (high). Affected lines: `7.1.0`, `7.0.0`–`7.0.6`, `6.5.0`–`6.5.11` (per the GH advisory record; confirm the exact fixed revision against the vendor release notes before claiming a range).
+Source: GitHub Security Advisories, 2026-08-26 hourly scan: [GHSA-3488-4mh8-47j4](https://github.com/advisories/GHSA-3488-4mh8-47j4) / [CVE-2026-41707](https://nvd.nist.gov/vuln/detail/CVE-2026-41707) (high). Affected lines: `7.1.0`, `7.0.0`-`7.0.6`, `6.5.0`-`6.5.11` (per the GH advisory record; confirm the exact fixed revision against the vendor release notes before claiming a range).
 
-This is a durable, replayable operator finding because it is a clean **cache-eviction -> replay** primitive against a token-binding mechanism. DPoP (Demonstrating Proof of Possession, RFC 9449) exists to stop exactly the "steal the JWT and reuse it" class of attack; the reusable lesson here is that a replay-prevention cache that is *bounded* can itself be the weakness — an attacker who can send cheap requests can evict the entry for a victim's `jti`, so the victim's still-valid DPoP proof is no longer seen as "already consumed" and can be replayed. It belongs on the same page family as the [2026-04-29 Spring Security batch](2026-04-29-spring-security-servlet-path-and-issuer-validation-batch-ghsa.md) and feeds the [OAuth token-theft methodology](../methodology/oauth-token-theft.md).
+This is a durable, replayable operator finding because it is a clean **cache-eviction -> replay** primitive against a token-binding mechanism. DPoP (Demonstrating Proof of Possession, RFC 9449) exists to stop exactly the "steal the JWT and reuse it" class of attack; the reusable lesson here is that a replay-prevention cache that is *bounded* can itself be the weakness, an attacker who can send cheap requests can evict the entry for a victim's `jti`, so the victim's still-valid DPoP proof is no longer seen as "already consumed" and can be replayed. It belongs on the same page family as the [2026-04-29 Spring Security batch](2026-04-29-spring-security-servlet-path-and-issuer-validation-batch-ghsa.md) and feeds the [OAuth token-theft methodology](../methodology/oauth-token-theft.md).
 
 ## What changed
 
@@ -35,7 +35,7 @@ Validate on an authorized lab Spring Security resource server that you control, 
 
 ### Eviction step (proves the bound can be driven)
 1. As the attacker, send a large burst of synthetic requests (dummy DPoP proofs / requests) against the server to fill the bounded cache.
-2. Determine whether the victim's `jti` has been evicted — the observable is the next step.
+2. Determine whether the victim's `jti` has been evicted, the observable is the next step.
 
 ### Replay step (the finding)
 1. Resend the victim's captured DPoP proof (same `jti`, same token) after eviction.

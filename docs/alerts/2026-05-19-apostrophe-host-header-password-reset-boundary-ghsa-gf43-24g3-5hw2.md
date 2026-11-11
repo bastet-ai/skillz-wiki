@@ -29,9 +29,9 @@ modules: {
 
 ## September 18 follow-up: the same class via the `Origin` header (SOGo)
 
-**SOGo before 5.12.11** [GHSA-gqgv-6fx9-g8mx / CVE-2026-93453](https://github.com/advisories/GHSA-gqgv-6fx9-g8mx) shows the request-derived-authority bug through a different header: the groupware constructs **password-reset links using the client-supplied `Origin` header as the URL authority**. An unauthenticated attacker submits a recovery request for a victim address with `Origin: https://attacker.example`, and the valid reset token is mailed to the victim's recovery address *inside a link pointing at attacker infrastructure* — the victim's own click delivers the token. Account takeover without touching the mail path.
+**SOGo before 5.12.11** [GHSA-gqgv-6fx9-g8mx / CVE-2026-93453](https://github.com/advisories/GHSA-gqgv-6fx9-g8mx) shows the request-derived-authority bug through a different header: the groupware constructs **password-reset links using the client-supplied `Origin` header as the URL authority**. An unauthenticated attacker submits a recovery request for a victim address with `Origin: https://attacker.example`, and the valid reset token is mailed to the victim's recovery address *inside a link pointing at attacker infrastructure*, the victim's own click delivers the token. Account takeover without touching the mail path.
 
-Operator extension of the triage above: probe **both** `Host` and `Origin` (and both absent) on every recovery/invite/verification flow — header → emitted-link-authority decision tables routinely show one header honored and the other not, and fixing only `Host` regressions leaves the `Origin` leg open (SOGo's fix shipped in 5.12.11). On authorized targets only, use a lab address with an owned recovery mailbox and redact tokens from all evidence.
+Operator extension of the triage above: probe **both** `Host` and `Origin` (and both absent) on every recovery/invite/verification flow, header → emitted-link-authority decision tables routinely show one header honored and the other not, and fixing only `Host` regressions leaves the `Origin` leg open (SOGo's fix shipped in 5.12.11). On authorized targets only, use a lab address with an owned recovery mailbox and redact tokens from all evidence.
 
 ## Durable controls
 

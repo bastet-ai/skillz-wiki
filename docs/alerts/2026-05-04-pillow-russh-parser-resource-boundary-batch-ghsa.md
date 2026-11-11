@@ -4,11 +4,11 @@
 
 ## Advisories in this batch
 
-- **Pillow invalid PSD tile extents OOB write** — `pillow >= 10.3.0, < 12.2.0` has an out-of-bounds write via invalid PSD tile extents and integer overflow. References: <https://github.com/advisories/GHSA-pwv6-vv43-88gr>, CVE-2026-42311.
-- **Pillow PDF trailer infinite loop** — `pillow >= 4.2.0, < 12.2.0` can hang while parsing crafted PDF trailers. References: <https://github.com/advisories/GHSA-r73j-pqj5-w3x7>, CVE-2026-42310.
-- **Pillow font integer overflow** — `pillow < 12.2.0` has an integer overflow while processing fonts. References: <https://github.com/advisories/GHSA-wjx4-4jcj-g98j>, CVE-2026-42308.
-- **Pillow nested-list coordinate heap overflow** — `pillow >= 11.2.1, < 12.2.0` has a heap buffer overflow with nested list coordinates. References: <https://github.com/advisories/GHSA-5xmw-vc9v-4wf2>, CVE-2026-42309.
-- **russh pre-auth unbounded allocation** — `russh < 0.60.1` can allocate unbounded memory during keyboard-interactive authentication before full auth is complete. References: <https://github.com/advisories/GHSA-f5v4-2wr6-hqmg>, CVE-2026-42189.
+- **Pillow invalid PSD tile extents OOB write**, `pillow >= 10.3.0, < 12.2.0` has an out-of-bounds write via invalid PSD tile extents and integer overflow. References: <https://github.com/advisories/GHSA-pwv6-vv43-88gr>, CVE-2026-42311.
+- **Pillow PDF trailer infinite loop**, `pillow >= 4.2.0, < 12.2.0` can hang while parsing crafted PDF trailers. References: <https://github.com/advisories/GHSA-r73j-pqj5-w3x7>, CVE-2026-42310.
+- **Pillow font integer overflow**, `pillow < 12.2.0` has an integer overflow while processing fonts. References: <https://github.com/advisories/GHSA-wjx4-4jcj-g98j>, CVE-2026-42308.
+- **Pillow nested-list coordinate heap overflow**, `pillow >= 11.2.1, < 12.2.0` has a heap buffer overflow with nested list coordinates. References: <https://github.com/advisories/GHSA-5xmw-vc9v-4wf2>, CVE-2026-42309.
+- **russh pre-auth unbounded allocation**, `russh < 0.60.1` can allocate unbounded memory during keyboard-interactive authentication before full auth is complete. References: <https://github.com/advisories/GHSA-f5v4-2wr6-hqmg>, CVE-2026-42189.
 
 ## Why this is durable
 

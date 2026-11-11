@@ -10,7 +10,7 @@
 
 ## Core lesson
 
-When a target is a **custom instruction set, DSL, or VM with no existing tooling**, the highest-leverage prep work is to have coding agents *build the missing tools* — LSP, decompiler, static analyzer, formal model — before hand-review starts. The ToB Miden engagement spent six months of agent-driven side-project time and it produced the finding: an unvalidated prover-supplied input in `mod_12289` that let a malicious prover forge Falcon signatures and drain Miden accounts, plus 400+ reachable type-validation gaps and two subtle arithmetic bugs the unit tests never caught.
+When a target is a **custom instruction set, DSL, or VM with no existing tooling**, the highest-leverage prep work is to have coding agents *build the missing tools*, LSP, decompiler, static analyzer, formal model, before hand-review starts. The ToB Miden engagement spent six months of agent-driven side-project time and it produced the finding: an unvalidated prover-supplied input in `mod_12289` that let a malicious prover forge Falcon signatures and drain Miden accounts, plus 400+ reachable type-validation gaps and two subtle arithmetic bugs the unit tests never caught.
 
 The economics changed: a failed tooling side project now costs tokens, not billable months. For an authorized review of novel bytecode/assembly (zkVMs, smart-contract VMs, eBPF dialects, embedded DSLs, game/script VMs, proprietary bytecode formats), treat "no IDE, no linter, no decompiler" as a signal that **tool-building will out-pay blind reading**.
 
@@ -20,7 +20,7 @@ The economics changed: a failed tooling side project now costs tokens, not billa
 
 The Miden VM is a stack machine in a custom assembly (MASM):
 
-- Instruction inputs/outputs are implicit stack slots — data flow is invisible to the reader.
+- Instruction inputs/outputs are implicit stack slots, data flow is invisible to the reader.
 - Procedures have no declared signatures; input/output counts must be inferred from context.
 - No stable calling convention; net stack effect of a call is statically undecidable in general.
 - `while` loops need not be stack-neutral (loop condition can occupy a different slot each iteration), and branches can have different stack effects.
@@ -47,19 +47,19 @@ Every one of those is a reason manual review misses a missing validation, and a 
 
 ## The reusable vuln pattern: paired witnesses constrained only by reconstruction
 
-`mod_12289` takes prover-supplied advice values (quotient, remainder). The **quotient** was range-checked as two valid u32 limbs; the **remainder** was never validated before being consumed by `u32overflowing_sub`. Because the only binding constraint ties the pair together through the subtraction/reconstruction equation, an attacker can vary quotient and remainder together — staying inside the joint constraint — and make the gadget **return a value that is not the correct remainder**. Chained up, a malicious prover forges Falcon signatures and drains any account controlled by a Falcon key pair.
+`mod_12289` takes prover-supplied advice values (quotient, remainder). The **quotient** was range-checked as two valid u32 limbs; the **remainder** was never validated before being consumed by `u32overflowing_sub`. Because the only binding constraint ties the pair together through the subtraction/reconstruction equation, an attacker can vary quotient and remainder together, staying inside the joint constraint, and make the gadget **return a value that is not the correct remainder**. Chained up, a malicious prover forges Falcon signatures and drains any account controlled by a Falcon key pair.
 
 Generalized audit rule:
 
-> **Every operand an untrusted party supplies must be range/width-validated against its own declared domain — not implicitly via the equation that couples it to a validated partner.** A single joint constraint (checksum, reconstruction identity, length+body hash, key+IV pairing, offset+size span) lets the supplier trade slack between the coupled fields.
+> **Every operand an untrusted party supplies must be range/width-validated against its own declared domain, not implicitly via the equation that couples it to a validated partner.** A single joint constraint (checksum, reconstruction identity, length+body hash, key+IV pairing, offset+size span) lets the supplier trade slack between the coupled fields.
 
-Sweep this anywhere witnesses cross a verify boundary: zkVM advice/aux stacks, proof-system gadgets, client-supplied (length, checksum) or (offset, size) pairs, file-format header fields cross-validated only against each other, distributed-computation verifiers. In the Miden case the analyzer's "is this advice value validated?" pass located it; 400+ improvement sites were all reachable from the public API because nearly every core procedure was callable by third-party code — treat **public-API-reachability of under-validated primitive procedures** as its own finding class.
+Sweep this anywhere witnesses cross a verify boundary: zkVM advice/aux stacks, proof-system gadgets, client-supplied (length, checksum) or (offset, size) pairs, file-format header fields cross-validated only against each other, distributed-computation verifiers. In the Miden case the analyzer's "is this advice value validated?" pass located it; 400+ improvement sites were all reachable from the public API because nearly every core procedure was callable by third-party code, treat **public-API-reachability of under-validated primitive procedures** as its own finding class.
 
 ---
 
 ## Operational notes
 
-- Authorized targets only: your own codebases, authorized reviews, labs, or open source. For zk/chain targets, prove impact on testnets or synthetic deployments with throwaway key pairs — never forge live signatures, drain real accounts, or touch mainnet state.
+- Authorized targets only: your own codebases, authorized reviews, labs, or open source. For zk/chain targets, prove impact on testnets or synthetic deployments with throwaway key pairs, never forge live signatures, drain real accounts, or touch mainnet state.
 - Keep every artifact replayable: agent commits, IR dumps, analysis pass configs, failing-proof records with the missing assumption, minimized reproducers.
 - The proof-assistant route pays best on small instruction sets with mostly side-effect-free operations (Miden was explicitly amenable); skip it for targets with heavy external state.
 - Separate confirmed behavior from inference: ToB reports the high-severity prover-forge path and the two formal-model bugs; the 400+ sites were "type validation could be improved," not proven vulns.
@@ -68,6 +68,6 @@ Sweep this anywhere witnesses cross a verify boundary: zkVM advice/aux stacks, p
 
 ## See also
 
-- [Agent-guided fuzzing campaigns](agent-guided-fuzzing-campaigns.md) — the dynamic-analysis sibling of this static/formal prep workflow.
-- [Agentic DAST benchmark validation](agentic-dast-benchmark-validation.md) — how to judge agent-run campaigns honestly.
-- [Replayable target environment design](target-environment-harness-design.md) — harness discipline the same evidence rules apply to.
+- [Agent-guided fuzzing campaigns](agent-guided-fuzzing-campaigns.md), the dynamic-analysis sibling of this static/formal prep workflow.
+- [Agentic DAST benchmark validation](agentic-dast-benchmark-validation.md), how to judge agent-run campaigns honestly.
+- [Replayable target environment design](target-environment-harness-design.md), harness discipline the same evidence rules apply to.

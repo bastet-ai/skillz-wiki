@@ -1,4 +1,4 @@
-# 2026-02-03 — Claude Code command injection (find) bypasses user approval (GHSA-qgqw-h4xq-7w8w)
+# 2026-02-03, Claude Code command injection (find) bypasses user approval (GHSA-qgqw-h4xq-7w8w)
 
 **What happened:** Claude Code had a command-injection condition involving a `find` command, allowing execution that could bypass an intended **user approval** prompt.
 

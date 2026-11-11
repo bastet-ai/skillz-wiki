@@ -4,9 +4,9 @@
 
 ## Advisories covered
 
-- **Snappier malformed framed-input infinite loop** — [GHSA-pggp-6c3x-2xmx](https://github.com/advisories/GHSA-pggp-6c3x-2xmx): malformed `SnappyStream` decompression input could trigger an infinite loop. Fixed in 1.3.1.
-- **Zebra transparent sighash hash-type consensus divergence** — [GHSA-8m29-fpq5-89jj](https://github.com/advisories/GHSA-8m29-fpq5-89jj): transparent sighash handling could diverge from consensus rules. Fixed in `zebrad` 4.3.1 and `zebra-script` 5.0.2.
-- **Harvester SUSE Virtualization Registration Client MITM/DoS** — [GHSA-pgh9-mpwc-8jjf](https://github.com/advisories/GHSA-pgh9-mpwc-8jjf): improper certificate validation exposed registration flows to MITM and denial-of-service risk. Fixed in Harvester 1.8.0.
+- **Snappier malformed framed-input infinite loop**, [GHSA-pggp-6c3x-2xmx](https://github.com/advisories/GHSA-pggp-6c3x-2xmx): malformed `SnappyStream` decompression input could trigger an infinite loop. Fixed in 1.3.1.
+- **Zebra transparent sighash hash-type consensus divergence**, [GHSA-8m29-fpq5-89jj](https://github.com/advisories/GHSA-8m29-fpq5-89jj): transparent sighash handling could diverge from consensus rules. Fixed in `zebrad` 4.3.1 and `zebra-script` 5.0.2.
+- **Harvester SUSE Virtualization Registration Client MITM/DoS**, [GHSA-pgh9-mpwc-8jjf](https://github.com/advisories/GHSA-pgh9-mpwc-8jjf): improper certificate validation exposed registration flows to MITM and denial-of-service risk. Fixed in Harvester 1.8.0.
 
 ## Why this is durable
 

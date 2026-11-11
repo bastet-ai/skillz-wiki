@@ -4,12 +4,12 @@
 
 ## Advisories covered
 
-- **vm2 null-prototype exception sandbox breakout** — [GHSA-9vg3-4rfj-wgcm](https://github.com/advisories/GHSA-9vg3-4rfj-wgcm): critical escape affecting `vm2 < 3.11.2`; patch to `3.11.2+`.
-- **vm2 internal state exposure** — [GHSA-2cm2-m3w5-gp2f](https://github.com/advisories/GHSA-2cm2-m3w5-gp2f): `vm2 < 3.11.2` exposed `VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL`; patch to `3.11.2+`.
-- **fast-xml-builder attribute quote filtering bypass** — [GHSA-5wm8-gmm8-39j9](https://github.com/advisories/GHSA-5wm8-gmm8-39j9): `fast-xml-builder <= 1.1.6`; patch to `1.1.7+`.
-- **fast-xml-builder comment regex bypass** — [GHSA-45c6-75p6-83cc](https://github.com/advisories/GHSA-45c6-75p6-83cc): `fast-xml-builder == 1.1.5`; patch to `1.1.6+` or preferably current fixed versions.
-- **GoBGP integer underflow** — [GHSA-hj4w-qr9j-c4cf](https://github.com/advisories/GHSA-hj4w-qr9j-c4cf): `github.com/osrg/gobgp/v4 < 4.4.0`; patch to `4.4.0+`.
-- **GoBGP improper resource shutdown/release** — [GHSA-vm3g-8xwv-mxfp](https://github.com/advisories/GHSA-vm3g-8xwv-mxfp): `github.com/osrg/gobgp/v4 < 4.4.0`; patch to `4.4.0+`.
+- **vm2 null-prototype exception sandbox breakout**, [GHSA-9vg3-4rfj-wgcm](https://github.com/advisories/GHSA-9vg3-4rfj-wgcm): critical escape affecting `vm2 < 3.11.2`; patch to `3.11.2+`.
+- **vm2 internal state exposure**, [GHSA-2cm2-m3w5-gp2f](https://github.com/advisories/GHSA-2cm2-m3w5-gp2f): `vm2 < 3.11.2` exposed `VM2_INTERNAL_STATE_DO_NOT_USE_OR_PROGRAM_WILL_FAIL`; patch to `3.11.2+`.
+- **fast-xml-builder attribute quote filtering bypass**, [GHSA-5wm8-gmm8-39j9](https://github.com/advisories/GHSA-5wm8-gmm8-39j9): `fast-xml-builder <= 1.1.6`; patch to `1.1.7+`.
+- **fast-xml-builder comment regex bypass**, [GHSA-45c6-75p6-83cc](https://github.com/advisories/GHSA-45c6-75p6-83cc): `fast-xml-builder == 1.1.5`; patch to `1.1.6+` or preferably current fixed versions.
+- **GoBGP integer underflow**, [GHSA-hj4w-qr9j-c4cf](https://github.com/advisories/GHSA-hj4w-qr9j-c4cf): `github.com/osrg/gobgp/v4 < 4.4.0`; patch to `4.4.0+`.
+- **GoBGP improper resource shutdown/release**, [GHSA-vm3g-8xwv-mxfp](https://github.com/advisories/GHSA-vm3g-8xwv-mxfp): `github.com/osrg/gobgp/v4 < 4.4.0`; patch to `4.4.0+`.
 
 ## Why this is durable
 

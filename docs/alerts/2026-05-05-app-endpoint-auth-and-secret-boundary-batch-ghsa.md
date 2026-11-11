@@ -6,11 +6,11 @@ This batch is durable because each issue comes from an exposed application endpo
 
 ## Advisories covered
 
-- **Inngest TypeScript SDK `inngest` >= 3.22.0, < 3.54.0** — [GHSA-2jf5-6wwv-vhxx](https://github.com/advisories/GHSA-2jf5-6wwv-vhxx): `serve()` endpoints reachable with unhandled HTTP methods such as `PATCH`, `OPTIONS`, or `DELETE` could return diagnostic data including `process.env`. Fixed in **3.54.0**.
-- **CodeChecker <= 6.27.3** — [GHSA-4v9x-cqc5-j645](https://github.com/advisories/GHSA-4v9x-cqc5-j645): unauthenticated calls to selected `Authentication@...` API functions could read or mutate permissions, enabling arbitrary permission assignment to existing users. Patch available in **6.27.4**.
-- **edx-enterprise >= 7.0.2, <= 7.0.4** — [GHSA-64cv-vxpr-j6vc](https://github.com/advisories/GHSA-64cv-vxpr-j6vc): Enterprise Admin users could set an arbitrary SAML metadata URL and trigger server-side fetch without scheme/IP filtering or timeout. Fixed in **7.0.5**.
-- **Network-AI <= 5.1.2** — [GHSA-fj4g-2p96-q6m3](https://github.com/advisories/GHSA-fj4g-2p96-q6m3): MCP HTTP transport bound to `0.0.0.0` by default and accepted unauthenticated JSON-RPC `tools/call`, allowing privileged tool invocation. Fixed in **5.1.3**.
-- **OpenClaw duplicate advisory** — [GHSA-qc5j-2mqx-x83q](https://github.com/advisories/GHSA-qc5j-2mqx-x83q) was withdrawn as a duplicate of GHSA-mr34-9552-qr95. Track the canonical advisory only; the affected range listed was `openclaw` >= 2026.4.7, < 2026.4.15.
+- **Inngest TypeScript SDK `inngest` >= 3.22.0, < 3.54.0**, [GHSA-2jf5-6wwv-vhxx](https://github.com/advisories/GHSA-2jf5-6wwv-vhxx): `serve()` endpoints reachable with unhandled HTTP methods such as `PATCH`, `OPTIONS`, or `DELETE` could return diagnostic data including `process.env`. Fixed in **3.54.0**.
+- **CodeChecker <= 6.27.3**, [GHSA-4v9x-cqc5-j645](https://github.com/advisories/GHSA-4v9x-cqc5-j645): unauthenticated calls to selected `Authentication@...` API functions could read or mutate permissions, enabling arbitrary permission assignment to existing users. Patch available in **6.27.4**.
+- **edx-enterprise >= 7.0.2, <= 7.0.4**, [GHSA-64cv-vxpr-j6vc](https://github.com/advisories/GHSA-64cv-vxpr-j6vc): Enterprise Admin users could set an arbitrary SAML metadata URL and trigger server-side fetch without scheme/IP filtering or timeout. Fixed in **7.0.5**.
+- **Network-AI <= 5.1.2**, [GHSA-fj4g-2p96-q6m3](https://github.com/advisories/GHSA-fj4g-2p96-q6m3): MCP HTTP transport bound to `0.0.0.0` by default and accepted unauthenticated JSON-RPC `tools/call`, allowing privileged tool invocation. Fixed in **5.1.3**.
+- **OpenClaw duplicate advisory**, [GHSA-qc5j-2mqx-x83q](https://github.com/advisories/GHSA-qc5j-2mqx-x83q) was withdrawn as a duplicate of GHSA-mr34-9552-qr95. Track the canonical advisory only; the affected range listed was `openclaw` >= 2026.4.7, < 2026.4.15.
 
 ## Operator triage
 

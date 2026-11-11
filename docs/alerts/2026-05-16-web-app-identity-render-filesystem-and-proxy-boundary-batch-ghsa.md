@@ -6,17 +6,17 @@ This batch is durable because older commerce stacks, clinical apps, note tools, 
 
 ## Advisories covered
 
-- **Magento LTS: Reflected XSS - Import -> Data Flow (profiles) ** — [GHSA-x8jv-q8j2-487c](https://github.com/advisories/GHSA-x8jv-q8j2-487c) / CVE-2026-42458 (medium).
-- **Magento LTS Vulnerable to Open Redirect via Unvalidated `uenc` Parameter in `stockAction()`** — [GHSA-qpgq-5g92-j5q8](https://github.com/advisories/GHSA-qpgq-5g92-j5q8) / CVE-2026-42207 (medium).
-- **Magento LTS has Weak API Session ID — Predictable MD5 of Time-Derived Inputs** — [GHSA-2cwr-gcf9-pvxr](https://github.com/advisories/GHSA-2cwr-gcf9-pvxr) / CVE-2026-42155 (critical).
-- **OpenMRS has Stored Velocity SSTI to RCE via ConceptReferenceRange** — [GHSA-xj4f-8jjg-vx4q](https://github.com/advisories/GHSA-xj4f-8jjg-vx4q) / CVE-2026-41258 (critical).
-- **Traefik's errors middleware forwards Authorization and Cookie headers to separate error page service** — [GHSA-p6hg-qh38-555r](https://github.com/advisories/GHSA-p6hg-qh38-555r) / CVE-2026-41181 (medium).
-- **ZITADEL has LDAP Filter Injection in Login Flow** — [GHSA-rxvx-hhpj-q6px](https://github.com/advisories/GHSA-rxvx-hhpj-q6px) / CVE-2026-44671 (high).
-- **MCP Registry has open redirect via protocol-relative path in trailing-slash middleware** — [GHSA-v8vw-gw5j-w7m6](https://github.com/advisories/GHSA-v8vw-gw5j-w7m6) / CVE-2026-44427 (medium).
-- **MCP Registry vulnerable to stored XSS in catalogue UI via attribute-quote breakout in publisher-controlled `websiteUrl`** — [GHSA-rqv2-m695-f8j4](https://github.com/advisories/GHSA-rqv2-m695-f8j4) / CVE-2026-44429 (medium).
-- **SiYuan: Electron Renderer RCE via decodeURIComponent-driven tooltip XSS in aria-label sink (incomplete fix for CVE-2026-34585)** — [GHSA-25rp-h46x-2hjm](https://github.com/advisories/GHSA-25rp-h46x-2hjm) / CVE-2026-44588 (critical).
-- **Note Mark has a JWT Secret Weakness that allows Full Account Takeover via Token Forgery** — [GHSA-q6mh-rqwh-g786](https://github.com/advisories/GHSA-q6mh-rqwh-g786) / CVE-2026-44523 (critical).
-- **Note Mark: Arbitrary File Write via Path Traversal in Asset Names Leads to Remote Code Execution** — [GHSA-g49p-4qxj-88v3](https://github.com/advisories/GHSA-g49p-4qxj-88v3) / CVE-2026-44522 (high).
+- **Magento LTS: Reflected XSS - Import -> Data Flow (profiles) **, [GHSA-x8jv-q8j2-487c](https://github.com/advisories/GHSA-x8jv-q8j2-487c) / CVE-2026-42458 (medium).
+- **Magento LTS Vulnerable to Open Redirect via Unvalidated `uenc` Parameter in `stockAction()`**, [GHSA-qpgq-5g92-j5q8](https://github.com/advisories/GHSA-qpgq-5g92-j5q8) / CVE-2026-42207 (medium).
+- **Magento LTS has Weak API Session ID, Predictable MD5 of Time-Derived Inputs**, [GHSA-2cwr-gcf9-pvxr](https://github.com/advisories/GHSA-2cwr-gcf9-pvxr) / CVE-2026-42155 (critical).
+- **OpenMRS has Stored Velocity SSTI to RCE via ConceptReferenceRange**, [GHSA-xj4f-8jjg-vx4q](https://github.com/advisories/GHSA-xj4f-8jjg-vx4q) / CVE-2026-41258 (critical).
+- **Traefik's errors middleware forwards Authorization and Cookie headers to separate error page service**, [GHSA-p6hg-qh38-555r](https://github.com/advisories/GHSA-p6hg-qh38-555r) / CVE-2026-41181 (medium).
+- **ZITADEL has LDAP Filter Injection in Login Flow**, [GHSA-rxvx-hhpj-q6px](https://github.com/advisories/GHSA-rxvx-hhpj-q6px) / CVE-2026-44671 (high).
+- **MCP Registry has open redirect via protocol-relative path in trailing-slash middleware**, [GHSA-v8vw-gw5j-w7m6](https://github.com/advisories/GHSA-v8vw-gw5j-w7m6) / CVE-2026-44427 (medium).
+- **MCP Registry vulnerable to stored XSS in catalogue UI via attribute-quote breakout in publisher-controlled `websiteUrl`**, [GHSA-rqv2-m695-f8j4](https://github.com/advisories/GHSA-rqv2-m695-f8j4) / CVE-2026-44429 (medium).
+- **SiYuan: Electron Renderer RCE via decodeURIComponent-driven tooltip XSS in aria-label sink (incomplete fix for CVE-2026-34585)**, [GHSA-25rp-h46x-2hjm](https://github.com/advisories/GHSA-25rp-h46x-2hjm) / CVE-2026-44588 (critical).
+- **Note Mark has a JWT Secret Weakness that allows Full Account Takeover via Token Forgery**, [GHSA-q6mh-rqwh-g786](https://github.com/advisories/GHSA-q6mh-rqwh-g786) / CVE-2026-44523 (critical).
+- **Note Mark: Arbitrary File Write via Path Traversal in Asset Names Leads to Remote Code Execution**, [GHSA-g49p-4qxj-88v3](https://github.com/advisories/GHSA-g49p-4qxj-88v3) / CVE-2026-44522 (high).
 
 ## Operator triage
 

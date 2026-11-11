@@ -1,4 +1,4 @@
-# 2026-02-04 — Alist path traversal in file-operation handlers (GHSA-x4q4-7phh-42j9)
+# 2026-02-04, Alist path traversal in file-operation handlers (GHSA-x4q4-7phh-42j9)
 
 **Product:** Alist (go module: `github.com/alist-org/alist/v3`)
 

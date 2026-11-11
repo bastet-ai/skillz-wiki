@@ -1,4 +1,4 @@
-# 2026-02-05 — Payload CMS Drizzle adapter: SQL injection in JSON/RichText queries (GHSA-xx6w-jxg9-2wh8)
+# 2026-02-05, Payload CMS Drizzle adapter
 
 GitHub published an advisory for **`@payloadcms/drizzle`** (Payload CMS Drizzle-based DB adapters) describing a **critical SQL injection** issue when querying **JSON** or **RichText** fields.
 

@@ -4,13 +4,13 @@
 
 ## Advisories covered
 
-- **Axonflow SDK webhook verification gap** — [GHSA-mhc4-qq83-fmrr](https://github.com/advisories/GHSA-mhc4-qq83-fmrr), [GHSA-7f4h-6264-89fr](https://github.com/advisories/GHSA-7f4h-6264-89fr): Go and Python SDK types did not expose the HMAC-SHA256 signing key needed for consumers to verify webhook signatures.
-- **Axonflow multi-tenant isolation and access-control hardening** — [GHSA-9h64-2846-7x7f](https://github.com/advisories/GHSA-9h64-2846-7x7f): tenant isolation bugs were fixed as an authorization boundary, not only as application logic.
-- **Backstage catalog cross-owner reads** — [GHSA-p7g9-rp3g-mgfg](https://github.com/advisories/GHSA-p7g9-rp3g-mgfg): authenticated users could read unprocessed catalog data across owners when permission checks were missing.
-- **OpenTelemetry Collector contrib Azure auth extension bearer replay** — [GHSA-pjv4-3c63-699f](https://github.com/advisories/GHSA-pjv4-3c63-699f): `Authenticate` accepted replayed bearer tokens without adequate validation.
-- **fast-jwt empty-HMAC-secret auth bypass** — [GHSA-gmvf-9v4p-v8jc](https://github.com/advisories/GHSA-gmvf-9v4p-v8jc): async key resolution could accept an empty HMAC secret.
-- **Lemmy private community data exposure** — [GHSA-95q8-x6r6-672m](https://github.com/advisories/GHSA-95q8-x6r6-672m): community, saved, liked, and modlog API views could expose private-community data.
-- **OpenClaw pairing and Matrix reply-context allowlist issues** — [GHSA-gg9v-mgcp-v6m7](https://github.com/advisories/GHSA-gg9v-mgcp-v6m7), [GHSA-rg8m-3943-vm6q](https://github.com/advisories/GHSA-rg8m-3943-vm6q): bootstrap codes and threaded context need explicit sender, channel, and session binding.
+- **Axonflow SDK webhook verification gap**, [GHSA-mhc4-qq83-fmrr](https://github.com/advisories/GHSA-mhc4-qq83-fmrr), [GHSA-7f4h-6264-89fr](https://github.com/advisories/GHSA-7f4h-6264-89fr): Go and Python SDK types did not expose the HMAC-SHA256 signing key needed for consumers to verify webhook signatures.
+- **Axonflow multi-tenant isolation and access-control hardening**, [GHSA-9h64-2846-7x7f](https://github.com/advisories/GHSA-9h64-2846-7x7f): tenant isolation bugs were fixed as an authorization boundary, not only as application logic.
+- **Backstage catalog cross-owner reads**, [GHSA-p7g9-rp3g-mgfg](https://github.com/advisories/GHSA-p7g9-rp3g-mgfg): authenticated users could read unprocessed catalog data across owners when permission checks were missing.
+- **OpenTelemetry Collector contrib Azure auth extension bearer replay**, [GHSA-pjv4-3c63-699f](https://github.com/advisories/GHSA-pjv4-3c63-699f): `Authenticate` accepted replayed bearer tokens without adequate validation.
+- **fast-jwt empty-HMAC-secret auth bypass**, [GHSA-gmvf-9v4p-v8jc](https://github.com/advisories/GHSA-gmvf-9v4p-v8jc): async key resolution could accept an empty HMAC secret.
+- **Lemmy private community data exposure**, [GHSA-95q8-x6r6-672m](https://github.com/advisories/GHSA-95q8-x6r6-672m): community, saved, liked, and modlog API views could expose private-community data.
+- **OpenClaw pairing and Matrix reply-context allowlist issues**, [GHSA-gg9v-mgcp-v6m7](https://github.com/advisories/GHSA-gg9v-mgcp-v6m7), [GHSA-rg8m-3943-vm6q](https://github.com/advisories/GHSA-rg8m-3943-vm6q): bootstrap codes and threaded context need explicit sender, channel, and session binding.
 
 Withdrawn duplicate OpenClaw advisories in this scan were treated as duplicate metadata only and should not create new operational guidance unless the canonical advisory changes.
 

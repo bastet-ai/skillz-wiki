@@ -4,10 +4,10 @@
 
 ## Advisory cluster
 
-- **Open WebUI files API authorization gap** — [GHSA-r8wh-8m7r-fh33](https://github.com/advisories/GHSA-r8wh-8m7r-fh33): `open-webui <= 0.3.15`, fixed in `0.3.16`, let any authenticated user list, read, and delete every uploaded file because `/api/v1/files/` endpoints checked login but not file ownership.
-- **Open WebUI profile-image stored XSS** — [GHSA-6gh2-q7cp-9qf6](https://github.com/advisories/GHSA-6gh2-q7cp-9qf6): `open-webui < 0.8.0`, fixed in `0.8.0`, accepted attacker-controlled `data:` profile-image URIs. The higher-impact path re-served `data:image/svg+xml` inline from the application origin, enabling account-token theft when victims loaded the profile image.
-- **Electerm bookmark/sync execution boundary** — [GHSA-jgg9-rw32-44pj](https://github.com/advisories/GHSA-jgg9-rw32-44pj): `electerm <= 3.8.8` can execute attacker-supplied local-PTY commands after users import unsafe bookmark JSON or apply compromised gist/WebDAV sync data containing `exec*` fields or unsafe global config. No patched version was listed when scanned.
-- **Kuma local control-plane CORS/admin-token leak** — [GHSA-3vcp-chfh-f6r2](https://github.com/advisories/GHSA-3vcp-chfh-f6r2): default `kuma-cp` combined wildcard CORS with `LocalhostIsAdmin`, so attacker JavaScript in a browser on the operator machine could read admin bootstrap token/signing material from a reachable local control plane. Fixed in `2.7.25`, `2.9.15`, `2.11.13`, `2.12.10`, and `2.13.5`.
+- **Open WebUI files API authorization gap**, [GHSA-r8wh-8m7r-fh33](https://github.com/advisories/GHSA-r8wh-8m7r-fh33): `open-webui <= 0.3.15`, fixed in `0.3.16`, let any authenticated user list, read, and delete every uploaded file because `/api/v1/files/` endpoints checked login but not file ownership.
+- **Open WebUI profile-image stored XSS**, [GHSA-6gh2-q7cp-9qf6](https://github.com/advisories/GHSA-6gh2-q7cp-9qf6): `open-webui < 0.8.0`, fixed in `0.8.0`, accepted attacker-controlled `data:` profile-image URIs. The higher-impact path re-served `data:image/svg+xml` inline from the application origin, enabling account-token theft when victims loaded the profile image.
+- **Electerm bookmark/sync execution boundary**, [GHSA-jgg9-rw32-44pj](https://github.com/advisories/GHSA-jgg9-rw32-44pj): `electerm <= 3.8.8` can execute attacker-supplied local-PTY commands after users import unsafe bookmark JSON or apply compromised gist/WebDAV sync data containing `exec*` fields or unsafe global config. No patched version was listed when scanned.
+- **Kuma local control-plane CORS/admin-token leak**, [GHSA-3vcp-chfh-f6r2](https://github.com/advisories/GHSA-3vcp-chfh-f6r2): default `kuma-cp` combined wildcard CORS with `LocalhostIsAdmin`, so attacker JavaScript in a browser on the operator machine could read admin bootstrap token/signing material from a reachable local control plane. Fixed in `2.7.25`, `2.9.15`, `2.11.13`, `2.12.10`, and `2.13.5`.
 
 ## Why this matters
 

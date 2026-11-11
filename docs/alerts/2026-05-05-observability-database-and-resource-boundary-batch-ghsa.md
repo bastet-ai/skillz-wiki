@@ -6,9 +6,9 @@ This batch is durable because observability and database clients are often treat
 
 ## Advisories covered
 
-- **pgjdbc SCRAM authentication** — [GHSA-98qh-xjc8-98pq](https://github.com/advisories/GHSA-98qh-xjc8-98pq): unbounded PBKDF2 iterations can cause CPU-exhaustion denial of service.
-- **Prometheus remote read** — [GHSA-8rm2-7qqf-34qm](https://github.com/advisories/GHSA-8rm2-7qqf-34qm): crafted snappy payloads can trigger denial of service.
-- **Prometheus Azure AD remote write** — [GHSA-wg65-39gg-5wfj](https://github.com/advisories/GHSA-wg65-39gg-5wfj): OAuth client secret can be exposed through the config API.
+- **pgjdbc SCRAM authentication**, [GHSA-98qh-xjc8-98pq](https://github.com/advisories/GHSA-98qh-xjc8-98pq): unbounded PBKDF2 iterations can cause CPU-exhaustion denial of service.
+- **Prometheus remote read**, [GHSA-8rm2-7qqf-34qm](https://github.com/advisories/GHSA-8rm2-7qqf-34qm): crafted snappy payloads can trigger denial of service.
+- **Prometheus Azure AD remote write**, [GHSA-wg65-39gg-5wfj](https://github.com/advisories/GHSA-wg65-39gg-5wfj): OAuth client secret can be exposed through the config API.
 
 ## Operator triage
 

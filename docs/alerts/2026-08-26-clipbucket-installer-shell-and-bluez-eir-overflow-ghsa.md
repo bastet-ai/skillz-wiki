@@ -21,10 +21,10 @@ The reusable pattern is a **wireless in-range protocol-parser overflow**: an una
 ### ClipBucket
 1. **Fingerprint the installer.** Identify externally reachable ClipBucket V5 installers: the installer route, the `php_cli_filepath` form field, and version markers. An exposed installer on a live host is the pre-condition; most real deployments complete installation, so this is highest-value on partially configured / reinstallable instances.
 2. **Confirm the shell sink.** The impact ceiling is the web server user. If the app runs as `www-data`/`apache`/`nginx` worker, the command execution is that user.
-3. **Scope the primitive as unauthenticated RCE.** No login, no upload, no CSRF — a single crafted `POST` field. This is a top-tier finding on an in-scope target.
+3. **Scope the primitive as unauthenticated RCE.** No login, no upload, no CSRF, a single crafted `POST` field. This is a top-tier finding on an in-scope target.
 
 ### BlueZ
-1. **Fingerprint Bluetooth stack and exposure.** Confirm the target runs BlueZ (`bluetoothd`) and that the host performs Bluetooth discovery (inquiry) — a phone/desktop with Bluetooth enabled in a Bluetooth range. The overflow fires during *discovery*, so the target must be actively inquiring or accept inquiry responses.
+1. **Fingerprint Bluetooth stack and exposure.** Confirm the target runs BlueZ (`bluetoothd`) and that the host performs Bluetooth discovery (inquiry), a phone/desktop with Bluetooth enabled in a Bluetooth range. The overflow fires during *discovery*, so the target must be actively inquiring or accept inquiry responses.
 2. **Confirm in-range.** This is a physical / wireless proximity primitive. Value is highest in shared-physical-space red-team work (office, venue, device-in-warehouse) rather than remote bug-bounty.
 3. **Prioritize by impact.** DoS (crash `bluetoothd`) is the reliable result; code execution is possible but unproven in the advisory. Report DoS as the confirmed primitive and RCE as the ceiling, and prove whichever you can in a lab.
 

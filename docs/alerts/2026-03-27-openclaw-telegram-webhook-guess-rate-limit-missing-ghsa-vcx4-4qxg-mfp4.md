@@ -1,4 +1,4 @@
-# 2026-03-27 — OpenClaw Telegram webhook missing guess rate limiting (GHSA-vcx4-4qxg-mfp4)
+# 2026-03-27, OpenClaw Telegram webhook missing guess rate limiting (GHSA-vcx4-4qxg-mfp4)
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

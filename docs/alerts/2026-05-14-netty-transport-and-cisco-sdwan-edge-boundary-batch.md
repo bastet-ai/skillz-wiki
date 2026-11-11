@@ -6,8 +6,8 @@ This batch links two different failure modes with the same operational lesson: e
 
 ## Advisories covered
 
-- **Netty epoll native transport denial of service** — [GHSA-rwm7-x88c-3g2p](https://github.com/advisories/GHSA-rwm7-x88c-3g2p): `io.netty:netty-transport-native-epoll >= 4.2.0.Final, < 4.2.13.Final` could be forced into denial of service by a TCP connection reset while the connection is half-closed. Fixed in `4.2.13.Final`.
-- **Cisco Catalyst SD-WAN Controller authentication bypass** — [CVE-2026-20182](https://nvd.nist.gov/vuln/detail/CVE-2026-20182): CISA added this to KEV on 2026-05-14. Cisco Catalyst SD-WAN Controller and Manager can allow unauthenticated remote attackers to obtain administrative privileges. CISA due date: 2026-05-17; follow [ED 26-03 mitigation instructions](https://www.cisa.gov/news-events/directives/ed-26-03-mitigate-vulnerabilities-cisco-sd-wan-systems), [hunt and hardening guidance](https://www.cisa.gov/news-events/directives/supplemental-direction-ed-26-03-hunt-and-hardening-guidance-cisco-sd-wan-systems), and Cisco advisory guidance.
+- **Netty epoll native transport denial of service**, [GHSA-rwm7-x88c-3g2p](https://github.com/advisories/GHSA-rwm7-x88c-3g2p): `io.netty:netty-transport-native-epoll >= 4.2.0.Final, < 4.2.13.Final` could be forced into denial of service by a TCP connection reset while the connection is half-closed. Fixed in `4.2.13.Final`.
+- **Cisco Catalyst SD-WAN Controller authentication bypass**, [CVE-2026-20182](https://nvd.nist.gov/vuln/detail/CVE-2026-20182): CISA added this to KEV on 2026-05-14. Cisco Catalyst SD-WAN Controller and Manager can allow unauthenticated remote attackers to obtain administrative privileges. CISA due date: 2026-05-17; follow [ED 26-03 mitigation instructions](https://www.cisa.gov/news-events/directives/ed-26-03-mitigate-vulnerabilities-cisco-sd-wan-systems), [hunt and hardening guidance](https://www.cisa.gov/news-events/directives/supplemental-direction-ed-26-03-hunt-and-hardening-guidance-cisco-sd-wan-systems), and Cisco advisory guidance.
 
 ## Operator triage
 

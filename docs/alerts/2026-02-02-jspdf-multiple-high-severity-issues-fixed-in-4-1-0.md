@@ -1,4 +1,4 @@
-# 2026-02-02 — jsPDF: PDF injection / metadata injection / DoS (fixed in 4.1.0)
+# 2026-02-02, jsPDF: PDF injection / metadata injection / DoS (fixed in 4.1.0)
 
 ## Summary
 

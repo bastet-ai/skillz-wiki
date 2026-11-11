@@ -4,9 +4,9 @@
 
 ## Advisory cluster
 
-- **fast-uri host confusion via percent-encoded authority delimiters** — [GHSA-v39h-62p7-jpjc](https://github.com/advisories/GHSA-v39h-62p7-jpjc): `fast-uri <= 3.1.1` could confuse host parsing around percent-encoded authority delimiters. Patch to `3.1.2+`.
-- **Bugsink webhook URL validation SSRF bypass** — [GHSA-fp53-qcf8-2xx2](https://github.com/advisories/GHSA-fp53-qcf8-2xx2): `bugsink <= 2.1.2` `validate_webhook_url` could be bypassed. Patch to `2.1.3+`.
-- **Apache Polaris improper input validation** — [GHSA-w76p-3cgp-qfcm](https://github.com/advisories/GHSA-w76p-3cgp-qfcm): `org.apache.polaris:polaris-runtime-service < 1.4.1` adds another Polaris validation boundary to the May 8 batch. Patch to `1.4.1+`.
+- **fast-uri host confusion via percent-encoded authority delimiters**, [GHSA-v39h-62p7-jpjc](https://github.com/advisories/GHSA-v39h-62p7-jpjc): `fast-uri <= 3.1.1` could confuse host parsing around percent-encoded authority delimiters. Patch to `3.1.2+`.
+- **Bugsink webhook URL validation SSRF bypass**, [GHSA-fp53-qcf8-2xx2](https://github.com/advisories/GHSA-fp53-qcf8-2xx2): `bugsink <= 2.1.2` `validate_webhook_url` could be bypassed. Patch to `2.1.3+`.
+- **Apache Polaris improper input validation**, [GHSA-w76p-3cgp-qfcm](https://github.com/advisories/GHSA-w76p-3cgp-qfcm): `org.apache.polaris:polaris-runtime-service < 1.4.1` adds another Polaris validation boundary to the May 8 batch. Patch to `1.4.1+`.
 
 ## Why this matters
 

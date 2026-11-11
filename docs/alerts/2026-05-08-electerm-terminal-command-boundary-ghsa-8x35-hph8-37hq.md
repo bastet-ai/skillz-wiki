@@ -29,7 +29,7 @@ Reference: <https://github.com/advisories/GHSA-8x35-hph8-37hq>
 ## Durable lesson
 Terminal clients are not just viewers; they are command brokers. Any UI/config field that reaches a shell must be modeled as untrusted data, passed as argv where possible, and rejected when it contains command syntax instead of a literal value.
 
-## July 3 expansion — remote filenames, file helpers, and transfer paths
+## July 3 expansion, remote filenames, file helpers, and transfer paths
 
 The 2026-07-03 hourly scan added two more electerm advisories under the same terminal-client boundary: [GHSA-v5ff-xmfp-p245](https://github.com/advisories/GHSA-v5ff-xmfp-p245) / CVE-2026-49255 for command injection through `rmrf`, `mv`, and `cp`, and [GHSA-38j7-23hf-9mhc](https://github.com/advisories/GHSA-38j7-23hf-9mhc) / CVE-2026-49253 for Zmodem/Trzsz download path traversal. Both affect `electerm <= 3.11.0`; the GitHub Advisory Database lists `3.11.11` as the first patched version.
 
@@ -47,15 +47,15 @@ The 2026-07-03 hourly scan added two more electerm advisories under the same ter
 - Negative controls: electerm `>= 3.11.11`, direct exec APIs instead of shell interpolation, basename-only transfer handling, realpath containment after join, overwrite prompts that show resolved paths, and rejection of absolute or traversal filenames.
 - Do not send reverse shells, overwrite `.bashrc`, write autostart files, read local files, or test against real SSH/SFTP servers.
 
-## 19:15 UTC expansion — renderer, link, filename, and widget execution paths
+## 19:15 UTC expansion, renderer, link, filename, and widget execution paths
 
 The later **2026-05-08 19:15 UTC** scan added a broader electerm advisory cluster. Treat these as the same terminal-client trust boundary, not as isolated bugs:
 
-- **Arbitrary protocol execution from terminal link clicks** — [GHSA-fwf6-j56g-m97c](https://github.com/advisories/GHSA-fwf6-j56g-m97c): `shell.openExternal` accepted unsafe protocols from terminal output. A malicious remote host can print links that jump from terminal text into local app/protocol execution.
-- **Widget path traversal to code execution** — [GHSA-f77v-9vpc-6pjm](https://github.com/advisories/GHSA-f77v-9vpc-6pjm): `runWidget` path handling allowed traversal into unintended code paths. Patch to `3.7.16+` for that path.
-- **Malicious SSH-server filename RCE** — [GHSA-q4p8-8j9m-8hxj](https://github.com/advisories/GHSA-q4p8-8j9m-8hxj): remote filenames flowing into `openFileWithEditor` could become command execution. Patch to `3.7.9+` for that path.
-- **Renderer environment exposure** — [GHSA-37j4-88rp-2f6h](https://github.com/advisories/GHSA-37j4-88rp-2f6h): `window.pre.env` exposed the full `process.env` to renderer code in affected versions.
-- **Dangerous link/command-line execution** — [GHSA-mpm8-cx2p-626q](https://github.com/advisories/GHSA-mpm8-cx2p-626q): affected `electerm >=3.0.6 <3.8.15`; patch to `3.8.15+`.
+- **Arbitrary protocol execution from terminal link clicks**, [GHSA-fwf6-j56g-m97c](https://github.com/advisories/GHSA-fwf6-j56g-m97c): `shell.openExternal` accepted unsafe protocols from terminal output. A malicious remote host can print links that jump from terminal text into local app/protocol execution.
+- **Widget path traversal to code execution**, [GHSA-f77v-9vpc-6pjm](https://github.com/advisories/GHSA-f77v-9vpc-6pjm): `runWidget` path handling allowed traversal into unintended code paths. Patch to `3.7.16+` for that path.
+- **Malicious SSH-server filename RCE**, [GHSA-q4p8-8j9m-8hxj](https://github.com/advisories/GHSA-q4p8-8j9m-8hxj): remote filenames flowing into `openFileWithEditor` could become command execution. Patch to `3.7.9+` for that path.
+- **Renderer environment exposure**, [GHSA-37j4-88rp-2f6h](https://github.com/advisories/GHSA-37j4-88rp-2f6h): `window.pre.env` exposed the full `process.env` to renderer code in affected versions.
+- **Dangerous link/command-line execution**, [GHSA-mpm8-cx2p-626q](https://github.com/advisories/GHSA-mpm8-cx2p-626q): affected `electerm >=3.0.6 <3.8.15`; patch to `3.8.15+`.
 
 Upgrade target: use the newest fixed release available, and do not consider partial line-item fixes sufficient if any renderer, widget, terminal-link, external-editor, or environment-bridge advisory remains open.
 
@@ -66,11 +66,11 @@ Additional hunts:
 - Widget directories or cached extension bundles modified shortly before a suspicious session.
 - Secrets that were only present in process environment variables on hosts where renderer compromise is plausible.
 
-## September 8 expansion — unvalidated Electron IPC handler exposes 40+ main-process functions (1 GHSA)
+## September 8 expansion, unvalidated Electron IPC handler exposes 40+ main-process functions (1 GHSA)
 
 The 2026-09-08 hourly scan added one more electerm advisory under the same terminal-client trust boundary, but on the **Electron IPC boundary** rather than a file/transfer path:
 
-- **[GHSA-hxxx-8rvv-qg5m](https://github.com/advisories/GHSA-hxxx-8rvv-qg5m) / CVE-2026-86711 (high 7.4, CWE-749)** — `electerm` before `5.3.15` exposes **40+ main-process functions through an unvalidated Electron IPC handler with no function-name allowlist or sender validation**. Renderer-side script execution can invoke `openFileWithEditor` and other main-process functions with arbitrary arguments to **execute system commands in the main process**.
+- **[GHSA-hxxx-8rvv-qg5m](https://github.com/advisories/GHSA-hxxx-8rvv-qg5m) / CVE-2026-86711 (high 7.4, CWE-749)**, `electerm` before `5.3.15` exposes **40+ main-process functions through an unvalidated Electron IPC handler with no function-name allowlist or sender validation**. Renderer-side script execution can invoke `openFileWithEditor` and other main-process functions with arbitrary arguments to **execute system commands in the main process**.
 
 This is the renderer→main IPC sibling of the terminal-link and remote-filename command-injection findings above: any renderer compromise (XSS, injected terminal output, malicious file) becomes main-process command execution because the IPC surface accepts arbitrary function names and arguments with no allowlist. Durable operator value:
 

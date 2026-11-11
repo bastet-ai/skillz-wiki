@@ -4,14 +4,14 @@
 
 ## Advisories covered
 
-- **Actuator default security filter chain gap** — [GHSA-8v8j-3hxp-93wr](https://github.com/advisories/GHSA-8v8j-3hxp-93wr): applications with Actuator but without Health could end up without an authorization rule in the default chain.
-- **DevTools remote secret timing attack** — [GHSA-56v8-86gj-66jp](https://github.com/advisories/GHSA-56v8-86gj-66jp): remote secret comparison leaked timing information.
-- **Predictable temp directory ownership gap** — [GHSA-wwpq-f5c3-7hvx](https://github.com/advisories/GHSA-wwpq-f5c3-7hvx): predictable temp directory selection without ownership verification could expose local privilege or data-boundary risks.
-- **PID file symlink following** — [GHSA-5368-6h4h-gr29](https://github.com/advisories/GHSA-5368-6h4h-gr29): PID file writes at predictable paths could follow symlinks.
-- **Weak random property source for secrets** — [GHSA-m4x9-hx6x-2c43](https://github.com/advisories/GHSA-m4x9-hx6x-2c43): random values meant for configuration were not suitable as secrets.
-- **RabbitMQ hostname verification disabled** — [GHSA-9vc8-qppq-wvxc](https://github.com/advisories/GHSA-9vc8-qppq-wvxc).
-- **Cassandra hostname verification disabled** — [GHSA-mqvw-jfmh-93qq](https://github.com/advisories/GHSA-mqvw-jfmh-93qq).
-- **Elasticsearch hostname verification disabled** — [GHSA-c96x-rpm4-349p](https://github.com/advisories/GHSA-c96x-rpm4-349p).
+- **Actuator default security filter chain gap**, [GHSA-8v8j-3hxp-93wr](https://github.com/advisories/GHSA-8v8j-3hxp-93wr): applications with Actuator but without Health could end up without an authorization rule in the default chain.
+- **DevTools remote secret timing attack**, [GHSA-56v8-86gj-66jp](https://github.com/advisories/GHSA-56v8-86gj-66jp): remote secret comparison leaked timing information.
+- **Predictable temp directory ownership gap**, [GHSA-wwpq-f5c3-7hvx](https://github.com/advisories/GHSA-wwpq-f5c3-7hvx): predictable temp directory selection without ownership verification could expose local privilege or data-boundary risks.
+- **PID file symlink following**, [GHSA-5368-6h4h-gr29](https://github.com/advisories/GHSA-5368-6h4h-gr29): PID file writes at predictable paths could follow symlinks.
+- **Weak random property source for secrets**, [GHSA-m4x9-hx6x-2c43](https://github.com/advisories/GHSA-m4x9-hx6x-2c43): random values meant for configuration were not suitable as secrets.
+- **RabbitMQ hostname verification disabled**, [GHSA-9vc8-qppq-wvxc](https://github.com/advisories/GHSA-9vc8-qppq-wvxc).
+- **Cassandra hostname verification disabled**, [GHSA-mqvw-jfmh-93qq](https://github.com/advisories/GHSA-mqvw-jfmh-93qq).
+- **Elasticsearch hostname verification disabled**, [GHSA-c96x-rpm4-349p](https://github.com/advisories/GHSA-c96x-rpm4-349p).
 
 ## Why this is durable
 

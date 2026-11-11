@@ -6,10 +6,10 @@ This batch is durable because each issue breaks an identity or tenancy assumptio
 
 ## Advisories covered
 
-- **OpenLearnX JWT signature verification disabled** — [GHSA-223g-f5mq-gw33](https://github.com/advisories/GHSA-223g-f5mq-gw33), CVE-2026-44720: `openlearnx < 2.0.4` could allow account takeover when JWT signature verification was disabled or bypassed. Fixed in `2.0.4`.
-- **Authlib OIDC Implicit/Hybrid open redirect** — [GHSA-r95x-qfjj-fjj2](https://github.com/advisories/GHSA-r95x-qfjj-fjj2), CVE-2026-44681: OIDC Implicit and Hybrid grants raised a scope error before validating `redirect_uri`, allowing unauthenticated redirects from the authorization server to attacker-controlled URLs. Fixed in `authlib 1.6.12` and `1.7.1`.
-- **OpenStack Cyborg default allow policy** — [GHSA-mm7j-mhhj-hj36](https://github.com/advisories/GHSA-mm7j-mhhj-hj36), CVE-2026-40213: `openstack-cyborg < 16.0.1` used `rule:allow` (`@`) as the default policy for multiple API endpoints, letting any valid Keystone token reach actions that should require roles, project membership, or scope.
-- **OpenStack Cyborg ARQ project ownership bypass** — [GHSA-mmpc-xjxr-5hf8](https://github.com/advisories/GHSA-mmpc-xjxr-5hf8), CVE-2026-40214: Accelerator Request APIs did not populate/filter project ownership and could let authenticated non-admin users affect ARQs tied to other projects. Fixed in `16.0.1`.
+- **OpenLearnX JWT signature verification disabled**, [GHSA-223g-f5mq-gw33](https://github.com/advisories/GHSA-223g-f5mq-gw33), CVE-2026-44720: `openlearnx < 2.0.4` could allow account takeover when JWT signature verification was disabled or bypassed. Fixed in `2.0.4`.
+- **Authlib OIDC Implicit/Hybrid open redirect**, [GHSA-r95x-qfjj-fjj2](https://github.com/advisories/GHSA-r95x-qfjj-fjj2), CVE-2026-44681: OIDC Implicit and Hybrid grants raised a scope error before validating `redirect_uri`, allowing unauthenticated redirects from the authorization server to attacker-controlled URLs. Fixed in `authlib 1.6.12` and `1.7.1`.
+- **OpenStack Cyborg default allow policy**, [GHSA-mm7j-mhhj-hj36](https://github.com/advisories/GHSA-mm7j-mhhj-hj36), CVE-2026-40213: `openstack-cyborg < 16.0.1` used `rule:allow` (`@`) as the default policy for multiple API endpoints, letting any valid Keystone token reach actions that should require roles, project membership, or scope.
+- **OpenStack Cyborg ARQ project ownership bypass**, [GHSA-mmpc-xjxr-5hf8](https://github.com/advisories/GHSA-mmpc-xjxr-5hf8), CVE-2026-40214: Accelerator Request APIs did not populate/filter project ownership and could let authenticated non-admin users affect ARQs tied to other projects. Fixed in `16.0.1`.
 
 ## Operator triage
 

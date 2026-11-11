@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **Nhost sessions persist after password change/reset** — [GHSA-7hgr-xvrr-xpw3](https://github.com/advisories/GHSA-7hgr-xvrr-xpw3): `github.com/nhost/nhost` patched at pseudo-version `0.0.0-20260430132514-52c70664a7e9`.
-- **potato-annotation string-prefix project-boundary bypass** — [GHSA-q9m2-fhv9-3jcf](https://github.com/advisories/GHSA-q9m2-fhv9-3jcf): `potato-annotation >= 2.0.0, < 2.4.5`; patch to `2.4.5+`.
-- **ExternalSecrets service-account token secret overwrite/escalation** — [GHSA-fq7h-9x26-6j22](https://github.com/advisories/GHSA-fq7h-9x26-6j22): `github.com/external-secrets/external-secrets/apis >= 0.1.0, < 2.4.1`; patch to `2.4.1+`.
-- **MCP Registry HTTP namespace verification SSRF via IPv6 6to4/NAT64/site-local gaps** — [GHSA-r48c-v28r-pf6v](https://github.com/advisories/GHSA-r48c-v28r-pf6v): `github.com/modelcontextprotocol/registry < 1.7.7`; patch to `1.7.7+`.
-- **MCP Registry catalogue stored XSS via `websiteUrl` attribute quote breakout** — [GHSA-rqv2-m695-f8j4](https://github.com/advisories/GHSA-rqv2-m695-f8j4): `github.com/modelcontextprotocol/registry < 1.7.7`; patch to `1.7.7+`.
+- **Nhost sessions persist after password change/reset**, [GHSA-7hgr-xvrr-xpw3](https://github.com/advisories/GHSA-7hgr-xvrr-xpw3): `github.com/nhost/nhost` patched at pseudo-version `0.0.0-20260430132514-52c70664a7e9`.
+- **potato-annotation string-prefix project-boundary bypass**, [GHSA-q9m2-fhv9-3jcf](https://github.com/advisories/GHSA-q9m2-fhv9-3jcf): `potato-annotation >= 2.0.0, < 2.4.5`; patch to `2.4.5+`.
+- **ExternalSecrets service-account token secret overwrite/escalation**, [GHSA-fq7h-9x26-6j22](https://github.com/advisories/GHSA-fq7h-9x26-6j22): `github.com/external-secrets/external-secrets/apis >= 0.1.0, < 2.4.1`; patch to `2.4.1+`.
+- **MCP Registry HTTP namespace verification SSRF via IPv6 6to4/NAT64/site-local gaps**, [GHSA-r48c-v28r-pf6v](https://github.com/advisories/GHSA-r48c-v28r-pf6v): `github.com/modelcontextprotocol/registry < 1.7.7`; patch to `1.7.7+`.
+- **MCP Registry catalogue stored XSS via `websiteUrl` attribute quote breakout**, [GHSA-rqv2-m695-f8j4](https://github.com/advisories/GHSA-rqv2-m695-f8j4): `github.com/modelcontextprotocol/registry < 1.7.7`; patch to `1.7.7+`.
 
 ## Why this is durable
 

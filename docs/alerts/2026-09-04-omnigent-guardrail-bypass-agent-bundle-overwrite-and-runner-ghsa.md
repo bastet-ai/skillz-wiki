@@ -2,7 +2,7 @@
 
 Source: hourly offensive-security scan, 2026-09-04 late GitHub advisory wave (Omnigent cluster, 4 advisories). Durable because Omnigent is an agent-orchestration/runner platform and the cluster exposes the **trusted-automation trust boundaries** this wiki repeatedly flags: a policy/guardrail layer that can be bypassed by a crafted shell command, a shared artifact (the agent bundle) that one actor can overwrite to rewire authentication, and an upload path that lets an authenticated runner reach code execution.
 
-Primary entries: [GHSA-7mqg-cx4g-x2rf](https://github.com/advisories/GHSA-7mqg-cx4g-x2rf) / CVE-2026-62676 (guardrail policy bypass — shell-command parser fails on crafted input), [GHSA-p8rw-8qj3-hf33](https://github.com/advisories/GHSA-p8rw-8qj3-hf33) / CVE-2026-62677 (unvalidated `os_env.cwd` in an agent bundle yields arbitrary directory), [GHSA-jrrm-9hc7-2v3h](https://github.com/advisories/GHSA-jrrm-9hc7-2v3h) / CVE-2026-62674 (shared agent-bundle overwrite leads to auth bypass), and [GHSA-756x-9hf6-q4h4](https://github.com/advisories/GHSA-756x-9hf6-q4h4) / CVE-2026-62675 (uploaded agent bundle allows authenticated runner RCE).
+Primary entries: [GHSA-7mqg-cx4g-x2rf](https://github.com/advisories/GHSA-7mqg-cx4g-x2rf) / CVE-2026-62676 (guardrail policy bypass, shell-command parser fails on crafted input), [GHSA-p8rw-8qj3-hf33](https://github.com/advisories/GHSA-p8rw-8qj3-hf33) / CVE-2026-62677 (unvalidated `os_env.cwd` in an agent bundle yields arbitrary directory), [GHSA-jrrm-9hc7-2v3h](https://github.com/advisories/GHSA-jrrm-9hc7-2v3h) / CVE-2026-62674 (shared agent-bundle overwrite leads to auth bypass), and [GHSA-756x-9hf6-q4h4](https://github.com/advisories/GHSA-756x-9hf6-q4h4) / CVE-2026-62675 (uploaded agent bundle allows authenticated runner RCE).
 
 !!! warning "Authorized validation only"
     Keep proofs to a disposable Omnigent control/runner lab with synthetic agent bundles and inert command canaries. Use denied file/network/process sinks. Do not execute real agent payloads, reach internal services, read real credentials, or run untrusted bundle code on a shared host.
@@ -33,7 +33,7 @@ Report as **guarded command -> parser bypass form -> policy sees benign string /
 
 1. Author a synthetic agent bundle whose `os_env.cwd` points one level (or more) outside the intended workspace root.
 2. Run the runner and record the **actual process working directory** at start. A positive is the runner starting in the caller-selected directory outside the root.
-3. Use a sibling marker file to show reach, but stop at the directory decision — do not read/write files in a real root.
+3. Use a sibling marker file to show reach, but stop at the directory decision, do not read/write files in a real root.
 
 ### Shared agent-bundle overwrite → auth drift
 

@@ -4,13 +4,13 @@
 
 ## Advisories covered
 
-- **imageproc kernel-size integer overflow** — [GHSA-w5p8-4jcx-2j6r](https://github.com/advisories/GHSA-w5p8-4jcx-2j6r): kernel-size checks could overflow and lead to out-of-bounds reads.
-- **imageproc NaN-coordinate sampling issue** — [GHSA-qg8r-f7x3-25f7](https://github.com/advisories/GHSA-qg8r-f7x3-25f7): bilinear/bicubic samplers mishandled NaN coordinates and read outside expected bounds.
-- **imageproc fragile image-sampling bounds check** — [GHSA-5qv7-j6w5-fr4m](https://github.com/advisories/GHSA-5qv7-j6w5-fr4m): sampling logic relied on insufficient bounds checks.
-- **hickory-proto DNS name-compression CPU exhaustion** — [GHSA-q2qq-hmj6-3wpp](https://github.com/advisories/GHSA-q2qq-hmj6-3wpp): message encoding could degrade to quadratic work.
-- **hickory-proto NSEC3 closest-encloser unbounded loop** — [GHSA-3v94-mw7p-v465](https://github.com/advisories/GHSA-3v94-mw7p-v465): cross-zone responses could trigger unbounded proof validation loops.
-- **Apache Neethi policy-normalization algorithmic complexity** — [GHSA-g36m-9g3m-2vmp](https://github.com/advisories/GHSA-g36m-9g3m-2vmp): policy normalization could be driven into denial of service.
-- **Apache Neethi circular policy references** — [GHSA-2hfh-9h53-qc24](https://github.com/advisories/GHSA-2hfh-9h53-qc24): circular policy definitions were not detected reliably.
+- **imageproc kernel-size integer overflow**, [GHSA-w5p8-4jcx-2j6r](https://github.com/advisories/GHSA-w5p8-4jcx-2j6r): kernel-size checks could overflow and lead to out-of-bounds reads.
+- **imageproc NaN-coordinate sampling issue**, [GHSA-qg8r-f7x3-25f7](https://github.com/advisories/GHSA-qg8r-f7x3-25f7): bilinear/bicubic samplers mishandled NaN coordinates and read outside expected bounds.
+- **imageproc fragile image-sampling bounds check**, [GHSA-5qv7-j6w5-fr4m](https://github.com/advisories/GHSA-5qv7-j6w5-fr4m): sampling logic relied on insufficient bounds checks.
+- **hickory-proto DNS name-compression CPU exhaustion**, [GHSA-q2qq-hmj6-3wpp](https://github.com/advisories/GHSA-q2qq-hmj6-3wpp): message encoding could degrade to quadratic work.
+- **hickory-proto NSEC3 closest-encloser unbounded loop**, [GHSA-3v94-mw7p-v465](https://github.com/advisories/GHSA-3v94-mw7p-v465): cross-zone responses could trigger unbounded proof validation loops.
+- **Apache Neethi policy-normalization algorithmic complexity**, [GHSA-g36m-9g3m-2vmp](https://github.com/advisories/GHSA-g36m-9g3m-2vmp): policy normalization could be driven into denial of service.
+- **Apache Neethi circular policy references**, [GHSA-2hfh-9h53-qc24](https://github.com/advisories/GHSA-2hfh-9h53-qc24): circular policy definitions were not detected reliably.
 
 ## Why this is durable
 

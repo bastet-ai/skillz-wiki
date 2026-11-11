@@ -4,9 +4,9 @@
 
 ## Advisories covered
 
-- **Hugo Node tool execution can access files outside the project** — [GHSA-x597-9fr4-5857](https://github.com/advisories/GHSA-x597-9fr4-5857): project-driven Node tooling crossed the expected project directory boundary. Fixed in `github.com/gohugoio/hugo` 0.161.0.
-- **Magic Wormhole receive path traversal** — [GHSA-cf92-gfcw-6v53](https://github.com/advisories/GHSA-cf92-gfcw-6v53): `receive --output` targeting an existing directory could be path-traversed in 0.23.0. Fixed in 0.24.0.
-- **OpenClaw diffs viewer loopback misclassification** — [GHSA-3xv9-89fm-7h4r](https://github.com/advisories/GHSA-3xv9-89fm-7h4r): proxied remote requests could be treated as loopback when `allowRemoteViewer` was disabled. Fixed in 2026.3.31.
+- **Hugo Node tool execution can access files outside the project**, [GHSA-x597-9fr4-5857](https://github.com/advisories/GHSA-x597-9fr4-5857): project-driven Node tooling crossed the expected project directory boundary. Fixed in `github.com/gohugoio/hugo` 0.161.0.
+- **Magic Wormhole receive path traversal**, [GHSA-cf92-gfcw-6v53](https://github.com/advisories/GHSA-cf92-gfcw-6v53): `receive --output` targeting an existing directory could be path-traversed in 0.23.0. Fixed in 0.24.0.
+- **OpenClaw diffs viewer loopback misclassification**, [GHSA-3xv9-89fm-7h4r](https://github.com/advisories/GHSA-3xv9-89fm-7h4r): proxied remote requests could be treated as loopback when `allowRemoteViewer` was disabled. Fixed in 2026.3.31.
 
 ## Why this is durable
 

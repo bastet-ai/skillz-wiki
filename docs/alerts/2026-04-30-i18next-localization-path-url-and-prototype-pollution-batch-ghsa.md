@@ -1,4 +1,4 @@
-# i18next localization path, URL, and prototype-pollution batch (GHSA-5fgg-jcpf-8jjw / GHSA-8847-338w-5hcj / GHSA-q89c-q3h5-w34g / GHSA-mgcp-mfp8-3q45 / GHSA-6457-mxpq-4fqq)
+# i18next localization path, URL, and prototype-pollution batch
 
 **Signal:** GitHub Security Advisories updated **2026-04-30**. Multiple i18next ecosystem packages fixed unsafe interpolation of language, namespace, project, and translation values into filesystem paths, backend URLs, object paths, and DOM attributes.
 

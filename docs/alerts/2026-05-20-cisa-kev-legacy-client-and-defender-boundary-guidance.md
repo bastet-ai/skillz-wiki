@@ -4,13 +4,13 @@
 
 ## Advisories covered
 
-- **CVE-2008-4250 — Microsoft Windows Server Service buffer overflow:** crafted RPC requests can trigger remote code execution through path canonicalization. CISA lists a **2026-06-03** due date.
-- **CVE-2009-1537 — Microsoft DirectX DirectShow QuickTime parser NULL-byte overwrite:** crafted QuickTime media can lead to code execution through the `quartz.dll` parser. CISA lists a **2026-06-03** due date.
-- **CVE-2009-3459 — Adobe Acrobat and Reader heap-based buffer overflow:** crafted PDFs can trigger memory corruption and code execution. CISA lists a **2026-06-03** due date.
-- **CVE-2010-0249 — Microsoft Internet Explorer use-after-free:** browser exploitation through deleted-object pointer reuse; impacted products may be end-of-life or end-of-service. CISA lists a **2026-06-03** due date.
-- **CVE-2010-0806 — Microsoft Internet Explorer use-after-free:** browser exploitation through invalid pointer access after object deletion; impacted products may be end-of-life or end-of-service. CISA lists a **2026-06-03** due date.
-- **CVE-2026-41091 — Microsoft Defender link-following vulnerability:** local privilege escalation through Defender path/link handling. CISA lists a **2026-06-03** due date.
-- **CVE-2026-45498 — Microsoft Defender denial of service:** unspecified Defender DoS condition. CISA lists a **2026-06-03** due date.
+- **CVE-2008-4250, Microsoft Windows Server Service buffer overflow:** crafted RPC requests can trigger remote code execution through path canonicalization. CISA lists a **2026-06-03** due date.
+- **CVE-2009-1537, Microsoft DirectX DirectShow QuickTime parser NULL-byte overwrite:** crafted QuickTime media can lead to code execution through the `quartz.dll` parser. CISA lists a **2026-06-03** due date.
+- **CVE-2009-3459, Adobe Acrobat and Reader heap-based buffer overflow:** crafted PDFs can trigger memory corruption and code execution. CISA lists a **2026-06-03** due date.
+- **CVE-2010-0249, Microsoft Internet Explorer use-after-free:** browser exploitation through deleted-object pointer reuse; impacted products may be end-of-life or end-of-service. CISA lists a **2026-06-03** due date.
+- **CVE-2010-0806, Microsoft Internet Explorer use-after-free:** browser exploitation through invalid pointer access after object deletion; impacted products may be end-of-life or end-of-service. CISA lists a **2026-06-03** due date.
+- **CVE-2026-41091, Microsoft Defender link-following vulnerability:** local privilege escalation through Defender path/link handling. CISA lists a **2026-06-03** due date.
+- **CVE-2026-45498, Microsoft Defender denial of service:** unspecified Defender DoS condition. CISA lists a **2026-06-03** due date.
 
 ## Why this is durable
 

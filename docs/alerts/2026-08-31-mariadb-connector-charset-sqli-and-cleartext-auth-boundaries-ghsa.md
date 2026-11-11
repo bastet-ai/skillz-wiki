@@ -4,13 +4,13 @@ title: MariaDB connector multi-byte charset SQL injection and cleartext auth-plu
 
 # MariaDB connector multi-byte charset SQL injection and cleartext auth-plugin boundary checks
 
-An August 28 GitHub-reviewed wave across the MariaDB connector family yields two durable operator patterns: (1) **client-side Buffer parameter escaping under a multi-byte client charset whose trail-byte range includes `0x5C`**, which lets an attacker-controlled lead byte swallow the connector's escape backslash and break out of the string literal, and (2) **cleartext-password authentication plugins (`mysql_clear_password`, `dialog`/PAM) that are not gated on a secure transport**, so a hostile or man-in-the-middle server can receive the account password in plaintext over plain TCP. A third pattern — **mid-session `character_set_client` divergence between driver and server** — is the charset-confusion primitive that re-enables byte-wise quoting defeats.
+An August 28 GitHub-reviewed wave across the MariaDB connector family yields two durable operator patterns: (1) **client-side Buffer parameter escaping under a multi-byte client charset whose trail-byte range includes `0x5C`**, which lets an attacker-controlled lead byte swallow the connector's escape backslash and break out of the string literal, and (2) **cleartext-password authentication plugins (`mysql_clear_password`, `dialog`/PAM) that are not gated on a secure transport**, so a hostile or man-in-the-middle server can receive the account password in plaintext over plain TCP. A third pattern, **mid-session `character_set_client` divergence between driver and server**, is the charset-confusion primitive that re-enables byte-wise quoting defeats.
 
 Sources:
 
-- [GHSA-g5xc-5w98-jfvm: mariadb-connector-nodejs multi-byte-charset Buffer-parameter SQL injection](https://github.com/advisories/GHSA-g5xc-5w98-jfvm) — fix `0148cadd` ([CONJS-350](https://jira.mariadb.org/browse/CONJS-350))
+- [GHSA-g5xc-5w98-jfvm: mariadb-connector-nodejs multi-byte-charset Buffer-parameter SQL injection](https://github.com/advisories/GHSA-g5xc-5w98-jfvm), fix `0148cadd` ([CONJS-350](https://jira.mariadb.org/browse/CONJS-350))
 - [GHSA-xvr9-35cr-46v9: mariadb-java-client mid-session charset divergence](https://github.com/advisories/GHSA-xvr9-35cr-46v9)
-- [GHSA-5rqc-86vf-g8r2: mariadb-connector-r2dbc mid-session charset divergence](https://github.com/advisories/GHSA-5rqc-86vf-g8r2) — fix `38bad9af` ([R2DBC-124](https://jira.mariadb.org/browse/R2DBC-124))
+- [GHSA-5rqc-86vf-g8r2: mariadb-connector-r2dbc mid-session charset divergence](https://github.com/advisories/GHSA-5rqc-86vf-g8r2), fix `38bad9af` ([R2DBC-124](https://jira.mariadb.org/browse/R2DBC-124))
 - [GHSA-cqhc-2h57-wpxf: mariadb-connector-nodejs cleartext password leak to a MITM despite `ssl: true`](https://github.com/advisories/GHSA-cqhc-2h57-wpxf)
 - [GHSA-g9jj-cgmh-9f38: mariadb-java-client cleartext password disclosure on the initial handshake](https://github.com/advisories/GHSA-g9jj-cgmh-9f38)
 - [GHSA-42r5-vhpq-m858: mariadb-connector-nodejs PAM/dialog cleartext transmission](https://github.com/advisories/GHSA-42r5-vhpq-m858)

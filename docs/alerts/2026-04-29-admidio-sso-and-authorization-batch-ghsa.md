@@ -1,4 +1,4 @@
-# Admidio SSO, authorization, path traversal, and XSS batch (GHSA-25cw-98hg-g3cg / GHSA-p9w9-87c8-m235 / GHSA-9xx5-cv6j-x533 / GHSA-rh3w-4ccx-prf9 / GHSA-m3vp-3jjm-gpmx / GHSA-m9h6-8pqm-xrhf and related)
+# Admidio SSO, authorization, path traversal, and XSS batch
 
 **Signal:** GitHub Security Advisories published **2026-04-29**. Admidio fixed a large set of identity, authorization, file-read, and UI injection issues in `admidio/admidio`.
 

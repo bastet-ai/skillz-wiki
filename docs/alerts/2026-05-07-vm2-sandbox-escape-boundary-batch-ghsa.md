@@ -4,17 +4,17 @@
 
 ## Advisories covered
 
-- **Promise constructor unhandled-rejection escape / process-crash DoS** — [GHSA-hw58-p9xv-2mjh](https://github.com/advisories/GHSA-hw58-p9xv-2mjh)
-- **NodeVM builtin allowlist bypass through `module` / `Module._load`** — [GHSA-947f-4v7f-x2v8](https://github.com/advisories/GHSA-947f-4v7f-x2v8)
-- **Mutable proxies for host intrinsic prototypes** — [GHSA-vwrp-x96c-mhwq](https://github.com/advisories/GHSA-vwrp-x96c-mhwq)
-- **Host object access enabling sandbox escape** — [GHSA-47x8-96vw-5wg6](https://github.com/advisories/GHSA-47x8-96vw-5wg6)
-- **Additional sandbox escape path** — [GHSA-qcp4-v2jj-fjx8](https://github.com/advisories/GHSA-qcp4-v2jj-fjx8)
-- **NodeVM `nesting: true` bypass of `require: false`** — [GHSA-8hg8-63c5-gwmx](https://github.com/advisories/GHSA-8hg8-63c5-gwmx): sandbox code can re-import `vm2`, create a nested `NodeVM`, and regain host command execution when nesting is enabled.
-- **NodeVM `require.root` symlink traversal** — [GHSA-cp6g-6699-wx9c](https://github.com/advisories/GHSA-cp6g-6699-wx9c): path checks use resolved strings while module loading follows symlinks, letting linked workspaces escape allowed roots.
-- **Transformer fast-path internal-state exposure** — [GHSA-wp5r-2gw5-m7q7](https://github.com/advisories/GHSA-wp5r-2gw5-m7q7): keyword-based AST skipping can miss internal security-state identifiers.
-- **Host path disclosure through stack traces** — [GHSA-v27g-jcqj-v8rw](https://github.com/advisories/GHSA-v27g-jcqj-v8rw): CallSite wrappers can expose absolute host paths, framework layout, and package versions.
-- **Host Promise object-identity leakage** — [GHSA-mpf8-4hx2-7cjg](https://github.com/advisories/GHSA-mpf8-4hx2-7cjg): host objects resolved through Promises can cross the bridge without full proxy conversion.
-- **`Buffer.alloc()` timeout bypass / host OOM** — [GHSA-6785-pvv7-mvg7](https://github.com/advisories/GHSA-6785-pvv7-mvg7): synchronous native allocation is not interrupted by vm2's JavaScript timeout guard.
+- **Promise constructor unhandled-rejection escape / process-crash DoS**, [GHSA-hw58-p9xv-2mjh](https://github.com/advisories/GHSA-hw58-p9xv-2mjh)
+- **NodeVM builtin allowlist bypass through `module` / `Module._load`**, [GHSA-947f-4v7f-x2v8](https://github.com/advisories/GHSA-947f-4v7f-x2v8)
+- **Mutable proxies for host intrinsic prototypes**, [GHSA-vwrp-x96c-mhwq](https://github.com/advisories/GHSA-vwrp-x96c-mhwq)
+- **Host object access enabling sandbox escape**, [GHSA-47x8-96vw-5wg6](https://github.com/advisories/GHSA-47x8-96vw-5wg6)
+- **Additional sandbox escape path**, [GHSA-qcp4-v2jj-fjx8](https://github.com/advisories/GHSA-qcp4-v2jj-fjx8)
+- **NodeVM `nesting: true` bypass of `require: false`**, [GHSA-8hg8-63c5-gwmx](https://github.com/advisories/GHSA-8hg8-63c5-gwmx): sandbox code can re-import `vm2`, create a nested `NodeVM`, and regain host command execution when nesting is enabled.
+- **NodeVM `require.root` symlink traversal**, [GHSA-cp6g-6699-wx9c](https://github.com/advisories/GHSA-cp6g-6699-wx9c): path checks use resolved strings while module loading follows symlinks, letting linked workspaces escape allowed roots.
+- **Transformer fast-path internal-state exposure**, [GHSA-wp5r-2gw5-m7q7](https://github.com/advisories/GHSA-wp5r-2gw5-m7q7): keyword-based AST skipping can miss internal security-state identifiers.
+- **Host path disclosure through stack traces**, [GHSA-v27g-jcqj-v8rw](https://github.com/advisories/GHSA-v27g-jcqj-v8rw): CallSite wrappers can expose absolute host paths, framework layout, and package versions.
+- **Host Promise object-identity leakage**, [GHSA-mpf8-4hx2-7cjg](https://github.com/advisories/GHSA-mpf8-4hx2-7cjg): host objects resolved through Promises can cross the bridge without full proxy conversion.
+- **`Buffer.alloc()` timeout bypass / host OOM**, [GHSA-6785-pvv7-mvg7](https://github.com/advisories/GHSA-6785-pvv7-mvg7): synchronous native allocation is not interrupted by vm2's JavaScript timeout guard.
 
 ## Why this is durable
 

@@ -1,4 +1,4 @@
-# Kirby, Arcane, Flarum, and PrestaShop admin/data-boundary batch (GHSA-85x2-r8xv-ww8c / GHSA-cxx3-hr75-4q96 / GHSA-xjvc-pw2r-6878 / GHSA-mqq7-wxx5-mp8h)
+# Kirby, Arcane, Flarum, and PrestaShop admin/data-boundary batch
 
 **Signal:** GitHub Security Advisories updated **2026-04-30**. Several CMS/admin surfaces exposed data or execution-adjacent behavior through missing authorization, unsafe theme compilation, or unvalidated method selection.
 

@@ -1,6 +1,6 @@
-# 2026-02-05 — FUXA unauthenticated RCE via admin JWT minting (GHSA-vwcg-c828-9822)
+# 2026-02-05, FUXA unauthenticated RCE via admin JWT minting (GHSA-vwcg-c828-9822)
 
-**Product:** FUXA (SCADA/HMI) — advisory references npm package `fuxa-server`
+**Product:** FUXA (SCADA/HMI), advisory references npm package `fuxa-server`
 
 **Impact (per advisory):** If **authentication is enabled**, an unauthenticated attacker can mint **administrator JWTs** via a “heartbeat refresh” endpoint, gain admin access, and then use administrative/script APIs to achieve **remote code execution**.
 

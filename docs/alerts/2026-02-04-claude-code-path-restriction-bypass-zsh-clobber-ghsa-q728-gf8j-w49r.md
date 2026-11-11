@@ -1,4 +1,4 @@
-# 2026-02-04 — Claude Code path restriction bypass via ZSH clobber → arbitrary file write (GHSA-q728-gf8j-w49r)
+# 2026-02-04, Claude Code path restriction bypass via ZSH clobber → arbitrary file write
 
 **Product:** `@anthropic-ai/claude-code` (npm)
 

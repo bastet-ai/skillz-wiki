@@ -27,9 +27,9 @@ The operator value is the **frame-terminator review pattern**: any serializer th
    - Auth-event fields (username, device name, OAuth `state`)
    - Structured logging frameworks with RFC 5424 output drivers
 2. Confirm the transport:
-   - **TCP with `\n` framing** (RFC 6587 non-transparent) — newline injection is directly exploitable.
-   - **TCP octet-counting** — a newline does not break framing, but C0 controls may still corrupt structured-data parsing.
-   - **UDP** — no framing; newline injection is not exploitable, but SD-NAME corruption may still matter for collector-side parsing.
+   - **TCP with `\n` framing** (RFC 6587 non-transparent), newline injection is directly exploitable.
+   - **TCP octet-counting**, a newline does not break framing, but C0 controls may still corrupt structured-data parsing.
+   - **UDP**, no framing; newline injection is not exploitable, but SD-NAME corruption may still matter for collector-side parsing.
 3. Check the serializer. In Node, look for `@logtape/syslog` with `includeStructuredData: true` (non-default). In other languages, find the RFC 5424 writer and verify which characters it escapes in values and keys.
 4. Capture the collector-side expectation: does the downstream parser (rsyslog, Fluent Bit, Vector, Splunk HEC, custom) validate SD-NAME grammar, or does it accept whatever arrives?
 
@@ -99,12 +99,12 @@ Do not claim log injection into a production SIEM. The bounded positive is a lab
 
 ## Cross-references
 
-- HTTP access-log forging (Basic-auth `:remote-user` control characters): see the 2026-07-10 batch page, `morgan` section — same frame-terminator class, different wire format.
+- HTTP access-log forging (Basic-auth `:remote-user` control characters): see the 2026-07-10 batch page, `morgan` section, same frame-terminator class, different wire format.
 - `secure_headers` CSP directive injection: same "untrusted value serialized into a structured policy" pattern.
 
 ## Sources
 
-- GitHub Security Advisory: [GHSA-8h6h-x5pq-56fq / CVE-2026-54511](https://github.com/advisories/GHSA-8h6h-x5pq-56fq) — `@logtape/syslog` unescaped C0 controls and unvalidated SD-NAME keys
+- GitHub Security Advisory: [GHSA-8h6h-x5pq-56fq / CVE-2026-54511](https://github.com/advisories/GHSA-8h6h-x5pq-56fq), `@logtape/syslog` unescaped C0 controls and unvalidated SD-NAME keys
 - Fix: https://github.com/dahlia/logtape/commit/7a6e5b9ddf7915edfff78fa129bc17c979b2a623
-- RFC 5424: The Syslog Protocol — https://datatracker.ietf.org/doc/html/rfc5424
-- RFC 6587: Non-Transparent Forwarding of Syslog Messages in TCP — https://datatracker.ietf.org/doc/html/rfc6587
+- RFC 5424: The Syslog Protocol, https://datatracker.ietf.org/doc/html/rfc5424
+- RFC 6587: Non-Transparent Forwarding of Syslog Messages in TCP, https://datatracker.ietf.org/doc/html/rfc6587

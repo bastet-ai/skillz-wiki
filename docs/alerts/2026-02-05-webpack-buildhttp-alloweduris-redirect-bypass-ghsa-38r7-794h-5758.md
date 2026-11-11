@@ -1,4 +1,4 @@
-# 2026-02-05 — webpack buildHttp `allowedUris` bypass via HTTP redirects → build-time SSRF + cache persistence (GHSA-38r7-794h-5758)
+# 2026-02-05, webpack buildHttp `allowedUris` bypass via HTTP redirects → build-time SSRF + cache…
 
 **Summary:** When `experiments.buildHttp` is enabled, webpack’s HTTP resolver can enforce `allowedUris` on the **initial** URL but fail to re-check the allowlist after following **HTTP 30x redirects**. If an allowlisted endpoint can redirect (intentionally, via open redirect, or via attacker control), the build can be tricked into fetching content from **non-allowlisted** destinations.
 

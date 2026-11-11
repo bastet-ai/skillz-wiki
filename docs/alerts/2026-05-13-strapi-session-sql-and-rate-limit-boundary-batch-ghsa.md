@@ -6,9 +6,9 @@ Three Strapi advisories landed together and share a useful durable lesson: CMS a
 
 ## Advisories covered
 
-- **Password reset did not revoke existing refresh sessions** — [GHSA-hvp3-26wx-g2w4](https://github.com/advisories/GHSA-hvp3-26wx-g2w4), CVE-2026-22706: `@strapi/admin` and `@strapi/plugin-users-permissions` `<= 5.33.2` only revoked refresh tokens when a caller supplied `deviceId`. Fixed in **5.33.3**.
-- **Content-Type Builder SQL injection** — [GHSA-3xcq-8mjw-h6mx](https://github.com/advisories/GHSA-3xcq-8mjw-h6mx), CVE-2026-22599: authenticated Content-Type Builder writes could pass `column.defaultTo` raw tuples into Knex schema migration SQL. Affects `@strapi/content-type-builder` `>= 5.0.0, < 5.33.2` and `@strapi/plugin-content-type-builder` `>= 4.0.0, < 4.26.1`. Fixed in **5.33.2** / **4.26.1**.
-- **Users-permissions rate-limit bypass** — [GHSA-7mqx-wwh4-f9fw](https://github.com/advisories/GHSA-7mqx-wwh4-f9fw), CVE-2025-64526: rate-limit keys used attacker-controlled `email` fields even on routes whose contract did not include `email`, allowing key rotation and brute-force amplification. Affects `@strapi/plugin-users-permissions` `<= 5.44.0`; fixed in **5.45.0**.
+- **Password reset did not revoke existing refresh sessions**, [GHSA-hvp3-26wx-g2w4](https://github.com/advisories/GHSA-hvp3-26wx-g2w4), CVE-2026-22706: `@strapi/admin` and `@strapi/plugin-users-permissions` `<= 5.33.2` only revoked refresh tokens when a caller supplied `deviceId`. Fixed in **5.33.3**.
+- **Content-Type Builder SQL injection**, [GHSA-3xcq-8mjw-h6mx](https://github.com/advisories/GHSA-3xcq-8mjw-h6mx), CVE-2026-22599: authenticated Content-Type Builder writes could pass `column.defaultTo` raw tuples into Knex schema migration SQL. Affects `@strapi/content-type-builder` `>= 5.0.0, < 5.33.2` and `@strapi/plugin-content-type-builder` `>= 4.0.0, < 4.26.1`. Fixed in **5.33.2** / **4.26.1**.
+- **Users-permissions rate-limit bypass**, [GHSA-7mqx-wwh4-f9fw](https://github.com/advisories/GHSA-7mqx-wwh4-f9fw), CVE-2025-64526: rate-limit keys used attacker-controlled `email` fields even on routes whose contract did not include `email`, allowing key rotation and brute-force amplification. Affects `@strapi/plugin-users-permissions` `<= 5.44.0`; fixed in **5.45.0**.
 
 ## Operator triage
 

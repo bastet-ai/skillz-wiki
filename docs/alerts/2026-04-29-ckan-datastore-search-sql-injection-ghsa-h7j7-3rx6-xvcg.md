@@ -1,4 +1,4 @@
-# CKAN DataStore SQL search unauthenticated SQL injection and authorization bypass (GHSA-h7j7-3rx6-xvcg / CVE-2026-42031)
+# CKAN DataStore SQL search unauthenticated SQL injection and authorization bypass
 
 **Signal:** GitHub Security Advisories published **2026-04-29** and **2026-04-30**. CKAN fixed unauthenticated `datastore_search_sql` injection and authorization-bypass paths that can expose private resources and PostgreSQL system information when SQL search is enabled.
 

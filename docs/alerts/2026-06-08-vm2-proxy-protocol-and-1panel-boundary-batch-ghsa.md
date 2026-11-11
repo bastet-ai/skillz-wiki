@@ -6,9 +6,9 @@ This batch is durable because it captures three reusable operator patterns: Java
 
 ## What changed
 
-- **vm2 WASM sandbox escape** — `vm2 3.10.4` on Node.js versions with WebAssembly exception handling and `JSTag` support was reported to allow attacker-controlled code passed to `VM.run()` to reach the host `process` object and execute host commands. Treat this as a runtime-feature-gated sandbox escape, not a generic version-only finding.
-- **Go-Guerrilla SMTP PROXY command override** — when `ProxyOn` is enabled, Go-Guerrilla accepted multiple `PROXY` commands. Later commands could override the client IP address originally supplied by the trusted edge proxy, turning allowlists, rate limits, abuse attribution, and policy checks that trust the proxy-derived source IP into validation targets.
-- **1Panel image/mirror configuration file write** — 1Panel exposed command-injection/arbitrary-file-write behavior through image/mirror configuration handling, including shell redirection-style payloads. In admin or delegated-control contexts, file writes may become RCE if they land in startup scripts, cron-like paths, web roots, or application configuration consumed by privileged processes.
+- **vm2 WASM sandbox escape**, `vm2 3.10.4` on Node.js versions with WebAssembly exception handling and `JSTag` support was reported to allow attacker-controlled code passed to `VM.run()` to reach the host `process` object and execute host commands. Treat this as a runtime-feature-gated sandbox escape, not a generic version-only finding.
+- **Go-Guerrilla SMTP PROXY command override**, when `ProxyOn` is enabled, Go-Guerrilla accepted multiple `PROXY` commands. Later commands could override the client IP address originally supplied by the trusted edge proxy, turning allowlists, rate limits, abuse attribution, and policy checks that trust the proxy-derived source IP into validation targets.
+- **1Panel image/mirror configuration file write**, 1Panel exposed command-injection/arbitrary-file-write behavior through image/mirror configuration handling, including shell redirection-style payloads. In admin or delegated-control contexts, file writes may become RCE if they land in startup scripts, cron-like paths, web roots, or application configuration consumed by privileged processes.
 
 ## Operator triage
 

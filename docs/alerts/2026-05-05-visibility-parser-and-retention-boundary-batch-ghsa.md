@@ -6,13 +6,13 @@ This batch is durable because the fixes are all reusable boundary lessons: viewe
 
 ## Advisories covered
 
-- **Apache Airflow < 3.2.1** — fixed in **3.2.1**:
+- **Apache Airflow < 3.2.1**, fixed in **3.2.1**:
   - [GHSA-w7rc-q6cm-f5gm](https://github.com/advisories/GHSA-w7rc-q6cm-f5gm): asset dependency graph exposed DAG and asset names outside the viewer's DAG read permissions.
   - [GHSA-p3v3-229h-mc63](https://github.com/advisories/GHSA-p3v3-229h-mc63): authenticated `/ui/dags` endpoint exposed embedded HITL prompts and TaskInstance details for DAGs outside the viewer's per-DAG authorization scope.
-- **JupyterHub >= 4.1.0, < 5.4.5** — [GHSA-m68r-v472-jgq9](https://github.com/advisories/GHSA-m68r-v472-jgq9): XSRF protection treated `Sec-Fetch-Mode: no-cors` as same-origin for HTTP form endpoints such as `/hub/spawn` and `/hub/accept-share`. Fixed in **5.4.5**.
-- **Diesel < 2.3.8** — [GHSA-h5x4-m2qf-r4f2](https://github.com/advisories/GHSA-h5x4-m2qf-r4f2): SQLite string deserialization used unchecked UTF-8 assumptions for values that can contain arbitrary bytes, violating Rust string safety contracts. Fixed in **2.3.8**.
-- **webonyx/graphql-php <= 15.32.2** — [GHSA-r7cg-qjjm-xhqq](https://github.com/advisories/GHSA-r7cg-qjjm-xhqq): recursive descent parser allowed crafted nested GraphQL documents to trigger stack overflow / worker crash. Fixed in **15.32.3**.
-- **ots <= 1.21.4** — [GHSA-h5fq-653g-gxrm](https://github.com/advisories/GHSA-h5fq-653g-gxrm): negative `expire` values on `/api/create` could bypass memory-backend secret expiry expectations. Fixed in **1.21.5**.
+- **JupyterHub >= 4.1.0, < 5.4.5**, [GHSA-m68r-v472-jgq9](https://github.com/advisories/GHSA-m68r-v472-jgq9): XSRF protection treated `Sec-Fetch-Mode: no-cors` as same-origin for HTTP form endpoints such as `/hub/spawn` and `/hub/accept-share`. Fixed in **5.4.5**.
+- **Diesel < 2.3.8**, [GHSA-h5x4-m2qf-r4f2](https://github.com/advisories/GHSA-h5x4-m2qf-r4f2): SQLite string deserialization used unchecked UTF-8 assumptions for values that can contain arbitrary bytes, violating Rust string safety contracts. Fixed in **2.3.8**.
+- **webonyx/graphql-php <= 15.32.2**, [GHSA-r7cg-qjjm-xhqq](https://github.com/advisories/GHSA-r7cg-qjjm-xhqq): recursive descent parser allowed crafted nested GraphQL documents to trigger stack overflow / worker crash. Fixed in **15.32.3**.
+- **ots <= 1.21.4**, [GHSA-h5fq-653g-gxrm](https://github.com/advisories/GHSA-h5fq-653g-gxrm): negative `expire` values on `/api/create` could bypass memory-backend secret expiry expectations. Fixed in **1.21.5**.
 
 ## Operator triage
 

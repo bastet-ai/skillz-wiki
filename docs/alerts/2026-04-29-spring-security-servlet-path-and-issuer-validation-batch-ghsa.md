@@ -1,4 +1,4 @@
-# Spring Security servlet-path, issuer, and X.509 validation batch (GHSA-4wrg-8wpc-h923 / GHSA-4vrc-j85c-598c / GHSA-cvc6-q2cp-2xhw / GHSA-2jrg-rf5x-568g)
+# Spring Security servlet-path, issuer, and X.509 validation batch
 
 **Signal:** GitHub Security Advisories updated **2026-04-29** for several Spring Security authorization and identity-validation edge cases.
 

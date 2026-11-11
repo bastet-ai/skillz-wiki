@@ -1,4 +1,4 @@
-# MetaGPT SPO extension and class-view rebuild: workspace path to command execution and file read (GHSA)
+# MetaGPT SPO extension and class-view rebuild
 
 Source: GitHub Security Advisories REST API, published 2026-08-31.
 
@@ -6,8 +6,8 @@ These two records are durable because they show the same operator pattern two wa
 
 ## What changed
 
-- **MetaGPT `RepoParser.rebuild_class_views()` OS command injection** — [GHSA-w32p-36mf-mmvj](https://github.com/advisories/GHSA-w32p-36mf-mmvj) / CVE-2026-79408 (CWE-78): `metagpt/repo_parser.py` `rebuild_class_views()` interpolates the caller-supplied `path` argument unquoted into `f"pyreverse {str(path)} -o dot"` and runs it with `subprocess.run(command, shell=True)`. The two guards (`path.exists()` and `(path / "__init__.py").exists()`) only require that a directory whose *name* contains shell metacharacters exists with an `__init__.py` — trivially satisfied by a checked-out repository whose directory name is attacker-chosen. Reachable through `metagpt/actions/rebuild_class_view.py` where `path=Path(self.i_context)` (the action's workspace context), and indirectly through `GitRepository.clone_from`, which derives the clone directory name from the repository URL.
-- **MetaGPT SPO extension arbitrary file read** — [GHSA-2p3m-whr7-9m4w](https://github.com/advisories/GHSA-2p3m-whr7-9m4w) / CVE-2026-79407 (CWE-22): `metagpt/ext/spo/utils/load.py` `load_meta_data()` joins the attacker-controlled `FILE_NAME` (set via `set_file_name()`) to `metagpt/ext/spo/settings/` with no containment check, so `../`-based values escape the settings directory and read arbitrary files reachable by the process user. The related sink `metagpt/ext/spo/app.py` `save_yaml_template()` performs an unvalidated arbitrary file *write* through `template_path` when the SPO Streamlit UI is reachable by an untrusted user.
+- **MetaGPT `RepoParser.rebuild_class_views()` OS command injection**, [GHSA-w32p-36mf-mmvj](https://github.com/advisories/GHSA-w32p-36mf-mmvj) / CVE-2026-79408 (CWE-78): `metagpt/repo_parser.py` `rebuild_class_views()` interpolates the caller-supplied `path` argument unquoted into `f"pyreverse {str(path)} -o dot"` and runs it with `subprocess.run(command, shell=True)`. The two guards (`path.exists()` and `(path / "__init__.py").exists()`) only require that a directory whose *name* contains shell metacharacters exists with an `__init__.py`, trivially satisfied by a checked-out repository whose directory name is attacker-chosen. Reachable through `metagpt/actions/rebuild_class_view.py` where `path=Path(self.i_context)` (the action's workspace context), and indirectly through `GitRepository.clone_from`, which derives the clone directory name from the repository URL.
+- **MetaGPT SPO extension arbitrary file read**, [GHSA-2p3m-whr7-9m4w](https://github.com/advisories/GHSA-2p3m-whr7-9m4w) / CVE-2026-79407 (CWE-22): `metagpt/ext/spo/utils/load.py` `load_meta_data()` joins the attacker-controlled `FILE_NAME` (set via `set_file_name()`) to `metagpt/ext/spo/settings/` with no containment check, so `../`-based values escape the settings directory and read arbitrary files reachable by the process user. The related sink `metagpt/ext/spo/app.py` `save_yaml_template()` performs an unvalidated arbitrary file *write* through `template_path` when the SPO Streamlit UI is reachable by an untrusted user.
 
 ## Operator triage
 
@@ -24,7 +24,7 @@ Use this for MetaGPT-style class-view rebuilds and any agent helper that shells 
 
 1. In a disposable clone of the affected release (or a minimal lab app that reproduces the sink), create a directory whose name embeds an inert marker, for example `metagpt_poc_$(touch /tmp/skillz-metagpt-marker)` containing an `__init__.py` so the preconditions pass.
 2. Point the sink at that directory with the framework's normal entry path (in MetaGPT, `RepoParser(base_directory=p).rebuild_class_views(path=p)`).
-3. Vulnerable result: the marker file exists after the call, or logs show the shell interpreted metacharacters. Note the marker fires even when the named tool (e.g. `pyreverse`) is not installed — the substitution happens before the tool runs.
+3. Vulnerable result: the marker file exists after the call, or logs show the shell interpreted metacharacters. Note the marker fires even when the named tool (e.g. `pyreverse`) is not installed, the substitution happens before the tool runs.
 4. Capture the exact sink, the `shell=True` call site, who can set the path, the required preconditions, and execution identity. Do not exfiltrate environment data or run destructive commands; a marker file is the complete proof.
 5. Negative controls: the same directory with a plain name (no metacharacters) must not create a marker, proving the shell interpretation is the boundary.
 

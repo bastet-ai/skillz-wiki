@@ -134,7 +134,7 @@ Do not reverse engineer or replay the application-token acquisition path against
 A strong report separates the chain into independent claims:
 
 1. **Reachability:** an untrusted source can reach the management service.
-2. Source authorization — The Trusted Clients configuration does not restrict that source.
+2. Source authorization, The Trusted Clients configuration does not restrict that source.
 3. **Affected build:** the vendor or Check Point support confirms the installed build is affected.
 4. **Token path:** the vendor confirms unauthenticated application-token acquisition for that build.
 5. **Impact:** the token maps to full SmartConsole administrative privileges.
@@ -167,7 +167,7 @@ No token was obtained, no policy was installed, and no administrator or gateway 
 
 ## Sources
 
-- Check Point, [sk185169 — CVE-2026-16232: Authentication bypass with SmartConsole login process using application token](https://support.checkpoint.com/results/sk/sk185169)
+- Check Point, [sk185169, CVE-2026-16232: Authentication bypass with SmartConsole login process using application token](https://support.checkpoint.com/results/sk/sk185169)
 - CVE Program, [CVE-2026-16232 record](https://www.cve.org/CVERecord?id=CVE-2026-16232)
 - CISA, [Known Exploited Vulnerabilities catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-16232)
 - Check Point, [Defining Trusted Clients](https://sc1.checkpoint.com/documents/R81.20/WebAdminGuides/EN/CP_R81.20_SecurityManagement_AdminGuide/Content/Topics-SECMG/Defining-Trusted-Clients.htm)

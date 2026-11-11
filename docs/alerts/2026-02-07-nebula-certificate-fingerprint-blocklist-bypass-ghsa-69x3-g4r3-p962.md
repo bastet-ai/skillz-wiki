@@ -1,4 +1,4 @@
-# 2026-02-07 — Nebula fingerprint blocklist bypass via ECDSA signature malleability (GHSA-69x3-g4r3-p962)
+# 2026-02-07, Nebula fingerprint blocklist bypass via ECDSA signature malleability
 
 GitHub advisory: <https://github.com/advisories/GHSA-69x3-g4r3-p962>
 

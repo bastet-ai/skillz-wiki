@@ -1,4 +1,4 @@
-# 2026-02-05 — webpack buildHttp `allowedUris` allowlist bypass via URL userinfo (`@`) → build-time SSRF (GHSA-8fgc-7cc6-rx7x)
+# 2026-02-05, webpack buildHttp `allowedUris` allowlist bypass via URL userinfo
 
 **Summary:** When `experiments.buildHttp` is enabled, webpack’s `allowedUris` checks can be bypassed using crafted URLs containing **userinfo** (the `username:password@host` portion). If the allowlist is enforced with a **raw string prefix check** instead of parsing/canonicalizing the URL, an attacker can make a URL *look* allowlisted while the actual request is sent to a different host.
 

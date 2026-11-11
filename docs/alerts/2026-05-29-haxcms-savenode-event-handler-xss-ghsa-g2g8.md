@@ -6,7 +6,7 @@ This advisory is durable because it gives a reusable rich-text/CMS sanitizer byp
 
 ## What changed
 
-- **HaxCMS `saveNode` stored XSS bypass** — vulnerable npm package `@haxtheweb/haxcms-nodejs <=26.0.0` accepts edited page body content through `POST /system/api/saveNode?site_token=...`. An authenticated page editor can place an event handler attribute directly after another attribute, such as `href="#"onclick="..."`, and bypass sanitizer logic that expects whitespace before `on*` attributes. Browsers still parse the joined attribute as executable JavaScript, and the payload is stored into generated page files such as `index.html`. Version `26.0.1` patches the issue.
+- **HaxCMS `saveNode` stored XSS bypass**, vulnerable npm package `@haxtheweb/haxcms-nodejs <=26.0.0` accepts edited page body content through `POST /system/api/saveNode?site_token=...`. An authenticated page editor can place an event handler attribute directly after another attribute, such as `href="#"onclick="..."`, and bypass sanitizer logic that expects whitespace before `on*` attributes. Browsers still parse the joined attribute as executable JavaScript, and the payload is stored into generated page files such as `index.html`. Version `26.0.1` patches the issue.
 
 ## Operator triage
 

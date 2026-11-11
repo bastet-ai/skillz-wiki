@@ -42,4 +42,4 @@ For UUIDs, the direct bug is moderate, but the pattern is reusable: identifier g
 
 ## Operator lesson
 
-Fast-path buffer APIs should be audited like parsers: the caller controls memory shape, the callee controls trust in the resulting bytes, and partial success is usually a bug. Complete write or clean failure—nothing in between.
+Fast-path buffer APIs should be audited like parsers: the caller controls memory shape, the callee controls trust in the resulting bytes, and partial success is usually a bug. Complete write or clean failure,nothing in between.

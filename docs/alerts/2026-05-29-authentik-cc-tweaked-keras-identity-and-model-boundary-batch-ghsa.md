@@ -6,10 +6,10 @@ This batch is durable because it captures reusable offensive validation patterns
 
 ## What changed
 
-- **authentik SAML Source XML signature wrapping** — authentik SAML Source ACS validation could accept a signature over one assertion or response while later consuming identity data from a different forged assertion. An attacker with any valid upstream IdP account and a captured signed SAML response could authenticate as a victim federated user or as a matched local user when email/username matching is enabled.
-- **CC-Tweaked NAT64 SSRF bypass** — CC-Tweaked's `http.request` and `http.websocket` private-address block used Java `InetAddress` classification methods that did not treat `64:ff9b::/96` NAT64 addresses as private. On NAT64-routed IPv6-capable hosts, Lua code could reach internal IPv4 targets by encoding them inside NAT64 IPv6 literals.
-- **Keras safe-mode model-loading bypass** — Keras `<3.11.0` allowed crafted `.keras` archives to reach unsafe deserialization despite `safe_mode=True`, including config-ordering that re-enabled unsafe deserialization before Lambda loading.
-- **Keras internal-function reuse bypass** — Keras `>=3.0.0,<3.11.0` could be abused through trusted internal module functionality, such as `keras.utils.get_file`, to perform arbitrary file overwrite and in many workflows pivot to code execution when a target loads an untrusted model.
+- **authentik SAML Source XML signature wrapping**, authentik SAML Source ACS validation could accept a signature over one assertion or response while later consuming identity data from a different forged assertion. An attacker with any valid upstream IdP account and a captured signed SAML response could authenticate as a victim federated user or as a matched local user when email/username matching is enabled.
+- **CC-Tweaked NAT64 SSRF bypass**, CC-Tweaked's `http.request` and `http.websocket` private-address block used Java `InetAddress` classification methods that did not treat `64:ff9b::/96` NAT64 addresses as private. On NAT64-routed IPv6-capable hosts, Lua code could reach internal IPv4 targets by encoding them inside NAT64 IPv6 literals.
+- **Keras safe-mode model-loading bypass**, Keras `<3.11.0` allowed crafted `.keras` archives to reach unsafe deserialization despite `safe_mode=True`, including config-ordering that re-enabled unsafe deserialization before Lambda loading.
+- **Keras internal-function reuse bypass**, Keras `>=3.0.0,<3.11.0` could be abused through trusted internal module functionality, such as `keras.utils.get_file`, to perform arbitrary file overwrite and in many workflows pivot to code execution when a target loads an untrusted model.
 
 ## Operator triage
 

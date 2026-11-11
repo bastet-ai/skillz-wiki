@@ -4,7 +4,7 @@
 
 ## Advisory covered
 
-- **FacturaScripts `nick` parameter unauthorized modification** — [GHSA-pp79-hqv6-vmc3](https://github.com/advisories/GHSA-pp79-hqv6-vmc3) / [CVE-2026-32699](https://www.cve.org/CVERecord?id=CVE-2026-32699): FacturaScripts `facturascripts/facturascripts` versions `<= 2024.92.x-dev` process the `nick` form-data parameter in the EditUser controller even though the UI treats it as non-editable. No patched version is listed in the advisory at publication time.
+- **FacturaScripts `nick` parameter unauthorized modification**, [GHSA-pp79-hqv6-vmc3](https://github.com/advisories/GHSA-pp79-hqv6-vmc3) / [CVE-2026-32699](https://www.cve.org/CVERecord?id=CVE-2026-32699): FacturaScripts `facturascripts/facturascripts` versions `<= 2024.92.x-dev` process the `nick` form-data parameter in the EditUser controller even though the UI treats it as non-editable. No patched version is listed in the advisory at publication time.
 
 ## Why this is durable
 

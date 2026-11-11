@@ -4,9 +4,9 @@
 
 ## Advisories covered
 
-- **Nokogiri CSS selector tokenizer ReDoS** — [GHSA-c4rq-3m3g-8wgx](https://github.com/advisories/GHSA-c4rq-3m3g-8wgx): crafted CSS selectors could trigger excessive regular-expression backtracking.
-- **Nokogiri XSLT transform memory leak** — [GHSA-v2fc-qm4h-8hqv](https://github.com/advisories/GHSA-v2fc-qm4h-8hqv): repeated XSLT transforms could leak memory and degrade availability.
-- **Jackson Databind unsafe deserialization/gadget typing batch** — [GHSA-9m6f-7xcq-8vf8](https://github.com/advisories/GHSA-9m6f-7xcq-8vf8), [GHSA-c265-37vj-cwcc](https://github.com/advisories/GHSA-c265-37vj-cwcc), [GHSA-j823-4qch-3rgm](https://github.com/advisories/GHSA-j823-4qch-3rgm), [GHSA-27xj-rqx5-2255](https://github.com/advisories/GHSA-27xj-rqx5-2255), and [GHSA-5p34-5m6p-p58g](https://github.com/advisories/GHSA-5p34-5m6p-p58g): older gadget/typing advisories refreshed in GitHub metadata.
+- **Nokogiri CSS selector tokenizer ReDoS**, [GHSA-c4rq-3m3g-8wgx](https://github.com/advisories/GHSA-c4rq-3m3g-8wgx): crafted CSS selectors could trigger excessive regular-expression backtracking.
+- **Nokogiri XSLT transform memory leak**, [GHSA-v2fc-qm4h-8hqv](https://github.com/advisories/GHSA-v2fc-qm4h-8hqv): repeated XSLT transforms could leak memory and degrade availability.
+- **Jackson Databind unsafe deserialization/gadget typing batch**, [GHSA-9m6f-7xcq-8vf8](https://github.com/advisories/GHSA-9m6f-7xcq-8vf8), [GHSA-c265-37vj-cwcc](https://github.com/advisories/GHSA-c265-37vj-cwcc), [GHSA-j823-4qch-3rgm](https://github.com/advisories/GHSA-j823-4qch-3rgm), [GHSA-27xj-rqx5-2255](https://github.com/advisories/GHSA-27xj-rqx5-2255), and [GHSA-5p34-5m6p-p58g](https://github.com/advisories/GHSA-5p34-5m6p-p58g): older gadget/typing advisories refreshed in GitHub metadata.
 
 ## Why this is durable
 

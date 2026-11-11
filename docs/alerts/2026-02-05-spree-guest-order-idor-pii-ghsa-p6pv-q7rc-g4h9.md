@@ -1,4 +1,4 @@
-# 2026-02-05 — Spree guest orders viewable by Order ID (IDOR / CWE-639) (GHSA-p6pv-q7rc-g4h9)
+# 2026-02-05, Spree guest orders viewable by Order ID (IDOR / CWE-639) (GHSA-p6pv-q7rc-g4h9)
 
 GitHub published an advisory describing an authorization bug where **completed guest orders** can be viewed by **order number alone**, without requiring an order token.
 

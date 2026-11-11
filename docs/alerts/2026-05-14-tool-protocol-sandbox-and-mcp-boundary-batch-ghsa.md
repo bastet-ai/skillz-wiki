@@ -4,12 +4,12 @@
 
 ## Advisory cluster
 
-- **vm2 async-generator sandbox breakout** — [GHSA-248r-7h7q-cr24](https://github.com/advisories/GHSA-248r-7h7q-cr24): `vm2` allowed sandbox breakout through async-generator behavior. Treat any remaining `vm2` exposure as high-risk code execution, not just template evaluation.
-- **`utcp-cli` argument-substitution command injection** — [GHSA-33p6-5jxp-p3x4](https://github.com/advisories/GHSA-33p6-5jxp-p3x4): UTCP CLI command templates could cross from protocol data into shell/argv execution when attacker-controlled arguments were substituted unsafely.
-- **`python-utcp` subprocess environment leakage / command injection** — [GHSA-5v57-8rxj-3p2r](https://github.com/advisories/GHSA-5v57-8rxj-3p2r): CLI subprocess handling exposed the full process environment, turning tool invocation into secret disclosure when commands or arguments are attacker-influenced.
-- **`@utcp/http` OpenAPI server URL SSRF** — [GHSA-r8j5-8747-88cm](https://github.com/advisories/GHSA-r8j5-8747-88cm): attacker-controlled `servers[0].url` entries in OpenAPI documents could steer the HTTP transport toward unintended networks.
-- **`@samanhappy/mcphub` SSE username impersonation** — [GHSA-wf8q-wvv8-p8jf](https://github.com/advisories/GHSA-wf8q-wvv8-p8jf): an SSE endpoint accepted arbitrary usernames from the URL path without authentication, allowing identity spoofing at the MCP session boundary.
-- **`@ranfdev/deepobj` prototype pollution** — [GHSA-x7q7-fchv-8h2j](https://github.com/advisories/GHSA-x7q7-fchv-8h2j): deep object mutation accepted prototype-modifying keys, letting untrusted data alter shared JavaScript object behavior.
+- **vm2 async-generator sandbox breakout**, [GHSA-248r-7h7q-cr24](https://github.com/advisories/GHSA-248r-7h7q-cr24): `vm2` allowed sandbox breakout through async-generator behavior. Treat any remaining `vm2` exposure as high-risk code execution, not just template evaluation.
+- **`utcp-cli` argument-substitution command injection**, [GHSA-33p6-5jxp-p3x4](https://github.com/advisories/GHSA-33p6-5jxp-p3x4): UTCP CLI command templates could cross from protocol data into shell/argv execution when attacker-controlled arguments were substituted unsafely.
+- **`python-utcp` subprocess environment leakage / command injection**, [GHSA-5v57-8rxj-3p2r](https://github.com/advisories/GHSA-5v57-8rxj-3p2r): CLI subprocess handling exposed the full process environment, turning tool invocation into secret disclosure when commands or arguments are attacker-influenced.
+- **`@utcp/http` OpenAPI server URL SSRF**, [GHSA-r8j5-8747-88cm](https://github.com/advisories/GHSA-r8j5-8747-88cm): attacker-controlled `servers[0].url` entries in OpenAPI documents could steer the HTTP transport toward unintended networks.
+- **`@samanhappy/mcphub` SSE username impersonation**, [GHSA-wf8q-wvv8-p8jf](https://github.com/advisories/GHSA-wf8q-wvv8-p8jf): an SSE endpoint accepted arbitrary usernames from the URL path without authentication, allowing identity spoofing at the MCP session boundary.
+- **`@ranfdev/deepobj` prototype pollution**, [GHSA-x7q7-fchv-8h2j](https://github.com/advisories/GHSA-x7q7-fchv-8h2j): deep object mutation accepted prototype-modifying keys, letting untrusted data alter shared JavaScript object behavior.
 
 ## Why this matters
 

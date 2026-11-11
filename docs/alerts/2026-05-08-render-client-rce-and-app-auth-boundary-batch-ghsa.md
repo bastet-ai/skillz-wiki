@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **PrestaShop customer-service stored XSS** — [GHSA-w9f3-qc75-qgx9](https://github.com/advisories/GHSA-w9f3-qc75-qgx9): `prestashop/prestashop < 8.2.6` and `>= 9.0.0, < 9.1.1`; patch to `8.2.6+` or `9.1.1+`.
-- **SiYuan stored XSS to Electron renderer RCE** — [GHSA-2h64-c999-c9r6](https://github.com/advisories/GHSA-2h64-c999-c9r6): stored XSS via Attribute View name can reach an Electron renderer; no fixed version listed at advisory time.
-- **ntfy.sh `parseActions` remote code execution** — [GHSA-pqhx-w72w-m393](https://github.com/advisories/GHSA-pqhx-w72w-m393): `heckel.io/ntfy/v2 < 2.22.0`; patch to `2.22.0+`.
-- **Funadmin improper access control** — [GHSA-qhh7-263p-54r3](https://github.com/advisories/GHSA-qhh7-263p-54r3): `funadmin/funadmin <= 7.1.0-rc6`; no fixed version listed at advisory time.
-- **MindsDB improper access control** — [GHSA-9f6m-65v9-x9g2](https://github.com/advisories/GHSA-9f6m-65v9-x9g2): `MindsDB <= 26.0.1`; no fixed version listed at advisory time.
+- **PrestaShop customer-service stored XSS**, [GHSA-w9f3-qc75-qgx9](https://github.com/advisories/GHSA-w9f3-qc75-qgx9): `prestashop/prestashop < 8.2.6` and `>= 9.0.0, < 9.1.1`; patch to `8.2.6+` or `9.1.1+`.
+- **SiYuan stored XSS to Electron renderer RCE**, [GHSA-2h64-c999-c9r6](https://github.com/advisories/GHSA-2h64-c999-c9r6): stored XSS via Attribute View name can reach an Electron renderer; no fixed version listed at advisory time.
+- **ntfy.sh `parseActions` remote code execution**, [GHSA-pqhx-w72w-m393](https://github.com/advisories/GHSA-pqhx-w72w-m393): `heckel.io/ntfy/v2 < 2.22.0`; patch to `2.22.0+`.
+- **Funadmin improper access control**, [GHSA-qhh7-263p-54r3](https://github.com/advisories/GHSA-qhh7-263p-54r3): `funadmin/funadmin <= 7.1.0-rc6`; no fixed version listed at advisory time.
+- **MindsDB improper access control**, [GHSA-9f6m-65v9-x9g2](https://github.com/advisories/GHSA-9f6m-65v9-x9g2): `MindsDB <= 26.0.1`; no fixed version listed at advisory time.
 
 ## Why this is durable
 

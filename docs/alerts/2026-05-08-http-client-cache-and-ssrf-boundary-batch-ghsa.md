@@ -4,14 +4,14 @@
 
 ## Advisories covered
 
-- **Axios `mergeConfig` denial of service** — [GHSA-43fc-jf86-j433](https://github.com/advisories/GHSA-43fc-jf86-j433): `__proto__` as an own key can make `mergeConfig` resolve `mergeMap['__proto__']` through the prototype chain and crash with `TypeError: merge is not a function`. Affects npm `axios >= 1.0.0, <= 1.13.4` and `<= 0.30.2`; fixed in **1.13.5** and **0.30.3**.
-- **Fiber cache middleware query-blind default key** — [GHSA-35hp-hqmv-8qg8](https://github.com/advisories/GHSA-35hp-hqmv-8qg8): default cache keys use only `c.Path()`, so `/?id=1` and `/?id=2` can share a cached response when handlers vary on query parameters. Affects Go `github.com/gofiber/fiber/v3 <= 3.1.0`; fixed in **3.2.0**.
-- **Flowise SSRF protection bypass** — [GHSA-qqvm-66q4-vf5c](https://github.com/advisories/GHSA-qqvm-66q4-vf5c): Flowise added centralized HTTP SSRF checks, but multiple tools still call raw `node-fetch` or `axios` directly, bypassing deny-list, IP validation, IP pinning, and loopback blocking. Affects npm `flowise` and `flowise-components <= 3.0.13`; fixed in **3.1.0**.
+- **Axios `mergeConfig` denial of service**, [GHSA-43fc-jf86-j433](https://github.com/advisories/GHSA-43fc-jf86-j433): `__proto__` as an own key can make `mergeConfig` resolve `mergeMap['__proto__']` through the prototype chain and crash with `TypeError: merge is not a function`. Affects npm `axios >= 1.0.0, <= 1.13.4` and `<= 0.30.2`; fixed in **1.13.5** and **0.30.3**.
+- **Fiber cache middleware query-blind default key**, [GHSA-35hp-hqmv-8qg8](https://github.com/advisories/GHSA-35hp-hqmv-8qg8): default cache keys use only `c.Path()`, so `/?id=1` and `/?id=2` can share a cached response when handlers vary on query parameters. Affects Go `github.com/gofiber/fiber/v3 <= 3.1.0`; fixed in **3.2.0**.
+- **Flowise SSRF protection bypass**, [GHSA-qqvm-66q4-vf5c](https://github.com/advisories/GHSA-qqvm-66q4-vf5c): Flowise added centralized HTTP SSRF checks, but multiple tools still call raw `node-fetch` or `axios` directly, bypassing deny-list, IP validation, IP pinning, and loopback blocking. Affects npm `flowise` and `flowise-components <= 3.0.13`; fixed in **3.1.0**.
 
 Related already-covered updates in this scan:
 
-- **Jupyter Server open redirect** — [GHSA-qh7q-6qm3-653w](https://github.com/advisories/GHSA-qh7q-6qm3-653w) remains covered in the Jupyter boundary batch.
-- **Nginx-UI cluster proxy SSRF** — [GHSA-wr32-99hh-6f35](https://github.com/advisories/GHSA-wr32-99hh-6f35) remains covered in the Nginx-UI SSRF page.
+- **Jupyter Server open redirect**, [GHSA-qh7q-6qm3-653w](https://github.com/advisories/GHSA-qh7q-6qm3-653w) remains covered in the Jupyter boundary batch.
+- **Nginx-UI cluster proxy SSRF**, [GHSA-wr32-99hh-6f35](https://github.com/advisories/GHSA-wr32-99hh-6f35) remains covered in the Nginx-UI SSRF page.
 
 ## Why this is durable
 
@@ -21,7 +21,7 @@ All three issues are examples of **implicit boundary policy failing open**:
 - Fiber assumed path-only cache keys were safe defaults even when handlers commonly depend on query parameters.
 - Flowise assumed developers would route every outbound request through a wrapper instead of enforcing that policy globally.
 
-The reusable lesson: dangerous defaults and optional wrappers are not controls. The last component before the state change — config merge, cache write/read, or outbound HTTP call — must enforce typed input, complete key material, and egress policy.
+The reusable lesson: dangerous defaults and optional wrappers are not controls. The last component before the state change, config merge, cache write/read, or outbound HTTP call, must enforce typed input, complete key material, and egress policy.
 
 ## Immediate triage
 
@@ -36,7 +36,7 @@ The reusable lesson: dangerous defaults and optional wrappers are not controls. 
 - Axios: look for request failures with `TypeError: merge is not a function`, especially after handling user-supplied JSON containing `__proto__`, `constructor`, or prototype-shaped keys.
 - Fiber: compare cache-hit logs where the path is identical but query strings differ; hunt for cross-user, cross-tenant, search-result, pagination, or object-ID response reuse.
 - Flowise: review outbound network logs from Flowise containers for requests to internal address space, metadata IPs, localhost, private service names, or destinations not represented in approved tool configuration.
-- In all three: add regression tests that encode the boundary mistake directly — own `__proto__` config keys, query-varying cached responses, and direct raw HTTP-client imports in tool code.
+- In all three: add regression tests that encode the boundary mistake directly, own `__proto__` config keys, query-varying cached responses, and direct raw HTTP-client imports in tool code.
 
 ## Durable controls
 

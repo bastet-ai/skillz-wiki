@@ -1,4 +1,4 @@
-# i18next-http-middleware language and namespace traversal / SSRF (GHSA-jfgf-83c5-2c4m / CVE-2026-42353)
+# i18next-http-middleware language and namespace traversal / SSRF
 
 **Signal:** GitHub Security Advisories published **2026-04-29**. `i18next-http-middleware` fixed unsanitized `lng` and `ns` handling in resource loading.
 

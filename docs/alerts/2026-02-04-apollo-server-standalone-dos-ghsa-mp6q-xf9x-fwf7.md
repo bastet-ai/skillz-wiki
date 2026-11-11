@@ -1,4 +1,4 @@
-# 2026-02-04 — Apollo Server standalone (`startStandaloneServer`) DoS via exotic encodings (GHSA-mp6q-xf9x-fwf7)
+# 2026-02-04, Apollo Server standalone
 
 **Signal:** GitHub Security Advisory published 2026-02-04.
 

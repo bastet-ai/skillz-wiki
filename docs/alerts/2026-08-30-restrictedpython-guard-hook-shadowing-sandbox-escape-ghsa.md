@@ -1,7 +1,7 @@
-# RestrictedPython guard-hook shadowing via positional-only arguments — sandbox-escape operator validation
+# RestrictedPython guard-hook shadowing via positional-only arguments, sandbox-escape operator…
 
 **Date reviewed:** 2026-08-30
-**Advisory:** [GHSA-ffg3-p8fm-mjx2 / CVE-2026-55830](https://github.com/advisories/GHSA-ffg3-p8fm-mjx2) — high, CVSS 8.3
+**Advisory:** [GHSA-ffg3-p8fm-mjx2 / CVE-2026-55830](https://github.com/advisories/GHSA-ffg3-p8fm-mjx2), high, CVSS 8.3
 **Affected:** `RestrictedPython <= 8.2` (pip); fixed in `8.3`
 
 ## The primitive
@@ -13,7 +13,7 @@ RestrictedPython rewrites sensitive operations in sandboxed Python to go through
 - Write → `_write_(value)`
 - Print → `_print_(value)`
 
-The embedding application is expected to supply these hooks to enforce its access policy. Argument-name validation in RestrictedPython rejects these protected names for **regular arguments**, `*args`, `**kwargs`, and **keyword-only** arguments — but **misses positional-only arguments** (those before `/` in the signature).
+The embedding application is expected to supply these hooks to enforce its access policy. Argument-name validation in RestrictedPython rejects these protected names for **regular arguments**, `*args`, `**kwargs`, and **keyword-only** arguments, but **misses positional-only arguments** (those before `/` in the signature).
 
 ```python
 def f(_getattr_=evil, /):
@@ -61,21 +61,21 @@ Stop at "guard hook was shadowed and the policy callback was bypassed." Do not a
 - Synthetic sandboxed code and synthetic policy hooks only. No real user data, no network access, no file access outside the test directory.
 - Stop at the hook-shadowing proof. Do not chain into pickle deserialization, file I/O, or shell execution.
 
-## Follow-up: second escape axis — `string.Formatter` internal traversal (2026-09-17)
+## Follow-up: second escape axis, `string.Formatter` internal traversal (2026-09-17)
 
-[GHSA-hp3v-5vw7-fx9w](https://github.com/advisories/GHSA-hp3v-5vw7-fx9w) (published 2026-09-17T16:30Z) is a **distinct escape mechanism** in the same product: when the embedding policy exposes the stdlib `string` module or a `Formatter` instance, `string.Formatter.get_field` performs attribute/item traversal **internally**, returning live object references without ever routing through `safer_getattr`. Shadowing the guard hook is unnecessary — the traversal never enters the guard. Full write-up, harness, and the Zope AccessControl `str.format`/`format_map` + str-subclass sibling: [Sept 17 policy-sandbox traversal page](2026-09-17-python-policy-sandbox-traversal-umbraco-reference-expansion-and-mariadb-local-infile-ghsa.md). Combined audit rule: test both **name-shadowing of the guard** and **stdlib functions that traverse without calling the guard**.
+[GHSA-hp3v-5vw7-fx9w](https://github.com/advisories/GHSA-hp3v-5vw7-fx9w) (published 2026-09-17T16:30Z) is a **distinct escape mechanism** in the same product: when the embedding policy exposes the stdlib `string` module or a `Formatter` instance, `string.Formatter.get_field` performs attribute/item traversal **internally**, returning live object references without ever routing through `safer_getattr`. Shadowing the guard hook is unnecessary, the traversal never enters the guard. Full write-up, harness, and the Zope AccessControl `str.format`/`format_map` + str-subclass sibling: [Sept 17 policy-sandbox traversal page](2026-09-17-python-policy-sandbox-traversal-umbraco-reference-expansion-and-mariadb-local-infile-ghsa.md). Combined audit rule: test both **name-shadowing of the guard** and **stdlib functions that traverse without calling the guard**.
 
-## Follow-up: third escape axis — the embedding app's own builtins dict (2026-10-15)
+## Follow-up: third escape axis, the embedding app's own builtins dict (2026-10-15)
 
-[GHSA-xm98-3vcf-fph7 / CVE-2026-53710](https://github.com/advisories/GHSA-xm98-3vcf-fph7) (critical, CVSS 10.0; `mcp-contextforge-gateway` `python_sandbox_server` sub-project <= 1.0.1, fixed 1.0.2; IBM ContextForge) is **not a RestrictedPython bug** — it is the embedding application defeating the guard, which is exactly the failure mode the first two axes predict. Three compounding weaknesses:
+[GHSA-xm98-3vcf-fph7 / CVE-2026-53710](https://github.com/advisories/GHSA-xm98-3vcf-fph7) (critical, CVSS 10.0; `mcp-contextforge-gateway` `python_sandbox_server` sub-project <= 1.0.1, fixed 1.0.2; IBM ContextForge) is **not a RestrictedPython bug**, it is the embedding application defeating the guard, which is exactly the failure mode the first two axes predict. Three compounding weaknesses:
 
 1. **Raw `getattr` is in `safe_builtins`.** The compiler rewrites `o.x` through the policy hook `_getattr_`, but a sandbox that exposes stdlib `getattr` as a "safe" builtin hands restricted code a direct, unmediated attribute-access primitive. Policy coverage is then a property of the exposed builtins dict, not of the rewrite pipeline.
-2. **`validate_code` is a literal-text dunder deny-list.** It greps the submitted source for dangerous dunder strings — the published PoC constructs those names at runtime (concatenation/`chr()`), so the validator sees clean text while the interpreter resolves the real names. Static filtering matches the source string; the sandbox executes values.
+2. **`validate_code` is a literal-text dunder deny-list.** It greps the submitted source for dangerous dunder strings, the published PoC constructs those names at runtime (concatenation/`chr()`), so the validator sees clean text while the interpreter resolves the real names. Static filtering matches the source string; the sandbox executes values.
 3. **The `execute_code` MCP tool is exposed over HTTP/SSE with no authentication.** Anyone who can reach the endpoint can `tools/call` it. The advisory's Critical score explicitly assumes HTTP reachability; stdio-only deployments reduce the vector.
 
-The PoC walks Python's class hierarchy through the exposed `getattr` (`type → __mro__ → subclasses → …`) until it finds `subprocess.Popen` and runs a marker command — full OS command execution as the server process. Commit `f855e54d5b7bc1c91b977574a03b91eff6b86bb6`, component `python_sandbox_server/src/python_sandbox_server/server_fastmcp.py`.
+The PoC walks Python's class hierarchy through the exposed `getattr` (`type → __mro__ → subclasses → …`) until it finds `subprocess.Popen` and runs a marker command, full OS command execution as the server process. Commit `f855e54d5b7bc1c91b977574a03b91eff6b86bb6`, component `python_sandbox_server/src/python_sandbox_server/server_fastmcp.py`.
 
-### Operator playbook — three-layer sandbox triage
+### Operator playbook, three-layer sandbox triage
 
 For any "run Python for me" endpoint (MCP sandbox tools, code-interpreter APIs, notebook-exec services), test the layers in order and stop at the first failure:
 
@@ -85,7 +85,7 @@ For any "run Python for me" endpoint (MCP sandbox tools, code-interpreter APIs, 
 | Exposed builtins surface | Probe which builtins respond: `getattr`, `vars`, `dir`, `breakpoint`, `__build__;__import__` shapes | raw `getattr` resolves a private/dunder attribute that the policy hook would deny |
 | Static validator | Same payload spelled two ways: literal dunder vs runtime-constructed name (`'__'+'cla'+'ss__'`, `chr()` chains) | literal rejected + constructed accepted = deny-list-on-text bypass |
 
-- **Fingerprint rule:** grep the product's sandbox config for `safe_builtins` / policy-dict literals — every name in that list is attack surface even if the compiler policy is correct.
+- **Fingerprint rule:** grep the product's sandbox config for `safe_builtins` / policy-dict literals, every name in that list is attack surface even if the compiler policy is correct.
 - **Mediation-parity invariant:** for each operation class (attribute read, item read, write, call), there must exist **no** reachable builtin that performs it without invoking the hook. `getattr` present ⇒ `_getattr_` is decorative.
 - **Transport-parity rule** (standing): enumerate every MCP/gateway tool's exposure mode; an auth-less HTTP/SSE transport converts a local sandbox quirk into a network RCE with zero credentials.
 - Keep proofs to marker commands and in-memory canaries on your own lab instance; never execute third-party payloads or pivot from a gateway host you do not own.

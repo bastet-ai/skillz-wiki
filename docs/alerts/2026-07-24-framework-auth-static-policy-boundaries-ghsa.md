@@ -53,7 +53,7 @@ Capture whether the verifier or owned introspection stub was called, not only th
 
 ### Platform-HTTP JWT follow-up: iss/aud skipped when unset (GHSA-fpm2-m4qq-wghr / CVE-2026-66908)
 
-In `org.apache.camel:camel-platform-http-main` 4.8.0 through 4.21.x, `JWTAuthenticationConfigurer.buildJwtOptions` returns `null` when **neither `jwtIssuer` nor `jwtAudience` is configured**, and the caller then skips `JWTAuthOptions.setJWTOptions` entirely. The Vert.x `JWTAuth` instance is built from the keystore alone, so inbound tokens are checked for **signature and expiry only** — `iss` and `aud` claims are never validated. The server starts normally with no warning; the component documentation presents signature/expiry checking as the default and issuer/audience as an optional extra. Both the application server and management server paths are affected. Fixed in 4.22.0.
+In `org.apache.camel:camel-platform-http-main` 4.8.0 through 4.21.x, `JWTAuthenticationConfigurer.buildJwtOptions` returns `null` when **neither `jwtIssuer` nor `jwtAudience` is configured**, and the caller then skips `JWTAuthOptions.setJWTOptions` entirely. The Vert.x `JWTAuth` instance is built from the keystore alone, so inbound tokens are checked for **signature and expiry only**, `iss` and `aud` claims are never validated. The server starts normally with no warning; the component documentation presents signature/expiry checking as the default and issuer/audience as an optional extra. Both the application server and management server paths are affected. Fixed in 4.22.0.
 
 Operator deltas from the matrix above:
 

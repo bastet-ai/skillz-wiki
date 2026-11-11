@@ -2,7 +2,7 @@
 
 Source: GitHub Security Advisories, 2026-08-24 hourly scan: [GHSA-jm48-m3rr-9hgg](https://github.com/advisories/GHSA-jm48-m3rr-9hgg) / [CVE-2026-55477](https://nvd.nist.gov/vuln/detail/CVE-2026-55477) (high). Affected panel versions are `< v3.3.1`; `v3.3.1` is the fixed release.
 
-This is a durable, replayable operator chain rather than a one-off advisory: a trusted admin-config value (the Xray `log.access` / `log.error` path) crosses an import/import-editor boundary into a real filesystem write performed by the proxy data plane. The reusable pattern is **admin-configured path reaches a downstream process that writes attacker-controlled content to that path** — the same family as log-path, cache-path, and report-output path controls found across VPN/proxy panels and CMS export writers. It matters for red-team work because the panel is routinely deployed as a long-lived, externally reachable proxy node, and the write is performed as the user that owns the proxy service, which is frequently `root`.
+This is a durable, replayable operator chain rather than a one-off advisory: a trusted admin-config value (the Xray `log.access` / `log.error` path) crosses an import/import-editor boundary into a real filesystem write performed by the proxy data plane. The reusable pattern is **admin-configured path reaches a downstream process that writes attacker-controlled content to that path**, the same family as log-path, cache-path, and report-output path controls found across VPN/proxy panels and CMS export writers. It matters for red-team work because the panel is routinely deployed as a long-lived, externally reachable proxy node, and the write is performed as the user that owns the proxy service, which is frequently `root`.
 
 ## What changed
 
@@ -10,9 +10,9 @@ The panel exposes a database import (and a raw Xray configuration editor) that b
 
 The chain has three trust transitions, each a separate thing to validate:
 
-1. **Import trust** — the database import accepts the exported SQLite file and re-applies the `log.access` / `log.error` values without constraining the path to the panel log folder.
-2. **Path trust** — `resolveXrayLogPaths` did not confine `log.access` / `log.error` to the panel log directory, so an absolute path or `..` sequence names any file the Xray process can write.
-3. **Content trust** — the inbound client `email` field content is written into the access log, giving the attacker the bytes that land at the chosen path.
+1. **Import trust**, the database import accepts the exported SQLite file and re-applies the `log.access` / `log.error` values without constraining the path to the panel log folder.
+2. **Path trust**, `resolveXrayLogPaths` did not confine `log.access` / `log.error` to the panel log directory, so an absolute path or `..` sequence names any file the Xray process can write.
+3. **Content trust**, the inbound client `email` field content is written into the access log, giving the attacker the bytes that land at the chosen path.
 
 Fixed in `v3.3.1`: `resolveXrayLogPaths` (`internal/web/service/xray.go`) reduces every configured log path to its base filename under `config.GetLogFolder()`, so absolute paths and `..` traversal can no longer escape the log folder (while `""` / `"none"` still disable logging). The confinement runs at Xray config-generation time, so it covers both the database import and the raw config editor. The client `email` field is also independently validated (control characters, spaces, and slashes rejected).
 

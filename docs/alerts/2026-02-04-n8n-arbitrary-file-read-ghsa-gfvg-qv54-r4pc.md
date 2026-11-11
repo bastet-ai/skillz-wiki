@@ -1,4 +1,4 @@
-# 2026-02-04 — n8n improper file access controls allow arbitrary file read (GHSA-gfvg-qv54-r4pc)
+# 2026-02-04, n8n improper file access controls allow arbitrary file read (GHSA-gfvg-qv54-r4pc)
 
 **Product:** **n8n** (npm package: `n8n`)
 

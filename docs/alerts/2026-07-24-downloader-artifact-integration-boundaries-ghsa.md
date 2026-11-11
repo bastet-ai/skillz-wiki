@@ -33,7 +33,7 @@ Report **untrusted extractor metadata -> generated shortcut grammar -> changed l
 
 ## Spring Integration: remote names to local filesystem destinations
 
-Affected `spring-integration-file` versions include 7.0.0–7.0.4, 6.5.0–6.5.8, 6.4.0–6.4.11, 6.3.0–6.3.14, and 5.5.0–5.5.20. A malicious or compromised FTP, SFTP, or SMB server can return names that make the client write controlled content outside its configured local directory. Version 7.0.5 is a fixed control for the 7.x line; verify the maintained fixed release for older branches from the advisory before testing.
+Affected `spring-integration-file` versions include 7.0.0-7.0.4, 6.5.0-6.5.8, 6.4.0-6.4.11, 6.3.0-6.3.14, and 5.5.0-5.5.20. A malicious or compromised FTP, SFTP, or SMB server can return names that make the client write controlled content outside its configured local directory. Version 7.0.5 is a fixed control for the 7.x line; verify the maintained fixed release for older branches from the advisory before testing.
 
 1. Run the application client in a disposable container or VM with a configured local root and one synthetic sibling directory.
 2. Serve ordinary, nested, absolute-looking, traversal-shaped, mixed-separator, and symlink-adjacent names from an owned mock server. Every body should contain only its filename-derived marker.

@@ -2,20 +2,20 @@
 
 Source: GitHub Security Advisories updated 2026-05-14.
 
-This batch spans documentation renderers, telemetry propagation, federated chat, fitness-app sessions, encrypted archive metadata, and project scaffolding CLIs. The durable theme is that “supporting” surfaces — table-of-contents generation, baggage headers, trainer impersonation helpers, small encrypted files, and setup prompts — still carry real security boundaries.
+This batch spans documentation renderers, telemetry propagation, federated chat, fitness-app sessions, encrypted archive metadata, and project scaffolding CLIs. The durable theme is that “supporting” surfaces, table-of-contents generation, baggage headers, trainer impersonation helpers, small encrypted files, and setup prompts, still carry real security boundaries.
 
 ## Advisories covered
 
-- **Mistune TOC anchor injection XSS** — [GHSA-6269-cqxg-mhhv](https://github.com/advisories/GHSA-6269-cqxg-mhhv), CVE-2026-44898: `mistune == 3.2.0` inserted TOC `id` and text values into links without escaping. Fixed in `3.2.1`.
-- **Mistune image directive CSS injection** — [GHSA-ccfx-mfmx-2fx9](https://github.com/advisories/GHSA-ccfx-mfmx-2fx9), CVE-2026-44899: prefix-only numeric validation allowed arbitrary CSS after leading digits in image directive width/height. Fixed in `3.2.1`.
-- **OpenTelemetry Java baggage unbounded allocation** — [GHSA-rcgg-9c38-7xpx](https://github.com/advisories/GHSA-rcgg-9c38-7xpx), CVE-2026-45292: `opentelemetry-api` and trace propagators `<= 1.61.0` parsed oversized baggage without W3C size/entry limits and could fan out resource pressure downstream. Fixed in `1.62.0`.
-- **Synapse local CPU starvation DoS** — [GHSA-8q93-326v-3m7g](https://github.com/advisories/GHSA-8q93-326v-3m7g), CVE-2026-45078: local authenticated users could starve other Synapse requests. Fixed in `matrix-synapse 1.152.1`.
-- **Synapse federated pagination DoS** — [GHSA-6qf2-7x63-mm6v](https://github.com/advisories/GHSA-6qf2-7x63-mm6v), CVE-2026-45076: malicious federated events could prevent clients from receiving full history. Fixed in `1.152.1`.
-- **wger trainer-login session chaining privilege escalation** — [GHSA-9qpr-vc49-hqg2](https://github.com/advisories/GHSA-9qpr-vc49-hqg2), CVE-2026-43978: trainer impersonation state could be chained into manager accounts. Affected `wger <= 2.5`; no patched version was listed at scan time.
-- **wger template routine IDOR** — [GHSA-cj9g-27ph-4cgv](https://github.com/advisories/GHSA-cj9g-27ph-4cgv), CVE-2026-43977: authenticated users could read private workout logs/stats through public template routine actions. Affected `wger <= 2.5`; no patched version was listed at scan time.
-- **pyzipper small-file encryption metadata leak** — [GHSA-crqm-m339-7m2p](https://github.com/advisories/GHSA-crqm-m339-7m2p), CVE-2026-44722: AE-2 was not automatically selected, leaving plaintext CRC32 metadata that aids brute force of small/low-entropy files. Fixed in `0.4.0`.
-- **ApostropheCMS CLI command injection** — [GHSA-hcwq-x9fw-8cfq](https://github.com/advisories/GHSA-hcwq-x9fw-8cfq), CVE-2026-42853: `@apostrophecms/cli <= 3.6.0` embedded password-prompt input into a shell command during `apos create`. No patched version was listed at scan time.
-- **OpenCms CMIS reflected/stored XSS surface** — [GHSA-8gpv-c454-3hfc](https://github.com/advisories/GHSA-8gpv-c454-3hfc), CVE-2023-42343: `org.opencms:opencms-core < 16.0` was vulnerable via `cmis-online/type`. Fixed in `16.0`.
+- **Mistune TOC anchor injection XSS**, [GHSA-6269-cqxg-mhhv](https://github.com/advisories/GHSA-6269-cqxg-mhhv), CVE-2026-44898: `mistune == 3.2.0` inserted TOC `id` and text values into links without escaping. Fixed in `3.2.1`.
+- **Mistune image directive CSS injection**, [GHSA-ccfx-mfmx-2fx9](https://github.com/advisories/GHSA-ccfx-mfmx-2fx9), CVE-2026-44899: prefix-only numeric validation allowed arbitrary CSS after leading digits in image directive width/height. Fixed in `3.2.1`.
+- **OpenTelemetry Java baggage unbounded allocation**, [GHSA-rcgg-9c38-7xpx](https://github.com/advisories/GHSA-rcgg-9c38-7xpx), CVE-2026-45292: `opentelemetry-api` and trace propagators `<= 1.61.0` parsed oversized baggage without W3C size/entry limits and could fan out resource pressure downstream. Fixed in `1.62.0`.
+- **Synapse local CPU starvation DoS**, [GHSA-8q93-326v-3m7g](https://github.com/advisories/GHSA-8q93-326v-3m7g), CVE-2026-45078: local authenticated users could starve other Synapse requests. Fixed in `matrix-synapse 1.152.1`.
+- **Synapse federated pagination DoS**, [GHSA-6qf2-7x63-mm6v](https://github.com/advisories/GHSA-6qf2-7x63-mm6v), CVE-2026-45076: malicious federated events could prevent clients from receiving full history. Fixed in `1.152.1`.
+- **wger trainer-login session chaining privilege escalation**, [GHSA-9qpr-vc49-hqg2](https://github.com/advisories/GHSA-9qpr-vc49-hqg2), CVE-2026-43978: trainer impersonation state could be chained into manager accounts. Affected `wger <= 2.5`; no patched version was listed at scan time.
+- **wger template routine IDOR**, [GHSA-cj9g-27ph-4cgv](https://github.com/advisories/GHSA-cj9g-27ph-4cgv), CVE-2026-43977: authenticated users could read private workout logs/stats through public template routine actions. Affected `wger <= 2.5`; no patched version was listed at scan time.
+- **pyzipper small-file encryption metadata leak**, [GHSA-crqm-m339-7m2p](https://github.com/advisories/GHSA-crqm-m339-7m2p), CVE-2026-44722: AE-2 was not automatically selected, leaving plaintext CRC32 metadata that aids brute force of small/low-entropy files. Fixed in `0.4.0`.
+- **ApostropheCMS CLI command injection**, [GHSA-hcwq-x9fw-8cfq](https://github.com/advisories/GHSA-hcwq-x9fw-8cfq), CVE-2026-42853: `@apostrophecms/cli <= 3.6.0` embedded password-prompt input into a shell command during `apos create`. No patched version was listed at scan time.
+- **OpenCms CMIS reflected/stored XSS surface**, [GHSA-8gpv-c454-3hfc](https://github.com/advisories/GHSA-8gpv-c454-3hfc), CVE-2023-42343: `org.opencms:opencms-core < 16.0` was vulnerable via `cmis-online/type`. Fixed in `16.0`.
 
 ## Operator triage
 

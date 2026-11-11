@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **Netty protocol parser boundary issues** — [GHSA-m4cv-j2px-7723](https://github.com/advisories/GHSA-m4cv-j2px-7723), [GHSA-cm33-6792-r9fm](https://github.com/advisories/GHSA-cm33-6792-r9fm), [GHSA-45q3-82m4-75jr](https://github.com/advisories/GHSA-45q3-82m4-75jr): request-smuggling, DNS codec validation, and proxy header-injection paths show that protocol parsers need canonical byte accounting and end-to-end validation.
-- **OpenSearch TLS and authorization gaps** — [GHSA-x5hg-x4gv-j98m](https://github.com/advisories/GHSA-x5hg-x4gv-j98m), [GHSA-x83w-23jp-g6pw](https://github.com/advisories/GHSA-x83w-23jp-g6pw), [GHSA-22vx-2x23-98w6](https://github.com/advisories/GHSA-22vx-2x23-98w6), [GHSA-83x9-vc3c-hghc](https://github.com/advisories/GHSA-83x9-vc3c-hghc): hostname validation, document-level security, rollover authorization, and malformed-path checks must be enforced at every query and transport boundary.
-- **Wasmtime host-address-space allocation panic** — [GHSA-p8xm-42r7-89xg](https://github.com/advisories/GHSA-p8xm-42r7-89xg): guest-controlled table sizing can exceed host assumptions and terminate the process.
-- **Hono request and JSX input boundaries** — [GHSA-9vqf-7f2p-gf9v](https://github.com/advisories/GHSA-9vqf-7f2p-gf9v), [GHSA-69xw-7hcm-h432](https://github.com/advisories/GHSA-69xw-7hcm-h432): chunked body accounting and tag-name validation need to happen before dispatch or render.
-- **diesel-async temporal padding exposure** — [GHSA-ff9q-rm55-q7qr](https://github.com/advisories/GHSA-ff9q-rm55-q7qr): database wire encoders must not leak uninitialized padding bytes.
+- **Netty protocol parser boundary issues**, [GHSA-m4cv-j2px-7723](https://github.com/advisories/GHSA-m4cv-j2px-7723), [GHSA-cm33-6792-r9fm](https://github.com/advisories/GHSA-cm33-6792-r9fm), [GHSA-45q3-82m4-75jr](https://github.com/advisories/GHSA-45q3-82m4-75jr): request-smuggling, DNS codec validation, and proxy header-injection paths show that protocol parsers need canonical byte accounting and end-to-end validation.
+- **OpenSearch TLS and authorization gaps**, [GHSA-x5hg-x4gv-j98m](https://github.com/advisories/GHSA-x5hg-x4gv-j98m), [GHSA-x83w-23jp-g6pw](https://github.com/advisories/GHSA-x83w-23jp-g6pw), [GHSA-22vx-2x23-98w6](https://github.com/advisories/GHSA-22vx-2x23-98w6), [GHSA-83x9-vc3c-hghc](https://github.com/advisories/GHSA-83x9-vc3c-hghc): hostname validation, document-level security, rollover authorization, and malformed-path checks must be enforced at every query and transport boundary.
+- **Wasmtime host-address-space allocation panic**, [GHSA-p8xm-42r7-89xg](https://github.com/advisories/GHSA-p8xm-42r7-89xg): guest-controlled table sizing can exceed host assumptions and terminate the process.
+- **Hono request and JSX input boundaries**, [GHSA-9vqf-7f2p-gf9v](https://github.com/advisories/GHSA-9vqf-7f2p-gf9v), [GHSA-69xw-7hcm-h432](https://github.com/advisories/GHSA-69xw-7hcm-h432): chunked body accounting and tag-name validation need to happen before dispatch or render.
+- **diesel-async temporal padding exposure**, [GHSA-ff9q-rm55-q7qr](https://github.com/advisories/GHSA-ff9q-rm55-q7qr): database wire encoders must not leak uninitialized padding bytes.
 
 ## Why this is durable
 

@@ -6,14 +6,14 @@ This batch is durable because the advisories repeat high-value operator patterns
 
 ## What changed
 
-- **Budibase plugin URL SSRF** — self-hosted Budibase plugin upload accepts a URL if `.tar.gz` appears anywhere in the string, then fetches it from the server. The useful testing pattern is a low-privilege Global Builder role reaching internal URLs through an archive-name validation bypass.
-- **Yii 2 view rendering LFI** — `View::renderPhpFile()` extracts caller-supplied params before requiring the view file. A parameter named `_file_` can collide with the internal include variable, creating local file inclusion when attacker-controlled params reach view rendering.
-- **OpenClaw media path traversal** — media parsing path checks can be bypassed through `isLikelyLocalPath()` / `isValidMedia()` logic and bare-filename handling, allowing reads outside the intended application sandbox.
-- **OpenStack Ironic console execution surface** — a non-default Ironic console-interface configuration allows `ipmitool` execution. Treat this as a configuration-gated control-plane boundary, not a default internet-facing bug.
-- **BentoML build/deploy code execution** — BentoML advisories describe three bento-controlled inputs that execute during packaging or deployment: unsandboxed Jinja2 `dockerfile_template`, unquoted `docker.system_packages` in generated Dockerfiles, and unquoted `system_packages` in BentoCloud deployment setup scripts.
-- **Weblate add-on and backup trust boundaries** — Weblate advisories cover SSRF in the webhook add-on, backup-restore remote code execution, JavaScript localization CDN add-on local file reads, and over-permissive webhook endpoints that can trigger mass repository updates and component enumeration.
-- **vLLM RPC pickle deserialization** — vLLM's `AsyncEngineRPCServer()` RPC path can deserialize pickle payloads. The operator value is finding deployments where this internal RPC listener is reachable across tenant, host, or network boundaries.
-- **Strawberry GraphQL WebSocket auth bypass** — legacy `graphql-ws` subprotocol handling can bypass expected authentication. This belongs in GraphQL recon when HTTP auth checks pass but WebSocket subscription auth is untested.
+- **Budibase plugin URL SSRF**, self-hosted Budibase plugin upload accepts a URL if `.tar.gz` appears anywhere in the string, then fetches it from the server. The useful testing pattern is a low-privilege Global Builder role reaching internal URLs through an archive-name validation bypass.
+- **Yii 2 view rendering LFI**, `View::renderPhpFile()` extracts caller-supplied params before requiring the view file. A parameter named `_file_` can collide with the internal include variable, creating local file inclusion when attacker-controlled params reach view rendering.
+- **OpenClaw media path traversal**, media parsing path checks can be bypassed through `isLikelyLocalPath()` / `isValidMedia()` logic and bare-filename handling, allowing reads outside the intended application sandbox.
+- **OpenStack Ironic console execution surface**, a non-default Ironic console-interface configuration allows `ipmitool` execution. Treat this as a configuration-gated control-plane boundary, not a default internet-facing bug.
+- **BentoML build/deploy code execution**, BentoML advisories describe three bento-controlled inputs that execute during packaging or deployment: unsandboxed Jinja2 `dockerfile_template`, unquoted `docker.system_packages` in generated Dockerfiles, and unquoted `system_packages` in BentoCloud deployment setup scripts.
+- **Weblate add-on and backup trust boundaries**, Weblate advisories cover SSRF in the webhook add-on, backup-restore remote code execution, JavaScript localization CDN add-on local file reads, and over-permissive webhook endpoints that can trigger mass repository updates and component enumeration.
+- **vLLM RPC pickle deserialization**, vLLM's `AsyncEngineRPCServer()` RPC path can deserialize pickle payloads. The operator value is finding deployments where this internal RPC listener is reachable across tenant, host, or network boundaries.
+- **Strawberry GraphQL WebSocket auth bypass**, legacy `graphql-ws` subprotocol handling can bypass expected authentication. This belongs in GraphQL recon when HTTP auth checks pass but WebSocket subscription auth is untested.
 
 ## Operator triage
 

@@ -1,4 +1,4 @@
-# 2026-02-05 — `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928)
+# 2026-02-05, `@coding-solo/godot-mcp` command injection via `projectPath` (GHSA-8jx2-rhfh-q928)
 
 **Source:** https://github.com/advisories/GHSA-8jx2-rhfh-q928  
 **Published:** 2026-02-04 (updated 2026-02-05)  

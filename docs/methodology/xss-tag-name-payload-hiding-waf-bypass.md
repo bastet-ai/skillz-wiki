@@ -4,7 +4,7 @@ title: XSS payload hiding in HTML tag names (WAF bypass)
 
 # XSS payload hiding in HTML tag names (WAF bypass)
 
-A browser is far more lenient about what counts as an HTML **tag name** than most blocklists assume. A tag name does not have to be a known element — it just has to begin with a letter — and the DOM exposes lowercase/derived forms of that name through properties that a naïve signature scanner never looks at. This makes the tag name itself a payload-carrier: you can store JavaScript, a URL, or fresh markup *inside the tag name*, recover it at runtime through a property, and hand it to a JS evaluation or DOM sink. The result is a reliable XSS vector that often evades WAF and blocklist signatures because the payload string never appears as a normal `<script>` or `on*` handler in a way the scanner is tuned to catch.
+A browser is far more lenient about what counts as an HTML **tag name** than most blocklists assume. A tag name does not have to be a known element, it just has to begin with a letter, and the DOM exposes lowercase/derived forms of that name through properties that a naïve signature scanner never looks at. This makes the tag name itself a payload-carrier: you can store JavaScript, a URL, or fresh markup *inside the tag name*, recover it at runtime through a property, and hand it to a JS evaluation or DOM sink. The result is a reliable XSS vector that often evades WAF and blocklist signatures because the payload string never appears as a normal `<script>` or `on*` handler in a way the scanner is tuned to catch.
 
 Source technique: PortSwigger Research, "What's in a tag name? JavaScript, apparently" (Gareth Heyes, 2026-08-25).
 
@@ -112,7 +112,7 @@ python3 -m http.server 8080 --directory /tmp
 # a JS dialog / console eval of alert(1) confirms the primitive fires.
 ```
 
-Positive result: the browser evaluates `alert(1)` from the tag name without any `<script>` tag or literal `onerror=`. Keep the payload inert (`alert(1)`, `document.title=localName`) — never load exfiltration, credential access, or a remote script.
+Positive result: the browser evaluates `alert(1)` from the tag name without any `<script>` tag or literal `onerror=`. Keep the payload inert (`alert(1)`, `document.title=localName`), never load exfiltration, credential access, or a remote script.
 
 ## Safe boundaries
 

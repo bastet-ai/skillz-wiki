@@ -1,6 +1,6 @@
 # Check Point IKEv1 VPN authentication-bypass validation
 
-Source: hourly offensive-security scan, 2026-06-08. Primary entries: CISA KEV [CVE-2026-50751](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) and Check Point's advisory, [Security Advisory – Action Required – Active Exploitation of Check Point VPN Authentication Bypass (CVE-2026-50751)](https://blog.checkpoint.com/security/check-point-releases-important-hotfix-for-vulnerabilities-in-deprecated-ikev1-vpn-protocol/).
+Source: hourly offensive-security scan, 2026-06-08. Primary entries: CISA KEV [CVE-2026-50751](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) and Check Point's advisory, [Security Advisory - Action Required - Active Exploitation of Check Point VPN Authentication Bypass (CVE-2026-50751)](https://blog.checkpoint.com/security/check-point-releases-important-hotfix-for-vulnerabilities-in-deprecated-ikev1-vpn-protocol/).
 
 This item is durable for operators because it turns a perimeter VPN exposure into a repeatable assessment pattern: identify Check Point Remote Access or Mobile Access gateways, determine whether deprecated IKEv1 is reachable, and validate authentication-boundary behavior only in an explicitly authorized lab or customer-approved test window.
 

@@ -1,4 +1,4 @@
-# Kyverno `generator.apply()` cross-namespace authority — operator validation
+# Kyverno `generator.apply()` cross-namespace authority, operator validation
 
 **Date reviewed:** 2026-08-27  
 **Advisory:** [GHSA-79gf-7frw-68m9](https://github.com/advisories/GHSA-79gf-7frw-68m9) / CVE-2026-54523  
@@ -16,7 +16,7 @@ A tenant who can create a `NamespacedMutatingPolicy` in their own namespace
 reaches a CEL expression that can call `generator.apply("<target-namespace>",
 [...])`. The `namespace` string argument is **not validated** against the
 tenant's own namespace. The Kyverno background controller then generates the
-requested resources — including a `RoleBinding` — in the attacker-named
+requested resources, including a `RoleBinding`, in the attacker-named
 namespace, which can be `kube-system` or any other privileged namespace.
 
 The affected code path is `pkg/cel/libs/context.go:177`
@@ -29,7 +29,7 @@ argument is reachable by a tenant policy author.
 This is a clean, replayable **cluster tenancy boundary break**: the primitive is
 "who can write a policy that tells the cluster to create a RoleBinding where?"
 The durable operator lesson is that **a DSL function's namespace argument is an
-authority surface**, not a routing hint — if a tenant expression can name any
+authority surface**, not a routing hint, if a tenant expression can name any
 namespace, the tenant has a path into cluster-privileged namespaces.
 
 ## Recon
@@ -54,8 +54,8 @@ namespace, the tenant has a path into cluster-privileged namespaces.
    own namespace** (e.g. a second disposable namespace).
 3. Observe the Kyverno background controller. The expected secure result is
    that the generated resources are confined to the tenant's namespace or the
-   call is rejected. The vulnerable result is a generated resource — in the
-   real flaw, a `RoleBinding` — appearing in the attacker-named namespace.
+   call is rejected. The vulnerable result is a generated resource, in the
+   real flaw, a `RoleBinding`, appearing in the attacker-named namespace.
 4. To bound the proof, name a **disposable** second namespace in the
    `generator.apply()` argument, not `kube-system`. The demonstration is
    "a tenant can direct generation to a namespace they do not own," not

@@ -1,10 +1,10 @@
-# 2026-03-29 — jsrsasign DSA signing validation failure and zero/negative input DoS
+# 2026-03-29, jsrsasign DSA signing validation failure and zero/negative input DoS
 
 **Product:** **jsrsasign**
 
 **Advisories:**
-- **GHSA-w8q8-93cx-6h7r** — Missing cryptographic validation during DSA signing enables private key extraction
-- **GHSA-8g7p-jf3g-gxcp** — Infinite loop / DoS when processing zero or negative inputs
+- **GHSA-w8q8-93cx-6h7r**, Missing cryptographic validation during DSA signing enables private key extraction
+- **GHSA-8g7p-jf3g-gxcp**, Infinite loop / DoS when processing zero or negative inputs
 
 ## Why this matters
 This is a classic split failure mode:

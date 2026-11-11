@@ -6,11 +6,11 @@ This batch is durable because it shows how self-hosted media/community platforms
 
 ## Advisories covered
 
-- **AVideo `userSavePhoto.php`** — [GHSA-jw8g-5j46-44rp](https://github.com/advisories/GHSA-jw8g-5j46-44rp): CSRF could overwrite an authenticated user profile photo with attacker-chosen content.
-- **AVideo `notifySubscribers.json.php`** — [GHSA-g9cm-rxp7-6gv5](https://github.com/advisories/GHSA-g9cm-rxp7-6gv5): HTML injection allowed platform-branded phishing emails to channel subscribers.
-- **AVideo MobileManager OAuth redirect** — [GHSA-5w8w-26ch-v5cw](https://github.com/advisories/GHSA-5w8w-26ch-v5cw): password hash exposure in redirect URL could enable account takeover.
-- **AVideo YPTSocket `autoEvalCodeOnHTML` bypass** — [GHSA-ghcv-22jf-vfxm](https://github.com/advisories/GHSA-ghcv-22jf-vfxm): incomplete filtering let unauthenticated input trigger cross-user JavaScript execution through `$msg['json']` relay handling.
-- **AVideo `cloneClient.json.php`** — [GHSA-qm9p-p5pw-jrx2](https://github.com/advisories/GHSA-qm9p-p5pw-jrx2): error echo disclosed CloneSite `myKey`, enabling cross-site database dump of the configured clone server.
+- **AVideo `userSavePhoto.php`**, [GHSA-jw8g-5j46-44rp](https://github.com/advisories/GHSA-jw8g-5j46-44rp): CSRF could overwrite an authenticated user profile photo with attacker-chosen content.
+- **AVideo `notifySubscribers.json.php`**, [GHSA-g9cm-rxp7-6gv5](https://github.com/advisories/GHSA-g9cm-rxp7-6gv5): HTML injection allowed platform-branded phishing emails to channel subscribers.
+- **AVideo MobileManager OAuth redirect**, [GHSA-5w8w-26ch-v5cw](https://github.com/advisories/GHSA-5w8w-26ch-v5cw): password hash exposure in redirect URL could enable account takeover.
+- **AVideo YPTSocket `autoEvalCodeOnHTML` bypass**, [GHSA-ghcv-22jf-vfxm](https://github.com/advisories/GHSA-ghcv-22jf-vfxm): incomplete filtering let unauthenticated input trigger cross-user JavaScript execution through `$msg['json']` relay handling.
+- **AVideo `cloneClient.json.php`**, [GHSA-qm9p-p5pw-jrx2](https://github.com/advisories/GHSA-qm9p-p5pw-jrx2): error echo disclosed CloneSite `myKey`, enabling cross-site database dump of the configured clone server.
 
 ## Operator triage
 

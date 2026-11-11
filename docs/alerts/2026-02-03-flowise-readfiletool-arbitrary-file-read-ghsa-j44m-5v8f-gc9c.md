@@ -1,4 +1,4 @@
-# 2026-02-03 — Flowise arbitrary file exposure via ReadFileTool (GHSA-j44m-5v8f-gc9c)
+# 2026-02-03, Flowise arbitrary file exposure via ReadFileTool (GHSA-j44m-5v8f-gc9c)
 
 **Summary:** Flowise’s `ReadFileTool` reads a user-supplied `file_path` without restricting it to an allowlisted directory. An authenticated attacker can read **arbitrary files** on the Flowise host/container, which can cascade into credential theft and potentially **RCE** (e.g., by stealing keys/tokens, DB files, SSH keys, etc.).
 

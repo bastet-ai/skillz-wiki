@@ -4,13 +4,13 @@
 
 ## Advisories in this batch
 
-- **Thymeleaf sandbox expression bypass** — `org.thymeleaf:thymeleaf`, `thymeleaf-spring5`, and `thymeleaf-spring6 <= 3.1.4.RELEASE` improperly recognized unauthorized syntax patterns in sandboxed expressions. References: <https://github.com/advisories/GHSA-c9ph-gxww-7744>, CVE-2026-41901.
-- **LiteLLM proxy API key SQL injection** — `litellm >= 1.81.16, < 1.83.7` exposed SQL injection in proxy API key verification. References: <https://github.com/advisories/GHSA-r75f-5x8p-qvmc>, CVE-2026-42208.
-- **LiteLLM `/prompts/test` SSTI** — `litellm >= 1.80.5, < 1.83.7` exposed server-side template injection in the prompt testing endpoint. References: <https://github.com/advisories/GHSA-xqmj-j6mv-4862>, CVE-2026-42203.
-- **quarkus-openapi-generator path-parameter overmatch** — `io.quarkiverse.openapi.generator:quarkus-openapi-generator < 2.16.0-lts` and `= 2.16.0` could send authentication headers to unintended operations because generated path matching was too broad. References: <https://github.com/advisories/GHSA-fr8f-rwjx-f32v>, CVE-2026-42333.
-- **Marvin timing side channel in Rust RSA** — `rsa <= 0.9.6` may leak key material through timing side channels. References: <https://github.com/advisories/GHSA-4grx-2x9w-596c>.
-- **Grid safe-API undefined behavior** — `grid >= 0.17.0, <= 1.0.0` had an integer overflow in `Grid::expand_rows`. References: <https://github.com/advisories/GHSA-38c5-483c-4qqp>, CVE-2026-42199.
-- **wlc API data printed as HTML** — `wlc < 2.0.0` printed API data with `print_html` without escaping. References: <https://github.com/advisories/GHSA-gx2m-mcc2-r4p3>, CVE-2026-42150.
+- **Thymeleaf sandbox expression bypass**, `org.thymeleaf:thymeleaf`, `thymeleaf-spring5`, and `thymeleaf-spring6 <= 3.1.4.RELEASE` improperly recognized unauthorized syntax patterns in sandboxed expressions. References: <https://github.com/advisories/GHSA-c9ph-gxww-7744>, CVE-2026-41901.
+- **LiteLLM proxy API key SQL injection**, `litellm >= 1.81.16, < 1.83.7` exposed SQL injection in proxy API key verification. References: <https://github.com/advisories/GHSA-r75f-5x8p-qvmc>, CVE-2026-42208.
+- **LiteLLM `/prompts/test` SSTI**, `litellm >= 1.80.5, < 1.83.7` exposed server-side template injection in the prompt testing endpoint. References: <https://github.com/advisories/GHSA-xqmj-j6mv-4862>, CVE-2026-42203.
+- **quarkus-openapi-generator path-parameter overmatch**, `io.quarkiverse.openapi.generator:quarkus-openapi-generator < 2.16.0-lts` and `= 2.16.0` could send authentication headers to unintended operations because generated path matching was too broad. References: <https://github.com/advisories/GHSA-fr8f-rwjx-f32v>, CVE-2026-42333.
+- **Marvin timing side channel in Rust RSA**, `rsa <= 0.9.6` may leak key material through timing side channels. References: <https://github.com/advisories/GHSA-4grx-2x9w-596c>.
+- **Grid safe-API undefined behavior**, `grid >= 0.17.0, <= 1.0.0` had an integer overflow in `Grid::expand_rows`. References: <https://github.com/advisories/GHSA-38c5-483c-4qqp>, CVE-2026-42199.
+- **wlc API data printed as HTML**, `wlc < 2.0.0` printed API data with `print_html` without escaping. References: <https://github.com/advisories/GHSA-gx2m-mcc2-r4p3>, CVE-2026-42150.
 
 ## Why this is durable
 

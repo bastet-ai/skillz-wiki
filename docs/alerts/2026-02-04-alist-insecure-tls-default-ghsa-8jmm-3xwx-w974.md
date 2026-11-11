@@ -1,4 +1,4 @@
-# 2026-02-04 — Alist disables TLS certificate verification by default (GHSA-8jmm-3xwx-w974)
+# 2026-02-04, Alist disables TLS certificate verification by default (GHSA-8jmm-3xwx-w974)
 
 **Product:** Alist (go module: `github.com/alist-org/alist/v3`)
 

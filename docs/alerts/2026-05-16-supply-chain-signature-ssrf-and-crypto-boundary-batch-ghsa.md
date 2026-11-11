@@ -6,16 +6,16 @@ This batch is durable because package/install tooling, signature verification, r
 
 ## Advisories covered
 
-- **Microsoft APM CLI's plugin.json component paths escape plugin root and copy arbitrary host files during install** — [GHSA-xhrw-5qxx-jpwr](https://github.com/advisories/GHSA-xhrw-5qxx-jpwr) / CVE-2026-44641 (high).
-- **gitsign verify accepts signatures over go-git-normalized bytes, enabling trust confusion on malformed commits** — [GHSA-7rmh-48mx-2vwc](https://github.com/advisories/GHSA-7rmh-48mx-2vwc) / CVE-2026-44309 (medium).
-- **bitcoinj has a ScriptExecution P2PKH/P2WPKH Verification Bypass** — [GHSA-hfcf-v2f8-x9pc](https://github.com/advisories/GHSA-hfcf-v2f8-x9pc) / CVE-2026-44714 (high).
-- **gitsign --verify panics on empty-certificate PKCS7 and exits 0, bypassing exit-code callers** — [GHSA-7c37-gx6w-8vc5](https://github.com/advisories/GHSA-7c37-gx6w-8vc5) / CVE-2026-44310 (medium).
-- **ex_webrtc client-role handshake is missing DTLS peer fingerprint validation** — [GHSA-qwfw-ggxw-577c](https://github.com/advisories/GHSA-qwfw-ggxw-577c) / CVE-2026-44700 (high).
-- **rust-openssl vulnerable to heap buffer overflow when encrypting with AES key-wrap-with-padding** — [GHSA-xv59-967r-8726](https://github.com/advisories/GHSA-xv59-967r-8726) / CVE-2026-44662 (medium).
-- **utcp-http vulnerable to SSRF via attacker-controlled OpenAPI servers[0].url in HTTP communication protocol** — [GHSA-39j6-4867-gg4w](https://github.com/advisories/GHSA-39j6-4867-gg4w) / CVE-2026-44661 (medium).
-- **rust-openssl has undefined behavior in X509Ref::ocsp_responders for certificates with non-UTF-8 OCSP URLs** — [GHSA-xp3w-r5p5-63rr](https://github.com/advisories/GHSA-xp3w-r5p5-63rr) / CVE-2026-42327 (high).
-- **MCP Registry's GitHub OIDC tokens are replayable across registry deployments due to shared audience** — [GHSA-95c3-6vvw-4mrq](https://github.com/advisories/GHSA-95c3-6vvw-4mrq) / CVE-2026-44428 (low).
-- **MCP Registry has an unauthenticated SSRF: HTTP namespace verification dials 6to4 / NAT64 / site-local IPv6 addresses, bypassing private-address allowlist** — [GHSA-r48c-v28r-pf6v](https://github.com/advisories/GHSA-r48c-v28r-pf6v) / CVE-2026-44430 (medium).
+- **Microsoft APM CLI's plugin.json component paths escape plugin root and copy arbitrary host files during install**, [GHSA-xhrw-5qxx-jpwr](https://github.com/advisories/GHSA-xhrw-5qxx-jpwr) / CVE-2026-44641 (high).
+- **gitsign verify accepts signatures over go-git-normalized bytes, enabling trust confusion on malformed commits**, [GHSA-7rmh-48mx-2vwc](https://github.com/advisories/GHSA-7rmh-48mx-2vwc) / CVE-2026-44309 (medium).
+- **bitcoinj has a ScriptExecution P2PKH/P2WPKH Verification Bypass**, [GHSA-hfcf-v2f8-x9pc](https://github.com/advisories/GHSA-hfcf-v2f8-x9pc) / CVE-2026-44714 (high).
+- **gitsign --verify panics on empty-certificate PKCS7 and exits 0, bypassing exit-code callers**, [GHSA-7c37-gx6w-8vc5](https://github.com/advisories/GHSA-7c37-gx6w-8vc5) / CVE-2026-44310 (medium).
+- **ex_webrtc client-role handshake is missing DTLS peer fingerprint validation**, [GHSA-qwfw-ggxw-577c](https://github.com/advisories/GHSA-qwfw-ggxw-577c) / CVE-2026-44700 (high).
+- **rust-openssl vulnerable to heap buffer overflow when encrypting with AES key-wrap-with-padding**, [GHSA-xv59-967r-8726](https://github.com/advisories/GHSA-xv59-967r-8726) / CVE-2026-44662 (medium).
+- **utcp-http vulnerable to SSRF via attacker-controlled OpenAPI servers[0].url in HTTP communication protocol**, [GHSA-39j6-4867-gg4w](https://github.com/advisories/GHSA-39j6-4867-gg4w) / CVE-2026-44661 (medium).
+- **rust-openssl has undefined behavior in X509Ref::ocsp_responders for certificates with non-UTF-8 OCSP URLs**, [GHSA-xp3w-r5p5-63rr](https://github.com/advisories/GHSA-xp3w-r5p5-63rr) / CVE-2026-42327 (high).
+- **MCP Registry's GitHub OIDC tokens are replayable across registry deployments due to shared audience**, [GHSA-95c3-6vvw-4mrq](https://github.com/advisories/GHSA-95c3-6vvw-4mrq) / CVE-2026-44428 (low).
+- **MCP Registry has an unauthenticated SSRF: HTTP namespace verification dials 6to4 / NAT64 / site-local IPv6 addresses, bypassing private-address allowlist**, [GHSA-r48c-v28r-pf6v](https://github.com/advisories/GHSA-r48c-v28r-pf6v) / CVE-2026-44430 (medium).
 
 ## Operator triage
 

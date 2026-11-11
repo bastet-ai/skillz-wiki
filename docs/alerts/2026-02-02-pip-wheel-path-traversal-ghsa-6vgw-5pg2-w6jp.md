@@ -1,4 +1,4 @@
-# 2026-02-02 — pip wheel extraction path traversal (GHSA-6vgw-5pg2-w6jp / CVE-2026-1703)
+# 2026-02-02, pip wheel extraction path traversal (GHSA-6vgw-5pg2-w6jp / CVE-2026-1703)
 
 **Summary:** When installing and extracting a maliciously crafted **wheel**, pip may extract files **outside** the intended installation directory (path traversal).
 

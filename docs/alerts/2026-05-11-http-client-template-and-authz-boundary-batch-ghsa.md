@@ -6,11 +6,11 @@ This batch is durable because each advisory is a boundary-enforcement failure in
 
 ## Advisories covered
 
-- **Velociraptor cross-organization file read** — [GHSA-2v93-vp82-cjv8](https://github.com/advisories/GHSA-2v93-vp82-cjv8): `www.velocidex.com/golang/velociraptor <0.76.4` lets a root-organization reader issue an authenticated HTTP GET that reads files from other organizations without target-org permissions.
-- **python-liquid absolute-path template include** — [GHSA-8p4x-wr7x-3788](https://github.com/advisories/GHSA-8p4x-wr7x-3788): `python-liquid <2.2.0` `FileSystemLoader` and `CachingFileSystemLoader` can resolve absolute paths outside configured search roots via `{% include %}` and `{% render %}`.
-- **urllib3 streaming decompression bomb bypass** — [GHSA-mf9v-mfxr-j63j](https://github.com/advisories/GHSA-mf9v-mfxr-j63j): `urllib3 >=2.6.0,<2.7.0` can fully decompress highly compressed streaming responses during specific Brotli `read(amt=N)` or `drain_conn()` flows, consuming CPU and memory.
-- **urllib3 proxied low-level redirect credential forwarding** — [GHSA-qccp-gfcp-xxvc](https://github.com/advisories/GHSA-qccp-gfcp-xxvc): `urllib3 >=1.23,<2.7.0` can forward `Authorization`, `Cookie`, or `Proxy-Authorization` across origins when callers follow redirects through low-level `ProxyManager.connection_from_url().urlopen(..., assert_same_host=False)` paths.
-- **Open WebUI memories API authorization gaps** — [GHSA-hmjq-crxp-7rjw](https://github.com/advisories/GHSA-hmjq-crxp-7rjw): `open-webui <0.6.19` lets standard users query, leak, delete, and restore other users' memories through inconsistent memory endpoint checks.
+- **Velociraptor cross-organization file read**, [GHSA-2v93-vp82-cjv8](https://github.com/advisories/GHSA-2v93-vp82-cjv8): `www.velocidex.com/golang/velociraptor <0.76.4` lets a root-organization reader issue an authenticated HTTP GET that reads files from other organizations without target-org permissions.
+- **python-liquid absolute-path template include**, [GHSA-8p4x-wr7x-3788](https://github.com/advisories/GHSA-8p4x-wr7x-3788): `python-liquid <2.2.0` `FileSystemLoader` and `CachingFileSystemLoader` can resolve absolute paths outside configured search roots via `{% include %}` and `{% render %}`.
+- **urllib3 streaming decompression bomb bypass**, [GHSA-mf9v-mfxr-j63j](https://github.com/advisories/GHSA-mf9v-mfxr-j63j): `urllib3 >=2.6.0,<2.7.0` can fully decompress highly compressed streaming responses during specific Brotli `read(amt=N)` or `drain_conn()` flows, consuming CPU and memory.
+- **urllib3 proxied low-level redirect credential forwarding**, [GHSA-qccp-gfcp-xxvc](https://github.com/advisories/GHSA-qccp-gfcp-xxvc): `urllib3 >=1.23,<2.7.0` can forward `Authorization`, `Cookie`, or `Proxy-Authorization` across origins when callers follow redirects through low-level `ProxyManager.connection_from_url().urlopen(..., assert_same_host=False)` paths.
+- **Open WebUI memories API authorization gaps**, [GHSA-hmjq-crxp-7rjw](https://github.com/advisories/GHSA-hmjq-crxp-7rjw): `open-webui <0.6.19` lets standard users query, leak, delete, and restore other users' memories through inconsistent memory endpoint checks.
 
 ## Operator triage
 

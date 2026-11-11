@@ -1,4 +1,4 @@
-# 2026-03-31 — @tinacms/graphql `FilesystemBridge` path validation bypass via symlinks or junctions (GHSA-g9c2-gf25-3x67)
+# 2026-03-31, @tinacms/graphql `FilesystemBridge` path validation bypass via symlinks or junctions
 
 **Product:** **@tinacms/graphql**
 

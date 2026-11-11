@@ -6,24 +6,24 @@ This Open WebUI-heavy wave is durable because it shows how RAG, file attach, vec
 
 ## Advisories covered
 
-- **Open WebUI: Cross-User File Access via Unchecked file_id in Folder Knowledge and Knowledge-Base Attach Endpoints** — [GHSA-r472-mw7m-967f](https://github.com/advisories/GHSA-r472-mw7m-967f) / CVE-2026-45402 (high).
-- **Open WebUI has a SSRF Bypass via HTTP Redirect Following in Web-Fetch and Image-Load Endpoints (not addressed by CVE-2025-65958)** — [GHSA-rh5x-h6pp-cjj6](https://github.com/advisories/GHSA-rh5x-h6pp-cjj6) / CVE-2026-45401 (high).
-- **Open WebUI has a Server-Side Request Forgery (SSRF) bypass in `validate_url`** — [GHSA-8w7q-q5jp-jvgx](https://github.com/advisories/GHSA-8w7q-q5jp-jvgx) / CVE-2026-45400 (high).
-- **Open WebUI Vulnerable to IDOR: Retrieval API Bypasses Knowledge Base Access Controls** — [GHSA-4g37-7p2c-38r9](https://github.com/advisories/GHSA-4g37-7p2c-38r9) / CVE-2026-45398 (high).
-- **Open WebUI Vulnerable to Unauthenticated RAG Configuration Disclosure** — [GHSA-65pg-qhhw-mxwg](https://github.com/advisories/GHSA-65pg-qhhw-mxwg) / CVE-2026-45397 (medium).
-- **Open WebUI has a full SSRF Vulnerability in the RAG Web Search Feature** — [GHSA-4v7r-f4w8-8972](https://github.com/advisories/GHSA-4v7r-f4w8-8972) / CVE-2026-45331 (high).
-- **Open WebUI has Unauthorized File and Knowledge Base Content Access via RAG Vector Search** — [GHSA-h36f-rqpx-j5wx](https://github.com/advisories/GHSA-h36f-rqpx-j5wx) / CVE-2026-44560 (medium).
-- **Open WebUI vulnerable to Global Knowledge Base Enumeration via knowledge-bases Meta-Collection** — [GHSA-6c2x-gcp3-gp73](https://github.com/advisories/GHSA-6c2x-gcp3-gp73) / CVE-2026-44557 (medium).
-- **Open WebUI has Knowledge Base Destruction and RAG Poisoning via Unauthorized Collection Overwrite** — [GHSA-7r82-qhg4-6wvj](https://github.com/advisories/GHSA-7r82-qhg4-6wvj) / CVE-2026-44554 (high).
-- **Open WebUI: SSRF Protection Bypass in Playwright Web Loader via HTTP Redirects** — [GHSA-jrfp-m64g-pcwv](https://github.com/advisories/GHSA-jrfp-m64g-pcwv) / CVE-2026-54018 (high).
-- **Open WebUI has Blind Server Side Request Forgery in its Image Edit Functionality** — [GHSA-jgx9-jr5x-mvpv](https://github.com/advisories/GHSA-jgx9-jr5x-mvpv) / CVE-2026-34225 (medium; `open-webui` `<= 0.7.2`, no patched version listed in the advisory at publication time).
-- **Open WebUI NAT64-encoded destination bypass** — [GHSA-8x5v-cpv7-8jjp](https://github.com/advisories/GHSA-8x5v-cpv7-8jjp) / CVE-2026-70485 (high).
-- **Open WebUI Playwright subresource SSRF** — [GHSA-w2rx-84hp-gg95](https://github.com/advisories/GHSA-w2rx-84hp-gg95) / CVE-2026-70479 (high).
-- **Open WebUI Vega/Vega-Lite browser-side request proxy** — [GHSA-rffm-9q57-q649](https://github.com/advisories/GHSA-rffm-9q57-q649) / CVE-2026-70480 (medium).
-- **Open WebUI DNS-rebinding SSRF bypass** — [GHSA-h6x2-583h-x99r](https://github.com/advisories/GHSA-h6x2-583h-x99r) / CVE-2026-54020 (medium).
-- **Open WebUI direct-model knowledge metadata crosses file ownership** — [GHSA-6xhv-rxhv-pwm4](https://github.com/advisories/GHSA-6xhv-rxhv-pwm4) / CVE-2026-70487 (medium).
-- **Open WebUI knowledge-sync cleanup accepts foreign directory/file IDs** — [GHSA-jxc9-xmc4-gr23](https://github.com/advisories/GHSA-jxc9-xmc4-gr23) / CVE-2026-70488 (medium).
-- **nuxt-og-image SSRF — bypass of GHSA-pqhr-mp3f-hrpp / v6.2.5 fix (IPv6 + redirect)** — [GHSA-c2rm-g55x-8hr5](https://github.com/advisories/GHSA-c2rm-g55x-8hr5) / CVE-2026-44589 (low).
+- **Open WebUI: Cross-User File Access via Unchecked file_id in Folder Knowledge and Knowledge-Base Attach Endpoints**, [GHSA-r472-mw7m-967f](https://github.com/advisories/GHSA-r472-mw7m-967f) / CVE-2026-45402 (high).
+- **Open WebUI has a SSRF Bypass via HTTP Redirect Following in Web-Fetch and Image-Load Endpoints (not addressed by CVE-2025-65958)**, [GHSA-rh5x-h6pp-cjj6](https://github.com/advisories/GHSA-rh5x-h6pp-cjj6) / CVE-2026-45401 (high).
+- **Open WebUI has a Server-Side Request Forgery (SSRF) bypass in `validate_url`**, [GHSA-8w7q-q5jp-jvgx](https://github.com/advisories/GHSA-8w7q-q5jp-jvgx) / CVE-2026-45400 (high).
+- **Open WebUI Vulnerable to IDOR: Retrieval API Bypasses Knowledge Base Access Controls**, [GHSA-4g37-7p2c-38r9](https://github.com/advisories/GHSA-4g37-7p2c-38r9) / CVE-2026-45398 (high).
+- **Open WebUI Vulnerable to Unauthenticated RAG Configuration Disclosure**, [GHSA-65pg-qhhw-mxwg](https://github.com/advisories/GHSA-65pg-qhhw-mxwg) / CVE-2026-45397 (medium).
+- **Open WebUI has a full SSRF Vulnerability in the RAG Web Search Feature**, [GHSA-4v7r-f4w8-8972](https://github.com/advisories/GHSA-4v7r-f4w8-8972) / CVE-2026-45331 (high).
+- **Open WebUI has Unauthorized File and Knowledge Base Content Access via RAG Vector Search**, [GHSA-h36f-rqpx-j5wx](https://github.com/advisories/GHSA-h36f-rqpx-j5wx) / CVE-2026-44560 (medium).
+- **Open WebUI vulnerable to Global Knowledge Base Enumeration via knowledge-bases Meta-Collection**, [GHSA-6c2x-gcp3-gp73](https://github.com/advisories/GHSA-6c2x-gcp3-gp73) / CVE-2026-44557 (medium).
+- **Open WebUI has Knowledge Base Destruction and RAG Poisoning via Unauthorized Collection Overwrite**, [GHSA-7r82-qhg4-6wvj](https://github.com/advisories/GHSA-7r82-qhg4-6wvj) / CVE-2026-44554 (high).
+- **Open WebUI: SSRF Protection Bypass in Playwright Web Loader via HTTP Redirects**, [GHSA-jrfp-m64g-pcwv](https://github.com/advisories/GHSA-jrfp-m64g-pcwv) / CVE-2026-54018 (high).
+- **Open WebUI has Blind Server Side Request Forgery in its Image Edit Functionality**, [GHSA-jgx9-jr5x-mvpv](https://github.com/advisories/GHSA-jgx9-jr5x-mvpv) / CVE-2026-34225 (medium; `open-webui` `<= 0.7.2`, no patched version listed in the advisory at publication time).
+- **Open WebUI NAT64-encoded destination bypass**, [GHSA-8x5v-cpv7-8jjp](https://github.com/advisories/GHSA-8x5v-cpv7-8jjp) / CVE-2026-70485 (high).
+- **Open WebUI Playwright subresource SSRF**, [GHSA-w2rx-84hp-gg95](https://github.com/advisories/GHSA-w2rx-84hp-gg95) / CVE-2026-70479 (high).
+- **Open WebUI Vega/Vega-Lite browser-side request proxy**, [GHSA-rffm-9q57-q649](https://github.com/advisories/GHSA-rffm-9q57-q649) / CVE-2026-70480 (medium).
+- **Open WebUI DNS-rebinding SSRF bypass**, [GHSA-h6x2-583h-x99r](https://github.com/advisories/GHSA-h6x2-583h-x99r) / CVE-2026-54020 (medium).
+- **Open WebUI direct-model knowledge metadata crosses file ownership**, [GHSA-6xhv-rxhv-pwm4](https://github.com/advisories/GHSA-6xhv-rxhv-pwm4) / CVE-2026-70487 (medium).
+- **Open WebUI knowledge-sync cleanup accepts foreign directory/file IDs**, [GHSA-jxc9-xmc4-gr23](https://github.com/advisories/GHSA-jxc9-xmc4-gr23) / CVE-2026-70488 (medium).
+- **nuxt-og-image SSRF, bypass of GHSA-pqhr-mp3f-hrpp / v6.2.5 fix (IPv6 + redirect)**, [GHSA-c2rm-g55x-8hr5](https://github.com/advisories/GHSA-c2rm-g55x-8hr5) / CVE-2026-44589 (low).
 
 ## Operator triage
 
@@ -117,7 +117,7 @@ Three more 0.11.0 fixes add final-use checks to the same fixture. The DNS record
 
 ### DNS-resolution binding
 
-Use an authoritative zone and two isolated canary listeners that you own: one globally reachable validation endpoint and one lab-private final endpoint. Configure deterministic alternating answers with zero TTL, log every DNS response, and record the actual peer accepted by the HTTP transport. Exercise retrieval ingestion, content probing, chat `image_url`, image edit, and—only with a mock OIDC provider—profile-picture retrieval.
+Use an authoritative zone and two isolated canary listeners that you own: one globally reachable validation endpoint and one lab-private final endpoint. Configure deterministic alternating answers with zero TTL, log every DNS response, and record the actual peer accepted by the HTTP transport. Exercise retrieval ingestion, content probing, chat `image_url`, image edit, and,only with a mock OIDC provider,profile-picture retrieval.
 
 The bounded positive is **policy lookup receives the public canary -> connect-time lookup receives the private canary -> private listener records the request**. Do not target metadata, loopback admin services, or production internal hosts. If testing the OAuth picture path, use a fake bearer marker and report only whether the owned listener received the marker; never relay a real provider token. A corrected client must validate and connect to the same resolved address, or enforce the destination policy in its resolver/transport immediately before connection.
 
@@ -137,13 +137,13 @@ Capture principal, request-scoped versus saved model provenance, native/legacy t
 
 ## September 16 follow-up: the Playwright loader re-resolves DNS on its own (GHSA-4v28-j6q3-5m4r / CVE-2026-87996)
 
-The August 4 DNS-binding fixture finally produced the confirmed browser-loader break. With `WEB_LOADER_ENGINE=playwright`, Open WebUI validated the address behind the submitted URL, then handed the same URL to the browser — and the browser resolved it a second time, unchecked. An attacker owning the zone with short-TTL alternating answers makes the check see a public address and the browser connect to an internal one. No timing race is required: the two lookups are separate queries the attacker answers differently, and connection-layer IP pinning cannot apply because the request runs inside the browser, not Open WebUI's own HTTP clients.
+The August 4 DNS-binding fixture finally produced the confirmed browser-loader break. With `WEB_LOADER_ENGINE=playwright`, Open WebUI validated the address behind the submitted URL, then handed the same URL to the browser, and the browser resolved it a second time, unchecked. An attacker owning the zone with short-TTL alternating answers makes the check see a public address and the browser connect to an internal one. No timing race is required: the two lookups are separate queries the attacker answers differently, and connection-layer IP pinning cannot apply because the request runs inside the browser, not Open WebUI's own HTTP clients.
 
 Preconditions to confirm first: Playwright engine enabled (not default), reachable local or `PLAYWRIGHT_WS_URL` browser, any authenticated non-admin user able to submit a URL or trigger web search, and browser-process network routes to internal space. Impact is a read primitive with response relay: the intercepted page becomes the ingestion/search result, IMDSv1 IAM credentials are reachable on cloud hosts, and because method and headers are forwarded, an attacker page can drive header-gated or non-GET metadata endpoints.
 
 Operator notes:
 
-1. This is the exact fixture the August 4 section specified — owned authoritative zone, alternating public/private answers, owned internal canary listener — now with a confirmed same-product positive. Record the per-query DNS log plus the final peer the browser recorded.
+1. This is the exact fixture the August 4 section specified, owned authoritative zone, alternating public/private answers, owned internal canary listener, now with a confirmed same-product positive. Record the per-query DNS log plus the final peer the browser recorded.
 2. Distinguish engines in every report: default-loader deployments pin the validated IP and are unaffected; only the Playwright path breaks pinning by delegating fetch to the browser.
 3. Fixed in 0.11.1. On a corrected build, re-run the alternating-answer fixture and confirm every browser request is intercepted/validated or the resolved address is pinned at browser transport level.
 4. Scope to the deployment's own route map: if the browser container has no internal routes, report the precondition honestly; never probe unrelated internal services to find one.

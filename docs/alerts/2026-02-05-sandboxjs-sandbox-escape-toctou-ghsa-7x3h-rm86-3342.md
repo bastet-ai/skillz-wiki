@@ -1,4 +1,4 @@
-# 2026-02-05 — SandboxJS: sandbox escape via TOCTOU key-coercion (GHSA-7x3h-rm86-3342)
+# 2026-02-05, SandboxJS: sandbox escape via TOCTOU key-coercion (GHSA-7x3h-rm86-3342)
 
 GitHub advisory: <https://github.com/advisories/GHSA-7x3h-rm86-3342>
 

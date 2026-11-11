@@ -6,11 +6,11 @@ Sentry's Python SDK before `2.8.0` and before the `1.45.1` backport could make `
 
 ## Advisory signal
 
-- **Boundary mismatch** — Python `subprocess` normally treats `env={}` as an empty environment. Affected Sentry SDK versions' default Stdlib integration wrapped subprocess handling in a way that caused the full parent environment to reach the child anyway.
-- **Secret-disclosure primitive** — the issue is most useful where a web app, CI worker, agent framework, document converter, plugin runner, or test harness invokes attacker-influenced commands while attempting to suppress secrets with `env={}`.
-- **Instrumentation dependency clue** — the vulnerable package is `sentry-sdk`; ranges are `<1.45.1` and `>=2.0.0a1,<2.8.0`. The Stdlib integration is enabled by default unless explicitly disabled.
-- **Impact shape** — this does not create command execution by itself. It upgrades an already-reachable subprocess execution surface into a potential environment-secret exposure when the child process can print, log, exfiltrate, upload, cache, or otherwise reflect its environment.
-- **Patch shape** — fixed releases preserve explicit empty-environment behavior. A reliable retest should show a child process launched with `env={}` receiving no ambient secrets.
+- **Boundary mismatch**, Python `subprocess` normally treats `env={}` as an empty environment. Affected Sentry SDK versions' default Stdlib integration wrapped subprocess handling in a way that caused the full parent environment to reach the child anyway.
+- **Secret-disclosure primitive**, the issue is most useful where a web app, CI worker, agent framework, document converter, plugin runner, or test harness invokes attacker-influenced commands while attempting to suppress secrets with `env={}`.
+- **Instrumentation dependency clue**, the vulnerable package is `sentry-sdk`; ranges are `<1.45.1` and `>=2.0.0a1,<2.8.0`. The Stdlib integration is enabled by default unless explicitly disabled.
+- **Impact shape**, this does not create command execution by itself. It upgrades an already-reachable subprocess execution surface into a potential environment-secret exposure when the child process can print, log, exfiltrate, upload, cache, or otherwise reflect its environment.
+- **Patch shape**, fixed releases preserve explicit empty-environment behavior. A reliable retest should show a child process launched with `env={}` receiving no ambient secrets.
 
 ## Operator triage
 

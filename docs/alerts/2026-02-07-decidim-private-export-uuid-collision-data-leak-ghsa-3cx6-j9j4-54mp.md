@@ -1,4 +1,4 @@
-# 2026-02-07 — Decidim private data export leak via UUID→integer coercion (GHSA-3cx6-j9j4-54mp / CVE-2025-65017)
+# 2026-02-07, Decidim private data export leak via UUID→integer coercion
 
 **Advisory:** GHSA-3cx6-j9j4-54mp  
 **CVE:** CVE-2025-65017  

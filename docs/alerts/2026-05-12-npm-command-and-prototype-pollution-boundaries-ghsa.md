@@ -6,11 +6,11 @@ This batch is durable because small utility packages again crossed untrusted str
 
 ## Advisories covered
 
-- **`@jswork/next-npm-version` command injection** — [GHSA-2xx6-qf7x-grqh](https://github.com/advisories/GHSA-2xx6-qf7x-grqh): package/version helper input can become shell syntax when release automation shells out instead of using argv arrays and strict package-name validation.
-- **`node-ts-ocr` command injection through `invokeImageOcr`** — [GHSA-8jh2-3mw6-6pfm](https://github.com/advisories/GHSA-8jh2-3mw6-6pfm): OCR wrappers are command-boundary code; image paths, language names, and engine options must not be concatenated into shell strings.
-- **`query-string-parser` prototype pollution** — [GHSA-587p-w43q-4hjx](https://github.com/advisories/GHSA-587p-w43q-4hjx): query parsers must reject `__proto__`, `constructor`, and `prototype` keys before nested object materialization.
-- **`parse-ini` prototype pollution** — [GHSA-x72j-hv9f-qqh4](https://github.com/advisories/GHSA-x72j-hv9f-qqh4): config parsers need null-prototype objects or denylisted magic keys so configuration files cannot mutate global object behavior.
-- **`youtube-regex` ReDoS** — [GHSA-vpxx-h23g-gxh2](https://github.com/advisories/GHSA-vpxx-h23g-gxh2): URL recognizers should use bounded parsing and host/path checks instead of catastrophic regular expressions.
+- **`@jswork/next-npm-version` command injection**, [GHSA-2xx6-qf7x-grqh](https://github.com/advisories/GHSA-2xx6-qf7x-grqh): package/version helper input can become shell syntax when release automation shells out instead of using argv arrays and strict package-name validation.
+- **`node-ts-ocr` command injection through `invokeImageOcr`**, [GHSA-8jh2-3mw6-6pfm](https://github.com/advisories/GHSA-8jh2-3mw6-6pfm): OCR wrappers are command-boundary code; image paths, language names, and engine options must not be concatenated into shell strings.
+- **`query-string-parser` prototype pollution**, [GHSA-587p-w43q-4hjx](https://github.com/advisories/GHSA-587p-w43q-4hjx): query parsers must reject `__proto__`, `constructor`, and `prototype` keys before nested object materialization.
+- **`parse-ini` prototype pollution**, [GHSA-x72j-hv9f-qqh4](https://github.com/advisories/GHSA-x72j-hv9f-qqh4): config parsers need null-prototype objects or denylisted magic keys so configuration files cannot mutate global object behavior.
+- **`youtube-regex` ReDoS**, [GHSA-vpxx-h23g-gxh2](https://github.com/advisories/GHSA-vpxx-h23g-gxh2): URL recognizers should use bounded parsing and host/path checks instead of catastrophic regular expressions.
 
 ## Operator triage
 

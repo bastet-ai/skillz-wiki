@@ -1,4 +1,4 @@
-# 2026-02-03 — `@isaacs/brace-expansion` unbounded expansion → DoS (GHSA-7h2j-956f-4vf2)
+# 2026-02-03, `@isaacs/brace-expansion` unbounded expansion → DoS (GHSA-7h2j-956f-4vf2)
 
 **Summary:** `@isaacs/brace-expansion` can perform **eager, unbounded brace-range expansion**. If untrusted input is passed into expansion (directly or via globbing), an attacker can trigger **exponential work** and crash or stall a Node.js process.
 

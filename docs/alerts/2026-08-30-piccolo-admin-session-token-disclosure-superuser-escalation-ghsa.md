@@ -1,13 +1,13 @@
-# Piccolo-Admin superuser escalation via session-token disclosure on read-only CRUD routes — operator validation
+# Piccolo-Admin superuser escalation via session-token disclosure on read-only CRUD routes, operator…
 
 **Date reviewed:** 2026-08-30
-**Advisory:** [GHSA-2gh4-jmwq-rr8w](https://github.com/advisories/GHSA-2gh4-jmwq-rr8w) — high, CVSS 8.8
+**Advisory:** [GHSA-2gh4-jmwq-rr8w](https://github.com/advisories/GHSA-2gh4-jmwq-rr8w), high, CVSS 8.8
 **Affected:** `piccolo-admin <= 1.13.0` (pip) and `piccolo-api <= 1.9.x` line; fixed in `piccolo-admin 1.14.0` / `piccolo-api 1.10.0`
 **Boundary class:** role-gated CRUD routes where the method allowlist gates write verbs but not reads, and the read response includes a live credential column
 
 ## The primitive
 
-`piccolo_admin` gates the **user** and **session** tables behind a `superuser_validators` helper for non-superuser admins. The helper rejects `PUT`, `PATCH`, `DELETE`, and `POST` — but **does not reject `GET`**. Two properties combine into the escalation:
+`piccolo_admin` gates the **user** and **session** tables behind a `superuser_validators` helper for non-superuser admins. The helper rejects `PUT`, `PATCH`, `DELETE`, and `POST`, but **does not reject `GET`**. Two properties combine into the escalation:
 
 1. The `sessions` table stores **live session tokens in plaintext**, and the token column is not marked `secret=True`, so the token value is included in every `GET` response.
 2. Any **non-superuser admin** (a realistic, documented role) can therefore list every other user's live session token with one request: `GET /api/tables/sessions/` (and `GET /api/tables/users/` for the target mapping).
@@ -15,10 +15,10 @@
 The chain:
 
 1. Non-superuser admin enumerates sessions via the read-only CRUD route.
-2. Replay a target user's token as `Cookie: id=<token>` (or the app's auth header) to impersonate that user — including the superuser.
+2. Replay a target user's token as `Cookie: id=<token>` (or the app's auth header) to impersonate that user, including the superuser.
 3. With superuser access, set `superuser = true` on the attacker's own row (self-promote), making the privilege permanent.
 
-Reachable on the **documented deployment pattern**: a deployer adds the `Sessions` and `User` tables to `create_admin([...])` so superusers get a UI to monitor and revoke sessions — the feature that makes the tables visible is what makes the tokens readable.
+Reachable on the **documented deployment pattern**: a deployer adds the `Sessions` and `User` tables to `create_admin([...])` so superusers get a UI to monitor and revoke sessions, the feature that makes the tables visible is what makes the tokens readable.
 
 ## Why this is durable
 
@@ -47,7 +47,7 @@ Stop at "read route returns the live token and the token replays." Do not exfilt
 - Lead with the **method-allowlist gap → credential disclosure → replay → self-promotion** chain. Name the exact validator (`superuser_validators`), the exact route, the exact column, and the replay cookie/header.
 - Include versions of `piccolo-admin` and `piccolo-api`, the admin-table registration, the verb matrix, and a redacted sample of the token-bearing response.
 - Distinguish the read-gate gap (the finding) from the replay impact (the proof). Do not claim persistence without the self-promotion step.
-- Note the configuration precondition: the tables must be registered in `create_admin([...])`. If they are not registered, the chain does not exist — say so in the report.
+- Note the configuration precondition: the tables must be registered in `create_admin([...])`. If they are not registered, the chain does not exist, say so in the report.
 
 ## Safe boundaries
 

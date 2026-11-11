@@ -123,7 +123,7 @@ This is not a bearer-token theft test. Begin with a refresh token legitimately i
 | user disabled | old refresh token still rotates | refresh rejects a disabled user |
 | allowed-group membership removed | old refresh token still rotates | refresh loads allowed groups and re-runs the group authorization check |
 
-The strongest bounded evidence is **valid baseline refresh -> one recorded authorization transition -> same pre-transition token still produces a new pair on the affected build -> fixed build rejects it**. Keep the three transitions separate: client revocation, principal lifecycle, and group-policy enforcement are distinct findings even though they converge on the same refresh endpoint. Do not claim initial authentication bypass—the precondition is a refresh token issued while the user was authorized.
+The strongest bounded evidence is **valid baseline refresh -> one recorded authorization transition -> same pre-transition token still produces a new pair on the affected build -> fixed build rejects it**. Keep the three transitions separate: client revocation, principal lifecycle, and group-policy enforcement are distinct findings even though they converge on the same refresh endpoint. Do not claim initial authentication bypass,the precondition is a refresh token issued while the user was authorized.
 
 Also distinguish token minting from downstream reachability. A new token pair proves renewal after revocation; accessing the canary route proves the relying party accepts the new access token. Neither requires viewing profile data, group membership beyond the synthetic fixture, or any real application resource.
 

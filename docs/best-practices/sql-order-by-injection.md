@@ -1,6 +1,6 @@
 # SQL injection via `ORDER BY` / identifier injection
 
-Some SQL injection vulnerabilities don’t come from values in a `WHERE` clause — they come from **untrusted identifiers** (column names, directions) being concatenated into an `ORDER BY`, `GROUP BY`, `SELECT <columns>`, or `JOIN <table>` clause.
+Some SQL injection vulnerabilities don’t come from values in a `WHERE` clause, they come from **untrusted identifiers** (column names, directions) being concatenated into an `ORDER BY`, `GROUP BY`, `SELECT <columns>`, or `JOIN <table>` clause.
 
 This is frequently exposed via API parameters like `sort`, `order`, `sortBy`, `direction`, `fields`, etc.
 
@@ -57,7 +57,7 @@ Accept `sort=createdAt,-username` or `sort=createdAt:desc,username:asc` and:
 - split on commas
 - validate token format strictly
 - map each field to a known-safe fragment
-- cap max sort keys (e.g., 2–3)
+- cap max sort keys (e.g., 2-3)
 
 ### 3) Reject any unknown characters early
 

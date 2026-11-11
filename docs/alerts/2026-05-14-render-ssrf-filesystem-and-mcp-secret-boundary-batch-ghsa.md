@@ -6,16 +6,16 @@ This batch ties together client-side consent rendering, CMS widgets, URL metadat
 
 ## Advisories covered
 
-- **ethyca-fides DOM XSS in `fides.js` descriptions** — [GHSA-5qrq-9645-g5g2](https://github.com/advisories/GHSA-5qrq-9645-g5g2): `ethyca-fides >= 2.33.0, < 2.84.5` allowed `fides_description` override content into a DOM XSS path. Fixed in `2.84.5`.
-- **Apostrophe image-widget `javascript:` URL XSS** — [GHSA-5f64-7vfc-rcx6](https://github.com/advisories/GHSA-5f64-7vfc-rcx6): `apostrophe 4.29.0` stored unsafe image-widget link URLs. No patched version was listed at scan time.
-- **Apostrophe password recovery weakness/input validation** — [GHSA-gf43-24g3-5hw2](https://github.com/advisories/GHSA-gf43-24g3-5hw2): `apostrophe <= 4.29.0` exposed weak forgot-password and validation behavior. No patched version was listed at scan time.
-- **Apostrophe rich-text widget import SSRF** — [GHSA-pr28-mf3q-qpg6](https://github.com/advisories/GHSA-pr28-mf3q-qpg6): `apostrophe <= 4.29.0` allowed authenticated SSRF through `@apostrophecms/area/validate-widget`. No patched version was listed at scan time.
-- **`sanitize-html` default `xmp` raw-text passthrough XSS** — [GHSA-rpr9-rxv7-x643](https://github.com/advisories/GHSA-rpr9-rxv7-x643): `sanitize-html <= 2.17.3` could permit default XSS through `xmp` raw-text handling. No patched version was listed at scan time.
-- **Karakeep SDK favicon metadata SSRF** — [GHSA-7rx4-c5vx-g8w3](https://github.com/advisories/GHSA-7rx4-c5vx-g8w3): `@karakeep/sdk <= 0.31.0` let `metascraper-logo-favicon` bypass `validateUrl` protections. Fixed in `0.32.0`.
-- **go-billy path traversal** — [GHSA-qw64-3x98-g7q2](https://github.com/advisories/GHSA-qw64-3x98-g7q2): `github.com/go-git/go-billy/v5 < 5.9.0` and `v6 < 6.0.0-alpha.1` allowed traversal through filesystem abstraction boundaries. Fixed in `5.9.0` and `6.0.0-alpha.1`.
-- **dbt MCP telemetry leaks raw tool arguments** — [GHSA-jj54-r8gm-2fcf](https://github.com/advisories/GHSA-jj54-r8gm-2fcf): `dbt-mcp <= 1.17.0` transmitted MCP tool arguments, including raw SQL and `--vars` credentials, to dbt Labs telemetry by default. Fixed in `1.17.1`.
-- **dbt MCP file logging leaks raw tool arguments** — [GHSA-7xgw-6qf3-7w59](https://github.com/advisories/GHSA-7xgw-6qf3-7w59): `dbt-mcp <= 1.17.0` logged SQL queries and credentials in plaintext when file logging was enabled. Fixed in `1.17.1`.
-- **dbt MCP CLI wrapper argument injection** — [GHSA-xpww-f6pm-cfhq](https://github.com/advisories/GHSA-xpww-f6pm-cfhq): `dbt-mcp <= 1.17.0` allowed argument injection through `node_selection` and `resource_type` wrapper parameters. Fixed in `1.17.1`.
+- **ethyca-fides DOM XSS in `fides.js` descriptions**, [GHSA-5qrq-9645-g5g2](https://github.com/advisories/GHSA-5qrq-9645-g5g2): `ethyca-fides >= 2.33.0, < 2.84.5` allowed `fides_description` override content into a DOM XSS path. Fixed in `2.84.5`.
+- **Apostrophe image-widget `javascript:` URL XSS**, [GHSA-5f64-7vfc-rcx6](https://github.com/advisories/GHSA-5f64-7vfc-rcx6): `apostrophe 4.29.0` stored unsafe image-widget link URLs. No patched version was listed at scan time.
+- **Apostrophe password recovery weakness/input validation**, [GHSA-gf43-24g3-5hw2](https://github.com/advisories/GHSA-gf43-24g3-5hw2): `apostrophe <= 4.29.0` exposed weak forgot-password and validation behavior. No patched version was listed at scan time.
+- **Apostrophe rich-text widget import SSRF**, [GHSA-pr28-mf3q-qpg6](https://github.com/advisories/GHSA-pr28-mf3q-qpg6): `apostrophe <= 4.29.0` allowed authenticated SSRF through `@apostrophecms/area/validate-widget`. No patched version was listed at scan time.
+- **`sanitize-html` default `xmp` raw-text passthrough XSS**, [GHSA-rpr9-rxv7-x643](https://github.com/advisories/GHSA-rpr9-rxv7-x643): `sanitize-html <= 2.17.3` could permit default XSS through `xmp` raw-text handling. No patched version was listed at scan time.
+- **Karakeep SDK favicon metadata SSRF**, [GHSA-7rx4-c5vx-g8w3](https://github.com/advisories/GHSA-7rx4-c5vx-g8w3): `@karakeep/sdk <= 0.31.0` let `metascraper-logo-favicon` bypass `validateUrl` protections. Fixed in `0.32.0`.
+- **go-billy path traversal**, [GHSA-qw64-3x98-g7q2](https://github.com/advisories/GHSA-qw64-3x98-g7q2): `github.com/go-git/go-billy/v5 < 5.9.0` and `v6 < 6.0.0-alpha.1` allowed traversal through filesystem abstraction boundaries. Fixed in `5.9.0` and `6.0.0-alpha.1`.
+- **dbt MCP telemetry leaks raw tool arguments**, [GHSA-jj54-r8gm-2fcf](https://github.com/advisories/GHSA-jj54-r8gm-2fcf): `dbt-mcp <= 1.17.0` transmitted MCP tool arguments, including raw SQL and `--vars` credentials, to dbt Labs telemetry by default. Fixed in `1.17.1`.
+- **dbt MCP file logging leaks raw tool arguments**, [GHSA-7xgw-6qf3-7w59](https://github.com/advisories/GHSA-7xgw-6qf3-7w59): `dbt-mcp <= 1.17.0` logged SQL queries and credentials in plaintext when file logging was enabled. Fixed in `1.17.1`.
+- **dbt MCP CLI wrapper argument injection**, [GHSA-xpww-f6pm-cfhq](https://github.com/advisories/GHSA-xpww-f6pm-cfhq): `dbt-mcp <= 1.17.0` allowed argument injection through `node_selection` and `resource_type` wrapper parameters. Fixed in `1.17.1`.
 
 ## Operator triage
 

@@ -6,7 +6,7 @@ This batch is durable because all three clusters are recurring trust-boundary mi
 
 ## Advisories covered
 
-- **Jupyter Server <= 2.17.0** — fixed in **2.18.0**:
+- **Jupyter Server <= 2.17.0**, fixed in **2.18.0**:
   - [GHSA-5789-5fc7-67v3](https://github.com/advisories/GHSA-5789-5fc7-67v3): authenticated path traversal via `startswith()` root-directory checks that can expose sibling directories sharing the same prefix.
   - [GHSA-24qx-w28j-9m6p](https://github.com/advisories/GHSA-24qx-w28j-9m6p): CORS origin bypass when `allow_origin_pat` is evaluated with `re.match()` instead of a full-string match.
   - [GHSA-5mrq-x3x5-8v8f](https://github.com/advisories/GHSA-5mrq-x3x5-8v8f): password reset and server restart do not revoke existing authentication cookies because the cookie secret remains persistent.
@@ -16,7 +16,7 @@ This batch is durable because all three clusters are recurring trust-boundary mi
   - [GHSA-qvjj-29qf-hp7p](https://github.com/advisories/GHSA-qvjj-29qf-hp7p): Promise species bypass of a prior sandbox fix, fixed in **3.10.5** for `<= 3.10.3`.
   - [GHSA-55hx-c926-fr95](https://github.com/advisories/GHSA-55hx-c926-fr95): `SuppressedError` escape on modern Node, fixed in **3.11.0** for `<= 3.10.4`.
   - [GHSA-ffh4-j6h5-pg66](https://github.com/advisories/GHSA-ffh4-j6h5-pg66): WASM exception-handling / `JSTag` escape on Node 25, fixed in **3.10.5** for `3.10.4`.
-- **nuts-node <= 1.1.0** — [GHSA-9hmg-827w-9rhj](https://github.com/advisories/GHSA-9hmg-827w-9rhj): v1 access-token introspection accepts Verifiable Presentation JWTs as active access tokens because it validates a known signature without enforcing JWT type, issuer-to-key binding, and required access-token claims. No patched version was listed in the advisory at scan time.
+- **nuts-node <= 1.1.0**, [GHSA-9hmg-827w-9rhj](https://github.com/advisories/GHSA-9hmg-827w-9rhj): v1 access-token introspection accepts Verifiable Presentation JWTs as active access tokens because it validates a known signature without enforcing JWT type, issuer-to-key binding, and required access-token claims. No patched version was listed in the advisory at scan time.
 
 ## Operator triage
 
@@ -109,12 +109,12 @@ Updated: hourly offensive-security scan, 2026-07-09. GitHub updated [GHSA-gf7q-q
 - A before/after result table covering vulnerable, patched, prefix-sibling, and non-prefix-sibling cases.
 - Source links: [GitHub advisory](https://github.com/advisories/GHSA-gf7q-q4j7-hp7c), [huntr report](https://huntr.com/bounties/24a36953-6490-466f-8cb2-a90d1ca56e0f), and [upstream fix commit](http://github.com/jupyter-server/jupyter_server/commit/0d829f2c35a481c3b24ecbe1e25a6f79954e88f2).
 
-## October 27 13:3xZ follow-up: Wails desktop IPC origin gate — `*` → `.*` wildcard translation lets `myapp.com*` admit `myapp.community` ([CVE-2026-34157](https://github.com/advisories/GHSA-47hv-j4px-h3c9), high, wails/v2 2.0.0–<2.13.0)
+## October 27 13:3xZ follow-up: Wails desktop IPC origin gate, `*` → `.*` wildcard translation lets `myapp.com*` admit `myapp.community` ([CVE-2026-34157](https://github.com/advisories/GHSA-47hv-j4px-h3c9), high, wails/v2 2.0.0-<2.13.0)
 
-Wails v2's `BindingsAllowedOrigins` gate for its web→Go IPC bridge compiles wildcard patterns with `wildcardPatternToRegex`: escape regex specials, then blanket-replace `*` with `.*` and anchor only the whole string (`^...$`). Pattern `https://myapp.com*` therefore compiles to `^https://myapp\.com.*$` — matched by `https://myapp.community` (different TLD, prefix collision), `https://myapp.com.attacker.com`, or any `myapp.comXXXXX` suffix. An attacker registering the colliding domain invokes every bound Go method from their origin: file read/write, DB queries, or OS command exec depending on what the app binds. The fix (PR #5074) expands wildcards only when they sit at a full domain component (after `://`, `.`, or `:`) and strips a wildcard appended to a partial label. Scope note: the documented `https://*.myapp.com` form is NOT affected — this is the trailing-wildcard misuse shape.
+Wails v2's `BindingsAllowedOrigins` gate for its web→Go IPC bridge compiles wildcard patterns with `wildcardPatternToRegex`: escape regex specials, then blanket-replace `*` with `.*` and anchor only the whole string (`^...$`). Pattern `https://myapp.com*` therefore compiles to `^https://myapp\.com.*$`, matched by `https://myapp.community` (different TLD, prefix collision), `https://myapp.com.attacker.com`, or any `myapp.comXXXXX` suffix. An attacker registering the colliding domain invokes every bound Go method from their origin: file read/write, DB queries, or OS command exec depending on what the app binds. The fix (PR #5074) expands wildcards only when they sit at a full domain component (after `://`, `.`, or `:`) and strips a wildcard appended to a partial label. Scope note: the documented `https://*.myapp.com` form is NOT affected, this is the trailing-wildcard misuse shape.
 
 This is the third shape in this page's origin-validation family (Jupyter `re.match` prefix semantics, then this): a **config-to-regex compiler** that treats `*` as "any characters" instead of "any characters within one label". Durable rules:
 
 - When fingerprinting any origin/host allowlist (desktop IPC bridges, CORS, WebSocket `CheckOrigin`, webhook receiver allowlists), test the three canonical config-compiler breaks as a battery: prefix-match semantics (`re.match`-style, suffix origin), suffix-wildcard label collision (`allowedprefix*` → attacker TLD/child domain), and dot-crossing wildcards (`*` matching `.attacker.com`). A pass on all three is required before trusting an allowlist-shaped config.
 - Prefix-collision domain registration (`target.com` → `target.community`, `target.dev`, `target.com.evil.tld`) is a cheap, fully-owned canary: no traffic to the real domain, and a yes/no IPC response is the whole proof.
-- Desktop-app variant of the browser-origin model: the "origin" here gates an IPC/RPC surface with host-privileged methods, not just HTTP APIs — bound-method enumeration (file/db/exec capabilities) is the impact assessment, done offline against the app binary/docs, not by exercising the host.
+- Desktop-app variant of the browser-origin model: the "origin" here gates an IPC/RPC surface with host-privileged methods, not just HTTP APIs, bound-method enumeration (file/db/exec capabilities) is the impact assessment, done offline against the app binary/docs, not by exercising the host.

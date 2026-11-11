@@ -1,4 +1,4 @@
-# 2026-02-05 — n8n HTTP Request “Allowed domains” validation bypass → credential exfiltration (GHSA-2xcx-75h9-vr9h)
+# 2026-02-05, n8n HTTP Request “Allowed domains” validation bypass → credential exfiltration
 
 **Product:** **n8n** (npm package: `n8n`)
 
@@ -30,9 +30,9 @@ The advisory notes this primarily affects deployments using **wildcard domain pa
 - Upstream advisory: <https://github.com/n8n-io/n8n/security/advisories/GHSA-2xcx-75h9-vr9h>
 
 ## Related Skillz Wiki
-- [2026-02-04 — n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8)](2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md)
-- [2026-02-04 — n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw)](2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md)
-- [2026-02-04 — n8n arbitrary file read (GHSA-gfvg-qv54-r4pc)](2026-02-04-n8n-arbitrary-file-read-ghsa-gfvg-qv54-r4pc.md)
+- [2026-02-04, n8n Expression Escape → RCE (GHSA-6cqr-8cfr-67f8)](2026-02-04-n8n-expression-escape-rce-ghsa-6cqr-8cfr-67f8.md)
+- [2026-02-04, n8n OS command injection in Git node (GHSA-9g95-qf3f-ggrw)](2026-02-04-n8n-git-node-command-injection-ghsa-9g95-qf3f-ggrw.md)
+- [2026-02-04, n8n arbitrary file read (GHSA-gfvg-qv54-r4pc)](2026-02-04-n8n-arbitrary-file-read-ghsa-gfvg-qv54-r4pc.md)
 
 ## Consolidation note
 <!-- consolidation-note: wiki-redundancy-2026-05-22 -->

@@ -1,4 +1,4 @@
-# 2026-02-04 — n8n improper CSP enforcement in webhook responses may allow stored XSS (GHSA-825q-w924-xhgx)
+# 2026-02-04, n8n improper CSP enforcement in webhook responses may allow stored XSS
 
 **Product:** **n8n** (npm package: `n8n`)
 

@@ -6,10 +6,10 @@ This batch is durable because it captures defensive patterns for framework file 
 
 ## Advisories covered
 
-- **Apache Wicket folder upload path traversal** — [GHSA-3gmf-p6r4-q8m6 / CVE-2026-43975](https://github.com/advisories/GHSA-3gmf-p6r4-q8m6): `org.apache.wicket:wicket-core` `8.0.0-M1-8.17.0`, `9.0.0-M1-9.22.0`, and `10.0.0-M1-10.8.0`, fixed `10.9.0`, fails to sanitize `uploadFieldId` and `clientFileName` before file path construction.
-- **Grafana Tempo Operator TokenReview / SubjectAccessReview information exposure** — [GHSA-28gr-56hr-prp6 / CVE-2025-2786](https://github.com/advisories/GHSA-28gr-56hr-prp6): `tempo-operator <0.16.0`, fixed `0.16.0`, creates service account RBAC that namespace users can leverage to query authorization information.
-- **Grafana Tempo Operator cluster-monitoring-view exposure** — [GHSA-5xf3-gmx4-529v / CVE-2025-2842](https://github.com/advisories/GHSA-5xf3-gmx4-529v): `tempo-operator <0.16.0`, fixed `0.16.0`, can create a ClusterRoleBinding for Tempo service accounts when Jaeger UI Monitor Tab functionality is enabled, exposing broader metrics visibility to users with namespace secret access.
-- **ParquetSharp stack overflow on large decimal width** — [GHSA-rrjr-v56m-ww88 / CVE-2026-42241](https://github.com/advisories/GHSA-rrjr-v56m-ww88): `ParquetSharp >=18.1.0,<23.0.0.1`, fixed `23.0.0.1`, can stack overflow while reading untrusted Parquet files with unreasonable decimal type width.
+- **Apache Wicket folder upload path traversal**, [GHSA-3gmf-p6r4-q8m6 / CVE-2026-43975](https://github.com/advisories/GHSA-3gmf-p6r4-q8m6): `org.apache.wicket:wicket-core` `8.0.0-M1-8.17.0`, `9.0.0-M1-9.22.0`, and `10.0.0-M1-10.8.0`, fixed `10.9.0`, fails to sanitize `uploadFieldId` and `clientFileName` before file path construction.
+- **Grafana Tempo Operator TokenReview / SubjectAccessReview information exposure**, [GHSA-28gr-56hr-prp6 / CVE-2025-2786](https://github.com/advisories/GHSA-28gr-56hr-prp6): `tempo-operator <0.16.0`, fixed `0.16.0`, creates service account RBAC that namespace users can leverage to query authorization information.
+- **Grafana Tempo Operator cluster-monitoring-view exposure**, [GHSA-5xf3-gmx4-529v / CVE-2025-2842](https://github.com/advisories/GHSA-5xf3-gmx4-529v): `tempo-operator <0.16.0`, fixed `0.16.0`, can create a ClusterRoleBinding for Tempo service accounts when Jaeger UI Monitor Tab functionality is enabled, exposing broader metrics visibility to users with namespace secret access.
+- **ParquetSharp stack overflow on large decimal width**, [GHSA-rrjr-v56m-ww88 / CVE-2026-42241](https://github.com/advisories/GHSA-rrjr-v56m-ww88): `ParquetSharp >=18.1.0,<23.0.0.1`, fixed `23.0.0.1`, can stack overflow while reading untrusted Parquet files with unreasonable decimal type width.
 
 ## Operator triage
 

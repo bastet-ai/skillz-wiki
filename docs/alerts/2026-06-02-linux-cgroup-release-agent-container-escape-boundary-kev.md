@@ -6,9 +6,9 @@ This is durable for operators because the bug class is not just an old kernel CV
 
 ## What changed
 
-- **CISA KEV signal** — CISA added CVE-2022-0492 to the known-exploited catalog on 2026-06-02.
-- **Vulnerable primitive** — NVD describes `cgroup_release_agent_write` in `kernel/cgroup/cgroup-v1.c`, where cgroups v1 `release_agent` handling can allow privilege escalation and unexpected namespace-isolation bypass under certain circumstances.
-- **Operator takeaway** — during container, Kubernetes, CI-runner, and appliance assessments, treat writable cgroup v1 control files and privileged capability sets as an escape-path precondition, not as routine hardening trivia.
+- **CISA KEV signal**, CISA added CVE-2022-0492 to the known-exploited catalog on 2026-06-02.
+- **Vulnerable primitive**, NVD describes `cgroup_release_agent_write` in `kernel/cgroup/cgroup-v1.c`, where cgroups v1 `release_agent` handling can allow privilege escalation and unexpected namespace-isolation bypass under certain circumstances.
+- **Operator takeaway**, during container, Kubernetes, CI-runner, and appliance assessments, treat writable cgroup v1 control files and privileged capability sets as an escape-path precondition, not as routine hardening trivia.
 
 ## When to use this check
 

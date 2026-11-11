@@ -1,4 +1,4 @@
-# 2026-02-02 — Khoj Notion OAuth callback IDOR / state confusion (GHSA-6whj-7qmg-86qj)
+# 2026-02-02, Khoj Notion OAuth callback IDOR / state confusion (GHSA-6whj-7qmg-86qj)
 
 ## Summary
 

@@ -1,4 +1,4 @@
-# 2026-02-02 — Clawdbot: multiple high-severity RCE paths (fixed in 2026.1.29)
+# 2026-02-02, Clawdbot: multiple high-severity RCE paths (fixed in 2026.1.29)
 
 ## What happened
 On 2026-02-02, multiple GitHub Security Advisories were published for **OpenClaw/Clawdbot** (notably affecting the **macOS menubar app** in Remote/SSH mode and the **Control UI** token handling).
@@ -42,8 +42,8 @@ If your product constructs shell scripts/commands:
 - Validate SSH host strings (e.g., **reject leading `-`** and other flag-like patterns).
 
 ## References
-- GHSA-g8p2-7wf7-98mq — “1‑Click RCE via Authentication Token Exfiltration From gatewayUrl”
-- GHSA-q284-4pvr-m585 — “OS Command Injection via Project Root Path in sshNodeCommand” + “SSH target flag injection”
-- GHSA-mc68-q9jw-2h3v — “Docker execution command injection via PATH”
+- GHSA-g8p2-7wf7-98mq, “1‑Click RCE via Authentication Token Exfiltration From gatewayUrl”
+- GHSA-q284-4pvr-m585, “OS Command Injection via Project Root Path in sshNodeCommand” + “SSH target flag injection”
+- GHSA-mc68-q9jw-2h3v, “Docker execution command injection via PATH”
 
 GitHub advisory feed: https://github.com/security-advisories.atom

@@ -1,4 +1,4 @@
-# 2026-02-03 — Claude Code path restriction bypass → arbitrary file write (GHSA-q728-gf8j-w49r)
+# 2026-02-03, Claude Code path restriction bypass → arbitrary file write (GHSA-q728-gf8j-w49r)
 
 **What happened:** A path restriction control in Claude Code could be bypassed via a ZSH “clobber”/redirection behavior, enabling **arbitrary file writes** outside the intended workspace.
 

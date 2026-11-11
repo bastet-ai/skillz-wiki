@@ -1,4 +1,4 @@
-# 2026-02-04 — survey-pdf: jsPDF path traversal / local file inclusion via dependency (GHSA-h3q6-jfrg-3x6q)
+# 2026-02-04, survey-pdf
 
 **Product:** `survey-pdf` (npm) via dependency on **jsPDF**
 

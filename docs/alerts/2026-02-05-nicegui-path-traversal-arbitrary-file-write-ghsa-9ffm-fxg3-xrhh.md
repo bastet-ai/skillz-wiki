@@ -1,4 +1,4 @@
-# 2026-02-05 — NiceGUI `FileUpload.name` path traversal → arbitrary file write (GHSA-9ffm-fxg3-xrhh)
+# 2026-02-05, NiceGUI `FileUpload.name` path traversal → arbitrary file write (GHSA-9ffm-fxg3-xrhh)
 
 GitHub published an advisory describing a **path traversal / arbitrary file write footgun** in NiceGUI applications that save uploads using a **user-controlled filename**.
 
@@ -39,7 +39,7 @@ Result: writes **outside** the intended directory, which can become **RCE** if a
   - restrict to an allowlist character set
   - enforce a base directory check using `resolve()` and `is_relative_to()`.
 
-See also: [Best practice: file uploads — don’t trust filenames](../best-practices/file-upload-filename-sanitization.md)
+See also: [Best practice: file uploads, don’t trust filenames](../best-practices/file-upload-filename-sanitization.md)
 
 ## Hunt / detection ideas
 

@@ -3,7 +3,7 @@
 **Date**: 2026-04-28  
 **Status**: Durable guidance
 
-Autonomous web-testing agents can look impressive in benchmark runs while still measuring the wrong thing. If the harness leaks state, lets challenges reach each other, accepts guessed flags, or reuses memory between attempts, the result is not a security benchmark — it is a contamination experiment.
+Autonomous web-testing agents can look impressive in benchmark runs while still measuring the wrong thing. If the harness leaks state, lets challenges reach each other, accepts guessed flags, or reuses memory between attempts, the result is not a security benchmark, it is a contamination experiment.
 
 ## What to isolate
 
@@ -40,7 +40,7 @@ Autonomous web-testing agents can look impressive in benchmark runs while still 
 
 ## Operator takeaway
 
-Treat agentic DAST benchmarks like mini cyber ranges. The agent should win only by exploiting the intended target in the current clean run. Everything else — stale state, neighboring services, guessed artifacts, or remembered prior attempts — must be designed out before the numbers mean anything.
+Treat agentic DAST benchmarks like mini cyber ranges. The agent should win only by exploiting the intended target in the current clean run. Everything else, stale state, neighboring services, guessed artifacts, or remembered prior attempts, must be designed out before the numbers mean anything.
 
 ## Source
 

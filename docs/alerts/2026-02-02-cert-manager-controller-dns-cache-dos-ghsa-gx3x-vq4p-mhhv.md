@@ -1,4 +1,4 @@
-# 2026-02-02 — cert-manager controller DoS via crafted DNS response (GHSA-gx3x-vq4p-mhhv)
+# 2026-02-02, cert-manager controller DoS via crafted DNS response (GHSA-gx3x-vq4p-mhhv)
 
 **Summary:** A malicious/compromised DNS path (on-path attacker) or attacker-controlled authoritative DNS server can return a specially crafted DNS response that poisons cert-manager’s DNS cache and triggers a panic when accessed, causing **denial of service** of the cert-manager controller.
 

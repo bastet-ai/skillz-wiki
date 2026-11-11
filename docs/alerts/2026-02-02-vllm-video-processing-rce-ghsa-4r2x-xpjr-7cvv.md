@@ -1,4 +1,4 @@
-# 2026-02-02 — vLLM RCE via video processing chain (GHSA-4r2x-xpjr-7cvv)
+# 2026-02-02, vLLM RCE via video processing chain (GHSA-4r2x-xpjr-7cvv)
 
 ## Summary
 

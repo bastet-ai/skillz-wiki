@@ -1,4 +1,4 @@
-# 2026-02-03 — HtmlSanitizer bypass via `<template>` tag (GHSA-j92c-7v7g-gj3f)
+# 2026-02-03, HtmlSanitizer bypass via `<template>` tag (GHSA-j92c-7v7g-gj3f)
 
 **What happened:** HtmlSanitizer had an XSS sanitization bypass involving the `<template>` tag.
 

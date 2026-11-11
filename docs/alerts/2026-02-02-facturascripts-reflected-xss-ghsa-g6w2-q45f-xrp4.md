@@ -1,4 +1,4 @@
-# 2026-02-02 — FacturaScripts reflected XSS via raw error rendering (GHSA-g6w2-q45f-xrp4)
+# 2026-02-02, FacturaScripts reflected XSS via raw error rendering (GHSA-g6w2-q45f-xrp4)
 
 ## Summary
 

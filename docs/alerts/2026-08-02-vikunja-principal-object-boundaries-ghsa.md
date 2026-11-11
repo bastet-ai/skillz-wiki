@@ -70,10 +70,10 @@ The 08-02 boundaries (principal-type collision, parent/child selector) are about
 
 | Advisory | Endpoint | Unchecked field | Result |
 | --- | --- | --- | --- |
-| GHSA-5pg6-m483-7vrg | `POST /api/v1/projects/{project}/views/{view}/buckets/{bucket}/tasks` | body `task_id` | Cross-tenant IDOR: victim task loaded in full and, into a "done" bucket, written — task IDs are a global sequential integer space |
+| GHSA-5pg6-m483-7vrg | `POST /api/v1/projects/{project}/views/{view}/buckets/{bucket}/tasks` | body `task_id` | Cross-tenant IDOR: victim task loaded in full and, into a "done" bucket, written, task IDs are a global sequential integer space |
 | GHSA-gg93-x632-9ccv | `DELETE /api/v1/projects/{project}/views/{view}` | cascading `task_buckets` / `task_positions` deletes filter only on `pv.ID` | Instance-wide destruction of kanban bucket assignments + task ordering in *any* project view; `CanDelete` gates Admin on the URL project but never confirms the URL view belongs to it |
 | GHSA-569v-q83c-3j3g | `POST /api/v1/projects/{project}/views/{view}/buckets/{bucket}` | body `project_view_id` | Cross-tenant kanban-bucket relocation: graft the attacker's bucket into any other tenant's kanban view with attacker-controlled title |
-| GHSA-f27p-pw2p-9pr4 | project-duplication endpoint | `ParentProjectID` | `CanCreate` calls `parent.CanCreate` ("may I create this project?") instead of `parent.CanWrite` ("may I create children inside this project?") — any read-access user duplicates a project into any parent project |
+| GHSA-f27p-pw2p-9pr4 | project-duplication endpoint | `ParentProjectID` | `CanCreate` calls `parent.CanCreate` ("may I create this project?") instead of `parent.CanWrite` ("may I create children inside this project?"), any read-access user duplicates a project into any parent project |
 | GHSA-44v6-7fxq-vgf4 | project update | `parent_project_id: 0` | Incomplete fix for CVE-2026-35595: the Admin gate only fires for `parent_project_id > 0`; a Write-only user on a shared child detaches it to root (`0`), severing the recursive-CTE Admin inheritance |
 
 ### Replayable validation (lab only)
@@ -81,7 +81,7 @@ The 08-02 boundaries (principal-type collision, parent/child selector) are about
 Preconditions: disposable Vikunja `2.3.0` plus a `2.4.0` patched control; two synthetic users (attacker/victim) with their own projects, views, kanban buckets, and marker tasks; a redacting HTTP recorder.
 
 1. **Bucket relocation (GHSA-569v-q83c-3j3g).** Attacker creates a bucket in their own project (step 1 in the advisory PoC), then `POST`s an update to that bucket with `project_view_id` set to the victim's view ID. The URL chain is the attacker's, so `Bucket.CanUpdate` passes; the body field writes through. Positive: the bucket row now carries the victim's `project_view_id`. On `2.4.0` the same call must be denied or the field must be ignored.
-2. **Cross-tenant task move (GHSA-5pg6-m483-7vrg).** Attacker moves their own task into a bucket in their own project, but with the victim's `task_id` in the body. Positive: the response returns the victim task's full contents and, when the target bucket is "done," the victim task row is mutated. Bound the claim to the exact `task_id` binding — do not enumerate the global ID space against production.
+2. **Cross-tenant task move (GHSA-5pg6-m483-7vrg).** Attacker moves their own task into a bucket in their own project, but with the victim's `task_id` in the body. Positive: the response returns the victim task's full contents and, when the target bucket is "done," the victim task row is mutated. Bound the claim to the exact `task_id` binding, do not enumerate the global ID space against production.
 3. **View-delete cascade (GHSA-gg93-x632-9ccv).** With Admin on the attacker's project only, `DELETE` a view whose `view_id` belongs to the victim's project but is addressed through the attacker's URL project. Positive: `task_buckets` / `task_positions` rows for the victim view are deleted. Use marker rows and a rollback/recorder for the mutation evidence; the advisory's two-tenant fixture is sufficient.
 4. **Duplicate-into-foreign-parent (GHSA-f27p-pw2p-9pr4).** As a user with read access to the victim project and no write access to the victim's parent, request duplication into that parent. Positive: a new project owned by the attacker appears under the foreign parent. Compare against the normal create path, which enforces `CanWrite`.
 5. **Detach-to-root incomplete fix (GHSA-44v6-7fxq-vgf4).** As a Write-only (not Admin) user on a shared child project, send a project update with `parent_project_id: 0`. Positive: the child is detached from its parent and the recursive-CTE Admin inheritance is severed. Then re-run with `parent_project_id: <foreign parent>` to confirm the `> 0` case is gated, establishing the differential. On `2.4.0` both must be denied for a non-Admin.
@@ -89,8 +89,8 @@ Preconditions: disposable Vikunja `2.3.0` plus a `2.4.0` patched control; two sy
 ### Reporting heuristics
 
 - For each item, report **URL-scoped object (authorized) vs body/cascade FK (foreign-tenant)** with the exact model method that re-binds the field (`Bucket.Update`, `ProjectView.Delete`, `ProjectDuplicate.CanCreate`, project-update handler).
-- Capture the `2.4.0` negative control for every item — several of these are regression fixes, and the "incomplete fix" framing (GHSA-44v6-7fxq-vgf4) is only provable by showing the `> 0` path is gated while `= 0` is not.
-- Distinguish **read oracle** (task contents returned) from **write primitive** (row mutated / rows deleted) — the write evidence is what makes this a high, not a medium.
+- Capture the `2.4.0` negative control for every item, several of these are regression fixes, and the "incomplete fix" framing (GHSA-44v6-7fxq-vgf4) is only provable by showing the `> 0` path is gated while `= 0` is not.
+- Distinguish **read oracle** (task contents returned) from **write primitive** (row mutated / rows deleted), the write evidence is what makes this a high, not a medium.
 - Kanban/task ordering corruption is a tenant-integrity finding, not just an authorization miss: report the blast radius (all views of one project vs. instance-wide) precisely.
 
 ### Safe boundaries

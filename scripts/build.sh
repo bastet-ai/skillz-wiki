@@ -9,4 +9,5 @@ fi
 python3 -m venv .venv
 .venv/bin/python -m pip install --disable-pip-version-check -q -r requirements.txt
 .venv/bin/python scripts/check_duplicate_alert_ids.py --docs docs
+.venv/bin/python scripts/audit_titles.py --check
 .venv/bin/mkdocs build --strict --clean

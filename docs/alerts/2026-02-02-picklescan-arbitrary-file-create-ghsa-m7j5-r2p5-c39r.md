@@ -1,4 +1,4 @@
-# 2026-02-02 — picklescan: arbitrary file create via unsafe pickle deserialization (GHSA-m7j5-r2p5-c39r)
+# 2026-02-02, picklescan
 
 ## Summary
 

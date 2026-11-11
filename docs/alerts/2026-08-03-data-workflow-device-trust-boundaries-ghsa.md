@@ -123,7 +123,7 @@ Report **untrusted certificate accepted -> fake provider token delivered to owne
 
 ## 5. Replace every command wrapper with an argv/grammar recorder
 
-The Serverless Devs, ClearOS, and GL.iNet records all describe fields that appear structured—repository URL, log filter, port, WireGuard public key, or private key—but reach shell-backed helpers. Do not reproduce published command payloads.
+The Serverless Devs, ClearOS, and GL.iNet records all describe fields that appear structured,repository URL, log filter, port, WireGuard public key, or private key,but reach shell-backed helpers. Do not reproduce published command payloads.
 
 1. Use an isolated CLI/application/appliance lab and patch the final `spawn`, shell, or native-plugin process boundary to log executable, argv elements, shell mode, working directory, effective role, and environment key names, then abort.
 2. Send one valid field, one invalid ordinary value, whitespace, a quoting character, and a harmless metacharacter-plus-random-marker token. The marker must never name a command or path.

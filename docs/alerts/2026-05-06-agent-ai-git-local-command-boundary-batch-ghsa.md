@@ -4,15 +4,15 @@
 
 ## Advisories covered
 
-- **PraisonAI unauthenticated RCE and SSRF bypass** — [GHSA-xcmw-grxf-wjhj](https://github.com/advisories/GHSA-xcmw-grxf-wjhj), [GHSA-q9pw-vmhh-384g](https://github.com/advisories/GHSA-q9pw-vmhh-384g): tool override and fetch controls could be bypassed.
-- **Hugging Face Smolagents injection** — [GHSA-54fq-v6x8-244g](https://github.com/advisories/GHSA-54fq-v6x8-244g): model/agent instruction data could cross into execution decisions.
-- **GitPython config newline injection RCE** — [GHSA-v87r-6q3f-2j67](https://github.com/advisories/GHSA-v87r-6q3f-2j67): `config_writer().set_value()` could inject new config entries such as `core.hooksPath`.
-- **rmcp DNS rebinding** — [GHSA-89vp-x53w-74fx](https://github.com/advisories/GHSA-89vp-x53w-74fx): Streamable HTTP server transport needed Host/origin binding.
-- **JupyterLab one-click command execution** — [GHSA-mqcg-5x36-vfcg](https://github.com/advisories/GHSA-mqcg-5x36-vfcg): command-linker attributes in untrusted HTML could trigger commands.
-- **Kiota code-generation literal injection** — [GHSA-2hx3-vp6r-mg3f](https://github.com/advisories/GHSA-2hx3-vp6r-mg3f): generated code needed literal-safe emission boundaries.
-- **Duplicate OpenClaw Feishu file-read advisory** — [GHSA-qp56-gp47-jwj3](https://github.com/advisories/GHSA-qp56-gp47-jwj3): keep duplicate advisories mapped to the original file-sandbox control.
-- **OpenClaw Tlon media disk exhaustion** — [GHSA-4g5x-2jfc-xm98](https://github.com/advisories/GHSA-4g5x-2jfc-xm98): media downloads could bypass core safety limits.
-- **OpenClaw exec allowlist and mirror-sync escapes** — [GHSA-wpc6-37g7-8q4w](https://github.com/advisories/GHSA-wpc6-37g7-8q4w), [GHSA-cwf8-44x6-32c2](https://github.com/advisories/GHSA-cwf8-44x6-32c2): shell init-file options and unrestricted sync plus symlink traversal could defeat sandbox assumptions.
+- **PraisonAI unauthenticated RCE and SSRF bypass**, [GHSA-xcmw-grxf-wjhj](https://github.com/advisories/GHSA-xcmw-grxf-wjhj), [GHSA-q9pw-vmhh-384g](https://github.com/advisories/GHSA-q9pw-vmhh-384g): tool override and fetch controls could be bypassed.
+- **Hugging Face Smolagents injection**, [GHSA-54fq-v6x8-244g](https://github.com/advisories/GHSA-54fq-v6x8-244g): model/agent instruction data could cross into execution decisions.
+- **GitPython config newline injection RCE**, [GHSA-v87r-6q3f-2j67](https://github.com/advisories/GHSA-v87r-6q3f-2j67): `config_writer().set_value()` could inject new config entries such as `core.hooksPath`.
+- **rmcp DNS rebinding**, [GHSA-89vp-x53w-74fx](https://github.com/advisories/GHSA-89vp-x53w-74fx): Streamable HTTP server transport needed Host/origin binding.
+- **JupyterLab one-click command execution**, [GHSA-mqcg-5x36-vfcg](https://github.com/advisories/GHSA-mqcg-5x36-vfcg): command-linker attributes in untrusted HTML could trigger commands.
+- **Kiota code-generation literal injection**, [GHSA-2hx3-vp6r-mg3f](https://github.com/advisories/GHSA-2hx3-vp6r-mg3f): generated code needed literal-safe emission boundaries.
+- **Duplicate OpenClaw Feishu file-read advisory**, [GHSA-qp56-gp47-jwj3](https://github.com/advisories/GHSA-qp56-gp47-jwj3): keep duplicate advisories mapped to the original file-sandbox control.
+- **OpenClaw Tlon media disk exhaustion**, [GHSA-4g5x-2jfc-xm98](https://github.com/advisories/GHSA-4g5x-2jfc-xm98): media downloads could bypass core safety limits.
+- **OpenClaw exec allowlist and mirror-sync escapes**, [GHSA-wpc6-37g7-8q4w](https://github.com/advisories/GHSA-wpc6-37g7-8q4w), [GHSA-cwf8-44x6-32c2](https://github.com/advisories/GHSA-cwf8-44x6-32c2): shell init-file options and unrestricted sync plus symlink traversal could defeat sandbox assumptions.
 
 ## Why this is durable
 

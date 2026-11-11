@@ -2,8 +2,8 @@
 
 **Signal:** Two GitHub Security Advisories landed in the same update window:
 
-- **GHSA-fg35-5rf6-qg3g** — Mattermost allows attackers to take over arbitrary user accounts via overly permissive substring matching flaw
-- **GHSA-247x-7qw8-fp98** — Mattermost doesn't rate limit login requests, allowing DoS
+- **GHSA-fg35-5rf6-qg3g**, Mattermost allows attackers to take over arbitrary user accounts via overly permissive substring matching flaw
+- **GHSA-247x-7qw8-fp98**, Mattermost doesn't rate limit login requests, allowing DoS
 
 ## Why this matters
 These are different bug classes, but they point at the same defensive lesson:

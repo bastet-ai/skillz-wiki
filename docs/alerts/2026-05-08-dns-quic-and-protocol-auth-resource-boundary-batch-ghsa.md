@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **CoreDNS TSIG authentication bypass across encrypted/modern transports** — [GHSA-qhmp-q7xh-99rh](https://github.com/advisories/GHSA-qhmp-q7xh-99rh) and prior [GHSA-vp29-5652-4fw9](https://github.com/advisories/GHSA-vp29-5652-4fw9): DoT, DoH, DoH3, DoQ, gRPC, and QUIC paths could accept TSIG-bearing requests without equivalent HMAC enforcement. Patch `github.com/coredns/coredns` to `1.14.3+`.
-- **CoreDNS transfer stanza subzone ACL bypass** — [GHSA-h8mm-c463-wjq3](https://github.com/advisories/GHSA-h8mm-c463-wjq3): lexicographic selection can choose the wrong transfer stanza and weaken zone-transfer authorization.
-- **CoreDNS DoH GET pre-validation amplification** — [GHSA-63cw-r7xf-jmwr](https://github.com/advisories/GHSA-63cw-r7xf-jmwr): oversized `dns=` query parameters can consume CPU and memory before normal DNS validation.
-- **CoreDNS DoQ stream backlog exhaustion** — [GHSA-2wpx-qpw2-g5h5](https://github.com/advisories/GHSA-2wpx-qpw2-g5h5): unbounded stream backlog can exhaust worker capacity.
-- **MsQuic remote elevation of privilege** — [GHSA-gvvw-8j96-8g5r](https://github.com/advisories/GHSA-gvvw-8j96-8g5r): affected `Microsoft.Native.Quic.MsQuic.*` packages should move to fixed `2.4.18+` or `2.5.7+` lines.
+- **CoreDNS TSIG authentication bypass across encrypted/modern transports**, [GHSA-qhmp-q7xh-99rh](https://github.com/advisories/GHSA-qhmp-q7xh-99rh) and prior [GHSA-vp29-5652-4fw9](https://github.com/advisories/GHSA-vp29-5652-4fw9): DoT, DoH, DoH3, DoQ, gRPC, and QUIC paths could accept TSIG-bearing requests without equivalent HMAC enforcement. Patch `github.com/coredns/coredns` to `1.14.3+`.
+- **CoreDNS transfer stanza subzone ACL bypass**, [GHSA-h8mm-c463-wjq3](https://github.com/advisories/GHSA-h8mm-c463-wjq3): lexicographic selection can choose the wrong transfer stanza and weaken zone-transfer authorization.
+- **CoreDNS DoH GET pre-validation amplification**, [GHSA-63cw-r7xf-jmwr](https://github.com/advisories/GHSA-63cw-r7xf-jmwr): oversized `dns=` query parameters can consume CPU and memory before normal DNS validation.
+- **CoreDNS DoQ stream backlog exhaustion**, [GHSA-2wpx-qpw2-g5h5](https://github.com/advisories/GHSA-2wpx-qpw2-g5h5): unbounded stream backlog can exhaust worker capacity.
+- **MsQuic remote elevation of privilege**, [GHSA-gvvw-8j96-8g5r](https://github.com/advisories/GHSA-gvvw-8j96-8g5r): affected `Microsoft.Native.Quic.MsQuic.*` packages should move to fixed `2.4.18+` or `2.5.7+` lines.
 
 ## Why this is durable
 

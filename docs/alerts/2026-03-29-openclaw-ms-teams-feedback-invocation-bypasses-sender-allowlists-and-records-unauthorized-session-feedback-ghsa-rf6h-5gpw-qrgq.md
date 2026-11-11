@@ -1,4 +1,4 @@
-# 2026-03-29 — OpenClaw MS Teams feedback invocation bypasses sender allowlists and records unauthorized session feedback (GHSA-rf6h-5gpw-qrgq)
+# 2026-03-29, OpenClaw MS Teams feedback invocation bypasses sender allowlists and records…
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

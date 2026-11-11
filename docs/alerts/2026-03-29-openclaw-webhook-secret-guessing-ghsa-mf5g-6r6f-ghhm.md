@@ -1,4 +1,4 @@
-# 2026-03-29 — OpenClaw Synology Chat webhook token brute-force exposure (GHSA-mf5g-6r6f-ghhm)
+# 2026-03-29, OpenClaw Synology Chat webhook token brute-force exposure (GHSA-mf5g-6r6f-ghhm)
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

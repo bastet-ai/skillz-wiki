@@ -1,4 +1,4 @@
-# 2026-02-06 — Sliver DNS C2 OTP bypass → unauthenticated session flooding / DoS (GHSA-wxrw-gvg8-fqjp)
+# 2026-02-06, Sliver DNS C2 OTP bypass → unauthenticated session flooding / DoS (GHSA-wxrw-gvg8-fqjp)
 
 GitHub published an advisory for **Sliver** (Bishop Fox) describing a **denial-of-service** issue in the **DNS C2 listener**: the server accepts unauthenticated “bootstrap” (`TOTP`) messages and allocates server-side session state **without validating OTP values**, even when `EnforceOTP` is enabled.
 

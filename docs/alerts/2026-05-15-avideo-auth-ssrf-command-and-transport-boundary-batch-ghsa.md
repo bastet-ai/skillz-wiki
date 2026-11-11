@@ -6,14 +6,14 @@ This batch is durable because it repeats a pattern that keeps showing up in medi
 
 ## Advisories covered
 
-- **AVideo incomplete SSRF fix** — [GHSA-c3ch-22rq-xfwr](https://github.com/advisories/GHSA-c3ch-22rq-xfwr): `WWBN/AVideo <= 29.0` still has multiple `isSSRFSafeURL()` call sites that discard the resolved-IP out-parameter after the CVE-2026-43884 fix, leaving redirect/DNS/IP-canonicalization bypass risk.
-- **AVideo 2FA-toggle CSRF** — [GHSA-3mv2-vmwh-rwfx](https://github.com/advisories/GHSA-3mv2-vmwh-rwfx): `WWBN/AVideo <= 29.0` lets an attacker page silently disable 2FA for a logged-in victim because the 2FA toggle endpoint lacks CSRF protection.
-- **AVideo stored XSS in live mode** — [GHSA-m5j4-7r85-2cj2](https://github.com/advisories/GHSA-m5j4-7r85-2cj2): `WWBN/AVideo <= 29.0` reflects an unescaped stream key into a `modeYoutubeLive.php` class attribute, creating stored/scriptable render risk.
-- **AVideo `on_publish.php` command injection** — [GHSA-xw67-cg5f-4m2r](https://github.com/advisories/GHSA-xw67-cg5f-4m2r): `WWBN/AVideo <= 29.0` passes an unescaped m3u8 URL into `execAsync()` from the live publish path, allowing OS command injection.
-- **AVideo Meet plugin passwordless user impersonation** — [GHSA-qxvm-r42f-5p8j](https://github.com/advisories/GHSA-qxvm-r42f-5p8j): `WWBN/AVideo <= 29.0` derives `users_id` from the uploaded recording filename and calls passwordless `User->login()` for callers with the Meet shared secret, enabling arbitrary user sessions including admin.
-- **epa4all-client signature verification bypass** — [GHSA-gqx7-6552-67hf](https://github.com/advisories/GHSA-gqx7-6552-67hf): `com.oviva.telematik:epa4all-client` improperly verifies cryptographic signatures, weakening trust in signed protocol messages.
-- **epa4all-client production TLS validation disabled** — [GHSA-5hhf-xmfx-4vvr](https://github.com/advisories/GHSA-5hhf-xmfx-4vvr): `com.oviva.telematik:epa4all-client` disables TLS certificate validation in production paths, exposing traffic to interception or modification.
-- **Microsoft APM archive path overwrite** — [GHSA-mq5j-pw29-jcv3](https://github.com/advisories/GHSA-mq5j-pw29-jcv3): Microsoft APM legacy-bundle probing during `apm install` can overwrite Windows absolute paths from malicious tar members.
+- **AVideo incomplete SSRF fix**, [GHSA-c3ch-22rq-xfwr](https://github.com/advisories/GHSA-c3ch-22rq-xfwr): `WWBN/AVideo <= 29.0` still has multiple `isSSRFSafeURL()` call sites that discard the resolved-IP out-parameter after the CVE-2026-43884 fix, leaving redirect/DNS/IP-canonicalization bypass risk.
+- **AVideo 2FA-toggle CSRF**, [GHSA-3mv2-vmwh-rwfx](https://github.com/advisories/GHSA-3mv2-vmwh-rwfx): `WWBN/AVideo <= 29.0` lets an attacker page silently disable 2FA for a logged-in victim because the 2FA toggle endpoint lacks CSRF protection.
+- **AVideo stored XSS in live mode**, [GHSA-m5j4-7r85-2cj2](https://github.com/advisories/GHSA-m5j4-7r85-2cj2): `WWBN/AVideo <= 29.0` reflects an unescaped stream key into a `modeYoutubeLive.php` class attribute, creating stored/scriptable render risk.
+- **AVideo `on_publish.php` command injection**, [GHSA-xw67-cg5f-4m2r](https://github.com/advisories/GHSA-xw67-cg5f-4m2r): `WWBN/AVideo <= 29.0` passes an unescaped m3u8 URL into `execAsync()` from the live publish path, allowing OS command injection.
+- **AVideo Meet plugin passwordless user impersonation**, [GHSA-qxvm-r42f-5p8j](https://github.com/advisories/GHSA-qxvm-r42f-5p8j): `WWBN/AVideo <= 29.0` derives `users_id` from the uploaded recording filename and calls passwordless `User->login()` for callers with the Meet shared secret, enabling arbitrary user sessions including admin.
+- **epa4all-client signature verification bypass**, [GHSA-gqx7-6552-67hf](https://github.com/advisories/GHSA-gqx7-6552-67hf): `com.oviva.telematik:epa4all-client` improperly verifies cryptographic signatures, weakening trust in signed protocol messages.
+- **epa4all-client production TLS validation disabled**, [GHSA-5hhf-xmfx-4vvr](https://github.com/advisories/GHSA-5hhf-xmfx-4vvr): `com.oviva.telematik:epa4all-client` disables TLS certificate validation in production paths, exposing traffic to interception or modification.
+- **Microsoft APM archive path overwrite**, [GHSA-mq5j-pw29-jcv3](https://github.com/advisories/GHSA-mq5j-pw29-jcv3): Microsoft APM legacy-bundle probing during `apm install` can overwrite Windows absolute paths from malicious tar members.
 
 ## Operator triage
 

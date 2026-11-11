@@ -6,10 +6,10 @@ This batch is durable because it spans tools that translate remote content into 
 
 ## Advisories covered
 
-- **Streamlink HLS/DASH `file://` local file read** — [GHSA-hgqw-6m45-hw5f](https://github.com/advisories/GHSA-hgqw-6m45-hw5f): `streamlink <=8.3.0` accepts `file://` segment/resource URIs from remote `.m3u8` or `.mpd` manifests and writes readable local files into the output stream.
-- **Apache Wicket session fixation** — [GHSA-qpjw-p3jg-59j6](https://github.com/advisories/GHSA-qpjw-p3jg-59j6): `org.apache.wicket:wicket-auth-roles` 8.0.0-M1-8.17.0, 9.0.0-M1-9.22.0, and 10.0.0-M1-10.8.0 miss `changeSessionId` after session binding; upgrade to 10.9.0.
-- **Apache Wicket cross-site scripting** — [GHSA-5x9h-93gp-chpj](https://github.com/advisories/GHSA-5x9h-93gp-chpj): `org.apache.wicket:wicket-parent` affected 8.x, 9.x, and 10.x lines before 10.9.0 contain an input-neutralization flaw during web page generation.
-- **Apache Wicket sensitive-information exposure** — [GHSA-jvv4-8wxx-m5r6](https://github.com/advisories/GHSA-jvv4-8wxx-m5r6): affected Wicket 8.x, 9.x, and 10.x lines before 10.9.0 can expose sensitive information to unauthorized actors.
+- **Streamlink HLS/DASH `file://` local file read**, [GHSA-hgqw-6m45-hw5f](https://github.com/advisories/GHSA-hgqw-6m45-hw5f): `streamlink <=8.3.0` accepts `file://` segment/resource URIs from remote `.m3u8` or `.mpd` manifests and writes readable local files into the output stream.
+- **Apache Wicket session fixation**, [GHSA-qpjw-p3jg-59j6](https://github.com/advisories/GHSA-qpjw-p3jg-59j6): `org.apache.wicket:wicket-auth-roles` 8.0.0-M1-8.17.0, 9.0.0-M1-9.22.0, and 10.0.0-M1-10.8.0 miss `changeSessionId` after session binding; upgrade to 10.9.0.
+- **Apache Wicket cross-site scripting**, [GHSA-5x9h-93gp-chpj](https://github.com/advisories/GHSA-5x9h-93gp-chpj): `org.apache.wicket:wicket-parent` affected 8.x, 9.x, and 10.x lines before 10.9.0 contain an input-neutralization flaw during web page generation.
+- **Apache Wicket sensitive-information exposure**, [GHSA-jvv4-8wxx-m5r6](https://github.com/advisories/GHSA-jvv4-8wxx-m5r6): affected Wicket 8.x, 9.x, and 10.x lines before 10.9.0 can expose sensitive information to unauthorized actors.
 
 ## Operator triage
 

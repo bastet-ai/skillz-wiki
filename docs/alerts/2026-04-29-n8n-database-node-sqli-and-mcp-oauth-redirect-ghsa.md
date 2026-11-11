@@ -1,4 +1,4 @@
-# n8n database node SQL injection and MCP OAuth redirect batch (GHSA-mp4j-h6gh-f6mp / GHSA-r6jc-mpqw-m755 / GHSA-hp3c-vfpm-q4f7 / GHSA-f6x8-65q6-j9m9)
+# n8n database node SQL injection and MCP OAuth redirect batch
 
 **Signal:** GitHub Security Advisories published **2026-04-29**. n8n released fixes for multiple workflow-node SQL injection issues and an MCP OAuth consent-flow open redirect.
 

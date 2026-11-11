@@ -1,4 +1,4 @@
-# 2026-03-29 — OpenClaw gateway plugin subagent fallback `deleteSession` uses synthetic `operator.admin` (GHSA-h4jx-hjr3-fhgc)
+# 2026-03-29, OpenClaw gateway plugin subagent fallback `deleteSession` uses synthetic `operator.admin`
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

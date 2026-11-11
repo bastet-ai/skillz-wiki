@@ -6,8 +6,8 @@ This batch is durable because both advisories involve agent/runtime control-plan
 
 ## Advisories covered
 
-- **OpenClaude sandbox bypass through model-controlled `dangerouslyDisableSandbox`** — [GHSA-m77w-p5jj-xmhg](https://github.com/advisories/GHSA-m77w-p5jj-xmhg): vulnerable `openclaude <0.5.1` let sandbox-disabling configuration be influenced by untrusted/model-controlled input. The safe boundary is that sandbox posture must be operator-owned policy, not request/model payload data.
-- **OpenClaw delivery queue recovery could lose group tool-policy context for media replay** — [GHSA-r77c-2cmr-7p47](https://github.com/advisories/GHSA-r77c-2cmr-7p47): `openclaw >=2026.4.10,<2026.4.14` could replay queued media without the original group policy context after recovery. [GHSA-82rm-qcfx-2v78](https://github.com/advisories/GHSA-82rm-qcfx-2v78) is a withdrawn duplicate.
+- **OpenClaude sandbox bypass through model-controlled `dangerouslyDisableSandbox`**, [GHSA-m77w-p5jj-xmhg](https://github.com/advisories/GHSA-m77w-p5jj-xmhg): vulnerable `openclaude <0.5.1` let sandbox-disabling configuration be influenced by untrusted/model-controlled input. The safe boundary is that sandbox posture must be operator-owned policy, not request/model payload data.
+- **OpenClaw delivery queue recovery could lose group tool-policy context for media replay**, [GHSA-r77c-2cmr-7p47](https://github.com/advisories/GHSA-r77c-2cmr-7p47): `openclaw >=2026.4.10,<2026.4.14` could replay queued media without the original group policy context after recovery. [GHSA-82rm-qcfx-2v78](https://github.com/advisories/GHSA-82rm-qcfx-2v78) is a withdrawn duplicate.
 
 ## Operator triage
 

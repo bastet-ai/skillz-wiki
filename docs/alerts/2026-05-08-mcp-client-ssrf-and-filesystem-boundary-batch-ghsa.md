@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **n8n-mcp path traversal, redirect-following SSRF, and telemetry payload exposure** — [GHSA-8g7g-hmwm-6rv2](https://github.com/advisories/GHSA-8g7g-hmwm-6rv2): `n8n-mcp < 2.50.1`; patch to `2.50.1+`.
-- **n8n-mcp authenticated SSRF through webhook/API client paths** — [GHSA-cmrh-wvq6-wm9r](https://github.com/advisories/GHSA-cmrh-wvq6-wm9r): `n8n-mcp >= 2.18.7, < 2.50.2`; patch to `2.50.2+`.
-- **@puchunjie/doc-tools-mcp path traversal** — [GHSA-gcmm-c94j-j47x](https://github.com/advisories/GHSA-gcmm-c94j-j47x): `@puchunjie/doc-tools-mcp <= 1.0.18`; no fixed version listed at advisory time.
-- **gmaps-mcp unauthenticated HTTP transport spend abuse** — [GHSA-52cq-7v8r-62c6](https://github.com/advisories/GHSA-52cq-7v8r-62c6): `gmaps-mcp <= 0.1.2`; patch to `0.1.3+`.
-- **BerriAI LiteLLM SQL injection added to CISA KEV** — CVE-2026-42208: CISA added LiteLLM SQL injection to KEV on 2026-05-08 with a 2026-05-11 due date; treat exposed proxy databases and managed credentials as at risk.
+- **n8n-mcp path traversal, redirect-following SSRF, and telemetry payload exposure**, [GHSA-8g7g-hmwm-6rv2](https://github.com/advisories/GHSA-8g7g-hmwm-6rv2): `n8n-mcp < 2.50.1`; patch to `2.50.1+`.
+- **n8n-mcp authenticated SSRF through webhook/API client paths**, [GHSA-cmrh-wvq6-wm9r](https://github.com/advisories/GHSA-cmrh-wvq6-wm9r): `n8n-mcp >= 2.18.7, < 2.50.2`; patch to `2.50.2+`.
+- **@puchunjie/doc-tools-mcp path traversal**, [GHSA-gcmm-c94j-j47x](https://github.com/advisories/GHSA-gcmm-c94j-j47x): `@puchunjie/doc-tools-mcp <= 1.0.18`; no fixed version listed at advisory time.
+- **gmaps-mcp unauthenticated HTTP transport spend abuse**, [GHSA-52cq-7v8r-62c6](https://github.com/advisories/GHSA-52cq-7v8r-62c6): `gmaps-mcp <= 0.1.2`; patch to `0.1.3+`.
+- **BerriAI LiteLLM SQL injection added to CISA KEV**, CVE-2026-42208: CISA added LiteLLM SQL injection to KEV on 2026-05-08 with a 2026-05-11 due date; treat exposed proxy databases and managed credentials as at risk.
 
 ## Why this is durable
 

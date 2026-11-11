@@ -33,11 +33,11 @@ This is durable because template libraries are security tooling supply chains: s
 
 ## September 16 follow-up: signature-verification cache trusts mtime, not content (CVE-2026-92718)
 
-[GHSA-77rj-h8wx-6cgq](https://github.com/advisories/GHSA-77rj-h8wx-6cgq) / CVE-2026-92718: **Nuclei < 3.11.1 caches template signature verification based on file modification time only — no content checksum.** Replacing a verified template with unsigned malicious content and restoring the original mtime (`touch -r`) passes the signature check, yielding OS command execution on the scanner host when the operator next runs the scan.
+[GHSA-77rj-h8wx-6cgq](https://github.com/advisories/GHSA-77rj-h8wx-6cgq) / CVE-2026-92718: **Nuclei < 3.11.1 caches template signature verification based on file modification time only, no content checksum.** Replacing a verified template with unsigned malicious content and restoring the original mtime (`touch -r`) passes the signature check, yielding OS command execution on the scanner host when the operator next runs the scan.
 
 Operator impact on template hygiene:
 
-- Signature "verified" status on any runner pinned below 3.11.1 is **not** an integrity signal — anyone with write access to the templates directory (shared runners, forked/mirrored template repos, sync jobs) can persist payloads invisibly.
+- Signature "verified" status on any runner pinned below 3.11.1 is **not** an integrity signal, anyone with write access to the templates directory (shared runners, forked/mirrored template repos, sync jobs) can persist payloads invisibly.
 - Upgrade to ≥ 3.11.1 and additionally hash-pin the template tree yourself (record a manifest hash of the template directory per run and diff it); treat unexpected template-directory write access on a scanner host as host compromise, not config drift.
 - This strengthens rule 4 above: scrubbed environments and isolated runners matter *more* when the template set itself can be silently substituted.
 

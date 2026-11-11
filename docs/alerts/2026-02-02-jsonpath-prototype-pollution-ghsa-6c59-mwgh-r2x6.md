@@ -1,4 +1,4 @@
-# 2026-02-02 — `jsonpath` (NPM) prototype pollution (CVE-2025-61140 / GHSA-6c59-mwgh-r2x6)
+# 2026-02-02, `jsonpath` (NPM) prototype pollution (CVE-2025-61140 / GHSA-6c59-mwgh-r2x6)
 
 ## Summary
 

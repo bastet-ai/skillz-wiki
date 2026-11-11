@@ -1,4 +1,4 @@
-# SMTP header injection (CRLF) — durable defenses
+# SMTP header injection (CRLF), durable defenses
 
 ## The pattern
 
@@ -27,7 +27,7 @@ This shows up in:
 
 At all ingress points for header-ish fields, reject:
 
-- ASCII control chars: `0x00–0x1F` and `0x7F`
+- ASCII control chars: `0x00-0x1F` and `0x7F`
 - plus, explicitly, any Unicode line separators if your stack can accept them (`U+2028`, `U+2029`).
 
 For email envelope/header contexts, this is almost always the correct default.

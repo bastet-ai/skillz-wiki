@@ -6,13 +6,13 @@ This batch is durable because CI scanners, agent hubs, SSE streams, and model-se
 
 ## Advisories covered
 
-- **ciguard symlink escape** — [GHSA-8cxw-cc62-q28v](https://github.com/advisories/GHSA-8cxw-cc62-q28v): pipeline discovery follows symlinks outside the scan root.
-- **ciguard unbounded SCA response** — [GHSA-xw8c-rrvx-f7xq](https://github.com/advisories/GHSA-xw8c-rrvx-f7xq): HTTP client reads dependency-analysis responses without a size cap.
-- **ciguard root container image** — [GHSA-jrm4-4pcf-4763](https://github.com/advisories/GHSA-jrm4-4pcf-4763): container image runs as root due to missing `USER` directive.
-- **ciguard missing web hardening headers** — [GHSA-7ww3-xvf5-cxwm](https://github.com/advisories/GHSA-7ww3-xvf5-cxwm): web UI lacks defense-in-depth HTTP headers.
-- **MCPHub manifest path traversal** — [GHSA-p3h2-2j4p-p83g](https://github.com/advisories/GHSA-p3h2-2j4p-p83g): malicious MCPB manifest name can traverse paths.
-- **sse-channel event injection** — [GHSA-84hm-wfh8-c5pg](https://github.com/advisories/GHSA-84hm-wfh8-c5pg): unsanitized SSE event fields allow stream/event injection.
-- **vLLM special-token remote DoS** — [GHSA-hpv8-x276-m59f](https://github.com/advisories/GHSA-hpv8-x276-m59f): special-token placeholders can trigger remote denial of service.
+- **ciguard symlink escape**, [GHSA-8cxw-cc62-q28v](https://github.com/advisories/GHSA-8cxw-cc62-q28v): pipeline discovery follows symlinks outside the scan root.
+- **ciguard unbounded SCA response**, [GHSA-xw8c-rrvx-f7xq](https://github.com/advisories/GHSA-xw8c-rrvx-f7xq): HTTP client reads dependency-analysis responses without a size cap.
+- **ciguard root container image**, [GHSA-jrm4-4pcf-4763](https://github.com/advisories/GHSA-jrm4-4pcf-4763): container image runs as root due to missing `USER` directive.
+- **ciguard missing web hardening headers**, [GHSA-7ww3-xvf5-cxwm](https://github.com/advisories/GHSA-7ww3-xvf5-cxwm): web UI lacks defense-in-depth HTTP headers.
+- **MCPHub manifest path traversal**, [GHSA-p3h2-2j4p-p83g](https://github.com/advisories/GHSA-p3h2-2j4p-p83g): malicious MCPB manifest name can traverse paths.
+- **sse-channel event injection**, [GHSA-84hm-wfh8-c5pg](https://github.com/advisories/GHSA-84hm-wfh8-c5pg): unsanitized SSE event fields allow stream/event injection.
+- **vLLM special-token remote DoS**, [GHSA-hpv8-x276-m59f](https://github.com/advisories/GHSA-hpv8-x276-m59f): special-token placeholders can trigger remote denial of service.
 
 ## Operator triage
 

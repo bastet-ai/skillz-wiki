@@ -1,4 +1,4 @@
-# 2026-02-04 — OpenClaw unauthenticated local RCE via WebSocket `config.apply` (GHSA-g55j-c2v4-pjcg)
+# 2026-02-04, OpenClaw unauthenticated local RCE via WebSocket `config.apply` (GHSA-g55j-c2v4-pjcg)
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

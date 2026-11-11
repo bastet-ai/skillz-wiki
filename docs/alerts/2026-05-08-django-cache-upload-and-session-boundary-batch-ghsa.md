@@ -4,9 +4,9 @@
 
 ## Advisory cluster
 
-- **`Vary: *` cache leakage** — [GHSA-5hrc-gvxj-w55p](https://github.com/advisories/GHSA-5hrc-gvxj-w55p): Django `UpdateCacheMiddleware` in `Django >=5.2,<5.2.14` and `>=6.0,<6.0.5` could cache responses whose `Vary` header contained `*`, risking private data being stored and served.
-- **ASGI upload memory-limit bypass** — [GHSA-w26r-rmm8-9c29](https://github.com/advisories/GHSA-w26r-rmm8-9c29): missing or understated `Content-Length` values could bypass Django's `FILE_UPLOAD_MAX_MEMORY_SIZE` expectation and force large in-memory uploads in affected Django releases.
-- **Session cookie cache variation gap** — [GHSA-7h2m-m8vj-598h](https://github.com/advisories/GHSA-7h2m-m8vj-598h): with `SESSION_SAVE_EVERY_REQUEST=True`, responses could fail to vary on cookies when the session was not otherwise modified, letting a cached public page expose another user's session.
+- **`Vary: *` cache leakage**, [GHSA-5hrc-gvxj-w55p](https://github.com/advisories/GHSA-5hrc-gvxj-w55p): Django `UpdateCacheMiddleware` in `Django >=5.2,<5.2.14` and `>=6.0,<6.0.5` could cache responses whose `Vary` header contained `*`, risking private data being stored and served.
+- **ASGI upload memory-limit bypass**, [GHSA-w26r-rmm8-9c29](https://github.com/advisories/GHSA-w26r-rmm8-9c29): missing or understated `Content-Length` values could bypass Django's `FILE_UPLOAD_MAX_MEMORY_SIZE` expectation and force large in-memory uploads in affected Django releases.
+- **Session cookie cache variation gap**, [GHSA-7h2m-m8vj-598h](https://github.com/advisories/GHSA-7h2m-m8vj-598h): with `SESSION_SAVE_EVERY_REQUEST=True`, responses could fail to vary on cookies when the session was not otherwise modified, letting a cached public page expose another user's session.
 
 ## Why this matters
 

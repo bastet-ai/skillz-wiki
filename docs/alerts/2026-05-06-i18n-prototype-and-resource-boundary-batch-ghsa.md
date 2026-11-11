@@ -4,15 +4,15 @@
 
 ## Advisories covered
 
-- **next-intl prototype pollution during message precompile** — [GHSA-4c35-wcg5-mm9h](https://github.com/advisories/GHSA-4c35-wcg5-mm9h): npm `next-intl <= 4.9.1` could pollute `Object.prototype` when `experimental.messages.precompile` handled attacker-controlled translation keys such as `__proto__`. Fixed in `4.9.2`.
-- **icu-minify select-key DoS** — [GHSA-r27j-894h-3w3p](https://github.com/advisories/GHSA-r27j-894h-3w3p): npm `icu-minify <= 4.9.1` looked up select options on prototype-bearing objects, so values like `toString` or `constructor` could crash render paths. Fixed in `4.9.2`.
-- **phpseclib primality CPU exhaustion** — [GHSA-2528-jw5q-ww88](https://github.com/advisories/GHSA-2528-jw5q-ww88), duplicate withdrawn [GHSA-hg35-mp25-qf6h](https://github.com/advisories/GHSA-hg35-mp25-qf6h): malformed certificate or prime-generation inputs can force expensive primality checks. Fixed in `1.0.23`, `2.0.47`, and affected 3.x lines per upstream advisory.
-- **vLLM uninitialized resource in KV block handling** — [GHSA-x368-4g9h-fvv4](https://github.com/advisories/GHSA-x368-4g9h-fvv4): pip `vllm < 0.19.1` has a remotely reachable high-complexity issue in `has_mamba_layers`. Fixed in `0.19.1`.
-- **Vue I18n / @intlify `handleFlatJson` prototype pollution** — [GHSA-p2ph-7g93-hw3m](https://github.com/advisories/GHSA-p2ph-7g93-hw3m) (no CVE assigned; upstream published 2025-03-07): npm `vue-i18n`, `@intlify/core`, `@intlify/core-base`, `@intlify/message-resolver`, `@intlify/vue-i18n-core`, and `petite-vue-i18n` could pollute `Object.prototype` when `handleFlatJson` resolved attacker-controlled flat translation keys containing reserved prototype keys. See the dedicated follow-up below.
+- **next-intl prototype pollution during message precompile**, [GHSA-4c35-wcg5-mm9h](https://github.com/advisories/GHSA-4c35-wcg5-mm9h): npm `next-intl <= 4.9.1` could pollute `Object.prototype` when `experimental.messages.precompile` handled attacker-controlled translation keys such as `__proto__`. Fixed in `4.9.2`.
+- **icu-minify select-key DoS**, [GHSA-r27j-894h-3w3p](https://github.com/advisories/GHSA-r27j-894h-3w3p): npm `icu-minify <= 4.9.1` looked up select options on prototype-bearing objects, so values like `toString` or `constructor` could crash render paths. Fixed in `4.9.2`.
+- **phpseclib primality CPU exhaustion**, [GHSA-2528-jw5q-ww88](https://github.com/advisories/GHSA-2528-jw5q-ww88), duplicate withdrawn [GHSA-hg35-mp25-qf6h](https://github.com/advisories/GHSA-hg35-mp25-qf6h): malformed certificate or prime-generation inputs can force expensive primality checks. Fixed in `1.0.23`, `2.0.47`, and affected 3.x lines per upstream advisory.
+- **vLLM uninitialized resource in KV block handling**, [GHSA-x368-4g9h-fvv4](https://github.com/advisories/GHSA-x368-4g9h-fvv4): pip `vllm < 0.19.1` has a remotely reachable high-complexity issue in `has_mamba_layers`. Fixed in `0.19.1`.
+- **Vue I18n / @intlify `handleFlatJson` prototype pollution**, [GHSA-p2ph-7g93-hw3m](https://github.com/advisories/GHSA-p2ph-7g93-hw3m) (no CVE assigned; upstream published 2025-03-07): npm `vue-i18n`, `@intlify/core`, `@intlify/core-base`, `@intlify/message-resolver`, `@intlify/vue-i18n-core`, and `petite-vue-i18n` could pollute `Object.prototype` when `handleFlatJson` resolved attacker-controlled flat translation keys containing reserved prototype keys. See the dedicated follow-up below.
 
 ## Why this is durable
 
-Translation and model-serving support code often runs in trusted build or render contexts. Small helper assumptions — plain objects with prototypes, unbounded primality checks, uninitialized cache resources — become service-wide denial of service or integrity bugs when inputs come from tenants, localization pipelines, uploaded certificates, or remote model requests.
+Translation and model-serving support code often runs in trusted build or render contexts. Small helper assumptions, plain objects with prototypes, unbounded primality checks, uninitialized cache resources, become service-wide denial of service or integrity bugs when inputs come from tenants, localization pipelines, uploaded certificates, or remote model requests.
 
 ## Immediate triage
 

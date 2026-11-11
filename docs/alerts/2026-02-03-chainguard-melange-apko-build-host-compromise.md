@@ -3,7 +3,7 @@ title: "Chainguard melange/apko: build-host compromise primitives (command injec
 date: 2026-02-03
 ---
 
-# 2026-02-03 — Chainguard melange/apko: build-host compromise primitives
+# 2026-02-03, Chainguard melange/apko: build-host compromise primitives
 
 Multiple Go-based supply-chain/build tools used in container/image build pipelines received security advisories that matter **most** in CI, build-as-a-service, and PR-driven automation.
 

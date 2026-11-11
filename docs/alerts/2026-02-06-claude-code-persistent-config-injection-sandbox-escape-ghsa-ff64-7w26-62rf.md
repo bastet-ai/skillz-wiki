@@ -1,4 +1,4 @@
-# 2026-02-06 — Claude Code sandbox escape via persistent config injection (GHSA-ff64-7w26-62rf)
+# 2026-02-06, Claude Code sandbox escape via persistent config injection (GHSA-ff64-7w26-62rf)
 
 **What happened:** Claude Code’s bubblewrap-based sandbox did not protect `~/.claude/settings.json` if the file **did not exist at startup**. Malicious code running *inside the sandbox* could create `settings.json` and inject persistent hooks (e.g., `SessionStart`) which would later execute **with host privileges** when Claude Code was restarted.
 

@@ -1,4 +1,4 @@
-# AgentScope SSRF in multimodal and URL-fetch helpers (GHSA-659x-hm75-hpv7 / GHSA-8ggf-r3vm-p3jc / GHSA-crx8-wpv6-jrj2)
+# AgentScope SSRF in multimodal and URL-fetch helpers
 
 **Signal:** GitHub Security Advisories updated **2026-04-28** for public SSRF issues in AgentScope up to 1.0.18.
 

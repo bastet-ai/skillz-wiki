@@ -4,13 +4,13 @@
 
 ## Advisories covered
 
-- **Apache Polaris GCS credential access-boundary injection** — [GHSA-fc3h-c6h7-r83j](https://github.com/advisories/GHSA-fc3h-c6h7-r83j): `org.apache.polaris:polaris-core < 1.4.1`; patch to `1.4.1+`.
-- **Apache Polaris S3 wildcard table-name credential broadening** — [GHSA-vxgg-mqx2-3w59](https://github.com/advisories/GHSA-vxgg-mqx2-3w59): `polaris-core < 1.4.1`; patch to `1.4.1+`.
-- **Apache Polaris staged-create location credential vending before validation** — [GHSA-8ggj-j522-h5qf](https://github.com/advisories/GHSA-8ggj-j522-h5qf): `polaris-runtime-service < 1.4.1`; patch to `1.4.1+`.
-- **Apache OpenNLP binary model count OOM** — [GHSA-659w-93r5-9j6m](https://github.com/advisories/GHSA-659w-93r5-9j6m): `opennlp-tools < 2.5.9` and `3.0.0-M1..M2`; patch to `2.5.9+` or `3.0.0-M3+`.
-- **Apache OpenNLP manifest-driven class initialization** — [GHSA-cx4m-2p55-rw7j](https://github.com/advisories/GHSA-cx4m-2p55-rw7j): same affected ranges; patch to `2.5.9+` or `3.0.0-M3+`.
-- **Apache OpenNLP dictionary XXE** — [GHSA-4v8g-86x5-3vrc](https://github.com/advisories/GHSA-4v8g-86x5-3vrc): same affected ranges; patch to `2.5.9+` or `3.0.0-M3+`.
-- **Apache Atlas DSL search code/query injection** — [GHSA-35xx-9xrg-gwhf](https://github.com/advisories/GHSA-35xx-9xrg-gwhf): `org.apache.atlas:apache-atlas >= 0.8, < 2.5.0`; patch to `2.5.0+`; for `>=2.0.0`, exposure requires non-default `atlas.dsl.executor.traversal=false`.
+- **Apache Polaris GCS credential access-boundary injection**, [GHSA-fc3h-c6h7-r83j](https://github.com/advisories/GHSA-fc3h-c6h7-r83j): `org.apache.polaris:polaris-core < 1.4.1`; patch to `1.4.1+`.
+- **Apache Polaris S3 wildcard table-name credential broadening**, [GHSA-vxgg-mqx2-3w59](https://github.com/advisories/GHSA-vxgg-mqx2-3w59): `polaris-core < 1.4.1`; patch to `1.4.1+`.
+- **Apache Polaris staged-create location credential vending before validation**, [GHSA-8ggj-j522-h5qf](https://github.com/advisories/GHSA-8ggj-j522-h5qf): `polaris-runtime-service < 1.4.1`; patch to `1.4.1+`.
+- **Apache OpenNLP binary model count OOM**, [GHSA-659w-93r5-9j6m](https://github.com/advisories/GHSA-659w-93r5-9j6m): `opennlp-tools < 2.5.9` and `3.0.0-M1..M2`; patch to `2.5.9+` or `3.0.0-M3+`.
+- **Apache OpenNLP manifest-driven class initialization**, [GHSA-cx4m-2p55-rw7j](https://github.com/advisories/GHSA-cx4m-2p55-rw7j): same affected ranges; patch to `2.5.9+` or `3.0.0-M3+`.
+- **Apache OpenNLP dictionary XXE**, [GHSA-4v8g-86x5-3vrc](https://github.com/advisories/GHSA-4v8g-86x5-3vrc): same affected ranges; patch to `2.5.9+` or `3.0.0-M3+`.
+- **Apache Atlas DSL search code/query injection**, [GHSA-35xx-9xrg-gwhf](https://github.com/advisories/GHSA-35xx-9xrg-gwhf): `org.apache.atlas:apache-atlas >= 0.8, < 2.5.0`; patch to `2.5.0+`; for `>=2.0.0`, exposure requires non-default `atlas.dsl.executor.traversal=false`.
 
 ## Why this is durable
 

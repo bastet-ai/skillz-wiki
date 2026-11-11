@@ -1,6 +1,6 @@
-# 2026-02-05 — FUXA: multiple critical unauth vulnerabilities (RCE / auth bypass / secrets exposure) fixed in 1.2.10
+# 2026-02-05, FUXA
 
-**Product:** **FUXA** (npm package: `fuxa-server`) — industrial HMI/SCADA web application
+**Product:** **FUXA** (npm package: `fuxa-server`), industrial HMI/SCADA web application
 
 ## Summary
 GitHub advisories report multiple **critical** issues affecting **FUXA <= 1.2.9**, including:

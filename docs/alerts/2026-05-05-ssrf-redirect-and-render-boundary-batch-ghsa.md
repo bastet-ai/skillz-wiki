@@ -6,14 +6,14 @@ This batch is durable because it shows the same URL trust failure across link pr
 
 ## Advisories covered
 
-- **link-preview-js** — [GHSA-4gp8-rjrq-ch6q](https://github.com/advisories/GHSA-4gp8-rjrq-ch6q): IPv6 and internal loopback SSRF bypasses.
-- **requests-hardened** — [GHSA-vh75-fwv3-pqrh](https://github.com/advisories/GHSA-vh75-fwv3-pqrh): SSRF protection bypass.
-- **Admidio SSRF incomplete fix** — [GHSA-hcjj-chvw-fmw9](https://github.com/advisories/GHSA-hcjj-chvw-fmw9): incomplete mitigation for CVE-2026-32812.
-- **Geyser player head texture URL** — [GHSA-xcfg-fcr5-gw9r](https://github.com/advisories/GHSA-xcfg-fcr5-gw9r): SSRF through texture URL fetching.
-- **XWiki PlantUML macro** — [GHSA-42fc-7w97-8vrc](https://github.com/advisories/GHSA-42fc-7w97-8vrc): SSRF through the `server` parameter.
-- **Magento LTS `uenc` redirect** — [GHSA-qpgq-5g92-j5q8](https://github.com/advisories/GHSA-qpgq-5g92-j5q8): open redirect through unvalidated `uenc` in `stockAction()`.
-- **Video Meet iframe** — [GHSA-mm5f-8q57-4fc4](https://github.com/advisories/GHSA-mm5f-8q57-4fc4): reflected XSS through unescaped `user` and `pass` parameters in a JavaScript string literal.
-- **Fiber AutoFormat** — [GHSA-qjv7-627w-8qjv](https://github.com/advisories/GHSA-qjv7-627w-8qjv): XSS through content negotiation/rendering behavior.
+- **link-preview-js**, [GHSA-4gp8-rjrq-ch6q](https://github.com/advisories/GHSA-4gp8-rjrq-ch6q): IPv6 and internal loopback SSRF bypasses.
+- **requests-hardened**, [GHSA-vh75-fwv3-pqrh](https://github.com/advisories/GHSA-vh75-fwv3-pqrh): SSRF protection bypass.
+- **Admidio SSRF incomplete fix**, [GHSA-hcjj-chvw-fmw9](https://github.com/advisories/GHSA-hcjj-chvw-fmw9): incomplete mitigation for CVE-2026-32812.
+- **Geyser player head texture URL**, [GHSA-xcfg-fcr5-gw9r](https://github.com/advisories/GHSA-xcfg-fcr5-gw9r): SSRF through texture URL fetching.
+- **XWiki PlantUML macro**, [GHSA-42fc-7w97-8vrc](https://github.com/advisories/GHSA-42fc-7w97-8vrc): SSRF through the `server` parameter.
+- **Magento LTS `uenc` redirect**, [GHSA-qpgq-5g92-j5q8](https://github.com/advisories/GHSA-qpgq-5g92-j5q8): open redirect through unvalidated `uenc` in `stockAction()`.
+- **Video Meet iframe**, [GHSA-mm5f-8q57-4fc4](https://github.com/advisories/GHSA-mm5f-8q57-4fc4): reflected XSS through unescaped `user` and `pass` parameters in a JavaScript string literal.
+- **Fiber AutoFormat**, [GHSA-qjv7-627w-8qjv](https://github.com/advisories/GHSA-qjv7-627w-8qjv): XSS through content negotiation/rendering behavior.
 
 ## Operator triage
 

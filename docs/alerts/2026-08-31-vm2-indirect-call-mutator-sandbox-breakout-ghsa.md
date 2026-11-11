@@ -1,10 +1,10 @@
-# vm2 sandbox breakout via indirect-call dangerous-mutator shadowing — operator validation
+# vm2 sandbox breakout via indirect-call dangerous-mutator shadowing, operator validation
 
 **Date reviewed:** 2026-08-31
-**Advisory:** [GHSA-cfcw-xp6x-25gj / CVE-2026-47698](https://github.com/advisories/GHSA-cfcw-xp6x-25gj) — critical, CVSS 9.8
+**Advisory:** [GHSA-cfcw-xp6x-25gj / CVE-2026-47698](https://github.com/advisories/GHSA-cfcw-xp6x-25gj), critical, CVSS 9.8
 **Affected:** `vm2 <= 3.11.5` (patched in `3.11.6`)
 
-Follow-up to the [2026-05-29 vm2 / NodeVM batch](2026-05-29-vm2-nodevm-and-sglang-runtime-boundary-batch-ghsa.md) and the [2026-05-07 vm2 sandbox-escape batch](2026-05-07-vm2-sandbox-escape-boundary-batch-ghsa.md). The fix for [GHSA-v6mx-mf47-r5wg](https://github.com/advisories/GHSA-v6mx-mf47-r5wg) (CVE-2026-47131) is **insufficient and bypassable**: the dangerous-mutator deny-list keys off the *direct* call shape `indirectcall.call(dangerousmutator, ...)`, and swapping the receiver to the indirect-call object itself — `indirectcall.call(indirectcall, dangerousmutator, ...)` — slips through because indirect calls are not classified as dangerous.
+Follow-up to the [2026-05-29 vm2 / NodeVM batch](2026-05-29-vm2-nodevm-and-sglang-runtime-boundary-batch-ghsa.md) and the [2026-05-07 vm2 sandbox-escape batch](2026-05-07-vm2-sandbox-escape-boundary-batch-ghsa.md). The fix for [GHSA-v6mx-mf47-r5wg](https://github.com/advisories/GHSA-v6mx-mf47-r5wg) (CVE-2026-47131) is **insufficient and bypassable**: the dangerous-mutator deny-list keys off the *direct* call shape `indirectcall.call(dangerousmutator, ...)`, and swapping the receiver to the indirect-call object itself, `indirectcall.call(indirectcall, dangerousmutator, ...)`, slips through because indirect calls are not classified as dangerous.
 
 ## The primitive
 
@@ -33,14 +33,14 @@ Reusable across any in-process JS sandbox (vm2, RestrictedPython-style guards, W
 - **Version/config proof first:** capture `vm2` version + `VM`/`NodeVM` options (`require`, `nesting`, `produce`/`consume` proxies) from manifests or container images before touching payloads.
 - **Benign host-execution marker only:** in the lab, replace the advisory PoC's `execSync('touch pwned')` with `id`, a canary file in a disposable temp directory, or reading a synthetic environment variable. Positive evidence is the marker, plus the exact receiver-swap line that bypassed the guard.
 - **Do not** target production multi-tenant deployments with escape payloads; do not read host secrets, environment files, or cloud credentials; do not leave executed content on the host.
-- **Negative control:** run the same payload on `vm2 >= 3.11.6` (or with the feature disabled) and confirm denial — this isolates the deny-list shape check as the differential.
+- **Negative control:** run the same payload on `vm2 >= 3.11.6` (or with the feature disabled) and confirm denial, this isolates the deny-list shape check as the differential.
 
 ## Reporting heuristics
 
-- Lead with the trust boundary: *user-supplied JS evaluated in-process as a security boundary* — state why in-process isolation is relied upon (tenant code, plugin system, workflow engine, agent tool).
+- Lead with the trust boundary: *user-supplied JS evaluated in-process as a security boundary*, state why in-process isolation is relied upon (tenant code, plugin system, workflow engine, agent tool).
 - Include: `vm2` version, Node runtime version, `VM`/`NodeVM` configuration, the exact guard predicate being bypassed, the receiver-swapping line, and the benign marker proof.
 - Distinguish **host RCE** from **capability bypass** (network builtins, file writes) as in the May batches.
-- Frame the finding as "sandbox deny-list shape bypass," not a generic version finding — the reusable pattern (receiver/callee shape confusion) is what makes it actionable on other products.
+- Frame the finding as "sandbox deny-list shape bypass," not a generic version finding, the reusable pattern (receiver/callee shape confusion) is what makes it actionable on other products.
 
 ## Sources
 

@@ -4,11 +4,11 @@
 
 ## Advisories covered
 
-- **Cockpit dangerous upload, path traversal, and RCE batch** — [GHSA-j2rx-4jg9-79mw](https://github.com/advisories/GHSA-j2rx-4jg9-79mw), [GHSA-p46p-7pmj-m34f](https://github.com/advisories/GHSA-p46p-7pmj-m34f), [GHSA-fm6c-rhcf-7439](https://github.com/advisories/GHSA-fm6c-rhcf-7439): upload and traversal boundaries could reach dangerous server-side effects.
-- **mcpo-simple-server path traversal** — [GHSA-3jmq-qhg3-f58j](https://github.com/advisories/GHSA-3jmq-qhg3-f58j): path input could escape the intended file root.
-- **Grav Form Plugin anonymous content overwrite** — [GHSA-w4rc-p66m-x6qq](https://github.com/advisories/GHSA-w4rc-p66m-x6qq): uploaded filenames could overwrite page content.
-- **Jenkins Credentials Binding Plugin path traversal** — [GHSA-p2rf-wpxj-mx2g](https://github.com/advisories/GHSA-p2rf-wpxj-mx2g): credential-binding paths needed strict containment.
-- **Dolibarr configuration-triggered command injection** — [GHSA-w5j3-8fcr-h87w](https://github.com/advisories/GHSA-w5j3-8fcr-h87w): `MAIN_ODT_AS_PDF` configuration could become an OS command execution path.
+- **Cockpit dangerous upload, path traversal, and RCE batch**, [GHSA-j2rx-4jg9-79mw](https://github.com/advisories/GHSA-j2rx-4jg9-79mw), [GHSA-p46p-7pmj-m34f](https://github.com/advisories/GHSA-p46p-7pmj-m34f), [GHSA-fm6c-rhcf-7439](https://github.com/advisories/GHSA-fm6c-rhcf-7439): upload and traversal boundaries could reach dangerous server-side effects.
+- **mcpo-simple-server path traversal**, [GHSA-3jmq-qhg3-f58j](https://github.com/advisories/GHSA-3jmq-qhg3-f58j): path input could escape the intended file root.
+- **Grav Form Plugin anonymous content overwrite**, [GHSA-w4rc-p66m-x6qq](https://github.com/advisories/GHSA-w4rc-p66m-x6qq): uploaded filenames could overwrite page content.
+- **Jenkins Credentials Binding Plugin path traversal**, [GHSA-p2rf-wpxj-mx2g](https://github.com/advisories/GHSA-p2rf-wpxj-mx2g): credential-binding paths needed strict containment.
+- **Dolibarr configuration-triggered command injection**, [GHSA-w5j3-8fcr-h87w](https://github.com/advisories/GHSA-w5j3-8fcr-h87w): `MAIN_ODT_AS_PDF` configuration could become an OS command execution path.
 
 ## Why this is durable
 

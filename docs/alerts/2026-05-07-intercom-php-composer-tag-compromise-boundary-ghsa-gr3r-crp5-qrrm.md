@@ -4,7 +4,7 @@
 
 ## Advisory covered
 
-- **Compromised tag of intercom-php published via GitHub** — [GHSA-gr3r-crp5-qrrm](https://github.com/advisories/GHSA-gr3r-crp5-qrrm): version `5.0.2` of the Composer package `intercom/intercom-php` was created from a malicious commit pushed by a compromised service account. The malicious Composer plugin acted as a dropper, downloaded a JavaScript runtime, and ran credential-harvesting code. No patched Composer release is listed for `5.0.2`; treat that exact version as malicious.
+- **Compromised tag of intercom-php published via GitHub**, [GHSA-gr3r-crp5-qrrm](https://github.com/advisories/GHSA-gr3r-crp5-qrrm): version `5.0.2` of the Composer package `intercom/intercom-php` was created from a malicious commit pushed by a compromised service account. The malicious Composer plugin acted as a dropper, downloaded a JavaScript runtime, and ran credential-harvesting code. No patched Composer release is listed for `5.0.2`; treat that exact version as malicious.
 
 ## Why this is durable
 

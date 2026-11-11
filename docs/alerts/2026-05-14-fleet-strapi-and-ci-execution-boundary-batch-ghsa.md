@@ -6,11 +6,11 @@ This batch links three common failure modes: management servers that trust calle
 
 ## Advisories covered
 
-- **Fleet IP spoofing rate-limit bypass** — [GHSA-mxmp-wr3w-rvqx](https://github.com/advisories/GHSA-mxmp-wr3w-rvqx): Fleet rate limiting could be bypassed by spoofing client IP information. Affected `github.com/fleetdm/fleet < 4.80.1`; upgrade to `4.80.1` or later. This reinforces the earlier Fleet forwarding-header boundary lesson: only trusted proxy hops should decide the effective client address.
-- **Fleet software package OS command injection** — [GHSA-9vcr-g537-3w5v](https://github.com/advisories/GHSA-9vcr-g537-3w5v): Fleet package-management paths allowed OS command injection through software-package handling. Affected `github.com/fleetdm/fleet/v4 < 4.81.1`; upgrade to `4.81.1` or later.
-- **Fleet gRPC request crash** — [GHSA-x67p-9m2r-fxqv](https://github.com/advisories/GHSA-x67p-9m2r-fxqv): certain gRPC requests could unexpectedly terminate the Fleet server. Affected `github.com/fleetdm/fleet/v4 < 4.81.0`; upgrade to `4.81.0` or later.
-- **Strapi relational filtering data leak** — [GHSA-rjg2-95x7-8qmx](https://github.com/advisories/GHSA-rjg2-95x7-8qmx): lack of query sanitization around relational filtering could leak sensitive data. Affected `@strapi/strapi >=4.0.0 <5.37.0`; upgrade to `5.37.0` or later.
-- **CoreShop `pull_request_target` RCE** — [GHSA-q58j-g3f4-h26h](https://github.com/advisories/GHSA-q58j-g3f4-h26h): the release workflow used `pull_request_target` unsafely, allowing remote code execution in a privileged CI context for `coreshop/core-shop 5.0.0`. No patched package version was listed at publication time; review workflow state and repository credentials directly.
+- **Fleet IP spoofing rate-limit bypass**, [GHSA-mxmp-wr3w-rvqx](https://github.com/advisories/GHSA-mxmp-wr3w-rvqx): Fleet rate limiting could be bypassed by spoofing client IP information. Affected `github.com/fleetdm/fleet < 4.80.1`; upgrade to `4.80.1` or later. This reinforces the earlier Fleet forwarding-header boundary lesson: only trusted proxy hops should decide the effective client address.
+- **Fleet software package OS command injection**, [GHSA-9vcr-g537-3w5v](https://github.com/advisories/GHSA-9vcr-g537-3w5v): Fleet package-management paths allowed OS command injection through software-package handling. Affected `github.com/fleetdm/fleet/v4 < 4.81.1`; upgrade to `4.81.1` or later.
+- **Fleet gRPC request crash**, [GHSA-x67p-9m2r-fxqv](https://github.com/advisories/GHSA-x67p-9m2r-fxqv): certain gRPC requests could unexpectedly terminate the Fleet server. Affected `github.com/fleetdm/fleet/v4 < 4.81.0`; upgrade to `4.81.0` or later.
+- **Strapi relational filtering data leak**, [GHSA-rjg2-95x7-8qmx](https://github.com/advisories/GHSA-rjg2-95x7-8qmx): lack of query sanitization around relational filtering could leak sensitive data. Affected `@strapi/strapi >=4.0.0 <5.37.0`; upgrade to `5.37.0` or later.
+- **CoreShop `pull_request_target` RCE**, [GHSA-q58j-g3f4-h26h](https://github.com/advisories/GHSA-q58j-g3f4-h26h): the release workflow used `pull_request_target` unsafely, allowing remote code execution in a privileged CI context for `coreshop/core-shop 5.0.0`. No patched package version was listed at publication time; review workflow state and repository credentials directly.
 
 ## Operator triage
 

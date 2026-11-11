@@ -4,10 +4,10 @@
 
 ## Advisories covered
 
-- **vm2 `neutralizeArraySpeciesBatch` sandbox breakout** — [GHSA-9qj6-qjgg-37qq](https://github.com/advisories/GHSA-9qj6-qjgg-37qq): critical escape affecting `vm2 <= 3.11.1`; patch to `3.11.2+` where vm2 remains deployed.
-- **Claude Code Git worktree trust-dialog spoofing** — [GHSA-q5hj-mxqh-vv77](https://github.com/advisories/GHSA-q5hj-mxqh-vv77): repository/worktree identity confusion can turn a trusted-workspace prompt into arbitrary code execution; patch `@anthropic-ai/claude-code` to `2.1.84+`.
-- **OpenClaw Feishu upload file-sandbox bypass** — [GHSA-qf48-qfv4-jjm9](https://github.com/advisories/GHSA-qf48-qfv4-jjm9): `resolveUploadInput` allowed `upload_image` to read arbitrary local files outside the intended filesystem sandbox; patch `openclaw` to `2026.3.28+`.
-- **Devise timeout redirect open redirect** — [GHSA-jp94-3292-c3xv](https://github.com/advisories/GHSA-jp94-3292-c3xv): `Timeoutable` session-expiry flow trusted `request.referrer`; patch `devise` to `5.0.4+`.
+- **vm2 `neutralizeArraySpeciesBatch` sandbox breakout**, [GHSA-9qj6-qjgg-37qq](https://github.com/advisories/GHSA-9qj6-qjgg-37qq): critical escape affecting `vm2 <= 3.11.1`; patch to `3.11.2+` where vm2 remains deployed.
+- **Claude Code Git worktree trust-dialog spoofing**, [GHSA-q5hj-mxqh-vv77](https://github.com/advisories/GHSA-q5hj-mxqh-vv77): repository/worktree identity confusion can turn a trusted-workspace prompt into arbitrary code execution; patch `@anthropic-ai/claude-code` to `2.1.84+`.
+- **OpenClaw Feishu upload file-sandbox bypass**, [GHSA-qf48-qfv4-jjm9](https://github.com/advisories/GHSA-qf48-qfv4-jjm9): `resolveUploadInput` allowed `upload_image` to read arbitrary local files outside the intended filesystem sandbox; patch `openclaw` to `2026.3.28+`.
+- **Devise timeout redirect open redirect**, [GHSA-jp94-3292-c3xv](https://github.com/advisories/GHSA-jp94-3292-c3xv): `Timeoutable` session-expiry flow trusted `request.referrer`; patch `devise` to `5.0.4+`.
 
 Related updated advisories in this scan were already represented in existing pages: Jupyter Server session/origin/path boundaries, OpenMRS path traversal, Quarkus matrix-parameter auth, Gotenberg SSRF, and Incus image-import SSRF.
 

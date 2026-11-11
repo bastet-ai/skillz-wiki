@@ -4,8 +4,8 @@
 
 ## Advisories
 
-- **`mysten-metrics` malicious crate** — removed from crates.io for malicious code. Reference: <https://github.com/advisories/GHSA-g38r-8gmr-ghrf>.
-- **`sui-execution-cut` malicious crate** — removed from crates.io for malicious code. Reference: <https://github.com/advisories/GHSA-qprh-m6p3-hwxc>.
+- **`mysten-metrics` malicious crate**, removed from crates.io for malicious code. Reference: <https://github.com/advisories/GHSA-g38r-8gmr-ghrf>.
+- **`sui-execution-cut` malicious crate**, removed from crates.io for malicious code. Reference: <https://github.com/advisories/GHSA-qprh-m6p3-hwxc>.
 
 ## Immediate triage
 

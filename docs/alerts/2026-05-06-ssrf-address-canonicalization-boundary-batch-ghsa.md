@@ -4,8 +4,8 @@
 
 ## Advisories covered
 
-- **dssrf IPv6 category bypasses** — [GHSA-8p33-q827-ghj5](https://github.com/advisories/GHSA-8p33-q827-ghj5): npm `dssrf < 1.3.0` allowed IPv6 loopback, ULA, link-local, IPv4-mapped IPv6, NAT64, deprecated site-local, documentation, and IPv4-compatible forms despite documentation claiming IPv6 was disabled.
-- **QuantumNous/new-api `0.0.0.0` SSRF filter bypass** — [GHSA-v5c3-6wvc-pc2q](https://github.com/advisories/GHSA-v5c3-6wvc-pc2q): Go `github.com/QuantumNous/new-api <= 0.11.9-alpha.1` did not classify `0.0.0.0/8`; authenticated API-token users could send multimodal fetch URLs that resolve to localhost. No patched version was listed when checked.
+- **dssrf IPv6 category bypasses**, [GHSA-8p33-q827-ghj5](https://github.com/advisories/GHSA-8p33-q827-ghj5): npm `dssrf < 1.3.0` allowed IPv6 loopback, ULA, link-local, IPv4-mapped IPv6, NAT64, deprecated site-local, documentation, and IPv4-compatible forms despite documentation claiming IPv6 was disabled.
+- **QuantumNous/new-api `0.0.0.0` SSRF filter bypass**, [GHSA-v5c3-6wvc-pc2q](https://github.com/advisories/GHSA-v5c3-6wvc-pc2q): Go `github.com/QuantumNous/new-api <= 0.11.9-alpha.1` did not classify `0.0.0.0/8`; authenticated API-token users could send multimodal fetch URLs that resolve to localhost. No patched version was listed when checked.
 
 ## Why this is durable
 

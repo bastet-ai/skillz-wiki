@@ -24,10 +24,10 @@ If you can steal a token, the game becomes:
 ### 1) XSS → token exfiltration
 **Where the token lives** determines how serious XSS is:
 
-- URL fragment (`#access_token=...`) — classic implicit flow leakage
-- URL query (`?code=...`) — authorization code leakage
-- browser storage (`localStorage`, `sessionStorage`) — common SPA pattern
-- in-memory — still exfiltratable via XSS (e.g., intercepting fetch/XHR)
+- URL fragment (`#access_token=...`), classic implicit flow leakage
+- URL query (`?code=...`), authorization code leakage
+- browser storage (`localStorage`, `sessionStorage`), common SPA pattern
+- in-memory, still exfiltratable via XSS (e.g., intercepting fetch/XHR)
 
 **Tests:**
 - If you can run JS, try:

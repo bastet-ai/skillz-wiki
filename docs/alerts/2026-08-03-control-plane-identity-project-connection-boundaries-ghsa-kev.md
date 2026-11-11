@@ -31,7 +31,7 @@ Primary sources:
 
 ## 1. Re-test the whole authentication route family after an incomplete fix
 
-CISA describes CVE-2026-18577 as an exploited N-central authentication bypass and account-takeover issue caused by an incomplete fix for the predecessor authentication flaw. Public records do not provide a safe request-level proof, so use them for scoping and version evidence—not as permission to guess against exposed appliances.
+CISA describes CVE-2026-18577 as an exploited N-central authentication bypass and account-takeover issue caused by an incomplete fix for the predecessor authentication flaw. Public records do not provide a safe request-level proof, so use them for scoping and version evidence,not as permission to guess against exposed appliances.
 
 1. Obtain an approved N-central lab snapshot from before the original fix, an intermediate build containing that fix, and 2026.3 HF1 or a vendor-confirmed later build.
 2. Create one disposable ordinary user and patch the final session/account-change sink to record principal ID and route, then return without creating a session or changing credentials.

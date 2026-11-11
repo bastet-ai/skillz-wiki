@@ -1,4 +1,4 @@
-# 2026-03-29 — OpenClaw Feishu raw card send surface can mint legacy card callbacks that bypass DM pairing (GHSA-77w2-crqv-cmv3)
+# 2026-03-29, OpenClaw Feishu raw card send surface can mint legacy card callbacks that bypass DM…
 
 **Product:** **OpenClaw** (npm package: `openclaw`)
 

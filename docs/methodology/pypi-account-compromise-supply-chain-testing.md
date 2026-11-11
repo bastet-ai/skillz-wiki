@@ -104,6 +104,6 @@ For a bug bounty or internal assessment of an organization's Python supply chain
 
 ## Sources
 
-- GitHub Security Advisory: [GHSA-93qj-5q5v-3c2h](https://github.com/advisories/GHSA-93qj-5q5v-3c2h) — Trojanized `pantheon-agents` 0.6.1 and 0.6.2 on PyPI
+- GitHub Security Advisory: [GHSA-93qj-5q5v-3c2h](https://github.com/advisories/GHSA-93qj-5q5v-3c2h), Trojanized `pantheon-agents` 0.6.1 and 0.6.2 on PyPI
 - PantheonOS security advisory: https://github.com/aristoteleo/PantheonOS/security/advisories/GHSA-93qj-5q5v-3c2h
 - PyPI JSON API for package metadata: https://pypi.org/pypi/pantheon-agents/json

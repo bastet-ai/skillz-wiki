@@ -6,8 +6,8 @@ This batch is durable because it captures two easy-to-miss boundary mistakes: si
 
 ## Advisories covered
 
-- **sealed-env TOTP secret embedded in unseal token payload** — [GHSA-x3r2-fj3r-g5mv](https://github.com/advisories/GHSA-x3r2-fj3r-g5mv), CVE-2026-45091: enterprise-mode `sealed-env` versions before `0.1.0-alpha.4` embedded the operator's literal TOTP secret in every minted JWS unseal token. JWS payloads are base64-encoded and signed, not encrypted, so tokens visible in CI logs, env dumps, Kubernetes descriptions, or exception telemetry exposed the second-factor seed. Fixed versions replace the embedded secret with a salt-bound HMAC derivative; affected files must be re-sealed and the TOTP secret rotated.
-- **Elixir Decimal unbounded exponent DoS** — [GHSA-rhv4-8758-jx7v](https://github.com/advisories/GHSA-rhv4-8758-jx7v), CVE-2026-32686: `decimal >= 0.1.0, < 3.0.0` accepted values such as `1e1000000000`; later arithmetic, rounding, conversion, or normal string formatting could allocate or recurse proportional to the exponent and OOM the BEAM from one request.
+- **sealed-env TOTP secret embedded in unseal token payload**, [GHSA-x3r2-fj3r-g5mv](https://github.com/advisories/GHSA-x3r2-fj3r-g5mv), CVE-2026-45091: enterprise-mode `sealed-env` versions before `0.1.0-alpha.4` embedded the operator's literal TOTP secret in every minted JWS unseal token. JWS payloads are base64-encoded and signed, not encrypted, so tokens visible in CI logs, env dumps, Kubernetes descriptions, or exception telemetry exposed the second-factor seed. Fixed versions replace the embedded secret with a salt-bound HMAC derivative; affected files must be re-sealed and the TOTP secret rotated.
+- **Elixir Decimal unbounded exponent DoS**, [GHSA-rhv4-8758-jx7v](https://github.com/advisories/GHSA-rhv4-8758-jx7v), CVE-2026-32686: `decimal >= 0.1.0, < 3.0.0` accepted values such as `1e1000000000`; later arithmetic, rounding, conversion, or normal string formatting could allocate or recurse proportional to the exponent and OOM the BEAM from one request.
 
 ## Operator triage
 

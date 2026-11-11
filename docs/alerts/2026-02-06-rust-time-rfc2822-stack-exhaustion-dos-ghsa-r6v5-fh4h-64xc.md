@@ -1,4 +1,4 @@
-# 2026-02-06 — Rust `time` crate RFC 2822 parsing stack exhaustion DoS (GHSA-r6v5-fh4h-64xc)
+# 2026-02-06, Rust `time` crate RFC 2822 parsing stack exhaustion DoS (GHSA-r6v5-fh4h-64xc)
 
 **Upstream advisory:** https://github.com/advisories/GHSA-r6v5-fh4h-64xc
 

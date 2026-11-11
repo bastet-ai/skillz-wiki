@@ -1,4 +1,4 @@
-# 2026-02-05 — Rust jsonwebtoken claim validation bypass via type confusion (GHSA-h395-gr6q-cpjc)
+# 2026-02-05, Rust jsonwebtoken claim validation bypass via type confusion (GHSA-h395-gr6q-cpjc)
 
 **Product:** Rust crate **`jsonwebtoken`**
 

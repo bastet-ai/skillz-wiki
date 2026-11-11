@@ -1,6 +1,6 @@
 # Container base images: avoid “tag drift” and stale security fixes
 
-Container incidents often aren’t “we used a vulnerable app version” — they’re “we shipped an image built on an old base layer even though upstream fixed it.”
+Container incidents often aren’t “we used a vulnerable app version”, they’re “we shipped an image built on an old base layer even though upstream fixed it.”
 
 This is common when a pipeline only rebuilds images when **your** repo changes, while upstream base images ship security fixes by **moving an existing tag** to a new digest.
 

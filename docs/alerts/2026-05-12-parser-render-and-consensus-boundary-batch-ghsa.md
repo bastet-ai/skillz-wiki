@@ -6,9 +6,9 @@ This batch is durable because parser and rendering edges are still being treated
 
 ## Advisories covered
 
-- **Biopython `Bio.Entrez` XXE** — [GHSA-x3vf-39hj-gxr4](https://github.com/advisories/GHSA-x3vf-39hj-gxr4): XML parsing with doctypes can expose local files or trigger entity expansion when external entities are enabled.
-- **wlc `print_html` unescaped API data** — [GHSA-gx2m-mcc2-r4p3](https://github.com/advisories/GHSA-gx2m-mcc2-r4p3): CLI or reporting helpers that output HTML still need contextual escaping for API-controlled fields.
-- **Zebra JSON-RPC resource and consensus bugs** — [GHSA-29x4-r6jv-ff4w](https://github.com/advisories/GHSA-29x4-r6jv-ff4w), [GHSA-8m29-fpq5-89jj](https://github.com/advisories/GHSA-8m29-fpq5-89jj), [GHSA-452v-w3gx-72wg](https://github.com/advisories/GHSA-452v-w3gx-72wg): interrupted authenticated JSON-RPC requests, transparent sighash hash-type handling, and identity-point transaction verification can produce DoS or consensus divergence/panic conditions.
+- **Biopython `Bio.Entrez` XXE**, [GHSA-x3vf-39hj-gxr4](https://github.com/advisories/GHSA-x3vf-39hj-gxr4): XML parsing with doctypes can expose local files or trigger entity expansion when external entities are enabled.
+- **wlc `print_html` unescaped API data**, [GHSA-gx2m-mcc2-r4p3](https://github.com/advisories/GHSA-gx2m-mcc2-r4p3): CLI or reporting helpers that output HTML still need contextual escaping for API-controlled fields.
+- **Zebra JSON-RPC resource and consensus bugs**, [GHSA-29x4-r6jv-ff4w](https://github.com/advisories/GHSA-29x4-r6jv-ff4w), [GHSA-8m29-fpq5-89jj](https://github.com/advisories/GHSA-8m29-fpq5-89jj), [GHSA-452v-w3gx-72wg](https://github.com/advisories/GHSA-452v-w3gx-72wg): interrupted authenticated JSON-RPC requests, transparent sighash hash-type handling, and identity-point transaction verification can produce DoS or consensus divergence/panic conditions.
 
 ## Operator triage
 

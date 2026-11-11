@@ -6,14 +6,14 @@ This batch is durable because admin-facing import, plugin, package, and integrat
 
 ## Advisories covered
 
-- **Grav direct plugin install** — [GHSA-w48r-jppp-rcfw](https://github.com/advisories/GHSA-w48r-jppp-rcfw): malicious plugin ZIP upload can reach remote code execution.
-- **Grav API** — [GHSA-r945-h4vm-h736](https://github.com/advisories/GHSA-r945-h4vm-h736): API privilege escalation to super admin.
-- **Apache Camel MINA** — [GHSA-vpr3-2659-rw55](https://github.com/advisories/GHSA-vpr3-2659-rw55): deserialization of untrusted data.
-- **Apache Camel PQC** — [GHSA-v3vg-332r-mw99](https://github.com/advisories/GHSA-v3vg-332r-mw99): deserialization of untrusted data.
-- **pyLoad `set_package_data`** — [GHSA-838g-gr43-qqg9](https://github.com/advisories/GHSA-838g-gr43-qqg9) and [GHSA-97r3-5w84-r4q8](https://github.com/advisories/GHSA-97r3-5w84-r4q8): package folder names can trigger path traversal.
-- **changedetection.io backup restore** — [GHSA-8757-69j2-hx56](https://github.com/advisories/GHSA-8757-69j2-hx56): crafted backup restore can read arbitrary local files.
-- **Dynamic-Datasource** — [GHSA-6rmm-pg23-5f8q](https://github.com/advisories/GHSA-6rmm-pg23-5f8q): injection vulnerability.
-- **ShowDoc** — [GHSA-fm5r-cj7v-rj2c](https://github.com/advisories/GHSA-fm5r-cj7v-rj2c): injection vulnerability.
+- **Grav direct plugin install**, [GHSA-w48r-jppp-rcfw](https://github.com/advisories/GHSA-w48r-jppp-rcfw): malicious plugin ZIP upload can reach remote code execution.
+- **Grav API**, [GHSA-r945-h4vm-h736](https://github.com/advisories/GHSA-r945-h4vm-h736): API privilege escalation to super admin.
+- **Apache Camel MINA**, [GHSA-vpr3-2659-rw55](https://github.com/advisories/GHSA-vpr3-2659-rw55): deserialization of untrusted data.
+- **Apache Camel PQC**, [GHSA-v3vg-332r-mw99](https://github.com/advisories/GHSA-v3vg-332r-mw99): deserialization of untrusted data.
+- **pyLoad `set_package_data`**, [GHSA-838g-gr43-qqg9](https://github.com/advisories/GHSA-838g-gr43-qqg9) and [GHSA-97r3-5w84-r4q8](https://github.com/advisories/GHSA-97r3-5w84-r4q8): package folder names can trigger path traversal.
+- **changedetection.io backup restore**, [GHSA-8757-69j2-hx56](https://github.com/advisories/GHSA-8757-69j2-hx56): crafted backup restore can read arbitrary local files.
+- **Dynamic-Datasource**, [GHSA-6rmm-pg23-5f8q](https://github.com/advisories/GHSA-6rmm-pg23-5f8q): injection vulnerability.
+- **ShowDoc**, [GHSA-fm5r-cj7v-rj2c](https://github.com/advisories/GHSA-fm5r-cj7v-rj2c): injection vulnerability.
 
 ## Operator triage
 

@@ -1,4 +1,4 @@
-# n8n XML prototype-pollution RCE, Python sandbox escape, credential replay, and chat/MCP exposure batch (GHSA-q5f4-99jv-pgg5 / GHSA-hqr4-h3xv-9m3r / GHSA-44v6-jhgm-p3m4 / GHSA-r4v6-9fqc-w5jr / GHSA-537j-gqpc-p7fq / GHSA-49m9-pgww-9vq6 / GHSA-756q-gq9h-fp22 / GHSA-f77h-j2v7-g6mw)
+# n8n XML prototype-pollution RCE, Python sandbox escape, credential replay, and chat/MCP exposure…
 
 **Signal:** GitHub Security Advisories published **2026-04-29**. n8n fixed a second late-April batch affecting workflow execution, XML parsing, MCP OAuth, dynamic credential resolution, public API variables, and Hosted Chat WebSockets.
 

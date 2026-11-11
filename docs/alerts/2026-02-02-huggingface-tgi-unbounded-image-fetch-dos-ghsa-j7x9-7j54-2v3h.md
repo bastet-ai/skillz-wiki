@@ -1,4 +1,4 @@
-# 2026-02-02 — Hugging Face TGI unbounded image fetch → resource exhaustion (GHSA-j7x9-7j54-2v3h / CVE-2026-0599)
+# 2026-02-02, Hugging Face TGI unbounded image fetch → resource exhaustion
 
 **Summary:** In VLM mode, text-generation-inference (TGI) scans inputs for Markdown image links and performs blocking HTTP GET fetches, reading full responses into memory. This can be abused for **bandwidth + memory + CPU exhaustion** (and can trigger even if the request is later rejected).
 

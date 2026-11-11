@@ -1,4 +1,4 @@
-# 2026-03-29 — Forge signature forgery in RSA-PKCS due to ASN.1 extra field (GHSA-ppp5-5v6c-4jwp)
+# 2026-03-29, Forge signature forgery in RSA-PKCS due to ASN.1 extra field (GHSA-ppp5-5v6c-4jwp)
 
 **Product:** **Forge**
 

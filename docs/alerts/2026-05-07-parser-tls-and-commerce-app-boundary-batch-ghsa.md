@@ -4,12 +4,12 @@
 
 ## Advisories covered
 
-- **go-ipld-prime DAG-CBOR/DAG-JSON unbounded recursion** — [GHSA-w239-58x2-q8p5](https://github.com/advisories/GHSA-w239-58x2-q8p5): content-addressed parsers still need structural depth and allocation budgets.
-- **CSS Parser remote CSS MITM injection via improper certificate validation** — [GHSA-ff6c-w6qf-7xqc](https://github.com/advisories/GHSA-ff6c-w6qf-7xqc): remote stylesheet fetchers must validate TLS before treating fetched content as trusted input.
-- **rust-zserio unbounded memory allocation** — [GHSA-fpf5-4jw8-67x8](https://github.com/advisories/GHSA-fpf5-4jw8-67x8): binary/schema decoders need declared-size caps and streaming limits.
-- **Shopizer XSS and path traversal** — [GHSA-fqcw-2xhj-p63g](https://github.com/advisories/GHSA-fqcw-2xhj-p63g), [GHSA-f5w4-7ccj-5m75](https://github.com/advisories/GHSA-f5w4-7ccj-5m75): commerce admin and storefront paths need output encoding plus canonical file containment.
-- **Krayin CRM compose-email RCE** — [GHSA-32px-ccfx-cxq3](https://github.com/advisories/GHSA-32px-ccfx-cxq3): email composition/rendering features can become code execution surfaces when templates or attachments are interpreted.
-- **Gotenberg file:// read under `/tmp`** — [GHSA-g924-cjx7-2rjw](https://github.com/advisories/GHSA-g924-cjx7-2rjw): Chromium conversion routes must deny local schemes and isolate temp files per job.
+- **go-ipld-prime DAG-CBOR/DAG-JSON unbounded recursion**, [GHSA-w239-58x2-q8p5](https://github.com/advisories/GHSA-w239-58x2-q8p5): content-addressed parsers still need structural depth and allocation budgets.
+- **CSS Parser remote CSS MITM injection via improper certificate validation**, [GHSA-ff6c-w6qf-7xqc](https://github.com/advisories/GHSA-ff6c-w6qf-7xqc): remote stylesheet fetchers must validate TLS before treating fetched content as trusted input.
+- **rust-zserio unbounded memory allocation**, [GHSA-fpf5-4jw8-67x8](https://github.com/advisories/GHSA-fpf5-4jw8-67x8): binary/schema decoders need declared-size caps and streaming limits.
+- **Shopizer XSS and path traversal**, [GHSA-fqcw-2xhj-p63g](https://github.com/advisories/GHSA-fqcw-2xhj-p63g), [GHSA-f5w4-7ccj-5m75](https://github.com/advisories/GHSA-f5w4-7ccj-5m75): commerce admin and storefront paths need output encoding plus canonical file containment.
+- **Krayin CRM compose-email RCE**, [GHSA-32px-ccfx-cxq3](https://github.com/advisories/GHSA-32px-ccfx-cxq3): email composition/rendering features can become code execution surfaces when templates or attachments are interpreted.
+- **Gotenberg file:// read under `/tmp`**, [GHSA-g924-cjx7-2rjw](https://github.com/advisories/GHSA-g924-cjx7-2rjw): Chromium conversion routes must deny local schemes and isolate temp files per job.
 
 ## Why this is durable
 

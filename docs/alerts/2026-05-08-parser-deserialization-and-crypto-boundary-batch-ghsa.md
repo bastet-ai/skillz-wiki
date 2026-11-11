@@ -4,10 +4,10 @@
 
 ## Advisory cluster
 
-- **LangChain broad object revival** — [GHSA-pjwx-r37v-7724](https://github.com/advisories/GHSA-pjwx-r37v-7724): runtime paths in `langchain-core` used overly broad `load()` allowlists, allowing attacker-controlled serialized constructor dictionaries to revive trusted LangChain-serializable objects beyond what those paths needed. Patch to **0.3.85+** or **1.3.3+**.
-- **eml_parser recursive message bodies** — [GHSA-g47v-rwmh-r9f8](https://github.com/advisories/GHSA-g47v-rwmh-r9f8): nested `message/rfc822` attachments could recurse until `RecursionError` and crash a parser worker. Patch to **3.0.1+**.
-- **phpseclib ASN.1 binaryfield integer amplification** — [GHSA-2f25-pfq3-c7h8](https://github.com/advisories/GHSA-2f25-pfq3-c7h8): untrusted ASN.1 inputs such as certificates and keys needed guardrails around large binaryfield integers. Patch `phpseclib/phpseclib` to **3.0.34+**.
-- **Paramiko RSA SHA-1 acceptance** — [GHSA-r374-rxx8-8654](https://github.com/advisories/GHSA-r374-rxx8-8654): `paramiko <=4.0.0` accepted SHA-1 in `rsakey.py`; treat SHA-1 acceptance as crypto-policy drift even when the advisory is low severity.
+- **LangChain broad object revival**, [GHSA-pjwx-r37v-7724](https://github.com/advisories/GHSA-pjwx-r37v-7724): runtime paths in `langchain-core` used overly broad `load()` allowlists, allowing attacker-controlled serialized constructor dictionaries to revive trusted LangChain-serializable objects beyond what those paths needed. Patch to **0.3.85+** or **1.3.3+**.
+- **eml_parser recursive message bodies**, [GHSA-g47v-rwmh-r9f8](https://github.com/advisories/GHSA-g47v-rwmh-r9f8): nested `message/rfc822` attachments could recurse until `RecursionError` and crash a parser worker. Patch to **3.0.1+**.
+- **phpseclib ASN.1 binaryfield integer amplification**, [GHSA-2f25-pfq3-c7h8](https://github.com/advisories/GHSA-2f25-pfq3-c7h8): untrusted ASN.1 inputs such as certificates and keys needed guardrails around large binaryfield integers. Patch `phpseclib/phpseclib` to **3.0.34+**.
+- **Paramiko RSA SHA-1 acceptance**, [GHSA-r374-rxx8-8654](https://github.com/advisories/GHSA-r374-rxx8-8654): `paramiko <=4.0.0` accepted SHA-1 in `rsakey.py`; treat SHA-1 acceptance as crypto-policy drift even when the advisory is low severity.
 
 ## Why this matters
 

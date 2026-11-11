@@ -1,4 +1,4 @@
-# 2026-02-06 — Claude Code deny-rule bypass via symlinks (GHSA-4q92-rfm6-2cqx)
+# 2026-02-06, Claude Code deny-rule bypass via symlinks (GHSA-4q92-rfm6-2cqx)
 
 **What happened:** Claude Code did not correctly enforce `settings.json` deny rules when file access went through **symbolic links**. If access to a sensitive file (e.g., `/etc/passwd`) was denied, but Claude Code could read a symlink pointing to it, the restricted file could be read via the symlink.
 

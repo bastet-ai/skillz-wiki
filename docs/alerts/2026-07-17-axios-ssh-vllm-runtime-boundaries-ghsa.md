@@ -221,7 +221,7 @@ A 2026-09-04 vLLM cluster adds four entries that extend this page's runtime-chan
 
 **Concurrent prompt-embedding guard bypass (GHSA-pr7f-p5mw-fc87).**
 
-1. Preconditions: `--enable-prompt-embeds` enabled, no API-key middleware (stock default), PyTorch pin in the affected range. Record whether `renderer_num_workers` is default (1) — the bypass does not need a multi-worker renderer.
+1. Preconditions: `--enable-prompt-embeds` enabled, no API-key middleware (stock default), PyTorch pin in the affected range. Record whether `renderer_num_workers` is default (1), the bypass does not need a multi-worker renderer.
 2. In a lab worker, build one `/v1/chat/completions` request with two `prompt_embeds` content parts: part A a benign valid embedding, part B the invalid sparse payload that the guarded loader rejects under serial execution.
 3. Let both parts schedule on the event-loop default executor concurrently. The positive evidence is part B's `torch.load(..., weights_only=True)` observing the global invariant flag disabled and reconstructing the malformed sparse tensor, reaching `to_dense()` before later validation.
 4. Negative controls: the identical two-part request in a patched build (or with a shared process-wide lock), and a serial single-part request where the guard holds.

@@ -105,7 +105,7 @@ Host: canary.example.test
 Connection: close
 ```
 
-Build a matrix covering the expected management authority, owned alternate hostname, host plus alternate port, case, trailing dot, absolute-form request target, and—only if the lab proxy normally supplies them—single `Forwarded` or `X-Forwarded-Host` controls. Do not use CR/LF, ambiguous duplicate headers, third-party domains, or production caches.
+Build a matrix covering the expected management authority, owned alternate hostname, host plus alternate port, case, trailing dot, absolute-form request target, and,only if the lab proxy normally supplies them,single `Forwarded` or `X-Forwarded-Host` controls. Do not use CR/LF, ambiguous duplicate headers, third-party domains, or production caches.
 
 For every row capture:
 
@@ -118,10 +118,10 @@ For every row capture:
 
 Classify the result precisely:
 
-1. **reflection only** — the marker appears in inert text;
-2. **navigation authority** — an absolute `Location` or trusted link selects the owned hostname;
-3. **script-context authority** — the marker reaches an executable JavaScript/HTML context, proven only with a harmless DOM marker in a script-disabled fixture; or
-4. **cache-key mismatch** — two host variants share a cache object and a second synthetic client receives the first marker.
+1. **reflection only**, the marker appears in inert text;
+2. **navigation authority**, an absolute `Location` or trusted link selects the owned hostname;
+3. **script-context authority**, the marker reaches an executable JavaScript/HTML context, proven only with a harmless DOM marker in a script-disabled fixture; or
+4. **cache-key mismatch**, two host variants share a cache object and a second synthetic client receives the first marker.
 
 Do not call reflection XSS, a changed `Location` cache poisoning, or one cache entry cross-user impact. The strongest bounded proof is the exact source-to-sink transition plus an affected-versus-fixed decision table.
 

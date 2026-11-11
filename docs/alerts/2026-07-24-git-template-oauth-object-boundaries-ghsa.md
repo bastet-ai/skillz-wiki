@@ -78,7 +78,7 @@ In affected Mongoose 6.x through 9.x lines, casting a user-controlled update suc
 2. Build the update with `JSON.parse()` so `__proto__` is an own data property; avoid JavaScript object-literal semantics that may instead alter only the payload object's prototype.
 3. Snapshot own/enumerable properties on `Object.prototype` and a fresh `{}` before casting.
 4. Send only a marker update path and invoke the same update casting path the application reaches. Catch errors, then snapshot process-global prototype state again.
-5. Test downstream impact only with an inert policy object in the same disposable process—for example, whether an inherited marker changes a synthetic branch. Do not mutate authorization, shell, template, or database behavior.
+5. Test downstream impact only with an inert policy object in the same disposable process,for example, whether an inherited marker changes a synthetic branch. Do not mutate authorization, shell, template, or database behavior.
 6. Exit the process after every case. Repeat with the appropriate patched release and with update sanitization enabled.
 
 A valid finding proves **attacker-controlled update object -> dotted `__proto__` path reaches schema lookup/casting -> Mongoose writes enumerable internal fields onto `Object.prototype` despite an eventual throw**. Do not call this arbitrary prototype pollution unless attacker control over property names/values beyond the confirmed internal fields is independently shown, and do not claim privilege escalation without a concrete reachable downstream consumer.

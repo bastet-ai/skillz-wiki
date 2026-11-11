@@ -4,14 +4,14 @@
 
 ## Advisories covered
 
-- **Lemur LDAP TLS verification disabled globally** — [GHSA-vr7c-r5gj-j3w5](https://github.com/advisories/GHSA-vr7c-r5gj-j3w5): enabling LDAP TLS disabled certificate verification, exposing LDAP credentials and identity assertions to interception.
-- **Kimai template secret exposure** — [GHSA-vrqv-52x7-rm4v](https://github.com/advisories/GHSA-vrqv-52x7-rm4v): invoice/export Twig templates could call `config()` and leak server-wide secrets such as LDAP bind passwords or SAML SP private keys.
-- **Kimai missing voter check** — [GHSA-9g2q-w3w2-vf7q](https://github.com/advisories/GHSA-9g2q-w3w2-vf7q): cross-team timesheet manipulation due to missing authorization checks.
-- **LiteLLM unrestricted proxy config endpoint** — [GHSA-53mr-6c8q-9789](https://github.com/advisories/GHSA-53mr-6c8q-9789): proxy configuration changes could enable privilege escalation.
-- **MetaGPT injection** — [GHSA-g977-h85w-h2xj](https://github.com/advisories/GHSA-g977-h85w-h2xj): agent/runtime injection risk.
-- **Pimcore authenticated XSS and SQL injection** — [GHSA-7gxw-q9j5-mrj4](https://github.com/advisories/GHSA-7gxw-q9j5-mrj4), [GHSA-c8g3-x47w-8q7p](https://github.com/advisories/GHSA-c8g3-x47w-8q7p).
-- **Grafana custom frontend plugin XSS** — [GHSA-q53q-gxq9-mgrj](https://github.com/advisories/GHSA-q53q-gxq9-mgrj).
-- **MCP and helper path/SSRF issues** — [mkdocs-mcp-plugin path traversal GHSA-wfr3-hf93-qgg3](https://github.com/advisories/GHSA-wfr3-hf93-qgg3), [kaggle-mcp path traversal GHSA-q882-jc55-6343](https://github.com/advisories/GHSA-q882-jc55-6343), [mcp-url-downloader SSRF GHSA-h7xc-4mv8-59fj](https://github.com/advisories/GHSA-h7xc-4mv8-59fj), and [auto-favicon SSRF GHSA-vmh7-9c7h-2pgg](https://github.com/advisories/GHSA-vmh7-9c7h-2pgg).
+- **Lemur LDAP TLS verification disabled globally**, [GHSA-vr7c-r5gj-j3w5](https://github.com/advisories/GHSA-vr7c-r5gj-j3w5): enabling LDAP TLS disabled certificate verification, exposing LDAP credentials and identity assertions to interception.
+- **Kimai template secret exposure**, [GHSA-vrqv-52x7-rm4v](https://github.com/advisories/GHSA-vrqv-52x7-rm4v): invoice/export Twig templates could call `config()` and leak server-wide secrets such as LDAP bind passwords or SAML SP private keys.
+- **Kimai missing voter check**, [GHSA-9g2q-w3w2-vf7q](https://github.com/advisories/GHSA-9g2q-w3w2-vf7q): cross-team timesheet manipulation due to missing authorization checks.
+- **LiteLLM unrestricted proxy config endpoint**, [GHSA-53mr-6c8q-9789](https://github.com/advisories/GHSA-53mr-6c8q-9789): proxy configuration changes could enable privilege escalation.
+- **MetaGPT injection**, [GHSA-g977-h85w-h2xj](https://github.com/advisories/GHSA-g977-h85w-h2xj): agent/runtime injection risk.
+- **Pimcore authenticated XSS and SQL injection**, [GHSA-7gxw-q9j5-mrj4](https://github.com/advisories/GHSA-7gxw-q9j5-mrj4), [GHSA-c8g3-x47w-8q7p](https://github.com/advisories/GHSA-c8g3-x47w-8q7p).
+- **Grafana custom frontend plugin XSS**, [GHSA-q53q-gxq9-mgrj](https://github.com/advisories/GHSA-q53q-gxq9-mgrj).
+- **MCP and helper path/SSRF issues**, [mkdocs-mcp-plugin path traversal GHSA-wfr3-hf93-qgg3](https://github.com/advisories/GHSA-wfr3-hf93-qgg3), [kaggle-mcp path traversal GHSA-q882-jc55-6343](https://github.com/advisories/GHSA-q882-jc55-6343), [mcp-url-downloader SSRF GHSA-h7xc-4mv8-59fj](https://github.com/advisories/GHSA-h7xc-4mv8-59fj), and [auto-favicon SSRF GHSA-vmh7-9c7h-2pgg](https://github.com/advisories/GHSA-vmh7-9c7h-2pgg).
 
 ## Why this is durable
 

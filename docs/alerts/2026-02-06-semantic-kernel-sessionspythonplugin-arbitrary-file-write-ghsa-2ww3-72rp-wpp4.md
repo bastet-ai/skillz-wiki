@@ -1,4 +1,4 @@
-# 2026-02-06 — Semantic Kernel (SessionsPythonPlugin) arbitrary file write (GHSA-2ww3-72rp-wpp4)
+# 2026-02-06, Semantic Kernel (SessionsPythonPlugin) arbitrary file write (GHSA-2ww3-72rp-wpp4)
 
 GitHub advisory: <https://github.com/advisories/GHSA-2ww3-72rp-wpp4>
 

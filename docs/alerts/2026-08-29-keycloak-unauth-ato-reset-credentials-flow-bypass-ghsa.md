@@ -1,9 +1,9 @@
-# Keycloak unauthenticated account takeover via reset-credentials flow bypass — operator validation
+# Keycloak unauthenticated account takeover via reset-credentials flow bypass, operator validation
 
 **Date reviewed:** 2026-08-29
-**Advisory:** [GHSA-4gv3-mc9p-5wqc / CVE-2026-18963](https://github.com/advisories/GHSA-4gv3-mc9p-5wqc) — critical, CVSS 9.1
+**Advisory:** [GHSA-4gv3-mc9p-5wqc / CVE-2026-18963](https://github.com/advisories/GHSA-4gv3-mc9p-5wqc), critical, CVSS 9.1
 **Affected:** `keycloak-services` (Red Hat Build of Keycloak) reset-credentials flow
-**Boundary class:** identity-provider session/authz state confusion — the email-verification gate for password reset can be bypassed by unauthenticated callers, letting an attacker set new credentials for any account.
+**Boundary class:** identity-provider session/authz state confusion, the email-verification gate for password reset can be bypassed by unauthenticated callers, letting an attacker set new credentials for any account.
 
 ## The primitive
 
@@ -11,12 +11,12 @@ Keycloak's self-service password reset requires the target user to follow the em
 
 The durable pattern: **a multi-step identity workflow whose server-side state transition (verified → credential write) is keyed to caller-supplied or attacker-reproducible tokens rather than to a server-held, single-use, time-boxed verification receipt.** The email link is a UX detail if the server's final decision ("may I write credentials for user X?") does not depend on a secret only the user's mailbox produced.
 
-This is the highest-impact Keycloak ATO shape because it is **unauthenticated**: no valid token, no prior session, no MFA step — just the target username (or a stable identifier that resolves to the account) and the reset-flow endpoints.
+This is the highest-impact Keycloak ATO shape because it is **unauthenticated**: no valid token, no prior session, no MFA step, just the target username (or a stable identifier that resolves to the account) and the reset-flow endpoints.
 
 ## Recon heuristics
 
 - **Find the reset-flow surface.** Enumerate `/realms/<realm>/connect/...` and account-management reset routes: `forgot-password` initiation, the email-link target route, and the credential-change endpoint. Note which routes accept a `token`/`id`/`username` parameter and which of those parameters the server treats as authoritative.
-- **Probe the state gate.** The decisive test is whether the credential-write endpoint requires the verification link's token to be consumed. Send the reset-initiation request, then call the credential-change endpoint **without** consuming the link token — and separately **with** a token from a *different* user's initiation. If either succeeds, the gate is broken.
+- **Probe the state gate.** The decisive test is whether the credential-write endpoint requires the verification link's token to be consumed. Send the reset-initiation request, then call the credential-change endpoint **without** consuming the link token, and separately **with** a token from a *different* user's initiation. If either succeeds, the gate is broken.
 - **Check token entropy and scope.** Reset-link tokens should be high-entropy, single-use, realm+user-scoped, and short-TTL. Low-entropy, guessable, user-id-keyed, or cross-realm-reusable tokens are independent findings even when the main flow is enforced.
 - **Correlate with the account-API and feature-flag history.** This advisory joins a long line of Keycloak reset/account-boundary issues (forced-browsing `/account/v1alpha1`, backchannel-logout SSRF, token-exchange fallbacks). If a realm has the account API enabled or versioned route families reachable, test the reset flow *and* the alternate route family together.
 - **Version evidence.** Record the exact `keycloak-services` build (Red Hat build number) because the fix is server-side in the services component.
@@ -42,7 +42,7 @@ Evidence to capture: exact routes and parameters, token labels (never token byte
 - Isolated lab realm, disposable users only. No production Keycloak, no real user accounts, no real email delivery.
 - Proofs use synthetic credentials and synthetic users; report the boundary crossed (unauthenticated caller → credential write for another account) and the exact state gate that failed.
 - Do not publish reset-link tokens, mailbox contents, or production realm identifiers.
-- Frame as **reset-flow verification-gate bypass**, not as generic "password reset weakness" — the finding is the missing server-side binding between link consumption and credential write.
+- Frame as **reset-flow verification-gate bypass**, not as generic "password reset weakness", the finding is the missing server-side binding between link consumption and credential write.
 
 ## Sources
 

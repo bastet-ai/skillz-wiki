@@ -1,4 +1,4 @@
-# Contrast, pgx, copilot-api, and verl execution-boundary batch (GHSA-rh99-wc69-c255 / GHSA-j88v-2chj-qfwx / GHSA-3vr4-cvmg-7fx4 / GHSA-h57c-v2v3-5v3v)
+# Contrast, pgx, copilot-api, and verl execution-boundary batch
 
 **Signal:** GitHub Security Advisories updated **2026-04-30**. Four advisories highlight execution-boundary mistakes: symlink policy bypass in confidential-container file copy, SQL placeholder parsing confusion, reverse-DNS trust, and unsafe `eval()` in grading code.
 

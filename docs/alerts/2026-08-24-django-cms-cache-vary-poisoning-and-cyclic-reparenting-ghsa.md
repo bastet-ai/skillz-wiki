@@ -26,7 +26,7 @@ This batch is durable because it captures two reusable CMS testing patterns: a *
 - **Confirm the cache is live and a plugin varies:** send two requests to the same anonymous page differing only on the varied header (e.g. `Country-Code: US` vs `GB`) and record that the response carries the expected `Vary: Country-Code` but the body is the *first* cached variant for both.
 - **Prove poisoning with a canary:** with an unauthenticated session, prime the anonymous page cache by requesting the page once with an attacker-chosen varied header value that renders a benign, distinguishable marker (a canary string the plugin echoes). Then request the same page with a different header value and confirm the attacker-primed variant is still served.
 - **Stop at the canary:** do not attempt to exfiltrate real user data or inject script payloads into the cached page. The proof is the *cross-visitor variant reuse*, not an XSS.
-- **Pair with the `Vary` header:** the report should show the response advertises `Vary` while the body is header-agnostic — that mismatch is the reusable signal for other frameworks.
+- **Pair with the `Vary` header:** the report should show the response advertises `Vary` while the body is header-agnostic, that mismatch is the reusable signal for other frameworks.
 
 ### Cyclic-reparenting DoS check
 

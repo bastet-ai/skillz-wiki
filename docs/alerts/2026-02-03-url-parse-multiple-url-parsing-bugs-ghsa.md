@@ -1,4 +1,4 @@
-# 2026-02-03 — `url-parse` multiple URL parsing issues (multiple GHSAs; upgrade)
+# 2026-02-03, `url-parse` multiple URL parsing issues (multiple GHSAs; upgrade)
 
 ## Executive summary
 GitHub’s advisory feed surfaced updates to multiple historical issues in the popular npm package `url-parse`.
@@ -29,11 +29,11 @@ Different parsers may disagree on how to interpret ambiguous input (control char
    - Strip / reject leading control characters and other ambiguous encodings.
 
 ## References (GitHub Advisories)
-- GHSA-46c4-8wrp-j99v — Improper validation/sanitization in `url-parse`
+- GHSA-46c4-8wrp-j99v, Improper validation/sanitization in `url-parse`
   - https://github.com/advisories/GHSA-46c4-8wrp-j99v
-- GHSA-hh27-ffr2-f2jc — Open redirect in `url-parse`
+- GHSA-hh27-ffr2-f2jc, Open redirect in `url-parse`
   - https://github.com/advisories/GHSA-hh27-ffr2-f2jc
-- GHSA-9m6j-fcg5-2442 — Path traversal / misparse issue in `url-parse`
+- GHSA-9m6j-fcg5-2442, Path traversal / misparse issue in `url-parse`
   - https://github.com/advisories/GHSA-9m6j-fcg5-2442
-- GHSA-jf5r-8hm2-f872 — Leading control characters not stripped
+- GHSA-jf5r-8hm2-f872, Leading control characters not stripped
   - https://github.com/advisories/GHSA-jf5r-8hm2-f872

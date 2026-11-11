@@ -1,4 +1,4 @@
-# 2026-02-02 — Signal K set-system-time plugin command injection (GHSA-p8gp-2w28-mhwg)
+# 2026-02-02, Signal K set-system-time plugin command injection (GHSA-p8gp-2w28-mhwg)
 
 ## Summary
 

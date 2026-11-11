@@ -1,4 +1,4 @@
-# 2026-02-03 — jsonwebtoken type confusion → potential authz bypass (GHSA-h395-gr6q-cpjc)
+# 2026-02-03, jsonwebtoken type confusion → potential authz bypass (GHSA-h395-gr6q-cpjc)
 
 **What happened:** The `jsonwebtoken` library had a type confusion issue that could lead to a **potential authorization bypass** in some integration patterns.
 

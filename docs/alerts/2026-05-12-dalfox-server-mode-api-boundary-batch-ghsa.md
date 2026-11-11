@@ -6,10 +6,10 @@ This batch is durable because it is a clean example of a security tool becoming 
 
 ## Advisories covered
 
-- **Unauthenticated RCE through `found-action`** — [GHSA-v25v-m36w-jp4h](https://github.com/advisories/GHSA-v25v-m36w-jp4h), CVE-2026-45087: Dalfox server mode (`dalfox server`) binds to `0.0.0.0:6664` by default, does not require an API key unless explicitly configured, and accepted attacker-supplied `FoundAction` / `FoundActionShell` scan options. A caller who can trigger a finding can execute arbitrary shell commands as the Dalfox process.
-- **Arbitrary file read with out-of-band exfiltration** — [GHSA-35wr-x7v6-9fv2](https://github.com/advisories/GHSA-35wr-x7v6-9fv2), CVE-2026-45088: attacker-controlled `custom-payload-file` could read host files and replay their lines as payloads to an attacker-controlled scan target.
-- **Arbitrary file create/append** — [GHSA-8hf9-3q64-q2qf](https://github.com/advisories/GHSA-8hf9-3q64-q2qf), CVE-2026-45089: attacker-controlled `output`, `output-all`, and `debug` paths reached the logger and opened files with append/create semantics even in server/library mode.
-- **Remote process crash** — [GHSA-2g4x-fq3j-cgq4](https://github.com/advisories/GHSA-2g4x-fq3j-cgq4), CVE-2026-45090: crafted POST-body parameter analysis could write to a closed channel and panic the Go process.
+- **Unauthenticated RCE through `found-action`**, [GHSA-v25v-m36w-jp4h](https://github.com/advisories/GHSA-v25v-m36w-jp4h), CVE-2026-45087: Dalfox server mode (`dalfox server`) binds to `0.0.0.0:6664` by default, does not require an API key unless explicitly configured, and accepted attacker-supplied `FoundAction` / `FoundActionShell` scan options. A caller who can trigger a finding can execute arbitrary shell commands as the Dalfox process.
+- **Arbitrary file read with out-of-band exfiltration**, [GHSA-35wr-x7v6-9fv2](https://github.com/advisories/GHSA-35wr-x7v6-9fv2), CVE-2026-45088: attacker-controlled `custom-payload-file` could read host files and replay their lines as payloads to an attacker-controlled scan target.
+- **Arbitrary file create/append**, [GHSA-8hf9-3q64-q2qf](https://github.com/advisories/GHSA-8hf9-3q64-q2qf), CVE-2026-45089: attacker-controlled `output`, `output-all`, and `debug` paths reached the logger and opened files with append/create semantics even in server/library mode.
+- **Remote process crash**, [GHSA-2g4x-fq3j-cgq4](https://github.com/advisories/GHSA-2g4x-fq3j-cgq4), CVE-2026-45090: crafted POST-body parameter analysis could write to a closed channel and panic the Go process.
 
 Affected package: `github.com/hahwul/dalfox/v2 <= 2.12.0`; fixed in `2.13.0`.
 

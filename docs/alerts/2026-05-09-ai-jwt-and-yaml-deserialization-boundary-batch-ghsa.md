@@ -6,8 +6,8 @@ This batch is durable because AI service control planes commonly deserialize age
 
 ## Advisories covered
 
-- **LightRAG JWT algorithm confusion** — [GHSA-8ffj-4hx4-9pgf](https://github.com/advisories/GHSA-8ffj-4hx4-9pgf): crafted JWTs using `alg: none` could be accepted by the API token validator, enabling unauthorized access. Affects `lightrag-hku <= 1.4.13`; fixed in `1.4.14`.
-- **PraisonAI YAML agent-definition RCE** — [GHSA-32vr-5gcf-3pw2](https://github.com/advisories/GHSA-32vr-5gcf-3pw2): uploaded agent definition files were parsed with `js-yaml` behavior that allowed dangerous JavaScript tags such as `!!js/function`, leading to server-side code execution. Affects `praisonai <= 4.5.114`; fixed in `4.5.115`.
+- **LightRAG JWT algorithm confusion**, [GHSA-8ffj-4hx4-9pgf](https://github.com/advisories/GHSA-8ffj-4hx4-9pgf): crafted JWTs using `alg: none` could be accepted by the API token validator, enabling unauthorized access. Affects `lightrag-hku <= 1.4.13`; fixed in `1.4.14`.
+- **PraisonAI YAML agent-definition RCE**, [GHSA-32vr-5gcf-3pw2](https://github.com/advisories/GHSA-32vr-5gcf-3pw2): uploaded agent definition files were parsed with `js-yaml` behavior that allowed dangerous JavaScript tags such as `!!js/function`, leading to server-side code execution. Affects `praisonai <= 4.5.114`; fixed in `4.5.115`.
 
 ## Operator triage
 

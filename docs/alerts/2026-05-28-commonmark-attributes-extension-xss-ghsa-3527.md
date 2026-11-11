@@ -6,7 +6,7 @@ This advisory is durable because Markdown renderers are common bug-bounty surfac
 
 ## What changed
 
-- **league/commonmark Attributes extension XSS** — [GHSA-3527-qv2q-pfvx](https://github.com/advisories/GHSA-3527-qv2q-pfvx) / CVE-2025-46734: vulnerable Composer package `league/commonmark >=1.5.0 <2.7.0` lets Markdown authors attach arbitrary HTML attributes with curly-brace syntax when `AttributesExtension` is enabled. Even with `html_input: 'strip'` and `allow_unsafe_links: false`, payloads such as `![](){onerror=alert(1)}` can render as an `<img>` with an executable `onerror` handler. Version `2.7.0` blocks `on*` attributes by default, adds an explicit attribute allowlist, and makes manually added `href`/`src` attributes respect `allow_unsafe_links`.
+- **league/commonmark Attributes extension XSS**, [GHSA-3527-qv2q-pfvx](https://github.com/advisories/GHSA-3527-qv2q-pfvx) / CVE-2025-46734: vulnerable Composer package `league/commonmark >=1.5.0 <2.7.0` lets Markdown authors attach arbitrary HTML attributes with curly-brace syntax when `AttributesExtension` is enabled. Even with `html_input: 'strip'` and `allow_unsafe_links: false`, payloads such as `![](){onerror=alert(1)}` can render as an `<img>` with an executable `onerror` handler. Version `2.7.0` blocks `on*` attributes by default, adds an explicit attribute allowlist, and makes manually added `href`/`src` attributes respect `allow_unsafe_links`.
 
 ## Operator triage
 
@@ -25,13 +25,13 @@ This advisory is durable because Markdown renderers are common bug-bounty surfac
 
 ## October 1 follow-up: DisallowedRawHtml end-of-line tag bypass
 
-[GHSA-97jj-33gv-5xf9](https://github.com/advisories/GHSA-97jj-33gv-5xf9) hits the *other* commonmark raw-HTML control: the `DisallowedRawHtml` extension (auto-enabled by the GFM set) escapes dangerous tag names with a regex that requires one character after the tag name (`[\s\/>]`). The block parser's `PARTIAL_HTMLBLOCKOPEN` accepts end-of-input right after the tag name, so a Markdown line ending in `<script` (no trailing character) passes through unescaped — and the next block supplies the attributes. Shipped GFM example: `<div>\n<script\n\n<span src="/evil.js">` renders so the browser reassembles `<script src="/evil.js">` with a junk `<span` attribute. `<iframe` + `<span onload="...">` works the same and needs no later `</script>`. Affected `>=1.3.0 <=2.10.1`, fixed in **2.10.2**; preconditions are `html_input: allow` (default) plus untrusted Markdown.
+[GHSA-97jj-33gv-5xf9](https://github.com/advisories/GHSA-97jj-33gv-5xf9) hits the *other* commonmark raw-HTML control: the `DisallowedRawHtml` extension (auto-enabled by the GFM set) escapes dangerous tag names with a regex that requires one character after the tag name (`[\s\/>]`). The block parser's `PARTIAL_HTMLBLOCKOPEN` accepts end-of-input right after the tag name, so a Markdown line ending in `<script` (no trailing character) passes through unescaped, and the next block supplies the attributes. Shipped GFM example: `<div>\n<script\n\n<span src="/evil.js">` renders so the browser reassembles `<script src="/evil.js">` with a junk `<span` attribute. `<iframe` + `<span onload="...">` works the same and needs no later `</script>`. Affected `>=1.3.0 <=2.10.1`, fixed in **2.10.2**; preconditions are `html_input: allow` (default) plus untrusted Markdown.
 
 The durable axis, and the second time this exact filter regressed (GHSA-4v6x-c7xx-hw9f widened the same character class in 2.8.1 and still required one character): **an escape regex and a parser grammar disagree at their boundary conditions.** The parser's accept-set includes end-of-line; the escaper's match-set does not. When auditing any deny-list HTML escaper (commonmark, CMS Markdown pipelines, comment renderers):
 
 1. Feed bare tag-prefix forms with nothing after the name: `<script`, `<iframe`, `<style`, `<textarea`, `<plaintext` as the final line, and as continuation lines inside an open HTML block.
 2. Follow with a separate block that supplies event-handler or `src` attributes to complete the browser-side reassembly.
-3. Confirm the browser parser terminates the tag name on newline — the newline surviving into rendered HTML is what turns the leaked `<script` into an attribute-taking open tag.
+3. Confirm the browser parser terminates the tag name on newline, the newline surviving into rendered HTML is what turns the leaked `<script` into an attribute-taking open tag.
 4. Diff which characters the *parser* accepts after a token versus which the *escaper's regex* accepts; every mismatch (EOF, newline, `/`, case variants) is a candidate.
 
 Proof stays inert: tester-owned `src` callback or `console.log` marker, disposable viewer account, and a patched-version (`2.10.2`) negative control that escapes the same input.

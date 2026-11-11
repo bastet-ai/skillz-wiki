@@ -80,4 +80,4 @@ Patch first, analyze second.
 
 Browser memory-safety bugs are high-priority because they sit at the boundary between untrusted content and local execution.
 
-If CISA added it to KEV, treat it like an active attack surface — not a theoretical crash report.
+If CISA added it to KEV, treat it like an active attack surface, not a theoretical crash report.

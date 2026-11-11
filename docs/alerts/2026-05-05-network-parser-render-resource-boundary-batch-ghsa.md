@@ -6,14 +6,14 @@ This batch is durable because small parser and rendering mistakes turn into SSRF
 
 ## Advisories covered
 
-- **MagicMirror `/cors`** — [GHSA-ph6f-2cvq-79hq](https://github.com/advisories/GHSA-ph6f-2cvq-79hq): unauthenticated SSRF.
-- **ssrfcheck** — [GHSA-j4rj-2jr5-m439](https://github.com/advisories/GHSA-j4rj-2jr5-m439), [GHSA-p4hc-9pjh-55c8](https://github.com/advisories/GHSA-p4hc-9pjh-55c8), and duplicate [GHSA-c2fv-2fmj-9xrx](https://github.com/advisories/GHSA-c2fv-2fmj-9xrx): incomplete SSRF/reserved-address classification.
-- **Hysteria QUIC sniffing** — [GHSA-9fw6-xgg2-mq9q](https://github.com/advisories/GHSA-9fw6-xgg2-mq9q): crafted QUIC packet can crash the server with OOM when sniffing is enabled.
-- **GoBGP** — [GHSA-p3w2-64xm-833j](https://github.com/advisories/GHSA-p3w2-64xm-833j): malformed BGP Update can trigger nil-pointer panic.
-- **Twisted DNS** — [GHSA-grgv-6hw6-v9g4](https://github.com/advisories/GHSA-grgv-6hw6-v9g4): crafted DNS compression pointer chains cause DoS.
-- **phpseclib ASN.1 OID decode** — [GHSA-3qpq-r242-jqj7](https://github.com/advisories/GHSA-3qpq-r242-jqj7): CVE-2024-27355 mitigation bypass enables OID amplification DoS.
-- **Kimai XLSX export** — [GHSA-3xc2-h5r3-wv3r](https://github.com/advisories/GHSA-3xc2-h5r3-wv3r): formula injection via tag names.
-- **YAFNET forum/admin pages** — [GHSA-8rq5-wwpp-fmj2](https://github.com/advisories/GHSA-8rq5-wwpp-fmj2), [GHSA-xhw7-j96h-c3g5](https://github.com/advisories/GHSA-xhw7-j96h-c3g5), and [GHSA-33gv-fc78-qgf5](https://github.com/advisories/GHSA-33gv-fc78-qgf5): stored XSS, pre-handler admin authorization bypass to blind SQL execution, and second-order event-log XSS through `User-Agent`.
+- **MagicMirror `/cors`**, [GHSA-ph6f-2cvq-79hq](https://github.com/advisories/GHSA-ph6f-2cvq-79hq): unauthenticated SSRF.
+- **ssrfcheck**, [GHSA-j4rj-2jr5-m439](https://github.com/advisories/GHSA-j4rj-2jr5-m439), [GHSA-p4hc-9pjh-55c8](https://github.com/advisories/GHSA-p4hc-9pjh-55c8), and duplicate [GHSA-c2fv-2fmj-9xrx](https://github.com/advisories/GHSA-c2fv-2fmj-9xrx): incomplete SSRF/reserved-address classification.
+- **Hysteria QUIC sniffing**, [GHSA-9fw6-xgg2-mq9q](https://github.com/advisories/GHSA-9fw6-xgg2-mq9q): crafted QUIC packet can crash the server with OOM when sniffing is enabled.
+- **GoBGP**, [GHSA-p3w2-64xm-833j](https://github.com/advisories/GHSA-p3w2-64xm-833j): malformed BGP Update can trigger nil-pointer panic.
+- **Twisted DNS**, [GHSA-grgv-6hw6-v9g4](https://github.com/advisories/GHSA-grgv-6hw6-v9g4): crafted DNS compression pointer chains cause DoS.
+- **phpseclib ASN.1 OID decode**, [GHSA-3qpq-r242-jqj7](https://github.com/advisories/GHSA-3qpq-r242-jqj7): CVE-2024-27355 mitigation bypass enables OID amplification DoS.
+- **Kimai XLSX export**, [GHSA-3xc2-h5r3-wv3r](https://github.com/advisories/GHSA-3xc2-h5r3-wv3r): formula injection via tag names.
+- **YAFNET forum/admin pages**, [GHSA-8rq5-wwpp-fmj2](https://github.com/advisories/GHSA-8rq5-wwpp-fmj2), [GHSA-xhw7-j96h-c3g5](https://github.com/advisories/GHSA-xhw7-j96h-c3g5), and [GHSA-33gv-fc78-qgf5](https://github.com/advisories/GHSA-33gv-fc78-qgf5): stored XSS, pre-handler admin authorization bypass to blind SQL execution, and second-order event-log XSS through `User-Agent`.
 
 ## Operator triage
 

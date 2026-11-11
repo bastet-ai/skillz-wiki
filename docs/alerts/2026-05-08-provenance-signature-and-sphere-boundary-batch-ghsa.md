@@ -4,10 +4,10 @@
 
 ## Advisory cluster
 
-- **gitsign normalized-object trust confusion** — [GHSA-7rmh-48mx-2vwc](https://github.com/advisories/GHSA-7rmh-48mx-2vwc): `gitsign verify` and `verify-tag` checked signatures over go-git-normalized bytes rather than raw git object bytes, allowing malformed duplicate-header objects to verify differently than git-core resolves them. Patch to **0.16.0+**.
-- **in-toto negation mismatch** — [GHSA-pmwq-pjrm-6p5r](https://github.com/advisories/GHSA-pmwq-pjrm-6p5r): in-toto-golang and in-toto-python interpreted glob character-class negation differently, so layouts could apply artifact rules inconsistently. Patch `in-toto-golang` to **0.11.0+** and test layouts across implementations.
-- **OpenStack Ironic resource-transfer issue** — [GHSA-54w4-233h-x86g](https://github.com/advisories/GHSA-54w4-233h-x86g): an Ironic control-sphere boundary issue was updated in the feed; keep this with the existing OpenStack/Ironic authorization guidance and verify patched packages in exposed clouds.
-- **Withdrawn duplicate handling** — [GHSA-jpr7-q523-hx25](https://github.com/advisories/GHSA-jpr7-q523-hx25) was withdrawn as a duplicate of the phpseclib ASN.1 issue; do not let duplicate IDs create conflicting triage state.
+- **gitsign normalized-object trust confusion**, [GHSA-7rmh-48mx-2vwc](https://github.com/advisories/GHSA-7rmh-48mx-2vwc): `gitsign verify` and `verify-tag` checked signatures over go-git-normalized bytes rather than raw git object bytes, allowing malformed duplicate-header objects to verify differently than git-core resolves them. Patch to **0.16.0+**.
+- **in-toto negation mismatch**, [GHSA-pmwq-pjrm-6p5r](https://github.com/advisories/GHSA-pmwq-pjrm-6p5r): in-toto-golang and in-toto-python interpreted glob character-class negation differently, so layouts could apply artifact rules inconsistently. Patch `in-toto-golang` to **0.11.0+** and test layouts across implementations.
+- **OpenStack Ironic resource-transfer issue**, [GHSA-54w4-233h-x86g](https://github.com/advisories/GHSA-54w4-233h-x86g): an Ironic control-sphere boundary issue was updated in the feed; keep this with the existing OpenStack/Ironic authorization guidance and verify patched packages in exposed clouds.
+- **Withdrawn duplicate handling**, [GHSA-jpr7-q523-hx25](https://github.com/advisories/GHSA-jpr7-q523-hx25) was withdrawn as a duplicate of the phpseclib ASN.1 issue; do not let duplicate IDs create conflicting triage state.
 
 ## Why this matters
 

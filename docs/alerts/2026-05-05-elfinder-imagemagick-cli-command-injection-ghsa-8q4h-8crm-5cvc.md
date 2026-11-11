@@ -57,7 +57,7 @@ Preconditions: an authorized lab elFinder instance running an affected build wit
 ### Durable lesson
 
 - **Validation and fetch must resolve once and pin the address.** Any server-side fetch that checks a hostname against a private-range denylist and then opens a *second* connection to the same hostname is a DNS-rebinding/TOCTOU candidate. The check and the connect must share one resolved address.
-- **The cURL-vs-`fsock` fallback split multiplies the surface.** Frameworks that have a hardened default path (cURL with resolver pinning or explicit `CURLOPT` behavior) and a weaker fallback (`fsockopen`/`fsock_get_contents`) frequently lose the SSRF guarantee on the fallback. Audit which runtime configuration a target actually uses — the patched behavior may only apply on one code path.
+- **The cURL-vs-`fsock` fallback split multiplies the surface.** Frameworks that have a hardened default path (cURL with resolver pinning or explicit `CURLOPT` behavior) and a weaker fallback (`fsockopen`/`fsock_get_contents`) frequently lose the SSRF guarantee on the fallback. Audit which runtime configuration a target actually uses, the patched behavior may only apply on one code path.
 - **Pair with the [DNS rebinding local-service testing methodology](../methodology/dns-rebinding-local-service-testing.md):** this advisory is the same "the lookup is coming from inside the house" pattern, but it lands on a *server-side* fetch path (PHP connector), not a browser-origin one, and the readback is through the file manager's own download route.
 
 ## Sources

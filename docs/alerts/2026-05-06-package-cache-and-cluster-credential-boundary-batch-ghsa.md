@@ -6,10 +6,10 @@ This batch is durable because the advisories share one operational lesson: helpe
 
 ## Advisories covered
 
-- **Vite+ package-manager cache path traversal** — [GHSA-33r3-4whc-44c2](https://github.com/advisories/GHSA-33r3-4whc-44c2) / CVE-2026-41211: `vite-plus` `downloadPackageManager()` accepted an untrusted `version` string, used it as a filesystem path component under `VP_HOME/package_manager/<pm>/`, and could remove, replace, and populate directories outside the intended cache root. Affected npm package: `vite-plus <= 0.1.16`; fixed in `0.1.17`.
-- **NeuVector default admin password** — [GHSA-8pxw-9c75-6w56](https://github.com/advisories/GHSA-8pxw-9c75-6w56) / CVE-2025-8077: NeuVector `5.0.0` through `< 5.4.6` could fall back to a fixed built-in `admin` password when bootstrap-secret retrieval failed, allowing any workload with network access to obtain an admin token.
-- **NeuVector unsalted password/API-key hashes** — [GHSA-8ff6-pc43-jwv3](https://github.com/advisories/GHSA-8ff6-pc43-jwv3) / CVE-2025-53884: NeuVector stored user passwords and API keys with simple unsalted hashes; fixed versions regenerate salted PBKDF2 hashes after users log in and API keys are used.
-- **NeuVector process-command secret leakage** — [GHSA-w54x-xfxg-4gxq](https://github.com/advisories/GHSA-w54x-xfxg-4gxq) / CVE-2025-54467: NeuVector security events could expose sensitive process arguments when terminated commands carried password-like values that were not covered by redaction patterns. Fixed in `5.4.6`.
+- **Vite+ package-manager cache path traversal**, [GHSA-33r3-4whc-44c2](https://github.com/advisories/GHSA-33r3-4whc-44c2) / CVE-2026-41211: `vite-plus` `downloadPackageManager()` accepted an untrusted `version` string, used it as a filesystem path component under `VP_HOME/package_manager/<pm>/`, and could remove, replace, and populate directories outside the intended cache root. Affected npm package: `vite-plus <= 0.1.16`; fixed in `0.1.17`.
+- **NeuVector default admin password**, [GHSA-8pxw-9c75-6w56](https://github.com/advisories/GHSA-8pxw-9c75-6w56) / CVE-2025-8077: NeuVector `5.0.0` through `< 5.4.6` could fall back to a fixed built-in `admin` password when bootstrap-secret retrieval failed, allowing any workload with network access to obtain an admin token.
+- **NeuVector unsalted password/API-key hashes**, [GHSA-8ff6-pc43-jwv3](https://github.com/advisories/GHSA-8ff6-pc43-jwv3) / CVE-2025-53884: NeuVector stored user passwords and API keys with simple unsalted hashes; fixed versions regenerate salted PBKDF2 hashes after users log in and API keys are used.
+- **NeuVector process-command secret leakage**, [GHSA-w54x-xfxg-4gxq](https://github.com/advisories/GHSA-w54x-xfxg-4gxq) / CVE-2025-54467: NeuVector security events could expose sensitive process arguments when terminated commands carried password-like values that were not covered by redaction patterns. Fixed in `5.4.6`.
 
 ## Operator triage
 
