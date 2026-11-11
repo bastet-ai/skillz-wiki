@@ -202,3 +202,13 @@ Record the page-world object's own keys and prototype identity, every getter/set
 - Preserve the initiating iframe's sandbox tokens through the final popup or external-protocol decision; a handler event alone is not an application launch.
 - DevTools dock-mode parsing, DevTools script control, and shell-open selection are three distinct prerequisites and claims.
 - A context-bridge prototype callback proves object-boundary policy drift, not host capability access by itself.
+
+## November 11 follow-up: MQTTX desktop, broker-controlled topic names and payloads reach tooltip render in an Electron renderer with nodeIntegration enabled ([GHSA-55f4-qr9r-gp5r / CVE-2026-126495](https://github.com/advisories/GHSA-55f4-qr9r-gp5r), medium, desktop through 1.13.3)
+
+Protocol-client desktop tools (MQTT/AMQP/Kafka/Redis/Browser devs) render **server- or peer-controlled strings** (topic names, payload previews, JSON-tree keys, client IDs) in tooltips and tree widgets. MQTTX published topic names or payloads containing script, victims hovering Topic Tree or JSON tree nodes execute it in the Electron renderer, and this renderer runs with **`nodeIntegration` enabled**, so a stored XSS from anyone who can publish to a subscribed topic becomes local code execution on the analyst's workstation.
+
+Operator rules:
+
+1. **For any protocol-client desktop app, the trust boundary is the protocol peer, not the app's own UI inputs.** A malicious or compromised broker, or write access to any topic a target subscribes to, is the attacker position. Test with your own broker and a victim profile: publish an inert DOM-marker topic name and payload, hover the tree nodes, and record whether the marker executes or renders as text.
+2. **`nodeIntegration: true` turns every renderer XSS into host code execution; it is the first thing to check, not the last.** Fingerprint from the app's `package.json`/`main.js` in an installed copy (Electron apps ship unpacked or asar-readable: `npx asar extract app.asar .`), grep `nodeIntegration`, `contextIsolation: false`, `webSecurity: false`. Report the renderer capability gap alongside the XSS; the pairing is the severity.
+3. **Tooltip sinks are routinely forgotten by sanitizers that cover the main view.** Include hover/title/aria-label/copy-to-clipboard renderings in the XSS battery for every tree/table widget, the same "render-path-only privacy model" miss family seen on the WP alternate-surface pages.
