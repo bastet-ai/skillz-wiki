@@ -82,6 +82,7 @@ nav:
       - CSS Sanitizer and Host-UI Boundary Testing: methodology/css-sanitizer-host-boundary-testing.md
       - XSS Payload Hiding in HTML Tag Names (WAF Bypass): methodology/xss-tag-name-payload-hiding-waf-bypass.md
       - SVG Sanitizer Bypass Testing: methodology/svg-sanitizer-bypass-testing.md
+      - CSP Bypass and Form-Action Credential Exfil Testing: methodology/csp-bypass-form-action-credential-exfil-testing.md
       - State Divergence Authorization Testing: methodology/state-divergence-authorization-testing.md
       - Google-style API Black-box Recon: methodology/google-api-black-box-recon.md
       - HTTP Anomaly and WebSocket Triage: methodology/http-anomaly-websocket-triage.md
