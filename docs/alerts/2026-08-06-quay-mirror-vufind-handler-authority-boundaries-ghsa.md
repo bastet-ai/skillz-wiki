@@ -146,6 +146,15 @@ Use precise outcomes:
 - Operator check on an authorized Quay (or any registry/CI platform): authenticate as read-only, `GET` trigger/mirror/webhook configs for a synthetic repo, and record whether raw token material appears in any response body, compare against what the same principal is allowed to *do*. Token bytes in the body = escalation proven; redact the token itself from evidence, keep only the field-presence decision.
 - Same sibling doctrine as the Airflow `connections/test` cross-team credential-USE oracle (Oct 2 page): separation of duties fails when read surfaces relay write credentials.
 
+## November 11 follow-up: the anonymous token picks its own audience, and the key-rotation endpoint trusts it (CVE-2026-123710 / [GHSA-jw94-v4wp-236w](https://github.com/advisories/GHSA-jw94-v4wp-236w), critical)
+
+Red Hat Quay lets an **unauthenticated** client obtain an anonymous registry token **with an audience the caller controls**, present that token to the **service key rotation endpoint**, and install its own signing key with **no expiry**. Every registry token subsequently signed with the attacker's key is accepted for **any repository**: read and write of private images plus tag replacement, from zero credentials.
+
+- **Durable rule: if a token your service mints is accepted as authority at the key-management endpoint, token issuance is key management.** The bootstrap cycle here is fully attacker-driven: request anonymous token (audience self-chosen) -> call rotation endpoint with it -> sign your own tokens -> full registry authority. Audit every platform that mints tokens: enumerate the endpoints that accept your token as *auth* (not just as the object being acted on), and check whether any admin/mutation route (key rotation, webhook secret reset, certificate upload, robot-account creation) sits behind that same gate. Token audience/service mismatch at the gate is the finding.
+- Operator probe on an authorized Quay: request a token from the auth endpoint with a modified `service`/`audience` value, replay it against key-rotation/admin routes, and record the accept/reject decision table (do NOT install a key on shared infrastructure; in your own lab, prove installation, then sign a token for a synthetic private repo and read it). Fixed-build differential is the negative control.
+- Genealogy on this page: the October 5 leg (build-trigger config leaks a write token to read-only admins) and the August 6 mirror-fetch legs are the same thesis at different layers: **the registry's own credential plumbing (mirror workers, trigger configs, token audiences) is the attack surface, not the repository data plane.** Anonymous-token audience control is the most severe sighting yet because it needs no principal at all.
+- Tag replacement completes the supply-chain story: with attacker-signed tokens you can repoint tags on private images, i.e., CI consumers pull attacker layers. Treat any Quay below the fix as a build-system compromise vector, not just a data leak.
+
 ## Evidence bundle
 
 ```text

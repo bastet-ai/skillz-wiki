@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [**Apache Storm wave: one low-priv cluster user maps every tenant's hosts, reads their logs via symlink, and runs DRPC calls as them**](alerts/2026-11-11-apache-storm-wave-placement-oracle-log-symlink-read-and-drpc-impersonation-bypass-ghsa.md)
 - [**CSP is not the end of your XSS: form-action 'self' still steals credentials with zero JavaScript**](methodology/csp-bypass-form-action-credential-exfil-testing.md)
 - [**hMailServer fourth wave: one encoding mismatch plants a DLL that runs as LocalSystem, and five separate ways to never get banned**](alerts/2026-10-08-hmailserver-coordinated-wave-local-com-privesc-loopback-rebinding-and-mail-security-downgrade-ghsa.md)
 - [**Go build-time RCE wave: one malicious module executes code on CI via linker-flag smuggling (11 cgo GHSAs)**](alerts/2026-11-11-go-toolchain-cgo-wave-build-time-rce-linker-flag-smuggling-ghsa.md)
@@ -17,4 +18,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [**Dell Data Domain 35-GHSA wave: unauth root RCE, hard-coded key, manager trust amplifier**](alerts/2026-10-28-dell-powerprotect-datadomain-coordinated-wave-root-rce-hardcoded-key-and-management-center-trust-amplifier-ghsa.md)
 - [**Sunhillo SureLine: cleartext-username session cookie, denylist bypass, unauth updater root-key read**](alerts/2026-10-28-sunhillo-sureline-zero-entropy-session-cookie-incomplete-denylist-fix-and-unauth-updater-traversal-ghsa.md)
 - [**MLflow third wave: self-authored scorer module RCE, schemeless-source file read, autolog key leak**](notes/source-index.md)
-- [**HTTP2Shell Brotli OOB write KEV'd: compressed-response SSRF legs become corruption channels**](alerts/2026-10-27-http2shell-brotli-decoder-block-switch-oobw-kev-implicit-decode-paths-and-shared-dependency-fanout-ghsa.md)
