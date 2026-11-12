@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [**Node.js HTTP/2 and TLS wave: one unauthenticated request reads another connection's heap, TLS private keys included**](alerts/2026-11-11-nodejs-http2-tls-wave-cross-connection-heap-reads-and-mtls-bypass-ghsa.md)
 - [**Apache Storm wave: one low-priv cluster user maps every tenant's hosts, reads their logs via symlink, and runs DRPC calls as them**](alerts/2026-11-11-apache-storm-wave-placement-oracle-log-symlink-read-and-drpc-impersonation-bypass-ghsa.md)
 - [**CSP is not the end of your XSS: form-action 'self' still steals credentials with zero JavaScript**](methodology/csp-bypass-form-action-credential-exfil-testing.md)
 - [**hMailServer fourth wave: one encoding mismatch plants a DLL that runs as LocalSystem, and five separate ways to never get banned**](alerts/2026-10-08-hmailserver-coordinated-wave-local-com-privesc-loopback-rebinding-and-mail-security-downgrade-ghsa.md)
@@ -17,4 +18,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [**AdminNeo wave: VACUUM INTO beats ATTACH blocklist, weak CSRF token, rogue MySQL nonce XSS**](alerts/2026-10-30-adminneo-coordinated-wave-attach-blocklist-bypass-token-self-disclosure-and-nonce-carrying-xss-ghsa.md)
 - [**Dell Data Domain 35-GHSA wave: unauth root RCE, hard-coded key, manager trust amplifier**](alerts/2026-10-28-dell-powerprotect-datadomain-coordinated-wave-root-rce-hardcoded-key-and-management-center-trust-amplifier-ghsa.md)
 - [**Sunhillo SureLine: cleartext-username session cookie, denylist bypass, unauth updater root-key read**](alerts/2026-10-28-sunhillo-sureline-zero-entropy-session-cookie-incomplete-denylist-fix-and-unauth-updater-traversal-ghsa.md)
-- [**MLflow third wave: self-authored scorer module RCE, schemeless-source file read, autolog key leak**](notes/source-index.md)
