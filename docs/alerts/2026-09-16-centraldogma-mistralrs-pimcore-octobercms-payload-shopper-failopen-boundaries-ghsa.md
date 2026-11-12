@@ -27,8 +27,17 @@ Source: hourly offensive-security scan, 2026-09-16 (GitHub advisories published 
 4. **Sandbox object inventory beats sandbox rule review.** October CMS's bypasses came from *what was inside* the sandbox (session store, `__call` forwarding, deserialization-fed sinks), not from holes in the Twig policy. Enumerate reachable objects first, then methods.
 5. **Media-loader parity checks on inference servers.** mistral.rs proves the OpenAI-compatible surface itself is the SSRF/file-read primitive when fetch has no gate. Compare any vision/audio server against vLLM-style allowlists with owned callbacks, bare-path canaries, and scheme fixtures.
 
+## November 12 follow-up: ansible-pylibssh / ansible.netcommon libssh, TOFU policy eats the CHANGED state (CVE-2026-126641 / [GHSA-qvc6-2r95-pxqv](https://github.com/advisories/GHSA-qvc6-2r95-pxqv), medium)
+
+`pylibssh`'s `Session.verify_knownhost()` passed both `SSH_KNOWN_HOSTS_CHANGED` (host known, key different) and `SSH_KNOWN_HOSTS_OTHER` to the **same** `missing_host_key()` policy hook used for genuinely unknown hosts, and the bundled `AutoAddPolicy` (plus ansible.netcommon's `MyAddPolicy`, modeled on paramiko's `AutoAddPolicy`) therefore *added the changed key and continued* instead of aborting the way paramiko's `BadHostKeyException` path does. With `host_key_auto_add`/`AutoAddPolicy` enabled, an on-path attacker presents a new key for a known host, the controller authenticates **to the substitute host**, runs the play there, and appends the attacker's key to `known_hosts`, credential disclosure plus play execution on the wrong machine. Defaults (`host_key_checking` on, auto-add unset) fail closed, so this is an opt-in-config finding.
+
+Durable rules:
+
+1. **Policy-hook return-state inventory.** When a security decision funnels several distinct error states into one policy callback, each state routed to the "missing/unknown" branch silently inherits the permissive policy. Audit = enumerate the library's full return-state vocabulary (here: OK / OTHER / CHANGED / REVOKED) and diff which states reach the policy hook vs hard-abort. Same shape as the FalkorDB "sweep the backend's full error vocabulary" rule (Oct 9), on the client side this time.
+2. **Wrapper != upstream semantics.** A plugin "modeled on" another library's policy class is a re-implementation, not the same guarantee; paramiko aborts on CHANGED, the libssh wrapper didn't. On automation/control nodes, fingerprint the *connection plugin* (paramiko vs libssh vs native) before trusting known_hosts behavior, then prove with a lab fake SSH server presenting an ephemeral second key for an already-known host and observe whether the play proceeds and known_hosts mutates.
+
 !!! warning "Authorized validation only"
-    Use disposable Central Dogma replicas, safe-mode lab CMS instances, synthetic Payload documents and Shopper orders, fake inference servers, and owned callbacks. Never read real documents, forge live sessions on production hosts, or probe shared infrastructure.
+    Use disposable Central Dogma replicas, safe-mode lab CMS instances, synthetic Payload documents and Shopper orders, fake inference servers, owned callbacks, and lab automation control nodes. Never read real documents, forge live sessions on production hosts, probe shared infrastructure, or target real fleet hosts with substituted host keys.
 
 ## Adjacent items tracked without publication
 
