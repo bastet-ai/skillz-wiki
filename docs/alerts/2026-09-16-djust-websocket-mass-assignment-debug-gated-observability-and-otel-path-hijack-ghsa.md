@@ -131,6 +131,16 @@ Operator rules:
 
 Validation boundary: lab Django project with djust MCP running, synthetic marker files only; never read real host secrets through an agent's tool surface on a shared machine.
 
+## November 12 follow-up: Signal K Server, the pre-auth login socket's `log` subscribe branch consults neither access-control gate (GHSA-7m8x-x364-m26j, < 2.31.0-beta.1)
+
+Signal K Server (marine vessel-data server, common on boats and IoT/edge assessments) accepts WebSocket connections **unauthenticated by design** because login itself happens over the socket. The defect is inside that one handler: `processSubscribe` special-cases `msg.subscribe[0].path === 'log'` and calls `startServerLog`, which replays the **entire buffered server log** to the socket. Normal delta subscriptions go through the subscription manager, which applies `securityStrategy.filterReadDelta`, and writes are gated by `securityStrategy.shouldAllowWrite`. The log branch consults **neither** gate. An anonymous socket that legitimately opened for login just sends `{"subscribe":[{"path":"log"}]}` and receives operator log history.
+
+- **Special-case branches inside an authenticated-by-elsewhere handler are the audit unit.** The file was correct on both of its main paths; the finding lived in the fast-path exception written before the security strategy existed. On any WS handler, enumerate `if (path === ...)` / switch-on-subject branches and ask which of them bypass the dispatcher that enforces policy. The asymmetry is visible in a single file when you diff which branches call the security strategy.
+- **Pre-auth-allowed transports need a per-message authorization inventory, not a per-connection one.** "The socket is open pre-auth for login" makes every message type on that socket a pre-auth surface. Battery: on any WS API that legitimately accepts unauthenticated frames (login flows, status beacons, IoT telemetry), enumerate accepted message shapes from source or protocol docs and replay each one on an unauthenticated socket. Subscription/notification message types are the highest-yield class.
+- **Buffered-log replay is a standalone report class.** Server logs routinely contain tokens, hostnames, file paths, integration URLs, usernames, and stack traces. Log-replay exposure fits this wiki's credential-round-trip lineage (MISP `api_key` echo Nov 12, Glances Basic-auth `uris`): the primitive leaks *historical* state, not just current-route data, so it survives whatever the current auth posture is.
+- Recon fingerprint: `grep -n "subscribe" ws.ts` (or handler equivalent) and check whether each branch reaches the same authorization helper as the else/default path; `startServerLog`-style replay helpers that forEach a buffer straight to `spark.write` are the tell.
+- Validation boundary: your own lab Signal K instance; subscribe to `log` on an anonymous socket and capture the replay frames. On engagements, treat log content as sensitive evidence, redact third-party tokens/PII from reports; never harvest logs from shared/public instances.
+
 ## Reporting notes
 
 - For djust-class findings, report the decision table (bound field vs. unbound attribute) plus the traced mutation sink for one attribute; state whether the app actually keeps authz state in public view attributes (severity hinges on it).
