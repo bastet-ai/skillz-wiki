@@ -76,6 +76,16 @@ Report this as **browser-origin DNS rebinding or WebSocket reachability -> local
 - [ ] Are MCP session and task IDs bound to the authenticated principal and creating session?
 - [ ] Are dangerous MCP tools disabled during validation?
 
+## November 12 follow-up: grpc-js-xds silently drops VirtualHost and Route RBAC overrides ([GHSA-gg5j-6742-v827](https://github.com/advisories/GHSA-gg5j-6742-v827), CVE-2026-128065)
+
+Source: GHSA published 2026-11-12 22:55Z. `@grpc/grpc-js-xds` `>= 1.14.0, < 1.14.2` ACKs xDS resources containing `RBACPerRoute` overrides but evaluates every RPC under the broader **top-level** policy. Three independent breaks, all fail-open and all silent:
+
+1. `parseOverrideFilterConfig()` looks up the filter registry using the **override message type URL** (`...rbac.v3.RBACPerRoute`) while `setup()` registers the RBAC filter only under the **top-level type** (`...rbac.v3.RBAC`): the lookup returns null and `server.ts` skips the override without error.
+2. `overrideConfigMaps` is documented as keyed by HTTP filter **name** but stored keyed by `typeUrl`; route `typed_per_filter_config` entries keyed by `HttpFilter.name` (e.g. `rbac`) therefore never find their map.
+3. `handleRouteConfigurationResource()` reads `route.typed_per_filter_config` and never reads `virtualHost.typed_per_filter_config`, so VirtualHost-scoped tightenings are invisible.
+
+Operator value for service-mesh and gateway pentests: this is the **config-plane analog of parse-vs-connect**. The control plane believes it delivered a stricter per-route/per-vhost policy, the ACK says "applied," and the data plane enforces the broad default. The decision surface to probe on any xDS-consuming server (grpc-xds, Envoy-compatible custom data planes, proxyless gRPC): (a) canary per-route RBAC deny under a broad top-level ALLOW and check whether the deny actually fires, (b) same test at the VirtualHost scope, (c) fingerprint the key-vs-registry mismatch class by grepping the data-plane source for registry lookups where the **lookup key is the payload type** rather than the registered filter name, and for map writes keyed on a field the readers do not use. A key-vs-name mismatch inside a policy engine is almost always fail-open because a missed lookup falls through to the default branch, not to a hard error. Report shape: **control-plane delivers per-route deny -> ACK -> RPC evaluates top-level ALLOW -> canary method reachable**; evidence is the ACK state plus the method-call decision table, with `GRPC_XDS_EXPERIMENTAL_RBAC=true` noted as the feature gate precondition.
+
 ## Reporting notes
 
 - Lead with the trust invariant that failed: namespace consent, TLS server identity, or browser-to-localhost origin isolation.
