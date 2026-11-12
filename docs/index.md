@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [**PostgreSQL wave (52 GHSAs): attacker-controlled foreign server gets RCE on the database host**](alerts/2026-11-12-postgresql-coordinated-wave-client-tool-injection-attacker-controlled-fdw-and-security-restricted-path-hijack-ghsa.md)
 - [**Azul Payara wave (2 GHSAs): admin header presence skips checks, JMX trusts client host claims**](alerts/2026-11-12-azul-payara-wave-admin-header-waiver-and-jmx-client-host-spoofing-ghsa.md)
 - [**Synology DSM wave (27 GHSAs): unauthenticated SQL injection in the login API writes arbitrary files**](alerts/2026-11-12-synology-dsm-wave-login-api-sqli-sidecar-auth-bypasses-and-directory-server-input-ghsa.md)
 - [**Fortinet wave (64 GHSAs): crafted HA packets run commands as super admin**](alerts/2026-11-12-fortinet-coordinated-wave-unauth-ha-packets-forgm-mesh-and-replication-port-rce-ghsa.md)
@@ -17,4 +18,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [**hMailServer fourth wave: one encoding mismatch plants a DLL that runs as LocalSystem, and five separate ways to never get banned**](alerts/2026-10-08-hmailserver-coordinated-wave-local-com-privesc-loopback-rebinding-and-mail-security-downgrade-ghsa.md)
 - [**Go build-time RCE wave: one malicious module executes code on CI via linker-flag smuggling (11 cgo GHSAs)**](alerts/2026-11-11-go-toolchain-cgo-wave-build-time-rce-linker-flag-smuggling-ghsa.md)
 - [**React Server Components transport unauth RCE (CVE-2026-126187) + Rails six-leg batch**](notes/source-index.md)
-- [**GPUStack wave (KEV'd): loopback auto-admin unauth root, SAML never validates, cluster deputy**](alerts/2026-11-10-gpustack-coordinated-wave-loopback-auto-admin-unverified-saml-and-cluster-deputy-kev-ghsa.md)
