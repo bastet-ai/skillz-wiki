@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [**Nuxt dev server leaks your whole home directory: a stray lockfile above the project widens `/_nuxt/@fs/` to SSH keys and cloud tokens**](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
 - [**NocoDB wave (27 GHSAs): empty admin password lets the first signup take super admin**](alerts/2026-11-13-nocodb-wave-empty-admin-bootstrap-account-wide-tokens-and-unmasked-credential-reads-ghsa.md)
 - [**PostgreSQL wave (52 GHSAs): attacker-controlled foreign server gets RCE on the database host**](alerts/2026-11-12-postgresql-coordinated-wave-client-tool-injection-attacker-controlled-fdw-and-security-restricted-path-hijack-ghsa.md)
 - [**Azul Payara wave (2 GHSAs): admin header presence skips checks, JMX trusts client host claims**](alerts/2026-11-12-azul-payara-wave-admin-header-waiver-and-jmx-client-host-spoofing-ghsa.md)
@@ -17,4 +18,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [**Apache Storm wave: one low-priv cluster user maps every tenant's hosts, reads their logs via symlink, and runs DRPC calls as them**](alerts/2026-11-11-apache-storm-wave-placement-oracle-log-symlink-read-and-drpc-impersonation-bypass-ghsa.md)
 - [**CSP is not the end of your XSS: form-action 'self' still steals credentials with zero JavaScript**](methodology/csp-bypass-form-action-credential-exfil-testing.md)
 - [**hMailServer fourth wave: one encoding mismatch plants a DLL that runs as LocalSystem, and five separate ways to never get banned**](alerts/2026-10-08-hmailserver-coordinated-wave-local-com-privesc-loopback-rebinding-and-mail-security-downgrade-ghsa.md)
-- [**Go build-time RCE wave: one malicious module executes code on CI via linker-flag smuggling (11 cgo GHSAs)**](alerts/2026-11-11-go-toolchain-cgo-wave-build-time-rce-linker-flag-smuggling-ghsa.md)
