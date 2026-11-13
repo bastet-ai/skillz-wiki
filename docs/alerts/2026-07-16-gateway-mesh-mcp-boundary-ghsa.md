@@ -96,6 +96,15 @@ Operator rules extending this page:
 - Pair with the gg5j leg above as one xDS-policy fail-open suite: gg5j = override never applied (control-plane trust broken), r7hq = applied rule matches too much (rule grammar broken). Both are ACK-silent, so probe with per-rule canaries (deny must deny, allow must reject near-miss identities), not by trusting ACK state.
 - Report shape: quote the exact config regex, the compiled `/^a|b$/` form (the PoC prints `SafeRegex(/^admin|editor$/u)` as the tell), and one accepted identity/header/method that the intended rule set excludes; bound proofs to test services you control.
 
+## November 13 follow-up: Kroxylicious ACL rules-file parser unquotes regex literals with string rules, escapes die and ALLOW rules widen ([GHSA-655w-c5cf-wj5f](https://github.com/advisories/GHSA-655w-c5cf-wj5f), CVE-2026-128424, medium)
+
+The Kafka proxy's `matching /…/` regex literals in the ACL authorizer's rules file are unquoted using the **string**-unquoting routine instead of a regex-aware one, which strips every backslash escape before compilation. `matching /orders\.v1/` becomes regex `orders.v1` (dot = any char, so `ordersXv1` passes), and character classes lose their meaning (`\d` → literal `d`, `\w` → literal `w`). Author-intended narrow allow rules silently grant more topics/transactions than written; DENY rules only narrow, so like the r7hq leg above, the failure is asymmetric and visible only from the allow side.
+
+Operator rules extending the page's policy-grammar doctrine:
+
+- **Quote-handling is a parser-grammar decision, and reuse of the wrong unquoter is a silent rule-widener.** For any policy file with both string literals and regex literals (ACLs, rate-limit matchers, WAF rules, routing predicates): test an allow rule containing `\.` and `[\d]` shapes and probe near-miss resources (`ordersXv1`, `d`, `w` literals) against it. A generic "strip backslashes" tokenizer shared between string and regex syntaxes is the code fingerprint (white-box grep: one unescape function called from both literal grammars).
+- Third leg of the same trio as gg5j (override never applied) and r7hq (anchors misbind): **rule never meant what it says**. Standing audit for any authorization proxy/message-broker gateway in scope: per-rule canary suite with intended-match positives, near-miss negatives (`.`-substitution, alternation-extension, case/prefix/suffix shapes), and deny-side confirmations. All three bugs are config-silent; only crafted negatives reveal them. Proofs bound to topics you own.
+
 ## Reporting notes
 
 - Lead with the trust invariant that failed: namespace consent, TLS server identity, or browser-to-localhost origin isolation.
