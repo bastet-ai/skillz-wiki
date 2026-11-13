@@ -27,6 +27,25 @@ This item is durable because object mapping is often treated as safe plumbing af
 - Add regression tests for pathological graph depth, self-references, repeated child chains, and nested collections in mapper profiles used by exposed endpoints.
 - Log input depth/shape rejection counters so resource-boundary probes are visible before they become crash loops.
 
+## November 13 follow-up: the MaxDepth mitigation itself has four bypass paths, "control is configured" is not "control is applied" (GHSA-gpwp-5797-mjff / CVE-2026-128081 + GHSA-6vhm-j9h7-f9gh / CVE-2026-128082, high, >= 16.0.0 < 16.3.0 and < 15.1.4)
+
+Source: GHSA published 2026-11-13 18:47Z / 19:21Z. Both advisories are **incomplete fixes of this page's own CVE-2026-32933 mitigation**: the default/explicit `MaxDepth` limit does not fire on several mapping paths, so recursion remains unbounded and `StackOverflowException` still kills the process (uncatchable on .NET; a few thousand nesting levels crash a 1 MB default stack).
+
+Bypass paths enumerated by the advisories (your negative-control checklist for any "depth limit configured" claim):
+
+- **Constructor parameters / positional records**: depth was incremented *after* the destination object was created, so constructor-mapped children each recurse before their parent is counted; `MaxDepth(10)` happily mapped a 100-level chain. Fix counts depth *before* destination creation.
+- **Derived type maps** (`Include`/`IncludeBase`): do not inherit the base map's `MaxDepth`; the self-referential default only applied to the base map.
+- **Runtime-typed members** (`object`/interface): invisible to self-reference detection, so the default limit never applies.
+- **Dictionary/dynamic sources** (`Dictionary<string,object>`, `ExpandoObject` from deserialized JSON): recurse with no depth tracking at all, `MaxDepth` has no effect, and there is *no configuration workaround* short of pre-limiting input depth.
+- **Recursive `ConvertUsing` converters** that call `context.Mapper.Map`: ignore `MaxDepth`.
+
+Operator takeaways:
+
+- **Mitigation-coverage differential is the audit primitive.** When a CVE is fixed by adding a limit/gate, enumerate every code path that *recurses or dispatches around* the point where the counter is kept. Constructor-vs-property mapping, inheritance, runtime types, and dynamic sources are the four classic "counter lives in the wrong place" shapes, generic well beyond AutoMapper.
+- For .NET targets, JSON deserialized into `Dictionary<string,object>` or `ExpandoObject` and then mapped onto typed destinations is the highest-yield probe: the advisory states no config workaround exists, so pre-16.3/15.1.4 apps are vulnerable regardless of profile settings. Nest a few thousand levels of `{"next": {...}}` and watch for worker death.
+- Version-fingerprint tell: an app that *believes* it is patched for CVE-2026-32933 (>= 16.1.1) is still crashable until 16.3.0 / 15.1.4. Patch-level claims in reports should quote the exact assembly version, not the earlier fix.
+- Validation boundary: disposable console/web app with a synthetic recursive type; crash your own process only.
+
 ## Related Wisdom
 
 - [Parser, runtime, and resource-budget boundary batch](2026-05-06-parser-runtime-resource-budget-boundary-batch-ghsa.md)
