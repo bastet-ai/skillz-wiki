@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [**APISIX wave (7 GHSAs): upstream trusts decrypted-identity headers the gateway never issued**](alerts/2026-09-21-auth-method-precedence-http-verb-allowlists-and-acl-tiebreak-drift-ghsa.md#november-14-follow-up-apache-apisix-seven-leg-gateway-wave-forged-decrypted-identity-headers-fallback-residue-any-of-scopes-and-out-of-contract-mcp-calls-7-ghsas-published-nov-13-1832z-fixed-3200)
 - [**AutomatorWP unauth admin takeover: a blank Update-User target takes its victim from the webhook payload**](alerts/2026-09-19-wordpress-alternate-surface-authz-drift-rest-ajax-import-wave-ghsa.md#november-14-0931z-follow-up-webhook-automation-relay-hands-the-update-user-target-to-the-attacker-and-a-bundled-update-checker-makes-the-plugin-authors-server-the-update-authority-2-legs-folded)
 - [**Nuxt dev server leaks your whole home directory: a stray lockfile above the project widens `/_nuxt/@fs/` to SSH keys and cloud tokens**](alerts/2026-06-22-budibase-gogs-skillctl-nuxt-automation-boundaries-ghsa.md)
 - [**NocoDB wave (27 GHSAs): empty admin password lets the first signup take super admin**](alerts/2026-11-13-nocodb-wave-empty-admin-bootstrap-account-wide-tokens-and-unmasked-credential-reads-ghsa.md)
@@ -17,4 +18,3 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [**Fortinet wave (64 GHSAs): crafted HA packets run commands as super admin**](alerts/2026-11-12-fortinet-coordinated-wave-unauth-ha-packets-forgm-mesh-and-replication-port-rce-ghsa.md)
 - [**Node.js HTTP/2 and TLS wave: one unauthenticated request reads another connection's heap, TLS private keys included**](alerts/2026-11-11-nodejs-http2-tls-wave-cross-connection-heap-reads-and-mtls-bypass-ghsa.md)
 - [**Apache Storm wave: one low-priv cluster user maps every tenant's hosts, reads their logs via symlink, and runs DRPC calls as them**](alerts/2026-11-11-apache-storm-wave-placement-oracle-log-symlink-read-and-drpc-impersonation-bypass-ghsa.md)
-- [**CSP is not the end of your XSS: form-action 'self' still steals credentials with zero JavaScript**](methodology/csp-bypass-form-action-credential-exfil-testing.md)
