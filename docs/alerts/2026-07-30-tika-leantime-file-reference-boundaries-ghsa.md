@@ -44,3 +44,15 @@ Do not describe archive extraction traversal unless an archive entry itself writ
 ## Evidence and reporting
 
 Report **manifest secondary filename to outside-root parser read**, **blueprint filename to local file open**, or **blueprint filename to owned outbound fetch**. Include authentication state, exact route/parser, roots, canonical paths, wrapper configuration, marker hashes, callback logs, and fixed controls. Do not infer code execution from `file_get_contents()` or from parser output.
+
+## November 16 follow-up: SSCMS `layerImageUpload`, a copy parameter turns an upload endpoint into an anonymous-download file read ([CVE-2026-129539 / GHSA-j86m-5x66-8h64](https://github.com/advisories/GHSA-j86m-5x66-8h64), high, 7.2.0 through 7.4.0)
+
+Any registered user-center account sends `siteId 0` with crafted `filePaths` entries to the `layerImageUpload` endpoint, and the server **copies referenced server files into the caller's public `sitefiles/home` upload directory**, which is then downloadable anonymously. The endpoint validates the image workflow but never asks where the *source* path lives; the copy step is the read primitive, and the attacker-chosen destination is the exfil channel ([issue 3909](https://github.com/siteserver/cms/issues/3909), [sink at LayerImageUploadController.Submit.cs#L114-L130](https://github.com/siteserver/cms/blob/09ab59b9dd422782d9e1fe54f05088645f7c93e7/src/SSCMS.Web/Controllers/Home/Common/Form/LayerImageUploadController.Submit.cs#L114-L130)).
+
+Operator rules:
+
+1. **Any upload endpoint that accepts a path/URL *source* parameter instead of file bytes is a read primitive.** Validation typically covers the image format or the destination, never the source containment. Hunt pattern: grep upload/image/merge/preview controllers for parameters named `filePath|source|src|path|url` that feed a copy/move/open call.
+2. **Pair the read with an attacker-controlled destination.** The escalation here is that the copy lands in a web-served directory the caller can fetch anonymously. Black-box probe (authorized lab only): point one `filePaths` entry at a disposable outside-root marker file you planted, then request the public upload URL for it; the marker reappearing is the whole proof.
+3. **Sweep zero/default tenant parameters.** `siteId 0` selects site context from outside any legitimate tenant flow; on any site/tenant-scoped parameter, include 0, empty, and default values in the battery, they often resolve to a shared or root context with weaker checks.
+
+Validation boundary: disposable SSCMS instance, planted marker files only; never copy application config, connection strings, or key material into a public directory even briefly on a shared host.
