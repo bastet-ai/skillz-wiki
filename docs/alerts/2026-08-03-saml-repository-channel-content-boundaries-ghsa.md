@@ -142,8 +142,19 @@ Build the harness with a generated lab SP and IdP, random entity IDs, two canary
 
 Report **captured assertion -> repeated acceptance -> second canary session** and **unrequested response -> session** as two separate findings. Do not capture or replay real IdP assertions, real accounts, real session cookies, or production SAML traffic; the lab SP/IdP pair supplies every fixture.
 
+## November 16 follow-up: LightSaml validates the assertion it collected but xmlseclibs digests whichever ID-bearing element `//*[@Id]` finds first
+
+[GHSA-w553-pwx6-3mg9 / CVE-2026-63182](https://github.com/advisories/GHSA-w553-pwx6-3mg9) (high, litesaml/lightsaml 5.0.0 and 4.6.1, fixed 5.0.1/4.7.1) is the two-layer disagreement made concrete: `Response::deserialize` collects only **direct-child** `saml:Assertion` elements and validates each one's `ds:Signature` against an out-of-band trusted IdP credential, but the validation delegates to robrichards/xmlseclibs, which resolves the signed `Reference URI="#id"` with a **document-wide** `//*[@Id]` XPath and takes `item(0)`, any element name, any namespace, anywhere in the document. The enveloped-signature transform even *removes* the validated signature node from the shared DOM before that lookup. LightSaml then reads Subject/NameID, Conditions, and Attributes from the node **it collected**, which is not necessarily the node whose digest was verified. An attacker who captures one genuine signed assertion can surface attacker-authored, unsigned claims.
+
+This is the duplicate-ID wrapping family's quieter sibling, and it sharpens the harness rules above:
+
+1. **Digest-target identity is a separate evidence field from signature validity.** The xmlseclibs check can return true while covering a different element than the consumed claims. Record, per candidate: collected node pointer, `Reference URI` value, resolved digest-target node pointer, and consumed-claims node pointer. The bounded positive is *verified=true AND resolved target is not the collected node AND claims read from the collected node* on a fixture where an attacker-inserted ID-bearing element (in a non-assertion position, e.g. a `ds:Object` or foreign-namescope element carrying the colliding Id) sorts before the real assertion in document order.
+2. **`item(0)` document-wide ID lookup is a fingerprint.** When auditing any XML-DSIG stack, grep the digest-resolution step for `//*[@` / document-scoped XPath against the signature's own subtree. Layered verification (framework collects, library validates) routinely disagrees on node identity even when both layers are individually "correct"; test with generated canary assertion B whose Id collides with a decoy element ahead of it in document order.
+3. Same lab boundaries as the harness above: generated lab assertion, out-of-band fake IdP credential, patched session sink that records consumed claims without creating a session; never production assertions or IdPs.
+
 ## Reporting checklist
 
+- [ ] Digest-target resolution and consumed-claims node are recorded as separate evidence fields for layered validators.
 - [ ] Advisory review status, exact package/revision, role, route, and configuration are recorded.
 - [ ] SAML signature, trust, decryption, node selection, and identity consumption are shown separately.
 - [ ] Repository and RPC tests stop at config or command recorders before helper/process execution.
