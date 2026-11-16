@@ -50,6 +50,16 @@ The bug lives in the **shared C library**, which is why the name walked Node2She
 5. **A KEV entry without confirmed ITW = CISA pre-empting; the scanner swarm starts now, not at first incident.** Same timing-gap logic as the Oct 23 Collabora nine-day lag: assume commodity probing of `Content-Encoding: br` paths across the estate within days. 61% estate prevalence says this is the largest-footprint decode path currently exposed.
 6. **The eight-month un-pulled fix is a supply-chain tell for your own hunting:** severity labels on upstream commits suppress backports. When hunting vendor patch gaps, diff security-relevant upstream commits that were never tagged as security, that's where "patched upstream, vulnerable downstream" fleets live.
 
+## November 16 follow-up: httpx Ruby, implicit decoder dispatch upgrades response parsing to arbitrary class instantiation ([GHSA-jgqw-w3x2-9h6q / CVE-2026-129784](https://github.com/advisories/GHSA-jgqw-w3x2-9h6q), high, httpx 1.9.0, fixed 1.9.1)
+
+Same rule this page was built on, new codec class: **an installed dependency silently swaps the deserializer under your code.** `HTTPX::Response#json` delegates to `Transcoder::JSON.decode`; when the `oj` gem is loaded and `multi_json` is absent, the decoder falls back to `Oj.load(response.to_s)` **with no mode option**, and Oj's default `:object` mode honors JSON type metadata: `"^o":"ClassName"` allocates any already-loaded Ruby class and sets its instance variables, `"^c":"Name"` resolves arbitrary class/module references. An attacker who controls (or influences) the URL passed to `HTTPX.get(url).json` therefore controls object instantiation in the victim process, gadget-chain permitting RCE.
+
+Operator rules:
+
+1. **Response-body decoding is a dispatch decision made by the dependency tree, not by your code.** The Brotli leg proved `pip install brotli` arms a decoder; this proves `gem install oj` arms an object-mode deserializer. When fingerprinting a Ruby app's URL-fetch sinks (webhooks, link previews, import-from-URL, OAuth discovery), the probe question is which JSON gems are present, `oj` without `multi_json` is the vulnerable shape.
+2. **Response-controlled type metadata is Java-gadget semantics arriving in Ruby.** Sweep any fetch-parse chain where the response is attacker-influenced for implicit `.json`/`.to_h`/`.parse` calls, then test with a `{"^o":"SomeSafeLoadedClass"}` canary on an owned redirector; class-load side effects or unexpected instance allocation traces are the proof. No real gadget chains in reports.
+3. **The `#json` convenience method is the sink, not the client class.** Same "implicit decode path" grep as the Oct 27 rule set: find the one-line wrapper that "just parses JSON," check what it actually dispatches to under the current bundle.
+
 ## Safety
 
 Authorized scope only; lab reproduction on owned builds only; do not run untrusted scanner/PoC code outside isolation; no production exploit traffic; redact any memory-disclosure output, it is someone's process memory.
