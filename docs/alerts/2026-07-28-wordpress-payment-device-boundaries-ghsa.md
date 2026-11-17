@@ -1106,6 +1106,17 @@ Two WooCommerce gateway plugins on the same day share one root cause with high b
 - Same-wave record processed without publication: Analytics Insights ≤6.3.1 stored XSS via Page Title [GHSA-3jq2-63r2-vgw4 / CVE-2026-111820](https://github.com/advisories/GHSA-3jq2-63r2-vgw4), generic sanitization/escaping single, axis long-covered.
 - Validation boundary: your own lab install + your own order; on live targets, proof stops at the order you own.
 
+## November 17 follow-up: pretixSCAN offline signature verification has a length-computation bug, same-content QR codes that escape the revocation list (CVE-2026-127138 / [GHSA-w7wc-82mm-ff4g](https://github.com/advisories/GHSA-w7wc-82mm-ff4g) medium, pretixSCAN apps, offline mode + signature scheme 1)
+
+pretix signs ticket QR payloads so offline scanners verify authenticity without a ticket database, then checks the *string* against a revocation list. The length validation in the QR parsing code across **all** pretixSCAN apps was computed incorrectly, so an attacker can craft multiple encodings of the **same ticket content that differ as strings**. The signature still verifies (same content), but the revocation comparison is string-based, a canceled ticket's revocation entry never matches the re-encoded variant, and the scanner shows green. The server still marks it red later, so the attacker must pass the human-visible scanner check at the gate. Vendor audited their entire hosted scan database and found no exploitation.
+
+Operator rules:
+
+- **A revocation list keyed on representation instead of canonical content is broken by construction.** Wherever a system compares user-presentable tokens (QR strings, JWTs, serialized blobs, URLs) against deny/revocation/allow lists *as strings*, enumerate representation dimensions: encoding variants, field order, padding, whitespace, alternate base64 alphabets, Unicode normalization. One canonical-parse-vs-string-compare mismatch = deny-list escape with a valid signature. This is the canonicalization-differentials-at-security-gates rule in its purest offline form: the signature verifies the *parse*, the revocation checks the *bytes*, and the two disagree.
+- **Offline-verification designs put the whole control in client code.** "No database needed" means the scanner app is the policy engine: patch-level and app-version fingerprinting matter (all apps were affected), and decompiling one scanner to find the parser bug generalizes to every deployment at the gate. For physical-access/event engagements, scanner firmware/app versions are asset-recon targets.
+- Validation boundary: your own pretix organizer in test mode with signature scheme 1, cancel your own order, craft the variant on your own scanner instance; never gate-crash a real event, the report-worthy evidence is the green/red differential on synthetic tickets.
+- Adjacent same-vendor tracked-no-publish: pretixSCAN Proxy predictable initialization tokens/API keys (insecure RNG for device-proxy connection secrets, local-network exposure class, reconnect-after-update guidance) ([GHSA-x2hv-fjv4-q826](https://github.com/advisories/GHSA-x2hv-fjv4-q826) / CVE-2026-127139).
+
 ## Reporting checklist
 
 Include:
