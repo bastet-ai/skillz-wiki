@@ -91,3 +91,25 @@ reporting.
 ## Not promoted from the same wave
 
 - [GHSA-r5pm-vrc5-3m73](https://github.com/advisories/GHSA-r5pm-vrc5-3m73) / CVE-2026-54713, `cakephp/queue` `getUniqueId` incomplete-comparison collision: queue identity/DoS surface, no durable offensive exploit path on its own.
+
+## November 16 follow-up: Framework seven-leg wave, dev-task writer parameter mints injector objects for RCE, SecurityAdmin edits its way to ADMIN, and the sanitiser keeps data URIs (7 GHSAs, published 2026-11-16 22:27-22:35Z, fixed 6.2.13)
+
+Second coordinated wave for this product since the August 27 email-field cluster: `silverstripe/framework` shipped seven advisories, all fixed in 6.2.13, CMS 5 not affected. The lead leg turns a **developer task URL into a code-execution endpoint**.
+
+| Advisory | Boundary | Shape |
+| --- | --- | --- |
+| [GHSA-c94f-87xg-65wf](https://github.com/advisories/GHSA-c94f-87xg-65wf) / CVE-2026-91115 (high) | `i18nTextCollectorTask` **writer parameter passed to the injector unvalidated** → arbitrary object creation with attacker-controlled constructor arguments → code execution | dev task, **no confirmation prompt**; a link click by any admin runs it; on a dev-mode site **no login at all** |
+| [GHSA-rg72-5958-c65m](https://github.com/advisories/GHSA-rg72-5958-c65m) / CVE-2026-91112 | `CMS_ACCESS_SecurityAdmin` without ADMIN **edits the group that grants ADMIN** via a role or parent group → self privilege escalation | permission-namespace grant vs transitive effect |
+| [GHSA-3qh3-54qg-gpq3](https://github.com/advisories/GHSA-3qh3-54qg-gpq3) / CVE-2026-88989 | GridField detail form: **direct save request creates records** the user has no create permission for | UI-gated form, ungated POST |
+| [GHSA-4qv2-g5vp-wjjw](https://github.com/advisories/GHSA-4qv2-g5vp-wjjw) / CVE-2026-91113 | User-controlled **ClassName changes a record's class** without the target class's permission checks | type-swap crosses permission namespaces |
+| [GHSA-xwg4-8hqh-79jq](https://github.com/advisories/GHSA-xwg4-8hqh-79jq) / CVE-2026-88988 | Sanitiser does not strip **SVG data URIs** → stored JS against other viewers | deny-list sanitiser scheme gap |
+| [GHSA-qqrg-8jpm-8mph](https://github.com/advisories/GHSA-qqrg-8jpm-8mph) / CVE-2026-88987 | Sanitiser does not strip **XHTML/XML data URIs** → stored JS | sibling scheme variant, same sweep |
+| (tracked) | remaining informational legs | version-band fill |
+
+Operator rules from this wave:
+
+1. **Dev/debug task endpoints are a second admin panel.** Framework's dev tasks (`/dev/tasks/...`) run without confirmation, so every task parameter that reaches a DI container/injector is a candidate object-mint sink. Recon: enumerate `/dev/`, `/dev/build`, `/dev/tasks` and each task's query parameters on every Silverstripe target; dev-mode detection (verbose errors, build pages) upgrades "needs an admin click" to unauthenticated. The lure leg matters too: a no-confirmation GET-reachable task means the payload ships as a link in the CMS author's inbox, same delivery shape as the Oct 9 SmarterMail and the standing click-to-RCE family.
+2. **Permission namespaces are checked, permission effects are not.** SecurityAdmin could not grant ADMIN directly but could **edit the group whose role/parent chain yields ADMIN**. Audit battery for any RBAC UI: for every editable permission-bearing object (groups, roles, policies, API-key templates), ask whether the user can reach a *transitive* grant the direct check forbids. Same genealogy as the Oct 9 Nginx UI 2FA-flag drift: the UI's enable-flag semantics and the enforcement check disagree.
+3. **Type-swap is a privilege boundary.** `ClassName` as a writable field lets an editor of class A mutate the row into class B, skipping B's permission checks entirely. Sweep every update endpoint for class/type/kind discriminator fields and diff the authorization applied on create vs on update (see the Directus share-update leg on the Sept 21 precedence page, same day, same rule).
+4. **Deny-list HTML sanitisers need a scheme battery, not a tag battery.** The missing cases were `data:` URIs with SVG/XHTML/XML media types, i.e. the sanitizer matched tag names while browsers re-parse embedded markup. Battery: `data:image/svg+xml`, `data:image/svg+xml;base64`, `data:text/html`, `data:application/xhtml+xml`, `data:application/xml`, uppercase/mixed-case media types, whitespace/tab-split schemes (the Sept 21 SPIP-style absent/odd-branch probe applies to the strip rules too).
+5. Validation: throwaway CMS author + isolated lab install, marker-only proofs (canary file, no-payload object construction), never run `dev/build` or write real content on a customer site; compare 6.2.12 vs 6.2.13 side by side for the dev-task leg.
