@@ -156,3 +156,25 @@ Create a synthetic action that prints `output-canary-A` and has no secrets or si
 Capture execution count independently from response body. A positive requires **principal is allowed to execute but denied logs -> synchronous route returns the synthetic output marker**. Do not put credentials, tokens, filesystem content, or command results into the test action merely to increase impact. Repeat against `3000.17.0` and require output behavior to match the explicit `logs` permission across every route family.
 
 Update OliveTin reports with the argument type, execution mode, rendered-byte hash, caller identity, `exec` and `logs` decisions, route name, output-marker presence, and affected-versus-fixed result. Keep the command-construction and log-disclosure findings separate even if the same action can reach both.
+
+## November 18 follow-up: the post-execution hook is a second shell with zero checks, `shellAfterCompleted` executes command output and trusted-header usernames unsanitized (CVE-2026-75506 / [GHSA-vc6p-m6vx-6cwq](https://github.com/advisories/GHSA-vc6p-m6vx-6cwq), published Nov-18 21:55Z, full PoC)
+
+The June wave covered the **primary** execution step (shared-template concurrency, `ot_` argument-prefix bypass, the unauthenticated `ValidateArgumentType` oracle, and the `password`-type Shell-safety bypass fixed as CVE-2026-27626). This advisory lands on the **post-execution** step, which the CVE-2026-27626 fix never touched: `stepExecAfter` renders `shellAfterCompleted` with `{{ .Arguments.output }}` (the just-captured command stdout/stderr), `ot_username`, and `exitCode`, then hands the result straight to `sh -c`. The `checkShellArgumentSafety` gate blocks dangerous argument types in Shell mode, but a codebase grep confirms it is called at exactly **one** site, inside `handleShellBranch`. The post-step calls none of it.
+
+Two injection legs:
+
+- **Output reflection defeats "safe" exec mode.** An action in array-form `exec` mode with typed arguments is safe *in the primary command*, its captured output is not: if the action reads external data (a shared file, an API response, a database row) containing shell metacharacters, those bytes re-enter a shell a moment later through `shellAfterCompleted`. The safe/unsafe boundary moved with the data, one stage downstream.
+- **Username injection via trusted headers.** With `authHttpHeaderUsername` trusted-header auth, `ot_username` is the raw `X-Remote-User` header value, the identity claim itself becomes command grammar. Chains with the page's header-spoofing finding (Finding 04): spoof the header, and the post-step runs your payload.
+
+Durable rules:
+
+1. **Incomplete-fix genealogy is a hunting strategy.** One fix guarded one `sh -c` call site; every *other* shell invocation is unfixed surface. Grep `sh -c` / `wrapCommandInShell` / equivalent wrappers and enumerate *all* sites, then pair each site with the validation gate inventory. Stage × variable-origin × validation decision table.
+2. **Internal variables are untyped variables.** `output`, `exitCode`, and `ot_username` are not declared action arguments, so they never enter the type system at all. Anything generated inside the system and interpolated into a shell template bypasses an argument-type allowlist by construction.
+3. **Exec mode is not a global safety property.** When auditing action runners, treat per-stage shell usage separately: an all-`exec` action set is still exploitable if any post-hook, notification hook, or cleanup hook uses `sh -c` on captured data.
+
+### Post-execution hook validation harness
+
+- Preconditions: lab OliveTin, one disposable `exec`-mode action reading a lab-writable data file, `shellAfterCompleted` referencing `{{ .Arguments.output }}` writing into a scratch log.
+- Plant a data file containing **benign metacharacter canaries** (quote-balance markers plus a marker-file touch limited to a scratch path), trigger via `StartActionAndWait`, and record whether the post-step command grammar changes (stray executed token visible in debug logs or the scratch artifact).
+- Trusted-header variant: enable `authHttpHeaderUsername` in lab config only, submit the same canaries in the username header, and capture the rendered post-step from DEBUG logs. Never spoof real identities on shared instances.
+- Report fields: action config verbatim, stage (primary vs post-step), variable origin (declared argument vs internal), rendered-command diff, executing user. Stop at marker proof, no environment reads, no persistence.
