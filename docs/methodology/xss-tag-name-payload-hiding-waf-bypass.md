@@ -127,6 +127,39 @@ Positive result: the browser evaluates `alert(1)` from the tag name without any 
 - Note browser engine coverage (the core primitive is cross-browser per the source; verify per-target engine before claiming).
 - Keep the payload inert and the reflection point clearly identified.
 
+## November 18 2026 follow-up: `selectedcontent` clones an SVG script out of a selected option and the clone executes, solving the "innerHTML without equals" impossible lab
+
+PortSwigger Research published guest work by Masato Kinugawa (2026-11-18) that breaks a context on the 2020 "impossible labs" list previously considered unbreakable: **JavaScript execution in an `innerHTML` injection where the equals sign is not allowed**. This page's thesis extends to it: the retrieval-and-reparse trickery that makes tag names a payload carrier has a new sibling primitive, a *browser-native cloning element*.
+
+The payload (works in Safari 27.2 at time of writing; patched in Chrome 153):
+
+```html
+<body> <script> document.body.innerHTML=`
+<select>
+<selectedcontent></selectedcontent>
+<option>
+<svg>
+<script>alert(1)<\/script>`;
+</script>
+```
+
+Mechanics worth memorizing:
+
+1. **`selectedcontent` is a cloning element.** The new HTML element associated with `<select>` clones the child nodes of the currently selected `<option>` (per spec, the same algorithm as `cloneNode(true)`) directly into the DOM, no JavaScript required. An `<option>` holding `<svg><script>alert(1)` therefore gets its script *copied into the document* at render time.
+2. **SVG-namespace scripts escaped the `already started` flag.** Scripts inserted via `innerHTML` never execute because the parser marks them "already started". Chromium applied that flag to HTML-namespace scripts but not SVG-namespace scripts, so an SVG `<script>` that reaches the DOM *via a clone* (cloneNode(true) + append, or `selectedcontent`) executes. Both conditions are required: remove `<svg>` or remove `<selectedcontent>` and nothing fires. Chromium fixed this in Chrome 153 by setting the flag for SVG scripts too; Safari 27.2 still executes.
+3. **The character-free battery.** With Mathias Karlsson, Kinugawa reduced the vector to run without whitespace, without `/`, and without `=`: `<select><button><selectedcontent><button><option><svg><script>alert(1)`. The `<svg>` wrapper also makes the HTML parser interpret a following `<foo>` as a start tag, so real page content after the payload does not get swallowed into the script body and break syntax. To the author's knowledge no prior vector executes JS in modern browsers without whitespace, `/`, or `=`.
+4. **Genealogy.** The technique originates from Kabir Acharya's May 2026 DOMPurify bypass, which first weaponized `selectedcontent`; see the reparse-legs table on the [July 23 DOMPurify state page](../alerts/2026-07-23-dompurify-state-context-boundaries-ghsa.md).
+
+Operator rules:
+
+- **A sanitizer verdict on option content is not a verdict on the clone.** If the target sanitizes then assigns to `innerHTML` and the allowlist tolerates `select`/`option`/`button`/`svg` (common for rich content), the clone happens *after* sanitization, at render time, inside the browser. Prove with an inert `alert(1)` on your own fixture page; diff pre/post-sanitizer serialized output plus clone execution.
+- **Re-ask the impossible question whenever browsers ship new elements.** Every new Chrome/Safari element (select-part being the current example) is a candidate primitive against every "this context cannot execute JS" assumption you hold. The impossible-labs list is a to-do list, not a closed book.
+- **Fingerprint the two-condition shape before claiming:** (1) a script element created in the SVG namespace via `innerHTML`, and (2) a clone pathway (`selectedcontent` or an app-side `cloneNode(true)` + append of sanitized HTML). Also record the browser engine and version: Chrome >= 153 is closed for the plain vector, Safari 27.2 is open, and enterprise targets often pin old Chromium.
+- Payload hiding composes with this page's tag-name channel when a WAF blocks the obvious token set: `=` is exactly what WAF XSS signatures anchor on, and this vector never uses one.
+
+Lab harness: local fixture page running the payload above in Safari 27.2 (or a pinned Chromium < 153 build), inert `alert(1)` only. Negative controls: drop `<svg>` or drop `<selectedcontent>` and confirm no execution.
+
 ## Sources
 
 - [PortSwigger Research: What's in a tag name? JavaScript, apparently](https://portswigger.net/research/whats-in-a-tag-name-javascript-apparently) (Gareth Heyes, 2026-08-25)
+- [PortSwigger Research: Achieving the impossible: XSS in innerHTML without equals](https://portswigger.net/research/achieving-the-impossible-xss-in-innerhtml-without-equals) (Masato Kinugawa, guest post, 2026-11-18)
