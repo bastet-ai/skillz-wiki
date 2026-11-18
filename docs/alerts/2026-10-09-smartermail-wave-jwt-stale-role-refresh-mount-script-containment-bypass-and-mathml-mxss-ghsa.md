@@ -31,6 +31,27 @@ Strapi's `reconcileTokenPermissionsToUserCeiling`, the routine meant to shrink a
 
 Sweep rule for any platform with both user roles and long-lived API tokens: after restricting a field in a lab role, re-run reads through (a) a fresh session, (b) a refreshed token, (c) a pre-existing API token, all three paths must deny. A positive on (b) or (c) while (a) denies is the revocation-gap finding. The null/omitted-means-inherit-vs-inherit-means-unbounded confusion is the code fingerprint: grep the reconcile/sync functions for `if (!fields) return` / `if (fields == null) continue` shapes, skipping the sync is not shrinking.
 
+## November 18 follow-up: ZDI batch adds four more boundaries, enumerable app passwords, a path-less file-edit API, and an unmiddleware'd .asmx family (4 GHSAs, 00:33Z wave)
+
+A second coordinated SmarterMail disclosure wave landed 2026-11-18T00:33Z as ZDI-batch advisories, four more distinct boundary classes on the same product within six weeks of the build-9777 wave above:
+
+| GHSA | CVE | Sev. | Boundary |
+| --- | --- | --- | --- |
+| [GHSA-5frr-33p9-gf27](https://github.com/advisories/GHSA-5frr-33p9-gf27) | CVE-2026-126969 | critical | **Application Passwords generated with insufficient entropy → unauthenticated authentication bypass.** The credential-mint path, not the login form, is the weak link: if the issued app-password keyspace is enumerable, no password ever needs to be guessed. |
+| [GHSA-pgrf-84pf-x52m](https://github.com/advisories/GHSA-pgrf-84pf-x52m) | CVE-2026-126967 | high | **FileStorageController file-edit API directory traversal → SYSTEM code execution** (authenticated). A file *edit* verb that never confines the supplied path to the user's storage root. |
+| [GHSA-wmxg-3jvq-6wgm](https://github.com/advisories/GHSA-wmxg-3jvq-6wgm) | CVE-2026-126966 | high | **`svcDomainAdmin.asmx` missing authorization → privilege escalation.** The legacy ASMX/SOAP endpoint family skips the authorization layer the REST API enforces. |
+| [GHSA-74q3-86gf-j3gw](https://github.com/advisories/GHSA-74q3-86gf-j3gw) | CVE-2026-126968 | medium | **Attachment handling missing authorization → cross-user information disclosure.** Attachment access is authorized by the session, not against the attachment's owner. |
+
+Operator rules:
+
+- **Credential-mint endpoints deserve their own entropy audit.** App passwords, API keys, invite codes, and backup codes routinely skip the strength review applied to user passwords. Fingerprint the shape from values *you* were issued on a lab account (alphabet, length, charset classes, repetition across issuance); a lowercase-36-8-keyspace or timestamp-derived generator turns an "authentication required" product into an unauthenticated one without touching the login endpoint. Same family as the Sept 22 Lantronix model+clock token leg.
+- **Enumerate endpoint *families*, not just routes.** .NET/IIS mail stacks commonly mount `/api/v1/*` (modern, middleware-gated) alongside `*.asmx` SOAP endpoints (legacy, hand-rolled auth). The authorization middleware registration is per-family: the Oct 9 page's own missed-cluster-router leg (Nginx UI) and the Oct 18 dotCMS DWR leg are exact siblings. On any .NET product, crawl for `.asmx`/`.svc`/`.web` handlers with a low-privilege token and diff against the REST battery results.
+- **File-edit verbs are path-confinement blind spots even after file-upload gets fixed.** Upload paths gained root confinement across this product's history; the *edit* verb on the same storage controller accepted arbitrary paths. When a product has already patched one path sink, battery every sibling verb (edit, save, download, move, delete) on the same controller with `..\..\` canaries before trusting the fix narrative.
+- **Attachments are the standing cross-user read surface of every mail product.** Probe attachment identifiers (sequential IDs, GUID-suffix patterns) from a second lab account; existence-vs-ownership is the decision table (see the Oct 5 Phoca download-token equality-vs-existence probe).
+- **Product posture update:** two coordinated waves in six weeks (JWT/containment/mXSS + this ZDI batch) makes SmarterMail a per-endpoint-family audit target, not a per-CVE replay list. Same reading as rule 4 above, now across two release cycles.
+
+Validation boundary: lab SmarterMail only; enumerate app-password entropy from your own issued values, path canaries into scratch directories you own, `.asmx` battery with disposable low-privilege accounts, attachment probes strictly across your own two lab mailboxes.
+
 ## Cross-references
 
 - mXSS and sanitizer-context family: [May 7 DOMPurify mXSS page](2026-05-07-dompurify-mxss-and-ivanti-epmm-kev-boundary-guidance.md) (DOMPurify-side context switching; this leg is custom-sanitizer-vs-foreign-content); Obsidian MathJax URL filter leg on the Sept 23 desktop page.

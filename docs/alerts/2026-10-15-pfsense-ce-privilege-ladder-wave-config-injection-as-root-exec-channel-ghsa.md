@@ -49,6 +49,16 @@ The user field is not executed directly; it is written into a config file that a
 
 All proof on lab pfSense (or the customer's explicitly approved instance): inert marker payloads (touch-marker commands, non-destructive `local-data` TXT records you can resolve back, `file://` reads of synthetic canary files, never `/etc/master.passwd` on a live box), no config.xml replacement on production, restarts only in windows the client approves. Do not test OpenVPN username injection or HA-sync peer legs against production VPN concentrators without explicit scope, both fire on live auth events.
 
+## November 18 follow-up: the XMLRPC endpoint itself is the root channel, ZDI adds incorrect-authorization code execution (CVE-2026-92182 / [GHSA-6wqj-x525-2wx6](https://github.com/advisories/GHSA-6wqj-x525-2wx6), high, ZDI-CAN-32353)
+
+The Oct 15 wave treated XMLRPC as a *trust* problem (HA sync peer responses become shell material, xf3x). The ZDI batch published 2026-11-18T00:33Z closes the other half: the XMLRPC endpoint's own authorization is incorrect, and an authenticated-but-low-privilege caller reaches functionality that executes code **as root**. Combined reading:
+
+- **Two independent ways to abuse XMLRPC, test both.** (1) peer-side: point a HA/sync setting at your own XMLRPC server and fuzz what the sync client does with the response (this page's hunt pattern 4). (2) endpoint-side: call the XMLRPC methods *directly* with every lab role you hold and diff what answers against what the WebGUI allows that role. `xmlrpc.php` historically mirrors privileged WebGUI operations under a different, weaker authorization path. Decision-table per role: GUI action denied / XMLRPC method 200 / side effect observed.
+- **Appliance RPC surfaces get separate authz from the UI they front.** Genealogy on this wiki: FlexNet lmadmin hardcoded SOAP bypass (Sept 21 mgmt-plane page), PeopleSoft UEM unauthenticated management functions (June 12 KEV page), SmarterMail `svcDomainAdmin.asmx` (Nov 18 fold on the Oct 9 page). Rule restated: on any appliance with a management RPC/socket/port distinct from the web UI, the RPC is its own attack surface with its own (usually weaker) gate, enumerate methods even when they are "only" reachable authenticated.
+- Fingerprint note: pfSense exposes XMLRPC behind the `XMLRPC` system permission and historically over port 443 with the same cert as the GUI; check whether the endpoint answers at all before role-testing (`POST /xmlrpc.php` with an `xmlrpcapi.canConnect` call is the inert probe).
+
+Validation boundary: lab pfSense or explicitly approved instance only; use disposable low-privilege roles, inert method calls first, and never invoke config-changing XMLRPC methods on production.
+
 ## Related wiki pages
 
 - [Ivanti Connect Secure exploited chain](2026-10-13-ivanti-connect-secure-chain-x-dscgi-path-dispatch-split-write-delete-race-and-edge-device-post-exploitation.md), perimeter appliance class, dispatch-vs-config trust
