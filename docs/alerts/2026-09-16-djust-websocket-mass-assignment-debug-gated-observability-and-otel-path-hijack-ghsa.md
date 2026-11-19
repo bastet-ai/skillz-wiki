@@ -151,6 +151,16 @@ Source: GHSA published 2026-11-13 19:00-19:29Z. Two telemetry-plane legs that ge
 
 Validation boundary: disposable collector + local app emitting spans to it; your own presigned URLs; marker attributes only. Never pull real customer spans from a shared tracing backend.
 
+## November 19 follow-up: OmniFaces SSE push channels, the WebSocket channel-binding fix that never reached the sibling transport (CVE-2026-109549 / [GHSA-w3w6-9m25-g88p](https://github.com/advisories/GHSA-w3w6-9m25-g88p), medium, 5.2.0 through 5.4.2, fixed 5.4.3)
+
+OmniFaces 5.4.2 bound session- and view-scoped **WebSocket** (`o:socket`) push channels to the HTTP session that registered them, so a leaked channel ID could no longer be connected from a foreign or absent session. The fix touched only the `Socket*` classes. The parallel **SSE** (`o:sse`, added in 5.2) transport shares the same base classes and the same **application-scoped, session-agnostic registry**: `SseEndpoint.doGet` admits any caller presenting a channel ID found in the registry, never checking ownership. A leaked session/view-scoped SSE channel ID (`channel + "?" + UUID`) replays from any or no HTTP session to receive pushed messages.
+
+Operator rules:
+
+- **Fix-parity sweep across sibling transports.** When a product ships two transports over the same channel/registry abstraction (WebSocket vs SSE, REST vs MCP, HTTP vs WS upgrade), and an advisory fixes one, test the other with the identical attack: leak/obtain a channel ID (page source, logs, Referer, cache), then connect from a fresh cookie jar or cleared session. The fix diff's file list is the map of what was *not* tested.
+- **Session-scoped push channels are bearer credentials when the registry is global.** Ask where the channel ID is *resolved* (application-scoped registry = no ownership check) not just where it is *minted* (UUID looks unguessable but leaks like any URL). Prove with your own two browser profiles: register on profile A, subscribe on profile B with the copied channel URL.
+- Validation: lab OmniFaces app or any JSF app using `o:sse`; subscribe to your own test user's channel from a second disposable session only.
+
 ## Reporting notes
 
 - For djust-class findings, report the decision table (bound field vs. unbound attribute) plus the traced mutation sink for one attribute; state whether the app actually keeps authz state in public view attributes (severity hinges on it).
