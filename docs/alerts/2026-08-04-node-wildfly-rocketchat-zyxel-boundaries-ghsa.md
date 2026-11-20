@@ -191,6 +191,17 @@ Operator rules for any Java EE / app-server management interface (WildFly, EAP, 
 - **Config snapshots are credential stores** (same genealogy as this page's domain-controller repository traversal leg and the Veeam EM/KV-store snapshot legs): vault references, JAAS/identity-store entries, SMTP passwords, and keystore locations routinely live in the snapshot even when individual read endpoints mask them. Grep the recovered snapshot for `clear-text`, `secret-value`, `ldap`, `keystore`, `vault` before concluding on exposure.
 - Fingerprint: management interface reachable + role assignment below `Deployer`/`Admin` + snapshot operation allowed = check the `name` parameter's traversal handling (`../`, absolute paths, `%2e%2e%2f` shapes) with a denied-write recorder first.
 
+## November 20 follow-up: Rocket.Chat `chat.sendMessage`, the message object's nested metadata is attacker-authored and the server persists it as trusted ([GHSA-7px8-gv49-w9xq](https://github.com/advisories/GHSA-7px8-gv49-w9xq) / CVE-2026-106075)
+
+`POST /api/v1/chat.sendMessage` validated the top-level message shape but not nested message properties, so any standard-privilege user injected arbitrary metadata that the server stored and both server and clients later trusted: persistent room-level DoS, stored HTML/iframe injection, unauthorized modification of **other users'** private starred messages, permission bypass, pinned-message attribution spoofing, forged edit attribution, and invisible user mentions (a mention that notifies nothing yet renders for others, or vice versa, = silent message-routing oracle).
+
+Operator rules for any chat/collaboration API (this page's Rocket.Chat leg, the Oct 16 Mattermost fan-out page, and the FlowIntel relay-role fold are the same product family):
+
+- **Authorize the effect, enumerate the fields.** The endpoint authorized "send a message to room X" and then trusted whatever the nested object carried. For every create endpoint, diff the client-splattable object shape against the DB document: fields the UI never sends (starred-by lists, pinned-by, editedBy, hidden/unread flags, metadata sub-objects) are the fuzz corpus. Schema validation on the top level proves nothing about depth.
+- **Cross-user write legs inside a self-service object are the report-worthy leg.** "My sendMessage modified YOUR private starred list" is an authorization finding even when each field individually looks self-service; probe with a second lab account and check the other account's state after your send.
+- **Attribution-spoof and invisible-mention legs are audit-integrity and social-engineering primitives**: forged edit attribution breaks after-the-fact trust in transcripts, invisible mentions let an attacker address a user without their knowledge of why content appeared. Prove both with owned lab accounts and screenshot the rendering mismatch; never target real rooms.
+- Validation boundary: disposable Rocket.Chat instance, two synthetic accounts, marker content only; no real workspaces, no production rooms.
+
 ## Reporting checklist
 
 - [ ] Every finding records exact release, deployment mode, caller position/role, and feature or storage configuration.
