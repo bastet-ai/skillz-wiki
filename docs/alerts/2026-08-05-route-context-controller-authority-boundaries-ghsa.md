@@ -143,6 +143,16 @@ For HashBrown Git deployer configurations, patch `AppService.exec` to capture ar
 
 Prefer direct argv execution with an end-of-options boundary for process wrappers. Validation that rejects one quote character is not a shell grammar or Git-ref policy.
 
+## November 20 follow-up: KubeVirt CDI cross-namespace clone authorization skipped when the DataVolumeTemplate carries the static-volume annotation (CVE-2026-133879 / [GHSA-3mg7-wf33-wpf5](https://github.com/advisories/GHSA-3mg7-wf33-wpf5), high)
+
+A tenant creates a VirtualMachine whose embedded DataVolumeTemplate carries the `cdi.kubevirt.io/storage.checkStaticVolume` annotation plus a cross-namespace clone source. That annotation flips CDI down a code path where the **service-account clone-authorization check is bypassed**, so a PVC from another namespace clones into the tenant's namespace without any permission on the source. Cross-tenant data disclosure from an ordinary tenant VM-create request.
+
+Operator rules for Kubernetes multi-tenancy assessments (extends this page's request-context-to-resource-authority map):
+
+- **Optional annotations/flags that select code paths are authorization gates in disguise.** On any CRD-driven controller: enumerate the annotation/label keys the controller branches on (`grep -r "annotations\[" pkg/` in the operator source), then for each key run the privileged-vs-unprivileged decision matrix *with and without* the annotation. The vulnerability shape is "check exists on the default path, absent on the special path," which per-route auth review of the default path never sees.
+- **Embedded-template nesting is a scope-confusion amplifier.** The clone auth check was written for DataVolume objects created directly; when the DataVolume is *embedded inside a VM spec* and created by the VM controller on the tenant's behalf, the SA context that reaches the check differs. Test every "parent resource spawns child resource" flow (VM->DVD, Deployment->Pod, Ingress->EndpointSlice) with a cross-namespace/cross-tenant target in the child spec.
+- Proof boundaries: two disposable namespaces you own, synthetic marker content in the source PVC, your own tenant SA; never clone real customer volumes.
+
 ## Reporting boundaries
 
 - Preserve raw, decoded, canonical, and final path forms; do not call a route match a file read.

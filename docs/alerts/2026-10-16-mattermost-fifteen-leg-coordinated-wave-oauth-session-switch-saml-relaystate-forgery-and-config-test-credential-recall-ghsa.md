@@ -35,3 +35,11 @@ This wave is durable because it is a collaboration-platform lifecycle map: which
 - Capture token/webhook material as fingerprints (length + sha256 prefix), never full values, in notes or reports.
 - Invite-forward, status-oracle, and team-search legs prove with read-only requests and synthetic IDs; no real channel membership changes outside disposable teams.
 - DoS legs: mention_keys/oversized-image proofs in a lab instance only; never trigger latency on shared servers.
+
+## November 20 follow-up: group WebSocket events broadcast to sessions not permitted to read the group (CVE-2026-133878 / [GHSA-7mfp-w99v-gvjj](https://github.com/advisories/GHSA-7mfp-w99v-gvjj), medium, MMSA-2026-00731, 11.11.x <= 11.11.1, 11.7.x <= 11.7.14, 11.10.x <= 11.10.4)
+
+The fourth read-path leg for this page's scrub-parity rule, and a new axis: not a missing field-scrub but a missing **audience restriction on the broadcast itself**. Any authenticated user, guests included, receives the `received_group` event whenever a group is created, updated, deleted, or restored, including the display name, description, member count, and **member IDs** of non-referenceable groups the receiver has no right to read.
+
+- **Fan-out scope is a separate check from payload scrubbing.** Rule 3 covers *what fields* a path emits; this leg covers *who the path emits to*. On any WebSocket/SSE/event-bus platform, enumerate event types and verify the subscriber set is computed from the same authorization function as the REST read of the same object. The event path typically checks "is this a valid session," the REST path checks "may this session see this object"; only one of them is the authz function.
+- Guest accounts as the probe identity is the durable tell: event fan-out frequently ignores guest restrictions that REST honors. Subscribe both a regular and a guest websocket on your own lab, mutate a private/referenceable object with the second account, and diff what the guest receives.
+- Member-ID disclosure is an enumeration oracle for target selection even when content stays hidden; pair with this page's team-search/status oracle legs in reports.
