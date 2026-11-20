@@ -1,0 +1,29 @@
+---
+title: Poste.io wave: unauthenticated DMARC-report mailbox is a root RCE via unsafe attachment unpacking
+---
+
+# Poste.io wave: unauthenticated DMARC-report mailbox is a root RCE via unsafe attachment unpacking
+
+**Wave in one line:** Poste.io saved mail sent to `dmarc-reports@<domain>` without any sender verification and a root-run script unpacked the attachments through unsafe shell commands, so any internet attacker who can reach port 25 got arbitrary commands as root inside the mail container, making the *inbound mail protocol itself* the pre-auth entry point and turning every automated mailbox in a mail stack into a first-class attack surface to enumerate.
+
+Sources: [GHSA-r4xm-prg5-2jvj](https://github.com/advisories/GHSA-r4xm-prg5-2jvj) / CVE-2026-127027 (critical), fixed in Poste.io 2.5.22.
+
+!!! warning "Authorized scope only"
+    Validate only against a Poste.io (or any mail platform) instance you are authorized to test, ideally a disposable install. Inbound-mail proof should use your own sending domain and your own mailbox addresses. Command-execution proof belongs on a lab VM with a marker file, never on a production mail host: a mail server compromise touches every message on the box.
+
+## Why this is worth an operator page
+
+Everyone tests webmail; almost nobody tests the **inbound ingestion pipeline that runs before any authentication concept even exists**. This advisory is the clean proof that port 25 *is* an API surface: the DMARC aggregate-report workflow created an implicit, unauthenticated, automated consumer (the `dmarc-reports@` mailbox) whose processing path ran as root and passed attacker-controlled attachment names into a shell.
+
+- **Enumerate the automation mailboxes, not just human mailboxes.** `dmarc-reports@`, `abuse@`, `postmaster@`, `noreply+*`, `support+{ticket-id}@`, `bounces@`, security-report addresses, and any product-specific ingest alias are mailboxes whose consumers are *code*, and that code was usually written for "a server will send this," never "the internet will send this." Recon step for any mail platform in scope: send marker mail (or read the vendor's own anti-spam/DMARC docs for its expected aliases) at each candidate address and watch for automated *consumption* side effects, an auto-reply, a ticket created, a report stored, a queue entry, an attachment extracted. Consumption without sender verification is the finding shape.
+- **Sender verification is a separate control from delivery.** The mail was accepted and saved with no SPF/DKIM/DMARC gate on the *ingestion* path even though the product enforces mail policy elsewhere. Sweep rule for any feature that "trusts mail" (report parsers, token-in-email flows, forwarded-to-tool integrations): forge a sender of the expected class from a lab domain (any public relay or your own `swaks`/`helo`-spoofed SMTP session) and check whether the downstream consumer treats envelope/From trustworthiness as implied. Cf. the Oct 9 SmarterMail global-mail-blacklist clear leg and the Sept 18 Grafana extract-before-verify doctrine: extract-before-verify applied to mail.
+- **Attachment *names* are command-line arguments.** The injection rode crafted file names and archive contents into unsafe shell unpacking, the same artifact-name-is-code rule as the June 12 rpmuncompress page (shell metacharacters plus the second-interpreter macro channel). For any server-side unpacker (zip/tar extractors, report parsers that shell out, thumbnailers): fuzz the filename channel with `; touch /tmp/marker`, backticks, `$( )`, leading dashes (option injection into `unzip`/`tar`), and archive-entry names separately from the file name, because unpackers have *two* name inputs: the attachment name and the entry names inside.
+- **Root-by-default in container mail stacks.** The unpack script ran as root inside the container, so the blast radius is the whole mail appliance: all stored mail, TLS private keys, DKIM signing keys, and the admin interface. Reporting angle: the finding is unauthenticated pre-auth RCE-as-root via a protocol port, CVSS notwithstanding; state the mail-integrity impact (standing read of all mail, signing-key theft) rather than just "command injection."
+- **Validation workflow (lab).** Disposable Poste.io < 2.5.22 in a VM; from a lab domain send a DMARC-style message with a zip attachment whose filename carries a marker command to `dmarc-reports@your-lab-domain`; check for the marker file on the box; then repeat with a safe file to confirm the marker proves the injection, not an unrelated feature. Check what sender verification (SPF fail, random From, open-relay source) is present on the same path in the fixed build to bound the claim. Never unpack attacker archives outside the disposable host.
+- **Generalizes beyond Poste.io.** Any product with a mail-triggered root/admin consumer deserves the same audit: ticket systems with email-created tickets, monitoring systems with email alerts, backup tools with email reports, CMS comment-by-email. Fingerprint the consumer's language and unpacker first (`unzip`/`tar`/Python `zipfile`/PHP `ZipArchive` all fail differently), then run the name battery against the narrowest path you can address (attach to the specific report type only).
+
+## See also
+
+- [Zimbra SNMP-notification SMTP command injection](2026-08-21-zimbra-snmp-notification-smtp-command-injection-cve-2026-73570.md): unauthenticated SMTP route crossing into a privileged pipeline, same "mail protocol is an API" doctrine.
+- [rpmuncompress artifact-name battery (June 12 batch)](2026-06-12-esbuild-mise-tomcat-radius-boundary-batch-ghsa.md): filename-as-shell-argument and the second-interpreter channel.
+- [SmarterMail build-9777 wave](2026-10-09-smartermail-wave-jwt-stale-role-refresh-mount-script-containment-bypass-and-mathml-mxss-ghsa.md): iCal ingestion into the webmail renderer, the trusted-ingest-content-class sibling.
