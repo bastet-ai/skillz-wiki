@@ -33,6 +33,22 @@ Affected: `com.powsybl:powsybl-computation-local` `<= 7.2.1`, fixed in 7.2.2.
 
 Recon heuristic: PowSyBl is a power-system analysis library; the offensive angle is any product that embeds it and feeds user-influenced data (network model identifiers, external-software arguments, solver option names) into its computation-local executor. Enumerate the public `List<String>`-accepting entry points in dependent products and check whether any argument position reaches `LocalCommandExecutor`.
 
+## 3a. Emissary Executrix: differential sanitization of adjacent fields in the same shell string (November 20 updated-feed landing)
+
+GitHub Advisory Database [GHSA-3p24-9x7v-7789 / CVE-2026-35582](https://github.com/advisories/GHSA-3p24-9x7v-7789) (high, `gov.nsa.emissary:emissary` fixed in 8.43.0, surfaced in the updated feed 2026-11-20 with a full root-cause and Docker-verified PoC) is the same defect shape as PowSyBl one layer up, plus the sharpest audit heuristic in the family.
+
+Emissary's `Executrix.getCommand()` substitutes temp-file paths verbatim into a single `/bin/sh -c` string after `replaceAll("<INPUT_PATH>", ...)`-style placeholder expansion. The `IN_FILE_ENDING` / `OUT_FILE_ENDING` place-config keys concatenate onto the numeric temp-file base in `TempFileNames` with no character class, no regex, no escaping. A place-config author sets `IN_FILE_ENDING` to a backtick command-substitution string and gets arbitrary OS command execution in the JVM's security context when the place processes any payload. No API access, no network access, no runtime privileges beyond place-config authorship.
+
+The differential that makes this a durable audit rule: in the same constructor, `placeName` is sanitized with a strict allowlist (`[^a-zA-Z0-9_-]` replaced with `_`) while the file-ending values are not. The framework demonstrably knew these values reach the shell. When one field adjacent to your input is escaped and your field is not, that is the finding.
+
+Operator pattern:
+
+1. Anywhere a product builds shell strings by placeholder substitution, list every substituted field and ask which ones pass through the sanitizer. The asymmetry between sibling fields is the bug.
+2. Configuration-author-to-RCE ladders are underrated scopes: if place/plugin/pipeline config authorship is granted to a lower-trust role than config *effect*, every unsanitized config key consumed by a shell builder is that role's privilege escalation.
+3. The advisory's PoC proves the primitive with `cat` plus a marker file in a lab container; reproduce at that level only.
+
+Recon heuristic for Emissary deployments (NSA Emissary is a distributed data distribution framework used in intel pipelines): if you have any place-config write (or a place-loading directory you can drop a `.cfg` into), set `IN_FILE_ENDING` to a marker-writing substitution in a disposable lab node and confirm execution fires on the next payload processing, not at config save time. Timing matters for the report: the sink is payload-processing time.
+
 ## Replayable validation (lab only)
 
 ### MapFish Print 404-reflected XXE
