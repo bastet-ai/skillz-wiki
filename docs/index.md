@@ -8,6 +8,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 
 ## Recent entries
 
+- [**Your form permission activates their plugins: Everest Forms hands any form-builder capability the plugin-activation API, so a delegated low-priv user boots any dormant installed plugin and inherits its admin-context activation hooks (high, <= 3.6.4)**](alerts/2026-09-19-wordpress-alternate-surface-authz-drift-rest-ajax-import-wave-ghsa.md)
 - [**The URL path runs your code: Restrictions for BuddyPress splices the request URI into an eval'd double-quoted string, so a `{${...}}` path segment is unauthenticated one-GET RCE where WordPress slashing never applies (9.8, <= 1.5.4)**](alerts/2026-09-19-wordpress-shortcode-execution-hidden-field-upload-and-encrypted-blob-dispatch-ghsa.md)
 - [**Your namespace name is a SQL LIKE pattern: Quay's robot-account list escaped nothing, so a self-created namespace with an underscore pulled other tenants' robot accounts and their decrypted tokens into your response (9.9, Red Hat Quay)**](alerts/2026-08-06-quay-mirror-vufind-handler-authority-boundaries-ghsa.md)
 - [**Two routes, one RCE: AIT-GUI's query route left your bytes in a static temp file when its error path skipped cleanup, and the run route executes that file as Python because only its sibling got the containment check, unauthenticated (high, fixed 2.5.1)**](alerts/2026-09-21-auth-method-precedence-http-verb-allowlists-and-acl-tiebreak-drift-ghsa.md)
@@ -17,7 +18,7 @@ Agent-ready offensive security skills, recon workflows, and replayable exploit-p
 - [**One agent certificate roots the whole fleet: Postgres Enterprise Manager let any monitored host create SQL and shell jobs on every other agent, read the CA key that mints agent certs as the postgres user, and decrypt every stored server password with a key identical across all installs (9 GHSAs, fixed 10.6.1)**](alerts/2026-11-20-pem-wave-agent-certificate-fleet-rce-shared-key-credentials-and-definer-search-path-ghsa.md)
 - [**The DMARC mailbox is the entry point: Poste.io saved mail to dmarc-reports@ your domain with no sender verification and a root script unpacked its attachments through the shell, so anyone who can reach port 25 gets root in the mail container (critical, fixed 2.5.22)**](alerts/2026-11-20-poste-io-dmarc-report-ingestion-root-rce-ghsa.md)
 - [**Your clone runs their code: Git LFS let a repo's own `.lfsconfig` bypass its key allowlist, submodule config newlines forge a transfer command, SSH URL paths reach a remote shell unquoted, and redirects leak Cookies to the wrong host (4 GHSAs, fixed 3.8.1)**](alerts/2026-11-20-git-lfs-wave-repo-config-command-execution-ssh-url-injection-and-cookie-forwarding-ghsa.md)
-- [**Any IdP will hand you the account: FlowIntel's SSO providers resolve a claimed email to accounts created by other sign-in methods, its Matrix relay authorizes with the bot's role and trusts editable profile names, its approval-locked tasks are still writable through reorder, link, convert, and delete side doors, and a shared MCP session runs your tool calls under someone else's key (30 GHSAs, before 4.1.0)**](alerts/2026-11-20-flowintel-wave-sso-email-collision-relay-bot-role-confusion-and-parent-only-idor-ghsa.md)
+
 
 
 
